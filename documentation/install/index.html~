@@ -1,0 +1,26 @@
+---
+layout: default
+title: Overture Installation Guide
+---
+
+<h2>Installation - detailed workflow</h2>          
+                                         
+<div class="content">
+   <p>A&nbsp;detailed workflow while installing the Overture tools is presented here. For the basic installation procedure, please proceed to the <a href="../../download/">download page</a>.</p>
+	<h3>Step 1 : executing &quot;overture.exe&quot; splash screen</h3>
+	<p>&nbsp;<img alt="installation step 1" src="../../images/step1.png" /></p>
+	<h3>Step 2 : warning to set the workspace directory</h3>
+	<p>&nbsp;<img alt="installation step 2" src="../../images/step2.png" /></p>
+	<h3>Step 3 : dialogue to set the workspace directory</h3>
+	<p>&nbsp;<img alt="installation step 3" src="../../images/step3.png" /></p>
+	<h3>Step 4 : Overture IDE welcome page</h3>
+	<p>&nbsp;<img alt="Welcome window Overture IDE" width="650" height="381" src="../../images/welcomeWindow.PNG" /></p>
+	<h3>Step 5 : initial Overture IDE appearance</h3>
+	<p>&nbsp;<img alt="installation step 4" src="../../images/step4.png" /></p>
+	<p>&nbsp;</p>
+</div>
+
+<div id="footer">
+	<p>&nbsp;Overture: Formal Modelling in VDM</p>
+</div>
+      
