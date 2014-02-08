@@ -7,11 +7,11 @@
       <meta name="viewport" content="width=device-width">
 
       <!-- CSS Area -->
-      <link rel="stylesheet" href="/css/styles.css">
-      <link rel="stylesheet" href="/css/pygment_trac.css">
+      <link rel="stylesheet" href="{{ site.base }}/css/styles.css">
+      <link rel="stylesheet" href="{{ site.base }}/css/pygment_trac.css">
 
 		<!--Javascript Area -->
-		<script src="javascripts/scale.fix.js"></script>
+		<script src="{{ site.base }}/javascripts/scale.fix.js"></script>
 
 
     </head>
@@ -21,22 +21,22 @@
 			<h1>The Overture Platform</h1>
 			<h3>Formal Modelling in VDM</h3>
 
-			<p><a href="/">Home</a></p>
-			<p><a href="/download/">Download</a></p>
-			<p><a href="/documentation/">Documentation</a></p>
-			<p><a href="/examples/">Examples</a>
+			<p><a href="{{ site.base }}/">Home</a></p>
+			<p><a href="{{ site.base }}/download/">Download</a></p>
+			<p><a href="{{ site.base }}/documentation/">Documentation</a></p>
+			<p><a href="{{ site.base }}/examples/">Examples</a>
 			<ul>
-      		<li><a href="/examples/vdmsl/">VDM-SL</a></li>
-      		<li><a href="/examples/vdm++/">VDM++</a></li>
-      		<li><a href="/examples/vdmrt/">VDM-RT</li>
+      		<li><a href="{{ site.base }}/examples/vdmsl/">VDM-SL</a></li>
+      		<li><a href="{{ site.base }}/examples/vdm++/">VDM++</a></li>
+      		<li><a href="{{ site.base }}/examples/vdmrt/">VDM-RT</li>
      		</ul>
      		</p>
-			<p><a href="/about/">About Overture</a></p>
+			<p><a href="{{ site.base }}/about/">About Overture</a></p>
 			<p><a href="http://wiki.overturetool.org/index.php/Main_Page">Wiki</a></p>
 
 			
 			
-			<p><img src="/images/Overture_icon_128x128.png" alt="Overture Tool"></p>
+			<p><img src="{{ site.base }}/images/Overture_icon_128x128.png" alt="Overture Tool"></p>
 			<p><a href="https://github.com/overturetool">View My GitHub Profile</a>	</p>	
 			<p><a href="http://twitter.com/overturetool">Follow @overturetool</a></p>
 
