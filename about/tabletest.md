@@ -1,7 +1,7 @@
---
+---
 title: Quick test of markdown tables
 layout: default
---
+---
 
 | one | two |
 |----:|:----|
