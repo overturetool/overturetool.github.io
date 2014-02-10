@@ -207,6 +207,10 @@ section {
   padding-bottom:50px;
 }
 
+section table td {
+	width: 250px;
+}
+
 small {
   font-size:11px;
 }
