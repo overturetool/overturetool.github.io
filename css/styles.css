@@ -208,7 +208,7 @@ section {
 }
 
 small {
-  font-size:11px;
+  font-size:10px;
 }
 
 hr {
@@ -221,7 +221,8 @@ hr {
 footer {
   width:270px;
   float:left;
-  position:fixed;
+  /*position: absolute;*/
+  padding-top: 200px;
   bottom:50px;
 }
 
