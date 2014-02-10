@@ -42,7 +42,7 @@ The Overture project is supported by
 
 ## Overture Users
 
-If you wish to be added to this list, please  [send us a mail](http://www.google.com/recaptcha/mailhide/d?k=01mU5bAq4Rogp5FVouKumLoQ==&c=pHoefT8t8vvgTnqYB_4422-4CEytwUaijr_er5aSbIw=). You can also enter a mailing list for Overture users:
+If you wish to be added to this list, please  [send us a mail](http://www.google.com/recaptcha/mailhide/d?k=01mU5bAq4Rogp5FVouKumLoQ==&c=pHoefT8t8vvgTnqYB_4422-4CEytwUaijr_er5aSbIw=). You can also enter a mailing list for Overture users.
 
 This mailing list is the main channel of communication of the user community.
 
