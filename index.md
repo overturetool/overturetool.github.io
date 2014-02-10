@@ -16,7 +16,7 @@ Overture supports the following VDM language dialects:
 
 ||
 |----------|
-| The current stable version is **2.0.2**  (December 2013) which you can [download here]({{ site.base }}download/).|
+| The current stable version is **2.0.2**  (December 2013) which you can [download here]({{ site.base }}/download/).|
 
 
 <div><video width="650" height="450" controls="" preload="metadata"><source src="http://overture.sourceforge.net/screencasts/Overture2.0.0-screencast/Overture2.0.0.mp4" type="video/mp4"></source>Your browser does not support the video tag. </video></div>
@@ -26,7 +26,7 @@ Overture supports the following VDM language dialects:
 - Easy editing with color highlighting of keywords
 - Outline of source files for easy navigation
 
-[ ![The Eclipse Overture perspective (click on picture for full view)]({{ site.base }}images/OverturePerspective.png) ]({{ site.base }}images/OverturePerspective.png)
+[ ![The Eclipse Overture perspective (click on picture for full view)]({{ site.base }}/images/OverturePerspective.png) ]({{ site.base }}/images/OverturePerspective.png)
 
 ## Checking
 
@@ -35,7 +35,7 @@ Overture supports the following VDM language dialects:
 - Proof obligation generation
 - Run-time checking of pre-/ post- conditions, measures and invariants
 
-[ ![The combinatorial testing perspective (click on picture for full view)]({{ site.base }}images/OvertureTracesPerspective.png) ]({{ site.base }}images/OvertureTracesPerspective.png)
+[ ![The combinatorial testing perspective (click on picture for full view)]({{ site.base }}/images/OvertureTracesPerspective.png) ]({{ site.base }}/images/OvertureTracesPerspective.png)
 
 ## Debugging
 
@@ -45,7 +45,7 @@ Overture supports the following VDM language dialects:
 - Coverage generation and presentation
 - Real-Time time log generation of execution and deployment
 
-[ ![Debugging perspective in Overture (click on picture for full view)]({{ site.base }}images/DebuggingVDM.png) ]({{ site.base }}images/DebuggingVDM.png)
+[ ![Debugging perspective in Overture (click on picture for full view)]({{ site.base }}/images/DebuggingVDM.png) ]({{ site.base }}/images/DebuggingVDM.png)
 
 ## Other tool featureste.
 
