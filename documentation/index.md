@@ -50,4 +50,4 @@ Additional publications can be found on our development wiki [Publication page.
 
  
 
- Overture: Formal Modelling in VDM
+####Overture: Formal Modelling in VDM
