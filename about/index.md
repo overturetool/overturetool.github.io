@@ -36,7 +36,7 @@ The Overture project is supported by
 |-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------- |
 | [ ![Aarhus School of Engineering (DK)]({{ site.base }}/images/aselogo.png) ](http://www.iha.dk/?AreaID=3) | [ ![Fujitsu Siemens Ltd (UK)]({{ site.base }}/images/fslogo.png) ](http://uk.fujitsu.com)				|
 | [ ![West Consulting B.V. (NL)]({{ site.base }}/images/westlogo.png) ](http://www.west.nl)                 | [ ![SCSK Corporation (JP)]({{ site.base }}/images/SCSKlogo.png) ](http://www.scsk.jp/index_en.html) |
-| [ ![Newcastle University (UK)]({{ site.base }}/images/NewcastleUni.jpg) ](http://www.ncl.ac.uk/)          |                                                                                           				|
+| [ ![Newcastle University (UK)]({{ site.base }}/images/newcastleuni.png) ](http://www.ncl.ac.uk/)          |                                                                                           				|
 
  
 
