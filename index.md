@@ -14,7 +14,8 @@ Overture supports the following VDM language dialects:
 - VDM-PP: Object oriented extension of VDM-SL, also known as VDM++
 - VDM-RT: Extension of VDM++ for specifying real-time and distributed systems 
 
-
+||
+|----------|
 | The current stable version is **2.0.2**  (December 2013) which you can [download here]({{ site.base }}download/).|
 
 
