@@ -19,7 +19,7 @@ Anyone interested (from both industry and academia) is welcome to join the proje
 You might be interested in contributing directly to tools building (via our Overture open source project at Github), or you may be interested in developing the formal foundations of VDM++ and Overture. 
 If you are a student (BSc, MSc, PhD), we can provide practical and theoretical projects!
 
-![Overture community at large]({{ site.base }}images/overturews8.png)  
+![Overture community at large]({{ site.base }}/images/overturews8.png)  
 The Overture community at large (shown above at the 8th Overture workshop on language semantics, held at BCS, London in september 2010) meets together at occasional [Workshops](http://wiki.overturetool.org/index.php/Workshops) (about once per year) and monthly via on-line [Netmeetings](http://wiki.overturetool.org/index.php/NetMeetings) using Skype. 
 If you want to join the project please do not hesitate to [send us an e-mail](http://www.google.com/recaptcha/mailhide/d?k=01mU5bAq4Rogp5FVouKumLoQ==&c=pHoefT8t8vvgTnqYB_4422-4CEytwUaijr_er5aSbIw=).
 
@@ -32,9 +32,9 @@ The Language Board (LB) has elaborated on the "Inititial Consideration" Phase of
 
 The Overture project is supported by
 
-| [ ![Aarhus School of Engineering (DK)]({{ site.base }}images/aselogo.png) ](http://www.iha.dk/?AreaID=3) |   [ ![Fujitsu Siemens Ltd (UK)]({{ site.base }}images/fslogo.png) ](http://uk.fujitsu.com) |
-| [ ![West Consulting B.V. (NL)]({{ site.base }}images/westlogo.png) ](http://www.west.nl) | [ ![SCSK Corporation (JP)]({{ site.base }}images/SCSKlogo.png)  ](http://www.scsk.jp/index_en.html) |
-| [ ![Newcastle University (UK)]({{ site.base }}images/NewcastleUni.jpg) ](http://www.ncl.ac.uk/) |   |
+| [ ![Aarhus School of Engineering (DK)]({{ site.base }}/images/aselogo.png) ](http://www.iha.dk/?AreaID=3) |   [ ![Fujitsu Siemens Ltd (UK)]({{ site.base }}/images/fslogo.png) ](http://uk.fujitsu.com) |
+| [ ![West Consulting B.V. (NL)]({{ site.base }}/images/westlogo.png) ](http://www.west.nl) | [ ![SCSK Corporation (JP)]({{ site.base }}/images/SCSKlogo.png)  ](http://www.scsk.jp/index_en.html) |
+| [ ![Newcastle University (UK)]({{ site.base }}/images/NewcastleUni.jpg) ](http://www.ncl.ac.uk/) |   |
 
  
 
