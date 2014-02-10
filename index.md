@@ -25,7 +25,7 @@ Overture supports the following VDM language dialects:
 - Easy editing with color highlighting of keywords
 - Outline of source files for easy navigation
 
-[ ![The Eclipse Overture perspective (click on picture for full view)]({{ base }}images/OverturePerspective.png) ]({{ base }}images/OverturePerspective.png)
+[ ![The Eclipse Overture perspective (click on picture for full view)]({{ site.base }}images/OverturePerspective.png) ]({{ site.base }}images/OverturePerspective.png)
 
 ## Checking
 
@@ -34,7 +34,7 @@ Overture supports the following VDM language dialects:
 - Proof obligation generation
 - Run-time checking of pre-/ post- conditions, measures and invariants
 
-  [ ![The combinatorial testing perspective (click on picture for full view)]({{ base }}images/OvertureTracesPerspective.png) ]({{ base }}images/OvertureTracesPerspective.png)
+[ ![The combinatorial testing perspective (click on picture for full view)]({{ site.base }}images/OvertureTracesPerspective.png) ]({{ site.base }}images/OvertureTracesPerspective.png)
 
 ## Debugging
 
@@ -44,9 +44,9 @@ Overture supports the following VDM language dialects:
 - Coverage generation and presentation
 - Real-Time time log generation of execution and deployment
 
-[ ![Debugging perspective in Overture (click on picture for full view)]({{ base }}images/DebuggingVDM.png) ]({{ base }}images/DebuggingVDM.png)
+[ ![Debugging perspective in Overture (click on picture for full view)]({{ site.base }}images/DebuggingVDM.png) ]({{ site.base }}images/DebuggingVDM.png)
 
-## Other tool features
+## Other tool featureste.
 
 - Latex document generation
 - Coverage Editor
