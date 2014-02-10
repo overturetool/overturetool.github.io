@@ -29,5 +29,5 @@ A detailed workflow while installing the Overture tools is presented here. For 
 
  
 
- ####Overture: Formal Modelling in VDM
+####Overture: Formal Modelling in VDM
 
