@@ -32,9 +32,9 @@ The Language Board (LB) has elaborated on the "Inititial Consideration" Phase of
 
 The Overture project is supported by
 
-| [ ![Aarhus School of Engineering (DK)](sites/overturetool.org/files/aselogo.png) ](http://www.iha.dk/?AreaID=3) |   [ ![Fujitsu Siemens Ltd (UK)](sites/overturetool.org/files/fslogo.png) ](http://uk.fujitsu.com) |
-| [ ![West Consulting B.V. (NL)](sites/overturetool.org/files/westlogo.png) ](http://www.west.nl) | [ ![SCSK Corporation (JP)](sites/overturetool.org/files/SCSKlogo.png)  ](http://www.scsk.jp/index_en.html) |
-| [ ![Newcastle University (UK)](sites/overturetool.org/files/NewcastleUni.jpg) ](http://www.ncl.ac.uk/) |   |
+| [ ![Aarhus School of Engineering (DK)]({{ site.base }}images/aselogo.png) ](http://www.iha.dk/?AreaID=3) |   [ ![Fujitsu Siemens Ltd (UK)]({{ site.base }}images/fslogo.png) ](http://uk.fujitsu.com) |
+| [ ![West Consulting B.V. (NL)]({{ site.base }}images/westlogo.png) ](http://www.west.nl) | [ ![SCSK Corporation (JP)]({{ site.base }}images/SCSKlogo.png)  ](http://www.scsk.jp/index_en.html) |
+| [ ![Newcastle University (UK)]({{ site.base }}images/NewcastleUni.jpg) ](http://www.ncl.ac.uk/) |   |
 
  
 
