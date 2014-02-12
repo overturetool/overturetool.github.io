@@ -18,7 +18,7 @@ Check this by running "_java -version_" on the command-line!
 ## Downloading Overture
 
 In order to make installation as easy as possible, we have prepared pre-installed binary distributions — grab everything you need in one go! 
-Pre-packaged binaries are available for **Windows**, **Linux** with GTK, and **Mac OS ****X**; we provide 32-bit and 64-bit versions for all platforms. 
+Pre-packaged binaries are available for **Windows**, **Linux** with GTK, and **Mac OS X**; we provide 32-bit and 64-bit versions for all platforms. 
 The latest release of the Overture IDE can be found on the [GitHub overturetool Releases page](https://github.com/overturetool/overture/releases). 
 The generic Windows versions are known to work with both Windows 7 as well as Windows XP SP3.
 
