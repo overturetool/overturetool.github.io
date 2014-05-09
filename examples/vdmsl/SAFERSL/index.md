@@ -1,10 +1,12 @@
 ---
-layout: listing
+layout: default
 title: SAFER
 ---
 
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+This VDM-SL model is a response to the PVS model of the SAFER systemfor NASA austronauts used for space walks used to maneuver back to aspace shuttle. It was made by Sten Agerholm and Peter Gorm Larsen andpublished as:
+S.Agerholm and P.G.Larsen, Modeling and Validating SAFER in VDM-SL, Proceedings of the Fourth NASA Langley Formal Methods Workshop, NASA Conference, Publication 3356, September 1997.
+#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Sten Agerholm and Peter Gorm Larsen#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=TEST`HugeTest()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
 ~~~
 ###aah.vdmsl
 
@@ -67,7 +69,12 @@ end AUX
 
 {% raw %}
 ~~~
-                                                                                                                                                                     
+dlmodule GEOM
+exports
+  operations    InitGeom : () ==> ();    ShowThrust : seq of seq of char ==> ();
+
+  uselib    "geom_lib.so"
+end GEOM
 ~~~{% endraw %}
 
 ###gui.vdmsl
@@ -201,6 +208,21 @@ end TS
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+module WorkSpace
+imports from SAFER all,        from HCM all,        from TS all,        from AUX all
+exports all
+definitions
+types 
+Input = seq of natinv inp == len inp = 9;
+ThrusterMatrix = seq of seq of boolinv tm == len tm = 4 and forall i in set inds tm & len tm(i) = 6
+functions
+RunControlCycle: Input -> ThrusterMatrixRunControlCycle (input) ==  let mk_(swpos, hgpos, rcom) = TransformInput (input) in  let ts = SAFER`ControlCycle (swpos, hgpos, rcom) in  GenerateThrusterMatrix (ts);
+TransformInput: Input -> HCM`SwitchPositions * HCM`HandGripPosition *                          AUX`RotCommandTransformInput (input) ==  let [mode,aah,horiz,trans,vert,twist,roll,pitch,yaw] = input in  let swpos = mk_HCM`SwitchPositions(                     if mode = 1 then <Tran> else <Rot>,                     if aah = 0 then <Up> else <Down> ),      hgpos = mk_HCM`HandGripPosition(                     ConvertAxisCmd(vert),                     ConvertAxisCmd(horiz),                     ConvertAxisCmd(trans),                     ConvertAxisCmd(twist) ),      rcom  = { <Roll> |-> ConvertAxisCmd(roll),                 <Pitch> |-> ConvertAxisCmd(pitch),                <Yaw> |-> ConvertAxisCmd(yaw) } in  mk_(swpos, hgpos, rcom);
+ConvertAxisCmd: nat -> AUX`AxisCommandConvertAxisCmd(n) ==  cases n:    0 -> <Neg>,    1 -> <Pos>,    2 -> <Zero>,    others -> undefined  end;
+GenerateThrusterMatrix: TS`ThrusterSet +> ThrusterMatrixGenerateThrusterMatrix (ts) ==  let tson = { GenerateThrusterLabel (t) | t in set ts } in  [ [ mk_(j,i) in set tson | i in set {1,...,6} ]    | j in set {1,...,4} ];
+GenerateThrusterLabel: TS`ThrusterName +> nat * natGenerateThrusterLabel (tnm) ==  cases tnm:     <B1>  -> mk_(1,4),     <B2>  -> mk_(2,4),     <B3>  -> mk_(4,4),     <B4>  -> mk_(3,4),     <F1>  -> mk_(1,1),     <F2>  -> mk_(2,1),     <F3>  -> mk_(4,1),     <F4>  -> mk_(3,1),     <L1R> -> mk_(1,2),     <L1F> -> mk_(1,3),     <R2R> -> mk_(2,2),     <R2F> -> mk_(2,3),     <L3R> -> mk_(4,2),     <L3F> -> mk_(4,3),     <R4R> -> mk_(3,2),     <R4F> -> mk_(3,3),     <D1R> -> mk_(1,6),     <D1F> -> mk_(1,5),     <D2R> -> mk_(2,6),     <D2F> -> mk_(2,5),     <U3R> -> mk_(4,6),     <U3F> -> mk_(4,5),     <U4R> -> mk_(3,6),     <U4F> -> mk_(3,5)   end;
+values
+switchpos = mk_HCM`SwitchPositions (<Tran>,<Down>);handgrippos = mk_HCM`HandGripPosition (<Zero>,<Pos>,<Zero>,<Zero>);rotcomm = { <Roll> |-> <Zero>, <Pitch> |-> <Zero>, <Yaw> |-> <Zero> }
+end WorkSpace
 ~~~{% endraw %}
 
