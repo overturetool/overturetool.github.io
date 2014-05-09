@@ -8,6 +8,7 @@ title: pacemaker
 ~~~
 ###PacemakerAAI.vdmsl
 
+{% raw %}
 ~~~
 
 module PacemakerAAI
@@ -23,9 +24,11 @@ Pacemaker (inp : SenseTimeline) r : ReactionTimelinepost let m = {i | i in set 
 
 end PacemakerAAI
 
-~~~
+~~~{% endraw %}
+
 ###PacemakerAAT.vdmsl
 
+{% raw %}
 ~~~
 
 module PacemakerAAT
@@ -41,9 +44,11 @@ Pacemaker (inp : SenseTimeline) r : ReactionTimelinepost let m = {i | i in set 
 
 end PacemakerAAT
 
-~~~
+~~~{% endraw %}
+
 ###PacemakerAOO.vdmsl
 
+{% raw %}
 ~~~
 
 module PacemakerAOO
@@ -58,9 +63,11 @@ functions
 Pacemaker (inp : SenseTimeline) r : ReactionTimelinepost let m = {i | i in set dom r & r(i) = <PULSE>}     in card dom r = card dom inp         and        card dom inp > 1 => r(1) = <PULSE>         and        forall x in set m & (           (exists y in set m & y > x) =>                  (exists y in set m & abs(x - y) <= 60000/LRL and x <> y));
 end PacemakerAOO
 
-~~~
+~~~{% endraw %}
+
 ###PacemakerAOOR.vdmsl
 
+{% raw %}
 ~~~
 
 module PacemakerAOOR
@@ -91,9 +98,11 @@ LOW  : AccelerometerData = 0;MED  : AccelerometerData = 1;HIGH : Accelerometer
 sensedData : seq of (Sense * [AccelerometerData] * Time) = [mk_(<NONE>,nil,i) | i in set {1,...,120}]^[mk_(<NONE>,HIGH,121)]^[mk_(<NONE>,nil,i) | i in set {121,...,190}]^[mk_(<NONE>,LOW,191)]^[mk_(<NONE>,nil,i) | i in set {192,...,436}];	
 end PacemakerAOOR
 
-~~~
+~~~{% endraw %}
+
 ###PacemakerDDD.vdmsl
 
+{% raw %}
 ~~~
 
 module PacemakerDDD
@@ -126,9 +135,11 @@ SensedNothing : Time * ReactionTimeline * Alarm * Alarm * Time * Time -> Reactio
 -- A curry functionc : Time * Time * SenseTimeline * (ReactionTimeline * Alarm * Alarm * Time * Time) ->                     Time * Time * SenseTimeline * ReactionTimeline * Alarm * Alarm * Time * Timec (i,t,s,mk_(r,a,v,la,lv)) == mk_(i,t,s,r,a,v,la,lv);
 end PacemakerDDD
 
-~~~
+~~~{% endraw %}
+
 ###PacemakerDOO.vdmsl
 
+{% raw %}
 ~~~
 
 module PacemakerDOO
@@ -144,9 +155,11 @@ functions
 Pacemaker (mk_(inp,n) : SensedTimeline * nat1) r : ReactionTimelinepost let nPulsesAtria = card {i | i in set r & i.#1 = <ATRIA>},          nPulsesVentricle = card {i | i in set r & i.#1 = <VENTRICLE>}     in  nPulsesAtria / n >= (LRL / 60) / 1000         and         nPulsesVentricle / n <= (URL / 60) / 1000         and         forall mk_(<ATRIA>,ta) in set r & (exists mk_(<VENTRICLE>,tv) in set r & tv = ta + FixedAV) ;
 end PacemakerDOO
 
-~~~
+~~~{% endraw %}
+
 ###RateController.vdmsl
 
+{% raw %}
 ~~~
 
 module RateController
@@ -169,4 +182,5 @@ Simulate(inp : Input)  out : Outputpre 0 not in set dom inppost forall t in se
 
 end RateController
 
-~~~
+~~~{% endraw %}
+

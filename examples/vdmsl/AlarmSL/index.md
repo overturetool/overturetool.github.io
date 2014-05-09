@@ -8,6 +8,8 @@ title: AlarmErr
 ~~~
 ###alarmerr.vdmsl
 
+{% raw %}
 ~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-~~~
+~~~{% endraw %}
+

@@ -8,6 +8,7 @@ title: Planner
 ~~~
 ###planner.vdmsl
 
+{% raw %}
 ~~~
 
 types
@@ -40,4 +41,5 @@ ACHIEVE_1(gi : Goal_instance)ext	rd Os : Action_instances	wr Ts : Bounded_Pose
 ACHIEVE_2(gi: Goal_instance)ext	rd pp : Planning_Problem	wr Os : Action_instances	wr Ts : Bounded_Poset	wr Ps : Goal_instances	wr As : Goal_instancespre	gi in set Pspost	let NewA = newid(dom Os~) in	exists A in set pp.AS & Os = Os~ ++ {NewA |-> A} and	achieve(Os, Ts, NewA, gi) and	forall gj in set As~ & declobber(Os, Ts, NewA, gj) and	completion_of(Ts, add_node(NewA, Ts~)) and 	Ps = (Ps~ \ {gi}) union {mk_Goal_instance(p, NewA) | p in set A.pra} and	As = As~ union {gi}
 
 
-~~~
+~~~{% endraw %}
+

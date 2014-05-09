@@ -8,6 +8,7 @@ title: express
 ~~~
 ###express.vdmsl
 
+{% raw %}
 ~~~
 
 module Database
@@ -53,4 +54,5 @@ TransformRmEdge: nat ==> set of (nat * nat)TransformRmEdge (rme_id) ==  let mk
     state Kernel of      in_model : PhysicalFile      out_model : PhysicalFile      last_id : nat    init      k == k = mk_Kernel(                 mk_PhysicalFile({|->},{|->}),                 mk_PhysicalFile({|->},{|->}),                 0               )    end
 end Database
 
-~~~
+~~~{% endraw %}
+

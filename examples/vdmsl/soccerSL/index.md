@@ -8,6 +8,7 @@ title: soccer
 ~~~
 ###soccer.vdmsl
 
+{% raw %}
 ~~~
 
 module SOCCER_IMPL
@@ -43,4 +44,5 @@ SUBSTITUTION : player * player ==> ()SUBSTITUTION (pl, subs) ==( on_field_play
 SUBSTITUTION_GK : player * player ==> ()SUBSTITUTION_GK (pl , subs) ==( on_field_players := on_field_players union {subs} \ {pl}; potential_substitutes  := potential_substitutes \ {subs}; goalkeeper := subs; nb_gk_subs := nb_gk_subs +1)   pre pl in set on_field_players and subs in set potential_substitutes       and pl = goalkeeper  and within_allowed_limits(nb_gk_subs+1,nb_fp_subs)  post on_field_players = on_field_players~ union {subs} \ {pl}       and potential_substitutes = potential_substitutes~ \ {subs}       and goalkeeper = subs and nb_gk_subs = nb_gk_subs~ +1 ;SUBSTITUTION_FP : player *player ==> ()SUBSTITUTION_FP (pl , subs) ==( on_field_players := on_field_players union {subs} \ {pl}; potential_substitutes := potential_substitutes \ {subs}; nb_fp_subs := nb_fp_subs +1)   pre pl in set on_field_players and subs in set potential_substitutes       and pl <> goalkeeper and within_allowed_limits(nb_gk_subs,nb_fp_subs+1)  post on_field_players = on_field_players~ union {subs} \ {pl}       and potential_substitutes = potential_substitutes~ \ {subs}       and nb_fp_subs = nb_fp_subs~ +1;SUBSTITUTION_EXPL : player * player ==> ()SUBSTITUTION_EXPL (pl , subs) ==  if pl = goalkeeper   then SUBSTITUTION_GK(pl,subs)  else SUBSTITUTION_FP(pl,subs)pre (pl = goalkeeper =>           pre_SUBSTITUTION_GK(pl,subs,                              mk_R_Book(on_field_players,potential_substitutes,                                        goalkeeper,nb_gk_subs, nb_fp_subs)))    and (pl <> goalkeeper =>           pre_SUBSTITUTION_FP(pl,subs,                              mk_R_Book(on_field_players,potential_substitutes,                                        goalkeeper,nb_gk_subs,nb_fp_subs)))
 end SOCCER_EXPL
 
-~~~
+~~~{% endraw %}
+

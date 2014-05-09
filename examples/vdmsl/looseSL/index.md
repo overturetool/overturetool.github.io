@@ -8,6 +8,7 @@ title: loose
 ~~~
 ###as.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -60,9 +61,11 @@ values
  expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
 
 
-~~~
+~~~{% endraw %}
+
 ###auxil.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -76,9 +79,11 @@ functions
   RestSeq: seq of VAL * nat1 -> seq of VAL  RestSeq(l,i) ==    [ l(j) | j in set (inds l \ { i }) ];
   PatternIds: Pattern +> set of UniqueId  PatternIds(pat) ==    cases pat:      mk_PatternName(mk_(nm,pos)) -> {mk_(nm,pos,FnInfo())},      mk_MatchVal(-)              -> {},      mk_SetEnumPattern(els)      -> dunion {PatternIds(elem)                                            |elem in set elems els},      mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union                                     PatternIds(rp)    end
 
-~~~
+~~~{% endraw %}
+
 ###env.vdmsl
 
+{% raw %}
 ~~~
 
 types
@@ -126,9 +131,11 @@ functions
   Extend: (map UniqueId to LVAL) * (map UniqueId to LVAL) +>          (map UniqueId to LVAL)  Extend(val_m,upd_m) ==    val_m ++ {id |-> if id in set dom val_m                     then val_m(id) union upd_m(id)		     else upd_m(id)	     | id in set dom upd_m}
 
 
-~~~
+~~~{% endraw %}
+
 ###expr.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -156,9 +163,11 @@ operations
 
 
 
-~~~
+~~~{% endraw %}
+
 ###pat.vdmsl
 
+{% raw %}
 ~~~
 
 operations
@@ -172,4 +181,5 @@ StripDoubles : BlkEnv ==> BlkEnvStripDoubles (blk_l) ==( dcl tmpblk_l : BlkEnv
 EvalBind : Bind ==> set of (BlkEnv * Model)EvalBind (bind) ==EvalSetBind(bind);
 EvalSetBind : SetBind ==> set of (BlkEnv * Model)EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==( dcl env_s : set of (BlkEnv * Model) := {};  let set_lv = LooseEvalExpr(set_e) in   (for all mk_(set_v,m) in set set_lv do     (if is_SET(set_v)      then let mk_SET(set_sv) = set_v in           ( for all elm_v in set set_sv do                (let new_envs = PatternMatch(pat_p, elm_v) in                env_s := env_s union {mk_(env,m) | env in set new_envs})           )      else error);    return env_s))
 
-~~~
+~~~{% endraw %}
+

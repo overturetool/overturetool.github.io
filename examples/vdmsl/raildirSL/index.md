@@ -8,6 +8,7 @@ title: raildir
 ~~~
 ###rail.vdmsl
 
+{% raw %}
 ~~~
 
 module station
@@ -237,4 +238,5 @@ trackstatev = { "K12" |-> {|->},                "26"  |-> {|->},              
 pointstatev = { "25" |-> mk_(<left>,<interlock>),                "24" |-> mk_(<right>,<interlock>),                "15" |-> mk_(<left>,<interlock>),                "16" |-> mk_(<right>,<interlock>) };
 signalstatev = { "N"  |-> <stop>,                 "K"  |-> <stop>,                 "E2" |-> <stop>,                 "D"  |-> <stop>,                 "A"  |-> <stop>,                 "M"  |-> <stop>,                 "L"  |-> <stop>,                 "E1" |-> <stop>,                 "C"  |-> <stop>,                 "B"  |-> <stop>,                  "O"  |-> <stop>,                 "R"  |-> <stop>,                 "P"  |-> <driveaspect>,                 "Q"  |-> <stop> }end Test
 
-~~~
+~~~{% endraw %}
+

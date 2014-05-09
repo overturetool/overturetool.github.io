@@ -8,6 +8,7 @@ title: bar
 ~~~
 ###bag.vdmsl
 
+{% raw %}
 ~~~
 
 module BAG
@@ -40,9 +41,11 @@ functions  -- Support Functions
 values   -- The values requested by the customer for tests  baga : Bag = { <A> |-> 3, <B> |-> 2, <C> |-> 4};  bagb : Bag = { <A> |-> 1, <C> |-> 5, <D> |-> 4,                  <E> |-> 1}
 end BAG
 
-~~~
+~~~{% endraw %}
+
 ###bagtest.vdmsl
 
+{% raw %}
 ~~~
 
 module BAGTEST
@@ -71,9 +74,11 @@ functions
   TestUnion: () -> bool  TestUnion() ==    BAG`Union(BAG`baga,BAG`bagb) =    { <A> |-> 4,<B> |-> 2,<C> |-> 9,      <D> |-> 4,<E> |-> 1 }
 end BAGTEST
 
-~~~
+~~~{% endraw %}
+
 ###bar.vdmsl
 
+{% raw %}
 ~~~
 
 module BARimports
@@ -99,4 +104,5 @@ functions  -- Buy an arbitrary amount of stock from   -- a supplier, assuming 
 values -- introduced for the purposes of testing  cellarlevel1 = {<A> |-> 5, <B> |-> 5, <C> |-> 3};  barlevel1 = {<A> |-> 2, <B> |-> 2, <C> |-> 5};  cellar1 = {<A> |-> 8, <B> |-> 5, <C> |-> 4};  cellar2 = {<B> |-> 1, <C> |-> 4};  bar1 = {<A> |-> 2, <B> |-> 3, <C> |-> 6};  bar2 = {<A> |-> 3, <C> |-> 2};  bar3 = {<A> |-> 3, <B> |-> 3};  pub1 = mk_(cellar1, bar1);  pub2 = mk_(cellar1, bar2);  pub3 = mk_(cellar2, bar1);  pub4 = mk_(cellar2, bar2);  pub5 = mk_(cellar1, bar3);  supps1 = {"Fizz" |-> {<A> |-> 10},            "Real" |-> {<B> |-> 10, <C> |-> 2},            "Scrumpy" |-> {<B> |-> 1, <C> |-> 10}};  supps2 = {"Fizz" |-> {<A> |-> 10},            "Real" |-> {<B> |-> 1, <C> |-> 5},            "Scrumpy" |-> {<B> |-> 1, <C> |-> 10}}
 end BAR 
 
-~~~
+~~~{% endraw %}
+

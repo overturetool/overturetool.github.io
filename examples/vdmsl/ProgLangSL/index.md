@@ -8,6 +8,7 @@ title: ProgLang
 ~~~
 ###ast.vdmsl
 
+{% raw %}
 ~~~
 
 module AST
@@ -33,9 +34,11 @@ types
   RepeatStmt :: repeat : Stmt                until  : Expr;
 end AST
 
-~~~
+~~~{% endraw %}
+
 ###dynsem.vdmsl
 
+{% raw %}
 ~~~
 
 module DYNSEM
@@ -62,9 +65,11 @@ functions
   EvalBinaryExpr : AST`BinaryExpr * DynEnv -> AST`Value  EvalBinaryExpr(mk_AST`BinaryExpr(lhs, op, rhs), denv) ==    let v1 = EvalExpr(lhs, denv).val,        v2 = EvalExpr(rhs, denv).val     in cases op :       <Add> -> mk_AST`IntVal(v1 + v2),       <Sub> -> mk_AST`IntVal(v1 - v2),       <Div> -> mk_AST`IntVal(v1 div v2),       <Mul> -> mk_AST`IntVal(v1 * v2),       <Lt> ->  mk_AST`BoolVal(v1 < v2),       <Gt> ->  mk_AST`BoolVal(v1 > v2),       <Eq> ->  mk_AST`BoolVal(v1 = v2),       <And> -> mk_AST`BoolVal(v1 and v2),       <Or> ->  mk_AST`BoolVal(v1 or v2)    end  pre op = <Div> => EvalExpr(rhs, denv).val <> 0;
 end DYNSEM
 
-~~~
+~~~{% endraw %}
+
 ###statsem.vdmsl
 
+{% raw %}
 ~~~
 
 module STATSEM
@@ -89,9 +94,11 @@ wf_Variable : AST`Variable * StatEnv -> bool * [AST`Type]wf_Variable(mk_AST`Var
 wf_BinaryExpr : AST`BinaryExpr * StatEnv -> bool * [AST`Type]wf_BinaryExpr(mk_AST`BinaryExpr(lhs, op, rhs), senv) ==  let mk_(wf_lhs, tp_lhs) = wf_Expr(lhs, senv),       mk_(wf_rhs, tp_rhs) = wf_Expr(rhs, senv)  in cases op :     <Add>, <Sub>, <Div>, <Mul> ->        mk_(wf_lhs and wf_rhs and        tp_lhs = <IntType> and tp_rhs = <IntType>,           <IntType>),     <Lt>, <Gt>, <Eq> ->       mk_(wf_lhs and wf_rhs and        tp_lhs = <IntType> and tp_rhs = <IntType>,           <BoolType>),     <And>, <Or> ->       mk_(wf_lhs and wf_rhs and        tp_lhs = <BoolType> and tp_rhs = <BoolType>,           <BoolType>),     others -> mk_(false, nil)     end;
 end STATSEM
 
-~~~
+~~~{% endraw %}
+
 ###Test.vdmsl
 
+{% raw %}
 ~~~
 
 module Test
@@ -103,4 +110,5 @@ RunTypeCheck: () -> bool * [AST`Type]RunTypeCheck() ==  STATSEM`wf_Expr(binexp
 RunEval: () -> AST`ValueRunEval() ==  DYNSEM`EvalExpr(binexpr,{|->})
 end Test
 
-~~~
+~~~{% endraw %}
+

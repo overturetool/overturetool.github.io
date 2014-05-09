@@ -8,6 +8,7 @@ title: DFDexample
 ~~~
 ###dfdexample.vdmsl
 
+{% raw %}
 ~~~
 
 functions
@@ -184,4 +185,5 @@ PatternId :: name:[Id];
 TuplePattern :: fields: seq1 of Pattern;
 Id = seq of char
 
-~~~
+~~~{% endraw %}
+

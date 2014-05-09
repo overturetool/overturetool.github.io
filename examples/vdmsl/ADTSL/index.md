@@ -8,6 +8,7 @@ title: ADT
 ~~~
 ###adt.vdmsl
 
+{% raw %}
 ~~~
 
 types      ADDRESS = nat;
@@ -431,4 +432,5 @@ TestTrees: () ==> boolTestTrees() ==(     if Trees_ExistsDirection(charTree, 
      charTree := Trees_Traverse(charTree, Traversal);     return true;);
 
 
-~~~
+~~~{% endraw %}
+

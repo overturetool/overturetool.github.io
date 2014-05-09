@@ -8,6 +8,7 @@ title: CM
 ~~~
 ###CMflat.vdmsl
 
+{% raw %}
 ~~~
 
 types
@@ -42,4 +43,5 @@ RelativeToAbsoluteTimes : seq of Response ->                           seq of (
 RespLen: seq of Response -> natRespLen(l) ==  len l;
 Angle2MagId: Angle -> MagIdAngle2MagId(angle) ==  if angle < 90  then mk_token("Magazine 1")  elseif angle < 180  then mk_token("Magazine 2")  elseif angle < 270  then mk_token("Magazine 3")  else mk_token("Magazine 4");
 
-~~~
+~~~{% endraw %}
+

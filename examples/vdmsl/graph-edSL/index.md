@@ -8,6 +8,7 @@ title: graph-ed
 ~~~
 ###graph-ed.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -413,4 +414,5 @@ operations
 end GRAPH
 
 
-~~~
+~~~{% endraw %}
+

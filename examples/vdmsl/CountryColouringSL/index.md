@@ -8,6 +8,7 @@ title: CountryColouring
 ~~~
 ###CountryColouring.vdmsl
 
+{% raw %}
 ~~~
 
 types
@@ -32,4 +33,5 @@ functions
   CardCountry: set of Country * Relation -> nat  CardCountry(cs,-) ==    card cs;
   colMapExpl: Relation -> Colouring  colMapExpl(r) ==    colCntrs(CountriesRel(r), r)   pre isRelation(r)
 
-~~~
+~~~{% endraw %}
+

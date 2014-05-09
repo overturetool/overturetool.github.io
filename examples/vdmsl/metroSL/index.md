@@ -8,6 +8,7 @@ title: metro
 ~~~
 ###metro.vdmsl
 
+{% raw %}
 ~~~
 
 module Metro1
@@ -55,4 +56,5 @@ functions -- Auxiliary functions
   SubInterval: Interval * Interval -> bool  SubInterval(int1,int2) ==     undefined; -- not specified yet.
 end Metro3
 
-~~~
+~~~{% endraw %}
+

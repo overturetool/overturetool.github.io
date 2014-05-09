@@ -8,6 +8,7 @@ title: BOM
 ~~~
 ###bom.vdmsl
 
+{% raw %}
 ~~~
 
 types
@@ -27,4 +28,5 @@ Delete: Pn * BOM -> BOMDelete(p, bom) ==  {p} <-: bompre (p in set dom bom) a
 Add: Pn * Pn * BOM -> BOMAdd(p1, p2, bom) ==   bom ++ {p1 |-> bom(p1) union {p2} }pre (p1 in set dom bom) and (p2 in set dom bom) and     (p2 not in set bom(p1)) and (p1 not in set Explode(p2,bom));
 Erase: Pn * Pn * BOM -> BOMErase(p1, p2, bom) ==  bom ++ { p1 |-> bom(p1) \ {p2} }pre (p1 in set dom bom) and (p2 in set dom bom) and    (p2 in set bom(p1))
 
-~~~
+~~~{% endraw %}
+

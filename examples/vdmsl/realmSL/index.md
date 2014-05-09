@@ -415,5 +415,11 @@ values
   r4: REALM`Realm = mk_REALM`Realm({p1,p3,p4,p5,p6,p7,p8},{s6,s8});
   r5: REALM`Realm = mk_REALM`Realm({p10,p13},{s13})
 end TEST
+<<<<<<< a5ccb749a290842808c01bc956416d60b7efb55d
 
 ~~~
+=======
+
+~~~{% endraw %}
+
+>>>>>>> 770a44bd54e0bf079858dabcdf2b801cde25ad2f

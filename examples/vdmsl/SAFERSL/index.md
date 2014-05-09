@@ -8,6 +8,7 @@ title: SAFER
 ~~~
 ###aah.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -32,9 +33,11 @@ functions
 end AAH
 
 
-~~~
+~~~{% endraw %}
+
 ###auxilary.vdmsl
 
+{% raw %}
 ~~~
 
 module AUX 
@@ -58,14 +61,18 @@ types
 end AUX
 
 
-~~~
+~~~{% endraw %}
+
 ###geom.vdmsl
 
+{% raw %}
 ~~~
                                                                                                                                                                      
-~~~
+~~~{% endraw %}
+
 ###gui.vdmsl
 
+{% raw %}
 ~~~
 
 dlmodule GUI
@@ -73,9 +80,11 @@ dlmodule GUI
   uselib    "my_gui.so"
 end GUI
 
-~~~
+~~~{% endraw %}
+
 ###hcm.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -94,9 +103,11 @@ functions
 end HCM
 
 
-~~~
+~~~{% endraw %}
+
 ###safer.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -115,9 +126,11 @@ functions
 end SAFER
 
 
-~~~
+~~~{% endraw %}
+
 ###test.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -154,9 +167,11 @@ operations
 end TEST
 
 
-~~~
+~~~{% endraw %}
+
 ###ts.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -180,9 +195,12 @@ end TS
 
 
 
-~~~
+~~~{% endraw %}
+
 ###workspace.vdmsl
 
+{% raw %}
 ~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-~~~
+~~~{% endraw %}
+

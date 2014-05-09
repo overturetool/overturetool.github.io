@@ -8,6 +8,7 @@ title: telephone
 ~~~
 ###telephone.vdmsl
 
+{% raw %}
 ~~~
 
 module EXCHdefinitions types   Subscriber = token;
@@ -29,4 +30,5 @@ operations
   ClearUn(s: Subscriber)  ext wr status  pre s in set dom (status :> {<un>})  post  status = status~ ++ {s |-> <fr>}
 end EXCH  
 
-~~~
+~~~{% endraw %}
+

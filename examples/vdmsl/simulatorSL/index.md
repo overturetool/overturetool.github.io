@@ -8,6 +8,7 @@ title: simulator
 ~~~
 ###simulator1.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -439,4 +440,5 @@ operations
 end TROM
 
 
-~~~
+~~~{% endraw %}
+

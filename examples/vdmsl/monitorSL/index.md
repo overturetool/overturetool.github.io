@@ -8,6 +8,8 @@ title: monitor
 ~~~
 ###monitor.vdmsl
 
+{% raw %}
 ~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-~~~
+~~~{% endraw %}
+

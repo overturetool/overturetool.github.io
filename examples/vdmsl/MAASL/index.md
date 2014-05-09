@@ -8,6 +8,7 @@ title: MAA
 ~~~
 ###maa.vdmsl
 
+{% raw %}
 ~~~
 
 
@@ -89,4 +90,5 @@ functions   Pad_out_Message: Message_in_bits -> Message_in_bits   Pad_out_Mess
    Get_head_in_blocks: Message_in_blocks * nat -> Message_in_blocks   Get_head_in_blocks(M,No_blocks) ==       if No_blocks  = 0      then [ hd M]      else [ hd M]  ^  Get_head_in_blocks( tl M,No_blocks - 1)   pre ( len M  >= No_blocks) and (No_blocks  >= 1)
 
 
-~~~
+~~~{% endraw %}
+
