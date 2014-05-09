@@ -16,7 +16,7 @@ Overture supports the following VDM language dialects:
 
 ||
 |----------|
-| The current stable version is **2.0.2**  (December 2013) which you can [download here]({{ site.base }}/download/).|
+| The current stable version is **2.0.6**  (April 2014) which you can [download here](https://github.com/overturetool/overture/releases/tag/Release%2F2.0.6).|
 
 
 <div><video width="650" height="450" controls="" preload="metadata"><source src="http://overture.sourceforge.net/screencasts/Overture2.0.0-screencast/Overture2.0.0.mp4" type="video/mp4"></source>Your browser does not support the video tag. </video></div>
