@@ -22,8 +22,7 @@ Pre-packaged binaries are available for **Windows**, **Linux** with GTK, and **M
 The latest release of the Overture IDE can be found on the [GitHub overturetool Releases page](https://github.com/overturetool/overture/releases). 
 The generic Windows versions are known to work with both Windows 7 as well as Windows XP SP3.
 
-[ ![Overture IDE releases at GitHub](<img src={{ site.base }}/images/GitHub_Logo.png alt="Overture IDE releases at GitHub" width="256" border="0" />
-) ](https://github.com/overturetool/overture/releases)
+<a href="https://github.com/overturetool/overture/releases"><img src="http://overturetool.org/sites/overturetool.org/files/GitHub_Logo.png" alt="Overture IDE releases at GitHub" width="256" border="0" /></a>
 
 ## Installing and running Overture
 
