@@ -1,13 +1,28 @@
 ---
 layout: default
-title: loose
+title: looseSL
 ---
 
-~~~
-This VDM model is made by Peter Gorm Larsen as an exploration of howthe looseness in a subset of VDM-SL. So this is illustrating how it ispossible to explore all models is a simple fashion including thepossibility of recursive functions where looseness is involved insideeach recursive call. A paper about this work have been published as:
-Peter Gorm Larsen, Evaluation of Underdetermined Explicit Expressions,Formal Methods Europe'94: Industrial Benefit of Formal Methods,Springer Verlag, October 1994.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Peter Gorm Larsen#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=DEFAULT`LooseEvalExpr(expr2)#ENTRY_POINT=DEFAULT`LooseEvalExpr(mk_NumLit(8))#ENTRY_POINT=DEFAULT`LooseEvalExpr(expr)#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Peter Gorm Larsen
+
+
+This VDM model is made by Peter Gorm Larsen as an exploration of how
+the looseness in a subset of VDM-SL. So this is illustrating how it is
+possible to explore all models is a simple fashion including the
+possibility of recursive functions where looseness is involved inside
+each recursive call. A paper about this work have been published as:
+
+Peter Gorm Larsen, Evaluation of Underdetermined Explicit Expressions,
+Formal Methods Europe'94: Industrial Benefit of Formal Methods,
+Springer Verlag, October 1994.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| DEFAULT`LooseEvalExpr(expr2)|
+|Entry point     :| DEFAULT`LooseEvalExpr(mk_NumLit(8))|
+|Entry point     :| DEFAULT`LooseEvalExpr(expr)|
+
+
 ###as.vdmsl
 
 {% raw %}
@@ -63,7 +78,8 @@ values
  expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###auxil.vdmsl
 
@@ -81,7 +97,8 @@ functions
   RestSeq: seq of VAL * nat1 -> seq of VAL  RestSeq(l,i) ==    [ l(j) | j in set (inds l \ { i }) ];
   PatternIds: Pattern +> set of UniqueId  PatternIds(pat) ==    cases pat:      mk_PatternName(mk_(nm,pos)) -> {mk_(nm,pos,FnInfo())},      mk_MatchVal(-)              -> {},      mk_SetEnumPattern(els)      -> dunion {PatternIds(elem)                                            |elem in set elems els},      mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union                                     PatternIds(rp)    end
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###env.vdmsl
 
@@ -133,7 +150,8 @@ functions
   Extend: (map UniqueId to LVAL) * (map UniqueId to LVAL) +>          (map UniqueId to LVAL)  Extend(val_m,upd_m) ==    val_m ++ {id |-> if id in set dom val_m                     then val_m(id) union upd_m(id)		     else upd_m(id)	     | id in set dom upd_m}
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###expr.vdmsl
 
@@ -165,7 +183,8 @@ operations
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###pat.vdmsl
 
@@ -183,5 +202,6 @@ StripDoubles : BlkEnv ==> BlkEnvStripDoubles (blk_l) ==( dcl tmpblk_l : BlkEnv
 EvalBind : Bind ==> set of (BlkEnv * Model)EvalBind (bind) ==EvalSetBind(bind);
 EvalSetBind : SetBind ==> set of (BlkEnv * Model)EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==( dcl env_s : set of (BlkEnv * Model) := {};  let set_lv = LooseEvalExpr(set_e) in   (for all mk_(set_v,m) in set set_lv do     (if is_SET(set_v)      then let mk_SET(set_sv) = set_v in           ( for all elm_v in set set_sv do                (let new_envs = PatternMatch(pat_p, elm_v) in                env_s := env_s union {mk_(env,m) | env in set new_envs})           )      else error);    return env_s))
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,13 +1,26 @@
 ---
 layout: default
-title: Buslines
+title: BuslinesPP
 ---
 
-~~~
-This example models bus lines in a city, in which passengers are to be transferred from stop to stop. Passengers with specific destinations will arrive at a central station, and the route and flow of the buses need to be planned to service the passenger in the best possible way. The number and routes of buses as wells as the inflow of passengers are variables. 
- Remote Debugger must be set to remote class:	gui.BuslinesRemote
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Claus Ballegaard Nielsen#LIB=IO,VDMUtil,MATH#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= new World().Run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Claus Ballegaard Nielsen
+
+
+This example models bus lines in a city, in which passengers are to be 
+transferred from stop to stop. Passengers with specific destinations 
+will arrive at a central station, and the route and flow of the buses 
+need to be planned to service the passenger in the best possible way. 
+The number and routes of buses as wells as the inflow of passengers are 
+variables. 
+ 
+ Remote Debugger must be set to remote class:
+	gui.BuslinesRemote
+ |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###Bus.vdmpp
 
 {% raw %}
@@ -46,7 +59,8 @@ class Bus
 			--smaller than limit, return			if card ps <= limit then 				return ps;
 			--recusive			let sub in set ps in					return {sub} union SelectSubset(ps \ {sub}, limit -1); 		)
 end Bus
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Busstop.vdmpp
 
@@ -62,7 +76,8 @@ class Busstop is subclass of Waypoint
 		--passenger got on a bus		public PassengerLeft : set of Passenger ==> ()		PassengerLeft(p) ==			waiting := waiting \ p		pre p inter waiting <> {};
 sync	---protect waiting instance variable	mutex(GetWaitingCount, AddPassenger, PassengerLeft)
 end Busstop
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###City.vdmpp
 
@@ -101,7 +116,8 @@ class City
 			--check annoyance of waiting passengers			for all pass in set central.GetWaiting() do				pass.AnnoyedOfWaiting();
 			World`timerRef.WaitRelative(5);   			World`timerRef.NotifyAll();   			World`timerRef.Awake();		) 	)
 end City
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ClockTick.vdmpp
 
@@ -110,7 +126,8 @@ end City
 class ClockTick
 thread 	while true do	(		World`timerRef.WaitRelative(1);  		World`timerRef.NotifyAll();  		World`timerRef.Awake(); 	)
  end ClockTick
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Config.vdmpp
 
@@ -121,7 +138,8 @@ thread 	while true do	(		World`timerRef.WaitRelative(1);  		World`timerRef.N
 ---- Values definition section--values
 --max passengers on buspublic static BusCapacity : nat = 15;--speed limit on road, buses will always drive to the limit   		public static DefaultRoadSpeedLimit : nat = 10;   			--amount of waiting time beofre passengers become annoyedpublic static PassengerAnnoyanceLimit : nat = 40;   	--max value of passengers inflow public static MaxInflow : nat = 10;   	
 end Config
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmpp
 
@@ -172,7 +190,8 @@ thread(	start(new ClockTick());	while busy do  	(   		Events();		World`tim
  	Printer`Out("No more events;");)
 sync	per isFinished => not busy;	mutex(handleEvent)
 end Environment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###gui_Graphics.vdmpp
 
@@ -192,7 +211,8 @@ class gui_Graphics	operations
 		public busPassengerCountChanged : nat * nat ==> ()		busPassengerCountChanged(busid, count) == is not yet specified;
 end gui_Graphics
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Passenger.vdmpp
 
@@ -213,7 +233,8 @@ class Passenger
 		);
 	sync		mutex(GotOnBus, AnnoyedOfWaiting);
 end Passenger
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Printer.vdmpp
 
@@ -228,7 +249,8 @@ class Printer
 
 		public static intToString : int ==> seq of char 		intToString(i) ==		(			return VDMUtil`val2seq_of_char[int](i);		);
 end Printer
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Road.vdmpp
 
@@ -247,7 +269,8 @@ class Road	types		public RoadNumber = <R1> | <R2> | <R3> | <R4> | <R5> | <R6> 
 		public GetRoadNumber : () ==> RoadNumber		GetRoadNumber()== 				return roadNmbr;
 		public GetTimePenalty : () ==> nat		GetTimePenalty()== 				return timePenalty;
 end Road
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TimeStamp.vdmpp
 
@@ -295,7 +318,8 @@ sync  per Awake => threadid not in set dom wakeUpMap;
   mutex(NotifyAll);  mutex(AddToWakeUpMap);  mutex(AddToWakeUpMap, NotifyAll); --  mutex(SyncWithTimeIncrement);--  mutex(YieldTimeIncrement);--  mutex(SyncWithTimeIncrement, YieldTimeIncrement, NotifyAndIncTime);
 end TimeStamp
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Types.vdmpp
 
@@ -310,7 +334,8 @@ public Simulate ::        t : nat;
 public WasteTime ::        t : Time;
 functions   public static DirectionToGraphics : Direction -> nat  DirectionToGraphics(d) ==  (    cases d:    <NORTH>-> 1,    <SOUTH>-> 5,    <EAST>->  3,    <WEST>->  7    end  );
 end Types
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###WaitNotify.vdmpp
 
@@ -330,7 +355,8 @@ private Awake : () ==> ()Awake() == skip
 syncper Awake => threadid not in set waitset;mutex(AddToWaitSet)
 end WaitNotify
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Waypoint.vdmpp
 
@@ -344,7 +370,8 @@ class Waypoint
 		public IsStop: () ==> bool		IsStop()== return isStop;
 
 end Waypoint
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmpp
 
@@ -364,5 +391,6 @@ operations
 
 
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

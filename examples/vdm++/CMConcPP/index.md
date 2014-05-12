@@ -1,11 +1,20 @@
 ---
 layout: default
-title: CMConc
+title: CMConcPP
 ---
 
-~~~
-This example is used in the guidelines for developing distributed real time systems using the VICE extension to VDM++. This model is available in a sequential version, a concurrent version aswell as in a distributed real-time VICE version. This is the distributed real time version of this example. #******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Peter Gorm Larsen and Marcel Verhoef#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#LIB=IO#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************#***ENTRY_POINT=new World().Run()
-~~~
+Author: Peter Gorm Larsen and Marcel Verhoef
+
+
+This example is used in the guidelines for developing distributed 
+real time systems using the VICE extension to VDM++. This model 
+is available in a sequential version, a concurrent version as
+well as in a distributed real-time VICE version. This is the 
+distributed real time version of this example. |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###BaseThread.vdmpp
 
 {% raw %}
@@ -22,7 +31,8 @@ Step : () ==> ()Step() ==  is subclass responsibility;
 thread
  (if isPeriodic  then (while true        do          (Step();          timeStamp.WaitRelative(period)         )       )  else (Step();        timeStamp.WaitRelative(0);        timeStamp.UnRegisterThread(registeredSelf);       ); );
 end BaseThread
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###environment.vdmpp
 
@@ -53,7 +63,8 @@ sync
 mutex (handleEvent);mutex (createSignal);per isFinished => not busy;
 end Environment
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###fighteraircraft.vdmpp
 
@@ -70,7 +81,8 @@ instance variables
   public static dispenser8 : FlareDispenser := new FlareDispenser(0, nil);  public static dispenser9 : FlareDispenser := new FlareDispenser(30, nil);  public static dispenser10 : FlareDispenser := new FlareDispenser(60, nil);  public static dispenser11 : FlareDispenser := new FlareDispenser(90, nil);
 end CM
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###flarecontroller.vdmpp
 
@@ -97,7 +109,8 @@ sync
 -- getThreat is used as a 'blocking read' from the main-- thread of control of the missile detectorper getThreat => len threats > 0;per isFinished => len threats = 0 --not busy
 end FlareController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###flaredispenser.vdmpp
 
@@ -126,7 +139,8 @@ sync
 mutex (Step);mutex (addThreat);per isFinished => not busy
 end FlareDispenser
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###global.vdmpp
 
@@ -146,7 +160,8 @@ operations
 public canObserve: Angle * Angle * Angle ==> boolcanObserve (pangle, pleft, psize) ==  def pright = (pleft + psize) mod 360 in    if pright < pleft    -- check between [0,pright> and [pleft,360>    then return (pangle < pright or pangle >= pleft)    -- check between [pleft, pright>    else return (pangle >= pleft and pangle < pright);
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###missiledetector.vdmpp
 
@@ -173,7 +188,8 @@ mutex (Step);
 
 end MissileDetector
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###sensor.vdmpp
 
@@ -190,7 +206,8 @@ public Sensor: MissileDetector * Angle ==> SensorSensor (pmd, psa) == ( detecto
 -- trip is called asynchronously from the environment to-- signal an event. the sensor triggers if the event is-- in the field of view. the event is stored in the-- missile detector for further processingpublic trip: EventId * MissileType * Angle ==> ()trip (evid, pmt, pa) ==  -- log and time stamp the observed threat  detector.addThreat(evid, pmt,pa,World`timerRef.GetTime())pre canObserve(pa, aperture, SENSOR_APERTURE)
 end Sensor
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TimeStamp.vdmpp
 
@@ -223,7 +240,8 @@ sync  per Awake => threadid not in set dom wakeUpMap;
   mutex (AddToWakeUpMap, NotifyThread);  mutex (AddToWakeUpMap, BarrierReached);  mutex (NotifyThread, BarrierReached);
   mutex (AddToWakeUpMap, NotifyThread, BarrierReached);
 end TimeStamp
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###world.vdmpp
 
@@ -242,5 +260,6 @@ public World: () ==> WorldWorld () ==  (-- set-up the sensors   env := new En
 -- the run function blocks the user-interface thread-- until all missiles in the file have been processedpublic Run: () ==> ()Run () ==   (-- start the environment   timerRef.DoneInitialising();   -- wait for the environment to handle all input   env.isFinished();   -- wait for the missile detector to finish   CM`detector.isFinished();   -- print the result   env.showResult())
 end World
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

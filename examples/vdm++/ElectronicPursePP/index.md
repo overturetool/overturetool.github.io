@@ -1,12 +1,21 @@
 ---
 layout: default
-title: ElectronicPurse
+title: ElectronicPursePP
 ---
 
-~~~
-This example is made by Steve Riddle as an example for an exam question used at the VDM course in Newcastle. It dealswith an electronic purse in a simple form. This is one of thegrand challenges that is considered by the formal methods community for formal verification.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Steve Riddle#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Steve Riddle
+
+
+This example is made by Steve Riddle as an example for an 
+exam question used at the VDM course in Newcastle. It deals
+with an electronic purse in a simple form. This is one of the
+grand challenges that is considered by the formal methods 
+community for formal verification.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###Purse.vdmpp
 
 {% raw %}
@@ -22,7 +31,8 @@ public GetBalance:() ==> natGetBalance() ==   return balance;
 public GetCardNo: () ==> CardIdGetCardNo() ==   return cardNo;
 public Purse: CardId * nat ==> PursePurse(newId, startbal) ==( cardNo := newId;  balance := startbal ) ;
 functions-- no functions currently definedend Purse
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###System.vdmpp
 
@@ -41,5 +51,6 @@ functions
 TotalSum: seq of Transaction -> natTotalSum(tseq) ==  if tseq = []   then 0  else let tx = hd tseq        in          tx.sum + TotalSum(tl tseq)measure Len;
 Len: seq of Transaction -> natLen(l) ==  len l;
 end System
-~~~{% endraw %}
+~~~
+{% endraw %}
 

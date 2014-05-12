@@ -1,14 +1,32 @@
 ---
 layout: default
-title: ACS
+title: ACSSL
 ---
 
-~~~
+Author: Paul Mukherjee
 
-This specification describes the safety requirements involved in adding and removing explosives at an explosives storage site. The specification is based on United Kingdom Ministry of Defence regulations concerning safe storage of explosives, which in turn are based on UN regulations. Details of the specification may be found in:   1. P. Mukherjee and V. Stavridou, "The Formal Specification of Safety    Requirements for the Storage of Explosives", technical report DITC 185/91,    National Physical Laboratory, 1991. 2. P. Mukherjee and V. Stavridou, "The Formal Specification of Safety    Requirements for Storing Explosives", Formal Aspects of Computing,    5(4):299-336, 1993. This example is primarily specified using the implicit style in VDM so itdoes not have a main debug functionality.
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Paul Mukherjee#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=DEFAULT`sum({3,4,5})#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+This specification describes the safety requirements involved in adding and 
+removing explosives at an explosives storage site. The specification is based 
+on United Kingdom Ministry of Defence regulations concerning safe storage of 
+explosives, which in turn are based on UN regulations. 
+Details of the specification may be found in:   
+1. P. Mukherjee and V. Stavridou, "The Formal Specification of Safety 
+   Requirements for the Storage of Explosives", technical report DITC 185/91, 
+   National Physical Laboratory, 1991. 
+2. P. Mukherjee and V. Stavridou, "The Formal Specification of Safety 
+   Requirements for Storing Explosives", Formal Aspects of Computing, 
+   5(4):299-336, 1993. 
+This example is primarily specified using the implicit style in VDM so it
+does not have a main debug functionality.
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| DEFAULT`sum({3,4,5})|
+
+
 ###acs.vdmsl
 
 {% raw %}
@@ -106,5 +124,6 @@ ADD_PES(pex:Pot_explosion_site, label: Site_label,type:Storage_building)ext wr 
 
 ADD_EXP(ex:Exposed_site, label: Site_label)ext wr exs: inmap Site_label to Exposed_site    rd pes: inmap Site_label to Pot_explosion_site    rd xmax, ymax: Metrepre not (is_Storage_building(ex.building.type)) and    forall v in set elems ex.vertices &         (0<=v.x and v.x <= xmax and         0<=v.y and v.y <= ymax) and    label not in set dom exs and    forall pex in set rng pes &       let proposed_neq = find_max_neq(pex, rng(exs ++ {label |-> ex})) in       if proposed_neq <> <INFINITY>         then find_max_neq(pex,rng(exs)) <= proposed_neq       else truepost exs = exs~ ++ {label |-> ex}
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,13 +1,28 @@
 ---
 layout: default
-title: HubInSafeMode
+title: HubInSafeModePP
 ---
 
-~~~
-The purpose of the hub in safe mode is to allow a service technicianto physically enter the hub of the wind turbine to carry outmaintenance. For the service technician to do so without risking hislife, it must be guaranteed that the main shaft connected to the rotorof the wind turbine, is at a complete stand still and securelylocked. This model is made by Klaus Petersen as a small mini-project in acourse on "Modelling of Mission Critical Systems" (seehttps://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems). 
-More information about the model and the purpose of it can be found inthe Report.pdf file included in the zip file with the source files.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Klaus Petersen#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Enviroment().Run()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Klaus Petersen
+
+
+The purpose of the hub in safe mode is to allow a service technician
+to physically enter the hub of the wind turbine to carry out
+maintenance. For the service technician to do so without risking his
+life, it must be guaranteed that the main shaft connected to the rotor
+of the wind turbine, is at a complete stand still and securely
+locked. This model is made by Klaus Petersen as a small mini-project in a
+course on "Modelling of Mission Critical Systems" (see
+https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems). 
+
+More information about the model and the purpose of it can be found in
+the Report.pdf file included in the zip file with the source files.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Enviroment().Run()|
+
+
 ###Brake.vdmpp
 
 {% raw %}
@@ -21,7 +36,8 @@ class Brake instance variables mLowLimit : MainShaftController`RPMType; mHigh
  public InterSect : Brake ==> bool InterSect(brake) ==  return brake.InRange(mLowLimit) or brake.InRange(mHighLimit);
  public InRange : (MainShaftController`RPMType) ==> bool InRange(rpm) ==  return rpm >= mLowLimit and rpm <= mHighLimit;
 end Brake
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Enviroment.vdmpp
 
@@ -32,7 +48,8 @@ class Enviroment
  functions static CreateTestSeq : WindMeasurementController`WindSpeedType * bool ->                         seq of TestData CreateTestSeq(wind, eStop) ==  [if x mod 10 = 1    then mk_TestData(wind,<E>,false)   elseif x mod 10 = 5    then mk_TestData(wind,<L>,false)   else mk_TestData(wind,<N>,x mod 10 = 6 and eStop)   | x in set {1,...,10}];
  operations public static Run : () ==> () Run() ==  let TestSeq = CreateTestSeq(14, false) ^                 CreateTestSeq(15, true) ^                 CreateTestSeq(15, false) ^                 CreateTestSeq(16, false),       WindTurbine = new WindTurbine(TestSeq)  in   WindTurbine.Run()
 end Enviroment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Hub.vdmpp
 
@@ -49,7 +66,8 @@ class Hub instance variables mSpeaker : Speaker; mIsLocked : bool := true; m
  public IsEStopPressed : () ==> bool IsEStopPressed() ==  return mIsEStopPressed;
  public Run : () ==> () Run() ==  mSpeaker.Run();
 end Hub
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HubController.vdmpp
 
@@ -65,7 +83,8 @@ class HubController instance variables mHub : Hub; mMainShaftController : Mai
          if eStop          then mHub.PressEStop()         else mHub.ReleaseEStop()        );
   mHub.Run();  mMode.Run(); );
 end HubController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MainShaftController.vdmpp
 
@@ -87,7 +106,8 @@ class MainShaftController values public static LOCK_LIMIT : RPMType = 1; publ
  -- return current rotational speed of main shaft in RPM. public GetRPM : () ==> RPMType GetRPM() ==  return mRPM;
  public Run : () ==> () Run() == (if mIsBrakeApplied   then for all i in set inds mBrakeSeq do         mRPM := mBrakeSeq(i).ApplyBrake(mRPM)  else mRPM := WindMeasurementController`GetInstance().GetWindSpeed() * 10;  ) pre len mBrakeSeq <> 0 post mRPM <= MAX_RPM;
 end MainShaftController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Mode.vdmpp
 
@@ -119,7 +139,8 @@ class ModeOperational is subclass of Mode
  operations protected OnEntry : () ==> () OnEntry() ==  let mainShaftController = mHubController.GetMainShaftController()  in  (   mainShaftController.OpenLock();   mainShaftController.ReleaseBrake();   mainShaftController.Run()  );
  protected OnRun : () ==> () OnRun() ==  if mEnterHubInSafeMode and      WindMeasurementController`GetInstance().GetWindSpeed() <=      ModeEnterHubInSafeMode`MAX_WINDSPEED   then ChangeMode(new ModeEnterHubInSafeMode())
 end ModeOperational
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###OperatingPanel.vdmpp
 
@@ -135,7 +156,8 @@ class OperatingPanel types --Enter Hub In Safe Mode (E) | Leave Hub In Safe Mo
  public RunCmdInterface : () ==> () RunCmdInterface() == (  if len mCmdSeq >= 1 then   let cmd = hd mCmdSeq   in   (    mCmdSeq := tl mCmdSeq;    mTime := len mCmdSeq + 1;    
     if cmd = <E> then    (     Print(mTime, "Command <E>");     EnterHubInSafeMode()    )    else if cmd = <L> then    (      Print(mTime, "Command <L>");     LeaveHubInSafeMode()    )   ) );
  public RunDisplayInterface : () ==> () RunDisplayInterface() == (  --todo klaus cases  if  isofclass(ModeEnterHubInSafeMode, mHubController.GetMode()) then   Print(mTime, "Entering Hub In Safe Mode")  else if isofclass(ModeHubInSafeMode, mHubController.GetMode()) then   Print(mTime, "Hub In Safe Mode")  else if isofclass(ModeLeaveHubInSafeMode, mHubController.GetMode()) then   Print(mTime, "Leaving Hub In Safe Mode")  else    Print(mTime, "Operational") ); end OperatingPanel
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Speaker.vdmpp
 
@@ -147,7 +169,8 @@ class Speaker instance variables mAlarm : nat := 0;
  --return true if alarm is currently active, false otherwise. public IsActive : () ==> bool IsActive() ==  return mAlarm <> 0;
  public Run : () ==> () Run() ==  if (mAlarm > 0)   then mAlarm := mAlarm - 1
 end Speaker
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###WindMeasurementController.vdmpp
 
@@ -163,7 +186,8 @@ class WindMeasurementController types public WindSpeedType = nat inv w == w <
  public IsFinished : () ==> bool IsFinished() ==  return mWindSpeedSeq = []; 
  public Run : () ==> () Run() ==  if mWindSpeedSeq <> []   then mWindSpeedSeq := tl mWindSpeedSeq;
 end WindMeasurementController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###WindTurbine.vdmpp
 
@@ -176,5 +200,6 @@ class WindTurbine instance variables mHubController : HubController; mMainSha
    mOperatingPanel.RunDisplayInterface();
    WindMeasurementController`GetInstance().Run();  )
 end WindTurbine
-~~~{% endraw %}
+~~~
+{% endraw %}
 

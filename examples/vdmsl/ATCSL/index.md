@@ -1,17 +1,36 @@
 ---
 layout: default
-title: ATC
+title: ATCSL
 ---
 
-~~~
+Author: Natsuki Terada
 
-This example was developed by Natsuki Terada from the Japanese Railways Research Institute (RTRI) on a two year visit to IFAD in 2000 and 2001. It models a database for digital Automatic Train Control in Japan. More information can be found in:
-Natsuki Terada, Formal Integrity Analysis of Digital ATC Database,In Proceedings of WCRR2001 (World Congress on Railway Research), 2001.
-Natsuki Terada, Integrity Analysis of Digital ATC Database with Automatic Proofs, In VDM Workshop 3, Part of the FME 2002 conference,Copenhagen, Denmark, July 2002.
-Natsuki Terada, Application of Formal Methods to Automatic Train Control Systems, In Proceedings of Symposium on Formal Methods for Railway Operation and Control Systems (FORMS 2003), 2003.
-N. Terada and M. Fukuda, Application of Formal Methods to the Railway Signaling Systems, In Quarterly Report of RTRI, 2002, Vol 43, no 4, pp 169-174.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Natsuki Terada#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+
+This example was developed by Natsuki Terada from the Japanese Railways 
+Research Institute (RTRI) on a two year visit to IFAD in 2000 and 2001. 
+It models a database for digital Automatic Train Control in Japan. More 
+information can be found in:
+
+Natsuki Terada, Formal Integrity Analysis of Digital ATC Database,
+In Proceedings of WCRR2001 (World Congress on Railway Research), 2001.
+ 
+Natsuki Terada, Integrity Analysis of Digital ATC Database with 
+Automatic Proofs, In VDM Workshop 3, Part of the FME 2002 conference,
+Copenhagen, Denmark, July 2002.
+ 
+Natsuki Terada, Application of Formal Methods to Automatic Train Control 
+Systems, In Proceedings of Symposium on Formal Methods for Railway 
+Operation and Control Systems (FORMS 2003), 2003.
+ 
+N. Terada and M. Fukuda, Application of Formal Methods to the Railway 
+Signaling Systems, In Quarterly Report of RTRI, 2002, Vol 43, no 4, 
+pp 169-174.
+ |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###digitalATCdb.vdmsl
 
 {% raw %}
@@ -150,5 +169,6 @@ One_Side_Unique_Path_at_Connection : Line -> boolOne_Side_Unique_Path_at_Connec
                  let dr2 = if not ln.connect(con).chng_direction then dr                                else if dr = <ADIR> then <BDIR> else <ADIR> in                 card {p | p in set rng ln.areas(n2.aid).paths &                                 p.used(dr2) and                                 StartJoint(p, dr2) = n2.no} = 1);
 Following_Path_Exists_at_Connect : Line -> boolFollowing_Path_Exists_at_Connect(ln) ==        forall con in set dom ln.connect &        forall n1, n2 in set con & n1 <> n2 =>        forall dr in set {<ADIR>, <BDIR>} &        (exists p in set rng ln.areas(n1.aid).paths &                p.used(dr) and                EndJoint(p, dr) = n1.no) =>        (ln.areas(n1.aid).trackcs(n1.tcid).joints(n1.no).            remark.atc_terminal(dr) or        (exists p2 in set rng ln.areas(n2.aid).paths &                 let dr2 = if not ln.connect(con).chng_direction then dr                                else if dr = <ADIR> then <BDIR> else <ADIR> in                 p2.used(dr2) and                 StartJoint(p2, dr2) = n2.no));
 Preceding_Path_Exists_at_Connect : Line -> boolPreceding_Path_Exists_at_Connect(ln) ==        forall con in set dom ln.connect &        forall n1, n2 in set con & n1 <> n2 =>        forall dr in set {<ADIR>, <BDIR>} &        (exists p in set rng ln.areas(n1.aid).paths &                p.used(dr) and                StartJoint(p, dr) = n1.no) =>        (ln.areas(n1.aid).trackcs(n1.tcid).joints(n1.no).            remark.atc_terminal(dr) or        (exists p2 in set rng ln.areas(n2.aid).paths &                let dr2 = if not ln.connect(con).chng_direction                           then dr                          elseif dr = <ADIR>                           then <BDIR>                           else <ADIR> in                p2.used(dr2) and                EndJoint(p2, dr2) = n2.no));
-~~~{% endraw %}
+~~~
+{% endraw %}
 

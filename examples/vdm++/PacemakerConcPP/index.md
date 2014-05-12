@@ -1,14 +1,34 @@
 ---
 layout: default
-title: PacemakerConc
+title: PacemakerConcPP
 ---
 
-~~~
-This model is made by Hugo Macedo as a part of his MSc thesis of apacemaker according to the grand challenge provided by BostonScientific in this area. This is the last of a series of VDM modelsof the pacemaker and it incorporates a number of modes for the pacemaker. More information can be found in:
-Hugo Macedo, Validating and Understanding Boston Scientific PacemakerRequirements, MSc thesis, Minho University, Portugal, October 2007.
-Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald, Incremental Development of a Distributed Real-Time Model of a Cardiac Pacing System using VDM, In FM 2008: Formal Methods, 15th International Symposium on Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Hugo Macedo#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World("tests/scenarioGoodHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()#LIB=IO#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Hugo Macedo
+
+
+This model is made by Hugo Macedo as a part of his MSc thesis of a
+pacemaker according to the grand challenge provided by Boston
+Scientific in this area. This is the last of a series of VDM models
+of the pacemaker and it incorporates a number of modes for the 
+pacemaker. More information can be found in:
+
+Hugo Macedo, Validating and Understanding Boston Scientific Pacemaker
+Requirements, MSc thesis, Minho University, Portugal, October 2007.
+
+Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald, Incremental 
+Development of a Distributed Real-Time Model of a Cardiac Pacing System 
+using VDM, In FM 2008: Formal Methods, 15th International Symposium on 
+Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
+Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World("tests/scenarioGoodHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()|
+
+
 ###Accelerometer.vdmpp
 
 {% raw %}
@@ -19,7 +39,8 @@ operations
  public  stimulate : ActivityData ==> () stimulate (a) == Pacemaker`rateController.stimulate(a);
 end Accelerometer
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###BaseThread.vdmpp
 
@@ -34,7 +55,8 @@ public SetPeriod : nat1 ==> ()SetPeriod(p) ==  period := p;
 Step : () ==> ()Step() ==  is subclass responsibility
 thread (if isPeriodic  then (while true        do          (Step();          World`timerRef.WaitRelative(period);         )       )  else (Step();        World`timerRef.WaitRelative(0);        World`timerRef.UnRegisterThread();       ) );
 end BaseThread
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmpp
 
@@ -81,7 +103,8 @@ per isFinished => not busy;
 end Environment
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###GLOBAL.vdmpp
 
@@ -104,7 +127,8 @@ types
 -- Timepublic Time = nat;
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HeartController.vdmpp
 
@@ -140,7 +164,8 @@ per isFinished => sensed = {|->} and finished;
 mutex(sensorNotify,pace);
 end HeartController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Lead.vdmpp
 
@@ -175,7 +200,8 @@ sync
 mutex(Step);mutex(addLeadPace);mutex(dischargePulse);
 end Lead 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Pacemaker.vdmpp
 
@@ -194,7 +220,8 @@ class Pacemaker
  public static  heartController     : HeartController := new HeartController(1000, true);
 end Pacemaker
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RateController.vdmpp
 
@@ -232,7 +259,8 @@ values
 --V-LOW 1--LOW 2--MED-LOW 4MED : ActivityData = 4;--MED-HIGH 4--HIGH 6--V-HIGH 6
 end RateController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TimeStamp.vdmpp
 
@@ -265,7 +293,8 @@ mutex(IsInitialising);mutex(DoneInitialising);  -- Is this really needed?  mu
   mutex(AddToWakeUpMap, NotifyThread);  mutex(AddToWakeUpMap, BarrierReached);  mutex(NotifyThread, BarrierReached);
   mutex(AddToWakeUpMap, NotifyThread, BarrierReached);
 end TimeStamp
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmpp
 
@@ -289,5 +318,6 @@ public Run: () ==> ()Run () ==   (   --start(env);    timerRef.DoneInitialis
 
 end World
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

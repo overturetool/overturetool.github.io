@@ -1,12 +1,18 @@
 ---
 layout: default
-title: SAFERProof
+title: SAFERProofPP
 ---
 
-~~~
+Author: Sten Agerholm
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#AUTHOR= Sten Agerholm#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new SAFERSys().BigTest()#ENTRY_POINT=new SAFERSys().HugeTest()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new SAFERSys().BigTest()|
+|Entry point     :| new SAFERSys().HugeTest()|
+
+
 ###saferproof.vdmpp
 
 {% raw %}
@@ -72,5 +78,6 @@ operations
 public BigTest: () ==> map (SwitchPositions * HandGripPosition * RotCommand) to (ThrusterSet * SAFER * AAH)BigTest() ==  let switch_positions : set of SwitchPositions = {mk_SwitchPositions(mode,aah) | mode in set {<Tran>,<Rot>}, aah in set {<Up>,<Down>}},      grip_positions : set of HandGripPosition = {mk_HandGripPosition(vert,horiz,trans,twist) |                                                  vert, horiz, trans, twist in set axis_command_set &                                                  vert = <Zero> and horiz = <Zero> and trans = <Zero> or                                                   vert = <Zero> and horiz = <Zero> and twist = <Zero> or                                                   vert = <Zero> and trans = <Zero> and twist = <Zero> or                                                   horiz = <Zero> and trans = <Zero> and twist = <Zero>},      all_rot_commands : set of RotCommand = {{<Roll> |-> a, <Pitch> |-> b, <Yaw> |-> c} | a, b, c in set axis_command_set},           safer : SAFER = mk_SAFER(0),      aah : AAH = mk_AAH({},{},<AAH_off>,0)  in     (return {mk_(switch,grip,aah_law) |-> ControlCycle(switch,grip,aah_law,safer,aah) |             switch in set switch_positions,              grip in set grip_positions,              aah_law in set all_rot_commands}    );
 public HugeTest: () ==> map (SwitchPositions * HandGripPosition * RotCommand) to (ThrusterSet * SAFER * AAH)HugeTest() ==   let switch_positions : set of SwitchPositions = {mk_SwitchPositions(mode,aah) | mode in set {<Tran>,<Rot>}, aah in set {<Up>,<Down>}},      all_grip_positions : set of HandGripPosition = {mk_HandGripPosition(vert,horiz,trans,twist) |                                                   vert, horiz, trans, twist in set axis_command_set},      all_rot_commands : set of RotCommand = {{<Roll> |-> a, <Pitch> |-> b, <Yaw> |-> c} | a, b, c in set axis_command_set},           safer : SAFER = mk_SAFER(0),      aah : AAH = mk_AAH({},{},<AAH_off>,0)   in    (return {mk_(switch,grip,aah_law) |-> ControlCycle(switch,grip,aah_law,safer,aah) |             switch in set switch_positions,              grip in set all_grip_positions,              aah_law in set all_rot_commands}    );
 end SAFERSys
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,14 +1,27 @@
 ---
 layout: default
-title: STV
+title: STVSL
 ---
 
-~~~
-This model aims to model a single transferable voting system used for electronic voting. It is further described in the following papers:  
-P. Mukherjee and B.A. Wichmann. Formal Specification of the STV Algorithm. InM.G. Hinchey and J. P. Bowen, editors, Applications of Formal Methods. PrenticeHall, 1995.
-Paul Mukherjee,  Automatic translation of VDM-SL specifications into gofer, Springer, Lecture Notes in Computer Science, Volume Volume 1313/1997 Book FME '97: Industrial Applications and Strengthened Foundations of Formal Methods 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Paul Mukherjee#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Paul Mukherjee
+
+
+This model aims to model a single transferable voting system used for electronic 
+voting. It is further described in the following papers:  
+ 
+P. Mukherjee and B.A. Wichmann. Formal Specification of the STV Algorithm. In
+M.G. Hinchey and J. P. Bowen, editors, Applications of Formal Methods. Prentice
+Hall, 1995.
+
+Paul Mukherjee,  Automatic translation of VDM-SL specifications into gofer, 
+Springer, Lecture Notes in Computer Science, Volume Volume 1313/1997 
+Book FME '97: Industrial Applications and Strengthened Foundations of 
+Formal Methods 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###stv.vdmsl
 
 {% raw %}
@@ -109,5 +122,6 @@ CONDUCT_ELECTION: Parcel ==> Result_sheetCONDUCT_ELECTION(votes) ==    (PREPAR
 CHANGE_STATUS_OF_ELECTED_CANDIDATES:() ==> ()CHANGE_STATUS_OF_ELECTED_CANDIDATES() ==  let xs_quota_scs = {sc.name | sc in set elems hd stages & sc.count                        >= quota} in  def candidates_satisfying_quota = {candidate | candidate in set         continuing & candidate.name in set xs_quota_scs} in     (elected := candidates_satisfying_quota union elected;     continuing := continuing \ candidates_satisfying_quota)pre number_of_candidates_satisfying_quota(continuing,stages,quota) <=      number_of_remaining_vacancies({e.name | e in set elected})
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

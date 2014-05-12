@@ -1,13 +1,32 @@
 ---
 layout: default
-title: KLV
+title: KLVPP
 ---
 
-~~~
-This example describes a VDM++ specification of a KLV system. Thepurpose of the KLV system is to provide a continuous monitoring of thespeed of a train. The VDM++ specification is inspired by a KLVdescription provided to the EP26538 FMERail project as case study byAtelier B.  This model shows an example of how an informal descriptioncan be translated into a precise model that together with a graphicalfront-end can be used to ensure that the customer and the developerhave a common interpretation of the system under development.
-The focus of the model is on the logic of the KLV systems when a trainmeets speed restriction beacons along the tracks, i.e. on events thattriggers the KLV system. Issues such as how to determine whether abeacon has been met within a certain distance calculated from speedhas been abstracted in away in the current model. They could be issuesto extend the model with.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Niels Kirkegaard#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= new UseKLV().Seq1()#ENTRY_POINT= #EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Niels Kirkegaard
+
+
+This example describes a VDM++ specification of a KLV system. The
+purpose of the KLV system is to provide a continuous monitoring of the
+speed of a train. The VDM++ specification is inspired by a KLV
+description provided to the EP26538 FMERail project as case study by
+Atelier B.  This model shows an example of how an informal description
+can be translated into a precise model that together with a graphical
+front-end can be used to ensure that the customer and the developer
+have a common interpretation of the system under development.
+
+The focus of the model is on the logic of the KLV systems when a train
+meets speed restriction beacons along the tracks, i.e. on events that
+triggers the KLV system. Issues such as how to determine whether a
+beacon has been met within a certain distance calculated from speed
+has been abstracted in away in the current model. They could be issues
+to extend the model with.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new UseKLV().Seq1()|
+
+
 ###Beacon.vdmpp
 
 {% raw %}
@@ -16,7 +35,8 @@ The focus of the model is on the logic of the KLV systems when a trainmeets spe
 class Beacon
 end Beacon
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CabDisplay.vdmpp
 
@@ -38,7 +58,8 @@ operations
   public  getDisplay: () ==> bool * bool * bool  getDisplay () ==    return mk_(alarm, emergencybreak, groundfault);
 end CabDisplay
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CheckSpeedEvent.vdmpp
 
@@ -53,7 +74,8 @@ operations
   public  execute : KLV ==> Test`TestResult  execute (klv) ==    ( klv.checkSpeed(speed);      let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),          e' =  klv.getEmergencyBreak().getEmergencyBreak() in      return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g),                               mk_Test`EmerBreak(e')) );
 end CheckSpeedEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###EmergencyBreak.vdmpp
 
@@ -69,7 +91,8 @@ operations
   public  getEmergencyBreak : () ==> bool  getEmergencyBreak () ==    return emergencybreak;
 end EmergencyBreak
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Event.vdmpp
 
@@ -81,7 +104,8 @@ operations
   public  execute : KLV ==> Test`TestResult  execute (-) ==    is subclass responsibility;
 end Event
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FLTV.vdmpp
 
@@ -91,7 +115,8 @@ end Event
 class FLTV is subclass of Beacon
 end FLTV
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HeadMeetBeaconEvent.vdmpp
 
@@ -106,7 +131,8 @@ operations
   public  execute : KLV ==> Test`TestResult  execute (klv) ==    ( klv.headMeetsBeacon(beacon);       let anns = klv.getAnnouncements(),          restr = klv.getSpeedRestrictions() in      return mk_Test`BeaconsMet(            [ mk_Test`TIVD(anns(i).getTargetSpeed())  |               i in set inds anns ],            [ mk_Test`TIVE(restr(i).getSpeedRestriction()) |              i in set inds restr ]) );
 end HeadMeetBeaconEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###KLV.vdmpp
 
@@ -140,7 +166,8 @@ publicgetAnnouncements: () ==> seq of TIV_DgetAnnouncements () ==  return ann
 publicgetSpeedRestrictions: () ==> seq of TIV_EgetSpeedRestrictions () ==  return speedrestrictions;
 end KLV
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###KLVStateEvent.vdmpp
 
@@ -152,7 +179,8 @@ operations
   public  execute : KLV ==> Test`TestResult  execute (klv) ==    (let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),         e' =  klv.getEmergencyBreak().getEmergencyBreak() in     return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g),                              mk_Test`EmerBreak(e')) );
 end KLVStateEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MaxSpeedEvent.vdmpp
 
@@ -164,7 +192,8 @@ operations
   public  execute : KLV ==> Test`TestResult  execute (klv) ==    ( let ms = klv.getMaxSpeed() in      return mk_Test`MaxSpeed(ms) );
 end MaxSpeedEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NoBeaconMetEvent.vdmpp
 
@@ -176,7 +205,8 @@ operations
   public  execute : KLV ==> Test`TestResult  execute (klv) ==    ( klv.noBeaconMet();      let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),          e' =  klv.getEmergencyBreak().getEmergencyBreak() in       return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g),                                mk_Test`EmerBreak(e')) );
 end NoBeaconMetEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###OnBoardComp.vdmpp
 
@@ -192,7 +222,8 @@ functions
   public  checkSpeed : real * real -> AlarmLevel  checkSpeed (speed, maxspeed) ==    if speed < maxspeed + AlarmSpeedAdd    then <SpeedOk>    elseif speed < maxspeed + EmergencySpeedAdd    then <AlarmSpeed>    else <EmergencyBreakSpeed>
 end OnBoardComp
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TailMeetBeaconEvent.vdmpp
 
@@ -207,7 +238,8 @@ operations
   public  execute : KLV ==> Test`TestResult  execute (klv) ==    ( klv.tailMeetsBeacon(beacon);       let anns = klv.getAnnouncements(),          restr = klv.getSpeedRestrictions() in        return mk_Test`BeaconsMet(            [ mk_Test`TIVD(anns(i).getTargetSpeed())  |              i in set inds anns ],            [ mk_Test`TIVE(restr(i).getSpeedRestriction()) |              i in set inds restr ]) );
 end TailMeetBeaconEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmpp
 
@@ -231,7 +263,8 @@ operations
   public  runOneTest : Event ==> TestResult  runOneTest (event) ==    return event.execute(klv)--  pre isofclass() => ;
 end Test
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TIV_A.vdmpp
 
@@ -241,7 +274,8 @@ end Test
 class TIV_A is subclass of Beacon
 end TIV_A
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TIV_D.vdmpp
 
@@ -255,7 +289,8 @@ operations
   public  getTargetSpeed : () ==> real  getTargetSpeed () ==    return targetspeed;
 end TIV_D
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TIV_E.vdmpp
 
@@ -270,7 +305,8 @@ operations
   public  getSpeedRestriction : () ==> real  getSpeedRestriction () ==    return speed  pre speed <> nil;
 end TIV_E
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###useKLV.vdmpp
 
@@ -285,5 +321,6 @@ traces
 Seq1 : let ev1 in set ev_s       in        let ev2 in set ev_s \ {ev1}        in         let ev3 in set ev_s  \ {ev1,ev2}         in          let ev4 in set ev_s \ {ev1,ev2,ev3}          in            let ev5 in set ev_s \ {ev1,ev2,ev3,ev4}            in           let ev6 in set ev_s \ {ev1,ev2,ev3,ev4,ev5}           in          (test.runOneTest(ev1);           test.runOneTest(ev2);           test.runOneTest(ev3);           test.runOneTest(ev1);           test.runOneTest(ev4);           test.runOneTest(ev5);           test.runOneTest(ev6)) --[ev1,ev2,ev3,ev4,ev5,ev4,ev5,ev6])
 
 end UseKLV
-~~~{% endraw %}
+~~~
+{% endraw %}
 

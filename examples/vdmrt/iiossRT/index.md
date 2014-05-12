@@ -1,11 +1,20 @@
 ---
 layout: default
-title: iioss
+title: iiossRT
 ---
 
-~~~
-This project was made by Christian Thillemann and Bardur Joensen in aVDM course. It is modelling a small subset of a controller for a pig stable that wish to keep track of the whereabouts of a collection of pigsin a stable.#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Christian Thillemann and Bardur Joensen#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World().Run()#LIB=IO;VDMUtil#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Christian Thillemann and Bardur Joensen
+
+
+This project was made by Christian Thillemann and Bardur Joensen in a
+VDM course. It is modelling a small subset of a controller for a pig 
+stable that wish to keep track of the whereabouts of a collection of pigs
+in a stable.|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###Actuator.vdmrt
 
 {% raw %}
@@ -16,7 +25,8 @@ instance variables	actuatorID : nat;operations	public Actuator: (nat) ==> Act
 	public SetValues : EventId * PigPosition ==> ()	SetValues(eventId, val) == 	(							-- eventID, eventType, text, eventTime		World`env.handleEvent(eventId, <SHOW_PIG>,                               " PigPosition " ^ VDMUtil`val2seq_of_char[PigPosition](val),                               time);	);sync	mutex(SetValues);end Actuator
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmrt
 
@@ -50,7 +60,8 @@ thread	periodic (1000E6,10,900,0) (createSignal)
 end Environment
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###IIOSS.vdmrt
 
@@ -77,7 +88,8 @@ operationspublic IIOSS: () ==> IIOSSIIOSS () ==(	cpu1.deploy(server);	-- St
 end IIOSS
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###iiosstypes.vdmrt
 
@@ -94,7 +106,8 @@ operations	static public DebugPrint: seq of char ==> ()	DebugPrint(text) ==	(
 end IIOSSTYPES
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Sensor.vdmrt
 
@@ -109,7 +122,8 @@ operations	public Sensor: StableController ==> Sensor	Sensor(controller) == 	
 end Sensor
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Server.vdmrt
 
@@ -133,7 +147,8 @@ sync	mutex(AddPig);	mutex(RemovePig);	mutex(RemovePig,AddPig);    mutex(Need
 thread	periodic (1000E6,0,0,0) (NeedMedic)end Server
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###StableController.vdmrt
 
@@ -158,7 +173,106 @@ sync	mutex(AddSensor);	mutex(AddActuator);	mutex(RemovePig,AddPig);	mutex(Ad
 end StableController
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
+
+###IIOSSTest.vdmrt
+
+{% raw %}
+~~~
+
+class IIOSSTestoperations	public Execute: () ==> ()	Execute () ==	    (dcl ts : TestSuite := new TestSuite();	     ts.AddTest(new IIOSSTestCase2("Unit test"));	     ts.Run()		)
+end IIOSSTest
+
+~~~
+{% endraw %}
+
+###IIOSSTestCase2.vdmrt
+
+{% raw %}
+~~~
+
+class IIOSSTestCase2 is subclass of TestCaseinstance variables	world : World;	stbCtr : StableController;
+operations	public IIOSSTestCase2: seq of char ==> IIOSSTestCase2	IIOSSTestCase2(nm) == name := nm;
+	protected SetUp: () ==> ()	SetUp () == --skip;	(		world := new World();		stbCtr := new StableController(IIOSS`server);	);
+	-- inline = EventId * EventType * PigId * [Position] * PigStyId * Time;	protected RunTest: () ==> ()	RunTest () ==     (    	ServerTest();    	EnvTest();    );
+    private ServerTest : () ==> ()    ServerTest() ==    (    	(dcl serv : Server := new Server();    		serv.PointAtPig(1,1);    	    	    		world.env.showResult();
+    	let reaction = world.env.GetAndPurgeOutlines()  		in   			AssertTrue(len reaction = 1);  		    	
+  			serv.AddPig(1, stbCtr);  			AssertTrue(serv.GetNoPigs() = 1);  			  			
+  			serv.RemovePig(3);  			AssertFalse(serv.GetNoPigs() = 0);
+  			serv.RemovePig(1);  			AssertTrue(serv.GetNoPigs() = 0);  		)
+    );
+    private EnvTest: () ==> ()    EnvTest() ==    (    	let env = world.env    	in    	(    		--env.addServer(serv);    		AssertTrue(IIOSS`server = env.getServer());
+    		AssertTrue(env.getNoSensors() = 4);    	)    );
+
+	protected TearDown: () ==> ()	TearDown () == skip
+end IIOSSTestCase2
+
+~~~
+{% endraw %}
+
+###Test.vdmrt
+
+{% raw %}
+~~~
+
+class Test
+operations	public Run: TestResult ==> ()	Run (-) == is subclass responsibility
+end Test
+
+~~~
+{% endraw %}
+
+###TestCase.vdmrt
+
+{% raw %}
+~~~
+
+class TestCase  is subclass of Test
+instance variables  protected name : seq of char
+operations	public TestCase: seq of char ==> TestCase	TestCase(nm) == name := nm;
+	public GetName: () ==> seq of char	GetName () == return name;
+	protected AssertTrue: bool ==> ()	AssertTrue (pb) == if not pb then exit <FAILURE>;
+	protected AssertFalse: bool ==> ()	AssertFalse (pb) == if pb then exit <FAILURE>;
+	public Run: TestResult ==> ()	Run (ptr) == 	    trap <FAILURE>	      with 	        ptr.AddFailure(self)	      in	        (SetUp();		 RunTest();		 TearDown());
+	protected SetUp: () ==> ()	SetUp () == is subclass responsibility;
+	protected RunTest: () ==> ()	RunTest () == is subclass responsibility;
+	protected TearDown: () ==> ()	TearDown () == is subclass responsibility
+end TestCase
+
+~~~
+{% endraw %}
+
+###TestResult.vdmrt
+
+{% raw %}
+~~~
+
+--The class \vdmstyle{TestResult} maintains a collection--of references to test cases that have failed. The--exception handler defined in the operation \vdmstyle{Run}--of class \vdmstyle{TestCase} calls the operation--\vdmstyle{AddResult}, which will append the object--reference of the test case to the tail of the sequence--\vdmstyle{failures}. The operation \vdmstyle{Show} is used--to print a list of test cases that have failed or--provide a message to indicate that no failures were--found. Note that the standard I/O library, which is--supplied with \vdmtools, is used here. \vdmstyle{IO.echo}--prints a string on the standard output, just like --\vdmstyle{System.out.println} in Java. The \emph{def--statement} is used to suppress the boolean value --returned by \vdmstyle{IO.echo}:\sindex{IO standard library}
+class TestResult
+instance variables  failures : seq of TestCase := []
+operations	public AddFailure: TestCase ==> ()	AddFailure (ptst) == failures := failures ^ [ptst];
+	public Print: seq of char ==> ()	Print (pstr) ==		def - = new IO().echo(pstr ^ "\n") in skip;
+	public Show: () ==> ()	Show () ==	    if failures = [] then	      Print ("No failures detected")	    else	      for failure in failures do	        Print (failure.GetName() ^ " failed")
+end TestResult
+
+~~~
+{% endraw %}
+
+###TestSuite.vdmrt
+
+{% raw %}
+~~~
+
+class TestSuite  is subclass of Test
+instance variables  tests : seq of Test := [];
+operationspublic Run: () ==> ()  Run () ==    (dcl ntr : TestResult := new TestResult();     Run(ntr);     ntr.Show());
+public Run: TestResult ==> ()  Run (result) ==    for test in tests do      test.Run(result);
+public AddTest: Test ==> ()  AddTest(test) ==    tests := tests ^ [test];
+end TestSuite
+
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -185,5 +299,6 @@ operations
 end World
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

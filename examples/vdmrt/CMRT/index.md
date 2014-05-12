@@ -1,11 +1,21 @@
 ---
 layout: default
-title: CM
+title: CMRT
 ---
 
-~~~
-This example is used in the guidelines for developing distributed real time systems using the VICE extension to VDM++. This model is available in a sequential version, a concurrent version aswell as in a distributed real-time VICE version. This is the distributed real time version of this example. #******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Peter Gorm Larsen and Marcel Verhoef#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World().Run()#LIB=IO#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Peter Gorm Larsen and Marcel Verhoef
+
+
+This example is used in the guidelines for developing distributed 
+real time systems using the VICE extension to VDM++. This model 
+is available in a sequential version, a concurrent version as
+well as in a distributed real-time VICE version. This is the 
+distributed real time version of this example. |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###BaseRTThread.vdmrt
 
 {% raw %}
@@ -22,7 +32,8 @@ Step : () ==> ()Step() ==  is subclass responsibility;
 thread
 periodic(period, jitter, delay, offset)(Step);
 end BaseRTThread
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CMTest.vdmrt
 
@@ -32,7 +43,8 @@ end BaseRTThread
 class CMTestoperations  public Execute: () ==> ()  Execute () ==    (dcl ts : TestSuite := new TestSuite();     ts.AddTest(new CMTestCase2("Busy"));     ts.Run())
 end CMTest
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CMTestCase2.vdmrt
 
@@ -46,7 +58,8 @@ operations  public CMTestCase2: seq of char ==> CMTestCase2  CMTestCase2(nm) =
   protected TearDown: () ==> ()  TearDown () == skip
 end CMTestCase2
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###environment.vdmrt
 
@@ -76,7 +89,8 @@ sync
 mutex (handleEvent);mutex (createSignal);per isFinished => not busy;
 end Environment
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###fighteraircraft.vdmrt
 
@@ -107,7 +121,8 @@ public CM: () ==> CMCM () ==  (cpu3.deploy(detector);--   cpu3.setPriority(Mi
    -- add the third controller with four dispensers   cpu3.deploy(controller2);   -- add the dispensers to the controller   cpu6.deploy(dispenser8);--   cpu6.setPriority(FlareDispenser`addThreat,100);--   cpu6.setPriority(FlareDispenser`evalQueue,80);   cpu6.deploy(dispenser9);   cpu6.deploy(dispenser10);   cpu6.deploy(dispenser11);   )
 end CM
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###flarecontroller.vdmrt
 
@@ -134,7 +149,8 @@ sync
 -- getThreat is used as a 'blocking read' from the main-- thread of control of the missile detectorper getThreat => len threats > 0;per isFinished => not busy
 end FlareController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###flaredispenser.vdmrt
 
@@ -162,7 +178,8 @@ sync
 mutex (addThreat,Step);per isFinished => not busy;
 end FlareDispenser
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###global.vdmrt
 
@@ -180,7 +197,8 @@ operations  public canObserve: Angle * Angle * Angle ==> bool  canObserve (pan
   public getAperture: () ==> Angle * Angle  getAperture () == is subclass responsibility;
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###missiledetector.vdmrt
 
@@ -205,7 +223,8 @@ sync
 -- getThreat is used as a 'blocking read' from the main-- thread of control of the missile detectorper getThreat => len threats > 0;per isFinished => not busy
 end MissileDetector
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RTTimeStamp.vdmrt
 
@@ -224,7 +243,8 @@ public DoneInitialising: () ==> ()DoneInitialising() == (if isInitialising  t
 sync 
 mutex (RegisterThread);mutex (UnRegisterThread);mutex (RegisterThread, UnRegisterThread);mutex (IsInitialising);mutex (DoneInitialising);
 end RTTimeStamp
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###sensor.vdmrt
 
@@ -241,7 +261,8 @@ public Sensor: MissileDetector * Angle ==> SensorSensor (pmd, psa) == ( detecto
 -- trip is called asynchronously from the environment to-- signal an event. the sensor triggers if the event is-- in the field of view. the event is stored in the-- missile detector for further processingasync public trip: EventId * MissileType * Angle ==> ()trip (evid, pmt, pa) ==  -- log and time stamp the observed threat  detector.addThreat(evid,pmt,pa,time)pre canObserve(pa, aperture, SENSOR_APERTURE)
 end Sensor
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmrt
 
@@ -252,7 +273,8 @@ class Test
 operations  public Run: TestResult ==> ()  Run (-) == is subclass responsibility
 end Test
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestCase.vdmrt
 
@@ -271,7 +293,8 @@ operations  public TestCase: seq of char ==> TestCase  TestCase(nm) == name :=
   protected TearDown: () ==> ()  TearDown () == is subclass responsibility
 end TestCase
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestResult.vdmrt
 
@@ -285,7 +308,8 @@ operations  public AddFailure: TestCase ==> ()  AddFailure (ptst) == failures 
   public Show: () ==> ()  Show () ==    if failures = [] then      Print ("No failures detected")    else      for failure in failures do        Print (failure.GetName() ^ " failed")
 end TestResult
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestSuite.vdmrt
 
@@ -299,7 +323,8 @@ operations  public Run: () ==> ()  Run () ==    (dcl ntr : TestResult := new 
   public AddTest: Test ==> ()  AddTest(test) ==    tests := tests ^ [test];
 end TestSuite
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###world.vdmrt
 
@@ -317,5 +342,6 @@ public World: () ==> WorldWorld () ==  (-- set-up the sensors   env := new En
 -- the run function blocks the user-interface thread-- until all missiles in the file have been processedpublic Run: () ==> ()Run () ==   (-- start the environment    timerRef.DoneInitialising();   -- wait for the environment to handle all input   env.isFinished();   -- wait for the missile detector to finish   CM`detector.isFinished();   -- print the result   env.showResult())
 end World
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

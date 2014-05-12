@@ -1,13 +1,21 @@
 ---
 layout: default
-title: concfactorial
+title: concfactorialPP
 ---
 
-~~~
+Author: Nick Battle
 
-This example is made by Nick Battle and it illustrates how one can perform the traditional factorial functionality using the concurrencyprimitives in VDM++.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Nick Battle#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Factorial().factorial(20)#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+
+This example is made by Nick Battle and it illustrates how one can 
+perform the traditional factorial functionality using the concurrency
+primitives in VDM++.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Factorial().factorial(20)|
+
+
 ###concfactorial.vdmpp
 
 {% raw %}
@@ -23,5 +31,6 @@ sync	-- cyclic constraints allowing only the	-- sequence calculate; doit; give
 	per doit => #fin (calculate) > #act(doit);	per giveResult => #fin (doit) > #act (giveResult);	per calculate => #fin (giveResult) = #act (calculate)
 thread	doit(); 
 end Multiplier
-~~~{% endraw %}
+~~~
+{% endraw %}
 

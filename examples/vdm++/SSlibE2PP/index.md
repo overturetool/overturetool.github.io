@@ -1,12 +1,20 @@
 ---
 layout: default
-title: SSlibE2
+title: SSlibE2PP
 ---
 
-~~~
-This example contains a large collection of test classes that can beused to test different aspects of VDM++. This makes use of the VDMUnit test approach.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#AUTHOR= Shin Sahara#ENCODING=UTF-8#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new AllT().run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#LIB=IO, MATH, VDMUtil#VM_ARGUMENTS=Xmx1024M,Xss20M#******************************************************
-~~~
+Author: Shin Sahara
+
+
+This example contains a large collection of test classes that can be
+used to test different aspects of VDM++. This makes use of the VDMUnit 
+test approach.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new AllT().run()|
+
+
 ###AllT.vdmpp
 
 {% raw %}
@@ -15,7 +23,8 @@ This example contains a large collection of test classes that can beused to tes
 	in	if   forall i in set inds ResultOfTest & ResultOfTest(i) then		return new TestLogger().succeededInAllTestcases(Message)	else		return new TestLogger().notSucceededInAllTestcases(Message)
 end AllT
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Calendar.vdmpp
 
@@ -140,7 +149,8 @@ public getSetOfDayOff: int ==> set of Date getSetOfDayOff(aYear) == 	(	if not
 --todayã®dateãæå®ããreadFromFileãpublic readFromFiletoday: seq of char ==> DatereadFromFiletoday(fname) == 	if iToday = nil then		return readToday(fname)		else		return iToday;
 public setToday : Date ==> ()setToday(date) == iToday := date;
 end Calendar
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CalendarT.vdmpp
 
@@ -159,7 +169,8 @@ end CalendarT09
 class CalendarT10 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	jc = new JapaneseCalendar()	in	return		jc.getLastDayOfMonth(2004, 1).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 1, 31)) and		jc.getLastDayOfMonth(2004, 2).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 2, 29)) and		jc.getLastDayOfMonth(2004, 3).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 3, 31)) and		jc.getLastDayOfMonth(2004, 4).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 4, 30)) and		jc.getLastDayOfMonth(2004, 5).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 5, 31)) and		jc.getLastDayOfMonth(2004, 6).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 6, 30)) and		jc.getLastDayOfMonth(2004, 7).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 7, 31)) and		jc.getLastDayOfMonth(2004, 8).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 8, 31)) and		jc.getLastDayOfMonth(2004, 9).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 9, 30)) and		jc.getLastDayOfMonth(2004, 10).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 10, 31)) and		jc.getLastDayOfMonth(2004, 11).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 11, 30)) and		jc.getLastDayOfMonth(2004, 12).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 12, 31)) and		jc.getLastDayOfMonth(2003, 13).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 1, 31)) and		jc.getLastDayOfMonth(2003, 8+6).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 2, 29)) and		jc.getLastDayOfMonth(2003, 15).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 3, 31)) and		jc.getLastDayOfMonth(2003, 16).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 4, 30)) and		jc.getLastDayOfMonth(2003, 17).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 5, 31)) and		jc.getLastDayOfMonth(2003, 18).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 6, 30)) and		jc.getLastDayOfMonth(2003, 19).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 7, 31)) and		jc.getLastDayOfMonth(2003, 20).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 8, 31)) and		jc.getLastDayOfMonth(2003, 21).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 9, 30)) and		jc.getLastDayOfMonth(2003, 22).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 10, 31)) and		jc.getLastDayOfMonth(2003, 23).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 11, 30)) and		jc.getLastDayOfMonth(2003, 24).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 12, 31)) and		jc.getLastDayOfMonth(2005, 2).EQ(jc.getDateFrom_yyyy_mm_dd(2005, 2, 28))	;protected setUp: () ==> ()setUp() == TestName := "CalendarT10:\tGet the end of month.";protected tearDown: () ==> ()tearDown() == return;end CalendarT10
 class CalendarT11 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	jc = new JapaneseCalendar()	in	return		jc.getRegularDate(2004, 1, 1).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 1, 1)) and		jc.getRegularDate(2003, 12, 32).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 1, 1)) and		jc.getRegularDate(2003, 24, 32).EQ(jc.getDateFrom_yyyy_mm_dd(2005, 1, 1)) and		jc.getRegularDate(2003, 13, 1).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 1, 1)) and		jc.getRegularDate(2004, 1, 32).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 2, 1)) and		jc.getRegularDate(2004, 2, 0).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 1, 31)) and		jc.getRegularDate(2004, 2, 28).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 2, 28)) and		jc.getRegularDate(2004, 2, 29).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 2, 29)) and		jc.getRegularDate(2004, 3, 0).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 2, 29)) and		jc.getRegularDate(2004, 3, -1).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 2, 28)) and		jc.getRegularDate(2003, 2, 29).EQ(jc.getDateFrom_yyyy_mm_dd(2003, 3, 1)) and		jc.getRegularDate(2004, 4, 1).EQ(jc.getDateFrom_yyyy_mm_dd(2004, 4, 1)) and		jc.getRegularDate(2004, 0, 1).EQ(jc.getDateFrom_yyyy_mm_dd(2003, 12, 1)) and		jc.getRegularDate(2004, -1, 1).EQ(jc.getDateFrom_yyyy_mm_dd(2003, 11, 1)) and		jc.getRegularDate(2004, -10, 29).EQ(jc.getDateFrom_yyyy_mm_dd(2003, 3, 1)) and		jc.getRegularDate(2004, -10, 28).EQ(jc.getDateFrom_yyyy_mm_dd(2003, 2, 28)) and		jc.getRegularDate(2004, -11, 1).EQ(jc.getDateFrom_yyyy_mm_dd(2003, 1, 1)) and		jc.getRegularDate(2004, -12, 1).EQ(jc.getDateFrom_yyyy_mm_dd(2002, 12, 1))	;protected setUp: () ==> ()setUp() == TestName := "CalendarT11:\tgetRegularDate";protected tearDown: () ==> ()tearDown() == return;end CalendarT11
 class CalendarT12 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	jc = new JapaneseCalendar()	in	return		jc.getRegularMonth(2004, 1) = mk_(2004, 1) and		jc.getRegularMonth(2004, 2) = mk_(2004, 2) and		jc.getRegularMonth(2004, 3) = mk_(2004, 3) and		jc.getRegularMonth(2004, 4) = mk_(2004, 4) and		jc.getRegularMonth(2004, 5) = mk_(2004, 5) and		jc.getRegularMonth(2004, 6) = mk_(2004, 6) and		jc.getRegularMonth(2004, 7) = mk_(2004, 7) and		jc.getRegularMonth(2004, 8) = mk_(2004, 8) and		jc.getRegularMonth(2004, 9) = mk_(2004, 9) and		jc.getRegularMonth(2004, 10) = mk_(2004, 10) and		jc.getRegularMonth(2004, 11) = mk_(2004, 11) and		jc.getRegularMonth(2004, 12) = mk_(2004, 12) and		jc.getRegularMonth(2004, 13) = mk_(2005, 1)  and		jc.getRegularMonth(2004, 14) = mk_(2005, 2) and		jc.getRegularMonth(2004, 24) = mk_(2005, 12) and		jc.getRegularMonth(2004, 25) = mk_(2006, 1) and		jc.getRegularMonth(2004, 0) = mk_(2003, 12) and		jc.getRegularMonth(2004, -1) = mk_(2003, 11) and		jc.getRegularMonth(2004, -10) = mk_(2003, 2) and		jc.getRegularMonth(2004, -11) = mk_(2003, 1) and		jc.getRegularMonth(2004, -12) = mk_(2002, 12) and		jc.getRegularMonth(2004, -13) = mk_(2002, 11)	;protected setUp: () ==> ()setUp() == TestName := "CalendarT12:\tgetRegularMonth";protected tearDown: () ==> ()tearDown() == return;end CalendarT12
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Character.vdmpp
 
@@ -187,7 +198,8 @@ static public GT2 : char -> char -> boolGT2(c1)(c2) == Character`LT2(c2)(c1);
 static public GE : char * char -> boolGE(c1, c2) == Character`GE2(c1)(c2);
 static public GE2 : char -> char -> boolGE2(c1)(c2) == not Character`LT2(c1)(c2);
 end Character
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CommonDefinition.vdmpp
 
@@ -201,7 +213,8 @@ public DateOrder : Date * Date -> boolDateOrder(x, y) ==  x.LT(y);
 public AmountOfMoneyOrder : AmountOfMoney * AmountOfMoney -> boolAmountOfMoneyOrder(x, y) == x < y;
 typespublic Identifier = seq of charinv - ==  forall s1, s2 : seq of char, id1, id2 : Identifier & id1 <> id2 => s1 <> s2;public Quantity = int;public NumericalValue = int;public Percent = realinv p == 0 <= p and p <= 100;public AmountOfMoney = int;public NonNegativeAmountOfMoney = nat;public PositiveAmountOfMoney = nat1;public AmountOfMoney2 = real	inv am == new Real().isNDigitsAfterTheDecimalPoint(am,2) ;	-- 2 digits after the decimal point
 end CommonDefinition
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Date.vdmpp
 
@@ -260,7 +273,8 @@ public getModifiedJulianDate: () ==> realgetModifiedJulianDate() == return Modi
 public calendar : () ==> Calendarcalendar() == return usingCalendar;
 --Constructorpublic Date : Calendar * real ==> DateDate(aCal, aModifiedJulianDate) == 	(	usingCalendar := aCal;	setModifiedJulianDate(aModifiedJulianDate);	return self	);
 end Date
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###DateT.vdmpp
 
@@ -274,7 +288,8 @@ class DateT04 is subclass of TestCaseoperations protected test: () ==> boolte
 class DateT05 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	jc = new JapaneseCalendar(),		d0711 = jc.getDateFromString("20010711")	in	(	jc.setToday(jc.getDateFrom_yyyy_mm_dd(2001, 3, 1));	let	d0301 = jc.today()	in	return		d0711.EQ(jc.getDateFrom_yyyy_mm_dd(2001, 7, 11)) and		d0711.NE(jc.getDateFrom_yyyy_mm_dd(2001, 7, 12)) and		jc.EQ(d0711,jc.getDateFrom_yyyy_mm_dd(2001, 7, 11)) and		d0301.LT(d0711) and		jc.LT(d0301, d0711) and		d0711.GT(d0301) and		jc.GT(d0711,d0301) and		d0711.GE(d0711) and d0711.GE(d0301) and		jc.GE(d0711,d0711)  and jc.GE(d0711,d0301) and		d0711.LE(d0711) and d0301.LE(d0711) and		jc.LE(d0711,d0711) and jc.LE(d0301,d0711)	);protected setUp: () ==> ()setUp() == TestName := "DateT05:\tCompare date.date";protected tearDown: () ==> ()tearDown() == return;end DateT05
 class DateT06 is subclass of TestCase, CalendarDefinitionoperations protected test: () ==> booltest() == 	let	jc = new JapaneseCalendar(),		d10010301 = jc.getDateFromString("10010301"),		d0711 = jc.getDateFromString("20010711")	in	(	jc.setToday(jc.getDateFrom_yyyy_mm_dd(2001, 3, 1));	let	d0301 = jc.today()		in	return		jc.firstDayOfTheWeekInMonth(2000,3,<Wed>).get_yyyy_mm_dd() = mk_( 2000,3,1 ) and		jc.firstDayOfTheWeekInMonth(2001,7,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,1 ) and		jc.lastDayOfTheWeekInMonth(2000,2,<Tue>).get_yyyy_mm_dd() = mk_( 2000,2,29 ) and		jc.lastDayOfTheWeekInMonth(2001,7,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,29 ) and		jc.getNthDayOfTheWeek(2001,7,5,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,29 ) and		jc.getNthDayOfTheWeek(2001,7,6,<Sun>) = false and		jc.getNumberOfTheDayOfWeek(d0711,d0301,<Sun>)  = 19 and		jc.getNumberOfTheDayOfWeek(d0711,d10010301,<Sun>)  = 52196		);protected setUp: () ==> ()setUp() == TestName := "DateT06:\tGet the day of the week.";protected tearDown: () ==> ()tearDown() == return;end DateT06
 class DateT07 is subclass of TestCase, CalendarDefinitionoperations protected test: () ==> booltest() == 	let	jc = new JapaneseCalendar()	in	return		jc.isLeapYear(2000) = true and		jc.isLeapYear(2001) = false and		jc.isLeapYear(1996) = true and		jc.isLeapYear(1900) = false and		jc.isLeapYear(1600) = true and		jc.isDateString("sahara") = false and		jc.isDateString("20010723") = true and		jc.isDateString("20011232") = false and		jc.isWeekday(<Mon>) = true and		jc.isWeekday(<Tue>) = true and		jc.isWeekday(<Wed>) = true and		jc.isWeekday(<Thu>) = true and		jc.isWeekday(<Fri>) = true and		jc.isWeekday(<Sat>) = false and		jc.isWeekday(<Sun>) = false and		jc.date2Str(jc.getLastDayOfMonth(2000,2)) = "20000229" and		jc.date2Str(jc.getLastDayOfMonth(2001,2)) = "20010228"	;protected setUp: () ==> ()setUp() == TestName := "DateT07:\tQuery about date.date";protected tearDown: () ==> ()tearDown() == return;end DateT07
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###DoubleListQueue.vdmpp
 
@@ -292,7 +307,8 @@ static fromListMeasure[@T] : seq of @T *  (seq of @T * seq of @T) +> natfromLis
 static public toList[@T] : (seq of @T * seq of @T) -> seq of @TtoList(aaQueue) ==	cases aaQueue:		(mk_([], []))	-> [],		aQueue	-> [top[@T](aQueue)] ^ toList[@T](deQueue[@T](aQueue))	endmeasure toListMeasure;
 static toListMeasure[@T] :  (seq of @T * seq of @T) +> nattoListMeasure(mk_(s1, s2)) == len s1 + len s2;
 end DoubleListQueue
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###DoubleListQueueT.vdmpp
 
@@ -301,7 +317,8 @@ end DoubleListQueue
 class DoubleListQueueT is subclass of TestDriverfunctionspublic tests : () -> seq of TestCasetests () == 	[ new DoubleListQueueT01()	];end DoubleListQueueT
 class DoubleListQueueT01 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	q0 = DoubleListQueue`empty[int](),		q1 = DoubleListQueue`enQueue[int](1, q0),		q2 = DoubleListQueue`enQueue[int](2, q1),		q3 = DoubleListQueue`enQueue[int](3, q2),		h1 = DoubleListQueue`top[int](q3),		q4 = DoubleListQueue`deQueue[int](q3),		q5 = DoubleListQueue`enQueue[int](4, q4),		q6 = DoubleListQueue`enQueue[int](5, q5),		q7 = DoubleListQueue`deQueue[int](q6),		q8 = DoubleListQueue`deQueue[int](q7),		q9 = DoubleListQueue`deQueue[int](q8),		q10 = DoubleListQueue`deQueue[int](q9),		h2 = DoubleListQueue`top[int](q10),		q11 = DoubleListQueue`deQueue[int](q10),		q12 = DoubleListQueue`fromList[char]("Sahara Shin", DoubleListQueue`empty[char]())	in	return		DoubleListQueue`isEmpty[int](q0) and q0 = mk_([], []) and		DoubleListQueue`toList[int](q1) = [1] and q1 = mk_([], [1]) and		DoubleListQueue`toList[int](q2) = [1,2] and q2 = mk_([], [2,1]) and		DoubleListQueue`toList[int](q3) = [1,2,3] and q3 = mk_([], [3,2,1]) and		h1 = 1 and		DoubleListQueue`toList[int](q4) = [2,3] and q4 = mk_([2,3], []) and		DoubleListQueue`toList[int](q5) = [2,3,4] and q5 = mk_([2,3], [4]) and		DoubleListQueue`toList[int](q6) = [2,3,4,5] and q6 = mk_([2,3], [5, 4]) and		DoubleListQueue`toList[int](q7) = [3,4,5] and q7 = mk_([3], [5, 4]) and		DoubleListQueue`toList[int](q8) = [4,5] and q8 = mk_([], [5, 4]) and		DoubleListQueue`toList[int](q9) = [5] and q9 = mk_([5], []) and		DoubleListQueue`toList[int](q10) = [] and DoubleListQueue`isEmpty[int](q10) and q10 = mk_([], []) and		h2 = nil and		q11 = nil and		DoubleListQueue`toList[char](q12) = "Sahara Shin" and q12 = mk_([], "nihS arahaS")
 ;protected setUp: () ==> ()setUp() == TestName := "DoubleListQueueT01:\t Test Queue";protected tearDown: () ==> ()tearDown() == return;end DoubleListQueueT01
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FHashtable.vdmpp
 
@@ -324,7 +341,8 @@ static public Contains[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T2 -> bool
 static public ContainsKey[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T1 -> boolContainsKey(aHashtable)(aKey) == 	let	aMapSet = rng aHashtable		in	if aMapSet <> {} then		exists aMap in set aMapSet & aKey in set dom aMap	else		false;
 end FHashtable
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FHashtableT.vdmpp
 
@@ -347,7 +365,8 @@ static t6 : () -> FTestDriver`TestCaset6() ==
 	mk_FTestDriver`TestCase(	"FHashtableT06:\t Test Size",	let	aHashCode1 = lambda x : int & x mod 13,		remove = FHashtable`Remove[int, seq of char],		h1 = FHashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(				{1 |-> "SaharaShin", 2 |-> "SatoKei", 14 |-> "SakohHiroshi"}			),		h2 = remove(h1)(aHashCode1)(1),		h3 = remove(h2)(aHashCode1)(2),		h4 = remove(h3)(aHashCode1)(14),		isempty = FHashtable`IsEmpty[int, seq of char],		size = FHashtable`Size[int, seq of char]	in	isempty(h4) and	size(h4) = 0 and	isempty(h3)  = false and	size(h3) = 1 and	size(h2) = 2 and	size(h1) = 3)	;
 end FHashtableT
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FMap.vdmpp
 
@@ -361,7 +380,8 @@ static public Contains[@T1, @T2] : map @T1 to @T2 -> @T2 -> boolContains(aMap)(
 static public ContainsKey[@T1, @T2] : map @T1 to @T2 -> @T1 -> boolContainsKey(aMap)(aKey) == aKey in set dom aMap;
 end FMap
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FSequence.vdmpp
 
@@ -420,7 +440,8 @@ static public Zip[@T1, @T2] : seq of @T1 * seq of @T2 -> seq of (@T1 * @T2)Zip(
 static public Zip2[@T1, @T2] : seq of @T1 -> seq of @T2 -> seq of (@T1 * @T2)Zip2(s1)(s2) == 	cases mk_(s1, s2) :	mk_([x1] ^ xs1, [x2] ^ xs2)	-> [mk_(x1, x2)] ^ Zip2[@T1, @T2](xs1)(xs2),	mk_(-, -)				-> []	end;
 end FSequence
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FTestDriver.vdmpp
 
@@ -437,7 +458,8 @@ static public GetTestName: FTestDriver`TestCase +> seq of charGetTestName(t) ==
 end FTestDriver
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FTestLogger.vdmpp
 
@@ -457,7 +479,8 @@ static public Pr : seq of char ==> ()Pr (s) == let - = new IO().echo(s) in skip
 static public Fpr : seq of char ==> ()Fpr (s) == let - = new IO().fecho(historyFileName,  s, <append>) in skip;
 end FTestLogger
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Function.vdmpp
 
@@ -473,7 +496,8 @@ static public Seq[@T] : seq of (@T -> @T) -> @T -> @TSeq(fs)(p) ==	cases fs :
 static public readFn[@T] : seq of char -> [@T]readFn(fname) ==	let 		io = new IO(),		mk_(aResult, f) = io.freadval[@T](fname)	in	if aResult then		f	else		let -= io.echo("Can't read values from the data file = " ^ fname)		in		nil;
 end Function
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FunctionT.vdmpp
 
@@ -485,7 +509,8 @@ class FunctionT02 is subclass of TestCaseoperations protected test: () ==> boo
 class FunctionT03 is subclass of TestCasetypespublic INT = int;public ReadingFunctionType = INT -> INT -> INT;--public ReadingFunctionType = int -> int -> int;
 functionspublic ReadingFunction: () -> ReadingFunctionTypeReadingFunction() == 	let fn =  "./fread-func.txt"	in	Function`readFn[ReadingFunctionType](fn);
 operations protected test: () ==> booltest() == 	return 		ReadingFunction() (3)(2) = 1 and		ReadingFunction() (4)(4) = 0 and		ReadingFunction() (4)(-3) = -2 and		ReadingFunction() (-4)(3) = 2	;protected setUp: () ==> ()setUp() == TestName := "FunctionT03:\tTest of reading function.";protected tearDown: () ==> ()tearDown() == return;end FunctionT03
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Hashtable.vdmpp
 
@@ -529,7 +554,8 @@ static public IsEmpty[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> boolIsEmpty
 static public Contains[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T2 -> boolContains(aHashtable)(aValue) == 	let	aMapSet = rng aHashtable		in	if aMapSet <> {} then		exists aMap in set aMapSet & aValue in set rng aMap	else		false;
 static public ContainsKey[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T1 -> boolContainsKey(aHashtable)(aKey) == 	let	aMapSet = rng aHashtable		in	if aMapSet <> {} then		exists aMap in set aMapSet & aKey in set dom aMap	else		false;
 end Hashtable
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HashtableT.vdmpp
 
@@ -564,7 +590,8 @@ class HashtableT54 is subclass of TestCase, CommonDefinitionoperations protect
 class HashtableT55 is subclass of TestCase, CommonDefinitionoperations protected test: () ==> booltest() == 	let	aHashCode = lambda x : int & x mod 13,		put = Hashtable`Put[int, seq of char],		p1 = put({ |-> })(aHashCode)(1)("Sahara"),		p2 = put(p1)(aHashCode)(2)("Bush"),		p3 = put(p2)(aHashCode)(2)("Sato"),		p4 = put(p3)(aHashCode)(14)("Sakoh"),		k = Hashtable`KeySet[int, seq of char],		v = Hashtable`ValueSet[int, seq of char]	in	return		k(p1) = {1} and		v(p1) = {"Sahara"} and		k(p2) = {1, 2} and		v(p2) = {"Sahara", "Bush"} and		k(p4) = {1,2,14} and		v(p4) = {"Sahara", "Sato", "Sakoh"};protected setUp: () ==> ()setUp() == TestName := "HashtableT55:\tFunctional getting information.";protected tearDown: () ==> ()tearDown() == return;end HashtableT55---------------------------------------
 class HashtableT56 is subclass of TestCase, CommonDefinitionoperations protected test: () ==> booltest() == 	let	aHashCode1 = lambda x : int & x mod 13,		h1 = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(				{1 |-> "Shin Sahara", 2 |-> "Kei Sato", 14 |-> "Hiroshi Sakoh", 27 |-> "Nishikawa"}			),		h2 = Hashtable`Remove[int, seq of char](h1)(aHashCode1)(14)	in	(	return		Hashtable`KeySet[int, seq of char](h2) = {1, 2, 27} and		Hashtable`ValueSet[int, seq of char](h2) = {"Shin Sahara",  "Kei Sato", "Nishikawa"}	);protected setUp: () ==> ()setUp() == TestName := "HashtableT56:\tWhen hashode overlapped.";protected tearDown: () ==> ()tearDown() == return;end HashtableT56---------------------------------------
 class HashtableT57 is subclass of TestCase, CommonDefinitionoperations protected test: () ==> booltest() == 	let	aHashCode1 = lambda x : int & x mod 13,		remove = Hashtable`Remove[int, seq of char],		h1 = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(				{1 |-> "Shin Sahara", 2 |-> "Kei Sato", 14 |-> "Hiroshi Sakoh"}			),		h2 = remove(h1)(aHashCode1)(1),		h3 = remove(h2)(aHashCode1)(2),		h4 = remove(h3)(aHashCode1)(14),		isempty = Hashtable`IsEmpty[int, seq of char],		size = Hashtable`Size[int, seq of char]	in	(	return		isempty(h4) and		size(h4) = 0 and		isempty(h3)  = false and		size(h3) = 1 and		size(h2) = 2 and		size(h1) = 3	);protected setUp: () ==> ()setUp() == TestName := "HashtableT57:\tTest of functional Size.";protected tearDown: () ==> ()tearDown() == return;end HashtableT57---------------------------------------
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Integer.vdmpp
 
@@ -584,7 +611,8 @@ static public GCD : nat -> nat -> natGCD(x)(y) == 	if y = 0 then x else GCD(y)
 static GCDMeasure : nat -> nat -> natGCDMeasure(x)(-) == x;
 static public LCM : nat -> nat -> natLCM(x)(y) ==	cases mk_(x, y) :	mk_(-, 0)	-> 0,	mk_(0, -)	-> 0,	mk_(z, w)	-> (z / GCD(z)(w)) * w	end;
 end Integer
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###IntegerT.vdmpp
 
@@ -592,7 +620,8 @@ end Integer
 ~~~
 class IntegerT is subclass of TestDriverfunctionspublic tests : () -> seq of TestCasetests () == 	[ new IntegerT01(), new IntegerT02()	];end IntegerT---------------------------------------class IntegerT01 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	i = new Integer()		in	return		(i.asString(1234567890) = "1234567890" and		i.asString(-1234567890) = "-1234567890" and		i.asStringZ("zzz9")(9900) = "9900" and		i.asStringZ("9")(0) = "0" and		i.asStringZ("z")(0) = " " and		i.asStringZ("z")(9) = "9" and		i.asStringZ("zzz9")(9) = "   9" and		i.asStringZ("0009")(9) = "0009" and		i.asStringZ("-0009")(9) = "0009" and		i.asStringZ("-zzz9")(-9999) = "-9999" and		i.asStringZ("-zzz9")(-9) = "-   9" and		i.asStringZ("zzz9")(-9999) = "9999" and		i.asStringZ("zzz9")(-9) = "   9" and		i.asString(0) = "0" and		i.asChar(0) = "0" and 		i.asChar(1) = "1" and		i.asChar(2) = "2" and		i.asChar(3) = "3" and		i.asChar(4) = "4" and 		i.asChar(5) = "5" and 		i.asChar(6) = "6" and		i.asChar(7) = "7" and		i.asChar(8) = "8" and		i.asChar(9) = "9" and		i.asChar(10) = false		);protected setUp: () ==> ()setUp() == TestName := "IntegerT01:\tConvert integer to string.";protected tearDown: () ==> ()tearDown() == return;end IntegerT01---------------------------------------
 class IntegerT02 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	gcd = Integer`GCD(24),		lcm = Integer`LCM(7)	in	return		Sequence`fmap[nat, nat](gcd)([36, 48, 16]) = [12, 24, 8]  and		Sequence`fmap[nat, nat](lcm)([3, 4, 5]) = [21, 28, 35];protected setUp: () ==> ()setUp() == TestName := "IntegerT02:\tGet GCD and LCM.";protected tearDown: () ==> ()tearDown() == return;end IntegerT02
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###JapaneseCalendar.vdmpp
 
@@ -609,7 +638,8 @@ public JapaneseCalendar : () ==> JapaneseCalendarJapaneseCalendar() ==	(	setD
 public getWeekdayBetweenDayOff : set of Date ==> set of DategetWeekdayBetweenDayOff(aNationalHolidaySet) == (	let 		candidatesOfWeekdayBetweenDayOff = 			dunion { {d.minus(1), d.plus(1)} | d in set aNationalHolidaySet &				d.minus(1).Year() = d.Year() and d.plus(1).Year() = d.Year()},		weekdayBetweenHoliday = 			{ d | d in set candidatesOfWeekdayBetweenDayOff & 				let yesterday : Date = d.minus(1), tomorrow : Date =  d.plus(1) in				isInDateSet(yesterday, aNationalHolidaySet) and isInDateSet(tomorrow, aNationalHolidaySet)}	in	return weekdayBetweenHoliday );
 functionspublic getNotNationalHolidaysInFuture :set of Date * Date-> DategetNotNationalHolidaysInFuture(aNationalHolidaySet, date) ==	cases  isInDateSet(date, aNationalHolidaySet) :		(true)	-> getNotNationalHolidaysInFuture(aNationalHolidaySet, date.plus( 1)),		others	-> date	end;
 end JapaneseCalendar
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Map.vdmpp
 
@@ -620,14 +650,16 @@ functionsstatic public Get[@T1, @T2] : map @T1 to @T2 -> @T1 -> [@T2]Get(aMap)
 static public Contains[@T1, @T2] : map @T1 to @T2 -> @T2 -> boolContains(aMap)(aValue) == aValue in set rng aMap;
 static public ContainsKey[@T1, @T2] : map @T1 to @T2 -> @T1 -> boolContainsKey(aMap)(aKey) == aKey in set dom aMap;
 end Map
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MapT.vdmpp
 
 {% raw %}
 ~~~
 class MapT is subclass of TestDriverfunctionspublic tests : () -> seq of TestCasetests() == 	[ 	new MapT01(), new MapT02()		];end MapT----------------------------------------------------class MapT01 is subclass of TestCase, CommonDefinitionoperations protected test: () ==> booltest() == 	let	m1 = {1 |-> "Kei Sato", 19 |-> "Shin Sahara", 20 |-> "Hiroshi Sakoh"},		m2 = {"Kei Sato" |-> 1,  "Shin Sahara" |-> 19,  "Hiroshi Sakoh" |-> 20},		get1 = Map`Get[int, seq of char],		get2 = Map`Get[seq of char, int]	in	return 		get1(m1)(19) = "Shin Sahara" and		get1(m1)(2) = nil and		get2(m2)("Shin Sahara") = 19 and		get2(m2)("Worst Prime Minister Koizumi") = nil;protected setUp: () ==> ()setUp() == TestName := "MapT01:\tTest of Get function.";protected tearDown: () ==> ()tearDown() == return;end MapT01----------------------------------------------------class MapT02 is subclass of TestCase, CommonDefinitionoperations protected test: () ==> booltest() == 	let	m1 = {1 |-> "Kei Sato", 19 |-> "Shin Sahara", 20 |-> "Hiroshi Sakoh"},		m2 = {"Kei Sato" |-> 1,  "Shin Sahara" |-> 19,  "Hiroshi Sakoh" |-> 20},		c1 = Map`Contains[int, seq of char],		k1 = Map`ContainsKey[int, seq of char],		c2 = Map`Contains[seq of char, int],		k2 = Map`ContainsKey[seq of char, int]	in	return 		c1(m1)("Kei Sato") and c1(m1)("Shin Sahara") and c1(m1)("Hiroshi Sakoh") and		c1(m1)("Worst Prime Minister Koizumi") = false and		k1(m1)(1) and k1(m1)(19) and k1(m1)(20) and		not k1(m1)(99) and		c2(m2)(1) and c2(m2)(19) and c2(m2)(20) and		c2(m2)(30) = false and		k2(m2)("Kei Sato") and k2(m2)("Shin Sahara") and k2(m2)("Hiroshi Sakoh") and		k2(m2)("Worst Prime Minister Koizumi") = false;protected setUp: () ==> ()setUp() == TestName := "MapT02:\tTest of Contains related functions.";protected tearDown: () ==> ()tearDown() == return;end MapT02
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Number.vdmpp
 
@@ -639,7 +671,8 @@ static public isComputable[@e]: @e -> boolisComputable(n) ==	is_(n,int) or is_
 static public min[@e] :( @e * @e -> bool) -> @e -> @e -> @emin(f)(n1)(n2) == if f(n1,n2) then n1 else n2;
 static public max[@e] : ( @e * @e -> bool) -> @e -> @e -> @emax(f)(n1)(n2) == if f(n1,n2) then n2 else n1;
 end Number
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NumberT.vdmpp
 
@@ -650,7 +683,8 @@ functionspublic tests : () -> seq of TestCasetests () == 	[ new NumberT01(), 
 class NumberT01 is subclass of TestCaseoperations protected test: () ==> booltest() == 	return		(Number`min[int](lambda x:int, y:int & x < y)(-3)(4) = -3 and		Number`min[int](lambda x:int, y:int & x < y)(4)(-3) = -3 and		Number`min[nat](lambda x:nat, y:nat & x < y)(2)(10) = 2 and		Number`min[int](lambda x:int, y:int & x < y)(0)(0) = 0 and		Number`max[real](lambda x:real, y:real & x < y)(0.001)( -0.001) = 0.001 and		Number`max[real](lambda x:real, y:real & x < y)(-0.001)( 0.001) = 0.001 and		Number`max[real](lambda x:real, y:real & x < y)(0.0)(0.0) = 0.0);protected setUp: () ==> ()setUp() == TestName := "NumberT01:\tSummary of integer.";protected tearDown: () ==> ()tearDown() == return;end NumberT01
 class NumberT02 is subclass of TestCaseoperations protected test: () ==> booltest() == 	return		 Number`isComputable[char]('a') = false and		 Number`isComputable[int](-9) = true and		 Number`isComputable[nat](0) = true and		 Number`isComputable[nat1](1) = true and		 Number`isComputable[real](1.234) = true and		 Number`isComputable[rat](1.234) = true;protected setUp: () ==> ()setUp() == TestName := "NumberT02:\tIs computable?";protected tearDown: () ==> ()tearDown() == return;end NumberT02
 class NumberT03 is subclass of TestCaseoperations protected test: () ==> booltest() == 	return		 Number`min[seq of int](lambda s1: seq of int, s2 : seq of int & len s1 < len s2)([1,2])([1,2,3])  = [1, 2]  and		 Number`max[seq of int](lambda s1: seq of int, s2 : seq of int & len s1 < len s2)([1,2])([1,2,3])  = [1, 2, 3] ;protected setUp: () ==> ()setUp() == TestName := "NumberT03:\tType is not computable, but...";protected tearDown: () ==> ()tearDown() == return;end NumberT03
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Object.vdmpp
 
@@ -663,7 +697,8 @@ public hashCode : () -> inthashCode() == 1;
 public equals : Object -> boolequals(-) == true;
 operationspublic getContent : () ==> [seq of char | int]getContent() == return 1374;	--meaningless value. so subclass must set.
 end Object
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Product.vdmpp
 
@@ -674,7 +709,8 @@ functions
 static public Curry[@T1, @T2, @T3] : (@T1 * @T2 -> @T3) -> @T1 -> @T2 -> @T3Curry(f)(x)(y) == f(x, y);
 static public Uncurry[@T1, @T2, @T3] : (@T1 -> @T2 -> @T3) -> @T1 * @T2 -> @T3Uncurry(f)(x,y) == f(x)(y);
 end Product
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ProductT.vdmpp
 
@@ -682,7 +718,8 @@ end Product
 ~~~
 class ProductT is subclass of TestDriver functionspublic tests : () -> seq of TestCasetests() == 	[ 	new ProductT01()	];end ProductT----------------------------------------------------------
 class ProductT01 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	lt = String`LT,		lt2 = lambda x : int, y : int & x < y	in	return		Product`Curry[seq of char, seq of char, bool](lt)("abc")("abcd") and		Product`Curry[seq of char, seq of char, bool](lt)("abcde")("abcd") = false and		Product`Curry[int, int, bool](lt2)(3)(4) and		Product`Uncurry[seq of char, seq of char, bool](String`LT2)("abc", "abcd") and		Product`Uncurry[seq of char, seq of char, bool](String`LT2)("abcde", "abcd") = false and		Product`Uncurry[seq of char, seq of char, bool](String`LE2)("3", "4")	;protected setUp: () ==> ()setUp() == TestName := "ProductT01:\t Test of curry function.";protected tearDown: () ==> ()tearDown() == return;end ProductT01
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Queue.vdmpp
 
@@ -695,7 +732,8 @@ static public enQueue[@T] : @T * seq of @T -> seq of @TenQueue(anElem, aQueue) 
 static public deQueue[@T] : seq of @T -> seq of @TdeQueue(aQueue) == 	if aQueue = [] then		[]	else		tl aQueue;
 static public top[@T] : seq of @T -> [@T]top(aQueue) == 	if aQueue = [] then		nil	else		hd aQueue;
 end Queue
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###QueueT.vdmpp
 
@@ -704,7 +742,8 @@ end Queue
 class QueueT is subclass of TestDriverfunctionspublic tests : () -> seq of TestCasetests () == 	[ new QueueT01()	];end QueueT
 class QueueT01 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	q0 = Queue`empty[int](),		q1 = Queue`enQueue[int](1, q0),		q2 = Queue`enQueue[int](2, q1),		q3 = Queue`enQueue[int](3, q2),		h1 = Queue`top[int](q3),		q4 = Queue`deQueue[int](q3),		q5 = Queue`deQueue[int](q4),		q6 = Queue`deQueue[int](q5),		h2 =  Queue`top[int](q6),		q7 = Queue`deQueue[int](q6)	in	return		q0 = [] and		q1 = [1] and		q2 = [1,2] and		q3 = [1,2,3] and		h1 = 1 and		q4 = [2,3] and		q5 = [3] and		q6 = [] and		h2 = nil and		q7 = [] and		Queue`isEmpty[int](q7) and		not Queue`isEmpty[int](q5) 
 ;protected setUp: () ==> ()setUp() == TestName := "QueueT01:\t Test Queue";protected tearDown: () ==> ()tearDown() == return;end QueueT01
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Real.vdmpp
 
@@ -733,7 +772,8 @@ static getInterestImplicitSpec_Math_version : real * int -> realgetInterestImpl
 static getInterestImplicitSpec_Computer_version : real * int -> realgetInterestImplicitSpec_Computer_version(multiple,years) ==	is not yet specifiedpre	multiple > 1.0 and years > 0 post	multiple > 1.0 and years > 0 and	exists1 Interest : real & 		let	totalPrincipalAndInterest = getTotalPrincipal(Interest,years)		in	EQ(multiple)(totalPrincipalAndInterest) and RESULT = Interest;
 --getInterest explicit specificationstatic public getInterest: real * int -> realgetInterest(multiple,years) ==	let	f = lambda Interest : real & multiple - getTotalPrincipal(Interest,years)	in	NewtonMethod(f)(0);
 end Real
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RealT.vdmpp
 
@@ -753,7 +793,8 @@ operations protected test: () ==> booltest() == 	return		Real`EQ(Real`integr
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SBCalendar.vdmpp
 
@@ -787,7 +828,8 @@ public setSystemTime : Time ==> ()setSystemTime(t) ==  timeOfSystem := t;
 public SBCalendar : () ==> SBCalendarSBCalendar() ==	(	setDifferenceWithGMT(differenceBetweenGMTandJST); 	return self	);
 end SBCalendar
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SBCalendarT.vdmpp
 
@@ -800,7 +842,8 @@ class SBCalendarT03 is subclass of TestCaseoperations protected test: () ==> b
 class SBCalendarT04 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	c = new SBCalendar(),		d0929 = c.getDateFrom_yyyy_mm_dd(2001, 9, 29),		d0104 = c.getDateFrom_yyyy_mm_dd(20021, 1, 4)	in	(	c.setTodayOnCompany("007",d0104);	c.setTodayOnCompany("009",d0929);	return		(		c.todayOnCompany("007") = d0104 and		c.todayOnCompany("009") = d0929 		)	);protected setUp: () ==> ()setUp() == TestName := "SBCalendarT04:\tTest of todayOnCompany";protected tearDown: () ==> ()tearDown() == return;end SBCalendarT04
 class SBCalendarT05 is subclass of TestCase, CalendarDefinitionoperations protected test: () ==> booltest() == 	let	c = new SBCalendar()	in	return		c.todayOnBusiness().EQ(c.getDateFrom_yyyy_mm_dd(2003, 10, 24)) and		c.readFromFiletodayOnBusiness(homedir ^ "/temp/Today.txt").EQ(c.getDateFrom_yyyy_mm_dd(2001, 3, 1));protected setUp: () ==> ()setUp() == TestName := "SBCalendarT05:\tTest todayOnBusiness from a file.";protected tearDown: () ==> ()tearDown() == return;end SBCalendarT05
 class SBCalendarT06 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	c = new SBCalendar(),		sDate = SBCalendar`getContractDate	in	return		sDate(c.getDateFrom_yyyy_mm_dd(2004, 1, 5)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 5)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 1, 31)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 8, 2)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 8, 27)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 1)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 30)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 31)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 30)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 4, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 10, 1)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 4, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 10, 29)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 6)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 5)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 7)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 5)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 10)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 10)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 1)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 28)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 5)).EQ(c.getDateFrom_yyyy_mm_dd(2005, 1, 5)) and		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2005, 1, 28)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 2)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 28)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 9, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 3, 1)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 9, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 3, 30)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 10, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 1)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 10, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 28))  and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 11, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 30)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 11, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 5, 28)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 12, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 6, 1)) and		sDate(c.getDateFrom_yyyy_mm_dd(2003, 12, 26)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 6, 25));protected setUp: () ==> ()setUp() == TestName := "SBCalendarT06:\tGetting contract date of margin trading.";protected tearDown: () ==> ()tearDown() == return;end SBCalendarT06
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Sequence.vdmpp
 
@@ -859,7 +902,8 @@ static public Zip[@T1, @T2] : seq of @T1 * seq of @T2 -> seq of (@T1 * @T2)Zip(
 static public Zip2[@T1, @T2] : seq of @T1 -> seq of @T2 -> seq of (@T1 * @T2)Zip2(s1)(s2) == 	cases mk_(s1, s2) :	mk_([h1] ^ tail1, [h2] ^ tail2)		-> [mk_(h1, h2)] ^ Zip2[@T1, @T2](tail1)(tail2),	mk_(-, -)							-> []	end;
 end Sequence
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SequenceT.vdmpp
 
@@ -882,7 +926,8 @@ public product : int -> int -> intproduct(a)(b) == a * b;
 public append : seq of char -> char -> seq of charappend(s)(e) == s ^ [e];
 operations public  test: () ==> booltest() == 	let	foldl = Sequence`Foldl[int, int],		f2 = Sequence`Foldl[seq of char, char] 	in	return		foldl(plus)(0)([1,2,3]) = 6 and		foldl(product)(1)([2,3,4]) = 24 and		f2(append)([])("abc") = "abc" ;protected setUp: () ==> ()setUp() == TestName := "SequenceT23:\t Test Foldl.";protected tearDown: () ==> ()tearDown() == return;end SequenceT23-------------------------------------------------------------class SequenceT24 is subclass of TestCasefunctionspublic plus : int -> int -> intplus(a)(b) == a + b;
 public product : int -> int -> intproduct(a)(b) == a * b;operations public  test: () ==> booltest() == 	let	removeAt = Sequence`RemoveAt[char],		foldr = Sequence`Foldr[int, int],		f3 = Sequence`Foldr[nat1, seq of char] 	in	return		foldr(plus)(0)([1,2,3]) = 6 and		foldr(product)(1)([2,3,4]) = 24 and		f3(removeAt)("12345")([1,3,5]) = "24";protected setUp: () ==> ()setUp() == TestName := "SequenceT24:\t Test Foldr.";protected tearDown: () ==> ()tearDown() == return;end SequenceT24-------------------------------------------------------------class SequenceT25 is subclass of TestCaseoperations public  test: () ==> booltest() == 	let	sq = new Sequence()	in	return		Real`EQ(sq.GetAverage[real]([1.1,2.2,3.3]))(2.2) and		Real`EQ(sq.GetAverage[real]([1,2,3,4,5,6,7,8,9,10]))(5.5);protected setUp: () ==> ()setUp() == TestName := "SequenceT25:\t Test GetAverage";protected tearDown: () ==> ()tearDown() == return;end SequenceT25
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Set.vdmpp
 
@@ -898,7 +943,8 @@ static public fmap[@T1,@T2]: (@T1 -> @T2) -> set of @T1 -> set of @T2fmap(f)(aS
 static public Sum[@T]: set of @T ->  @TSum(aSet) == SumAux[@T](aSet)(0)pre	is_(aSet, set of int) or is_(aSet, set of nat) or is_(aSet, set of nat1) or 	is_(aSet, set of real) or is_(aSet, set of rat);
 static SumAux[@T] : set of @T -> @T -> @TSumAux(aSet)(aSum) ==	cases aSet :	({})	-> aSum,	{e} union s->		SumAux[@T](s)(aSum + e)	endpre	pre_Sum[@T](aSet);
 end Set
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SetT.vdmpp
 
@@ -908,7 +954,8 @@ class SetT is subclass of TestDriverfunctionspublic tests : () -> seq of TestC
 class SetT02 is subclass of TestCaseoperations protected test: () ==> booltest() == 	return		Set`Combinations[int](2)({1,2,3}) = { { 1,2 }, { 1,3 }, { 2,3 } } and		Set`Combinations[int](2)({1,2,3,4}) = { { 1,2 },  { 1,3 },  { 1,4 },  { 2,3 },  { 2,4 },  { 3,4 } } and		Set`fmap[set of int, set of set of int](Set`Combinations[int](2))({{1,2,3}, {1,2,3,4}}) =			{{ { 1,2 }, { 1,3 }, { 2,3 } }, { { 1,2 },  { 1,3 },  { 1,4 },  { 2,3 },  { 2,4 },  { 3,4 } } } and		Set`Combinations[int](3)({1,2,3,4}) = { { 1,2,3 },  { 1,2,4 },  { 1,3,4 },  { 2,3,4 } } and		Set`Combinations[seq of char](2)({"Sahara", "Sato", "Sakoh", "Yatsu", "Nishikawa" }) = 			{ { "Sahara",    "Sato" },  { "Sahara",    "Nishikawa" },  { "Sahara",    "Yatsu" },  { "Sahara",    "Sakoh" },  { "Sato",    "Nishikawa" }, 			{ "Sato",    "Yatsu" },  { "Sato",    "Sakoh" },  { "Nishikawa",    "Yatsu" },  { "Nishikawa",    "Sakoh" },  { "Yatsu",    "Sakoh" } };protected setUp: () ==> ()setUp() == TestName := "SetT02:\t Get combination.";protected tearDown: () ==> ()tearDown() == return;end SetT02-------------------------------------------------------------
 class SetT03 is subclass of TestCaseoperations public  test: () ==> booltest() == 	return		Set`fmap[int, int](lambda x:int & x mod 3)({1,2,3,4,5})  = {0, 1, 2} and		Set`fmap[seq of char, seq of char]			(Sequence`take[char](2))({"Shin Sahara", "Hiroshi Sakoh"}) = {"Sh", "Hi"};protected setUp: () ==> ()setUp() == TestName := "SetT03:\t Test fmap.";protected tearDown: () ==> ()tearDown() == return;end SetT03-------------------------------------------------------------
 class SetT04 is subclass of TestCaseoperations public  test: () ==> booltest() == 	return		Set`Sum[int]({1,...,10}) = 55 and		Set`Sum[int]({1, 2, 3, 4, 5, 6, 7, 8,  9, 10}) = 55 and		abs(Set`Sum[real]({0.1, 0.2, 0.3}) - 0.6) <= 1E-5 and		Set`Sum[nat]({1, 2, 3, 3}) = 6;protected setUp: () ==> ()setUp() == TestName := "SetT04:\tTest sum of set elements.";protected tearDown: () ==> ()tearDown() == return;end SetT04
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###String.vdmpp
 
@@ -946,7 +993,8 @@ static public getLinesAux : seq of char -> seq of seq of char -> seq of seq of c
 operationsstatic public index: seq of char * char ==> intindex(aStr,c) == (	for i = 1 to len aStr do		if aStr(i) = c then return i;	return 0);
 static public subStrFill :	seq of char * nat * nat * char ==> seq of charsubStrFill(aStr,fromPos,length, fillChar) ==	let	lastPos = fromPos+length-1	in (		dcl aResult : seq of char := "";		for i = fromPos to lastPos  do (			if i <= len aStr then				aResult := aResult ^ [aStr(i)]			else				aResult := aResult ^ [fillChar]		);		return aResult	)pre	fromPos > 0 and length >= 0;
 end String
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###StringT.vdmpp
 
@@ -970,7 +1018,8 @@ class StringT11 is subclass of TestCaseoperations public test: () ==> booltes
 class StringT14 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	isSomeString = String`isSomeString	in	return 		isSomeString(Character`isLetterOrDigit)("007isTheMmurder") and		not isSomeString(Character`isLetterOrDigit)("007 is the mmurder") and		isSomeString(Character`isCapitalLetter)("SAHARA") and		not isSomeString(Character`isCapitalLetter)("Sahara") and		isSomeString(Character`isLowercaseLetter)("sahara") and		not isSomeString(Character`isLowercaseLetter)("Sahara") 
 ;protected setUp: () ==> ()setUp() == TestName := "StringT11:\tIs a some kind of string?";protected tearDown: () ==> ()tearDown() == return;end StringT14
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Term.vdmpp
 
@@ -985,7 +1034,8 @@ operationspublic Term:[Time]*[Time] ==> TermTerm(astartTime, aendTime) ==	(	
 public getStartTime : () ==> [Time]getStartTime() == return startTime;
 public getEndTime : () ==> [Time]getEndTime() == return endTime;
 end  Term
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TermT.vdmpp
 
@@ -993,7 +1043,8 @@ end  Term
 ~~~
 class TermT is subclass of TestDriver functionspublic tests : () -> seq of TestCasetests() == 	[ 	new TermT01()	];end TermT----------------------------------------------------------
 class TermT01 is subclass of TestCase, CalendarDefinitionoperations protected test: () ==> booltest() == 	let	cal = new JapaneseCalendar(),		astartTime = new Time(cal, 2003, 7, 30, 14, 29, 30, 20),		aendTime = new Time(cal, 2003, 7, 30, 14, 29, 30, 22),		t1        = new Time(cal, 2003, 7, 30, 14, 29, 30, 19),		t2        = new Time(cal, 2003, 7, 30, 14, 29, 30, 20),		t3        = new Time(cal, 2003, 7, 30, 14, 29, 30, 21),		t4        = new Time(cal, 2003, 7, 30, 14, 29, 30, 22),		t5        = new Time(cal, 2003, 7, 30, 14, 29, 30, 23),		t6        = new Time(cal, 2003, 7, 29, 14, 29, 30, 20),		t7        = new Time(cal, 2003, 7, 31, 14, 29, 30, 20),		t8        = new Time(cal, 2003, 7, 29, 14, 29, 29, 20),		t9        = new Time(cal, 2003, 7, 29, 14, 29, 31, 20),		term1 = new Term(astartTime, aendTime)	in	return		not term1.isInThePeriod(t1, term1) and		term1.isInThePeriod(t2, term1) and		term1.isInThePeriod(t3, term1) and		term1.isInThePeriod(t4, term1) and		not term1.isInThePeriod(t5, term1) and		not term1.isInThePeriod(t6, term1) and		not term1.isInThePeriod(t7, term1) and		not term1.isInThePeriod(t8, term1) and		not term1.isInThePeriod(t9, term1)	;protected setUp: () ==> ()setUp() == TestName := "TermT01:\tTest of term constructor and isInThePeriod()";protected tearDown: () ==> ()tearDown() == return;end TermT01----------------------------------------------------------
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestCase.vdmpp
 
@@ -1009,7 +1060,8 @@ protected setUp: () ==> ()setUp() == return;
 protected tearDown: () ==> ()tearDown() == return;
 end TestCase
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestDriver.vdmpp
 
@@ -1023,7 +1075,8 @@ operations
 --Test a TestCase sequence.public run: () ==> boolrun() ==	let	Message = "Test result of a testcase seaquence.",		TestcaseSeq = tests()	,		aResult = [isOK(TestcaseSeq(i)) | i in set inds TestcaseSeq]		--aResult = new Sequence().fmap[TestCase,bool](isOK)(TestcaseSeq)	in	if  forall i in set inds aResult & aResult(i) then		return new TestLogger().succeededInAllTestcases(Message)	else		return new TestLogger().notSucceededInAllTestcases(Message)
 end TestDriver
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestLogger.vdmpp
 
@@ -1038,7 +1091,8 @@ public Failed: TestCase -> boolFailed(t) == 	let	Message = t.getTestName()^"\t
 public succeededInAllTestcases : seq of char -> boolsucceededInAllTestcases(m) ==	let	Message = m ^ "\t OK!!\n",		- = new IO().fecho(hisotoryFileName, Message, <append>),		- = new IO().echo( Message)	in	true;
 public notSucceededInAllTestcases :  seq of char -> boolnotSucceededInAllTestcases(m) ==	let	Message = m ^ "\t NG!!\n",		- = new IO().fecho(hisotoryFileName,  Message, <append>),		- = new IO().echo( Message)	in	false;
 end TestLogger
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Time.vdmpp
 
@@ -1095,7 +1149,8 @@ public plus: int * int * int * int ==> Timeplus(hour, aMinute, aSecond, milliSe
 --milliSecondãæ¸ç®ããpublic minusmilliSecond : int ==> TimeminusmilliSecond(aMilliSecond) == return self.plusmilliSecond(-aMilliSecond);
 public minus: int * int * int * int  ==> Timeminus(hour, aMinute, aSecond, milliSecond) == self.minusmilliSecond(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond));
 end Time
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TimeT.vdmpp
 
@@ -1109,7 +1164,8 @@ class TimeT04 is subclass of TestCase, CalendarDefinitionoperations protected 
 	;protected setUp: () ==> ()setUp() == TestName := "TimeT04:\tATime subtracting.";protected tearDown: () ==> ()tearDown() == return;end TimeT04----------------------------------------------------------
 class TimeT05 is subclass of TestCase, CalendarDefinitionoperations protected test: () ==> booltest() == 	let	cal = new JapaneseCalendar(),		t1 = new Time(cal, 2003, 7, 30, 14, 29, 30, 0),		t2 = new Time(cal, 2003, 7, 30, 14, 29, 30, 0),		t3 = new Time(cal, 2003, 7, 30, 14, 29, 30, 0),		t4 = new Time(cal, 2003, 7, 30, 14, 29, 30, 0)	in	(	t1.setTimeFromNat(15);	t2.setMinuteFromNat(19);	t3.setSecond(47);	t4.setMilliSecond(789);	return 		t1.Time2IntProduct(t1.getTime())  = mk_(15, 29, 30, 0) and		t2.Time2IntProduct(t2.getTime())  = mk_(14, 19, 30, 0) and		t3.Time2IntProduct(t3.getTime())  = mk_(14, 29, 47, 0) and		t4.Time2IntProduct(t4.getTime())  = mk_(14, 29, 30, 789) and		t4.getDate().date2Str() = "20030730" 	)		;protected setUp: () ==> ()setUp() == TestName := "TimeT05:\tSet instance variables.";protected tearDown: () ==> ()tearDown() == return;end TimeT05----------------------------------------------------------
 class TimeT06 is subclass of TestCase, CalendarDefinitionoperations protected test: () ==> booltest() == 	let	cal = new SBCalendar()	in	(	return 		new Time(cal).EQ(new Time(cal, 2001, 3, 1, 10, 11, 23, 456)) and		new Time(homedir ^ "/temp/BaseDay.txt", homedir ^ "/temp/Now2.txt", cal).EQ(new Time(cal, 2003, 10, 24, 12, 34, 56, 789))	)		;protected setUp: () ==> ()setUp() == TestName := "TimeT06:\tTest currentDateTime from file.";protected tearDown: () ==> ()tearDown() == return;end TimeT06
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###UniqueNumber.vdmpp
 
@@ -1122,7 +1178,8 @@ functionspublic getUniqNum : int * nat1 -> intgetUniqNum(aCandidateNum, aNumbe
 operations-- make an unique number within aNumberOfDigitpublic ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½ : nat1 ==> seq of charï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(aNumberOfDigit) ==	let	n = getUniqNum(UniqNum, aNumberOfDigit)	in	(	UniqNum := UniqNum + 1;	return Integer`asString(n)	);
 public initialize : () ==> intinitialize() == 	(	UniqNum := ï¼¤ï½ï½ï½ï½ï½ï½ï¼¶ï½ï½ï½ï½;	return UniqNum	);
 end  ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###UniqueNumberT.vdmpp
 
@@ -1130,7 +1187,8 @@ end  ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½
 ~~~
 class ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´ is subclass of TestDriverfunctionspublic tests : () -> seq of TestCasetests () == 	[new ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01()	];end ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´
 class ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01 is subclass of TestCaseoperations protected test: () ==> booltest() == 	let	o = new ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½()	in	return		(		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "1" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "2" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "3" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "4" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "5" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "6" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "7" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "8" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "9" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "1" and 		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "2" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "3" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "4" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "5" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "6" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "7" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "8" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "9" and		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "10" and 		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "11"		);protected setUp: () ==> ()setUp() == TestName := " ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01:\t ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01 Unit test";protected tearDown: () ==> ()tearDown() == return;end ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###UseCalendar.vdmpp
 
@@ -1142,7 +1200,8 @@ traces
 S1 : 	let y in set {2010,...,2012} in let m in set {1,...,12} in let d in set {1,...,31} in sJC.getDateFrom_yyyy_mm_dd(y, m, d).asString()
 S2:	let y in set {2010,...,2100} in sJC.getVernalEquinox(y).date2Str()
 end UseCalendar
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###UseReal.vdmpp
 
@@ -1153,7 +1212,8 @@ instance variables	r : Real := new Real()
 traces
 S1: let n in set {0, 1, 9, 10, 99, 199, 0.1, 9.1, 10.1, 10.123} in r.numberOfDigit(n)
 end UseReal
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###UseUniqueNumber.vdmpp
 
@@ -1164,5 +1224,6 @@ instance variablessUN : ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½�
 traces
 S1 : 	let n in set {1,...,4} in sUN.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(n){100}
 end UseUniqueNumber
-~~~{% endraw %}
+~~~
+{% endraw %}
 

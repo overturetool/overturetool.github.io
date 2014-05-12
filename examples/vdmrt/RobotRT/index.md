@@ -1,11 +1,19 @@
 ---
 layout: default
-title: Robot
+title: RobotRT
 ---
 
-~~~
-This example was produced by Lasse Lorentzen and Kenneth Lausdahlas a part of a VDM course of a robot travelling autonomically insidea cave aiming at avioding different obstacles on its path.#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Lasse Lorentzen and Kenneth Lausdahl#LANGUAGE_VERSION=classic#LIB= IO; MATH#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World().Run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Lasse Lorentzen and Kenneth Lausdahl
+
+
+This example was produced by Lasse Lorentzen and Kenneth Lausdahl
+as a part of a VDM course of a robot travelling autonomically inside
+a cave aiming at avioding different obstacles on its path.|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###DataReader.vdmrt
 
 {% raw %}
@@ -19,7 +27,8 @@ operations protected SetUp: () ==> () SetUp () == skip;
  protected RunTest: () ==> () RunTest () == skip;
   protected TearDown: () ==> () TearDown () == skip
 end DataReaderTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Enviroment.vdmrt
 
@@ -44,7 +53,8 @@ operations protected SetUp: () ==> () SetUp () == skip;
  protected RunTest: () ==> () RunTest () == skip;
   protected TearDown: () ==> () TearDown () == skip
 end EnviromentTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Grid.vdmrt
 
@@ -71,7 +81,8 @@ operations
 
   protected TearDown: () ==> () TearDown () == skip
 end GridTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MovingObstacle.vdmrt
 
@@ -97,7 +108,8 @@ operations protected SetUp: () ==> () SetUp () == skip;
  protected RunTest: () ==> () RunTest () == skip;
   protected TearDown: () ==> () TearDown () == skip
 end MovingObstacleTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NextMoveController.vdmrt
 
@@ -136,7 +148,8 @@ operations protected SetUp: () ==> () SetUp () == skip;
  protected RunTest: () ==> () RunTest () == skip;
   protected TearDown: () ==> () TearDown () == skip
 end NextMoveControllerTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ObstacleSensor.vdmrt
 
@@ -157,7 +170,8 @@ operations protected SetUp: () ==> () SetUp () == skip;
 
   protected TearDown: () ==> () TearDown () == skip
 end ObstacleSensorTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Robot.vdmrt
 
@@ -179,7 +193,8 @@ instance variables-- cpu speed has only influence on the model if cycles is use
    cpu2.deploy(nmc);   cpu2.setPriority(NextMoveController`LocateMovingObstacles,80);
  );
 end Robot
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RobotTest.vdmrt
 
@@ -188,7 +203,8 @@ end Robot
 class RobotTest
 operations public Execute: () ==> () Execute () ==   (dcl ts : TestSuite := new TestSuite();    ts.AddTest(new GridTest("Grid"));    ts.AddTest(new StorageTest("Storage"));   -- ts.AddTest(new DataReaderTest("DataReader"));   -- ts.AddTest(new EnviromentTest("Enviroment "));   -- ts.AddTest(new ObstacleSensorTest("ObstacleSensor"));   -- ts.AddTest(new SteeringControllerTest("SteeringController "));   -- ts.AddTest(new StorageTest("Storage"));    ts.Run())
 end RobotTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SteeringController.vdmrt
 
@@ -254,7 +270,8 @@ operations protected SetUp: () ==> () SetUp () == skip;
 
   protected TearDown: () ==> () TearDown () == skip
 end SteeringControllerTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Storage.vdmrt
 
@@ -292,7 +309,8 @@ operations
 
   protected TearDown: () ==> () TearDown () == skip
 end StorageTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Util.vdmrt
 
@@ -307,7 +325,8 @@ operations
 
 
 end Util
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VDMUnit Framework.vdmrt
 
@@ -342,7 +361,8 @@ operations public AddFailure: TestCase ==> () AddFailure (ptst) == failures :=
  public Print: seq of char ==> () Print (pstr) ==   -- include IO.vpp from the VDMTools distribution (stdlib directory)   -- if you are getting a type error while checking this specification   def - = new IO().echo(pstr ^ "\n") in skip;
   public Show: () ==> () Show () ==   if failures = [] then     Print ("No failures detected")   else     for failure in failures do       Print (failure.GetName() ^ " failed")
 end TestResult
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -359,5 +379,6 @@ operationspublic World : () ==> WorldWorld() ==(   env := new Enviroment();
  );
 
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

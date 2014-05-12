@@ -1,12 +1,21 @@
 ---
 layout: default
-title: Quadilateral
+title: QuadilateralPP
 ---
 
-~~~
-This example deals with quadilaterals (figures with four straight lines) and the inheritance between them. A few basic operations are defined in the respective classes. This package also illustrates how to make use of C++ code automatically generated using VDMTools. 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#AUTHOR= Stephen Goldsack#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Stephen Goldsack
+
+
+This example deals with quadilaterals (figures with four 
+straight lines) and the inheritance between them. A few 
+basic operations are defined in the respective classes. 
+This package also illustrates how to make use of C++ 
+code automatically generated using VDMTools. 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###math.vdmpp
 
 {% raw %}
@@ -34,7 +43,8 @@ public static    log:real -> real    log(a) ==    is not yet specified    pr
   valuespublic    pi = 3.14159265358979323846
 
 end MATH
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###mathematics.vdmpp
 
@@ -46,7 +56,8 @@ class Mathematics
   functions    acos (x: real) res: Angle    post inv_Angle (res);
     sqrt (r: real) res: real    post res**2 = r
 end Mathematics
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###parallelogram.vdmpp
 
@@ -57,7 +68,8 @@ class Parallelogram is subclass of Quadrilateral
    operations      public      GetAngle: () ==> real      GetAngle() ==        let math = new MATH()         in        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
 end Parallelogram
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###quadrilateral.vdmpp
 
@@ -70,7 +82,8 @@ class Quadrilateral is subclass of Vector
     public    Display: () ==> ()    Display() == is not yet specified
 end Quadrilateral
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###rectangle.vdmpp
 
@@ -79,7 +92,8 @@ end Quadrilateral
 class Rectangle is subclass of Parallelogram
   instance variables  inv inproduct (v1 , v2) = 0 
 end Rectangle
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###rhombus.vdmpp
 
@@ -88,7 +102,8 @@ end Rectangle
 class Rhombus is subclass of Parallelogram
   instance variables  inv length (v1) = length (v2)
 end Rhombus
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###square.vdmpp
 
@@ -96,7 +111,8 @@ end Rhombus
 ~~~
 class Square is subclass of Rhombus, Rectangle
 end Square
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###vector.vdmpp
 
@@ -112,7 +128,8 @@ class Vector
     public    add: vector * vector -> vector    add (v1, v2) ==      let mk_vector (hd1, mk_(tl1x, tl1y)) = v1,          mk_vector (mk_(hd2x, hd2y), mk_(tl2x, tl2y)) = v2 in        mk_vector(hd1, mk_(tl1x + (tl2x - hd2x), tl1y + (tl2y - hd2y)))
 end Vector
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###workspace.vdmpp
 
@@ -129,5 +146,6 @@ class WorkSpace is subclass of Vector
     Move: Token * (nat * nat) * (nat * nat) ==> ()    Move(qid, p1, p2) ==    ( dcl scrn : Quadrilateral := screen(qid);      UnDisplay (qid);      scrn.Move (p1,p2);      Display (qid, scrn)    )    pre qid in set dom screen
 end WorkSpace
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

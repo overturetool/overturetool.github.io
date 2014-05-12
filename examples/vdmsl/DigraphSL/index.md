@@ -1,13 +1,30 @@
 ---
 layout: default
-title: Digraph
+title: DigraphSL
 ---
 
-~~~
+Author: Janusz Laski
 
-The specification describes how directed graphs and relations oversuch graphs can can tested for relevant properties and manipulated indifferent ways. This specification is produced by Janusz Laski fromOakland University in the USA. Most of the definitions in thisspecification can be interpreted.
-This model is only an illustration of the problems germane to automatic software analysis. To get a better understanding of the scope of the analysis consult the text "Software Verification and Analysis, An Integrated, Hands-on -- Approach," by Janusz Laski w/William Stanley, Springer 2009. A brief online introduction is offered on the Websitewww.stadtools.com.#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Janusz Laski#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=relations`IsTransitive(relations`A5)#ENTRY_POINT=relations`IsTransitive(A7)#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+
+
+The specification describes how directed graphs and relations over
+such graphs can can tested for relevant properties and manipulated in
+different ways. This specification is produced by Janusz Laski from
+Oakland University in the USA. Most of the definitions in this
+specification can be interpreted.
+
+This model is only an illustration of the problems germane to automatic 
+software analysis. To get a better understanding of the scope of the 
+analysis consult the text "Software Verification and Analysis, An 
+Integrated, Hands-on -- Approach," by Janusz Laski w/William Stanley, 
+Springer 2009. A brief online introduction is offered on the Website
+www.stadtools.com.|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| relations`IsTransitive(relations`A5)|
+|Entry point     :| relations`IsTransitive(A7)|
+
+
 ###digraph.vdmsl
 
 {% raw %}
@@ -30,7 +47,8 @@ pred: Flowgraph * Node  -> set of Nodepred(G,n) ==   {k| k in set G.N & mk_(k,
 existspath: Flowgraph * Node * Node -> boolexistspath(MFG,n1,n2) ==   mk_(n1,n2) in set relations`Warshall(MFG.A);
 
 end digraph
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###flowgraphtypes.vdmsl
 
@@ -56,7 +74,8 @@ values
  -- STATE DEFINITION
 state ST of -- two isolated nodes, no arcs  G: FlowGraphinit x ==   x = mk_ST(mk_FlowGraph({1,2},{},1,2)) end
 end flowgraph_types
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Relations.vdmsl
 
@@ -115,5 +134,6 @@ functions
 test_PowerList: BinRel -> bool-- tests PowerList using a simpler albeit  inefficient -- Power_Rel as an automatic  test oracle, to avoid manual test evaluationtest_PowerList(R)==   let L = PowerList(R),       n = card field(R)  in   (forall i in set inds L & L(i)=Power_rel(R,i))     and len L<n => Power_rel(R, len L +1) ={};-- For "normal" applications pre_PowerList(R) <=> R<>{} should be observed.-- However, PowerList should also be tested for R={}.-- Such a STRESS TEST shows the function's behaviour for invalid data.
 
 end relations
-~~~{% endraw %}
+~~~
+{% endraw %}
 

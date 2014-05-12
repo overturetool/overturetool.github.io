@@ -1,12 +1,16 @@
 ---
 layout: default
-title: ProductLine
+title: ProductLinePP
 ---
 
-~~~
+Author: Naoyasu Ubayashi, Shin Nakajima and Masayuki Hirayama
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Naoyasu Ubayashi, Shin Nakajima and Masayuki Hirayama#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###CONTEXT-atmospheric-air-pressureplace-high.vdmpp
 
 {% raw %}
@@ -14,7 +18,8 @@ title: ProductLine
 class HighAtmosphericAirPressure is subclass of AtmosphericAirPressure
 instance variables  inv    atm > 1
 end HighAtmosphericAirPressure
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CONTEXT-atmospheric-air-pressureplace-low.vdmpp
 
@@ -23,7 +28,8 @@ end HighAtmosphericAirPressure
 class LowAtmosphericAirPressure is subclass of AtmosphericAirPressure
 instance variables  inv    atm < 1
 end LowAtmosphericAirPressure
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CONTEXT-atmospheric-air-pressureplace-normal.vdmpp
 
@@ -32,7 +38,8 @@ end LowAtmosphericAirPressure
 class NormalAtmosphericAirPressure is subclass of AtmosphericAirPressure
 instance variables  inv    atm = 1
 end NormalAtmosphericAirPressure
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CONTEXT-atmospheric-air-pressureplace.vdmpp
 
@@ -44,7 +51,8 @@ instance variables  protected atm : real;
 operations  public  GetAtm: () ==> real  GetAtm() == return atm;
   public  SetAtm: real ==> ()  SetAtm(a) ==    atm := a;
 end AtmosphericAirPressure
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CONTEXT-liquid-water.vdmpp
 
@@ -53,7 +61,8 @@ end AtmosphericAirPressure
 class Water is subclass of Liquid
 operations  public  SetBoilingPoint: () ==> ()  SetBoilingPoint() ==    boiling_point := {1.0  |-> 100.0,  --- 1atm   (=760mmHg) --> 100                      0.53 |-> 85.0};  --- 0.53atm(=400mmHg) --> 85
 end Water
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CONTEXT-liquid.vdmpp
 
@@ -70,7 +79,8 @@ operations  public  GetAap: () ==> AtmosphericAirPressure  GetAap() ==    re
   public  GetAmount: () ==> real  GetAmount() ==    return amount;
   public  SetAmount: real ==> ()  SetAmount(a) ==    amount := a;
 end Liquid
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###REALWORLD-low-water.vdmpp
 
@@ -82,7 +92,8 @@ instance variables  public aap: LowAtmosphericAirPressure;  public liquid : Wa
   -- CONTEXT-atmospheric-air-pressureplace-low and  -- CONTEXT-liquid-water  -- are selected
 operations  public  Setup: () ==> ()  Setup() ==    (aap := new LowAtmosphericAirPressure();     aap.SetAtm(0.53);     liquid := new Water();     liquid.SetAap(aap);     liquid.SetBoilingPoint();     liquid.SetTemperature(35.0);     liquid.SetAmount(1000.0));
 end RealWorld1
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###REALWORLD-normal-water.vdmpp
 
@@ -94,7 +105,8 @@ instance variables  public aap: NormalAtmosphericAirPressure;  public liquid :
   -- CONTEXT-atmospheric-air-pressureplace-normal and  -- CONTEXT-liquid-water  -- are selected
 operations  public  Setup: () ==> ()  Setup() ==    (aap := new NormalAtmosphericAirPressure();     aap.SetAtm(1.0);     liquid := new Water();     liquid.SetAap(aap);     liquid.SetBoilingPoint();     liquid.SetTemperature(35.0);     liquid.SetAmount(1000.0));
 end RealWorld2
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SYSTEM-HW-heater.vdmpp
 
@@ -107,7 +119,8 @@ operations  public Setup: RealWorld1 | RealWorld2 ==> ()  Setup(realworld) ==
   public On: () ==> ()  On() ==   (sw := <On>;    realworld_liquid.AddTemperature());
   public Off: () ==> ()  Off() ==    sw := <Off>;
 end Heater
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SYSTEM-HW-liquid-level-sensor.vdmpp
 
@@ -118,7 +131,8 @@ instance variables  realworld_liquid : Liquid;
 operations  public  Setup: RealWorld1 | RealWorld2 ==> ()  Setup(realworld) ==    realworld_liquid := realworld.liquid;
   public  IsOn: () ==> bool  IsOn() ==    return realworld_liquid.GetAmount() > 0;
 end LiquidLevelSensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SYSTEM-HW-thermistor.vdmpp
 
@@ -129,7 +143,8 @@ instance variables  realworld_liquid : Liquid;
 operations  public  Setup: RealWorld1 | RealWorld2 ==> ()  Setup(realworld) ==    realworld_liquid := realworld.liquid;
   public  GetTemperature: () ==> real  GetTemperature() ==    return realworld_liquid.GetTemperature();
 end Thermistor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SYSTEM-SW-controller.vdmpp
 
@@ -140,7 +155,8 @@ instance variables  heater : Heater;  thermistor : Thermistor;  liquid_level_
 operations  public  Setup: RealWorld1 | RealWorld2 ==> ()  Setup(realworld) ==    (heater := new Heater();     heater.Setup(realworld);     thermistor := new Thermistor();     thermistor.Setup(realworld);     liquid_level_sensor := new LiquidLevelSensor();     liquid_level_sensor.Setup(realworld);     );
   public  Boil: () ==> ()  Boil() ==    while thermistor.GetTemperature() < 100.0 and          liquid_level_sensor.IsOn()      do        heater.On()  pre  liquid_level_sensor.IsOn()  post liquid_level_sensor.IsOn();
 end Software
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###USER-test.vdmpp
 
@@ -150,5 +166,6 @@ class UserTest
 instance variables  realworld : RealWorld1;  sw : Software;
 operations  public  test: () ==> bool  test() ==    (realworld := new RealWorld1();     realworld.Setup();     sw := new Software();     sw.Setup(realworld);     sw.Boil();     return true);
 end UserTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 

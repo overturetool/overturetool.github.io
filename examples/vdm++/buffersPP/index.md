@@ -1,13 +1,26 @@
 ---
 layout: default
-title: buffers
+title: buffersPP
 ---
 
-~~~
-This model is made by Yves Ledru et al. in a paper illustrating thecombinatorial testing tool called Tobias. In this model the traces tobe used for combinatorial testing purposes have been redone by Peter Gorm Larsen. For more information see:
-Filtering TOBIAS Combinatorial Test Suites, Yves Ledru, Lydie du Bousquet, Olivier Maury and Pierre Bontron, In Fundamental Approaches to Software Engineering, Lecture Notes in Computer Science, Springer, ISSN 0302-9743 (Print) 1611-3349 (Online), Volume 2984/2004. 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Yves Ledru#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Buffers().getBuffers()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Yves Ledru
+
+
+This model is made by Yves Ledru et al. in a paper illustrating the
+combinatorial testing tool called Tobias. In this model the traces to
+be used for combinatorial testing purposes have been redone by Peter 
+Gorm Larsen. For more information see:
+
+Filtering TOBIAS Combinatorial Test Suites, Yves Ledru, Lydie du 
+Bousquet, Olivier Maury and Pierre Bontron, In Fundamental 
+Approaches to Software Engineering, Lecture Notes in Computer Science, 
+Springer, ISSN 0302-9743 (Print) 1611-3349 (Online), Volume 2984/2004. 
+ |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Buffers().getBuffers()|
+
+
 ###buffers2.vdmpp
 
 {% raw %}
@@ -33,5 +46,6 @@ S3: b.Add(5){7}; ((let x in set {1,...,5} in b.Add(x)) |                  (let 
 S4: let x in set {1,...,5} in b.Add(x);     ((let x in set {1,...,5} in b.Add(x)) |     (let y in set {1,3,5} in b.Remove(y))){1,3}; b.getBuffers()
 end UseBuffers
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

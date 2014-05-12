@@ -1,12 +1,16 @@
 ---
 layout: default
-title: webserver
+title: webserverPP
 ---
 
-~~~
+Author: 
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###file.vdmpp
 
 {% raw %}
@@ -17,7 +21,8 @@ class File
   operations 
     public    write : seq of char ==> ()    write(chs) ==       data := chs
 end File
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###filename.vdmpp
 
@@ -29,7 +34,8 @@ class Filename
    -- get_file models OS operation of taking a location and returning   -- content of file at that location   public   get_file : () ==> File   get_file () == is not yet specified; 
    -- put_file models OS operation of storing given file at a given   -- location   public   put_file : File ==> ()   put_file (f) == is not yet specified; 
 end Filename
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###url.vdmpp
 
@@ -41,7 +47,8 @@ class URL
     -- for a given configuration, translate maps this URL to the     -- location of the corresponding file on the server.    public    translate : () ==> Filename    translate () == is not yet specified;
 
 end URL
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###webserver.vdmpp
 
@@ -64,5 +71,6 @@ class Webserver
 end Webserver
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

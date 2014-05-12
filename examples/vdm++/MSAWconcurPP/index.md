@@ -1,13 +1,22 @@
 ---
 layout: default
-title: MSAWconcur
+title: MSAWconcurPP
 ---
 
-~~~
-This VDM++ model is made by August Ribeiro as input for the VDMcourses delivered at IHA in Denmark. It is a concurrent version of the Minimum Safety Altitude Warning System (MSAW) example.
+Author: Augusto Ribeiro
+
+
+This VDM++ model is made by August Ribeiro as input for the VDM
+courses delivered at IHA in Denmark. It is a concurrent version 
+of the Minimum Safety Altitude Warning System (MSAW) example.
+
 This project is currently not running with the Overture interpreter.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Augusto Ribeiro#LIB= IO; MATH#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World().Run()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###AirSpace.vdmpp
 
 {% raw %}
@@ -23,7 +32,8 @@ public getFO : FOId ==> FOgetFO(id) ==  return airspace(id)pre id in set dom 
 public getAirspace : () ==> set of FOgetAirspace() ==  return rng airspace;
 public updateFO : FOId * Coordinates * Altitude ==> ()updateFO(id,coord,alt) == (if (id in set dom airspace)  then     let fo = airspace(id)    in      (fo.setCoordinates(coord);      fo.setAltitude(alt))     -- fo.registerPosition())  else    (let newfo = new FO(id,coord,alt)     in airspace := airspace munion {id |-> newfo}    );  MSAW`atc.UpdatesPresent())
 end AirSpace
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###atc.vdmpp
 
@@ -71,7 +81,8 @@ public Step : () ==> ()Step() == ( for all r in set radars   do     r.Scan(M
 --thread--  (for all r in set radars do--     start(r);--   while true do--    Step();    --  )
 sync per isFinished => not busy;--per Step => busy  mutex(Step);
 end AirTrafficController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###BaseThread.vdmpp
 
@@ -85,7 +96,8 @@ protected BaseThread : () ==> BaseThreadBaseThread() == (World`timerRef.Regist
 Step : () ==> ()Step() ==  is subclass responsibility
 thread (if isPeriodic  then (while true        do          (Step();          World`timerRef.WaitRelative(period);         )       )  else (Step();        World`timerRef.WaitRelative(0);        World`timerRef.UnRegisterThread();       ) );
 end BaseThread
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###environment.vdmpp
 
@@ -119,7 +131,8 @@ mutex(handleRadarWarningEvent);mutex(handleRadarWarningEvent,handleFOWarningEve
 --    if updating--    then (World`timerRef.WaitRelative(1);--          updating := false);--   );--  busy := false; --  )
 
 end Environment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FO.vdmpp
 
@@ -138,7 +151,8 @@ public setAltitude : Altitude ==> ()setAltitude(altarg) ==  alt := altarg;
 public getPosition : () ==> PositiongetPosition() ==   return mk_Position(coord,alt); 
 
 end FO
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###GLOBAL.vdmpp
 
@@ -177,7 +191,8 @@ operations
 public test : real * real * real * real ==> Vector * Vector * real * real * Vector * real * realtest(x1,y1,x2,y2) ==   let v1 = mk_Vector(x1,y1),      v2 = mk_Vector(x2,y2)  in     return mk_(unitVector(v1),               unitVector(v2),               dotProduct(unitVector(v1),unitVector(v2)),               atan2(0.000001,0.0000000),               vectorRotate(v2,signedVectorAngle(v1,v2)),               radians2degree(signedVectorAngle(v1,v2)),               angleBetweenVectors(v1,v2)              );
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MSAW.vdmpp
 
@@ -191,7 +206,8 @@ public static airspace : AirSpace := new AirSpace();
 public static militaryZone : Obstacle :=   new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
 public static radar1 : Radar := new Radar(6,11,20, 1, true);public static radar2 : Radar := new Radar (30,30,5, 1, true);  
 end MSAW
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###obstacle.vdmpp
 
@@ -209,7 +225,8 @@ public getMSA : () ==> MinimumSafetyAltitudegetMSA() ==   return MSA;
 
 
 end Obstacle 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Radar.vdmpp
 
@@ -240,7 +257,8 @@ set2seqFOm : set of FO -> natset2seqFOm(fos) == card fos;
 sync mutex(Step);mutex(InRange);mutex(UpdatePriorityList);
 per isFinished => not busy;mutex(removeNotDetected);mutex (addNewlyDetected);mutex(UpdatePriorityList)
 end Radar
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TimeStamp.vdmpp
 
@@ -273,7 +291,8 @@ mutex(IsInitialising);mutex(DoneInitialising);  -- Is this really needed?  mu
   mutex(AddToWakeUpMap, NotifyThread);  mutex(AddToWakeUpMap, BarrierReached);  mutex(NotifyThread, BarrierReached);
   mutex(AddToWakeUpMap, NotifyThread, BarrierReached);
 end TimeStamp
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###world.vdmpp
 
@@ -291,5 +310,6 @@ public   World : () ==> World  World() ==    ( env := new Environment("scenar
 public Run : () ==> ()Run() == (  --start(env);  --start(MSAW`atc);  env.isFinished();  MSAW`atc.isFinished();
   env.showResult() )
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

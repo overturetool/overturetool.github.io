@@ -1,15 +1,29 @@
 ---
 layout: default
-title: access-control
+title: access-controlPP
 ---
 
-~~~
+Author: Jeremy Bryans and John Fitzgerald
 
-This specification describes access control and policies for restricting this.Details of the specification may be found in:   1. Formal Engineering of Access Control Policies in VDM++ Jeremy W. Bryans and John S. Fitzgerald. In proceedings of 9th International Conference on Formal Engineering Methods (ICFEM 2007). Boca Raton, USA, November 2007. pp 37--56
-2. A Formal Approach to Dependable Evolution of Access Control Policies in Dynamic Collaborations Jeremy W. Bryans, John S. Fitzgerald and Panos Periorellis. In Proceedings of the 37th Annual IEEE/IFIP International Conference on Dependable Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinburgh, UK
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Jeremy Bryans and John Fitzgerald#LANGUAGE_VERSION=classic#LIB= IO#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Test().Run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+This specification describes access control and policies for restricting this.
+Details of the specification may be found in:   
+1. Formal Engineering of Access Control Policies in VDM++ Jeremy W. Bryans and 
+John S. Fitzgerald. In proceedings of 9th International Conference on Formal 
+Engineering Methods (ICFEM 2007). Boca Raton, USA, November 2007. pp 37--56
+ 
+2. A Formal Approach to Dependable Evolution of Access Control Policies in 
+Dynamic Collaborations Jeremy W. Bryans, John S. Fitzgerald and Panos Periorellis. 
+In Proceedings of the 37th Annual IEEE/IFIP International Conference on Dependable 
+Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinburgh, UK
+ 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Test().Run()|
+
+
 ###Env.vdmpp
 
 {% raw %}
@@ -28,7 +42,8 @@ public GetSAType: FExp`Id ==> FExp`ATypeGetSAType(id) ==  return senv(id)pre 
 public GetAType:FExp`Id * FExp`Id ==> FExp`STypeGetAType(id,index) ==  return senv(id)(index)pre id in set dom denv and index in set dom denv(id);
 end Env
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Evaluater.vdmpp
 
@@ -56,7 +71,8 @@ evaluateRulesPermitOverrides : set of PDP`Rule ==> PDP`EffectevaluateRulesPermi
 targetmatch : PDP`Target ==> booltargetmatch(tgt) ==     if ((tgt.subjects  = {}) or (req.GetSubject() in set tgt.subjects)) and        ((tgt.resources = {}) or (req.GetResource() in set tgt.resources)) and        ((tgt.actions = {})   or (req.GetActions() inter tgt.actions) <> {})      then return true      else return false;
 
 end Evaluator
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FExp.vdmpp
 
@@ -125,7 +141,8 @@ wfUnId : UnId  ==> STypewfUnId(e) ==    cases e:   mk_UnId(<requester>)	-> re
 wfArrayLookup : ArrayLookup * Env ==> SType wfArrayLookup(mk_ArrayLookup(id, index),env) ==   if (id in set dom env.GetSenv())  -- Id is in the env  then let tp = env.GetSType(id) in  -- get the type of Id in env           if tp = <B> or tp = <I> or tp = <U>           then return <Err> -- Id is not an array in the env            elseif index in set dom env.GetSenv()(id) -- assuming Id points to an array in senv				then return env.GetAType(id,index) -- Get type of index in map				else return <Err>  else return <Err>;  
 
 end FExp
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###PDP.vdmpp
 
@@ -149,7 +166,8 @@ public GetpolicyCombAlg: () ==> CombAlgGetpolicyCombAlg() ==  return policyCom
 public Getpolicies: () ==> set of PolicyGetpolicies() ==  return policies;
 public GetEffect: Rule ==> EffectGetEffect(r) ==  return r.effect;
 end PDP
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Request.vdmpp
 
@@ -167,7 +185,8 @@ public GetSubject: () ==> PDP`SubjectGetSubject() ==   return subject;
 public GetResource: () ==> PDP`ResourceGetResource() ==   return resource;
 public GetActions: () ==> set of PDP`ActionGetActions() ==   return actions;
 end Request
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmpp
 
@@ -218,5 +237,6 @@ gold_policy_results_scale : PDP =     new PDP({lab_results_creator_policy,scale
 	operations
   public Run: () ==> PDP`Effect  Run () ==--  ( dcl pdp : PDP := gold_policy_no;--  ( dcl pdp : PDP := gold_policy_nt;--  ( dcl pdp : PDP := gold_policy_nf;--  ( dcl pdp : PDP := gold_policy_project_results;  ( dcl pdp : PDP := gold_policy_results_scale;    dcl s : FExp := new FExp(mk_token("signed"));    dcl lr : FExp := new FExp(mk_token("lab_results"));    dcl req : Request := new Request(Anne,lab_results,{create});    dcl env : Env := new Env({s.GetExp() |-> {lr.GetExp() |-> <B>}},                             {s.GetExp() |-> {lr.GetExp() |-> true}});     dcl eval : Evaluator := new Evaluator(req,pdp,env);    return eval.evaluate()  );
 end Test
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,13 +1,24 @@
 ---
 layout: default
-title: HASL
+title: HASLSL
 ---
 
-~~~
-This is a VDM-SL version of a home automation example constructedby Sune Wolff. 
-More information can be found in:Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development of Distributed Real-Time Embedded Systems Using VDM, International Journal of Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Sune Wolff#LIB= #LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=DEFAULT`HomeAutomation([mk_(true,20,19,60,62),mk_(false,20,20,60,60),mk_(true,20,19,60,60)])#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Sune Wolff
+
+
+This is a VDM-SL version of a home automation example constructed
+by Sune Wolff. 
+
+More information can be found in:
+Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development 
+of Distributed Real-Time Embedded Systems Using VDM, International Journal of 
+Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| DEFAULT`HomeAutomation([mk_(true,20,19,60,62),mk_(false,20,20,60,60),mk_(true,20,19,60,60)])|
+
+
 ###HA.vdmsl
 
 {% raw %}
@@ -37,5 +48,6 @@ HumidChanged: nat * nat * nat * nat * nat * seq of OutStep -> seq of OutStepHum
 
 InterruptOutput : seq of OutStep * nat -> seq of OutStepInterruptOutput(output, curTime) ==  [output(i) | i in set inds output & let mk_(-,t) = output(i) in t <= curTime];
 CounterOutput : seq of OutStep * nat -> seq of OutStepCounterOutput(output, curTime) ==  let mk_(lastOutput,-) = output(len output)  in    if lastOutput = <OpenWindow>    then output ^ [mk_(<CloseWindow>, curTime)]    elseif (lastOutput = <IncTemp> or lastOutput = <DecTemp>)    then output ^ [mk_(<LeaveTemp>, curTime)]    else output;
-~~~{% endraw %}
+~~~
+{% endraw %}
 

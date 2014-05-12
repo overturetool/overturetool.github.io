@@ -1,13 +1,20 @@
 ---
 layout: default
-title: tree
+title: treePP
 ---
 
-~~~
+Author: 
 
-This VDM++ model contains basic classes for defining and traversing over abstract threes and queues.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new UseTree().insertion_BST()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+
+This VDM++ model contains basic classes for defining 
+and traversing over abstract threes and queues.
+ |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new UseTree().insertion_BST()|
+
+
 ###avl.vdmpp
 
 {% raw %}
@@ -16,7 +23,8 @@ class AVLTree is subclass of Tree
   functions
   tree_isAVLTree : tree -> bool  tree_isAVLTree(t) == true
 end AVLTree
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###bst.vdmpp
 
@@ -34,7 +42,8 @@ end BinarySearchTreeclass BalancedBST is subclass of BinarySearchTree
   values
   v = 1
 end BalancedBST
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###queue.vdmpp
 
@@ -47,7 +56,8 @@ class Queue
     public    Dequeue : () ==> Tree`node    Dequeue () ==      def x = hd vals      in ( vals := tl vals;           return x)    pre not isEmpty();
     public    isEmpty : () ==> bool    isEmpty () ==       return(vals = [])
 end Queue
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###tree.vdmpp
 
@@ -78,7 +88,8 @@ class Tree
 
 end Tree
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###usetree.vdmpp
 
@@ -90,5 +101,6 @@ instance variables
 traces
   insertion_BST :     (let n in set {1,...,5} in       t1.Insert(n)    ){2};  (t1.breadth_first_search() |             t1.depth_first_search() |            t1.inorder () |            t1.isEmpty()           )
 end UseTree
-~~~{% endraw %}
+~~~
+{% endraw %}
 

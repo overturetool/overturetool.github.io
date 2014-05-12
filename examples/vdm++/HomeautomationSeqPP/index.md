@@ -1,13 +1,24 @@
 ---
 layout: default
-title: HomeautomationSeq
+title: HomeautomationSeqPP
 ---
 
-~~~
-This is a sequential VDM++ version of a home automation example constructedby Sune Wolff. 
-More information can be found in:Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development of Distributed Real-Time Embedded Systems Using VDM, International Journal of Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Sune Wolff#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new TestComplete().Execute()#LIB=IO#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Sune Wolff
+
+
+This is a sequential VDM++ version of a home automation example constructed
+by Sune Wolff. 
+
+More information can be found in:
+Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development 
+of Distributed Real-Time Embedded Systems Using VDM, International Journal of 
+Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new TestComplete().Execute()|
+
+
 ###Actuator.vdmpp
 
 {% raw %}
@@ -22,7 +33,8 @@ public GetID: () ==> nat	GetID() ==		return ID;
 public GetType: () ==> NetworkTypes`nodeType	GetType() ==		return Type;
 public Step: () ==> ()	Step() ==		is subclass responsibility
 end Actuator
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmpp
 
@@ -52,7 +64,8 @@ public DecHumid: () ==> ()	DecHumid() ==		envHumid := envHumid - 1;
 public SetHumid: nat ==> ()	SetHumid(h) ==		envHumid := h;
 public isFinished : () ==> boolisFinished () ==   return inlines = [] and finished;
 end Environment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HomeAutomation.vdmpp
 
@@ -69,7 +82,8 @@ public HA: () ==> HA	HA() ==		(Host.AddNode(TempNode.GetID(), TempNode.GetType
 ---- Functions definition section--functions
 ---- Values definition section--values
 end HA
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HostController.vdmpp
 
@@ -102,7 +116,8 @@ public AddNode: nat * NetworkTypes`nodeType ==> ()	AddNode(id, type) ==		(Node
 public RemoveNode: nat * NetworkTypes`nodeType ==> ()	RemoveNode(id, type) ==		(if (NodeList(id) = type)		then NodeList := {id} <-: NodeList;		UpdateAlgorithm();		)pre id in set dom NodeListpost card(dom NodeList) = card(dom NodeList~) - 1;
 public Step: () ==> ()Step() == (HA`TempNode.Step();  HA`HumidNode.Step();  UpdateValues();  Algorithm();  HA`WinNode.Step();  HA`ThermNode.Step(); );
 end HostController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HumidSensor.vdmpp
 
@@ -115,7 +130,8 @@ end HostController
 public HumidSensor: nat * NetworkTypes`nodeType * nat ==> HumidSensor	HumidSensor (id, type, val) ==		(ID := id;		Type := type;		Value := val;		);
 public Step: () ==> ()	Step() ==		(Value := World`env.ReadHumid();		);
 end HumidSensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NetworkTypes.vdmpp
 
@@ -131,7 +147,8 @@ public nodeType 	= <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOS
 ---- Functions definition section--functions
 ---- Values definition section--values
 end NetworkTypes
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Sensor.vdmpp
 
@@ -148,7 +165,8 @@ public GetType: () ==> NetworkTypes`nodeType	GetType() ==		return Type;
 public ReadValue: () ==> nat	ReadValue() ==		return Value;
 public Step: () ==> ()	Step() ==		is subclass responsibility
 end Sensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Surroundings.vdmpp
 
@@ -170,7 +188,8 @@ public IncHumid: () ==> ()	IncHumid() ==		envHumid := envHumid + 1;
 public DecHumid: () ==> ()	DecHumid() ==		envHumid := envHumid - 1;
 public SetHumid: nat ==> ()	SetHumid(h) ==		envHumid := h;
 end Surroundings
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TemperatureSensor.vdmpp
 
@@ -183,7 +202,8 @@ end Surroundings
 public TemperatureSensor: nat * NetworkTypes`nodeType * nat ==> TemperatureSensor	TemperatureSensor (id, type, val) ==		(ID := id;		Type := type;		Value := val;		);
 public Step: () ==> ()	Step() ==		(Value := World`env.ReadTemp();		);
 end TemperatureSensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmpp
 
@@ -195,7 +215,8 @@ end TemperatureSensor
 ---- Operations definition section--operations
 public Run: TestResult ==> ()	Run(-) == is subclass responsibility
 end Test
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestActuator.vdmpp
 
@@ -214,7 +235,8 @@ protected Test: () ==> ()	Test() ==		(AssertTrue(win.GetID() = 3);		AssertTru
 protected RunTest: () ==> ()	RunTest() == Test();
 protected TearDown: () ==> ()	TearDown() == skip;
 end TestActuator
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestCase.vdmpp
 
@@ -235,7 +257,8 @@ protected SetUp: () ==> ()	SetUp() == is subclass responsibility;
 protected RunTest: () ==> ()	RunTest() == is subclass responsibility;
 protected TearDown: () ==> ()	TearDown() == is subclass responsibility;
 end TestCase
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestComplete.vdmpp
 
@@ -247,7 +270,8 @@ end TestCase
 ---- Operations definition section--operations
 public Execute: () ==> ()	Execute() ==		(dcl ts : TestSuite := new TestSuite();--		ts.AddTest(new TestSurroundings("TestSurroundings"));		ts.AddTest(new TestSensor("TestSensor"));		ts.AddTest(new TestActuator("TestActuator"));		ts.AddTest(new TestHostController("TestHC"));		ts.Run();		);
 end TestComplete
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestHostController.vdmpp
 
@@ -300,7 +324,8 @@ protected Test: () ==> ()	Test() ==	(--	AssertTrue(HA`Host.GetAlgo() = <NONE>
 protected RunTest: () ==> ()	RunTest() == Test();
 protected TearDown: () ==> ()	TearDown() == skip;
 end TestHostController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestResult.vdmpp
 
@@ -316,7 +341,8 @@ public AddFailure: TestCase ==> ()	AddFailure(ptst) == failures := failures ^ [
 public Print: seq of char ==> ()	Print(pstr) ==		def - = new IO().echo(pstr ^ "\n") in skip;
 public Show: () ==> ()	Show() ==		if failures = [] then			Print("No failures detected")		else 			for failure in failures do				Print(failure.GetName() ^ " failed");
 end TestResult
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestSensor.vdmpp
 
@@ -336,7 +362,8 @@ protected RunTest: () ==> ()	RunTest() == Test();
 protected TearDown: () ==> ()	TearDown() == skip;
 
 end TestSensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestSuite.vdmpp
 
@@ -352,7 +379,8 @@ public Run: () ==> ()	Run () ==		(dcl ntr : TestResult := new TestResult();		
 public Run: TestResult ==> ()	Run(result) ==		for test in tests do			test.Run(result);
 public AddTest: Test ==> ()	AddTest(test) ==		tests := tests ^ [test];
 end TestSuite
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestSurroundings.vdmpp
 
@@ -372,7 +400,8 @@ protected Test: () ==> ()	Test() ==		(AssertTrue(env.ReadTemp() = 20);		Asser
 protected RunTest: () ==> ()	RunTest() == Test();
 protected TearDown: () ==> ()	TearDown() == skip;
 end TestSurroundings
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Thermostat.vdmpp
 
@@ -387,7 +416,8 @@ public Step: () ==> ()	Step() ==		(if (Corr = <INC>)		then World`env.IncTemp(
 public SetCorrection: NetworkTypes`correction ==> ()	SetCorrection(cor) ==		Corr := corpre (cor = <INC>) or (cor = <DEC>) or (cor = <NONE>);
 public GetCorrection: () ==> NetworkTypes`correction	GetCorrection() ==		return Corr;
 end Thermostat
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###timer.vdmpp
 
@@ -404,7 +434,8 @@ public StepTime : () ==> ()StepTime() ==  currentTime := currentTime + stepLen
 public GetTime : () ==> natGetTime() ==  return currentTime;
 end Timer
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Window.vdmpp
 
@@ -419,7 +450,8 @@ public Step: () ==> ()	Step() ==		(if (Corr = <OPEN>)		then (World`env.DecHum
 public SetCorrection: NetworkTypes`correction ==> ()	SetCorrection(cor) ==		Corr := corpre (cor = <OPEN>) or (cor = <CLOSE>);
 public GetCorrection: () ==> NetworkTypes`correction	GetCorrection() ==		return Corr;
 end Window
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmpp
 
@@ -433,5 +465,6 @@ static public env : Environment := new Environment("scenario.txt");static publi
 operations
 public Run: () ==> ()Run() == (-- start environment creating input  env.Run(); );
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

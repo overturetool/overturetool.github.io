@@ -1,12 +1,19 @@
 ---
 layout: default
-title: sortPP
+title: sortPPPP
 ---
 
-~~~
-This VDM++ model is made by Peter Gorm Larsen in 2010 based on the original VDM++ model created many years ago at IFAD.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Peter Gorm Larsen#LIB=#LANGUAGE_VERSION=vdm10#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new SortMachine().GoSorting([4,2,5,6,4,42,1,1,99,5])#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Peter Gorm Larsen
+
+
+This VDM++ model is made by Peter Gorm Larsen in 2010 based on the original 
+VDM++ model created many years ago at IFAD.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| vdm10|
+|Entry point     :| new SortMachine().GoSorting([4,2,5,6,4,42,1,1,99,5])|
+
+
 ###dosort.vdmpp
 
 {% raw %}
@@ -22,7 +29,8 @@ functions
   Len: int * seq of int -> nat  Len(-,list) ==    len list
 end DoSort 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###explsort.vdmpp
 
@@ -39,7 +47,8 @@ functions
   Len: seq of int -> nat  Len(list) ==    len list
 end ExplSort
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###implsort.vdmpp
 
@@ -55,7 +64,8 @@ functions
   IsOrdered: seq of int -> bool  IsOrdered(l) ==    forall i,j in set inds l & i > j => l(i) >= l(j)
 end ImplSort
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###mergesort.vdmpp
 
@@ -73,7 +83,8 @@ functions
 end MergeSort
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###sorter.vdmpp
 
@@ -85,7 +96,8 @@ operations
   public  Sort: seq of int ==> seq of int   Sort(arg) ==    is subclass responsibility
 end Sorter
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###sortmachine.vdmpp
 
@@ -106,5 +118,6 @@ traces
 end SortMachine
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

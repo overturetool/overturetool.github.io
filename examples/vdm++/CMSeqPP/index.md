@@ -1,11 +1,21 @@
 ---
 layout: default
-title: CMSeq
+title: CMSeqPP
 ---
 
-~~~
-This example is used in the guidelines for developing distributed real time systems using the VICE extension to VDM++. This model is available in a sequential version, a concurrent version aswell as in a distributed real-time VICE version. This is the distributed real time version of this example. #******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Peter Gorm Larsen and Marcel Verhoef#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World().Run()#LIB=IO#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Peter Gorm Larsen and Marcel Verhoef
+
+
+This example is used in the guidelines for developing distributed 
+real time systems using the VICE extension to VDM++. This model 
+is available in a sequential version, a concurrent version as
+well as in a distributed real-time VICE version. This is the 
+distributed real time version of this example. |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###CM.vdmpp
 
 {% raw %}
@@ -21,7 +31,8 @@ public static dispenser4 : FlareDispenser := new FlareDispenser(0);public stati
 public static dispenser8 : FlareDispenser := new FlareDispenser(0);public static dispenser9 : FlareDispenser := new FlareDispenser(30);public static dispenser10 : FlareDispenser := new FlareDispenser(60);public static dispenser11 : FlareDispenser := new FlareDispenser(90);
 end CM
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###environment.vdmpp
 
@@ -48,7 +59,8 @@ public showResult: () ==> ()showResult () ==  def - = io.writeval[seq of outli
 public isFinished : () ==> boolisFinished () ==   return inlines = [] and not busy;
 end Environment
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###flarecontroller.vdmpp
 
@@ -71,7 +83,8 @@ public Step: () ==> ()Step() ==  (if threats <> []   then def mk_ (evid,pmt, 
 public isFinished: () ==> boolisFinished () ==  return forall id in set dom dispensers &            dispensers(id).isFinished();
 end FlareController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###flaredispenser.vdmpp
 
@@ -96,7 +109,8 @@ private releaseFlare: EventId * FlareType * Time * Time ==> ()releaseFlare (evi
 public isFinished: () ==> boolisFinished () ==   return not busy
 end FlareDispenser
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###global.vdmpp
 
@@ -117,7 +131,8 @@ public canObserve: Angle * Angle * Angle ==> boolcanObserve (pangle, pleft, psi
 public getAperture: () ==> Angle * AnglegetAperture () == is subclass responsibility;
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###missiledetector.vdmpp
 
@@ -138,7 +153,8 @@ public Step: () ==> ()Step() ==  (if threats <> []   then def mk_ (evid,pmt, 
 public isFinished: () ==> boolisFinished () ==  return forall id in set dom controllers &            controllers(id).isFinished()
 end MissileDetector
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###sensor.vdmpp
 
@@ -155,7 +171,8 @@ public Sensor: MissileDetector * Angle ==> SensorSensor (pmd, psa) == ( detecto
 -- trip is called asynchronously from the environment to-- signal an event. the sensor triggers if the event is-- in the field of view. the event is stored in the-- missile detector for further processingpublic trip: EventId * MissileType * Angle ==> ()trip (evid, pmt, pa) ==  -- log and time stamp the observed threat  detector.addThreat(evid, pmt,pa,World`timerRef.GetTime())pre canObserve(pa, aperture, SENSOR_APERTURE)
 end Sensor
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###timer.vdmpp
 
@@ -174,7 +191,8 @@ public StepTime : () ==> ()StepTime() ==  currentTime := currentTime + stepLen
 public GetTime : () ==> natGetTime() ==  return currentTime;
 end Timer
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###world.vdmpp
 
@@ -192,5 +210,6 @@ public World: () ==> WorldWorld () ==  (-- set-up the sensors   env := new En
 -- the run function blocks the user-interface thread-- until all missiles in the file have been processedpublic Run: () ==> ()Run () ==   env.Run()
 end World
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,14 +1,34 @@
 ---
 layout: default
-title: PacemakerSeq
+title: PacemakerSeqPP
 ---
 
-~~~
-This model is made by Hugo Macedo as a part of his MSc thesis of apacemaker according to the grand challenge provided by BostonScientific in this area. This is the last of a series of VDM modelsof the pacemaker and it incorporates a number of modes for the pacemaker. More information can be found in:
-Hugo Macedo, Validating and Understanding Boston Scientific PacemakerRequirements, MSc thesis, Minho University, Portugal, October 2007.
-Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald, Incremental Development of a Distributed Real-Time Model of a Cardiac Pacing System using VDM, In FM 2008: Formal Methods, 15th International Symposium on Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Hugo Macedo#LIB=IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World("tests/scenarioGoodHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Hugo Macedo
+
+
+This model is made by Hugo Macedo as a part of his MSc thesis of a
+pacemaker according to the grand challenge provided by Boston
+Scientific in this area. This is the last of a series of VDM models
+of the pacemaker and it incorporates a number of modes for the 
+pacemaker. More information can be found in:
+
+Hugo Macedo, Validating and Understanding Boston Scientific Pacemaker
+Requirements, MSc thesis, Minho University, Portugal, October 2007.
+
+Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald, Incremental 
+Development of a Distributed Real-Time Model of a Cardiac Pacing System 
+using VDM, In FM 2008: Formal Methods, 15th International Symposium on 
+Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
+Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World("tests/scenarioGoodHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()|
+
+
 ###Accelerometer.vdmpp
 
 {% raw %}
@@ -19,7 +39,8 @@ operations
  public  stimulate : ActivityData ==> () stimulate (a) == Pacemaker`rateController.stimulate(a);
 end Accelerometer
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmpp
 
@@ -63,7 +84,8 @@ public isFinished: () ==> boolisFinished () == return inplines = [] and not bu
 end Environment
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###GLOBAL.vdmpp
 
@@ -86,7 +108,8 @@ types
 -- Timepublic Time = nat;
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HeartController.vdmpp
 
@@ -112,7 +135,8 @@ operations
  public  setInterval : Time ==> () setInterval (t) == interval := t;
 end HeartController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Lead.vdmpp
 
@@ -138,7 +162,8 @@ public addLeadPace : Pulse * Time ==> () addLeadPace (p,t) ==    if t <= Worl
    );
 end Lead 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Pacemaker.vdmpp
 
@@ -157,7 +182,8 @@ class Pacemaker
  public static  heartController     : HeartController := new HeartController();
 end Pacemaker
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RateController.vdmpp
 
@@ -183,7 +209,8 @@ values
 V_LOW : ActivityData = 1;LOW : ActivityData = 2;MED_LOW : ActivityData = 3;MED : ActivityData = 4;MED_HIGH : ActivityData = 5;HIGH : ActivityData = 6;V_HIGH : ActivityData = 7;
 end RateController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Timer.vdmpp
 
@@ -204,7 +231,8 @@ public GetTime : () ==> TimeGetTime () == return currentTime;
 
 end Timer
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmpp
 
@@ -225,5 +253,6 @@ public Run: () ==> ()Run () == (env.Run(); env.showResult());
 
 end World
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

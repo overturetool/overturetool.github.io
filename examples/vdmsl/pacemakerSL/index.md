@@ -1,12 +1,28 @@
 ---
 layout: default
-title: pacemaker
+title: pacemakerSL
 ---
 
-~~~
-The Pacemaker Challenge problem has been proposed by the North American Software Certification Consortium, based on a pacemaker specification offered by Boston Scientific. Participants in the challenge are invited to develop models, designs and implementations, as well as generating evidence that would be of value in certifying the software. More details can be found in:
-Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald, Incremental Development of a Distributed Real-Time Model of a Cardiac Pacing System Using VDM, FM 2008: Formal Methods, LNCS 5014, Eds.: Jorge Cuellar, Tom Maibaum and Kaisa Sere, May 2008. #******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Hugo Macedo#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Hugo Macedo
+
+
+The Pacemaker Challenge problem has been proposed by the 
+North American Software Certification Consortium, based 
+on a pacemaker specification offered by Boston Scientific. 
+Participants in the challenge are invited to develop models, 
+designs and implementations, as well as generating evidence 
+that would be of value in certifying the software. More 
+details can be found in:
+
+Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald, 
+Incremental Development of a Distributed Real-Time Model 
+of a Cardiac Pacing System Using VDM, FM 2008: Formal 
+Methods, LNCS 5014, Eds.: Jorge Cuellar, Tom Maibaum and 
+Kaisa Sere, May 2008. |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###PacemakerAAI.vdmsl
 
 {% raw %}
@@ -25,7 +41,8 @@ Pacemaker (inp : SenseTimeline) r : ReactionTimelinepost let m = {i | i in set 
 
 end PacemakerAAI
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###PacemakerAAT.vdmsl
 
@@ -45,7 +62,8 @@ Pacemaker (inp : SenseTimeline) r : ReactionTimelinepost let m = {i | i in set 
 
 end PacemakerAAT
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###PacemakerAOO.vdmsl
 
@@ -64,7 +82,8 @@ functions
 Pacemaker (inp : SenseTimeline) r : ReactionTimelinepost let m = {i | i in set dom r & r(i) = <PULSE>}     in card dom r = card dom inp         and        card dom inp > 1 => r(1) = <PULSE>         and        forall x in set m & (           (exists y in set m & y > x) =>                  (exists y in set m & abs(x - y) <= 60000/LRL and x <> y));
 end PacemakerAOO
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###PacemakerAOOR.vdmsl
 
@@ -99,7 +118,8 @@ LOW  : AccelerometerData = 0;MED  : AccelerometerData = 1;HIGH : Accelerometer
 sensedData : seq of (Sense * [AccelerometerData] * Time) = [mk_(<NONE>,nil,i) | i in set {1,...,120}]^[mk_(<NONE>,HIGH,121)]^[mk_(<NONE>,nil,i) | i in set {121,...,190}]^[mk_(<NONE>,LOW,191)]^[mk_(<NONE>,nil,i) | i in set {192,...,436}];	
 end PacemakerAOOR
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###PacemakerDDD.vdmsl
 
@@ -136,7 +156,8 @@ SensedNothing : Time * ReactionTimeline * Alarm * Alarm * Time * Time -> Reactio
 -- A curry functionc : Time * Time * SenseTimeline * (ReactionTimeline * Alarm * Alarm * Time * Time) ->                     Time * Time * SenseTimeline * ReactionTimeline * Alarm * Alarm * Time * Timec (i,t,s,mk_(r,a,v,la,lv)) == mk_(i,t,s,r,a,v,la,lv);
 end PacemakerDDD
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###PacemakerDOO.vdmsl
 
@@ -156,7 +177,8 @@ functions
 Pacemaker (mk_(inp,n) : SensedTimeline * nat1) r : ReactionTimelinepost let nPulsesAtria = card {i | i in set r & i.#1 = <ATRIA>},          nPulsesVentricle = card {i | i in set r & i.#1 = <VENTRICLE>}     in  nPulsesAtria / n >= (LRL / 60) / 1000         and         nPulsesVentricle / n <= (URL / 60) / 1000         and         forall mk_(<ATRIA>,ta) in set r & (exists mk_(<VENTRICLE>,tv) in set r & tv = ta + FixedAV) ;
 end PacemakerDOO
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RateController.vdmsl
 
@@ -183,5 +205,6 @@ Simulate(inp : Input)  out : Outputpre 0 not in set dom inppost forall t in se
 
 end RateController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

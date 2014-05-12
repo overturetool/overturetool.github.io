@@ -1,11 +1,23 @@
 ---
 layout: default
-title: POP3
+title: POP3PP
 ---
 
-~~~
-This example is written by Paul Mukherjee and it is used in the VDM++ bookJohn Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 2005, ISBN 1-85233-881-4. The concurrent system in question is a server for the POP3 protocol. This is a protocol supported by all major email clients to fetch email messages from the email server. #******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Paul Mukherjee#LANGUAGE_VERSION=classic#INV_CHECKS=true#LIB=IO#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new POP3Test().Test1()#ENTRY_POINT=new POP3Test().Test2()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Paul Mukherjee
+
+
+This example is written by Paul Mukherjee and it is used in the VDM++ book
+John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
+Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 
+2005, ISBN 1-85233-881-4. The concurrent system in question is a server 
+for the POP3 protocol. This is a protocol supported by all major email c
+lients to fetch email messages from the email server. |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new POP3Test().Test1()|
+|Entry point     :| new POP3Test().Test2()|
+
+
 ###connectionchannel.vdmpp
 
 {% raw %}
@@ -24,7 +36,8 @@ per Get => data <> nil;per Put   => data = nil;
 sync  mutex(Put, Get);  mutex(Put);  mutex(Get);
 end MessageChannelBuffer
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###messagechannel.vdmpp
 
@@ -50,7 +63,8 @@ sync   per ServerListen => #fin(ClientSend) - 1 =                       #fin(S
   per ClientSend => #fin(ServerSend) = #fin(ClientListen)                     and                     #fin(ClientSend) = #fin(ServerListen)                     and                    #fin(ServerSend) = #fin(ClientSend) ;
 end MessageChannel
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###pop3clienthandler.vdmpp
 
@@ -119,7 +133,8 @@ static Id: nat -> natId(n) == n;
 thread( dcl cmd: POP3Types`ClientCommand;  id := threadid;  cmd := msgChannel.ServerListen();  while (cmd <> mk_POP3Types`QUIT()) do  ( msgChannel.ServerSend(ReceiveCommand(cmd));    cmd := msgChannel.ServerListen()  );  msgChannel.ServerSend(ReceiveCommand(cmd));)
 end POP3ClientHandler
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###pop3message.vdmpp
 
@@ -141,7 +156,8 @@ public GetSize: () ==> natGetSize() ==  return len body + len header;
 public GetUniqueId: () ==> seq of charGetUniqueId() ==  return uniqueId;
 end POP3Message
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###pop3server.vdmpp
 
@@ -208,7 +224,8 @@ sync
 per WaitForServerStart => serverStarted;
 end POP3Server
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###pop3test.vdmpp
 
@@ -259,7 +276,8 @@ public IsFinished: () ==> ()IsFinished() ==  skip;
 sync   per IsFinished => finished
 thread( dcl response : POP3Types`ServerResponse := mc.ClientListen();  while response <> mk_POP3Types`OkResponse( "Quitting POP3 Server" )  do  ( LogServer(response);    response := mc.ClientListen()  );  LogServer(response);  finished := true)
 end POP3TestListener
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###pop3types.vdmpp
 
@@ -299,5 +317,6 @@ public ServerResponse = OkResponse | ErrResponse;public OkResponse ::  data : s
 functions
 end POP3Types
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

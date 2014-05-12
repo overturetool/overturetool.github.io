@@ -1,13 +1,24 @@
 ---
 layout: default
-title: HomeAutomation
+title: HomeAutomationRT
 ---
 
-~~~
-This is a distributed real-time version of a home automation example constructedby Sune Wolff. 
-More information can be found in:Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development of Distributed Real-Time Embedded Systems Using VDM, International Journal of Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Sune Wolff#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= new World().Run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Sune Wolff
+
+
+This is a distributed real-time version of a home automation example constructed
+by Sune Wolff. 
+
+More information can be found in:
+Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development 
+of Distributed Real-Time Embedded Systems Using VDM, International Journal of 
+Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###Actuator.vdmrt
 
 {% raw %}
@@ -21,7 +32,8 @@ public GetID: () ==> natGetID() ==  return ID;
 public GetType: () ==> NetworkTypes`nodeTypeGetType() ==  return Type;
 public Step: () ==> ()Step() ==  is subclass responsibility
 end Actuator
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmrt
 
@@ -53,7 +65,8 @@ sync
 ---- Thread definition section--thread
 -- period of thread (period, jitter, delay, offset)periodic(1000E6,0,0,0) (CreateSignal)
 end Environment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HomeAutomation.vdmrt
 
@@ -68,7 +81,8 @@ end Environment
 ---- Operations definition section--operations
 public HA: () ==> HAHA() == (cpu1.deploy(Host);  cpu2.deploy(TempNode);  cpu5.deploy(HumidNode);  cpu3.deploy(ThermNode);  cpu4.deploy(WinNode);  );
 end HA
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HostController.vdmrt
 
@@ -107,7 +121,8 @@ sync  mutex(AddNode,RemoveNode);  per IsFinished => finished;
 ---- Thread definition section--thread
 -- period of thread (period, jitter, delay, offset)periodic(1000E6,0,0,0) (PeriodicOp)
 end HostController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HumidSensor.vdmrt
 
@@ -125,7 +140,8 @@ sync  --mutex(PeriodicOp);	-- ADDED  per IsFinished => finished;
 ---- Thread definition section--thread
 -- period of thread (period, jitter, delay, offset)periodic(1000E6,0,0,0) (PeriodicOp)
 end HumidSensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NetworkTypes.vdmrt
 
@@ -136,7 +152,8 @@ end HumidSensor
 ---- Types definition section--types   
 public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
 end NetworkTypes
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Sensor.vdmrt
 
@@ -152,7 +169,8 @@ public GetType: () ==> NetworkTypes`nodeTypeGetType() ==  return Type;
 public ReadValue: () ==> intReadValue() ==  --cycles (1E3)  return Value;
 public Step: () ==> ()Step() ==  is subclass responsibility
 end Sensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TemperatureSensor.vdmrt
 
@@ -170,7 +188,8 @@ sync  --mutex(PeriodicOp); -- ADDED  per IsFinished => finished;
 ---- Thread definition section--thread
 -- period of thread (period, jitter, delay, offset)periodic(1000E6,0,0,0) (PeriodicOp)
 end TemperatureSensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Thermostat.vdmrt
 
@@ -190,7 +209,8 @@ sync  --mutex(PeriodicOp); -- ADDED  per IsFinished => finished;  mutex(SetCo
 ---- Thread definition section--thread
 -- period of thread (period, jitter, delay, offset)periodic(1000E6,0,0,0) (PeriodicOp)
 end Thermostat
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Window.vdmrt
 
@@ -210,7 +230,8 @@ sync  --mutex(PeriodicOp); -- ADDED  per IsFinished => finished;  mutex(SetCo
 ---- Thread definition section--thread
 -- period of thread (period, jitter, delay, offset)periodic(1000E6,0,0,0) (PeriodicOp)
 end Window
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -225,5 +246,6 @@ public World: () ==> WorldWorld() == (env := new Environment("scenario.txt");
   start(HA`TempNode);  start(HA`HumidNode);  start(HA`ThermNode);  start(HA`WinNode);  start(HA`Host); );
 public Run: () ==> ()Run() == (-- start environment creating input  start(env);  -- wait til environment has finished creating input  env.IsFinished();  -- kill HostController thread  --HA`Host.Finish(); );
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

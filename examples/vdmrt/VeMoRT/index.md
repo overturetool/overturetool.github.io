@@ -1,13 +1,24 @@
 ---
 layout: default
-title: VeMo
+title: VeMoRT
 ---
 
-~~~
-This example was used in the MSc thesis for Claus BallegaardNielsen in order to illustrate how dynamic deployment with advantage could be added to VDM-RT.
-More information can be found in:Nielsen, C.B.: Dynamic Reconfiguration of Distributed Systems in VDM-RT. Masters thesis, Aarhus University (December 2010).
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Claus Ballegaard Nielsen#LIB=IO,MATH,VDMUtil#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= new World().Run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Claus Ballegaard Nielsen
+
+
+This example was used in the MSc thesis for Claus Ballegaard
+Nielsen in order to illustrate how dynamic deployment with advantage 
+could be added to VDM-RT.
+
+More information can be found in:
+Nielsen, C.B.: Dynamic Reconfiguration of Distributed Systems in VDM-RT. 
+Master�s thesis, Aarhus University (December 2010).
+ |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###Config.vdmrt
 
 {% raw %}
@@ -22,7 +33,8 @@ More information can be found in:Nielsen, C.B.: Dynamic Reconfiguration of Dist
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Controller.vdmrt
 
@@ -81,7 +93,8 @@ end Controller
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmrt
 
@@ -123,7 +136,8 @@ public Events: () ==> ()Events() ==(   if inlines <> []   then    (      d
 end Environment
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###gui_Graphics.vdmrt
 
@@ -140,7 +154,8 @@ class gui_Graphics
     public updateDirection: int * int ==> ()    updateDirection(vecID, dir)== is not yet specified;
     public receivedMessage : int ==> ()    receivedMessage(vecID) == is not yet specified;
 end gui_Graphics
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Position.vdmrt
 
@@ -169,7 +184,8 @@ public deepCopy : () ==> PositiondeepCopy() ==( let newPos = new Position(x,y
 end Position
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Printer.vdmrt
 
@@ -191,7 +207,8 @@ sync mutex(OutWithTS)
 end Printer
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmrt
 
@@ -201,7 +218,8 @@ class Test
 operations  public Run: TestResult ==> ()  Run (-) == is subclass responsibility
 end Test
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestCase.vdmrt
 
@@ -222,7 +240,8 @@ operations  public TestCase: seq of char ==> TestCase  TestCase(nm) == name :=
 end TestCase
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestController.vdmrt
 
@@ -247,7 +266,8 @@ protected TearDown: () ==> ()TearDown () == skip;
 end TestController
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestPosition.vdmrt
 
@@ -280,7 +300,8 @@ public testCompare : () ==> ()testCompare() ==( dcl p  : Position := new Posi
 end TestPosition
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestResult.vdmrt
 
@@ -295,7 +316,8 @@ operations  public AddFailure: TestCase ==> ()  AddFailure (ptst) == failures 
 end TestResult
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestSuite.vdmrt
 
@@ -312,7 +334,8 @@ operations  public Run: () ==> ()  Run () ==    (dcl ntr : TestResult := new 
 end TestSuite
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestTraffic.vdmrt
 
@@ -342,7 +365,8 @@ public testCongestion : () ==> ()testCongestion() ==( dcl pos2 : Position := 
 )end TestTraffic
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestTrafficData.vdmrt
 
@@ -363,7 +387,8 @@ public testExpired : () ==> ()testExpired() ==(   dcl td : TrafficData := new
 end TestTrafficData
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestTrafficLight.vdmrt
 
@@ -387,7 +412,8 @@ public testCrossDirection : () ==> ()testCrossDirection() ==(  AssertTrue(Tra
 end TestTrafficLight
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestVehicle.vdmrt
 
@@ -433,7 +459,8 @@ protected testStep: () ==> ()testStep() ==(dcl v : Vehicle := initData(); le
 end TestVehicle
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestVeMoComplete.vdmrt
 
@@ -451,7 +478,8 @@ public Execute: () ==> ()	Execute() ==		(		dcl w : World := new World() , ts 
 end TestVeMoComplete
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestVeMoController.vdmrt
 
@@ -480,7 +508,8 @@ thread( runner(); )
 end TestVeMoController
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Traffic.vdmrt
 
@@ -516,7 +545,8 @@ end Traffic
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TrafficData.vdmrt
 
@@ -540,7 +570,8 @@ end TrafficData
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TrafficLight.vdmrt
 
@@ -570,7 +601,8 @@ end TrafficLight
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Types.vdmrt
 
@@ -594,7 +626,8 @@ end Types
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Vehicle.vdmrt
 
@@ -633,7 +666,8 @@ end Vehicle
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VehicleData.vdmrt
 
@@ -658,7 +692,8 @@ end VehicleData
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VeMo.vdmrt
 
@@ -685,7 +720,8 @@ end VeMo
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VeMoController.vdmrt
 
@@ -733,7 +769,8 @@ public CalculateInRange: () ==> ()CalculateInRange() == (     -- vehicles/con
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -759,5 +796,6 @@ end World
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

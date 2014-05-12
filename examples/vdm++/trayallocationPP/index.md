@@ -1,12 +1,22 @@
 ---
 layout: default
-title: trayallocation
+title: trayallocationPP
 ---
 
-~~~
-This VDM++ model is made by two students of a sortation systemable to sort parcels into different trays for example for anairport sorting suitcases for different flights. The model herefocus on the algorithm for prioritising between different feedersto the conveyer belt
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#AUTHOR= Kim Bjerge and José Antonio Esparza Jaesparza#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World().Run()#LIB=IO#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Kim Bjerge and Jos� Antonio Esparza Jaesparza
+
+
+This VDM++ model is made by two students of a sortation system
+able to sort parcels into different trays for example for an
+airport sorting suitcases for different flights. The model here
+focus on the algorithm for prioritising between different feeders
+to the conveyer belt
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###AllocatorOneTray.vdmpp
 
 {% raw %}
@@ -19,7 +29,8 @@ class AllocatorOneTray is subclass of AllocatorStrategy
         -- Returns true if higher priority inductions in induction group		public InductionsWithHigherPriority: InductionController ==> bool		InductionsWithHigherPriority(ic) ==			return exists i in set elems trayAllocator.inductionGroup(1,...,len  trayAllocator.inductionGroup) 							& i.GetId() <> ic.GetId() 							and i.GetPriority() > ic.GetPriority() 			--  Looking at induction infront this ic causes starvation of the first induction in group			--  return exists i in set elems inductionGroup(ic.GetId()+1,...,len inductionGroup) & i.GetPriority() > ic.GetPriority()		pre ic in set elems trayAllocator.inductionGroup;
 
 end AllocatorOneTray
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###AllocatorStrategy.vdmpp
 
@@ -34,7 +45,8 @@ class AllocatorStrategy
 	functions
 	    -- Calculate current tray UID at position in front of induction based on position of card reader 		protected InductionOffset: Tray`UID * nat -> Tray`UID		InductionOffset(trayAtCardReader, icid) ==			((trayAtCardReader + icid*TrayAllocator`InductionSeperation) mod TrayAllocator`NumOfTrays) + 1;
 end AllocatorStrategy
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###AllocatorTwoTray.vdmpp
 
@@ -48,7 +60,8 @@ class AllocatorTwoTray is subclass of AllocatorStrategy
         -- Returns true if higher priority inductions in induction group		public InductionsWithHigherPriority: InductionController ==> bool		InductionsWithHigherPriority(ic) ==			return exists i in set elems trayAllocator.inductionGroup(1,...,len  trayAllocator.inductionGroup) 					        & i.GetId() <> ic.GetId() 					        and i.GetPriority() > ic.GetPriority()            -- Waiting with items of same size (two tray items)			--				and i.GetSizeOfWaitingItem() = ic.GetSizeOfWaitingItem()				--  Looking at induction infront this ic causes starvation of the first induction in group			--  return exists i in set elems inductionGroup(ic.GetId()+1,...,len inductionGroup) & i.GetPriority() > ic.GetPriority()		pre ic in set elems trayAllocator.inductionGroup;
 
 end AllocatorTwoTray
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###InductionController.vdmpp
 
@@ -73,7 +86,8 @@ class InductionController	types
 	--thread
 	traces
 end InductionController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Item.vdmpp
 
@@ -93,7 +107,8 @@ class Item	types	    public ItemTraySize = nat1	    inv it == it <= ItemMaxTr
 	-- Creates association between item and tray	public AssignItemToTray: Tray ==> ()	AssignItemToTray(tray) ==		trays := trays union {tray};
 	-- Remove item from sorter ring - Implicit operation - not used yet	public RemoveItemFromTray ()	ext wr trays : set of Tray	post trays = {}; 
 end Item
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ItemLoader.vdmpp
 
@@ -115,7 +130,8 @@ class ItemLoader	types
 	--thread
 	traces
 end ItemLoader
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SC.vdmpp
 
@@ -134,7 +150,8 @@ class SC	types
 	--thread
 	traces
 end SC
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SorterEnviroment.vdmpp
 
@@ -161,7 +178,8 @@ class SorterEnviroment	types
 	--thread
 	traces
 end SorterEnviroment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###String.vdmpp
 
@@ -178,7 +196,8 @@ class String	types
 		return string;	);
 	functions
 end String
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestSenarios.vdmpp
 
@@ -197,7 +216,8 @@ class TestTraces	types
 	traces
     -- To run TestSenarious - IO`print has to be commented out  	TestSenario1: (  					let loader in set tests  					in  					(  						env.AssignItemLoader(loader);  				   		let step in set {1,...,loader.GetNumTimeSteps()}				   		in (				   			env.TimeStep(step)							--env.sc.allocator.GetThroughput()								)			   							)				   );
 end TestTraces
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Tray.vdmpp
 
@@ -225,7 +245,8 @@ class Tray	types		public State = <Empty> | <Full>;	    public UID = nat	    
 	--thread
 	traces
 end Tray
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TrayAllocator.vdmpp
 
@@ -260,7 +281,8 @@ class TrayAllocator
 	--thread
 	traces
 end TrayAllocator
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmpp
 
@@ -285,5 +307,6 @@ class World	types
 	--thread
 	traces
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

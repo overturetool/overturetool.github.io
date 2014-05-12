@@ -1,13 +1,25 @@
 ---
 layout: default
-title: SAFER
+title: SAFERSL
 ---
 
-~~~
-This VDM-SL model is a response to the PVS model of the SAFER systemfor NASA austronauts used for space walks used to maneuver back to aspace shuttle. It was made by Sten Agerholm and Peter Gorm Larsen andpublished as:
-S.Agerholm and P.G.Larsen, Modeling and Validating SAFER in VDM-SL, Proceedings of the Fourth NASA Langley Formal Methods Workshop, NASA Conference, Publication 3356, September 1997.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Sten Agerholm and Peter Gorm Larsen#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=TEST`HugeTest()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Sten Agerholm and Peter Gorm Larsen
+
+
+This VDM-SL model is a response to the PVS model of the SAFER system
+for NASA austronauts used for space walks used to maneuver back to a
+space shuttle. It was made by Sten Agerholm and Peter Gorm Larsen and
+published as:
+
+S.Agerholm and P.G.Larsen, Modeling and Validating SAFER in VDM-SL, 
+Proceedings of the Fourth NASA Langley Formal Methods Workshop, 
+NASA Conference, Publication 3356, September 1997.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| TEST`HugeTest()|
+
+
 ###aah.vdmsl
 
 {% raw %}
@@ -35,7 +47,8 @@ functions
 end AAH
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###auxilary.vdmsl
 
@@ -63,7 +76,8 @@ types
 end AUX
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###geom.vdmsl
 
@@ -75,7 +89,8 @@ exports
 
   uselib    "geom_lib.so"
 end GEOM
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###gui.vdmsl
 
@@ -87,7 +102,8 @@ dlmodule GUI
   uselib    "my_gui.so"
 end GUI
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###hcm.vdmsl
 
@@ -110,7 +126,8 @@ functions
 end HCM
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###safer.vdmsl
 
@@ -133,7 +150,8 @@ functions
 end SAFER
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###test.vdmsl
 
@@ -174,7 +192,8 @@ operations
 end TEST
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ts.vdmsl
 
@@ -202,7 +221,8 @@ end TS
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###workspace.vdmsl
 
@@ -224,5 +244,6 @@ GenerateThrusterLabel: TS`ThrusterName +> nat * natGenerateThrusterLabel (tnm) 
 values
 switchpos = mk_HCM`SwitchPositions (<Tran>,<Down>);handgrippos = mk_HCM`HandGripPosition (<Zero>,<Pos>,<Zero>,<Zero>);rotcomm = { <Roll> |-> <Zero>, <Pitch> |-> <Zero>, <Yaw> |-> <Zero> }
 end WorkSpace
-~~~{% endraw %}
+~~~
+{% endraw %}
 

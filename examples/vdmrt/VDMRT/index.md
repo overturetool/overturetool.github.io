@@ -1,12 +1,16 @@
 ---
 layout: default
-title: VDM
+title: VDMRT
 ---
 
-~~~
+Author: Claus Nielsen
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Claus Nielsen#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###Config.vdmrt
 
 {% raw %}
@@ -21,7 +25,8 @@ title: VDM
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Controller.vdmrt
 
@@ -75,7 +80,8 @@ end Controller
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmrt
 
@@ -115,7 +121,8 @@ public Events: () ==> ()Events() ==(   if inlines <> []   then    (      d
 end Environment
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Position.vdmrt
 
@@ -144,7 +151,8 @@ public deepCopy : () ==> PositiondeepCopy() ==( let newPos = new Position(x,y
 end Position
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Printer.vdmrt
 
@@ -165,7 +173,8 @@ instance variables  private static echo : bool := true
 end Printer
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmrt
 
@@ -175,7 +184,8 @@ class Test
 operations  public Run: TestResult ==> ()  Run (-) == is subclass responsibility
 end Test
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestCase.vdmrt
 
@@ -196,7 +206,8 @@ operations  public TestCase: seq of char ==> TestCase  TestCase(nm) == name :=
 end TestCase
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestController.vdmrt
 
@@ -221,7 +232,8 @@ protected TearDown: () ==> ()TearDown () == skip;
 end TestController
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestPosition.vdmrt
 
@@ -254,7 +266,8 @@ public testCompare : () ==> ()testCompare() ==( dcl p  : Position := new Posi
 end TestPosition
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestResult.vdmrt
 
@@ -269,7 +282,8 @@ operations  public AddFailure: TestCase ==> ()  AddFailure (ptst) == failures 
 end TestResult
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestSuite.vdmrt
 
@@ -286,7 +300,8 @@ operations  public Run: () ==> ()  Run () ==    (dcl ntr : TestResult := new 
 end TestSuite
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestTraffic.vdmrt
 
@@ -316,7 +331,8 @@ public testCongestion : () ==> ()testCongestion() ==( dcl pos2 : Position := 
 )end TestTraffic
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestTrafficData.vdmrt
 
@@ -337,7 +353,8 @@ public testExpired : () ==> ()testExpired() ==(   dcl td : TrafficData := new
 end TestTrafficData
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestTrafficLight.vdmrt
 
@@ -361,7 +378,8 @@ public testCrossDirection : () ==> ()testCrossDirection() ==(  AssertTrue(Tra
 end TestTrafficLight
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestVDMComplete.vdmrt
 
@@ -379,7 +397,8 @@ public Execute: () ==> ()	Execute() ==		(		dcl w : World := new World() , ts 
 end TestVDMComplete
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestVDMController.vdmrt
 
@@ -408,7 +427,8 @@ thread( runner(); )
 end TestVDMController
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestVehicle.vdmrt
 
@@ -454,7 +474,8 @@ protected testStep: () ==> ()testStep() ==(dcl v : Vehicle := initData(); le
 end TestVehicle
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Traffic.vdmrt
 
@@ -490,7 +511,8 @@ end Traffic
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TrafficData.vdmrt
 
@@ -514,7 +536,8 @@ end TrafficData
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TrafficLight.vdmrt
 
@@ -544,7 +567,8 @@ end TrafficLight
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Types.vdmrt
 
@@ -568,7 +592,8 @@ end Types
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VDM.vdmrt
 
@@ -609,7 +634,8 @@ end VDM
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VDMController.vdmrt
 
@@ -643,7 +669,8 @@ public CalculateInRange: () ==> ()CalculateInRange() == (   -- vehicles   le
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VDMUtil.vdmrt
 
@@ -656,7 +683,8 @@ functions-- Converts a set argument into a sequence in non-deterministic order.
 -- Converts a VDM value into a seq of char.static public val2seq_of_char[@T] : @T +> seq of charval2seq_of_char(x) == is not yet specified;
 -- converts VDM value in ASCII format into a VDM value-- RESULT.#1 = false implies a conversion failurestatic public seq_of_char2val[@p]:seq1 of char -> bool * [@p]seq_of_char2val(s) ==  is not yet specified  post let mk_(b,t) = RESULT in not b => t = nil;
 end VDMUtil
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Vehicle.vdmrt
 
@@ -695,7 +723,8 @@ end Vehicle
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VehicleData.vdmrt
 
@@ -720,7 +749,8 @@ end VehicleData
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -746,5 +776,6 @@ end World
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,13 +1,24 @@
 ---
 layout: default
-title: worldcup
+title: worldcupPP
 ---
 
-~~~
+Author: Yves Ledru
 
-This example illustrates how one can define the rules for calculating who will qualify in the world championship in soccer given different initial groups. This model is made for the championship in 2000 but it could easily be updated to reflect the any championships. In the test class UseGP there are a few examples of using the traces primitives used for test automation.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Yves Ledru#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+
+This example illustrates how one can define the rules 
+for calculating who will qualify in the world 
+championship in soccer given different initial groups. 
+This model is made for the championship in 2000 but it 
+could easily be updated to reflect the any championships. 
+In the test class UseGP there are a few examples of 
+using the traces primitives used for test automation.
+ |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###worldcup.vdmpp
 
 {% raw %}
@@ -57,5 +68,6 @@ traces
     InitBeforePlay :     let t1 in set {<Brazil>, <Norway>, <Morocco>, <Scotland>}    in      let t2 in set {<Brazil>, <Norway>, <Morocco>, <Scotland>} \ {t1}      in        let t3 in set {<Brazil>, <Norway>, <Morocco>, <Scotland>} \ {t1,t2}        in          let t4 in set {<Brazil>, <Norway>, <Morocco>, <Scotland>} \ {t1,t2,t3}          in            (gp.Win(t1,t2);gp.Win(t1,t3);gp.Win(t1,t4);gp.Win(t2,t3);             gp.Win(t2,t4);gp.Win(t3,t4);gp.GroupWinner_cases(<A>)            )
 
 end UseGP
-~~~{% endraw %}
+~~~
+{% endraw %}
 

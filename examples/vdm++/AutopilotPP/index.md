@@ -1,12 +1,16 @@
 ---
 layout: default
-title: Autopilot
+title: AutopilotPP
 ---
 
-~~~
+Author: 
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###autopilot.vdmpp
 
 {% raw %}
@@ -48,5 +52,6 @@ st0 : states =     mk_states(      <engaged>,      <off>,      <off>,      
 functions 
 isInitial : states -> boolisInitial (sta) ==   (sta.att_cws = <engaged>)  and    (sta.cas_eng = <off>)      and   (sta.fpa_sel = <off>)      and   (sta.alt_eng = <off_mode>) and    (sta.alt_disp = <current>) and   (sta.fpa_disp = <current>) and    (sta.cas_disp = <current>);
 end Autopilot
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,12 +1,17 @@
 ---
 layout: default
-title: Mondex
+title: MondexPP
 ---
 
-~~~
+Author: 
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new AbPurseFunctional().RunTest()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new AbPurseFunctional().RunTest()|
+
+
 ###abpursefunctional.vdmpp
 
 {% raw %}
@@ -29,5 +34,6 @@ public TransferLost: AbWorld * PurseId * PurseId * nat -> AbWorld  TransferLost
 operations
 public RunTest : () ==> AbWorldRunTest () ==  (let w : AbWorld = mk_AbWorld({mk_token(1), mk_token(2)},                                 {mk_token(1) |-> mk_AbPurse(100,0), mk_token(2) |-> mk_AbPurse(10,0)})   in     TransferOk(w, mk_token(1), mk_token(2), 30);  );
 end AbPurseFunctional
-~~~{% endraw %}
+~~~
+{% endraw %}
 

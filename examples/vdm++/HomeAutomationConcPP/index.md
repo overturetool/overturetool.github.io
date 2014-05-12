@@ -1,12 +1,16 @@
 ---
 layout: default
-title: HomeAutomationConc
+title: HomeAutomationConcPP
 ---
 
-~~~
+Author: 
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#ENCODING=#DOCUMENT=#LIB=IO#AUTHOR=#******************************************************
-~~~
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###Actuator.vdmpp
 
 {% raw %}
@@ -19,7 +23,8 @@ public GetID: () ==> natGetID() ==  return ID;
 public GetType: () ==> NetworkTypes`nodeTypeGetType() ==  return Type;
 protected GetCorr: () ==> NetworkTypes`correctionGetCorr() ==  return Corr;
 end Actuator
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###BaseThread.vdmpp
 
@@ -33,7 +38,8 @@ protected BaseThread : () ==> BaseThreadBaseThread() == (World`timerRef.Regist
 Step : () ==> ()Step() ==  is subclass responsibility
 thread (if isPeriodic  then (while true        do          (Step();          World`timerRef.WaitRelative(period);         )       )  else (Step();        World`timerRef.WaitRelative(0);        World`timerRef.UnRegisterThread();       ) );
 end BaseThread
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmpp
 
@@ -57,7 +63,8 @@ sync
 --thread-- (--World`timerRef.RegisterThread();--  --start(new ClockTick(threadid));--  while World`timerRef.GetTime() < simtime --  do--   (--if(World`timerRef.GetTime() = 100)--    --then (testT := new TestThread(77, true);--    --     );--    if not finished--    then CreateSignal();
 --    World`timerRef.WaitRelative(1);--   );--  finished := true;-- )
 end Environment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HomeAutomation.vdmpp
 
@@ -68,7 +75,8 @@ class HA
 instance variables
 public static Sur		: Surroundings := new Surroundings();public static TempNode	: TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0, Sur, 3, true);public static HumidNode	: HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0, Sur, 3, true);public static ThermNode	: Thermostat := new Thermostat(3, <THERMOSTAT>, Sur, 5, true);public static WinNode	: Window := new Window(4, <WINDOW>, Sur, 5, true);public static Host		: HostController := new HostController(22, 75, 3, true);
 end HA
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HostController.vdmpp
 
@@ -105,7 +113,8 @@ per IsFinished => finished;per printStr => print;
 
 --thread-- (while true --  do--   (UpdateValues();--    Algorithm();--    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);--   )-- )
 end HostController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HumidSensor.vdmpp
 
@@ -124,7 +133,8 @@ sync
 --thread-- (--World`timerRef.RegisterThread();
 --  while true --  do --   (Value := Env.ReadHumid();--    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);--   )-- )
 end HumidSensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NetworkTypes.vdmpp
 
@@ -134,7 +144,8 @@ class NetworkTypes
 types   
 public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
 end NetworkTypes
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Sensor.vdmpp
 
@@ -148,7 +159,8 @@ public GetID: () ==> natGetID() ==  return ID;
 public GetType: () ==> NetworkTypes`nodeTypeGetType() ==  return Type;
 public ReadValue: () ==> natReadValue() ==  return Value;
 end Sensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Surroundings.vdmpp
 
@@ -170,7 +182,8 @@ public DecHumid: () ==> ()DecHumid() ==  envHumid := envHumid - 1;
 sync
   mutex(IncTemp);  mutex(DecTemp);  mutex(SetTemp);  mutex(ReadTemp, IncTemp, DecTemp, SetTemp);  mutex(IncHumid);  mutex(DecHumid);   mutex(SetHumid);  mutex(ReadHumid, IncHumid, DecHumid, SetHumid);
 end Surroundings
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TemperatureSensor.vdmpp
 
@@ -189,7 +202,8 @@ sync
 --thread-- (--World`timerRef.RegisterThread();
 --  while true --  do--   (Value := Env.ReadTemp();--    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);--   )-- )
 end TemperatureSensor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Thermostat.vdmpp
 
@@ -214,7 +228,8 @@ sync
 --    if tempCorr = <INC>--    then HA`Env.IncTemp()--    elseif tempCorr = <DEC>--    then HA`Env.DecTemp();
 --    World`timerRef.WaitRelative(5);--World`timerRef.stepLength);--   )-- )
 end Thermostat
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TimeStamp.vdmpp
 
@@ -247,7 +262,8 @@ mutex(IsInitialising);mutex(DoneInitialising);  -- Is this really needed?  mu
   mutex(AddToWakeUpMap, NotifyThread);  mutex(AddToWakeUpMap, BarrierReached);  mutex(NotifyThread, BarrierReached);
   mutex(AddToWakeUpMap, NotifyThread, BarrierReached);
 end TimeStamp
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Window.vdmpp
 
@@ -267,7 +283,8 @@ sync
 --thread-- (--World`timerRef.RegisterThread();
 --  while true --  do--   (if (GetCorr() = <OPEN>)--    then (HA`Env.DecHumid();--          HA`Env.DecTemp();--         );--    World`timerRef.WaitRelative(5);--World`timerRef.stepLength);--   )-- )
 end Window
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmpp
 
@@ -282,5 +299,6 @@ public World: () ==> WorldWorld() == (ha := new HA();    env := new Environme
   -- End the initialisation phase of system threads  World`timerRef.DoneInitialising();   );
 public Run: () ==> ()Run() == (-- wait til environment has finished creating input  env.IsFinished();  -- print simulation finishing message  IO`print("Test run finished at time: ");  IO`print(timerRef.GetTime()); );
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

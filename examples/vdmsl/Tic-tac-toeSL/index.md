@@ -1,12 +1,17 @@
 ---
 layout: default
-title: Tic-tac-toe
+title: Tic-tac-toeSL
 ---
 
-~~~
+Author: Nick Battle
+
+
 A standard Tic-tac-toe game
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Nick Battle#LANGUAGE_VERSION=vdm10#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+|  |           |
+| :------------ | :---------- |
+|Language Version:| vdm10|
+
+
 ###XO.vdmsl
 
 {% raw %}
@@ -51,7 +56,8 @@ operations	move: Player * Pos ==> ()	move(p, pos) ==		game(pos) := p	pre pos
 				if isWon(game) then					return whoWon(game)				elseif isDraw(game) then					return <DRAW>				else					order := tl order ^ [player]			);
 		return <UNFINISHED>	)	post if RESULT = <DRAW> then isDraw(game)		 else if RESULT = <UNFINISHED> then isUnfinished(game)		 else RESULT = whoWon(game);
 end XO
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###XOTests.vdmsl
 
@@ -67,5 +73,6 @@ values	OX = [<NOUGHT>, <CROSS>];	XO = [<CROSS>, <NOUGHT>];	XX = [<CROSS>];
 operations	test: PlayOrder * Moves ==> Player | <DRAW> | <UNFINISHED>	test(playorder, moves) ==		XO`play(playorder, moves);
 traces	ALL:		let ALLPOS = { mk_Pos(r, c) | r, c in set S } in			-- All 3x3 = 9 positions		let m1 in set ALLPOS in										-- 9 1st moves		let m2 in set ALLPOS \ {m1} in								-- 72 1st-2nd pairs		let m3 in set ALLPOS \ {m1, m2} in							-- 504 1st-2nd-3rd etc...		let m4 in set ALLPOS \ {m1, m2, m3} in						-- 3024		let m5 in set ALLPOS \ {m1, m2, m3, m4} in					-- 15120 (minimum)--		let m6 in set ALLPOS \ {m1, m2, m3, m4, m5} in				-- 60480--		let m7 in set ALLPOS \ {m1, m2, m3, m4, m5, m6} in			-- 181440--		let m8 in set ALLPOS \ {m1, m2, m3, m4, m5, m6, m7} in		-- 362880--		let m9 in set ALLPOS \ {m1, m2, m3, m4, m5, m6, m7, m8} in	-- 362880			XO`play(XO, [m1, m2, m3, m4, m5]);
 end XOTests
-~~~{% endraw %}
+~~~
+{% endraw %}
 

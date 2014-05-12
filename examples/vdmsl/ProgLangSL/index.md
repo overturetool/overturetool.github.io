@@ -1,12 +1,22 @@
 ---
 layout: default
-title: ProgLang
+title: ProgLangSL
 ---
 
-~~~
-This example is made by Bernhard K. Aichernig and Andreas Kerschbaumer and it contains a VDM model for a Static and Dynamic Semantics of a Simple Programming Language. The example has been an assignment in the exercises of the software technology course at the Technical University Graz, Austria. 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= ernhard K. Aichernig and Andreas Kerschbaumer#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#DOCUMENT=proglang.tex#ENTRY_POINT=Test`RunTypeCheck()#ENTRY_POINT=Test`RunEval()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: ernhard K. Aichernig and Andreas Kerschbaumer
+
+
+This example is made by Bernhard K. Aichernig and Andreas Kerschbaumer 
+and it contains a VDM model for a Static and Dynamic Semantics of a Simple 
+Programming Language. The example has been an assignment in the exercises 
+of the software technology course at the Technical University Graz, Austria. 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| Test`RunTypeCheck()|
+|Entry point     :| Test`RunEval()|
+
+
 ###ast.vdmsl
 
 {% raw %}
@@ -35,7 +45,8 @@ types
   RepeatStmt :: repeat : Stmt                until  : Expr;
 end AST
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###dynsem.vdmsl
 
@@ -66,7 +77,8 @@ functions
   EvalBinaryExpr : AST`BinaryExpr * DynEnv -> AST`Value  EvalBinaryExpr(mk_AST`BinaryExpr(lhs, op, rhs), denv) ==    let v1 = EvalExpr(lhs, denv).val,        v2 = EvalExpr(rhs, denv).val     in cases op :       <Add> -> mk_AST`IntVal(v1 + v2),       <Sub> -> mk_AST`IntVal(v1 - v2),       <Div> -> mk_AST`IntVal(v1 div v2),       <Mul> -> mk_AST`IntVal(v1 * v2),       <Lt> ->  mk_AST`BoolVal(v1 < v2),       <Gt> ->  mk_AST`BoolVal(v1 > v2),       <Eq> ->  mk_AST`BoolVal(v1 = v2),       <And> -> mk_AST`BoolVal(v1 and v2),       <Or> ->  mk_AST`BoolVal(v1 or v2)    end  pre op = <Div> => EvalExpr(rhs, denv).val <> 0;
 end DYNSEM
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###statsem.vdmsl
 
@@ -95,7 +107,8 @@ wf_Variable : AST`Variable * StatEnv -> bool * [AST`Type]wf_Variable(mk_AST`Var
 wf_BinaryExpr : AST`BinaryExpr * StatEnv -> bool * [AST`Type]wf_BinaryExpr(mk_AST`BinaryExpr(lhs, op, rhs), senv) ==  let mk_(wf_lhs, tp_lhs) = wf_Expr(lhs, senv),       mk_(wf_rhs, tp_rhs) = wf_Expr(rhs, senv)  in cases op :     <Add>, <Sub>, <Div>, <Mul> ->        mk_(wf_lhs and wf_rhs and        tp_lhs = <IntType> and tp_rhs = <IntType>,           <IntType>),     <Lt>, <Gt>, <Eq> ->       mk_(wf_lhs and wf_rhs and        tp_lhs = <IntType> and tp_rhs = <IntType>,           <BoolType>),     <And>, <Or> ->       mk_(wf_lhs and wf_rhs and        tp_lhs = <BoolType> and tp_rhs = <BoolType>,           <BoolType>),     others -> mk_(false, nil)     end;
 end STATSEM
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmsl
 
@@ -111,5 +124,6 @@ RunTypeCheck: () -> bool * [AST`Type]RunTypeCheck() ==  STATSEM`wf_Expr(binexp
 RunEval: () -> AST`ValueRunEval() ==  DYNSEM`EvalExpr(binexpr,{|->})
 end Test
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

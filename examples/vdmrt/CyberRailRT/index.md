@@ -1,11 +1,28 @@
 ---
 layout: default
-title: CyberRail
+title: CyberRailRT
 ---
 
-~~~
-This VDM-RT model was produced as a part of an MSn thesis investigating and analyzingthe possibility of obtaining early stage validation of potential candidate system architectures, by means of formal modelling and validation. The goal was to analyze recent research extensions of VDM++ for describing and analyzing such distributed systems (VDM-RT) and see if the language is suitable to stress test a distributed system and validate any architectural benefits. Additionally this thesis discussesfavorable approaches for realizing a case study of a transportation system in Tokyo, referred to as CyberRail. Different VDM++ models of candidate architectures for the CyberRail system has been developed and validated. This thesis includes 2 Real-Time VDM++ models (Backend Responsibility source, Joint Responsibility source), based on 2 different architectures. #******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Jasper Nygaard and Rasmus Sørensen#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= new World("test1_10.txt").run()#ENTRY_POINT= new World("test2.txt").run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Jasper Nygaard and Rasmus S�rensen
+
+
+This VDM-RT model was produced as a part of an MSn thesis investigating and analyzing
+the possibility of obtaining early stage validation of potential candidate system 
+architectures, by means of formal modelling and validation. The goal was to analyze 
+recent research extensions of VDM++ for describing and analyzing such distributed 
+systems (VDM-RT) and see if the language is suitable to stress test a distributed 
+system and validate any architectural benefits. Additionally this thesis discusses
+favorable approaches for realizing a case study of a transportation system in Tokyo, 
+referred to as CyberRail. Different VDM++ models of candidate architectures for the 
+CyberRail system has been developed and validated. This thesis includes 2 Real-Time 
+VDM++ models (Backend Responsibility source, Joint Responsibility source), based 
+on 2 different architectures. |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World("test1_10.txt").run()|
+|Entry point     :| new World("test2.txt").run()|
+
+
 ###ActivePlanManager.vdmrt
 
 {% raw %}
@@ -70,7 +87,8 @@ per handleEvent => ((len q_CR_in + len q_Tok_in + len q_Tok_out) > 0);per isFin
 end ActivePlanManager
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Company.vdmrt
 
@@ -90,7 +108,8 @@ sync
 per isFinished => not busy;end Company
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CRSystem.vdmrt
 
@@ -111,7 +130,8 @@ CRSystem : () ==> CRSystemCRSystem()==(	cpu1.deploy(cb);	cpu2.deploy(apm);	
 )
 end CRSystem
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Customer.vdmrt
 
@@ -141,7 +161,8 @@ syncmutex(addTokenDevice);mutex(stimulate);mutex(reduceInline);per isFinishe
 end Customer
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###CyberRail.vdmrt
 
@@ -195,7 +216,8 @@ syncper handleEvents => (len q_Env_in + len q_APM_in) > 0;
 per isFinished =>  (len q_Env_in + len q_APM_in) = 0;
 mutex(reduce_Q_Env,addToStimuliQueue);mutex(reduce_Q_APM,addToSystemQueue);mutex(reduce_Q_Env);mutex(reduce_Q_APM);mutex(calculateTransportPlan);mutex(addToStimuliQueue);mutex(addToSystemQueue);end CyberRail
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmrt
 
@@ -217,7 +239,8 @@ thread(	while true do	(		showResults();	))
 end Environment
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Logger.vdmrt
 
@@ -239,7 +262,8 @@ syncmutex(write);
 end Logger
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MessageQueue.vdmrt
 
@@ -260,7 +284,8 @@ public pop: () ==> Messagepop() == (	let rtn_data = hd queue	in	(		queue :=
 syncper push => #fin(push) - #fin(pop) < size; 	--ensure that there's space in the queueper pop => #fin(push) - #fin(pop) > 0;			--ensure that there's data in the queuemutex(pop,push);		--Only a single activation of pop at a time.--Have not testet if this sync is enough.	
 end MessageQueue
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RailwayGrid.vdmrt
 
@@ -288,7 +313,8 @@ public setInactiveRoute : nat ==> ()setInactiveRoute(id)==(	duration(0) (	in
 private writef : Grid ==> ()	writef(grid)==	(		def - = io.fwriteval[Grid]("railway.txt",grid,<append>) in skip;	);
 end RailwayGrid
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###snw.vdmrt
 
@@ -316,7 +342,8 @@ handleEvents : ActivePlanManager ==> ()handleEvents(apm) == is subclass respons
 end SNW
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###strategy.vdmrt
 
@@ -337,7 +364,8 @@ handleEvents : () ==> ()handleEvents() == is subclass responsibility;
 end Strategy
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TokenDevice.vdmrt
 
@@ -378,7 +406,8 @@ mutex(requestTransportPlan);mutex(travel);
 end TokenDevice
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TransportPlan.vdmrt
 
@@ -411,7 +440,8 @@ public getTokenId: () ==> natgetTokenId() == return id_token;
 sync	mutex(routeTraveled);
 end TransportPlan
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###types.vdmrt
 
@@ -434,7 +464,8 @@ end MessageTypes
 
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -464,5 +495,6 @@ operations
 	);
 end World
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

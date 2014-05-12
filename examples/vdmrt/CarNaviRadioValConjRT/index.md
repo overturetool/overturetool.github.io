@@ -1,14 +1,26 @@
 ---
 layout: default
-title: CarNaviRadioValConj
+title: CarNaviRadioValConjRT
 ---
 
-~~~
+Author: Marcel Verhoef
 
-This example is a modified version of the car radio navigationexample. It demonstrates the use of validation conjectures.
-The origin of the car radio navigation example comes from MarcelVerhoef as a part of his PhD thesis where it was used to comparydifferent formalisms. This example shows how an embedded applicationwith both radio, navigation and traffic messages are joined in onecoherent application in a distributed application.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Marcel Verhoef#LANGUAGE_VERSION=classic#LIB= IO#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= new Testing().Test()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#REALTIME_TIME_INV_CHECKS=true#******************************************************
-~~~
+
+
+This example is a modified version of the car radio navigation
+example. It demonstrates the use of validation conjectures.
+
+The origin of the car radio navigation example comes from Marcel
+Verhoef as a part of his PhD thesis where it was used to compary
+different formalisms. This example shows how an embedded application
+with both radio, navigation and traffic messages are joined in one
+coherent application in a distributed application.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Testing().Test()|
+
+
 ###mmi.vdmrt
 
 {% raw %}
@@ -17,7 +29,8 @@ class MMI
 operations  async   public HandleKeyPress: nat ==> ()  HandleKeyPress (pn) ==    ( cycles (1E5) skip;      --duration (1E5) skip;      cases (pn):        1 -> RadNavSys`radio.AdjustVolumeUp(),        2 -> RadNavSys`radio.AdjustVolumeDown(),        3 -> RadNavSys`navigation.DatabaseLookup()      end ); 
   async   public UpdateScreen: nat ==> ()  UpdateScreen (pn) ==    ( cycles (5E5) skip;      --duration (5E5) skip;      cases (pn):        1 -> IO`println("Screen Update: Volume Knob"),        2 -> IO`println("Screen Update: InsertAddress"), --World`envTasks("InsertAddress").HandleEvent(pno),        3 -> IO`println("Screen Update: TransmitTMC") -- World`envTasks("TransmitTMC").HandleEvent(pno)      end )
 end MMI
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Navigation.vdmrt
 
@@ -27,7 +40,8 @@ class Navigation
 operations  async   public DatabaseLookup: () ==> ()  DatabaseLookup () ==    ( cycles (5E6) skip;      --duration (5E6) skip;      RadNavSys`mmi.UpdateScreen(2) );
   async   public DecodeTMC: () ==> ()  DecodeTMC () ==    ( cycles (5E5) skip;      --duration (5E6) skip;      RadNavSys`mmi.UpdateScreen(3) )
 end Navigation
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Radio.vdmrt
 
@@ -41,7 +55,8 @@ operations
   async public AdjustVolumeDown : () ==> ()  AdjustVolumeDown () ==    ( cycles (1E6) skip;    if volume > 0    then ( volume := volume - 1;                  RadNavSys`mmi.UpdateScreen(1))    );
   async public HandleTMC: () ==> ()  HandleTMC () ==    ( cycles (1E6) skip;      RadNavSys`navigation.DecodeTMC()     );
 end Radio
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RadNavSys.vdmrt
 
@@ -53,7 +68,8 @@ system RadNavSysinstance variables  -- create application tasks  static publi
 operations  public RadNavSys: () ==> RadNavSys  RadNavSys () ==    ( -- deploy mmi on CPU1      CPU1.deploy(mmi,"MMIT");      CPU1.setPriority(MMI`HandleKeyPress,100);      CPU1.setPriority(MMI`UpdateScreen,90);      -- deploy radio on CPU2      CPU2.deploy(radio,"RadioT");      CPU2.setPriority(Radio`AdjustVolumeUp,100);      CPU2.setPriority(Radio`AdjustVolumeDown,100);      CPU2.setPriority(Radio`HandleTMC,90);      -- deploy navigation on CPU3      CPU3.deploy(navigation,"NavT");      CPU3.setPriority(Navigation`DatabaseLookup, 100);      CPU3.setPriority(Navigation`DecodeTMC, 90)      -- starting the CPUs and BUS is implicit    );
 /* timing invariantsseparate(#fin(MMI`UpdateScreen), #fin(MMI`UpdateScreen), 500 ms);*/
 end RadNavSys
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmrt
 
@@ -71,7 +87,8 @@ thread
   periodic(1000E6,0,0,0)(op)
 end Testing
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -86,5 +103,6 @@ operations
 
 
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

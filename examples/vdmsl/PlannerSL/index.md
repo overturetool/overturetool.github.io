@@ -1,13 +1,26 @@
 ---
 layout: default
-title: Planner
+title: PlannerSL
 ---
 
-~~~
-The specification is of the input language, and the central operations, of a domain-independent, partial order, constraint posting goal directed planner. It is essentially a model-based version of Chapman's TWEAK (1), and is used as a case study on VDM courses at the Univ. of Huddersfield. It is described fully, and prototyped in Prolog, in (2). 
+Author: T.L. McCluskey and Pat Diskin
+
+
+The specification is of the input language, and the central operations, 
+of a domain-independent, partial order, constraint posting goal directed 
+planner. It is essentially a model-based version of Chapman's TWEAK (1), 
+and is used as a case study on VDM courses at the Univ. of Huddersfield. 
+It is described fully, and prototyped in Prolog, in (2). 
+
 Planning for Conjunctive Goals, D.Chapman, AI Journal no 32, 1987. 
-The Construction of Formal Specifications: an Introduction to the Model-Based and Algebraic Approaches, J.Turner and McCluskey, McGraw-Hill Software Engineering Series, London. ISBN 0-07-707735-0. #******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= T.L. McCluskey and Pat Diskin#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#DOCUMENT=planner.tex#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+The Construction of Formal Specifications: an Introduction to the 
+Model-Based and Algebraic Approaches, J.Turner and McCluskey, 
+McGraw-Hill Software Engineering Series, London. ISBN 0-07-707735-0. |  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###planner.vdmsl
 
 {% raw %}
@@ -43,5 +56,6 @@ ACHIEVE_1(gi : Goal_instance)ext	rd Os : Action_instances	wr Ts : Bounded_Pose
 ACHIEVE_2(gi: Goal_instance)ext	rd pp : Planning_Problem	wr Os : Action_instances	wr Ts : Bounded_Poset	wr Ps : Goal_instances	wr As : Goal_instancespre	gi in set Pspost	let NewA = newid(dom Os~) in	exists A in set pp.AS & Os = Os~ ++ {NewA |-> A} and	achieve(Os, Ts, NewA, gi) and	forall gj in set As~ & declobber(Os, Ts, NewA, gj) and	completion_of(Ts, add_node(NewA, Ts~)) and 	Ps = (Ps~ \ {gi}) union {mk_Goal_instance(p, NewA) | p in set A.pra} and	As = As~ union {gi}
 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

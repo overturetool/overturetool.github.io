@@ -1,14 +1,29 @@
 ---
 layout: default
-title: MSAWseq
+title: MSAWseqPP
 ---
 
-~~~
-This VDM++ model is made by August Ribeiro as input for the VDMcourses delivered at IHA in Denmark. It is a concurrent version of the Minimum Safety Altitude Warning System (MSAW) example.
-2011-12-28 This VDM++ model has been updated by Rasmus Lauritsen with the addition of a swing java radar display. The Radar.vdmpp model is now hooked up the with Radar display. The radar display will make a 360 degrees scan everytime the "Scan" operation on the Radar is invoked.
-lib/radar.jar contains binary and source code for the java radar display.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Augusto Ribeiro#LIB= IO; MATH; VDMUtil#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World().Run()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Augusto Ribeiro
+
+
+This VDM++ model is made by August Ribeiro as input for the VDM
+courses delivered at IHA in Denmark. It is a concurrent version 
+of the Minimum Safety Altitude Warning System (MSAW) example.
+
+2011-12-28 This VDM++ model has been updated by Rasmus Lauritsen 
+with the addition of a swing java radar display. The Radar.vdmpp 
+model is now hooked up the with Radar display. The radar display 
+will make a 360 degrees scan everytime the "Scan" operation on 
+the Radar is invoked.
+
+lib/radar.jar contains binary and source code for the java radar 
+display.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###AirSpace.vdmpp
 
 {% raw %}
@@ -26,7 +41,8 @@ public updateFO : FOId * Coordinates * Altitude ==> ()updateFO(id,coord,alt) ==
 
 
 end AirSpace
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###atc.vdmpp
 
@@ -67,7 +83,8 @@ private predictPosition : FO ==> set of PositionpredictPosition(fo) ==  let fo
 functionsprivate calculateNeighborhood : Position -> set of PositioncalculateNeighborhood(pos) == {pos,  mk_Position(addVectorToPoint(mk_Vector(2,0),pos),pos.altitude),  mk_Position(addVectorToPoint(mk_Vector(-2,0),pos),pos.altitude),  mk_Position(addVectorToPoint(mk_Vector(0,2),pos),pos.altitude),  mk_Position(addVectorToPoint(mk_Vector(0,-2),pos),pos.altitude) };
 private predictAltitude : seq of nat -> natpredictAltitude(alts) ==  alts(1) + (alts(1) - alts(2)) pre len alts = 2;  
 end AirTrafficController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###dk_au_eng_Radar.vdmpp
 
@@ -89,7 +106,8 @@ class dk_au_eng_Radar---- External Java implementation of radar screen----	
             return 0);        );
 
 end dk_au_eng_Radar
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###environment.vdmpp
 
@@ -119,7 +137,8 @@ private updateFOs : () ==> ()updateFOs() == (if len inlines > 0   then (dcl c
 
 public isFinished : () ==> bool isFinished() ==   return inlines = [];
 end Environment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FO.vdmpp
 
@@ -138,7 +157,8 @@ public setAltitude : Altitude ==> ()setAltitude(a) ==  alt := a;
 public getPosition : () ==> PositiongetPosition() ==   return mk_Position(coord,alt); 
 
 end FO
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###GLOBAL.vdmpp
 
@@ -177,7 +197,8 @@ operations
 public test : real * real * real * real ==> Vector * Vector *               real * real * Vector * real * realtest(x1,y1,x2,y2) ==   let v1 = mk_Vector(x1,y1),      v2 = mk_Vector(x2,y2)  in     return mk_(unitVector(v1),               unitVector(v2),               dotProduct(unitVector(v1),unitVector(v2)),               atan2(0.000001,0.0000000),               vectorRotate(v2,signedVectorAngle(v1,v2)),               radians2degree(signedVectorAngle(v1,v2)),               angleBetweenVectors(v1,v2)              );
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MSAW.vdmpp
 
@@ -194,7 +215,8 @@ public static airspace : AirSpace := new AirSpace();
 public static militaryZone : Obstacle :=   new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
 
 end MSAW
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###obstacle.vdmpp
 
@@ -212,7 +234,8 @@ public getMSA : () ==> MinimumSafetyAltitudegetMSA() ==   return MSA;
 
 
 end Obstacle 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Radar.vdmpp
 
@@ -243,7 +266,8 @@ functionsset2seqFO : set of FO -> seq of FOset2seqFO(fos) ==  if fos = {}  t
 set2seqFOm : set of FO -> natset2seqFOm(fos) == card fos;
 
 end Radar
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###timer.vdmpp
 
@@ -258,7 +282,8 @@ operations
 public   StepTime: () ==> ()  StepTime() ==     currentTime := currentTime + stepLength;
 public  GetTime: () ==> nat   GetTime() == return currentTime;
 end Timer
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###UseATC.vdmpp
 
@@ -272,7 +297,8 @@ instance variables
 traces
 TestATC: let r = new Radar(-8,-9,42)         in         let c in set {c1,c2}         in          ((atc.updateHistory() |            atc.cleanUpHistory() |            atc.addRadar(r) |            atc.findThreats() |            fo.setCoordinates(c)){2,4};           atc.getDirectionVectors(id))
 end UseATC
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###world.vdmpp
 
@@ -288,5 +314,6 @@ operations
 public   World : () ==> World  World() ==    ( env := new Environment("scenario.txt");      env.setAirSpace(MSAW`airspace);      MSAW`atc.addRadar(MSAW`radar1);      MSAW`atc.addRadar(MSAW`radar2);      MSAW`atc.addObstacle(MSAW`militaryZone);    );
 public   Run : () ==> ()  Run() ==    env.Run();
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,13 +1,29 @@
 ---
 layout: default
-title: AutomatedStockBroker
+title: AutomatedStockBrokerPP
 ---
 
-~~~
-The system is an automated stock broker, where you can specify a listof stocks which automaticly, can either be bought or sold. This isdone by defining a prioritised list of stocks to observe, which eachhas defined a trigger that tells in which situation the system shouldreact with either a buy or a sell action. The trigger is a ruledefined upon the history and the current value of the stock. Thismodel is made by Anders Kaels Malmos as a small mini-project in acourse on "Modelling of Mission Critical Systems" (seehttps://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems). 
-More information about the model and the purpose of it can be found inthe ProjectReport.pdf file included in the zip file with the source files.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Anders Kaels Malmos#LIB=IO;MATH#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World().Run()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Anders Kaels Malmos
+
+
+The system is an automated stock broker, where you can specify a list
+of stocks which automaticly, can either be bought or sold. This is
+done by defining a prioritised list of stocks to observe, which each
+has defined a trigger that tells in which situation the system should
+react with either a buy or a sell action. The trigger is a rule
+defined upon the history and the current value of the stock. This
+model is made by Anders Kaels Malmos as a small mini-project in a
+course on "Modelling of Mission Critical Systems" (see
+https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems). 
+
+More information about the model and the purpose of it can be found in
+the ProjectReport.pdf file included in the zip file with the source files.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().Run()|
+
+
 ###AutomatedStockBroker.vdmpp
 
 {% raw %}
@@ -39,7 +55,8 @@ IsGTAll: int * set of int -> boolIsGTAll(sv,ssv) ==   forall i in set ssv & sv
 CanAfford: StockRecord * nat -> boolCanAfford(sr,balance) ==   sr.Cost <= balance;
 MaxOneOfEachActionTypePerTime: seq of ActionEvent -> boolMaxOneOfEachActionTypePerTime(actionLog) ==   forall x,y in set inds actionLog &      (x <> y and actionLog(x).Time = actionLog(y).Time) =>      (actionLog(x).Type <> actionLog(y).Type)
 end AutomatedStockBroker
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###GLOBAL.vdmpp
 
@@ -58,7 +75,8 @@ inv mk_StockRecord(p1,p2,p3,p4,p5) == p2(<PotentialBuy>).Action = <Buy> and p2(
 public ActionEvent :: Type : ActionType  Time : nat  StockName : StockIdentifier  Value : StockValue;
 valuespublic static testValues : map StockIdentifier to seq of Event = {mk_token("test") |-> [mk_Event(<LeavesNoActionRegion>,6,5),mk_Event(<LowerLimit>,5,8),mk_Event(<UpperLimit>,4,12),mk_Event(<EntersNoActionRegion>,3,11),mk_Event(<LeavesNoActionRegion>,2,13),mk_Event(<UpperLimit>,1,12),  mk_Event(<EntersNoActionRegion>,0,10)],mk_token("test12") |-> [mk_Event(<LeavesNoActionRegion>,6,5),mk_Event(<LowerLimit>,5,8),mk_Event(<UpperLimit>,4,12),mk_Event(<EntersNoActionRegion>,3,11),mk_Event(<LeavesNoActionRegion>,2,16),mk_Event(<UpperLimit>,1,12),  mk_Event(<EntersNoActionRegion>,0,10)],mk_token("test2") |-> [mk_Event(<LeavesNoActionRegion>,6,5),mk_Event(<UpperLimit>,5,8),mk_Event(<LowerLimit>,4,8),mk_Event(<EntersNoActionRegion>,3,11),mk_Event(<LeavesNoActionRegion>,2,6),mk_Event(<LowerLimit>,1,8),  mk_Event(<EntersNoActionRegion>,0,10)]};
 end GLOBAL
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Stock.vdmpp
 
@@ -79,7 +97,8 @@ class Stock is subclass of GLOBAL types
   NextRateOfChange : RateOfChange * StockValue -> RateOfChange  NextRateOfChange(roc,sv) ==    let r = MATH`rand(10),     other = MakelistFromSet({x | x : RateOfChange & x <> roc and (x=<negative> => sv > 0) })      in    if r >= 0 and r <= 7 and (roc = <negative> => sv > 0)      then roc    else       other((MATH`rand(20) mod len other) + 1);
   MakelistFromSet : set of RateOfChange -> seq of RateOfChange  MakelistFromSet(roc) ==   if( card roc > 0) then     let r in set roc      in      [r] ^ MakelistFromSet(roc \ {r})   else []
 end Stock
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###StockMarket.vdmpp
 
@@ -93,7 +112,8 @@ class StockMarket is subclass of GLOBAL
   public GetStock:(StockIdentifier)==> Stock   GetStock(name) ==    return stocks(name)  pre name in set dom stocks;
   public GetStockNames: () ==> set of StockIdentifier   GetStockNames() ==   return dom stocks;
 end StockMarket
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###StockWatcher.vdmpp
 
@@ -121,7 +141,8 @@ class StockWatcher is subclass of GLOBAL
   FindLowestIndexFromTime: nat * seq of Event  -> nat1  FindLowestIndexFromTime(time,events) ==    let pastEvents = { x | x in set inds events & events(x).TimeStamp <= time  }    in     let i,j in set pastEvents be st (i <> j) => (events(i).TimeStamp <= events(j).TimeStamp)       in        i;
   public IsActionTriggeredAtTime: nat * ActionTrigger * seq of Event  -> bool  IsActionTriggeredAtTime(time,action,eventHistory) ==    let tgr = action.Trigger    in     let index = FindLowestIndexFromTime(time,eventHistory),         s = eventHistory(index,...,index + len tgr - 1)      in      ((forall i in set inds s & s(i).Type = tgr(i))      and (s(1).TimeStamp = time)      and len s = len tgr)
 end StockWatcher
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###timer.vdmpp
 
@@ -136,7 +157,8 @@ operations
 public   StepTime: () ==> ()  StepTime() ==     currentTime := currentTime + stepLength;
 public  GetTime: () ==> nat   GetTime() == return currentTime;
 end Timer
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmpp
 
@@ -157,5 +179,6 @@ public isFinished : () ==> bool isFinished() ==     return (not len asb.GetAct
     stockMarket.UpdateStocks();
     asb.Step(timerRef.GetTime());       timerRef.StepTime();   );  ) );functions public FindSmallestSeqLen: map String to seq of Event -> nat FindSmallestSeqLen(m) ==  let x,y in set {len m(x) | x in set dom m} be st x <> y => x <= y in x; 
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

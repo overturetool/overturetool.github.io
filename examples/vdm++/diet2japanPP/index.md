@@ -1,11 +1,20 @@
 ---
 layout: default
-title: diet2japan
+title: diet2japanPP
 ---
 
-~~~
-This example is made by Shin Sahara as a test of local higher orderfunctions defined inside explicit function definitions in order totest the correct interpretation of these constructs.#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Shin Sahara#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=Diet`BMI(100,200)#ENTRY_POINT= Diet`getWeightFromBMI(55,76)#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Shin Sahara
+
+
+This example is made by Shin Sahara as a test of local higher order
+functions defined inside explicit function definitions in order to
+test the correct interpretation of these constructs.|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| Diet`BMI(100,200)|
+|Entry point     :| Diet`getWeightFromBMI(55,76)|
+
+
 ###Diet.vdmpp
 
 {% raw %}
@@ -20,5 +29,6 @@ static public derivative : (real -> real) ->real -> realderivative(f)(x) == (f(
 static public Funtil[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @TFuntil(p)(f)(x) == if p(x) then x else Funtil[@T](p)(f)(f(x));
 end Diet
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

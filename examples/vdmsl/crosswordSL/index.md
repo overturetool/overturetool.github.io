@@ -1,14 +1,23 @@
 ---
 layout: default
-title: crossword
+title: crosswordSL
 ---
 
-~~~
+Author: Yves Ledru
 
-This tutorial example is taken out of a VDM course given to the students of the Diplôme d'Etudes Supérieures Spécialisées en Génie Informatique (5th year) at the Université Joseph Fourier. This example uses the implicit style of specification of VDM-SL and thus may not be executed with theOverture debugger.
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Yves Ledru#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#DOKUMENT=crossword.tex#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+This tutorial example is taken out of a VDM course given to the students 
+of the Dipl�me d'Etudes Sup�rieures Sp�cialis�es en G�nie Informatique 
+(5th year) at the Universit� Joseph Fourier. This example uses the implicit 
+style of specification of VDM-SL and thus may not be executed with the
+Overture debugger.
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###crossword.vdmsl
 
 {% raw %}
@@ -38,5 +47,6 @@ DELETE_BLACK ( p : position)ext wr cwgrid : grid   pre cwgrid(p) = black  pos
 STRONG_DELETE (w : word, p : position, d : HV)ext wr cwgrid : grid    rd valid_words : set of word    wr waiting_words : set of word   pre IS_LOCATED(cwgrid, w, p, d)  post (d = <H> =>	cwgrid = cwgrid~ ++ {mk_position(p.h + i - 1, p.v) |-> white 	                    | i in set inds w})	and 	(d = <V> =>	cwgrid = cwgrid~ ++ {mk_position(p.h, p.v + i - 1) |-> white 	                    | i in set inds w})	and	CW_INVARIANT(cwgrid,valid_words, waiting_words);
 SOFT_DELETE (w : word, p : position, d : HV)ext wr cwgrid : grid    rd valid_words : set of word    wr waiting_words : set of word   pre IS_LOCATED(cwgrid, w, p, d)  post (d = <H> =>	cwgrid = cwgrid~ ++ 		{mk_position(p.h + i - 1, p.v) |-> white 			| i in set inds w 			& not IN_WORD(cwgrid~,mk_position(p.h + i - 1, p.v),<V>) })	and	(d = <V> =>	cwgrid = cwgrid~ ++ 		{mk_position(p.h, p.v + i - 1) |-> white 			| i in set inds w 			& not IN_WORD(cwgrid~,mk_position(p.h, p.v + i - 1),<H>) })	and	CW_INVARIANT(cwgrid,valid_words, waiting_words)
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

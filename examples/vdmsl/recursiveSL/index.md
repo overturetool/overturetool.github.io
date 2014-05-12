@@ -1,12 +1,21 @@
 ---
 layout: default
-title: recursive
+title: recursiveSL
 ---
 
-~~~
-This example is made by John Fitgerald and Peter Gorm Larsen and itis used in the chapter about recursion in the second edition of the VDM-SL book. It contains a number of examples for recursive graph structures and functionality over such graphs.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= John Fitzgerald and Peter Gorm Larsen#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= DEFAULT`AllLabDesc(lgraph,1)#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: John Fitzgerald and Peter Gorm Larsen
+
+
+This example is made by John Fitgerald and Peter Gorm Larsen and it
+is used in the chapter about recursion in the second edition of the 
+VDM-SL book. It contains a number of examples for recursive graph 
+structures and functionality over such graphs.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| DEFAULT`AllLabDesc(lgraph,1)|
+
+
 ###graphs.vdmsl
 
 {% raw %}
@@ -30,7 +39,8 @@ types
 AcyclicGraph = Graphinv acg ==   not exists id in set dom acg &      id in set AllDesc(acg,id);
 values
   graph : Graph = {1 |-> {2,3},                   2 |-> {4},                   3 |-> {5},                   4 |-> {6},                   5 |-> {6},                   6 |-> {}}
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###labgraphs.vdmsl
 
@@ -48,5 +58,6 @@ LabDescendents: LabGraph * NodeId * set of NodeId -> set of NodeIdLabDescendent
 UniqueArcIds: map NodeId to (map ArcId to NodeId) -> boolUniqueArcIds(g) ==  let m = {nid |-> dom g(nid) | nid in set dom g}  in    forall nid1, nid2 in set dom m &       nid1 <> nid2 => m(nid1) inter m(nid2) = {}
 values
   lgraph : LabGraph = {1 |-> {1 |-> 2,2 |-> 3},                       2 |-> {3 |-> 4},                       3 |-> {4 |-> 5},                       4 |-> {5 |-> 6},                       5 |-> {6 |-> 6},                       6 |-> {|->}}
-~~~{% endraw %}
+~~~
+{% endraw %}
 

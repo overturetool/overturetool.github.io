@@ -1,80 +1,50 @@
 ---
 layout: default
-title: Alarm
+title: Alarm++proofPP
 ---
 
-~~~
-This is the alarm example from the VDM++ book, John Fitzgerald, PeterGorm Larsen, Paul Mukherjee, Nico Plat and Marcel Verhoef. ValidatedDesigns for Object-oriented Systems, Springer, New York. 2005, ISBN1-85233-881-4. The example is inspired by a subcomponent of a largealarm system developed by IFAD A/S. It is modelling the management ofalarms for an industrial plant. The purpose of the model is to clarifythe rules governing the duty roster and calling out of experts to dealwith alarms. A comparable model of this example also exists in VDM-SL.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= John Fitzgerald and Peter Gorm Larsen#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Test1().Run()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
-###alarm.vdmpp
+Author: John Fitzgerald and Peter Gorm Larsen
+
+
+This is a version of the alarm example from the VDM++ book, John 
+Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
+Verhoef, Validated Designs for Object-oriented Systems, Springer, 
+New York. 2005, ISBN 1-85233-881-4. This version of the example has 
+been used for proof purposes and thus the operations in the normal 
+VDM++ of this example are made as functions just like in the VDM-SL
+version of the alarm example. The example is inspired by a subcomponent 
+of a large alarm system developed by IFAD A/S. It is modelling the 
+management of alarms for an industrial plant. The purpose of the 
+model is to clarify the rules governing the duty roster and calling 
+out of experts to deal with alarms. 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new alarm().RunTest()|
+
+
+###alarmProof.vdmpp
 
 {% raw %}
 ~~~
-
-class Alarmtypes
+-- alarm-with-POs.vdm-- The alarm example class alarm
 types
-public String = seq of char;
-instance variables 
-descr    : String;reqQuali : Expert`Qualification;
-operations
-public Alarm: Expert`Qualification * String ==> AlarmAlarm(quali,str) ==( descr := str;  reqQuali := quali);
-public GetReqQuali: () ==> Expert`QualificationGetReqQuali() ==  return reqQuali;
-end Alarm
-
-~~~{% endraw %}
-
-###expert.vdmpp
-
-{% raw %}
-~~~
-
-class Expert
-instance variables
-quali : set of Qualification;
-types 
-public Qualification = <Mech> | <Chem> | <Bio> | <Elec>;
-operations
-public Expert: set of Qualification ==> ExpertExpert(qs) ==  quali := qs;
-public GetQuali: () ==> set of QualificationGetQuali() ==  return quali;
-end Expert
-
-~~~{% endraw %}
-
-###plant.vdmpp
-
-{% raw %}
-~~~
-
-class Plant
-instance variables
-alarms   : set of Alarm;st1 : nat := 1;schedule : map Period to set of Expert;inv PlantInv(alarms,schedule);
-operations
-PlantInv: set of Alarm * map Period to set of Expert ==>           boolPlantInv(as,sch) ==  return  (forall p in set dom sch & sch(p) <> {}) and  (forall a in set as &     forall p in set dom sch &       exists expert in set sch(p) &         a.GetReqQuali() in set expert.GetQuali());
-types
+  Plant :: schedule : Schedule           alarms   : set of Alarm  inv mk_Plant(schedule,alarms) ==    forall a in set alarms &      forall peri in set dom schedule &        QualificationOK(schedule(peri),a.quali);
+  Schedule = map Period to set of Expert  inv sch ==    forall exs in set rng sch &      exs <> {} and      forall ex1, ex2 in set exs &        ex1 <> ex2 => ex1.expertid <> ex2.expertid;
 public Period = token;
+  Expert :: expertid : ExpertId            quali    : set of Qualification  inv ex == ex.quali <> {};
+  ExpertId = token;
+  Qualification = <Elec> | <Mech> | <Bio> | <Chem>;
+  Alarm :: alarmtext : seq of char           quali     : Qualification
+functions
+  NumberOfExperts: Period * Plant -> nat  NumberOfExperts(peri,plant) ==    card plant.schedule(peri)  pre peri in set dom plant.schedule;
+  ExpertIsOnDuty: Expert * Plant -> set of Period  ExpertIsOnDuty(ex,mk_Plant(sch,-)) ==    {peri | peri in set dom sch & ex in set sch(peri)};
+  ExpertToPage(a:Alarm,peri:Period,plant:Plant) r: Expert  pre peri in set dom plant.schedule and    a in set plant.alarms  post r in set plant.schedule(peri) and    a.quali in set r.quali;
+static  QualificationOK: set of Expert * Qualification -> bool  QualificationOK(exs,reqquali) ==    exists ex in set exs & reqquali in set ex.quali;
 operations
-public ExpertToPage: Alarm * Period ==> ExpertExpertToPage(a, p) ==  let expert in set schedule(p) be st      a.GetReqQuali() in set expert.GetQuali()  in    return expertpre a in set alarms and    p in set dom schedulepost let expert = RESULT     in       expert in set schedule(p) and       a.GetReqQuali() in set expert.GetQuali();
-public NumberOfExperts: Period ==> natNumberOfExperts(p) ==  return card schedule(p)pre p in set dom schedule;
-public ExpertIsOnDuty: Expert ==> set of PeriodExpertIsOnDuty(ex) ==  return {p | p in set dom schedule &               ex in set schedule(p)};
-public Plant: set of Alarm *               map Period to set of Expert ==> PlantPlant(als,sch) ==( alarms := als;  schedule := sch)pre PlantInv(als,sch);
-end Plant
+public RunTest : () ==> set of PeriodRunTest () ==  let a1  : Alarm = mk_Alarm("Mechanical fault",<Mech>),      a2  : Alarm = mk_Alarm("Tank overflow",<Chem>),      ex1 : Expert = mk_Expert(mk_token(1),{<Mech>,<Bio>}),      ex2 : Expert = mk_Expert(mk_token(2),{<Elec>}),      ex3 : Expert = mk_Expert(mk_token(3),{<Chem>,<Bio>,<Mech>}),      ex4 : Expert = mk_Expert(mk_token(4),{<Elec>,<Chem>}),      p1  : Period = mk_token("Monday day"),      p2  : Period = mk_token("Monday night"),      plant : Plant = mk_Plant({p1 |-> {ex1,ex4}, p2 |-> {ex2,ex3}},{a1,a2})         in    return ExpertIsOnDuty(ex1,plant);
+end alarm
 
-~~~{% endraw %}
-
-###test1.vdmpp
-
-{% raw %}
 ~~~
-
-class Test1
-instance variables
-a1   : Alarm  := new Alarm(<Mech>,"Mechanical fault");a2   : Alarm  := new Alarm(<Chem>,"Tank overflow");ex1  : Expert := new Expert({<Mech>,<Bio>});ex2  : Expert := new Expert({<Elec>});ex3  : Expert := new Expert({<Chem>,<Bio>,<Mech>});ex4  : Expert := new Expert({<Elec>,<Chem>});plant: Plant  := new Plant({a1},{p1 |-> {ex1,ex4},                                 p2 |-> {ex2,ex3}});
-values
-p1: Plant`Period = mk_token("Monday day");p2: Plant`Period = mk_token("Monday night");p3: Plant`Period = mk_token("Tuesday day");p4: Plant`Period = mk_token("Tuesday night");
-operations
-public Run: () ==> set of Plant`Period * ExpertRun() ==   let periods = plant.ExpertIsOnDuty(ex1),      expert  = plant.ExpertToPage(a1,p1)  in     return mk_(periods,expert);
-end Test1
-
-~~~{% endraw %}
+{% endraw %}
 

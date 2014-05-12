@@ -1,12 +1,22 @@
 ---
 layout: default
-title: SortingParcels
+title: SortingParcelsPP
 ---
 
-~~~
-The purpose of this VDM++ model is to analyse the rules governing fordistrubuting parcels with different kinds of goods is awarehouse. This model is made by Bjarke Møholt as a small mini-projectin a course on "Modelling of Mission Critical Systems" (seehttps://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Bjarke Møholt#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Test().Run()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Bjarke M�holt
+
+
+The purpose of this VDM++ model is to analyse the rules governing for
+distrubuting parcels with different kinds of goods is a
+warehouse. This model is made by Bjarke M�holt as a small mini-project
+in a course on "Modelling of Mission Critical Systems" (see
+https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Test().Run()|
+
+
 ###Colli.vdmpp
 
 {% raw %}
@@ -23,7 +33,8 @@ public getID : () ==> intgetID() == return ID;
 public setID : int ==> ()setID(id) == ID := id;
 public setDestination : int ==> ()setDestination(dest) == destination := dest;
 end Colli
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Conveyor.vdmpp
 
@@ -43,7 +54,8 @@ operations
  public printSlides : () ==> () printSlides()== for all x in set inds slides do (IO`print(slides(x).getID() );  IO`print("\t"); );
 end Conveyor
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Slide.vdmpp
 
@@ -59,7 +71,8 @@ public addGoods : Colli ==> ()addGoods(elem) ==goods := goods union {elem};
 public setID : int ==> ()setID(id) == ID := id;
 public printColli : () ==> ()printColli()==for all x in set goods do ( IO`print("\t"); IO`print(x.getID() ););
 end Slide
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###test.vdmpp
 
@@ -80,5 +93,6 @@ operationspublic Run : () ==> ()Run() ==(dcl temp : set of Colli := {}; for 
  IO`print("\nundeliverable goods:\t"); for all s in set temp do (IO`print(s.getID());  IO`print("\t"); );
 );
 end Test
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,12 +1,17 @@
 ---
 layout: default
-title: memoryproof
+title: memoryproofPP
 ---
 
-~~~
+Author: 
 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Example3().RunTest()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Example3().RunTest()|
+
+
 ###memory.vdmpp
 
 {% raw %}
@@ -33,5 +38,6 @@ AllocSafe2 : ADDR * State -> boolAllocSafe2 (addr,sta) ==      Safe(sta) => Sa
 operations
 public RunTest : () ==> boolRunTest () ==  (let s : State = mk_State({<a0> |-> <c0>}, {<a0>,<a1>}, {<a0>})   in     AllocSafe2(<a1>,s);  ); 
 end Example3
-~~~{% endraw %}
+~~~
+{% endraw %}
 

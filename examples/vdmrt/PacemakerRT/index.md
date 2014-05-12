@@ -1,14 +1,46 @@
 ---
 layout: default
-title: Pacemaker
+title: PacemakerRT
 ---
 
-~~~
-This model is made by Hugo Macedo as a part of his MSc thesis of apacemaker according to the grand challenge provided by BostonScientific in this area. This is the last of a series of VDM modelsof the pacemaker and it incorporates a number of modes for the pacemaker. More information can be found in:
-Hugo Macedo, Validating and Understanding Boston Scientific PacemakerRequirements, MSc thesis, Minho University, Portugal, October 2007.
-Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald, Incremental Development of a Distributed Real-Time Model of a Cardiac Pacing System using VDM, In FM 2008: Formal Methods, 15th International Symposium on Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Hugo Macedo#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new World("tests/scenarioGoodHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()#ENTRY_POINT=new World("tests/scenarioGoodHeart.arg",<AOO>).Run()#ENTRY_POINT=new World("tests/scenarioDoubleHeart.arg",<AOO>).Run()#ENTRY_POINT=new World("tests/scenarioBrokenHeart.arg",<AOO>).Run()#ENTRY_POINT=new World("tests/scenarioSometimesHeart.arg",<AOO>).Run()#ENTRY_POINT=new World("tests/scenarioGoodHeart.arg",<AAI>).Run()#ENTRY_POINT=new World("tests/scenarioDoubleHeart.arg",<AAI>).Run()#ENTRY_POINT=new World("tests/scenarioBrokenHeart.arg",<AAI>).Run()#ENTRY_POINT=new World("tests/scenarioSometimesHeart.arg",<AAI>).Run()#ENTRY_POINT=new World("tests/scenarioGoodHeart.arg",<DDD>).Run()#ENTRY_POINT=new World("tests/scenarioDoubleHeart.arg",<DDD>).Run()#ENTRY_POINT=new World("tests/scenarioBrokenHeart.arg",<DDD>).Run()#ENTRY_POINT=new World("tests/scenarioSometimesHeart.arg",<DDD>).Run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Hugo Macedo
+
+
+This model is made by Hugo Macedo as a part of his MSc thesis of a
+pacemaker according to the grand challenge provided by Boston
+Scientific in this area. This is the last of a series of VDM models
+of the pacemaker and it incorporates a number of modes for the 
+pacemaker. More information can be found in:
+
+Hugo Macedo, Validating and Understanding Boston Scientific Pacemaker
+Requirements, MSc thesis, Minho University, Portugal, October 2007.
+
+Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald, Incremental 
+Development of a Distributed Real-Time Model of a Cardiac Pacing System 
+using VDM, In FM 2008: Formal Methods, 15th International Symposium on 
+Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
+Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World("tests/scenarioGoodHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()|
+|Entry point     :| new World("tests/scenarioGoodHeart.arg",<AOO>).Run()|
+|Entry point     :| new World("tests/scenarioDoubleHeart.arg",<AOO>).Run()|
+|Entry point     :| new World("tests/scenarioBrokenHeart.arg",<AOO>).Run()|
+|Entry point     :| new World("tests/scenarioSometimesHeart.arg",<AOO>).Run()|
+|Entry point     :| new World("tests/scenarioGoodHeart.arg",<AAI>).Run()|
+|Entry point     :| new World("tests/scenarioDoubleHeart.arg",<AAI>).Run()|
+|Entry point     :| new World("tests/scenarioBrokenHeart.arg",<AAI>).Run()|
+|Entry point     :| new World("tests/scenarioSometimesHeart.arg",<AAI>).Run()|
+|Entry point     :| new World("tests/scenarioGoodHeart.arg",<DDD>).Run()|
+|Entry point     :| new World("tests/scenarioDoubleHeart.arg",<DDD>).Run()|
+|Entry point     :| new World("tests/scenarioBrokenHeart.arg",<DDD>).Run()|
+|Entry point     :| new World("tests/scenarioSometimesHeart.arg",<DDD>).Run()|
+
+
 ###Accelerometer.vdmrt
 
 {% raw %}
@@ -19,7 +51,8 @@ operations
  public  stimulate : ActivityData ==> () stimulate (a) == Pacemaker`rateController.stimulate(a);
 end Accelerometer
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Environment.vdmrt
 
@@ -64,7 +97,8 @@ per isFinished => not busy and time >= simtime;
 
 end Environment
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###GLOBAL.vdmrt
 
@@ -87,7 +121,8 @@ types
 -- Timepublic Time = nat;
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HeartController.vdmrt
 
@@ -120,7 +155,8 @@ per isFinished => sensed = {|->} and #active(pace) = 0;
 
 mutex(sensorNotify,pace,setInterval);mutex(sensorNotify,PaceAOO,PaceDOO,PaceAAT);end HeartController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Lead.vdmrt
 
@@ -152,7 +188,8 @@ sync
 mutex(addLeadPace);mutex(dischargePulse);mutex(followPlan);per isFinished =>  scheduledPulse = nil;
 end Lead 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Pacemaker.vdmrt
 
@@ -181,7 +218,8 @@ operations
  public Pacemaker: () ==> Pacemaker Pacemaker () ==    (     cpu1.deploy(atriaLead);    cpu2.deploy(ventricleLead);    cpu3.deploy(accelerometer);    cpu4.deploy(rateController);    cpu4.deploy(heartController); --   cpu4.setPriority(HeartController`pace,3); --   cpu4.setPriority(RateController`increaseRate,1); --   cpu4.setPriority(RateController`decreaseRate,1);   );
 end Pacemaker
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RateController.vdmrt
 
@@ -216,7 +254,208 @@ values
 --V-LOW 1--LOW 2--MED-LOW 4MED : ActivityData = 4;--MED-HIGH 4--HIGH 6--V-HIGH 6
 end RateController
 
-~~~{% endraw %}
+~~~
+{% endraw %}
+
+###testBrokenHeartAAI.vdmrt
+
+{% raw %}
+~~~
+class Test4
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioBrokenHeart.arg",<AAI>).Run();end Test4
+~~~
+{% endraw %}
+
+###testBrokenHeartAAT.vdmrt
+
+{% raw %}
+~~~
+class Test5
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioBrokenHeart.arg",<AAT>).Run();end Test5
+~~~
+{% endraw %}
+
+###testBrokenHeartAOO.vdmrt
+
+{% raw %}
+~~~
+class Test1
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioBrokenHeart.arg",<AOO>).Run();end Test1
+~~~
+{% endraw %}
+
+###testBrokenHeartDDD.vdmrt
+
+{% raw %}
+~~~
+class Test2
+operations
+public Test : () ==> ()Test() == new World ("tests/scenarioBrokenHeart.arg",<DDD>).Run();end Test2
+~~~
+{% endraw %}
+
+###testBrokenHeartDOO.vdmrt
+
+{% raw %}
+~~~
+class Test3
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioBrokenHeart.arg",<DOO>).Run();end Test3
+~~~
+{% endraw %}
+
+###testDoubleHeartAAI.vdmrt
+
+{% raw %}
+~~~
+class Test9
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioDoubleHeart.arg",<AAI>).Run();end Test9
+~~~
+{% endraw %}
+
+###testDoubleHeartAAT.vdmrt
+
+{% raw %}
+~~~
+class Test10
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioDoubleHeart.arg",<AAT>).Run();end Test10
+~~~
+{% endraw %}
+
+###testDoubleHeartAOO.vdmrt
+
+{% raw %}
+~~~
+class Test6
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioDoubleHeart.arg",<AOO>).Run();end Test6
+~~~
+{% endraw %}
+
+###testDoubleHeartDDD.vdmrt
+
+{% raw %}
+~~~
+class Test7
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioDoubleHeart.arg",<DDD>).Run();end Test7
+~~~
+{% endraw %}
+
+###testDoubleHeartDOO.vdmrt
+
+{% raw %}
+~~~
+class Test8
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioDoubleHeart.arg",<DOO>).Run();end Test8
+~~~
+{% endraw %}
+
+###testGoodHeartAAI.vdmrt
+
+{% raw %}
+~~~
+class Test15
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioGoodHeart.arg",<AAI>).Run();end Test15
+~~~
+{% endraw %}
+
+###testGoodHeartAAT.vdmrt
+
+{% raw %}
+~~~
+class Test16
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioGoodHeart.arg",<AAT>).Run();end Test16
+~~~
+{% endraw %}
+
+###testGoodHeartAOO.vdmrt
+
+{% raw %}
+~~~
+class Test11
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioGoodHeart.arg",<AOO>).Run();end Test11
+~~~
+{% endraw %}
+
+###testGoodHeartDDD.vdmrt
+
+{% raw %}
+~~~
+class Test13
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioGoodHeart.arg",<DDD>).Run();end Test13
+~~~
+{% endraw %}
+
+###testGoodHeartDOO.vdmrt
+
+{% raw %}
+~~~
+class Test14
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioGoodHeart.arg",<DOO>).Run();end Test14
+~~~
+{% endraw %}
+
+###testSometimesHeartAAI.vdmrt
+
+{% raw %}
+~~~
+class Test20
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioSometimesHeart.arg",<AAI>).Run();end Test20
+~~~
+{% endraw %}
+
+###testSometimesHeartAAT.vdmrt
+
+{% raw %}
+~~~
+class Test21
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioSometimesHeart.arg",<AAT>).Run();end Test21
+~~~
+{% endraw %}
+
+###testSometimesHeartAOO.vdmrt
+
+{% raw %}
+~~~
+class Test17
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioSometimesHeart.arg",<AOO>).Run();end Test17
+~~~
+{% endraw %}
+
+###testSometimesHeartDDD.vdmrt
+
+{% raw %}
+~~~
+class Test18
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioSometimesHeart.arg",<DDD>).Run();end Test18
+~~~
+{% endraw %}
+
+###testSometimesHeartDOO.vdmrt
+
+{% raw %}
+~~~
+class Test19
+operations
+public Test : () ==> ()Test () == new World("tests/scenarioSometimesHeart.arg",<DOO>).Run();end Test19
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -241,5 +480,6 @@ public Run: () ==> ()Run () ==   (    start(env);    env.isFinished();   Pa
 
 end World
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

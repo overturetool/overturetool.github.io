@@ -1,13 +1,22 @@
 ---
 layout: default
-title: hotel
+title: hotelSL
 ---
 
-~~~
-This example is used to illustrate the difference between differentformal approaches in the Alloy book. The example models a schemefor recodable hotel-door locks. More information can be found in:
-Daniel Jackson, Software Abstractions, MIT Press, April 2006ISBN 0-262-10114-9.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=John Fitzgerald and Peter Gorm Larsen#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: John Fitzgerald and Peter Gorm Larsen
+
+
+This example is used to illustrate the difference between different
+formal approaches in the Alloy book. The example models a scheme
+for recodable hotel-door locks. More information can be found in:
+
+Daniel Jackson, Software Abstractions, MIT Press, April 2006
+ISBN 0-262-10114-9.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###hotel.vdmsl
 
 {% raw %}
@@ -36,5 +45,6 @@ EnterExpl: Room * Guest ==> ()EnterExpl(r,g) ==  let c in set guests(g) be st 
 IssueCard: () ==> KeyIssueCard() ==  let k: Key be st k not in set desk.issued  in    (desk.issued := desk.issued union {k};     return k    );
 AddRoom: Room * Key ==> ()AddRoom(r,k) ==  (desk.prev := desk.prev munion {r |-> k};   locks := locks munion {r |-> k}  )pre k in set desk.issued and r not in set dom locks;
 AddGuest: Guest * set of Card ==> ()AddGuest(g,cs) ==  guests := guests ++ {g |-> if g in set dom guests                             then guests(g) union cs                             else cs}pre forall c in set cs & {c.fst, c.snd} subset desk.issued;
-~~~{% endraw %}
+~~~
+{% endraw %}
 

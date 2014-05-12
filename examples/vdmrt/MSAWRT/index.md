@@ -1,11 +1,18 @@
 ---
 layout: default
-title: MSAW
+title: MSAWRT
 ---
 
-~~~
-This example is created by Augusto Ribeiro illustrating different concepts in VDM for teaching purposes including the distributed real time features in VDM-RT. Notethat thus this model is not in a state where it makes sense to execute it.#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Augusto Ribeiro#LIB=IO;MATH#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Augusto Ribeiro
+
+
+This example is created by Augusto Ribeiro illustrating different concepts in VDM 
+for teaching purposes including the distributed real time features in VDM-RT. Note
+that thus this model is not in a state where it makes sense to execute it.|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###AirSpace.vdmrt
 
 {% raw %}
@@ -21,7 +28,8 @@ public getFO : FOId ==> FOgetFO(id) ==  return airspace(id)pre id in set dom 
 public getAirspace : () ==> set of FOgetAirspace() ==  return rng airspace;
 public updateFO : FOId * Coordinates * Altitude ==> ()updateFO(id,coord,alt) == (if (id in set dom airspace)  then     let fo = airspace(id)    in      (fo.setCoordinates(coord);      fo.setAltitude(alt))     -- fo.registerPosition())  else    (let newfo = new FO(id,coord,alt)     in airspace := airspace munion {id |-> newfo}    );  MSAW`atc.UpdatesPresent())
 end AirSpace
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###atc.vdmrt
 
@@ -74,7 +82,8 @@ periodic (1600E6,0,0,0) (Step)
 sync per isFinished => not busy;
 
 end AirTrafficController
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###environment.vdmrt
 
@@ -110,7 +119,8 @@ mutex(handleRadarWarningEvent);mutex(handleRadarWarningEvent,handleFOWarningEve
 thread periodic (1000E6,10,30,0)(updateFOs)
 
 end Environment
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###FO.vdmrt
 
@@ -129,7 +139,8 @@ public setAltitude : Altitude ==> ()setAltitude(altpar) ==  alt := altpar;
 public getPosition : () ==> PositiongetPosition() ==   return mk_Position(coord,alt); 
 
 end FO
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###GLOBAL.vdmrt
 
@@ -168,7 +179,8 @@ operations
 public test : real * real * real * real ==>               Vector * Vector * real * real * Vector * real * realtest(x1,y1,x2,y2) ==   let v1 = mk_Vector(x1,y1),      v2 = mk_Vector(x2,y2)  in     return mk_(unitVector(v1),               unitVector(v2),               dotProduct(unitVector(v1),unitVector(v2)),               atan2(0.000001,0.0000000),               vectorRotate(v2,signedVectorAngle(v1,v2)),               radians2degree(signedVectorAngle(v1,v2)),               angleBetweenVectors(v1,v2)              );
 end GLOBAL
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MSAW.vdmrt
 
@@ -186,7 +198,8 @@ public static militaryZone : Obstacle :=   new Obstacle(<NotAllowed>,mk_GLOBAL`
 operations 
 public MSAW : () ==> MSAWMSAW() == (cpu1.deploy(atc);  cpu2.deploy(radar1);  cpu3.deploy(radar2); );
 end MSAW
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###obstacle.vdmrt
 
@@ -204,7 +217,8 @@ public getMSA : () ==> MinimumSafetyAltitudegetMSA() ==   return MSA;
 
 
 end Obstacle 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Radar.vdmrt
 
@@ -240,7 +254,8 @@ periodic(2000E6,0,0,0) (Step)
 sync mutex(UpdatePriorityList);mutex(removeNotDetected,addNewlyDetected);per isFinished => not busy;--per Step => not busy;
 
 end Radar
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###world.vdmrt
 
@@ -253,5 +268,6 @@ operations
 public   World : () ==> World  World() ==    ( env := new Environment("scenario.txt");      env.setAirSpace(MSAW`airspace);      MSAW`atc.addObstacle(MSAW`militaryZone);      MSAW`atc.addRadar(MSAW`radar1);      MSAW`atc.addRadar(MSAW`radar2);    );
 public Run : () ==> ()Run() == (  start(env);  start(MSAW`atc);  start(MSAW`radar1);  start(MSAW`radar2);  env.isFinished();  MSAW`atc.isFinished();    env.showResult() )
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

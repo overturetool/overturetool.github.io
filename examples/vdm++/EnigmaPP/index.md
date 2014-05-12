@@ -1,12 +1,26 @@
 ---
 layout: default
-title: Enigma
+title: EnigmaPP
 ---
 
-~~~
-This VDM++ model is developed by Marcel Verhoef as a part of the VDM++ bookJohn Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 2005, ISBN 1-85233-881-4. This is a VDM++ model of the famousEnigma cipher machine used by the Germans in the Second World War toencrypt and decrypt messages that were exchanged between militaryunits. The purpose of the model is to get a basic understanding of thecipher mechanism as implemented in Enigma. This example was the first placewhere the VDMUnit testing approach was introduced.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Marvel Verhoef#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= new EnigmaTest().Execute()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Marvel Verhoef
+
+
+This VDM++ model is developed by Marcel Verhoef as a part of the VDM++ book
+John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
+Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 
+2005, ISBN 1-85233-881-4. This is a VDM++ model of the famous
+Enigma cipher machine used by the Germans in the Second World War to
+encrypt and decrypt messages that were exchanged between military
+units. The purpose of the model is to get a basic understanding of the
+cipher mechanism as implemented in Enigma. This example was the first place
+where the VDMUnit testing approach was introduced.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new EnigmaTest().Execute()|
+
+
 ###Alphabet.vdmpp
 
 {% raw %}
@@ -22,7 +36,8 @@ operations  public Alphabet: seq of char ==> Alphabet  Alphabet (pa) == alph :
   public GetSize: () ==> nat  GetSize () == return len alph;
   public Shift: nat * nat ==> nat  Shift (pidx, poffset) ==    if pidx + poffset > len alph    then return pidx + poffset - len alph    else return pidx + poffset  pre pidx in set inds alph and      poffset <= len alph;
   public Shift: nat ==> nat  Shift (pidx) == Shift(pidx, 1)end Alphabet
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###AlphabetTest.vdmpp
 
@@ -37,7 +52,8 @@ operations  public AlphabetTest: seq of char ==> AlphabetTest  AlphabetTest(nm
   protected TearDown: () ==> ()  TearDown () == skip;
 end AlphabetTest
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Component.vdmpp
 
@@ -51,7 +67,8 @@ operations  public Successors: () ==> set of Component  Successors () ==    i
   public Rotate: () ==> ()  Rotate () == skip;
   public Rotate: nat ==> ()  Rotate (-) == skip
 end Component
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Configuration.vdmpp
 
@@ -63,7 +80,8 @@ operations  protected Encode: nat ==> nat  Encode (penc) ==    if penc in set
   protected Decode: nat ==> nat  Decode (pdec) ==    let invcfg = inverse config in      if pdec in set dom invcfg      then return invcfg(pdec)      else return pdec;
   public Substitute: nat ==> nat  Substitute(pidx) ==    return Decode(next.Substitute(Encode(pidx)))  pre next <> nil
 end Configuration
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ConfigurationTest.vdmpp
 
@@ -78,7 +96,8 @@ operations  public ConfigurationTest: seq of char ==> ConfigurationTest  Confi
   protected TearDown: () ==> ()  TearDown () == skip;
 end ConfigurationTest
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###EnigmaTest.vdmpp
 
@@ -86,7 +105,8 @@ end ConfigurationTest
 ~~~
 class EnigmaTestoperations  public Execute: () ==> ()  Execute () ==    (dcl ts : TestSuite := new TestSuite();     ts.AddTest(new AlphabetTest("Alphabet"));     ts.AddTest(new ConfigurationTest("Configuration"));     ts.AddTest(new ReflectorTest("Reflector"));     ts.AddTest(new RotorTest("Rotor"));     ts.AddTest(new PlugboardTest("Plugboard"));     ts.AddTest(new SimpleEnigmaTest("SimpleEnigma"));     ts.Run())
 end EnigmaTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Plugboard.vdmpp
 
@@ -98,7 +118,8 @@ functions  PlugboardInv: inmap nat to nat * Alphabet -> bool  PlugboardInv (pc
 operations  public Plugboard:    Alphabet * inmap nat to nat ==> Plugboard  Plugboard (pa, pcfg) ==    atomic (alph := pa;      config := pcfg munion inverse pcfg)  pre dom pcfg inter rng pcfg = {} and      PlugboardInv(pcfg, pa);
   public Substitute: nat ==> nat  Substitute (pidx) ==    (next.Rotate();     Configuration`Substitute(pidx))  pre pidx in set alph.GetIndices() and      (isofclass(Rotor,next) or       isofclass(Reflector,next))
 end Plugboard
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###PlugboardTest.vdmpp
 
@@ -116,7 +137,8 @@ operations  public PlugboardTest: seq of char ==> PlugboardTest  PlugboardTest
   protected RunTest: () ==> ()  RunTest () == (SimpleTest(); ComplexTest());
   protected TearDown: () ==> ()  TearDown () == skip;
 end PlugboardTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Reflector.vdmpp
 
@@ -128,7 +150,8 @@ functions  ReflectorInv:    [Component] * inmap nat to nat * Alphabet -> bool
 operations  public Reflector:    nat * Alphabet * inmap nat to nat ==> Reflector  Reflector (psp, pa, pcfg) ==    atomic (alph := pa;      config := {pa.Shift(i, psp-1) |->        pa.Shift(pcfg(i), psp-1) |        i in set dom pcfg})  pre psp in set pa.GetIndices() and      ReflectorInv(next, pcfg, pa);
   public Substitute: nat ==> nat  Substitute (pidx) ==    if pidx in set dom config    then Encode(pidx)    else Decode(pidx)
 end Reflector
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ReflectorTest.vdmpp
 
@@ -147,7 +170,8 @@ operations  public ReflectorTest: seq of char ==> ReflectorTest  ReflectorTest
   protected TearDown: () ==> ()  TearDown () == skip
 end ReflectorTest
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Rotor.vdmpp
 
@@ -161,7 +185,8 @@ operations  public Rotor:    nat * nat * Alphabet * inmap nat to nat ==> Rotor
   public Rotate: () ==> ()  Rotate () ==    (-- propagate the rotation to the next component     -- and tell it where our latch position is     next.Rotate(latch_pos);     -- update our own latch position and take the     -- alphabet size into account     if latch_pos = alph.GetSize()     then latch_pos := 1     else latch_pos := latch_pos+1;     -- update the transpositioning relation by     -- shifting all indices one position     config := {alph.Shift(i) |->                alph.Shift(config(i)) |                i in set dom config};     -- remember the rotation     latch_lock := true)  pre isofclass(Rotor,next) or      isofclass(Reflector,next);
   public Rotate: nat ==> ()  Rotate (ppos) ==    -- compare the latch position and the lock    if ppos = latch_pos and not latch_lock    -- perform the actual rotation    then Rotate()    -- otherwise reset the lock    else latch_lock := false  pre ppos in set alph.GetIndices();
 end Rotor
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RotorTest.vdmpp
 
@@ -180,7 +205,8 @@ operations  public RotorTest: seq of char ==> RotorTest  RotorTest(nm) == name
   protected TearDown: () ==> ()  TearDown () == skip;
 end RotorTest
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SimpleEnigma.vdmpp
 
@@ -193,7 +219,8 @@ operations  public SimpleEnigma: () ==> SimpleEnigma  SimpleEnigma () ==    (
   -- this is needed to make this a non-abstract class  public Substitute: nat ==> nat  Substitute (-) == return 1;
 
 end SimpleEnigma
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SimpleEnigmaTest.vdmpp
 
@@ -205,7 +232,8 @@ operations  public SimpleEnigmaTest: seq of char ==> SimpleEnigmaTest  SimpleE
   protected RunTest: () ==> ()  RunTest () ==     (dcl se1 : SimpleEnigma := new SimpleEnigma(),         se2 : SimpleEnigma := new SimpleEnigma();     for ch in "ABCDDCBAABCDDCBAAABBCCDD" do       AssertTrue(         se1.Keystroke(se2.Keystroke(ch)) = ch));
   protected TearDown: () ==> ()  TearDown () == skip
 end SimpleEnigmaTest
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmpp
 
@@ -215,7 +243,8 @@ class Test
 operations  public Run: TestResult ==> ()  Run (-) == is subclass responsibility
 end Test
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestCase.vdmpp
 
@@ -232,7 +261,8 @@ operations  public TestCase: seq of char ==> TestCase  TestCase(nm) == name :=
   protected RunTest: () ==> ()  RunTest () == is subclass responsibility;
   protected TearDown: () ==> ()  TearDown () == is subclass responsibility
 end TestCase
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestResult.vdmpp
 
@@ -244,7 +274,8 @@ operations  public AddFailure: TestCase ==> ()  AddFailure (ptst) == failures 
   public Print: seq of char ==> ()  Print (pstr) ==    def - = new IO().echo(pstr ^ "\n") in skip;
   public Show: () ==> ()  Show () ==    if failures = [] then      Print ("No failures detected")    else      for failure in failures do        Print (failure.GetName() ^ " failed")
 end TestResult
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TestSuite.vdmpp
 
@@ -256,5 +287,6 @@ operations  public Run: () ==> ()  Run () ==    (dcl ntr : TestResult := new 
   public Run: TestResult ==> ()  Run (result) ==    for test in tests do      test.Run(result);
   public AddTest: Test ==> ()  AddTest(test) ==    tests := tests ^ [test];
 end TestSuite
-~~~{% endraw %}
+~~~
+{% endraw %}
 

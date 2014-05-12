@@ -1,12 +1,23 @@
 ---
 layout: default
-title: oldcarradio
+title: oldcarradioRT
 ---
 
-~~~
-This was the first model Marcel Verhoef tried to make of the carradio navigation example using the original version of VICE withone CPU. This failed and as a consequence Marcel Verhoef and PeterGorm Larsen came up with an improved version of VDM-RT with multiple CPUs connected with BUSses.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Marcel Verhoef#LIB= IO#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new RadNavSys(1).Run()#ENTRY_POINT=new RadNavSys(2).Run()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Marcel Verhoef
+
+
+This was the first model Marcel Verhoef tried to make of the car
+radio navigation example using the original version of VICE with
+one CPU. This failed and as a consequence Marcel Verhoef and Peter
+Gorm Larsen came up with an improved version of VDM-RT with 
+multiple CPUs connected with BUSses.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new RadNavSys(1).Run()|
+|Entry point     :| new RadNavSys(2).Run()|
+
+
 ###AbstractTask.vdmrt
 
 {% raw %}
@@ -26,7 +37,8 @@ operations  public AbstractTask: seq of char * EventDispatcher ==> AbstractTask
 sync  -- setEvent and getEvent are mutually exclusive  mutex (setEvent, getEvent);  -- getEvent is blocked until at least one message is available  per getEvent => len events > 0 or len interrupts > 0
 end AbstractTask
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###AbstractTaskEvent.vdmrt
 
@@ -39,7 +51,8 @@ operations  public AbstractTaskEvent: AbstractTask * Event ==> AbstractTaskEven
   public getFields: () ==> AbstractTask * Event  getFields () == return mk_ (abstask, ev)
 end AbstractTaskEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###BasicTask.vdmrt
 
@@ -52,7 +65,8 @@ protected handleEvent: Event ==> ()handleEvent (e) == skip;
 -- BasicTask just implements the standard event handling loop-- handleEvent is still left to the responsibility of the subclass of BasicTaskthread  while (true) do    handleEvent(getEvent())
 end BasicTask
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###EnvironmentTask.vdmrt
 
@@ -75,7 +89,8 @@ operations  public EnvironmentTask: seq of char * EventDispatcher * nat ==>   
 sync  -- getNum is mutually exclusive to ensure unique values  mutex (getNum);  mutex(logEnvToSys);  mutex(logSysToEnv);  -- getMinMaxAverage is blocked until all responses have been received  per getMinMaxAverage => card dom s2e = max_stimuli
 end EnvironmentTask
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Event.vdmrt
 
@@ -88,7 +103,8 @@ operations  public Event: nat ==> Event  Event (pv) == val := pv;
   public getEvent: () ==> nat  getEvent () == return val
 end Event
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###EventDispatcher.vdmrt
 
@@ -106,7 +122,8 @@ operations  -- Register is used to maintain a callback link to all the tasks in
 sync  -- setEvent and getEvent are mutually exclusive  mutex(setEvent, getEvent);  -- the thread shall be blocked until there is at least one message available  per getEvent => len messages > 0 or len interrupts > 0
 end EventDispatcher
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###InsertAddress.vdmrt
 
@@ -121,7 +138,8 @@ operations  public InsertAddress: EventDispatcher * nat ==> InsertAddress  Ins
 thread  periodic (1000,0,0,0) (createSignal)
 end InsertAddress
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###InterruptEvent.vdmrt
 
@@ -132,7 +150,8 @@ class InterruptEvent is subclass of Event
 operations  public InterruptEvent: nat ==> InterruptEvent  InterruptEvent (pne) == Event(pne)
 end InterruptEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Logger.vdmrt
 
@@ -145,7 +164,8 @@ operations  -- printNetworkEvent writes a time trace to the file mytrace.txt  
   -- printInterruptEvent writes a time trace to the file mytrace.txt  -- this file can be used for application specific post analysis  public printInterruptEvent: seq of char * seq of char * nat ==> ()  printInterruptEvent (psrc, pdest, pid) ==    def - = io.fwriteval[seq of (seq of char | nat)]      ("mytrace.txt", ["interrupt", psrc, pdest, pid, time], mode)      in mode := <append>;
 end Logger
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MMIHandleKeyPressOne.vdmrt
 
@@ -158,7 +178,8 @@ operations  public MMIHandleKeyPressOne: EventDispatcher ==> MMIHandleKeyPressO
   protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( HandleKeyPress();      -- send message to next task in this scenario      sendMessage("AdjustVolume", pe.getEvent()) )
 end MMIHandleKeyPressOne
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MMIHandleKeyPressTwo.vdmrt
 
@@ -171,7 +192,8 @@ operations  public MMIHandleKeyPressTwo: EventDispatcher ==> MMIHandleKeyPressT
   protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( HandleKeyPress();	-- send message to next task in this scenario      sendMessage("DatabaseLookup", pe.getEvent()) )
 end MMIHandleKeyPressTwo
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MMIUpdateScreenAddress.vdmrt
 
@@ -184,7 +206,8 @@ operations  public MMIUpdateScreenAddress: EventDispatcher ==> MMIUpdateScreenA
   -- we do not specify *what* the operation does  -- we only specify its execution time  protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( UpdateScreen();	-- scenario finished. signal response back to the environment      raiseInterrupt("InsertAddress", pe.getEvent()) )
 end MMIUpdateScreenAddress
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MMIUpdateScreenTMC.vdmrt
 
@@ -197,7 +220,8 @@ operations  public MMIUpdateScreenTMC: EventDispatcher ==> MMIUpdateScreenTMC 
   protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( UpdateScreen();	-- scenario finished. signal response back to the environment      raiseInterrupt("TransmitTMC", pe.getEvent()) )
 end MMIUpdateScreenTMC
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###MMIUpdateScreenVolume.vdmrt
 
@@ -210,7 +234,8 @@ operations  public MMIUpdateScreenVolume: EventDispatcher ==> MMIUpdateScreenVo
   protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( UpdateScreen();	-- scenario finished. signal response back to the environment      raiseInterrupt("VolumeKnob", pe.getEvent()) )
 end MMIUpdateScreenVolume
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NavigationDatabaseLookup.vdmrt
 
@@ -223,7 +248,8 @@ operations  public NavigationDatabaseLookup: EventDispatcher ==> NavigationData
   protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( DatabaseLookup();	-- send message to next task in this scenario      sendMessage("UpdateScreenAddress", pe.getEvent()) )
 end NavigationDatabaseLookup
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NavigationDecodeTMC.vdmrt
 
@@ -236,7 +262,8 @@ operations  public NavigationDecodeTMC: EventDispatcher ==> NavigationDecodeTMC
   protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( DecodeTMC();      -- send message to next task in this scenario      sendMessage("UpdateScreenTMC", pe.getEvent()) )
 end NavigationDecodeTMC
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###NetworkEvent.vdmrt
 
@@ -247,7 +274,8 @@ class NetworkEvent is subclass of Event
 operations  public NetworkEvent: nat ==> NetworkEvent  NetworkEvent (pne) == Event(pne)
 end NetworkEvent
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RadioAdjustVolume.vdmrt
 
@@ -260,7 +288,8 @@ operations  public RadioAdjustVolume: EventDispatcher ==> RadioAdjustVolume  R
   protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( AdjustVolume();      -- send message to next task in this scenario      sendMessage("UpdateScreenVolume", pe.getEvent()) )
 end RadioAdjustVolume
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RadioHandleTMC.vdmrt
 
@@ -273,7 +302,8 @@ operations  public RadioHandleTMC: EventDispatcher ==> RadioHandleTMC  RadioHa
   protected handleEvent: Event ==> ()  handleEvent (pe) ==    ( HandleTMC();      -- send message to the next task in this scenario      sendMessage("DecodeTMC", pe.getEvent()) )
 end RadioHandleTMC
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RadNavSys.vdmrt
 
@@ -291,7 +321,8 @@ operations
   -- the Run operation creates and starts the appropriate environment tasks  -- for this scenario. to ensure that the system model has ample time to  -- make progress (because RadNavSys will be started from the VDMTools  -- command-line which always has the highest priority) the calls to  -- getMinMaxAverage will block until all responses have been received  -- by the environment task  public Run: () ==> map seq of char to perfdata  Run () ==    ( cases (mode):        1 -> ( addEnvironmentTask(new VolumeKnob(dispatch,10));               addEnvironmentTask(new TransmitTMC(dispatch,10)) ),        2 -> ( addEnvironmentTask(new InsertAddress(dispatch,10));               addEnvironmentTask(new TransmitTMC(dispatch,10)) )      end;      return { name |-> envTasks(name).getMinMaxAverage()              | name in set dom envTasks } )
 end RadNavSys
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TransmitTMC.vdmrt
 
@@ -306,7 +337,8 @@ operations  public TransmitTMC: EventDispatcher * nat ==> TransmitTMC  Transmi
 thread  periodic (1000,0,0,0) (createSignal)
 end TransmitTMC
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VolumeKnob.vdmrt
 
@@ -321,5 +353,6 @@ operations  public VolumeKnob: EventDispatcher * nat ==> VolumeKnob  VolumeKno
 thread  periodic (1000,0,0,0) (createSignal)
 end VolumeKnob
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

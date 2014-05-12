@@ -1,14 +1,48 @@
 ---
 layout: default
-title: SAFER
+title: SAFERPP
 ---
 
-~~~
-This specification is a VDM++ model of the SAFER (Simplified Aid for EVA Rescue) example presented in the second volume of the NASA guidebook on formal methods. 
-Here Appendix C contains a complete listing of the SAFER system using PVS. We have translated this PVS specification rather directly into VDM-SL previously and here that model is again moved to VDM++. In the VDM++ model we have abstracted away form a number of parts which has been left as uninterpreted functions in the PVS model. This has been done because we have defined the purpose of the model to clarify the functionality of the thruster selection logic and the protocol for the automatic attitude hold functionality. Otherwise we have on purpose varied as little as possible from the given PVS model. In order to visualise this example the dynamic link feature is illustrated as well. In the test class Test there are a few examples of using the traces primitives used for test automation. 
-More explanation about this work can be found in the papers:  *Sten Agerholm and Peter Gorm Larsen, Modeling and   Validating SAFER in VDM-SL, ed: Michael Holloway,   in "Fourth NASA Langley Formal Methods Workshop",   NASA, September 1997.  *Sten Agerholm and Wendy Schafer, Analyzing SAFER using   UML and VDM++, ed: John Fitzgerald and Peter Gorm Larsen,   in "VDM Workshop at the Formal Methods 1999 conference,   Toulouse 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Sten Agerholm and Peter Gorm Larsen#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Test().BigTest()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+Author: Sten Agerholm and Peter Gorm Larsen
+
+
+This specification is a VDM++ model of the SAFER 
+(Simplified Aid for EVA Rescue) example presented in 
+the second volume of the NASA guidebook on formal 
+methods. 
+
+Here Appendix C contains a complete listing of the 
+SAFER system using PVS. We have translated this PVS 
+specification rather directly into VDM-SL previously 
+and here that model is again moved to VDM++. In the 
+VDM++ model we have abstracted away form a number of 
+parts which has been left as uninterpreted functions 
+in the PVS model. This has been done because we have 
+defined the purpose of the model to clarify the 
+functionality of the thruster selection logic and the 
+protocol for the automatic attitude hold functionality. 
+Otherwise we have on purpose varied as little as 
+possible from the given PVS model. In order to 
+visualise this example the dynamic link feature is 
+illustrated as well. In the test class Test there are 
+a few examples of using the traces primitives used for 
+test automation. 
+
+More explanation about this work can be found in the papers: 
+ *Sten Agerholm and Peter Gorm Larsen, Modeling and 
+  Validating SAFER in VDM-SL, ed: Michael Holloway, 
+  in "Fourth NASA Langley Formal Methods Workshop", 
+  NASA, September 1997. 
+ *Sten Agerholm and Wendy Schafer, Analyzing SAFER using 
+  UML and VDM++, ed: John Fitzgerald and Peter Gorm Larsen, 
+  in "VDM Workshop at the Formal Methods 1999 conference, 
+  Toulouse 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Test().BigTest()|
+
+
 ###AAH.vdmpp
 
 {% raw %}
@@ -30,7 +64,8 @@ operations  public  Update : () ==> ()  Update() ==    let engage = ButtonTr
   ButtonTransition : HandControlUnit`Button * nat ==> EngageState  ButtonTransition(button_pos, count) ==    return       (cases mk_(toggle,button_pos) :         mk_(<AAH_off>,<Up>)         -> <AAH_off>,         mk_(<AAH_off>,<Down>)       -> <AAH_started>,         mk_(<AAH_started>,<Up>)     -> <AAH_on>,         mk_(<AAH_started>,<Down>)   -> <AAH_started>,         mk_(<AAH_on>,<Up>)          -> if AllAxesOff()                                        then <AAH_off>                                        else <AAH_on>,         mk_(<AAH_on>,<Down>)        -> <pressed_once>,         mk_(<pressed_once>,<Up>)    -> <AAH_closing>,         mk_(<pressed_once>,<Down>)  -> <pressed_once>,         mk_(<AAH_closing>,<Up>)     -> if AllAxesOff()                                        then <AAH_off>                                        elseif count > timeout                                        then <AAH_on>                                        else <AAH_closing>,         mk_(<AAH_closing>,<Down>)   -> <pressed_twice>,         mk_(<pressed_twice>,<Up>)   -> <AAH_off>,         mk_(<pressed_twice>,<Down>) -> <pressed_twice>       end);
 end AAH
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Clock.vdmpp
 
@@ -44,7 +79,8 @@ operations  public  SetTime : nat ==> ()  SetTime(t) ==    count := t;
   public  ReadTime : () ==> nat  ReadTime() ==    return count;
 end Clock
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Command.vdmpp
 
@@ -64,7 +100,8 @@ operations  public  GetAxesdir : () ==> AxisMap  GetAxesdir() ==    return a
 
 end Command
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###HandControlUnit.vdmpp
 
@@ -83,7 +120,8 @@ operations  public  SetAAH : Button ==> ()  SetAAH(aahbuttonarg) ==    aahbu
 
 end HandControlUnit
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###IntegratedCommand.vdmpp
 
@@ -98,7 +136,8 @@ operations  public  SetAAHLink : AAH ==> ()  SetAAHLink(a) ==     aah := a;
 
 end IntegratedCommand
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Interface.vdmpp
 
@@ -122,7 +161,8 @@ values
 thrusters = mk_(<Pos>,<Zero>,<Zero>,<Zero>,<Tran>,<Down>,                { <Roll> |-> <Zero>, <Pitch> |-> <Zero>, <Yaw> |-> <Zero> })
 end Interface
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###RotationCommand.vdmpp
 
@@ -132,7 +172,8 @@ end Interface
 class RotationCommand is subclass of Commandoperations  public  RotCmdsPresent : () ==> bool  RotCmdsPresent() ==    return (exists a in set dom axesdir & axesdir(a) <> <Zero>);
 end RotationCommand
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###SixDOfCommand.vdmpp
 
@@ -147,7 +188,8 @@ operations  public  GetCommand : () ==> Command`AxisMap * Command`AxisMap  Ge
 
 end SixDOfCommand
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmpp
 
@@ -165,7 +207,8 @@ BT : w.SetupTopology(); let x, pitch, yaw_y, roll_z in set DirectionSet in     
 HT: w.SetupTopology();    let x, pitch, yaw_y, roll_z in set DirectionSet in     let modeswitch in set ModeSet in    let aahbutton in set AAHButtonSet in    let aahcmd in set RotCmdSet in     w.ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, aahbutton, aahcmd) 
 end Test
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Thruster.vdmpp
 
@@ -181,7 +224,8 @@ operations  public  SetOn : () ==> ()  SetOn() ==    state := <On>;
   public  GetState : () ==> On_Off  GetState() ==    return state;
 end Thruster
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ThrusterControl.vdmpp
 
@@ -207,7 +251,8 @@ operations
   InitializeTables : () ==> ()  InitializeTables() ==    (tslogic1.MakeTable(bf_thrusters);      tslogic2.MakeTable(lrud_thrusters));
 end ThrusterControl
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ThrusterSelectionTable.vdmpp
 
@@ -222,7 +267,8 @@ operations  public  Lookup : Command`Direction * Command`Direction * Command`D
   public  MakeTable : ThrSelMap ==> ()  MakeTable(m) ==    selections:= m;
 end ThrusterSelectionTable
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TranslationCommand.vdmpp
 
@@ -232,7 +278,8 @@ end ThrusterSelectionTable
 class TranslationCommand is subclass of Commandoperations  public  Prioritize : () ==> ()  Prioritize() ==    axesdir := if axesdir(X) <> <Zero>                then axesdir ++ {Y |-> <Zero>, Z |-> <Zero>}               elseif axesdir(Y) <> <Zero>                then axesdir ++ {Z |-> <Zero>}               else axesdir;
 end TranslationCommand
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###ValveDriveAssembly.vdmpp
 
@@ -245,7 +292,8 @@ operations  public  UpdateThrusters : set of ThrusterControl`ThrusterPosition 
   public  ThrustersOn : () ==> set of ThrusterControl`ThrusterPosition  ThrustersOn() ==     return {thr | thr in set ThrusterControl`ThrusterSet &             thrusters(thr).GetState() = <On>}
 end ValveDriveAssembly
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###WorkSpace.vdmpp
 
@@ -260,5 +308,6 @@ operations  public  SetupTopology() ==    (aah.SetHCULink(hcu);     aah.SetS
   ThrusterConsistency : set of ThrusterControl`ThrusterPosition ==> bool   ThrusterConsistency(thrusters) ==    return     (not({<B1>, <F1>} subset thrusters) and     not({<B2>, <F2>} subset thrusters) and     not({<B3>, <F3>} subset thrusters) and     not({<B4>, <F4>} subset thrusters) and     not(thrusters inter {<L1R>, <L1F>} <> {} and       thrusters inter {<R2R>, <R2F>} <> {}) and     not(thrusters inter {<L3R>, <L3F>} <> {} and        thrusters inter {<R4R>, <R4F>} <> {}) and     not(thrusters inter {<D1R>, <D1F>} <> {} and       thrusters inter {<U3R>, <U3F>} <> {}) and     not(thrusters inter {<D2R>, <D2F>} <> {} and        thrusters inter {<U4R>, <U4F>} <> {}));
 end WorkSpace
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,12 +1,22 @@
 ---
 layout: default
-title: Engine
+title: EngineSL
 ---
 
-~~~
-As with many modern engineered products, the control software developed at Rolls-Royce is part of a larger system, namely an engine control system, comprising manyelectronic, hydromechanical and electromechanical components. The control systemis part of an engine which, in turn, is a component of an aircraft. This VDM modelis made by Greg Holland as a part of his MSc thesis in this area. It is made implicitly so it cannot be executed.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Greg Holland#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Greg Holland
+
+
+As with many modern engineered products, the control software developed at Rolls-
+Royce is part of a larger system, namely an engine control system, comprising many
+electronic, hydromechanical and electromechanical components. The control system
+is part of an engine which, in turn, is a component of an aircraft. This VDM model
+is made by Greg Holland as a part of his MSc thesis in this area. It is made 
+implicitly so it cannot be executed.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+
+
 ###engine.vdmsl
 
 {% raw %}
@@ -40,5 +50,6 @@ IgnOff (tempTGT : real) ext rd sov : ValvePos    wr ignon : boolpre (sov = <o
 StartComplete (tempTGT : real) ext rd n2 : real    wr startcomplete : boolpre LightUpDetect (tempTGT) and    (n2 > DVATORABOVEIDLE)post startcomplete;
 SequenceAbort () ext rd fuelswitch : SwitchPos    wr attempt : StartAttempt    wr startaborted : bool    rd starter_flt : bool    rd ign_flt    rd sov_flt    rd n2_flt    rd tgt_flt    rd n2pre GroundFailureDetected (ign_flt, starter_flt, sov_flt, n2_flt, tgt_flt, n2) or    (fuelswitch = <off>) or    (attempt >= DVMAXNUMBERATTEMPTS)post startaborted and (attempt = 0) ;
 CoolFlush (tempTGT : real)ext rd lightuptimer : int    rd coolflushcmd : bool    rd stalldet : bool    wr attempt : StartAttemptpre LightupTimeOutDetect (lightuptimer) and coolflushcmd or    (tempTGT > DVHOTSTART) or stalldetpost (attempt = attempt~ + 1)
-~~~{% endraw %}
+~~~
+{% endraw %}
 

@@ -1,13 +1,25 @@
 ---
 layout: default
-title: bar
+title: barSL
 ---
 
-~~~
+Author: Kevin Blackburn
 
-This specification was produced during a VDM-SL course presented by Peter Gorm Larsen to ICL Enterprise Engineering in 1994. The modelling of bags was one of the exercises the attendees (including the author Kevin Blackburn) was confronted with during the course. This specification is mainly intended for the purpose of illustrating how bags can be used. This ismodelled using an executable subset and a collection of small tests areincluded.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Kevin Blackburn#DOCUMENT=bar.tex#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=BAGTEST`TestBagAll()#EXPECTED_RESULT=NO_ERROR_INTERPRETER#******************************************************
-~~~
+
+
+This specification was produced during a VDM-SL course presented by Peter 
+Gorm Larsen to ICL Enterprise Engineering in 1994. The modelling of bags 
+was one of the exercises the attendees (including the author Kevin Blackburn) 
+was confronted with during the course. This specification is mainly 
+intended for the purpose of illustrating how bags can be used. This is
+modelled using an executable subset and a collection of small tests are
+included.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| BAGTEST`TestBagAll()|
+
+
 ###bag.vdmsl
 
 {% raw %}
@@ -43,7 +55,8 @@ functions  -- Support Functions
 values   -- The values requested by the customer for tests  baga : Bag = { <A> |-> 3, <B> |-> 2, <C> |-> 4};  bagb : Bag = { <A> |-> 1, <C> |-> 5, <D> |-> 4,                  <E> |-> 1}
 end BAG
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###bagtest.vdmsl
 
@@ -76,7 +89,8 @@ functions
   TestUnion: () -> bool  TestUnion() ==    BAG`Union(BAG`baga,BAG`bagb) =    { <A> |-> 4,<B> |-> 2,<C> |-> 9,      <D> |-> 4,<E> |-> 1 }
 end BAGTEST
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###bar.vdmsl
 
@@ -106,5 +120,6 @@ functions  -- Buy an arbitrary amount of stock from   -- a supplier, assuming 
 values -- introduced for the purposes of testing  cellarlevel1 = {<A> |-> 5, <B> |-> 5, <C> |-> 3};  barlevel1 = {<A> |-> 2, <B> |-> 2, <C> |-> 5};  cellar1 = {<A> |-> 8, <B> |-> 5, <C> |-> 4};  cellar2 = {<B> |-> 1, <C> |-> 4};  bar1 = {<A> |-> 2, <B> |-> 3, <C> |-> 6};  bar2 = {<A> |-> 3, <C> |-> 2};  bar3 = {<A> |-> 3, <B> |-> 3};  pub1 = mk_(cellar1, bar1);  pub2 = mk_(cellar1, bar2);  pub3 = mk_(cellar2, bar1);  pub4 = mk_(cellar2, bar2);  pub5 = mk_(cellar1, bar3);  supps1 = {"Fizz" |-> {<A> |-> 10},            "Real" |-> {<B> |-> 10, <C> |-> 2},            "Scrumpy" |-> {<B> |-> 1, <C> |-> 10}};  supps2 = {"Fizz" |-> {<A> |-> 10},            "Real" |-> {<B> |-> 1, <C> |-> 5},            "Scrumpy" |-> {<B> |-> 1, <C> |-> 10}}
 end BAR 
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

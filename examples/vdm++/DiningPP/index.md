@@ -1,12 +1,20 @@
 ---
 layout: default
-title: Dining
+title: DiningPP
 ---
 
-~~~
-This example is made by Marcel Verhoef and it demonstrates the standardclassical dining philosophers problem expressed in VDM++. The standard launcer provided here is sufficient to cover the entire VDM++ model.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Marcel Verhoef#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=new Table(2).LetsEat()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Marcel Verhoef
+
+
+This example is made by Marcel Verhoef and it demonstrates the standard
+classical dining philosophers problem expressed in VDM++. The standard 
+launcer provided here is sufficient to cover the entire VDM++ model.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new Table(2).LetsEat()|
+
+
 ###philosopher.vdmpp
 
 {% raw %}
@@ -20,7 +28,8 @@ operations  public Philosopher : Table ==> Philosopher  Philosopher (pt) == th
 thread  ( while (turns > 0) do      ( Think();        theTable.takeFork();        theTable.takeFork();        Eat();        theTable.releaseFork();        theTable.releaseFork() );    theTable.IamDone() )
 end Philosopher
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###table.vdmpp
 
@@ -38,5 +47,6 @@ operations  public Table: nat1 ==> Table  Table (noGuests) ==    while forks 
 sync   per takeFork => forks > 0;   per wait => done = card guests;   mutex(takeFork,releaseFork);   mutex(IamDone)
 end Table
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 

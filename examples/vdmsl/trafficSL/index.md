@@ -1,13 +1,24 @@
 ---
 layout: default
-title: traffic
+title: trafficSL
 ---
 
-~~~
-This example is for all small traffic light control kernel presented in the VDM-SL bookof John Fitzgerald and Peter Gorm Larsen. It was originally inspired by a similar modelmade in Z by Paul Ammann. A paper about this written long ago:
-A safety kernel for traffic light control, Paul Ammann, Aerospace and Electronic Systems Magazine, IEEE, February 1996, Volume: 11 Issue: 2, pp. 13 - 19, ISSN: 0885-8985. 
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Peter Gorm Larsen and John Fitzgerald#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= DEFAULT`ToAmber(p3,kernel)#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Peter Gorm Larsen and John Fitzgerald
+
+
+This example is for all small traffic light control kernel presented in the VDM-SL book
+of John Fitzgerald and Peter Gorm Larsen. It was originally inspired by a similar model
+made in Z by Paul Ammann. A paper about this written long ago:
+ 
+A safety kernel for traffic light control, Paul Ammann, Aerospace and Electronic 
+Systems Magazine, IEEE, February 1996, Volume: 11 Issue: 2, pp. 13 - 19, 
+ISSN: 0885-8985. 
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| DEFAULT`ToAmber(p3,kernel)|
+
+
 ###traffic.vdmsl
 
 {% raw %}
@@ -37,5 +48,6 @@ functions
 -- changing the light to amber for a given path
   ToAmber: Path * Kernel -> Kernel  ToAmber(p,mk_Kernel(lights,conflicts)) ==    mk_Kernel(ChgLight(lights,p,<Amber>),conflicts)  pre p in set dom lights and lights(p) = <Green>;
   ChgLight: (map Path to Light) * Path * Light -> (map Path to Light)  ChgLight(lights,p,colour) ==    lights ++ {p |-> colour}
-~~~{% endraw %}
+~~~
+{% endraw %}
 

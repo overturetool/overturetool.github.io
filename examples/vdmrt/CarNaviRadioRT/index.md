@@ -1,13 +1,24 @@
 ---
 layout: default
-title: CarNaviRadio
+title: CarNaviRadioRT
 ---
 
-~~~
+Author: Marcel Verhoef
 
-The origin of the car radio navigation example comes from MarcelVerhoef as a part of his PhD thesis where it was used to comparydifferent formalisms. This example shows how an embedded applicationwith both radio, navigation and traffic messages are joined in onecoherent application in a distributed application.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR=Marcel Verhoef#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT= new World().RunScenario1()#ENTRY_POINT= new World().RunScenario2()#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+
+
+The origin of the car radio navigation example comes from Marcel
+Verhoef as a part of his PhD thesis where it was used to compary
+different formalisms. This example shows how an embedded application
+with both radio, navigation and traffic messages are joined in one
+coherent application in a distributed application.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| new World().RunScenario1()|
+|Entry point     :| new World().RunScenario2()|
+
+
 ###EnvTask.vdmrt
 
 {% raw %}
@@ -28,7 +39,8 @@ public static IsFinished: () ==> ()IsFinished() == skip;
 sync  -- getNum is mutually exclusive to ensure unique values  mutex (getNum);  -- getMinMaxAverage is blocked until all responses have been received  per getMinMaxAverage => card dom s2e >= max_stimuli;
   per IsFinished => #fin(logSysToEnv) > 0;
 end EnvironmentTask
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###InsertAdress.vdmrt
 
@@ -41,7 +53,8 @@ operations  public InsertAddress: nat ==> InsertAddress  InsertAddress (pno) =
   createSignal: () ==> ()  createSignal () ==    ( dcl num2 : nat := getNum();      logEnvToSys(num2);      RadNavSys`mmi.HandleKeyPress(2,num2) )
 thread  periodic (2000E6,100,1000,0)     (createSignal)
 end InsertAddress
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###mmi.vdmrt
 
@@ -51,7 +64,8 @@ class MMI
 operations  async   public HandleKeyPress: nat * nat ==> ()  HandleKeyPress (pn, pno) ==    ( cycles (1E5) skip;      --duration (1E5) skip;      cases (pn):        1 -> RadNavSys`radio.AdjustVolume(pno),        2 -> RadNavSys`navigation.DatabaseLookup(pno)      end );
   async   public UpdateScreen: nat * nat ==> ()  UpdateScreen (pn, pno) ==    ( cycles (5E5) skip;      --duration (5E5) skip;      cases (pn):        1 -> World`envTasks("VolumeKnob").HandleEvent(pno),        2 -> World`envTasks("InsertAddress").HandleEvent(pno),        3 -> World`envTasks("TransmitTMC").HandleEvent(pno)      end )
 end MMI
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###navigation.vdmrt
 
@@ -61,7 +75,8 @@ class Navigation
 operations  async   public DatabaseLookup: nat ==> ()  DatabaseLookup (pno) ==    ( cycles (5E6) skip;      --duration (5E6) skip;      RadNavSys`mmi.UpdateScreen(2, pno) );
   async   public DecodeTMC: nat ==> ()  DecodeTMC (pno) ==    ( cycles (5E5) skip;      --duration (5E6) skip;      RadNavSys`mmi.UpdateScreen(3, pno) )
 end Navigation
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###radhavsys.vdmrt
 
@@ -74,7 +89,8 @@ instance variables  -- create an MMI class instance  static public mmi : MMI :
   -- create a communication bus that links the three CPU's together  BUS1 : BUS := new BUS (<CSMACD>, 72E3, {CPU1, CPU2, CPU3})
 operations  public RadNavSys: () ==> RadNavSys  RadNavSys () ==    ( -- deploy mmi on CPU1      CPU1.deploy(mmi,"MMIT");      CPU1.setPriority(MMI`HandleKeyPress,100);      CPU1.setPriority(MMI`UpdateScreen,90);      -- deploy radio on CPU2      CPU2.deploy(radio,"RadioT");      CPU2.setPriority(Radio`AdjustVolume,100);--      CPU2.setPriority(Radio`DecodeTMC,90);      -- deploy navigation on CPU3      CPU3.deploy(navigation,"NavT");      CPU3.setPriority(Navigation`DatabaseLookup, 100);      CPU3.setPriority(Navigation`DecodeTMC, 90)      -- starting the CPUs and BUS is implicit    );
 end RadNavSys
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###radio.vdmrt
 
@@ -84,7 +100,8 @@ class Radio
 operations  async   public AdjustVolume: nat ==> ()  AdjustVolume (pno) ==    ( cycles (1E5) skip;      --duration (1E5) skip;      RadNavSys`mmi.UpdateScreen(1, pno) );
   async   public HandleTMC: nat ==> ()  HandleTMC (pno) ==    ( cycles (1E6) skip;      --duration (1E6) skip;      RadNavSys`navigation.DecodeTMC(pno) )
 end Radio
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###Test.vdmrt
 
@@ -96,7 +113,8 @@ mmi   : MMI        := new MMI();radio : Radio      := new Radio();nav   : Navi
 traces
 TT: let x in set {1,2,3}    in      ((mmi.HandleKeyPress(x,x) |        mmi.UpdateScreen(x,x) |        radio.AdjustVolume(x) |       radio.HandleTMC(x) |       nav.DatabaseLookup(x) |       nav.DecodeTMC(x));       EnvironmentTask`IsFinished())
 end Test
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###TransmitTMC.vdmrt
 
@@ -109,7 +127,8 @@ operations  public TransmitTMC: nat ==> TransmitTMC  TransmitTMC (pno) == max_
   createSignal: () ==> ()  createSignal () ==    ( dcl num2 : nat := getNum();      logEnvToSys(num2);      RadNavSys`radio.HandleTMC(num2) )
 thread  periodic (4000E6,400,3910,0)     (createSignal)
 end TransmitTMC
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###VolumeKnob.vdmrt
 
@@ -122,7 +141,8 @@ operations  public VolumeKnob: nat ==> VolumeKnob  VolumeKnob (pno) == max_sti
   createSignal: () ==> ()  createSignal () ==    ( dcl num2 : nat := getNum();      logEnvToSys(num2);      RadNavSys`mmi.HandleKeyPress(1,num2) )
 thread  periodic (1000E6,50,500,0)     (createSignal)
 end VolumeKnob
-~~~{% endraw %}
+~~~
+{% endraw %}
 
 ###World.vdmrt
 
@@ -135,5 +155,6 @@ operations  addEnvironmentTask: seq of char * EnvironmentTask ==> ()  addEnvir
   public RunScenario1 : () ==> map seq of char to perfdata  RunScenario1 () ==    ( addEnvironmentTask("VolumeKnob", new VolumeKnob(10));      addEnvironmentTask("TransmitTMC", new TransmitTMC(10));      return { name |-> envTasks(name).getMinMaxAverage()              | name in set dom envTasks } );
   public RunScenario2 : () ==> map seq of char to perfdata   RunScenario2 () ==    ( addEnvironmentTask("InsertAddress", new InsertAddress(10));      addEnvironmentTask("TransmitTMC", new TransmitTMC(10));      return { name |-> envTasks(name).getMinMaxAverage()              | name in set dom envTasks } );
 end World
-~~~{% endraw %}
+~~~
+{% endraw %}
 

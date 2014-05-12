@@ -1,12 +1,22 @@
 ---
 layout: default
-title: CM
+title: CMSL
 ---
 
-~~~
-The counter measures example was developed by Peter Gorm Larsen and Marcel Verhoef in 2007 in different dialect of VDM. This one is the most abstract version using VDM-SL.
-#******************************************************#  AUTOMATED TEST SETTINGS#------------------------------------------------------#AUTHOR= Peter Gorm Larsen and Marcel Verhoef#LANGUAGE_VERSION=classic#INV_CHECKS=true#POST_CHECKS=true#PRE_CHECKS=true#DYNAMIC_TYPE_CHECKS=true#SUPPRESS_WARNINGS=false#ENTRY_POINT=DEFAULT`CounterMeasures(testval1)#ENTRY_POINT=DEFAULT`CounterMeasures(testval2)#ENTRY_POINT=DEFAULT`CounterMeasures(testval3)#EXPECTED_RESULT=NO_ERROR_TYPE_CHECK#******************************************************
-~~~
+Author: Peter Gorm Larsen and Marcel Verhoef
+
+
+The counter measures example was developed by Peter Gorm Larsen and Marcel 
+Verhoef in 2007 in different dialect of VDM. This one is the most abstract 
+version using VDM-SL.
+|  |           |
+| :------------ | :---------- |
+|Language Version:| classic|
+|Entry point     :| DEFAULT`CounterMeasures(testval1)|
+|Entry point     :| DEFAULT`CounterMeasures(testval2)|
+|Entry point     :| DEFAULT`CounterMeasures(testval3)|
+
+
 ###CMflat.vdmsl
 
 {% raw %}
@@ -44,5 +54,6 @@ RelativeToAbsoluteTimes : seq of Response ->                           seq of (
 RespLen: seq of Response -> natRespLen(l) ==  len l;
 Angle2MagId: Angle -> MagIdAngle2MagId(angle) ==  if angle < 90  then mk_token("Magazine 1")  elseif angle < 180  then mk_token("Magazine 2")  elseif angle < 270  then mk_token("Magazine 3")  else mk_token("Magazine 4");
 
-~~~{% endraw %}
+~~~
+{% endraw %}
 
