@@ -22,7 +22,7 @@ Pre-packaged binaries are available for **Windows**, **Linux** with GTK, and **M
 The latest release of the Overture IDE can be found on the [GitHub overturetool Releases page](https://github.com/overturetool/overture/releases). 
 The generic Windows versions are known to work with both Windows 7 as well as Windows XP SP3.
 
-<a href="https://github.com/overturetool/overture/releases"><img src={{ site.base }}/images/GitHub_Logo.png alt="Overture IDE releases at GitHub" width="256" border="0" /></a>
+<a href="https://github.com/overturetool/overture/releases"><img src={{ site.url }}/images/GitHub_Logo.png alt="Overture IDE releases at GitHub" width="256" border="0" /></a>
 
 
 ## Installing and running Overture
@@ -32,8 +32,8 @@ Double-click "_overture.exe_" which is found in the root of the unzipped directo
 Overture will start (a splash screen will appear) and the tool will ask you to set the workspace directory. 
 This is where your Overture projects will be stored, you can choose this location freely, it can be changed at any point in time. 
 Finally, the Overture IDE will appear and you are in business! 
-A detailed description of these installation steps is given [here]({{ site.base }}/documentation/install.html). 
-Once you have the tool up and running, it is worthwhile to check out the available [tutorials and documentation]({{ site.base }}/documentation/).
+A detailed description of these installation steps is given [here]({{ site.url }}/documentation/install.html). 
+Once you have the tool up and running, it is worthwhile to check out the available [tutorials and documentation]({{ site.url }}/documentation/).
 
 ## If you experience problems....
 
@@ -72,7 +72,7 @@ There are a few tools that provide an integration interface to the Overture too
 - Overture tool provides functionality to read and write UML 2.0 interchange files using the XMI file format. This has been tested and shown to work with [Enterprise Architect](http://www.sparxsystems.com).
 - Overture tools provides a coupling to [VDMTools](http://www.vdmtools.jp/en).
 
-For further details, we refer to the User Guide, which can be found [here]({{ site.base }}/files/OvertureIDEUserGuide.pdf).
+For further details, we refer to the User Guide, which can be found [here]({{ site.url }}/files/OvertureIDEUserGuide.pdf).
 
 ####Overture: Formal Modelling in VDM
 

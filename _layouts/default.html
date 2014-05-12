@@ -1,56 +1,52 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <title>{{ page.title }}</title>
-      <meta name="viewport" content="width=device-width">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{{ page.title }}</title>
+    <meta name="viewport" content="width=device-width">
 
-      <!-- CSS Area -->
-      <link rel="stylesheet" href="{{ site.base }}/css/styles.css">
-      <link rel="stylesheet" href="{{ site.base }}/css/pygment_trac.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ site.url }}/css/styles.css">
+    <link rel="stylesheet" href="{{ site.url }}/css/pygment_trac.css">
 
-		<!--Javascript Area -->
-		<script src="{{ site.base }}/javascripts/scale.fix.js"></script>
-
-
-    </head>
-    <body>
-     <div class="wrapper">
+    <!-- Javascript -->
+    <script src="{{ site.url }}/javascripts/scale.fix.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
       <header>
-			<h1>The Overture Platform</h1>
-			<h3>Formal Modelling in VDM</h3>
+        <h1>The Overture Platform</h1>
+        <h3>Formal Modelling in VDM</h3>
 
-			<p><a href="{{ site.base }}/">Home</a></p>
-			<p><a href="{{ site.base }}/download/">Download</a></p>
-			<p><a href="{{ site.base }}/documentation/">Documentation</a>
-				<ul>
-      					<li><a href="{{ site.base }}/manuals/">Manuals</a></li>
-     				</ul>	
-			</p>
-			<p><a href="{{ site.base }}/examples/">Examples</a>
-			<ul>
-      		<li><a href="{{ site.base }}/examples/vdmsl/">VDM-SL</a></li>
-      		<li><a href="{{ site.base }}/examples/vdm++/">VDM++</a></li>
-      		<li><a href="{{ site.base }}/examples/vdmrt/">VDM-RT</li>
-     		</ul>
-     		</p>
-			<p><a href="{{ site.base }}/about/">About Overture</a></p>
-			<p><a href="http://wiki.overturetool.org/index.php/Main_Page">Wiki</a></p>
+        <p><a href="{{ site.url }}/">Home</a></p>
+        <p><a href="{{ site.url }}/download/">Download</a></p>
+        <p><a href="{{ site.url }}/documentation/">Documentation</a>
+          <ul>
+            <li><a href="{{ site.url }}/manuals/">Manuals</a></li>
+          </ul>
+        </p>
+        <p><a href="{{ site.url }}/examples/">Examples</a>
+          <ul>
+            <li><a href="{{ site.url }}/examples/vdmsl/">VDM-SL</a></li>
+            <li><a href="{{ site.url }}/examples/vdm++/">VDM++</a></li>
+            <li><a href="{{ site.url }}/examples/vdmrt/">VDM-RT</li>
+          </ul>
+        </p>
+        <p><a href="{{ site.url }}/about/">About Overture</a></p>
+        <p><a href="http://wiki.overturetool.org/index.php/Main_Page">Wiki</a></p>
 
-			
-			
-			<p><img src="{{ site.base }}/images/Overture_icon_128x128.png" alt="Overture Tool"></p>
-			<p><a href="https://github.com/overturetool">View My GitHub Profile</a>	</p>	
-			<p><a href="http://twitter.com/overturetool">Follow @overturetool</a></p>
+        <p><img src="{{ site.url }}/images/Overture_icon_128x128.png" alt="Overture Tool"></p>
+        <p><a href="https://github.com/overturetool">View My GitHub Profile</a>	</p>
+        <p><a href="http://twitter.com/overturetool">Follow @overturetool</a></p>
 
       </header>
       <section>
-      	{{ content }}
+        {{ content }}
       </section>
       <footer> <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
-		
-		</div>    
-    </body>
+
+    </div>
+  </body>
 </html>

@@ -1,4 +1,5 @@
-highligher: pygments
+highlighter: pygments
+url: http://localhost:4000
 markdown: redcarpet
 redcarpet:
   extensions: ["tables","smart","no_intra_emphasis","fenced_code_blocks","autolink"]
