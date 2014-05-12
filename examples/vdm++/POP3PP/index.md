@@ -3,6 +3,7 @@ layout: default
 title: POP3PP
 ---
 
+##POP3PP
 Author: Paul Mukherjee
 
 
@@ -11,7 +12,7 @@ John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel
 Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 
 2005, ISBN 1-85233-881-4. The concurrent system in question is a server 
 for the POP3 protocol. This is a protocol supported by all major email c
-lients to fetch email messages from the email server. |  |           |
+lients to fetch email messages from the email server. | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new POP3Test().Test1()|

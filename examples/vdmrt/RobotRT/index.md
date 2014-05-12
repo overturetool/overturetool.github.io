@@ -3,12 +3,13 @@ layout: default
 title: RobotRT
 ---
 
+##RobotRT
 Author: Lasse Lorentzen and Kenneth Lausdahl
 
 
 This example was produced by Lasse Lorentzen and Kenneth Lausdahl
 as a part of a VDM course of a robot travelling autonomically inside
-a cave aiming at avioding different obstacles on its path.|  |           |
+a cave aiming at avioding different obstacles on its path.| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new World().Run()|

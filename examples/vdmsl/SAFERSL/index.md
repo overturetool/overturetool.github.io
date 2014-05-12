@@ -3,6 +3,7 @@ layout: default
 title: SAFERSL
 ---
 
+##SAFERSL
 Author: Sten Agerholm and Peter Gorm Larsen
 
 
@@ -14,7 +15,7 @@ published as:
 S.Agerholm and P.G.Larsen, Modeling and Validating SAFER in VDM-SL, 
 Proceedings of the Fourth NASA Langley Formal Methods Workshop, 
 NASA Conference, Publication 3356, September 1997.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| TEST`HugeTest()|

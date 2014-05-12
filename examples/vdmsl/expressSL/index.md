@@ -3,6 +3,7 @@ layout: default
 title: expressSL
 ---
 
+##expressSL
 Author: Marcel Verhoef
 
 
@@ -26,7 +27,7 @@ file format and a transformation process for a particular
 set of abstract syntax instances. It implements a mapping 
 between the relational model representation (rmrep) into 
 a simple polynomial representation. 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| Database`Transform()|

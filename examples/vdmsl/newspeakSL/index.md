@@ -3,6 +3,7 @@ layout: default
 title: newspeakSL
 ---
 
+##newspeakSL
 Author: Paul Mukherjee
 
 
@@ -19,7 +20,7 @@ Industrial Benefit of Formal Methods", Springer-Verlag,
 October 1994.
  
 I.F. Currie, "NewSpeak - a reliable programming language". 
-In C. Sennett (ed), "High-Integrity Software", Pitman 1989. |  |           |
+In C. Sennett (ed), "High-Integrity Software", Pitman 1989. | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| DEFAULT`max({3,1,5,8,3,2,5,4,22})|

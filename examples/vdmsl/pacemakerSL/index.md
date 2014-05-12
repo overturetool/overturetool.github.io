@@ -3,6 +3,7 @@ layout: default
 title: pacemakerSL
 ---
 
+##pacemakerSL
 Author: Hugo Macedo
 
 
@@ -18,7 +19,7 @@ Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald,
 Incremental Development of a Distributed Real-Time Model 
 of a Cardiac Pacing System Using VDM, FM 2008: Formal 
 Methods, LNCS 5014, Eds.: Jorge Cuellar, Tom Maibaum and 
-Kaisa Sere, May 2008. |  |           |
+Kaisa Sere, May 2008. | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

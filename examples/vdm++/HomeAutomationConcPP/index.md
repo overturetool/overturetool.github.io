@@ -3,10 +3,11 @@ layout: default
 title: HomeAutomationConcPP
 ---
 
+##HomeAutomationConcPP
 Author: 
 
 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

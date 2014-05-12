@@ -3,6 +3,7 @@ layout: default
 title: librarySL
 ---
 
+##librarySL
 Author: Anne Maarsel
 
 
@@ -14,7 +15,7 @@ that are not really adding much value since they are virtually
 identical to the explicit bodies. In addition the use of an optional
 type instead of <nil> would be appropriate here.
 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| DEFAULT`isnumber(42)|

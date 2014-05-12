@@ -3,6 +3,7 @@ layout: default
 title: HubInSafeModePP
 ---
 
+##HubInSafeModePP
 Author: Klaus Petersen
 
 
@@ -17,7 +18,7 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 
 More information about the model and the purpose of it can be found in
 the Report.pdf file included in the zip file with the source files.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new Enviroment().Run()|

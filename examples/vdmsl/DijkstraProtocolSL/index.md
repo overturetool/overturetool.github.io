@@ -3,6 +3,7 @@ layout: default
 title: DijkstraProtocolSL
 ---
 
+##DijkstraProtocolSL
 Author: Peter Gorm Larsen
 
 
@@ -19,7 +20,7 @@ notations including VDM-SL.
 algorithm for distributed computations" was published as
 Information Processing Letters 16: 217�219, 1983. See
 https://www.cs.utexas.edu/users/EWD/ewd08xx/EWD840.PDF 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| Dijkstra`Main()|

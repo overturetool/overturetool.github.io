@@ -3,6 +3,7 @@ layout: default
 title: telephoneSL
 ---
 
+##telephoneSL
 Author: Bernhard Aichernig
 
 
@@ -18,7 +19,7 @@ transitions. The model of the telephone exchange is
 centred around a set of subscribers who may be engaged 
 in telephone conversations through a network controlled 
 by an exchange. 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

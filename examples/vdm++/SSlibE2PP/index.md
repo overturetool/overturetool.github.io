@@ -3,13 +3,14 @@ layout: default
 title: SSlibE2PP
 ---
 
+##SSlibE2PP
 Author: Shin Sahara
 
 
 This example contains a large collection of test classes that can be
 used to test different aspects of VDM++. This makes use of the VDMUnit 
 test approach.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new AllT().run()|

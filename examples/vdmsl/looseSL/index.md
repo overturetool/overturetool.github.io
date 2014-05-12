@@ -3,6 +3,7 @@ layout: default
 title: looseSL
 ---
 
+##looseSL
 Author: Peter Gorm Larsen
 
 
@@ -15,7 +16,7 @@ each recursive call. A paper about this work have been published as:
 Peter Gorm Larsen, Evaluation of Underdetermined Explicit Expressions,
 Formal Methods Europe'94: Industrial Benefit of Formal Methods,
 Springer Verlag, October 1994.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| DEFAULT`LooseEvalExpr(expr2)|

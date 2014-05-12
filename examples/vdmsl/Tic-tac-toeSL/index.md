@@ -3,11 +3,12 @@ layout: default
 title: Tic-tac-toeSL
 ---
 
+##Tic-tac-toeSL
 Author: Nick Battle
 
 
 A standard Tic-tac-toe game
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| vdm10|
 

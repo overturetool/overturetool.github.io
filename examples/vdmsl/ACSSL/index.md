@@ -3,6 +3,7 @@ layout: default
 title: ACSSL
 ---
 
+##ACSSL
 Author: Paul Mukherjee
 
 
@@ -21,7 +22,7 @@ Details of the specification may be found in:
 This example is primarily specified using the implicit style in VDM so it
 does not have a main debug functionality.
 
-| g |    g       |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| DEFAULT`sum({3,4,5})|

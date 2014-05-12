@@ -3,6 +3,7 @@ layout: default
 title: ADTSL
 ---
 
+##ADTSL
 Author: Matthew Suderman
 
 
@@ -15,7 +16,7 @@ memory handing is specified in VDM-SL. This work was done by Matthew
 Suderman when he was a student at Trinity Western University in the
 Spring Semester, 1997.
 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| DEFAULT`TestTrees()|

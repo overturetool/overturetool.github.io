@@ -3,6 +3,7 @@ layout: default
 title: LUPSLSL
 ---
 
+##LUPSLSL
 Author: Lothar Schmitz
 
 
@@ -16,7 +17,7 @@ pp. 259-262.
 
 Janusz Laski und William Stanley, Software Verification and Analysis, 
 Springer-Verlag, 2009.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| DEFAULT`lupsmOp1Gries(DEFAULT`a1)|

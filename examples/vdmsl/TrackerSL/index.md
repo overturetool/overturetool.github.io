@@ -3,6 +3,7 @@ layout: default
 title: TrackerSL
 ---
 
+##TrackerSL
 Author: John Fitzgerald and Peter Gorm Larsen
 
 
@@ -19,7 +20,7 @@ read about this in:
 J.S. Fitzgerald and C.B. Jones, Proof in VDM: Case Studies, 
 Chapter: Proof in the Validation of a Formal Model of a 
 Tracking System for a Nuclear Plant, Springer-Verlag,
-FACIT Series, 1998.|  |           |
+FACIT Series, 1998.| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| DEFAULT`Permission(tracker_inital,cid1,mk_token("Unpacking"))|

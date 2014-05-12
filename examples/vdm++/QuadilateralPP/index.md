@@ -3,6 +3,7 @@ layout: default
 title: QuadilateralPP
 ---
 
+##QuadilateralPP
 Author: Stephen Goldsack
 
 
@@ -11,7 +12,7 @@ straight lines) and the inheritance between them. A few
 basic operations are defined in the respective classes. 
 This package also illustrates how to make use of C++ 
 code automatically generated using VDMTools. 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

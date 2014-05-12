@@ -3,6 +3,7 @@ layout: default
 title: realmSL
 ---
 
+##realmSL
 Author: Peter Gorm Larsen
 
 
@@ -22,7 +23,7 @@ Advances in Spatial Databases - Third International
 Symposium, SSD'93, Springer-Verlag, June 1993. 
 
 Map Generalisation, Ngo Quoc Tao, UNU/IIST, Macau, 
-Draft, January, 1996. |  |           |
+Draft, January, 1996. | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| REALM`AllLists({TEST`s1,TEST`s2,TEST`s3})|

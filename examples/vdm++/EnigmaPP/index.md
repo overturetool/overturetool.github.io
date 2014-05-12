@@ -3,6 +3,7 @@ layout: default
 title: EnigmaPP
 ---
 
+##EnigmaPP
 Author: Marvel Verhoef
 
 
@@ -15,7 +16,7 @@ encrypt and decrypt messages that were exchanged between military
 units. The purpose of the model is to get a basic understanding of the
 cipher mechanism as implemented in Enigma. This example was the first place
 where the VDMUnit testing approach was introduced.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new EnigmaTest().Execute()|

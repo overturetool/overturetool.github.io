@@ -3,6 +3,7 @@ layout: default
 title: hotelSL
 ---
 
+##hotelSL
 Author: John Fitzgerald and Peter Gorm Larsen
 
 
@@ -12,7 +13,7 @@ for recodable hotel-door locks. More information can be found in:
 
 Daniel Jackson, Software Abstractions, MIT Press, April 2006
 ISBN 0-262-10114-9.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

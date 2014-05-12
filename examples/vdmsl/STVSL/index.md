@@ -3,6 +3,7 @@ layout: default
 title: STVSL
 ---
 
+##STVSL
 Author: Paul Mukherjee
 
 
@@ -17,7 +18,7 @@ Paul Mukherjee,  Automatic translation of VDM-SL specifications into gofer,
 Springer, Lecture Notes in Computer Science, Volume Volume 1313/1997 
 Book FME '97: Industrial Applications and Strengthened Foundations of 
 Formal Methods 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

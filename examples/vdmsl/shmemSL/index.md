@@ -3,6 +3,7 @@ layout: default
 title: shmemSL
 ---
 
+##shmemSL
 Author: Nick Battle
 
 
@@ -14,7 +15,7 @@ sequence of M records to represent a Quadrant.
 
 The specification output indicates which allocation policy, first-fit or 
 best-fit (or neither), produces the most memory fragmentation.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| M`main(5,100)|

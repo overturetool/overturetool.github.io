@@ -3,6 +3,7 @@ layout: default
 title: monitorSL
 ---
 
+##monitorSL
 Author: John Fitzgerald and Peter Gorm Larsen
 
 
@@ -15,7 +16,7 @@ reading(in degrees Celsius) every minute.
 
 The monitor records the five most recent temperature readings in the
 order in which they were received from the sensor.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| DEFAULT`OverLimit([4,2,8,555,123])|

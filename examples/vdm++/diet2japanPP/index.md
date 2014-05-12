@@ -3,12 +3,13 @@ layout: default
 title: diet2japanPP
 ---
 
+##diet2japanPP
 Author: Shin Sahara
 
 
 This example is made by Shin Sahara as a test of local higher order
 functions defined inside explicit function definitions in order to
-test the correct interpretation of these constructs.|  |           |
+test the correct interpretation of these constructs.| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| Diet`BMI(100,200)|

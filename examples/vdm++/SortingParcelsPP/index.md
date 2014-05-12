@@ -3,6 +3,7 @@ layout: default
 title: SortingParcelsPP
 ---
 
+##SortingParcelsPP
 Author: Bjarke M�holt
 
 
@@ -11,7 +12,7 @@ distrubuting parcels with different kinds of goods is a
 warehouse. This model is made by Bjarke M�holt as a small mini-project
 in a course on "Modelling of Mission Critical Systems" (see
 https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new Test().Run()|

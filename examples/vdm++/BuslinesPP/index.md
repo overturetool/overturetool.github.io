@@ -3,6 +3,7 @@ layout: default
 title: BuslinesPP
 ---
 
+##BuslinesPP
 Author: Claus Ballegaard Nielsen
 
 
@@ -15,7 +16,7 @@ variables.
  
  Remote Debugger must be set to remote class:
 	gui.BuslinesRemote
- |  |           |
+ | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new World().Run()|

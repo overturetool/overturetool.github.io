@@ -3,6 +3,7 @@ layout: default
 title: soccerSL
 ---
 
+##soccerSL
 Author: Yves Ledru
 
 
@@ -13,7 +14,7 @@ Universit� Joseph Fourier. A first version uses the
 implicit style of specification of VDM-SL and thus may 
 not be executed with VDMTools. An explicit version is 
 given as an appendix. 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| SOCCER_EXPL`SUBSTITUTION(3,15)|

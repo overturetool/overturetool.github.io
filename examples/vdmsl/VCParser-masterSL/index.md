@@ -3,6 +3,7 @@ layout: default
 title: VCParser-masterSL
 ---
 
+##VCParser-masterSL
 Author: Tomohiro Oda
 
 
@@ -14,7 +15,7 @@ compositional fashion. This model can be used as a kind of
 library that one can play with manipulating strings into a 
 VDM AST representation.
 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| MMParser`eval("1+1+4+0")|

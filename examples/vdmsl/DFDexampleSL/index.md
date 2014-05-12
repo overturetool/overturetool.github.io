@@ -3,6 +3,7 @@ layout: default
 title: DFDexampleSL
 ---
 
+##DFDexampleSL
 Author: Peter Gorm Larsen
 
 
@@ -18,7 +19,7 @@ basis for a paper published as:
 "A Formal Semantics of Data Flows Diagrams", P.G.Larsen, N.Plat, 
 H.Toetenel, Formal Aspects of Computing'' 1994, Vol 6, December
 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

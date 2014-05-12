@@ -3,6 +3,7 @@ layout: default
 title: NDBSL
 ---
 
+##NDBSL
 Author: Rich Bradford
 
 
@@ -24,7 +25,7 @@ Single-User Database System", in C.B. Jones and R.C. Shaw (eds),
 J.S. Fitzgerald and C.B. Jones, "Modularizing the Formal Description 
 of a Database System", in D. Bjorner, C.A.R. Hoare and H. Langmaack 
 (eds), VDM '90: VDM and Z - Formal Methods in Software Development, 
-Springer-Verlag, LNCS 428, 1990 |  |           |
+Springer-Verlag, LNCS 428, 1990 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

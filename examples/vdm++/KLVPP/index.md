@@ -3,6 +3,7 @@ layout: default
 title: KLVPP
 ---
 
+##KLVPP
 Author: Niels Kirkegaard
 
 
@@ -21,7 +22,7 @@ triggers the KLV system. Issues such as how to determine whether a
 beacon has been met within a certain distance calculated from speed
 has been abstracted in away in the current model. They could be issues
 to extend the model with.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new UseKLV().Seq1()|

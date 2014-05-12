@@ -3,6 +3,7 @@ layout: default
 title: PacemakerConcPP
 ---
 
+##PacemakerConcPP
 Author: Hugo Macedo
 
 
@@ -20,7 +21,7 @@ Development of a Distributed Real-Time Model of a Cardiac Pacing System
 using VDM, In FM 2008: Formal Methods, 15th International Symposium on 
 Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
 Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new World("tests/scenarioGoodHeart.arg",<DOO>).Run()|

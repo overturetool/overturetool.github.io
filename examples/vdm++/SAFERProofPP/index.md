@@ -3,10 +3,11 @@ layout: default
 title: SAFERProofPP
 ---
 
+##SAFERProofPP
 Author: Sten Agerholm
 
 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new SAFERSys().BigTest()|

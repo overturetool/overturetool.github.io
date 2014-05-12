@@ -3,6 +3,7 @@ layout: default
 title: SAFERPP
 ---
 
+##SAFERPP
 Author: Sten Agerholm and Peter Gorm Larsen
 
 
@@ -37,7 +38,7 @@ More explanation about this work can be found in the papers:
   UML and VDM++, ed: John Fitzgerald and Peter Gorm Larsen, 
   in "VDM Workshop at the Formal Methods 1999 conference, 
   Toulouse 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new Test().BigTest()|

@@ -3,6 +3,7 @@ layout: default
 title: ConwayGameLifeSL
 ---
 
+##ConwayGameLifeSL
 Author: Nick Battle, Peter Gorm Larsen and Claus Ballegaard Nielsen (animation)
 
 
@@ -20,7 +21,7 @@ The initial pattern constitutes the seed of the system. The first generation is 
 applying the above rules simultaneously to every cell in the seed-births and deaths occur 
 simultaneously, and the discrete moment at which this happens is sometimes called a tick 
 (in other words, each generation is a pure function of the preceding one). The rules continue 
-to be applied repeatedly to create further generations.|  |           |
+to be applied repeatedly to create further generations.| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| vdm10|
 |Entry point     :| Conway`periodN(PULSAR,3)|

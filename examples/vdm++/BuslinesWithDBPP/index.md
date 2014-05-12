@@ -3,6 +3,7 @@ layout: default
 title: BuslinesWithDBPP
 ---
 
+##BuslinesWithDBPP
 Author: Claus Ballegaard Nielsen
 
 
@@ -17,7 +18,7 @@ This version connects to a database containing maps and busroutes.
  
  Remote Debugger must be set to remote class:
 	gui.BuslinesRemote
- |  |           |
+ | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new World().Run()|

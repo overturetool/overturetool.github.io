@@ -3,10 +3,11 @@ layout: default
 title: SmokingPP
 ---
 
+##SmokingPP
 Author: 
 
 
-|  |           |
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 
