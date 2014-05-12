@@ -26,7 +26,7 @@ If you want to have a bird's eye view of the Overture tool capabilities, check o
 
 ## Nuts and bolts: reference manuals
 
-Once you have acquainted yourselves with the basic working of the Overture tool using the tutorials, it is time to check out the available reference manuals, which consist of a language **reference manual (TR-001))** and **two user guides (TR-002)**. 
+Once you have acquainted yourselves with the basic working of the Overture tool using the tutorials, it is time to check out the available reference manuals, which consist of a language **reference manual (TR-001))** and **two user guides (TR-002)**. 
 And finally, there is a technical report describing how the Overture tools can be used in an **industrial development process (TR-006)**.
 
 - **TR-001**: _VDM-10 Language Manual_, P. G. Larsen, K. G. Lausdahl, N. Battle, and J. S. Fitzgerald, [version 4, April 2013]({{ site.url }}/files/VDM10_lang_man.pdf)
