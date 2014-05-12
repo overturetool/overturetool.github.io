@@ -3,7 +3,7 @@ layout: default
 title: Overture tool project 
 ---
 
-## Downloading, installing and running the Overture Tools
+# Downloading, installing and running the Overture Tools
 
 Installing Overture is really simple and straightforward, it will take just a few minutes!
 
@@ -73,6 +73,4 @@ There are a few tools that provide an integration interface to the Overture too
 - Overture tools provides a coupling to [VDMTools](http://www.vdmtools.jp/en).
 
 For further details, we refer to the User Guide, which can be found [here]({{ site.url }}/files/OvertureIDEUserGuide.pdf).
-
-####Overture: Formal Modelling in VDM
 

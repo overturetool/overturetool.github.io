@@ -3,9 +3,14 @@ layout: default
 title: Examples
 ---
 
-## Examples
+# Examples
 
-We maintain a large database of illustrative examples, coming from a wide variety of sources and application areas. These examples can be used as inspiration for your own modeling work. We also use these examples to validate changes made to the tools.&nbsp;All examples&nbsp;are included in our continuous build environment such that both model and tool consistency is checked.
+We maintain a large database of illustrative examples, coming from a
+wide variety of sources and application areas. These examples can be
+used as inspiration for your own modeling work. We also use these
+examples to validate changes made to the tools.  All examples are
+included in our continuous build environment such that both model and
+tool consistency is checked.
 
 VDM examples are available in all of the three dialects. On these
 pages, you find a detailed overview of each example. You can also

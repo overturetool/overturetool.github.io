@@ -3,7 +3,7 @@ layout: default
 title: Overture Tool Project
 ---
 
-## Welcome to the Overture Tool Project
+# Welcome to the Overture Tool Project
 
 Overture is a community-based project developing the next generation
 of open-source tools to support modelling and analysis in the design
@@ -15,12 +15,15 @@ development environment (IDE) for developing VDM models.  The Overture
 tools are written entirely in Java and build on top of the Eclipse
 platform.  Overture supports the following VDM language dialects:
 
-- VDM-SL: the VDM Specification Language, [ISO/IEC 13817-1:1996](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=22988), with extensions for modules
+- VDM-SL: the VDM Specification Language,
+  [ISO/IEC 13817-1:1996](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=22988),
+  with extensions for modules
 - VDM-PP: Object oriented extension of VDM-SL, also known as VDM++
-- VDM-RT: Extension of VDM++ for specifying real-time and distributed systems
+- VDM-RT: Extension of VDM++ for specifying real-time and distributed
+  systems
 
 ||
-|----------|
+|----|
 | The current stable version is **2.0.6** (April 2014) which you can [download here](https://github.com/overturetool/overture/releases/tag/Release%2F2.0.6).|
 
 ### See Overture in Operation
