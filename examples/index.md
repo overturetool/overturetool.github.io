@@ -13,9 +13,9 @@ download a bundle of all examples for each dialect:
 
 |||
 |---|---|
-| [VDM-SL example listing page]({{ site.url }}/examples/vdmsl/) | [zip bundle]({{ site.url }}/examples/vdmsl/ExamplesVDMSL.zip) |
-| [VDM++ example listing page]({{ site.url }}/examples/vdm++/)  | [zip bundle]({{ site.url }}/examples/vdmsl/ExamplesVDM++.zip) |
-| [VDM-RT example listing page]({{ site.url }}/examples/vdmrt/) | [zip bundle]({{ site.url }}/examples/vdmsl/ExamplesVDMRT.zip) |
+| [VDM-SL example listing page]({{ site.url }}/examples/vdmsl/) | [zip bundle]({{ site.url }}/examples/Examples-VDMSL.zip) |
+| [VDM++ example listing page]({{ site.url }}/examples/vdm++/)  | [zip bundle]({{ site.url }}/examples/Examples-VDM++.zip) |
+| [VDM-RT example listing page]({{ site.url }}/examples/vdmrt/) | [zip bundle]({{ site.url }}/examples/Examples-VDMRT.zip) |
 
 If you have questions on these examples, you can either post a
 question on

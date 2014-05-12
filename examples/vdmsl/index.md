@@ -19,7 +19,7 @@ title: VDMSL
 |------|-------|
 |**Author:**|Matthew Suderman|
 |**Version:**|VDM_SL - classic|
-||This work specifies a number of abstract data types (ADT) inVDM-SL. This includes single-linked lists, double-linked lists,queues, stacks and binary trees. In addition this work is initiating atranslation from VDM-SL to Modula-2 so system addressing and dynamicmemory handing is specified in VDM-SL. This work was done by MatthewSuderman when he was a student at Trinity Western University in theSpring Semester, 1997.|
+||This work specifies a number of abstract data types (ADT) inVDM-SL. This includes single-linked lists, double-linked lists,queues, stacks and binary trees. In addition this work is initiating atranslation from VDM-SL to Modula-2 so system addressing and dynamic memory handing is specified in VDM-SL. This work was done by MatthewSuderman when he was a student at Trinity Western University in theSpring Semester, 1997.|
 ||<a href="ADTSL/ADT.zip">model (zip)</a>  / <a href="ADTSL/index.html">show specification</a>|
 
 
@@ -399,7 +399,7 @@ title: VDMSL
 |------|-------|
 |**Author:**|Yves Ledru|
 |**Version:**|VDM_SL - classic|
-||﻿This tutorial example is taken out of a VDM course given to the students of the Diplôme d'Etudes SupÃ©rieures Spécialisées en Génie Informatique (5th year) at the Université Joseph Fourier. A first version uses the implicit style of specification of VDM-SL and thus may not be executed with VDMTools. An explicit version is given as an appendix. |
+||﻿This tutorial example is taken out of a VDM course given to the students of the Diplôme d'Etudes Supérieures Spécialisées en Génie Informatique (5th year) at the Université Joseph Fourier. A first version uses the implicit style of specification of VDM-SL and thus may not be executed with VDMTools. An explicit version is given as an appendix. |
 ||<a href="soccerSL/Soccer.zip">model (zip)</a>  / <a href="soccerSL/index.html">show specification</a>|
 
 
