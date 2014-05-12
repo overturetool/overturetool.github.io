@@ -17,7 +17,9 @@ favorable approaches for realizing a case study of a transportation system in To
 referred to as CyberRail. Different VDM++ models of candidate architectures for the 
 CyberRail system has been developed and validated. This thesis includes 2 Real-Time 
 VDM++ models (Backend Responsibility source, Joint Responsibility source), based 
-on 2 different architectures. | Properties | Values          |
+on 2 different architectures. 
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new World("test1_10.txt").run()|

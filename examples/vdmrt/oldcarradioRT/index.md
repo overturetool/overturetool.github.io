@@ -12,6 +12,8 @@ radio navigation example using the original version of VICE with
 one CPU. This failed and as a consequence Marcel Verhoef and Peter
 Gorm Larsen came up with an improved version of VDM-RT with 
 multiple CPUs connected with BUSses.
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

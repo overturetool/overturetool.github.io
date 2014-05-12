@@ -14,7 +14,9 @@ could be added to VDM-RT.
 More information can be found in:
 Nielsen, C.B.: Dynamic Reconfiguration of Distributed Systems in VDM-RT. 
 Master�s thesis, Aarhus University (December 2010).
- | Properties | Values          |
+ 
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new World().Run()|

@@ -30,6 +30,8 @@ Kirsten Mark Hansen. Linking Safety Analysis to Safety Requirements
 - Exemplified by Railway Interlocking Systems. PhD thesis, 
 Department of Information Technology, Technical University of 
 Denmark, 1996. 
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

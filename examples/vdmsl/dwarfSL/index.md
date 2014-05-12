@@ -17,6 +17,8 @@ workshop by Peter Gorm Larsen and it has in the past been connected to
 a GUI using the VDMTools CORBA based API. Thus it is a fully
 executable specification.
 
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| vdm10|

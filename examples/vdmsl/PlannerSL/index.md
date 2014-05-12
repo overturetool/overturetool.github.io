@@ -17,7 +17,9 @@ Planning for Conjunctive Goals, D.Chapman, AI Journal no 32, 1987.
 
 The Construction of Formal Specifications: an Introduction to the 
 Model-Based and Algebraic Approaches, J.Turner and McCluskey, 
-McGraw-Hill Software Engineering Series, London. ISBN 0-07-707735-0. | Properties | Values          |
+McGraw-Hill Software Engineering Series, London. ISBN 0-07-707735-0. 
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

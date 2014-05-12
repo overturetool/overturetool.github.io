@@ -13,7 +13,9 @@ This model describes how to do code generation from a small
 applicative language called Simple to a subset of Java (called
 Geraffe). This example also illustrates how one can make use
 of Java jar files as a part of a VDM model supported by
-Overture.  | Properties | Values          |
+Overture.  
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new codegen_Util().Run()|

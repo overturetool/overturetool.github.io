@@ -15,6 +15,8 @@ compositional fashion. This model can be used as a kind of
 library that one can play with manipulating strings into a 
 VDM AST representation.
 
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

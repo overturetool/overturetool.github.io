@@ -19,7 +19,9 @@ January 6, 1954, and granted on August 23, 1960.
 The algorithm is in the public domain and is in wide use today. It is specified in ISO/IEC 7812-1.[1]
 It is not intended to be a cryptographically secure hash function; it was designed to protect against
 accidental errors, not malicious attacks. Most credit cards and many government identification numbers
-use the algorithm as a simple method of distinguishing valid numbers from collections of random digits.| Properties | Values          |
+use the algorithm as a simple method of distinguishing valid numbers from collections of random digits.
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| vdm10|
 |Entry point     :| LUHN`luhn([1,2,3,4,5])|

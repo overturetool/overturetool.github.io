@@ -18,7 +18,9 @@ This version connects to a database containing maps and busroutes.
  
  Remote Debugger must be set to remote class:
 	gui.BuslinesRemote
- | Properties | Values          |
+ 
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new World().Run()|

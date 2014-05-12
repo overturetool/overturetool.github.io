@@ -19,6 +19,8 @@ Dynamic Collaborations Jeremy W. Bryans, John S. Fitzgerald and Panos Periorelli
 In Proceedings of the 37th Annual IEEE/IFIP International Conference on Dependable 
 Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinburgh, UK
  
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

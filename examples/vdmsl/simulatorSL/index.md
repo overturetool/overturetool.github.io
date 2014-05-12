@@ -15,6 +15,8 @@ formalism. We include two versions of the specifications;
 Section 2 contains the version in which implicit operations 
 are used, and most of the operations are rewritten as explicit 
 operations in the version contained in Section 3.
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

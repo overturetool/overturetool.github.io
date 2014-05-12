@@ -15,7 +15,9 @@ of the VDM++ model to be used in the Overture Automated Proof
 Support system. In the test class UseFileSystemLayerAlg there 
 are a few examples of using the traces primitives used for 
 test automation. This model has been developed by Miguel 
-Ferreira| Properties | Values          |
+Ferreira
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new UseFileSystemLayerAlg().dummy()|

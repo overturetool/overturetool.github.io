@@ -19,7 +19,9 @@ software analysis. To get a better understanding of the scope of the
 analysis consult the text "Software Verification and Analysis, An 
 Integrated, Hands-on -- Approach," by Janusz Laski w/William Stanley, 
 Springer 2009. A brief online introduction is offered on the Website
-www.stadtools.com.| Properties | Values          |
+www.stadtools.com.
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| relations`IsTransitive(relations`A5)|

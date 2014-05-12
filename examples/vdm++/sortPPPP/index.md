@@ -9,6 +9,8 @@ Author: Peter Gorm Larsen
 
 This VDM++ model is made by Peter Gorm Larsen in 2010 based on the original 
 VDM++ model created many years ago at IFAD.
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| vdm10|

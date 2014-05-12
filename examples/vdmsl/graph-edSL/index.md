@@ -13,6 +13,8 @@ a Graph Editor using VDM-SL. More information can be found in:
 V.S. Alagar, D. Muthiayen and K. Periyasamy, "VDM-SL Specification of a Graph 
 Editor", Technical Report, Department of Computer Science, Concordia 
 University, Montreal, Canada, May 1996. 
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

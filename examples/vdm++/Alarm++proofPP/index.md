@@ -18,6 +18,8 @@ of a large alarm system developed by IFAD A/S. It is modelling the
 management of alarms for an industrial plant. The purpose of the 
 model is to clarify the rules governing the duty roster and calling 
 out of experts to deal with alarms. 
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

@@ -40,6 +40,8 @@ T.M. Brookes, J.S. Fitzgerald, and P.G. Larsen, Formal and Informal
 Specifications of a Secure System Component: final results in a 
 comparative study, �Formal Methods Europe'96�, pp 214-227, Springer 
 Verlag, March 1996.
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

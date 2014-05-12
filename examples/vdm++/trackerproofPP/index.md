@@ -13,6 +13,8 @@ VDM-SL model presented in the Fitzgerald&Larsen98 book
 on VDM-SL. The tracker takes care of monitoring and 
 controlling the nuclear material in a plant that takes 
 care of processing such waste material. 
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| vdm10|

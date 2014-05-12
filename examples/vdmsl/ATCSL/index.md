@@ -27,7 +27,9 @@ Operation and Control Systems (FORMS 2003), 2003.
 N. Terada and M. Fukuda, Application of Formal Methods to the Railway 
 Signaling Systems, In Quarterly Report of RTRI, 2002, Vol 43, no 4, 
 pp 169-174.
- | Properties | Values          |
+ 
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 

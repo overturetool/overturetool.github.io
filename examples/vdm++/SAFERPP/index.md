@@ -38,6 +38,8 @@ More explanation about this work can be found in the papers:
   UML and VDM++, ed: John Fitzgerald and Peter Gorm Larsen, 
   in "VDM Workshop at the Formal Methods 1999 conference, 
   Toulouse 
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

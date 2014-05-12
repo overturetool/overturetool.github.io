@@ -16,6 +16,8 @@ reading(in degrees Celsius) every minute.
 
 The monitor records the five most recent temperature readings in the
 order in which they were received from the sensor.
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

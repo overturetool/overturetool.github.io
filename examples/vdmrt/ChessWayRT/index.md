@@ -15,7 +15,9 @@ in the paper <I>A Formal Approach to Collaborative Modelling
 and Co-simulation for Embedded Systems</I> which is submitted
 to the Journal Mathematical Structures in Computer Science.
 The corresponding continuous time model is available
-through the first author.| Properties | Values          |
+through the first author.
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new World().RunVdmRt()|

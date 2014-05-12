@@ -15,6 +15,8 @@ was confronted with during the course. This specification is mainly
 intended for the purpose of illustrating how bags can be used. This is
 modelled using an executable subset and a collection of small tests are
 included.
+
+
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|

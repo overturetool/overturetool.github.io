@@ -10,7 +10,9 @@ Author:
 
 This VDM++ model contains basic classes for defining 
 and traversing over abstract threes and queues.
- | Properties | Values          |
+ 
+
+| Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| classic|
 |Entry point     :| new UseTree().insertion_BST()|
