@@ -387,9 +387,9 @@ title: VDM++
 
 | | |
 |------|-------|
-|**Author:**|Bjarke M�holt|
+|**Author:**|Bjarke Møholt|
 |**Version:**|VDM_PP - classic|
-||The purpose of this VDM++ model is to analyse the rules governing fordistrubuting parcels with different kinds of goods is awarehouse. This model is made by Bjarke M�holt as a small mini-projectin a course on "Modelling of Mission Critical Systems" (seehttps://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).|
+||﻿The purpose of this VDM++ model is to analyse the rules governing fordistrubuting parcels with different kinds of goods is awarehouse. This model is made by Bjarke Møholt as a small mini-projectin a course on "Modelling of Mission Critical Systems" (seehttps://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).|
 ||<a href="SortingParcelsPP/SortingParcels.zip">model (zip)</a>  / <a href="SortingParcelsPP/index.html">show specification</a>|
 
 
@@ -437,9 +437,9 @@ title: VDM++
 
 | | |
 |------|-------|
-|**Author:**|Kim Bjerge and Jos� Antonio Esparza Jaesparza|
+|**Author:**|Kim Bjerge and José Antonio Esparza Jaesparza|
 |**Version:**|VDM_PP - classic|
-||This VDM++ model is made by two students of a sortation systemable to sort parcels into different trays for example for anairport sorting suitcases for different flights. The model herefocus on the algorithm for prioritising between different feedersto the conveyer belt|
+||﻿This VDM++ model is made by two students of a sortation systemable to sort parcels into different trays for example for anairport sorting suitcases for different flights. The model herefocus on the algorithm for prioritising between different feedersto the conveyer belt|
 ||<a href="trayallocationPP/Trayallocation.zip">model (zip)</a>  / <a href="trayallocationPP/index.html">show specification</a>|
 
 

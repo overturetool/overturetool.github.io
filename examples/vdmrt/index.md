@@ -47,9 +47,9 @@ title: VDMRT
 
 | | |
 |------|-------|
-|**Author:**|Jasper Nygaard and Rasmus S�rensen|
+|**Author:**|Jasper Nygaard and Rasmus Sørensen|
 |**Version:**|VDM_RT - classic|
-||This VDM-RT model was produced as a part of an MSn thesis investigating and analyzingthe possibility of obtaining early stage validation of potential candidate system architectures, by means of formal modelling and validation. The goal was to analyze recent research extensions of VDM++ for describing and analyzing such distributed systems (VDM-RT) and see if the language is suitable to stress test a distributed system and validate any architectural benefits. Additionally this thesis discussesfavorable approaches for realizing a case study of a transportation system in Tokyo, referred to as CyberRail. Different VDM++ models of candidate architectures for the CyberRail system has been developed and validated. This thesis includes 2 Real-Time VDM++ models (Backend Responsibility source, Joint Responsibility source), based on 2 different architectures. |
+||﻿This VDM-RT model was produced as a part of an MSn thesis investigating and analyzingthe possibility of obtaining early stage validation of potential candidate system architectures, by means of formal modelling and validation. The goal was to analyze recent research extensions of VDM++ for describing and analyzing such distributed systems (VDM-RT) and see if the language is suitable to stress test a distributed system and validate any architectural benefits. Additionally this thesis discussesfavorable approaches for realizing a case study of a transportation system in Tokyo, referred to as CyberRail. Different VDM++ models of candidate architectures for the CyberRail system has been developed and validated. This thesis includes 2 Real-Time VDM++ models (Backend Responsibility source, Joint Responsibility source), based on 2 different architectures. |
 ||<a href="CyberRailRT/CyberRail.zip">model (zip)</a>  / <a href="CyberRailRT/index.html">show specification</a>|
 
 
@@ -129,6 +129,6 @@ title: VDMRT
 |------|-------|
 |**Author:**|Claus Ballegaard Nielsen|
 |**Version:**|VDM_RT - classic|
-||This example was used in the MSc thesis for Claus BallegaardNielsen in order to illustrate how dynamic deployment with advantage could be added to VDM-RT.More information can be found in:Nielsen, C.B.: Dynamic Reconfiguration of Distributed Systems in VDM-RT. Master�s thesis, Aarhus University (December 2010). |
+||﻿This example was used in the MSc thesis for Claus BallegaardNielsen in order to illustrate how dynamic deployment with advantage could be added to VDM-RT.More information can be found in:Nielsen, C.B.: Dynamic Reconfiguration of Distributed Systems in VDM-RT. Master's thesis, Aarhus University (December 2010). |
 ||<a href="VeMoRT/VeMo.zip">model (zip)</a>  / <a href="VeMoRT/index.html">show specification</a>|
 

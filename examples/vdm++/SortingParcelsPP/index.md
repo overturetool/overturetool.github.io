@@ -4,12 +4,12 @@ title: SortingParcelsPP
 ---
 
 ##SortingParcelsPP
-Author: Bjarke M�holt
+Author: Bjarke Møholt
 
 
-The purpose of this VDM++ model is to analyse the rules governing for
+﻿The purpose of this VDM++ model is to analyse the rules governing for
 distrubuting parcels with different kinds of goods is a
-warehouse. This model is made by Bjarke M�holt as a small mini-project
+warehouse. This model is made by Bjarke Møholt as a small mini-project
 in a course on "Modelling of Mission Critical Systems" (see
 https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).
 

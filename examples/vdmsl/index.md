@@ -99,7 +99,7 @@ title: VDMSL
 |------|-------|
 |**Author:**|Nick Battle, Peter Gorm Larsen and Claus Ballegaard Nielsen (animation)|
 |**Version:**|VDM_SL - vdm10|
-||Conway's Game of LifeThe universe of the Game of Life is an infinite two-dimensional orthogonal grid of square cells,each of which is in one of two possible states, alive or dead. Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent.At each step in time, the following transitions occur: *   Any live cell with fewer than two live neighbours dies, as if caused by under-population. *   Any live cell with two or three live neighbours lives on to the next generation. *   Any live cell with more than three live neighbours dies, as if by overcrowding. *   Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed-births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick (in other words, each generation is a pure function of the preceding one). The rules continue to be applied repeatedly to create further generations.|
+||Conway's Game of LifeThe universe of the Game of Life is an infinite two-dimensional orthogonal grid of square cells,each of which is in one of two possible states, alive or dead. Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent.At each step in time, the following transitions occur:*   Any live cell with fewer than two live neighbours dies, as if caused by under-population.*   Any live cell with two or three live neighbours lives on to the next generation.*   Any live cell with more than three live neighbours dies, as if by overcrowding.*   Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed-births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick (in other words, each generation is a pure function of the preceding one). The rules continue to be applied repeatedly to create further generations.|
 ||<a href="ConwayGameLifeSL/ConwayGameLife.zip">model (zip)</a>  / <a href="ConwayGameLifeSL/index.html">show specification</a>|
 
 
@@ -119,7 +119,7 @@ title: VDMSL
 |------|-------|
 |**Author:**|Yves Ledru|
 |**Version:**|VDM_SL - classic|
-||This tutorial example is taken out of a VDM course given to the students of the Dipl�me d'Etudes Sup�rieures Sp�cialis�es en G�nie Informatique (5th year) at the Universit� Joseph Fourier. This example uses the implicit style of specification of VDM-SL and thus may not be executed with theOverture debugger.|
+||﻿This tutorial example is taken out of a VDM course given to the students of the Diplôme d'Etudes Supérieures Spécialisées en Génie Informatique (5th year) at the Université Joseph Fourier. This example uses the implicit style of specification of VDM-SL and thus may not be executed with theOverture debugger.|
 ||<a href="crosswordSL/Crossword.zip">model (zip)</a>  / <a href="crosswordSL/index.html">show specification</a>|
 
 
@@ -141,16 +141,6 @@ title: VDMSL
 |**Version:**|VDM_SL - classic|
 ||The specification describes how directed graphs and relations oversuch graphs can can tested for relevant properties and manipulated indifferent ways. This specification is produced by Janusz Laski fromOakland University in the USA. Most of the definitions in thisspecification can be interpreted.This model is only an illustration of the problems germane to automatic software analysis. To get a better understanding of the scope of the analysis consult the text "Software Verification and Analysis, An Integrated, Hands-on -- Approach," by Janusz Laski w/William Stanley, Springer 2009. A brief online introduction is offered on the Websitewww.stadtools.com.|
 ||<a href="DigraphSL/Digraph.zip">model (zip)</a>  / <a href="DigraphSL/index.html">show specification</a>|
-
-
-###DijkstraProtocol
-
-| | |
-|------|-------|
-|**Author:**|Peter Gorm Larsen|
-|**Version:**|VDM_SL - classic|
-||This small specification is based on a protocol madeby Dijkstra for termination of different processes ina distributed setting (see [Dijkstra83]). This academicexample was used at a Dagstuhl workshop about "Integration of Tools for Rigorous Software Construction and Analysis"(http://www.dagstuhl.de/de/programm/kalender/semhp/?semnr=13372)The algorithm here was used to compare different formalnotations including VDM-SL.[Dijkstra83] EWD 840: "Derivation of a termination detection algorithm for distributed computations" was published asInformation Processing Letters 16: 217�219, 1983. Seehttps://www.cs.utexas.edu/users/EWD/ewd08xx/EWD840.PDF |
-||<a href="DijkstraProtocolSL/DijkstraProtocol.zip">model (zip)</a>  / <a href="DijkstraProtocolSL/index.html">show specification</a>|
 
 
 ###Dwarf
@@ -189,7 +179,7 @@ title: VDMSL
 |------|-------|
 |**Author:**|John Fitzgerald and Peter Gorm Larsen|
 |**Version:**|VDM_SL - classic|
-||This example is for a trusted gateway made by John Fitzgerald and Peter Gorm Larsen inspired by a more comprehensive model developedby British Aerospace. THe work undertaken here was published in:Peter Gorm Larsen, Tom Brookes, Mike Green and John Fitzgerald, A Comparison of the Conventional and Formal Design of a Secure System Component, Nordic Seminar on Dependable Computing Systems, August, 1994.J.S. Fitzgerald, T.M. Brookes, M.A. Green, and P.G. Larsen, Formal and Informal Specifications of a Secure System Component: first results in a comparative study, Formal Methods Europe'94 - : Industrial Benefitof Formal Methods, Springer Verlag, October 1994.Peter Gorm Larsen, John Fitzgerald, Tom Brookes, Mike Green, Formal Modelling and Simulation in the Development of a Security-critical Message Processing System, Anglo-French workshop on Formal Methods, Modelling and Simulation for System Engineering, Saint-Quentin, France, February, 1995.John Fitzgerald, Peter Gorm Larsen, Tom Brookes and Mike Green, Developing a Security-critical System using Formal and Conventional Methods, Chapter 14 in �Applications of Formal Methods�, M.G. Hinchey and J.P. Bowen (editors), Prentice Hall International Series in Computer Science, September 1995.Peter Gorm Larsen, John Fitzgerald and Tom Brookes, Lessons Learned from Applying Formal Specification in Industry, IEEE Software, pp 48-56, May 1996.T.M. Brookes, J.S. Fitzgerald, and P.G. Larsen, Formal and Informal Specifications of a Secure System Component: final results in a comparative study, �Formal Methods Europe'96�, pp 214-227, Springer Verlag, March 1996.|
+||﻿This example is for a trusted gateway made by John Fitzgerald and Peter Gorm Larsen inspired by a more comprehensive model developedby British Aerospace. THe work undertaken here was published in:* Peter Gorm Larsen, Tom Brookes, Mike Green and John Fitzgerald, A Comparison of the Conventional and Formal Design of a Secure System Component, Nordic Seminar on Dependable Computing Systems, August, 1994.* J.S. Fitzgerald, T.M. Brookes, M.A. Green, and P.G. Larsen, Formal and Informal Specifications of a Secure System Component: first results in a comparative study, Formal Methods Europe'94 - : Industrial Benefitof Formal Methods, Springer Verlag, October 1994.* Peter Gorm Larsen, John Fitzgerald, Tom Brookes, Mike Green, Formal Modelling and Simulation in the Development of a Security-critical Message Processing System, Anglo-French workshop on Formal Methods, Modelling and Simulation for System Engineering, Saint-Quentin, France, February, 1995.* John Fitzgerald, Peter Gorm Larsen, Tom Brookes and Mike Green, Developing a Security-critical System using Formal and Conventional Methods, Chapter 14 in “Applications of Formal Methods”, M.G. Hinchey and J.P. Bowen (editors), Prentice Hall International Series in Computer Science, September 1995.* Peter Gorm Larsen, John Fitzgerald and Tom Brookes, Lessons Learned from Applying Formal Specification in Industry, IEEE Software, pp 48-56, May 1996.* T.M. Brookes, J.S. Fitzgerald, and P.G. Larsen, Formal and Informal Specifications of a Secure System Component: final results in a comparative study, “Formal Methods Europe'96”, pp 214-227, Springer Verlag, March 1996.|
 ||<a href="gatewaySL/Gateway.zip">model (zip)</a>  / <a href="gatewaySL/index.html">show specification</a>|
 
 
@@ -359,7 +349,7 @@ title: VDMSL
 |------|-------|
 |**Author:**|Peter Gorm Larsen|
 |**Version:**|VDM_SL - classic|
-||This document is simply an attempt to model the basic data structures and auxiliary functions necessary to represent realms. A geometric realm defined here is a planner graph over a finite resolution grid. This example have been partly tested and the test coverage information is displayed on the postscript version of the document. The script used for testing is included among the source files. Realms are used to represent geographical data. This document is based on: Realms: A Foundation for Spatial Data Types in Database Systems, Ralf Hartmut G�ting and Marcus Schneider, Advances in Spatial Databases - Third International Symposium, SSD'93, Springer-Verlag, June 1993. Map Generalisation, Ngo Quoc Tao, UNU/IIST, Macau, Draft, January, 1996. |
+||﻿This document is simply an attempt to model the basic data structures and auxiliary functions necessary to represent realms. A geometric realm defined here is a planner graph over a finite resolution grid. This example have been partly tested and the test coverage information is displayed on the postscript version of the document. The script used for testing is included among the source files. Realms are used to represent geographical data. This document is based on: Realms: A Foundation for Spatial Data Types in Database Systems, Ralf Hartmut Güting and Marcus Schneider, Advances in Spatial Databases - Third International Symposium, SSD'93, Springer-Verlag, June 1993. Map Generalisation, Ngo Quoc Tao, UNU/IIST, Macau, Draft, January, 1996. |
 ||<a href="realmSL/Realm.zip">model (zip)</a>  / <a href="realmSL/index.html">show specification</a>|
 
 
@@ -409,7 +399,7 @@ title: VDMSL
 |------|-------|
 |**Author:**|Yves Ledru|
 |**Version:**|VDM_SL - classic|
-||﻿This tutorial example is taken out of a VDM course given to the students of the Dipl�me d'Etudes Supérieures Sp�cialis�es en G�nie Informatique (5th year) at the Universit� Joseph Fourier. A first version uses the implicit style of specification of VDM-SL and thus may not be executed with VDMTools. An explicit version is given as an appendix. |
+||﻿This tutorial example is taken out of a VDM course given to the students of the Diplôme d'Etudes SupÃ©rieures Spécialisées en Génie Informatique (5th year) at the Université Joseph Fourier. A first version uses the implicit style of specification of VDM-SL and thus may not be executed with VDMTools. An explicit version is given as an appendix. |
 ||<a href="soccerSL/Soccer.zip">model (zip)</a>  / <a href="soccerSL/index.html">show specification</a>|
 
 

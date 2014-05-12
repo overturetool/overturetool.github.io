@@ -8,9 +8,9 @@ Author: Yves Ledru
 
 
 ﻿This tutorial example is taken out of a VDM course given 
-to the students of the Dipl�me d'Etudes Supérieures 
-Sp�cialis�es en G�nie Informatique (5th year) at the 
-Universit� Joseph Fourier. A first version uses the 
+to the students of the Diplôme d'Etudes SupÃ©rieures 
+Spécialisées en Génie Informatique (5th year) at the 
+Université Joseph Fourier. A first version uses the 
 implicit style of specification of VDM-SL and thus may 
 not be executed with VDMTools. An explicit version is 
 given as an appendix. 
