@@ -52,9 +52,9 @@ Process (LBP) description.
 
 The Overture project is supported by
 
-| |
+|||
 |----|----|
-| [ ![Aarhus School of Engineering (DK)]({{ site.url }}/images/aselogo.png) ](http://www.iha.dk/?AreaID=3) | [ ![Fujitsu Siemens Ltd (UK)]({{ site.url }}/images/fslogo.png) ](http://uk.fujitsu.com)				|
+| [ ![Aarhus University (DK)]({{ site.url }}/images/au-eng.png) ](http://eng.au.dk/en/) | [ ![Fujitsu Siemens Ltd (UK)]({{ site.url }}/images/fslogo.png) ](http://uk.fujitsu.com)				|
 | [ ![West Consulting B.V. (NL)]({{ site.url }}/images/westlogo.png) ](http://www.west.nl)                 | [ ![SCSK Corporation (JP)]({{ site.url }}/images/SCSKlogo.png) ](http://www.scsk.jp/index_en.html) |
 | [ ![Newcastle University (UK)]({{ site.url }}/images/newcastleuni.png) ](http://www.ncl.ac.uk/)          |                                                                                                        |
 
@@ -85,6 +85,7 @@ To subscribe to this mailing list please fill the
 | Designers' Den Corp | Japan | Sako Hiroshi |
 | Fujitsu Services | England | Nick Battle |
 | GridManager | Denmark | Anders Franz Terkelsen |
+| Hosei University | Japan | Shin Sahara |
 | Insiel S.p.A. | Italy | Enrico Fracasso |
 | Institute of Technology Carlow | Ireland | Chris Meudec |
 | Institute for System Programming of the Russian Academy of Sciences | Russia | Nikolay Pakulin |
@@ -93,7 +94,7 @@ To subscribe to this mailing list please fill the
 | Lomonosov Moscow State University | Russia | Eugene Kornykhin |
 | National Institute of Informatics | Japan | Fuyuki Ishikawa |
 | NeoPost | The Netherlands | Peter van Eijk |
-| SCSK Corporation | Japan | Shin Sahara |
+| SCSK Corporation | Japan | Masayuki Ueki |
 | SofTools | USA | Janusz Laski |
 | Technical University of Denmark | Denmark | Anne Haxthausen |
 | Terma | Denmark | Sune Wolff |

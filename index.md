@@ -12,7 +12,7 @@ of computer-based systems. Overture supports
 of modelling techniques with a long and successful history of
 industrial application and research.  Overture is an integrated
 development environment (IDE) for developing VDM models.  The Overture
-tools are written entirely in Java and build on top of the Eclipse
+tools are written entirely in Java and built on top of the Eclipse
 platform.  Overture supports the following VDM language dialects:
 
 - VDM-SL: the VDM Specification Language,
@@ -56,7 +56,7 @@ platform.  Overture supports the following VDM language dialects:
 
 [ ![Debugging perspective in Overture (click on picture for full view)]({{ site.url }}/images/DebuggingVDM.png) ]({{ site.url }}/images/DebuggingVDM.png)
 
-## Other tool featureste.
+## Other tool features
 
 - Latex document generation
 - Coverage Editor

@@ -33,7 +33,7 @@ h3, h4, h5, h6 {
 }
 
 a {
-  color:#39c;
+  color:#728;
   font-weight:400;
   text-decoration:none;
 }
@@ -44,13 +44,13 @@ a:hover {
 
 a small {
   font-size:11px;
-  color:#777;
+  color:#728;
   margin-top:-0.6em;
   display:block;
 }
 
 a:hover small {
-  color:#777;
+  color:#728;
 }
 
 .wrapper {
@@ -104,24 +104,24 @@ img {
 }
 
 header {
-  width:260px;
+  width:220px;
   float:left;
   /*position:fixed;*/
 }
 
 header p a {
     font-size: 16px;
-    color: #2E2EFE;
+    color: #728;
+    /* color: #2E2EFE; */
 }
 
 header li a {
     font-size: 16px;
-    color: #2E2EFE;
+    color: #728;
 }
 
 header li li a {
     font-size: 14px;
-    color: #2E2EFE;
 }
 
 header ul {
@@ -193,6 +193,10 @@ strong {
   font-weight:700;
 }
 
+a strong {
+    color: #728;
+}
+
 /* header ul li + li { */
 /*   width:88px; */
 /*   border-left:1px solid #fff; */
@@ -214,7 +218,7 @@ header p {
 }
 
 section {
-  width:580px;
+  width:620px;
   float:right;
   padding-bottom:50px;
 }
@@ -274,6 +278,10 @@ div#footer {
     position:absolute;
     right:50px;
     top:52px;
+  }
+
+  header ul ul {
+      position: static;
   }
 }
 
