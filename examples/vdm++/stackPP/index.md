@@ -3,7 +3,7 @@ layout: default
 title: stackPP
 ---
 
-##stackPP
+## stackPP
 Author: 
 
 
@@ -15,27 +15,59 @@ Author:
 |Entry point     :| n|
 
 
-###stack.vdmpp
+### stack.vdmpp
 
 {% raw %}
 ~~~
 class Stack
-  instance variables    stack : seq of int := [];
+
+  instance variables
+    stack : seq of int := [];
+
   operations
-    public    Reset : () ==> ()    Reset () ==      stack := [];
-    public    Pop : () ==> int    Pop() ==      def res = hd stack in        (stack := tl stack;         return res)    pre stack <> []    post stack~ = [RESULT]^stack;
-    public Push: int ==> ()    Push(elem) ==      stack := stack ^[elem];
-    public    Top : () ==> int    Top() ==      return (hd stack);
+
+    public
+    Reset : () ==> ()
+    Reset () ==
+      stack := [];
+
+    public
+    Pop : () ==> int
+    Pop() ==
+      def res = hd stack in
+        (stack := tl stack;
+         return res)
+    pre stack <> []
+    post stack~ = [RESULT]^stack;
+
+    public Push: int ==> ()
+    Push(elem) ==
+      stack := stack ^[elem];
+
+    public
+    Top : () ==> int
+    Top() ==
+      return (hd stack);
+
 end Stack
 ~~~
 {% endraw %}
 
-###usestack.vdmpp
+### usestack.vdmpp
 
 {% raw %}
 ~~~
-class UseStackinstance variables  stack : Stack := new Stack();traces  TracesStack :    stack.Reset() ;    let x in set {2,8} in stack.Push(x){1,4};    (stack.Push(9) | stack.Pop())
+class UseStack
+instance variables
+  stack : Stack := new Stack();
+traces
+  TracesStack :
+    stack.Reset() ;
+    let x in set {2,8} in stack.Push(x){1,4};
+    (stack.Push(9) | stack.Pop())
+
 end UseStack
+
 ~~~
 {% endraw %}
 
