@@ -24,7 +24,7 @@ platform.  Overture supports the following VDM language dialects:
 
 ||
 |----|
-| The current stable version is **2.0.6** (April 2014) which you can [download here](https://github.com/overturetool/overture/releases/tag/Release%2F2.0.6).|
+| The current stable version is **2.0.6** (April 2014) which you can [download here](https://github.com/overturetool/overture/releases/latest).|
 
 ### See Overture in Operation
 
