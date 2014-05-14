@@ -84,7 +84,6 @@ To subscribe to this mailing list please fill the
 | Chess | The Netherlands | Marcel Verhoef |
 | Designers' Den Corp | Japan | Sako Hiroshi |
 | Fujitsu Services | England | Nick Battle |
-| GridManager | Denmark | Anders Franz Terkelsen |
 | Hosei University | Japan | Shin Sahara |
 | Insiel S.p.A. | Italy | Enrico Fracasso |
 | Institute of Technology Carlow | Ireland | Chris Meudec |
