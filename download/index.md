@@ -28,7 +28,7 @@ The generic Windows versions are known to work with both Windows 7 as well as W
 ## Installing and running Overture
 
 Unzip the downloaded file in any preferred location on your harddisk, as long as it is a location where there is sufficient diskspace and where you have sufficient access priviliges (rwx). 
-Double-click "_overture.exe_" which is found in the root of the unzipped directory. 
+Double-click `Overture.exe` which is found in the root of the unzipped directory. 
 Overture will start (a splash screen will appear) and the tool will ask you to set the workspace directory. 
 This is where your Overture projects will be stored, you can choose this location freely, it can be changed at any point in time. 
 Finally, the Overture IDE will appear and you are in business! 
@@ -55,7 +55,7 @@ Overture does not make any other modifications to your system --- there are no r
 There are two ways to keep the Overture tool in sync with the project releases. 
 First one is simple: just repeat the steps described above, by manually downloading and installing the latest version from SourceForge. 
 Multiple versions of the Overture tool can happily co-exist as long as you install them in seperate directories! 
-The second option is also simple and well-known to Eclipse users, by moving to the Help menu and select "_Check for Updates_". 
+The second option is also simple and well-known to Eclipse users, by moving to the Help menu and select _Check for Updates_. 
 This will upgrade the currently running tool instance to the latest and greatest.
 
 ## Extending the Overture tool
