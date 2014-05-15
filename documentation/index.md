@@ -26,7 +26,7 @@ the appropriate link shown below.
 - **TR-004**: _Tutorial for Overture/VDM++_, P. G. Larsen,
   J. S. Fitzgerald, S. Wolff, N. Battle, K. G. Lausdahl, A. Ribeiro,
   K. G. Pierce, and S. Riddle,
-  [version 3, April 2013]({{site.url}}/files/VDMPPGuideToOverture.pdf)
+  [version 4, April 2014]({{site.url}}/files/VDMPPGuideToOverture.pdf)
 - **TR-005**: _Tutorial for Overture/VDM-RT_, P. G. Larsen,
   J. S. Fitzgerald, S. Wolff, N. Battle, K. G. Lausdahl, A. Ribeiro,
   K. G. Pierce, and S. Riddle,
@@ -54,7 +54,7 @@ used in an **industrial development process (TR-006)**.
 
 - **TR-001**: _VDM-10 Language Manual_, P. G. Larsen, K. G. Lausdahl,
   N. Battle, and J. S. Fitzgerald,
-  [version 4, April 2013]({{site.url}}/files/VDM10_lang_man.pdf)
+  [version 5, March 2014]({{site.url}}/files/VDM10_lang_man.pdf)
 - **TR-002**: _Overture VDM-10 Tool Support: User Guide_,
   P. G. Larsen, K. G. Lausdahl, A. Ribeiro, S. Wolff, and N. Battle,
   [version 4, April 2013]({{site.url}}/files/OvertureIDEUserGuide.pdf)
