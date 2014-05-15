@@ -13,7 +13,7 @@ Overture is entirely written in [Java](http://www.java.com) and build on top of 
 The only thing you need is a standard Java Run-time Environment (JRE version 1.6 or later). 
 You can download Java from [www.java.com](http://www.java.com). 
 Please make sure Java is working properly and visible in your executable search path. 
-Check this by running "_java -version_" on the command-line!
+Check this by running `java -version` on the command-line!
 
 ## Downloading Overture
 
@@ -48,7 +48,7 @@ You can browse the [open issue list](https://github.com/overturetool/overture/is
 For Windows users that are using version 1.1.1 (or later), simply run the uninstaller, either directly or from the Windows Control Panel. 
 In case you want to uninstall Overture on Linux or Mac, simply delete the unzipped directory. 
 Note that if you have used the default workspace (which is a subdirectory of the installation directory) also any models you have created will be removed. 
-Overture does not make any other modifications to your system - there are no residuals!
+Overture does not make any other modifications to your system --- there are no residuals!
 
 ## Checking for updates
 
