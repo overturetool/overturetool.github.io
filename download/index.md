@@ -13,7 +13,7 @@ Overture is entirely written in [Java](http://www.java.com) and build on top of 
 The only thing you need is a standard Java Run-time Environment (JRE version 1.6 or later). 
 You can download Java from [www.java.com](http://www.java.com). 
 Please make sure Java is working properly and visible in your executable search path. 
-Check this by running "_java -version_" on the command-line!
+Check this by running `java -version` on the command-line!
 
 ## Downloading Overture
 
@@ -28,7 +28,7 @@ The generic Windows versions are known to work with both Windows 7 as well as W
 ## Installing and running Overture
 
 Unzip the downloaded file in any preferred location on your harddisk, as long as it is a location where there is sufficient diskspace and where you have sufficient access priviliges (rwx). 
-Double-click "_overture.exe_" which is found in the root of the unzipped directory. 
+Double-click `Overture.exe` which is found in the root of the unzipped directory. 
 Overture will start (a splash screen will appear) and the tool will ask you to set the workspace directory. 
 This is where your Overture projects will be stored, you can choose this location freely, it can be changed at any point in time. 
 Finally, the Overture IDE will appear and you are in business! 
@@ -48,14 +48,14 @@ You can browse the [open issue list](https://github.com/overturetool/overture/is
 For Windows users that are using version 1.1.1 (or later), simply run the uninstaller, either directly or from the Windows Control Panel. 
 In case you want to uninstall Overture on Linux or Mac, simply delete the unzipped directory. 
 Note that if you have used the default workspace (which is a subdirectory of the installation directory) also any models you have created will be removed. 
-Overture does not make any other modifications to your system - there are no residuals!
+Overture does not make any other modifications to your system --- there are no residuals!
 
 ## Checking for updates
 
 There are two ways to keep the Overture tool in sync with the project releases. 
 First one is simple: just repeat the steps described above, by manually downloading and installing the latest version from SourceForge. 
 Multiple versions of the Overture tool can happily co-exist as long as you install them in seperate directories! 
-The second option is also simple and well-known to Eclipse users, by moving to the Help menu and select "_Check for Updates_". 
+The second option is also simple and well-known to Eclipse users, by moving to the Help menu and select _Check for Updates_. 
 This will upgrade the currently running tool instance to the latest and greatest.
 
 ## Extending the Overture tool
