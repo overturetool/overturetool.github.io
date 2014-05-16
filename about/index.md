@@ -78,7 +78,7 @@ To subscribe to this mailing list please fill the
 
 | Organization | Country | Point of contact |
 |:------------:|:-------:|:----------------:|
-| Aarhus School of Engineering | Denmark | Peter Gorm Larsen |
+| Aarhus University | Denmark | Peter Gorm Larsen |
 | Bang & Olufsen | Denmark | Klaus Kristensen |
 | Boston University | USA | Zhiqiang Ren |
 | Chess | The Netherlands | Marcel Verhoef |
