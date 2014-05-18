@@ -1,0 +1,44 @@
+.githubcontainer{
+    position: relative;
+    width:150px;
+    height:150px;
+    float: left;
+    clear:none;
+    overflow:hidden;
+    display:block;
+}
+
+.githubcontainer img{
+    position:relative;
+    z-index:1;
+}
+
+
+.githubcontainer .contributions{
+    display:block;
+    position:absolute;
+    width:100%;
+    top:0%;
+    left:10;
+    z-index:2;
+    text-align:right;
+    color:white;
+    background: #6E696B;
+    opacity:0.6;
+    font-size:11px;
+}
+
+
+.githubcontainer .name{
+    font-size:15px;
+    display:block;
+    position:absolute;
+    width:100%;
+    bottom:-14%;
+    left:10;
+    z-index:4;
+    text-align:right;
+    color:white;
+    background: #6E696B;
+    opacity:0.6;
+}
