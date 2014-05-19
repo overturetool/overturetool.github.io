@@ -4,8 +4,6 @@ title: VDM++
 ---
 
 ### Access-control
-
-
 This specification describes access control and policies for restricting this.
 Details of the specification may be found in:   
 1. Formal Engineering of Access Control Policies in VDM++ Jeremy W. Bryans and 
@@ -16,7 +14,7 @@ Engineering Methods (ICFEM 2007). Boca Raton, USA, November 2007. pp 37--56
 Dynamic Collaborations Jeremy W. Bryans, John S. Fitzgerald and Panos Periorellis. 
 In Proceedings of the 37th Annual IEEE/IFIP International Conference on Dependable 
 Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinburgh, UK
- 
+
 
 | | |
 |------|-------|
@@ -26,7 +24,6 @@ Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinbur
 
 
 ### Alarm++proof
-
 This is a version of the alarm example from the VDM++ book, John 
 Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
 Verhoef, Validated Designs for Object-oriented Systems, Springer, 
@@ -37,7 +34,8 @@ version of the alarm example. The example is inspired by a subcomponent
 of a large alarm system developed by IFAD A/S. It is modelling the 
 management of alarms for an industrial plant. The purpose of the 
 model is to clarify the rules governing the duty roster and calling 
-out of experts to deal with alarms. 
+out of experts to deal with alarms.
+
 
 | | |
 |------|-------|
@@ -47,7 +45,6 @@ out of experts to deal with alarms.
 
 
 ### Alarm++traces
-
 This is a version of the alarm example from the VDM++ book where traces
 have been added to test automation purposes. See John Fitzgerald, Peter
 Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel Verhoef, Validated
@@ -58,6 +55,7 @@ alarms for an industrial plant. The purpose of the model is to clarify
 the rules governing the duty roster and calling out of experts to deal
 with alarms. A comparable model of this example also exists in VDM-SL.
 
+
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
@@ -66,7 +64,6 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 
 
 ### AlarmErr
-
 This is an erronerous version of the alarm example from the VDM++
 book, John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat
 and Marcel Verhoef. Validated Designs for Object-oriented Systems,
@@ -87,7 +84,6 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 
 
 ### Alarm
-
 This is the alarm example from the VDM++ book, John Fitzgerald, Peter
 Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel Verhoef. Validated
 Designs for Object-oriented Systems, Springer, New York. 2005, ISBN
@@ -97,6 +93,7 @@ alarms for an industrial plant. The purpose of the model is to clarify
 the rules governing the duty roster and calling out of experts to deal
 with alarms. A comparable model of this example also exists in VDM-SL.
 
+
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
@@ -105,7 +102,6 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 
 
 ### AutomatedStockBroker
-
 The system is an automated stock broker, where you can specify a list
 of stocks which automaticly, can either be bought or sold. This is
 done by defining a prioritised list of stocks to observe, which each
@@ -119,6 +115,7 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 More information about the model and the purpose of it can be found in
 the ProjectReport.pdf file included in the zip file with the source files.
 
+
 | | |
 |------|-------|
 |Author:|Anders Kaels Malmos|
@@ -129,6 +126,7 @@ the ProjectReport.pdf file included in the zip file with the source files.
 ### Autopilot
 
 
+
 | | |
 |------|-------|
 |Author:||
@@ -137,7 +135,6 @@ the ProjectReport.pdf file included in the zip file with the source files.
 
 
 ### Buffers
-
 This model is made by Yves Ledru et al. in a paper illustrating the
 combinatorial testing tool called Tobias. In this model the traces to
 be used for combinatorial testing purposes have been redone by Peter 
@@ -146,8 +143,9 @@ Gorm Larsen. For more information see:
 Filtering TOBIAS Combinatorial Test Suites, Yves Ledru, Lydie du 
 Bousquet, Olivier Maury and Pierre Bontron, In Fundamental 
 Approaches to Software Engineering, Lecture Notes in Computer Science, 
-Springer, ISSN 0302-9743 (Print) 1611-3349 (Online), Volume 2984/2004. 
- 
+Springer, ISSN 0302-9743 (Print) 1611-3349 (Online), Volume 2984/2004.
+
+
 | | |
 |------|-------|
 |Author:|Yves Ledru|
@@ -156,7 +154,6 @@ Springer, ISSN 0302-9743 (Print) 1611-3349 (Online), Volume 2984/2004.
 
 
 ### Buslines
-
 This example models bus lines in a city, in which passengers are to be 
 transferred from stop to stop. Passengers with specific destinations 
 will arrive at a central station, and the route and flow of the buses 
@@ -166,7 +163,8 @@ variables.
  
  Remote Debugger must be set to remote class:
 	gui.BuslinesRemote
- 
+
+
 | | |
 |------|-------|
 |Author:|Claus Ballegaard Nielsen|
@@ -175,7 +173,6 @@ variables.
 
 
 ### BuslinesWithDB
-
 This example models bus lines in a city, in which passengers are to be 
 transferred from stop to stop. Passengers with specific destinations 
 will arrive at a central station, and the route and flow of the buses 
@@ -187,7 +184,8 @@ This version connects to a database containing maps and busroutes.
  
  Remote Debugger must be set to remote class:
 	gui.BuslinesRemote
- 
+
+
 | | |
 |------|-------|
 |Author:|Claus Ballegaard Nielsen|
@@ -196,12 +194,12 @@ This version connects to a database containing maps and busroutes.
 
 
 ### CashDispenserConc
-
 This model is concurrent and it is described in VDM++. This enables 
 abstraction from design considerations and can model errors in the
 communication channel and it ensures maximum focus on high-level, 
 precise and systematic analysis. This was developed by Sten Agerholm, 
 Peter Gorm Larsen and Kim Sunesen in 1999 in connection with FM'99.
+
 
 | | |
 |------|-------|
@@ -211,12 +209,12 @@ Peter Gorm Larsen and Kim Sunesen in 1999 in connection with FM'99.
 
 
 ### CashDispenser
-
 This model is described in the sequential subset of VDM++. 
 This enables abstraction from design considerations and ensures 
 maximum focus on high-level, precise and systematic analysis. This
 was developed by Sten Agerholm, Peter Gorm Larsen and Kim Sunesen 
 in 1999 in connection with FM'99.
+
 
 | | |
 |------|-------|
@@ -226,12 +224,13 @@ in 1999 in connection with FM'99.
 
 
 ### CMConc
-
 This example is used in the guidelines for developing distributed 
 real time systems using the VICE extension to VDM++. This model 
 is available in a sequential version, a concurrent version as
 well as in a distributed real-time VICE version. This is the 
-distributed real time version of this example. 
+distributed real time version of this example.
+
+
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen and Marcel Verhoef|
@@ -240,12 +239,13 @@ distributed real time version of this example.
 
 
 ### CMSeq
-
 This example is used in the guidelines for developing distributed 
 real time systems using the VICE extension to VDM++. This model 
 is available in a sequential version, a concurrent version as
 well as in a distributed real-time VICE version. This is the 
-distributed real time version of this example. 
+distributed real time version of this example.
+
+
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen and Marcel Verhoef|
@@ -254,14 +254,15 @@ distributed real time version of this example.
 
 
 ### Codegen
-
 This example is produced by a group of students as a part
 of a VDM course given at the Engineering College of Aarhus. 
 This model describes how to do code generation from a small 
 applicative language called Simple to a subset of Java (called
 Geraffe). This example also illustrates how one can make use
 of Java jar files as a part of a VDM model supported by
-Overture.  
+Overture.
+
+
 | | |
 |------|-------|
 |Author:|Johannes Ulfkjær Jensen, Jon Nielsen and Leni Lausdahl|
@@ -270,11 +271,10 @@ Overture.
 
 
 ### Concfactorial
-
-
 This example is made by Nick Battle and it illustrates how one can 
 perform the traditional factorial functionality using the concurrency
 primitives in VDM++.
+
 
 | | |
 |------|-------|
@@ -284,10 +284,11 @@ primitives in VDM++.
 
 
 ### Diet2japan
-
 This example is made by Shin Sahara as a test of local higher order
 functions defined inside explicit function definitions in order to
 test the correct interpretation of these constructs.
+
+
 | | |
 |------|-------|
 |Author:|Shin Sahara|
@@ -296,10 +297,10 @@ test the correct interpretation of these constructs.
 
 
 ### Dining
-
 This example is made by Marcel Verhoef and it demonstrates the standard
 classical dining philosophers problem expressed in VDM++. The standard 
 launcer provided here is sufficient to cover the entire VDM++ model.
+
 
 | | |
 |------|-------|
@@ -309,12 +310,12 @@ launcer provided here is sufficient to cover the entire VDM++ model.
 
 
 ### ElectronicPurse
-
 This example is made by Steve Riddle as an example for an 
 exam question used at the VDM course in Newcastle. It deals
 with an electronic purse in a simple form. This is one of the
 grand challenges that is considered by the formal methods 
 community for formal verification.
+
 
 | | |
 |------|-------|
@@ -324,7 +325,6 @@ community for formal verification.
 
 
 ### Enigma
-
 This VDM++ model is developed by Marcel Verhoef as a part of the VDM++ book
 John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
 Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 
@@ -334,6 +334,7 @@ encrypt and decrypt messages that were exchanged between military
 units. The purpose of the model is to get a basic understanding of the
 cipher mechanism as implemented in Enigma. This example was the first place
 where the VDMUnit testing approach was introduced.
+
 
 | | |
 |------|-------|
@@ -345,6 +346,7 @@ where the VDMUnit testing approach was introduced.
 ### HomeAutomationConc
 
 
+
 | | |
 |------|-------|
 |Author:||
@@ -353,14 +355,14 @@ where the VDMUnit testing approach was introduced.
 
 
 ### HomeautomationSeq
-
 This is a sequential VDM++ version of a home automation example constructed
 by Sune Wolff. 
 
 More information can be found in:
 Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development 
 of Distributed Real-Time Embedded Systems Using VDM, International Journal of 
-Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
+Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
+
 
 | | |
 |------|-------|
@@ -370,7 +372,6 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 
 
 ### HubInSafeMode
-
 The purpose of the hub in safe mode is to allow a service technician
 to physically enter the hub of the wind turbine to carry out
 maintenance. For the service technician to do so without risking his
@@ -383,6 +384,7 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 More information about the model and the purpose of it can be found in
 the Report.pdf file included in the zip file with the source files.
 
+
 | | |
 |------|-------|
 |Author:|Klaus Petersen|
@@ -391,7 +393,6 @@ the Report.pdf file included in the zip file with the source files.
 
 
 ### KLV
-
 This example describes a VDM++ specification of a KLV system. The
 purpose of the KLV system is to provide a continuous monitoring of the
 speed of a train. The VDM++ specification is inspired by a KLV
@@ -408,6 +409,7 @@ beacon has been met within a certain distance calculated from speed
 has been abstracted in away in the current model. They could be issues
 to extend the model with.
 
+
 | | |
 |------|-------|
 |Author:|Niels Kirkegaard|
@@ -416,6 +418,7 @@ to extend the model with.
 
 
 ### Memoryproof
+
 
 
 | | |
@@ -428,6 +431,7 @@ to extend the model with.
 ### Mondex
 
 
+
 | | |
 |------|-------|
 |Author:||
@@ -436,12 +440,12 @@ to extend the model with.
 
 
 ### MSAWconcur
-
 This VDM++ model is made by August Ribeiro as input for the VDM
 courses delivered at IHA in Denmark. It is a concurrent version 
 of the Minimum Safety Altitude Warning System (MSAW) example.
 
 This project is currently not running with the Overture interpreter.
+
 
 | | |
 |------|-------|
@@ -451,7 +455,6 @@ This project is currently not running with the Overture interpreter.
 
 
 ### MSAWseq
-
 This VDM++ model is made by August Ribeiro as input for the VDM
 courses delivered at IHA in Denmark. It is a concurrent version 
 of the Minimum Safety Altitude Warning System (MSAW) example.
@@ -465,6 +468,7 @@ the Radar is invoked.
 lib/radar.jar contains binary and source code for the java radar 
 display.
 
+
 | | |
 |------|-------|
 |Author:|Augusto Ribeiro|
@@ -473,7 +477,6 @@ display.
 
 
 ### PacemakerConc
-
 This model is made by Hugo Macedo as a part of his MSc thesis of a
 pacemaker according to the grand challenge provided by Boston
 Scientific in this area. This is the last of a series of VDM models
@@ -488,6 +491,7 @@ Development of a Distributed Real-Time Model of a Cardiac Pacing System
 using VDM, In FM 2008: Formal Methods, 15th International Symposium on 
 Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
 Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
+
 
 | | |
 |------|-------|
@@ -497,7 +501,6 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 
 
 ### PacemakerSeq
-
 This model is made by Hugo Macedo as a part of his MSc thesis of a
 pacemaker according to the grand challenge provided by Boston
 Scientific in this area. This is the last of a series of VDM models
@@ -513,6 +516,7 @@ using VDM, In FM 2008: Formal Methods, 15th International Symposium on
 Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
 Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 
+
 | | |
 |------|-------|
 |Author:|Hugo Macedo|
@@ -521,11 +525,11 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 
 
 ### PacemakerSimple
-
 This model is a very simple version of the pacemaker as it has
 been used for a small exercise to VDM newcommers. It was first 
 used in a VDM course delivered by Steve Riddle and John Fitzgerald
-and later used and adjusted by Peter Gorm Larsen also. 
+and later used and adjusted by Peter Gorm Larsen also.
+
 
 | | |
 |------|-------|
@@ -535,13 +539,14 @@ and later used and adjusted by Peter Gorm Larsen also.
 
 
 ### POP3
-
 This example is written by Paul Mukherjee and it is used in the VDM++ book
 John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
 Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 
 2005, ISBN 1-85233-881-4. The concurrent system in question is a server 
 for the POP3 protocol. This is a protocol supported by all major email c
-lients to fetch email messages from the email server. 
+lients to fetch email messages from the email server.
+
+
 | | |
 |------|-------|
 |Author:|Paul Mukherjee|
@@ -552,6 +557,7 @@ lients to fetch email messages from the email server.
 ### ProductLine
 
 
+
 | | |
 |------|-------|
 |Author:|Naoyasu Ubayashi, Shin Nakajima and Masayuki Hirayama|
@@ -560,12 +566,12 @@ lients to fetch email messages from the email server.
 
 
 ### Quadilateral
-
 This example deals with quadilaterals (figures with four 
 straight lines) and the inheritance between them. A few 
 basic operations are defined in the respective classes. 
 This package also illustrates how to make use of C++ 
-code automatically generated using VDMTools. 
+code automatically generated using VDMTools.
+
 
 | | |
 |------|-------|
@@ -577,6 +583,7 @@ code automatically generated using VDMTools.
 ### ReaderWriter
 
 
+
 | | |
 |------|-------|
 |Author:||
@@ -585,7 +592,6 @@ code automatically generated using VDMTools.
 
 
 ### SAFER
-
 This specification is a VDM++ model of the SAFER 
 (Simplified Aid for EVA Rescue) example presented in 
 the second volume of the NASA guidebook on formal 
@@ -616,7 +622,8 @@ More explanation about this work can be found in the papers:
  *Sten Agerholm and Wendy Schafer, Analyzing SAFER using 
   UML and VDM++, ed: John Fitzgerald and Peter Gorm Larsen, 
   in "VDM Workshop at the Formal Methods 1999 conference, 
-  Toulouse 
+  Toulouse
+
 
 | | |
 |------|-------|
@@ -626,6 +633,7 @@ More explanation about this work can be found in the papers:
 
 
 ### SAFERProof
+
 
 
 | | |
@@ -638,6 +646,7 @@ More explanation about this work can be found in the papers:
 ### Smoking
 
 
+
 | | |
 |------|-------|
 |Author:||
@@ -646,12 +655,12 @@ More explanation about this work can be found in the papers:
 
 
 ### SortingParcels
-
 ﻿The purpose of this VDM++ model is to analyse the rules governing for
 distrubuting parcels with different kinds of goods is a
 warehouse. This model is made by Bjarke Møholt as a small mini-project
 in a course on "Modelling of Mission Critical Systems" (see
 https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).
+
 
 | | |
 |------|-------|
@@ -661,9 +670,9 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 
 
 ### SortPP
-
 This VDM++ model is made by Peter Gorm Larsen in 2010 based on the original 
 VDM++ model created many years ago at IFAD.
+
 
 | | |
 |------|-------|
@@ -673,10 +682,10 @@ VDM++ model created many years ago at IFAD.
 
 
 ### SSlibE2
-
 This example contains a large collection of test classes that can be
 used to test different aspects of VDM++. This makes use of the VDMUnit 
 test approach.
+
 
 | | |
 |------|-------|
@@ -688,6 +697,7 @@ test approach.
 ### Stack
 
 
+
 | | |
 |------|-------|
 |Author:||
@@ -696,13 +706,12 @@ test approach.
 
 
 ### Trackerproof
-
-
 This VDM++ model is a direct transformation from the 
 VDM-SL model presented in the Fitzgerald&Larsen98 book 
 on VDM-SL. The tracker takes care of monitoring and 
 controlling the nuclear material in a plant that takes 
-care of processing such waste material. 
+care of processing such waste material.
+
 
 | | |
 |------|-------|
@@ -712,12 +721,12 @@ care of processing such waste material.
 
 
 ### Trayallocation
-
 ﻿This VDM++ model is made by two students of a sortation system
 able to sort parcels into different trays for example for an
 airport sorting suitcases for different flights. The model here
 focus on the algorithm for prioritising between different feeders
 to the conveyer belt
+
 
 | | |
 |------|-------|
@@ -727,11 +736,10 @@ to the conveyer belt
 
 
 ### Tree
-
-
 This VDM++ model contains basic classes for defining 
 and traversing over abstract threes and queues.
- 
+
+
 | | |
 |------|-------|
 |Author:||
@@ -740,7 +748,6 @@ and traversing over abstract threes and queues.
 
 
 ### VFS
-
 This is a Specification of the File System Layer, sliced at the 
 FS_DeleteFileDir operation, as defined in the INTEL Flash File 
 System document. It includes: a VDM++ model that can be model 
@@ -750,6 +757,8 @@ Support system. In the test class UseFileSystemLayerAlg there
 are a few examples of using the traces primitives used for 
 test automation. This model has been developed by Miguel 
 Ferreira
+
+
 | | |
 |------|-------|
 |Author:|Miguel Ferreira|
@@ -760,6 +769,7 @@ Ferreira
 ### Webserver
 
 
+
 | | |
 |------|-------|
 |Author:||
@@ -768,8 +778,6 @@ Ferreira
 
 
 ### Worldcup
-
-
 This example illustrates how one can define the rules 
 for calculating who will qualify in the world 
 championship in soccer given different initial groups. 
@@ -777,7 +785,8 @@ This model is made for the championship in 2000 but it
 could easily be updated to reflect the any championships. 
 In the test class UseGP there are a few examples of 
 using the traces primitives used for test automation.
- 
+
+
 | | |
 |------|-------|
 |Author:|Yves Ledru|

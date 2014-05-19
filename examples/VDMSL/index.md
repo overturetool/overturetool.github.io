@@ -4,8 +4,6 @@ title: VDMSL
 ---
 
 ### ACS
-
-
 This specification describes the safety requirements involved in adding and 
 removing explosives at an explosives storage site. The specification is based 
 on United Kingdom Ministry of Defence regulations concerning safe storage of 
@@ -31,8 +29,6 @@ does not have a main debug functionality.
 
 
 ### ADT
-
-
 This work specifies a number of abstract data types (ADT) in
 VDM-SL. This includes single-linked lists, double-linked lists,
 queues, stacks and binary trees. In addition this work is initiating a
@@ -50,8 +46,6 @@ Spring Semester, 1997.
 
 
 ### AlarmErr
-
-
 This is an erronerous version of the alarm example from the VDM-SL
 book, John Fitzgerald and Peter Gorm Larsen, Modelling Systems --
 Practical Tools and Techniques in Software Development}, Cambridge
@@ -72,8 +66,6 @@ alarms. A comparable model of this example also exists in VDM++.
 
 
 ### Alarm
-
-
 This is the alarm example from the VDM-SL book, John Fitzgerald and
 Peter Gorm Larsen, Modelling Systems -- Practical Tools and Techniques
 in Software Development}, Cambridge University Press, 2nd edition
@@ -83,6 +75,7 @@ for an industrial plant. The purpose of the model is to clarify the
 rules governing the duty roster and calling out of experts to deal
 with alarms. A comparable model of this example also exists in VDM++.
 
+
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
@@ -91,8 +84,6 @@ with alarms. A comparable model of this example also exists in VDM++.
 
 
 ### ATC
-
-
 This example was developed by Natsuki Terada from the Japanese Railways 
 Research Institute (RTRI) on a two year visit to IFAD in 2000 and 2001. 
 It models a database for digital Automatic Train Control in Japan. More 
@@ -112,7 +103,8 @@ Operation and Control Systems (FORMS 2003), 2003.
 N. Terada and M. Fukuda, Application of Formal Methods to the Railway 
 Signaling Systems, In Quarterly Report of RTRI, 2002, Vol 43, no 4, 
 pp 169-174.
- 
+
+
 | | |
 |------|-------|
 |Author:|Natsuki Terada|
@@ -121,8 +113,6 @@ pp 169-174.
 
 
 ### Bar
-
-
 This specification was produced during a VDM-SL course presented by Peter 
 Gorm Larsen to ICL Enterprise Engineering in 1994. The modelling of bags 
 was one of the exercises the attendees (including the author Kevin Blackburn) 
@@ -130,6 +120,7 @@ was confronted with during the course. This specification is mainly
 intended for the purpose of illustrating how bags can be used. This is
 modelled using an executable subset and a collection of small tests are
 included.
+
 
 | | |
 |------|-------|
@@ -139,10 +130,10 @@ included.
 
 
 ### BOM
-
 This specification was produced for VDM-SL courses presented by Peter 
 Gorm Larsen in 1996. The modelling of a Bill Of Material (BOM) is a rather
-standard example making use of an Directed Acyclic Graph (DAG) structure. 
+standard example making use of an Directed Acyclic Graph (DAG) structure.
+
 
 | | |
 |------|-------|
@@ -152,12 +143,12 @@ standard example making use of an Directed Acyclic Graph (DAG) structure.
 
 
 ### Cashdispenser
-
 This model is described in VDM-SL as a short, flat specification. 
 This enables abstraction from design considerations and ensures 
 maximum focus on high-level, precise and systematic analysis. This
 was developed by Sten Agerholm, Peter Gorm Larsen and Kim Sunesen 
 in 1999 in connection with FM'99.
+
 
 | | |
 |------|-------|
@@ -167,10 +158,10 @@ in 1999 in connection with FM'99.
 
 
 ### CM
-
 The counter measures example was developed by Peter Gorm Larsen and Marcel 
 Verhoef in 2007 in different dialect of VDM. This one is the most abstract 
 version using VDM-SL.
+
 
 | | |
 |------|-------|
@@ -180,7 +171,6 @@ version using VDM-SL.
 
 
 ### ConwayGameLife
-
 Conway's Game of Life
 The universe of the Game of Life is an infinite two-dimensional orthogonal grid of square cells,
 each of which is in one of two possible states, alive or dead. Every cell interacts with its 
@@ -197,6 +187,8 @@ applying the above rules simultaneously to every cell in the seed-births and dea
 simultaneously, and the discrete moment at which this happens is sometimes called a tick 
 (in other words, each generation is a pure function of the preceding one). The rules continue 
 to be applied repeatedly to create further generations.
+
+
 | | |
 |------|-------|
 |Author:|Nick Battle, Peter Gorm Larsen and Claus Ballegaard Nielsen (animation)|
@@ -205,11 +197,11 @@ to be applied repeatedly to create further generations.
 
 
 ### CountryColouring
-
 This model has been translated by Peter Gorm Larsen from a similar
 model made in the RAISE Specification Language by Anne Haxthausen. It
 specifies relationships between countries on a map where naboring
 countries shall be coloured differently.
+
 
 | | |
 |------|-------|
@@ -219,7 +211,6 @@ countries shall be coloured differently.
 
 
 ### Crossword
-
 ﻿
 This tutorial example is taken out of a VDM course given to the students 
 of the Diplôme d'Etudes Supérieures Spécialisées en Génie Informatique 
@@ -236,8 +227,6 @@ Overture debugger.
 
 
 ### DFDexample
-
-
 This specification describes how one can automatically transform Data
 Flow Diagrams (DFD) into VDM-SL definitions. It is written as a flat
 VDM-SL model in a purely executable style. However, in order to test
@@ -258,8 +247,6 @@ H.Toetenel, Formal Aspects of Computing'' 1994, Vol 6, December
 
 
 ### Digraph
-
-
 The specification describes how directed graphs and relations over
 such graphs can can tested for relevant properties and manipulated in
 different ways. This specification is produced by Janusz Laski from
@@ -272,6 +259,8 @@ analysis consult the text "Software Verification and Analysis, An
 Integrated, Hands-on -- Approach," by Janusz Laski w/William Stanley, 
 Springer 2009. A brief online introduction is offered on the Website
 www.stadtools.com.
+
+
 | | |
 |------|-------|
 |Author:|Janusz Laski|
@@ -280,8 +269,6 @@ www.stadtools.com.
 
 
 ### Dwarf
-
-
 This is a VDM-SL Specification of the Dwarf Signal Controller. The VDM
 model made in this document is inspired by the Dwarf Signal control
 system described by Marcus Montigel, Alcatel Austria AG. The model is
@@ -300,13 +287,13 @@ executable specification.
 
 
 ### Engine
-
 As with many modern engineered products, the control software developed at Rolls-
 Royce is part of a larger system, namely an engine control system, comprising many
 electronic, hydromechanical and electromechanical components. The control system
 is part of an engine which, in turn, is a component of an aircraft. This VDM model
 is made by Greg Holland as a part of his MSc thesis in this area. It is made 
 implicitly so it cannot be executed.
+
 
 | | |
 |------|-------|
@@ -316,7 +303,6 @@ implicitly so it cannot be executed.
 
 
 ### Express
-
 The (building) industry in Europe currently uses the 
 ISO-STEP standard to define information models with the 
 aim to exchange data about those information models. The 
@@ -336,7 +322,8 @@ syntax representation of the ISO STEP part 21 physical
 file format and a transformation process for a particular 
 set of abstract syntax instances. It implements a mapping 
 between the relational model representation (rmrep) into 
-a simple polynomial representation. 
+a simple polynomial representation.
+
 
 | | |
 |------|-------|
@@ -346,7 +333,6 @@ a simple polynomial representation.
 
 
 ### Gateway
-
 ﻿This example is for a trusted gateway made by John Fitzgerald and 
 Peter Gorm Larsen inspired by a more comprehensive model developed
 by British Aerospace. THe work undertaken here was published in:
@@ -381,6 +367,7 @@ Specifications of a Secure System Component: final results in a
 comparative study, “Formal Methods Europe'96”, pp 214-227, Springer 
 Verlag, March 1996.
 
+
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
@@ -389,13 +376,13 @@ Verlag, March 1996.
 
 
 ### Graph-ed
-
 Alagar, Muthiayen and Periyasamy have developed formal specifications for 
 a Graph Editor using VDM-SL. More information can be found in:
 
 V.S. Alagar, D. Muthiayen and K. Periyasamy, "VDM-SL Specification of a Graph 
 Editor", Technical Report, Department of Computer Science, Concordia 
-University, Montreal, Canada, May 1996. 
+University, Montreal, Canada, May 1996.
+
 
 | | |
 |------|-------|
@@ -405,14 +392,14 @@ University, Montreal, Canada, May 1996.
 
 
 ### HASL
-
 This is a VDM-SL version of a home automation example constructed
 by Sune Wolff. 
 
 More information can be found in:
 Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development 
 of Distributed Real-Time Embedded Systems Using VDM, International Journal of 
-Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
+Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
+
 
 | | |
 |------|-------|
@@ -422,13 +409,13 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 
 
 ### Hotel
-
 This example is used to illustrate the difference between different
 formal approaches in the Alloy book. The example models a scheme
 for recodable hotel-door locks. More information can be found in:
 
 Daniel Jackson, Software Abstractions, MIT Press, April 2006
 ISBN 0-262-10114-9.
+
 
 | | |
 |------|-------|
@@ -438,7 +425,6 @@ ISBN 0-262-10114-9.
 
 
 ### Library
-
 This specification is for a bibliography database. It has been written
 by Anne Maarsel when she was a student working at OECD Halden Reator
 Project in the Summer of 1998. Note that this specification can be
@@ -456,7 +442,6 @@ type instead of <nil> would be appropriate here.
 
 
 ### Loose
-
 This VDM model is made by Peter Gorm Larsen as an exploration of how
 the looseness in a subset of VDM-SL. So this is illustrating how it is
 possible to explore all models is a simple fashion including the
@@ -467,6 +452,7 @@ Peter Gorm Larsen, Evaluation of Underdetermined Explicit Expressions,
 Formal Methods Europe'94: Industrial Benefit of Formal Methods,
 Springer Verlag, October 1994.
 
+
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen|
@@ -475,7 +461,6 @@ Springer Verlag, October 1994.
 
 
 ### LUHN
-
 Luhn algorithm
 See http://en.wikipedia.org/wiki/Luhn_algorithm
 
@@ -489,6 +474,8 @@ The algorithm is in the public domain and is in wide use today. It is specified 
 It is not intended to be a cryptographically secure hash function; it was designed to protect against
 accidental errors, not malicious attacks. Most credit cards and many government identification numbers
 use the algorithm as a simple method of distinguishing valid numbers from collections of random digits.
+
+
 | | |
 |------|-------|
 |Author:|Nick Battle|
@@ -497,7 +484,6 @@ use the algorithm as a simple method of distinguishing valid numbers from collec
 
 
 ### LUPSL
-
 This VDM model is made by Lothar Schmitz and it has taken different
 standard algorithms for the length of longest upsequence problem
 from David Gries and Janusz Laski (see references below). Different 
@@ -509,6 +495,7 @@ pp. 259-262.
 Janusz Laski und William Stanley, Software Verification and Analysis, 
 Springer-Verlag, 2009.
 
+
 | | |
 |------|-------|
 |Author:|Lothar Schmitz|
@@ -517,7 +504,6 @@ Springer-Verlag, 2009.
 
 
 ### MAA
-
 This specification is of the Message Authenticator Algorithm (MAA)
 standard is used in the area of data security in banking and the scope
 of the standard is authentication. More details can be found in:
@@ -535,11 +521,11 @@ Development Methods'', Springer-Verlag, October 1991.
 
 
 ### Metro
-
 This model presents three different abstract specifications of a metro
 door management system in VDM-SL. The purpose of the presentation is
 to describe alternatives to the Metro specification developed in the
-European research project called SPECTRUM. 
+European research project called SPECTRUM.
+
 
 | | |
 |------|-------|
@@ -549,7 +535,6 @@ European research project called SPECTRUM.
 
 
 ### Monitor
-
 This example comes from the VDM-SL book by John Fitzgerald and Peter Gorm
 Larsen. It is the running example through the chapter about logic. 
 Suppose we are asked to develop the software for a temperature
@@ -560,6 +545,7 @@ reading(in degrees Celsius) every minute.
 The monitor records the five most recent temperature readings in the
 order in which they were received from the sensor.
 
+
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
@@ -568,7 +554,6 @@ order in which they were received from the sensor.
 
 
 ### NDB
-
 The Non-programmer database system (NDB) is a nicely engineered binary 
 relational database system invented by Norman Winterbottom of IBM. The 
 formal Specification of NDB was originally undertaken by Anne Walshe, 
@@ -587,7 +572,9 @@ Single-User Database System", in C.B. Jones and R.C. Shaw (eds),
 J.S. Fitzgerald and C.B. Jones, "Modularizing the Formal Description 
 of a Database System", in D. Bjorner, C.A.R. Hoare and H. Langmaack 
 (eds), VDM '90: VDM and Z - Formal Methods in Software Development, 
-Springer-Verlag, LNCS 428, 1990 
+Springer-Verlag, LNCS 428, 1990
+
+
 | | |
 |------|-------|
 |Author:|Rich Bradford|
@@ -596,7 +583,6 @@ Springer-Verlag, LNCS 428, 1990
 
 
 ### Newspeak
-
 The programming language NewSpeak? is a language designed 
 specifically for use in safety-critical systems. It employs 
 the notion of Orwellian programming - undesirable properties 
@@ -610,7 +596,9 @@ Industrial Benefit of Formal Methods", Springer-Verlag,
 October 1994.
  
 I.F. Currie, "NewSpeak - a reliable programming language". 
-In C. Sennett (ed), "High-Integrity Software", Pitman 1989. 
+In C. Sennett (ed), "High-Integrity Software", Pitman 1989.
+
+
 | | |
 |------|-------|
 |Author:|Paul Mukherjee|
@@ -619,7 +607,6 @@ In C. Sennett (ed), "High-Integrity Software", Pitman 1989.
 
 
 ### Pacemaker
-
 The Pacemaker Challenge problem has been proposed by the 
 North American Software Certification Consortium, based 
 on a pacemaker specification offered by Boston Scientific. 
@@ -632,7 +619,9 @@ Hugo Daniel Macedo, Peter Gorm Larsen and John Fitzgerald,
 Incremental Development of a Distributed Real-Time Model 
 of a Cardiac Pacing System Using VDM, FM 2008: Formal 
 Methods, LNCS 5014, Eds.: Jorge Cuellar, Tom Maibaum and 
-Kaisa Sere, May 2008. 
+Kaisa Sere, May 2008.
+
+
 | | |
 |------|-------|
 |Author:|Hugo Macedo|
@@ -641,7 +630,6 @@ Kaisa Sere, May 2008.
 
 
 ### Planner
-
 The specification is of the input language, and the central operations, 
 of a domain-independent, partial order, constraint posting goal directed 
 planner. It is essentially a model-based version of Chapman's TWEAK (1), 
@@ -652,7 +640,9 @@ Planning for Conjunctive Goals, D.Chapman, AI Journal no 32, 1987.
 
 The Construction of Formal Specifications: an Introduction to the 
 Model-Based and Algebraic Approaches, J.Turner and McCluskey, 
-McGraw-Hill Software Engineering Series, London. ISBN 0-07-707735-0. 
+McGraw-Hill Software Engineering Series, London. ISBN 0-07-707735-0.
+
+
 | | |
 |------|-------|
 |Author:|T.L. McCluskey and Pat Diskin|
@@ -661,11 +651,11 @@ McGraw-Hill Software Engineering Series, London. ISBN 0-07-707735-0.
 
 
 ### ProgLang
-
 This example is made by Bernhard K. Aichernig and Andreas Kerschbaumer 
 and it contains a VDM model for a Static and Dynamic Semantics of a Simple 
 Programming Language. The example has been an assignment in the exercises 
-of the software technology course at the Technical University Graz, Austria. 
+of the software technology course at the Technical University Graz, Austria.
+
 
 | | |
 |------|-------|
@@ -675,8 +665,6 @@ of the software technology course at the Technical University Graz, Austria.
 
 
 ### Raildir
-
-
 In this specification a model of interlocking systems is presented,
 and it is describe how the model may be validated by
 simulation. Station topologies are modelled by graphs in which the
@@ -698,7 +686,8 @@ of Computer Science, Technical University of Denmark, August
 Kirsten Mark Hansen. Linking Safety Analysis to Safety Requirements
 - Exemplified by Railway Interlocking Systems. PhD thesis, 
 Department of Information Technology, Technical University of 
-Denmark, 1996. 
+Denmark, 1996.
+
 
 | | |
 |------|-------|
@@ -708,7 +697,6 @@ Denmark, 1996.
 
 
 ### Realm
-
 ﻿This document is simply an attempt to model the basic data 
 structures and auxiliary functions necessary to represent 
 realms. A geometric realm defined here is a planner graph 
@@ -725,7 +713,9 @@ Advances in Spatial Databases - Third International
 Symposium, SSD'93, Springer-Verlag, June 1993. 
 
 Map Generalisation, Ngo Quoc Tao, UNU/IIST, Macau, 
-Draft, January, 1996. 
+Draft, January, 1996.
+
+
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen|
@@ -734,11 +724,11 @@ Draft, January, 1996.
 
 
 ### Recursive
-
 This example is made by John Fitgerald and Peter Gorm Larsen and it
 is used in the chapter about recursion in the second edition of the 
 VDM-SL book. It contains a number of examples for recursive graph 
 structures and functionality over such graphs.
+
 
 | | |
 |------|-------|
@@ -748,7 +738,6 @@ structures and functionality over such graphs.
 
 
 ### SAFER
-
 This VDM-SL model is a response to the PVS model of the SAFER system
 for NASA austronauts used for space walks used to maneuver back to a
 space shuttle. It was made by Sten Agerholm and Peter Gorm Larsen and
@@ -758,6 +747,7 @@ S.Agerholm and P.G.Larsen, Modeling and Validating SAFER in VDM-SL,
 Proceedings of the Fourth NASA Langley Formal Methods Workshop, 
 NASA Conference, Publication 3356, September 1997.
 
+
 | | |
 |------|-------|
 |Author:|Sten Agerholm and Peter Gorm Larsen|
@@ -766,7 +756,6 @@ NASA Conference, Publication 3356, September 1997.
 
 
 ### Shmem
-
 This example was produced by Nick Battle and it is used in the VDMJ user
 manual to illustrate different features of VDMJ. It models the behaviour
 of the 32-bit shared memory quadrants of HP-UX, using a record type M to 
@@ -776,6 +765,7 @@ sequence of M records to represent a Quadrant.
 The specification output indicates which allocation policy, first-fit or 
 best-fit (or neither), produces the most memory fragmentation.
 
+
 | | |
 |------|-------|
 |Author:|Nick Battle|
@@ -784,7 +774,6 @@ best-fit (or neither), produces the most memory fragmentation.
 
 
 ### Simulator
-
 The simulator specified in VDM-SL in this example is the 
 main component of an animation tool designed for use in 
 the validation of complex real-time reactive systems 
@@ -794,6 +783,7 @@ Section 2 contains the version in which implicit operations
 are used, and most of the operations are rewritten as explicit 
 operations in the version contained in Section 3.
 
+
 | | |
 |------|-------|
 |Author:|V. S. Alagar \and D. Muthiayen|
@@ -802,14 +792,14 @@ operations in the version contained in Section 3.
 
 
 ### Soccer
-
 ﻿This tutorial example is taken out of a VDM course given 
 to the students of the Diplôme d'Etudes Supérieures 
 Spécialisées en Génie Informatique (5th year) at the 
 Université Joseph Fourier. A first version uses the 
 implicit style of specification of VDM-SL and thus may 
 not be executed with VDMTools. An explicit version is 
-given as an appendix. 
+given as an appendix.
+
 
 | | |
 |------|-------|
@@ -819,7 +809,6 @@ given as an appendix.
 
 
 ### STV
-
 This model aims to model a single transferable voting system used for electronic 
 voting. It is further described in the following papers:  
  
@@ -830,7 +819,8 @@ Hall, 1995.
 Paul Mukherjee,  Automatic translation of VDM-SL specifications into gofer, 
 Springer, Lecture Notes in Computer Science, Volume Volume 1313/1997 
 Book FME '97: Industrial Applications and Strengthened Foundations of 
-Formal Methods 
+Formal Methods
+
 
 | | |
 |------|-------|
@@ -840,7 +830,6 @@ Formal Methods
 
 
 ### Telephone
-
 This example due to Abrial has been translated from the 
 B-notation into VDM-SL. It demonstrates how an event-based 
 system may be modeled using the specification language 
@@ -852,7 +841,8 @@ been chosen, in order to model the system's state
 transitions. The model of the telephone exchange is 
 centred around a set of subscribers who may be engaged 
 in telephone conversations through a network controlled 
-by an exchange. 
+by an exchange.
+
 
 | | |
 |------|-------|
@@ -862,8 +852,8 @@ by an exchange.
 
 
 ### Tic-tac-toe
-
 A standard Tic-tac-toe game
+
 
 | | |
 |------|-------|
@@ -873,7 +863,6 @@ A standard Tic-tac-toe game
 
 
 ### Tracker
-
 The tracker example is used in the mapping chapter of the VDM-SL
 book by John Fitzgerald and Peter Gorm Larsen to introduce 
 mappings and mapping operators concerns a system for tracking the 
@@ -888,6 +877,8 @@ J.S. Fitzgerald and C.B. Jones, Proof in VDM: Case Studies,
 Chapter: Proof in the Validation of a Formal Model of a 
 Tracking System for a Nuclear Plant, Springer-Verlag,
 FACIT Series, 1998.
+
+
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
@@ -896,14 +887,14 @@ FACIT Series, 1998.
 
 
 ### Traffic
-
 This example is for all small traffic light control kernel presented in the VDM-SL book
 of John Fitzgerald and Peter Gorm Larsen. It was originally inspired by a similar model
 made in Z by Paul Ammann. A paper about this written long ago:
  
 A safety kernel for traffic light control, Paul Ammann, Aerospace and Electronic 
 Systems Magazine, IEEE, February 1996, Volume: 11 Issue: 2, pp. 13 - 19, 
-ISSN: 0885-8985. 
+ISSN: 0885-8985.
+
 
 | | |
 |------|-------|
@@ -913,8 +904,6 @@ ISSN: 0885-8985.
 
 
 ### VCParser-master
-
-
 This example is created by Tomohiro Oda and it illustrates
 how it is possible to use higher-order functions in VDM-SL
 to create parser elements that can be put together in a 

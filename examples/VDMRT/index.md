@@ -4,13 +4,12 @@ title: VDMRT
 ---
 
 ### CarNaviRadio
-
-
 The origin of the car radio navigation example comes from Marcel
 Verhoef as a part of his PhD thesis where it was used to compary
 different formalisms. This example shows how an embedded application
 with both radio, navigation and traffic messages are joined in one
 coherent application in a distributed application.
+
 
 | | |
 |------|-------|
@@ -20,8 +19,6 @@ coherent application in a distributed application.
 
 
 ### CarNaviRadioValConj
-
-
 This example is a modified version of the car radio navigation
 example. It demonstrates the use of validation conjectures.
 
@@ -31,6 +28,7 @@ different formalisms. This example shows how an embedded application
 with both radio, navigation and traffic messages are joined in one
 coherent application in a distributed application.
 
+
 | | |
 |------|-------|
 |Author:|Marcel Verhoef|
@@ -39,7 +37,6 @@ coherent application in a distributed application.
 
 
 ### ChessWay
-
 This example shows the discrete event model used for
 co-simulation of the ChessWay personal people mover
 as used in the DESTECS project (see http://www.destecs.org).
@@ -49,6 +46,8 @@ and Co-simulation for Embedded Systems</I> which is submitted
 to the Journal Mathematical Structures in Computer Science.
 The corresponding continuous time model is available
 through the first author.
+
+
 | | |
 |------|-------|
 |Author:|Marcel Verhoef and Bert Bos and Ken Pierce|
@@ -57,12 +56,13 @@ through the first author.
 
 
 ### CM
-
 This example is used in the guidelines for developing distributed 
 real time systems using the VICE extension to VDM++. This model 
 is available in a sequential version, a concurrent version as
 well as in a distributed real-time VICE version. This is the 
-distributed real time version of this example. 
+distributed real time version of this example.
+
+
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen and Marcel Verhoef|
@@ -71,7 +71,6 @@ distributed real time version of this example.
 
 
 ### CyberRail
-
 ﻿This VDM-RT model was produced as a part of an MSn thesis investigating and analyzing
 the possibility of obtaining early stage validation of potential candidate system 
 architectures, by means of formal modelling and validation. The goal was to analyze 
@@ -82,7 +81,9 @@ favorable approaches for realizing a case study of a transportation system in To
 referred to as CyberRail. Different VDM++ models of candidate architectures for the 
 CyberRail system has been developed and validated. This thesis includes 2 Real-Time 
 VDM++ models (Backend Responsibility source, Joint Responsibility source), based 
-on 2 different architectures. 
+on 2 different architectures.
+
+
 | | |
 |------|-------|
 |Author:|Jasper Nygaard and Rasmus Sørensen|
@@ -91,14 +92,14 @@ on 2 different architectures.
 
 
 ### HomeAutomation
-
 This is a distributed real-time version of a home automation example constructed
 by Sune Wolff. 
 
 More information can be found in:
 Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development 
 of Distributed Real-Time Embedded Systems Using VDM, International Journal of 
-Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
+Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
+
 
 | | |
 |------|-------|
@@ -108,11 +109,12 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 
 
 ### Iioss
-
 This project was made by Christian Thillemann and Bardur Joensen in a
 VDM course. It is modelling a small subset of a controller for a pig 
 stable that wish to keep track of the whereabouts of a collection of pigs
 in a stable.
+
+
 | | |
 |------|-------|
 |Author:|Christian Thillemann and Bardur Joensen|
@@ -121,10 +123,11 @@ in a stable.
 
 
 ### MSAW
-
 This example is created by Augusto Ribeiro illustrating different concepts in VDM 
 for teaching purposes including the distributed real time features in VDM-RT. Note
 that thus this model is not in a state where it makes sense to execute it.
+
+
 | | |
 |------|-------|
 |Author:|Augusto Ribeiro|
@@ -133,12 +136,12 @@ that thus this model is not in a state where it makes sense to execute it.
 
 
 ### Oldcarradio
-
 This was the first model Marcel Verhoef tried to make of the car
 radio navigation example using the original version of VICE with
 one CPU. This failed and as a consequence Marcel Verhoef and Peter
 Gorm Larsen came up with an improved version of VDM-RT with 
 multiple CPUs connected with BUSses.
+
 
 | | |
 |------|-------|
@@ -148,7 +151,6 @@ multiple CPUs connected with BUSses.
 
 
 ### Pacemaker
-
 This model is made by Hugo Macedo as a part of his MSc thesis of a
 pacemaker according to the grand challenge provided by Boston
 Scientific in this area. This is the last of a series of VDM models
@@ -164,6 +166,7 @@ using VDM, In FM 2008: Formal Methods, 15th International Symposium on
 Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
 Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 
+
 | | |
 |------|-------|
 |Author:|Hugo Macedo|
@@ -172,10 +175,11 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 
 
 ### Robot
-
 This example was produced by Lasse Lorentzen and Kenneth Lausdahl
 as a part of a VDM course of a robot travelling autonomically inside
 a cave aiming at avioding different obstacles on its path.
+
+
 | | |
 |------|-------|
 |Author:|Lasse Lorentzen and Kenneth Lausdahl|
@@ -186,6 +190,7 @@ a cave aiming at avioding different obstacles on its path.
 ### VDM
 
 
+
 | | |
 |------|-------|
 |Author:|Claus Nielsen|
@@ -194,7 +199,6 @@ a cave aiming at avioding different obstacles on its path.
 
 
 ### VeMo
-
 ﻿This example was used in the MSc thesis for Claus Ballegaard
 Nielsen in order to illustrate how dynamic deployment with advantage 
 could be added to VDM-RT.
@@ -202,7 +206,8 @@ could be added to VDM-RT.
 More information can be found in:
 Nielsen, C.B.: Dynamic Reconfiguration of Distributed Systems in VDM-RT. 
 Master's thesis, Aarhus University (December 2010).
- 
+
+
 | | |
 |------|-------|
 |Author:|Claus Ballegaard Nielsen|
