@@ -47,7 +47,7 @@ sync
 	mutex(SetValues);
 end Actuator
 
-                                                                            
+                                                                                
 ~~~
 {% endraw %}
 
@@ -201,7 +201,7 @@ thread
 
 end Environment
 
-                                                                               
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -298,7 +298,7 @@ IIOSS () ==
 
 end IIOSS
 
-               
+                  
 ~~~
 {% endraw %}
 
@@ -337,7 +337,7 @@ operations
 	
 end IIOSSTYPES
 
-                                                                               
+                                                                                    
 ~~~
 {% endraw %}
 
@@ -376,7 +376,7 @@ operations
 	 
 end Sensor
 
-                                                                          
+                                                                              
 ~~~
 {% endraw %}
 
@@ -480,7 +480,7 @@ thread
 	periodic (1000E6,0,0,0) (NeedMedic)
 end Server
 
-                                                                          
+                                                                              
 ~~~
 {% endraw %}
 
@@ -581,7 +581,7 @@ sync
 
 end StableController
 
-                                                                                    
+                                                                                        
 ~~~
 {% endraw %}
 
@@ -600,7 +600,7 @@ operations
 		)
      
 end IIOSSTest
-              
+                
 ~~~
 {% endraw %}
 
@@ -674,7 +674,7 @@ operations
 	TearDown () == skip
 
 end IIOSSTestCase2
-             
+              
 ~~~
 {% endraw %}
 
@@ -690,7 +690,7 @@ operations
 	Run (-) == is subclass responsibility
 
 end Test
-             
+              
 ~~~
 {% endraw %}
 
@@ -738,7 +738,7 @@ operations
 	TearDown () == is subclass responsibility
 
 end TestCase
-             
+              
 ~~~
 {% endraw %}
 
@@ -785,7 +785,7 @@ operations
 	        Print (failure.GetName() ^ " failed")
   
 end TestResult
-             
+              
 ~~~
 {% endraw %}
 
@@ -817,7 +817,7 @@ public AddTest: Test ==> ()
     tests := tests ^ [test];
 
 end TestSuite
-              
+                
 ~~~
 {% endraw %}
 
@@ -891,7 +891,7 @@ operations
 
 end World
 
-                                                                         
+                                                                             
 ~~~
 {% endraw %}
 

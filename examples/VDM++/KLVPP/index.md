@@ -34,11 +34,11 @@ to extend the model with.
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 class Beacon
  
 end Beacon
-             
+              
 ~~~
 {% endraw %}
 
@@ -46,7 +46,7 @@ end Beacon
 
 {% raw %}
 ~~~
-                                                                                                                                                                              
+                                                                                                                                                                                   
 class CabDisplay
 
 instance variables
@@ -56,7 +56,7 @@ instance variables
   emergencybreak : bool := false;
 
   groundfault : bool := false;
-                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                     
 operations
 
   public
@@ -90,14 +90,14 @@ operations
   unsetGroundFault: () ==> ()
   unsetGroundFault () ==
     groundfault := false;
-                                                                                      
+                                                                                          
   public
   getDisplay: () ==> bool * bool * bool
   getDisplay () ==
     return mk_(alarm, emergencybreak, groundfault);
 
 end CabDisplay
-              
+                
 ~~~
 {% endraw %}
 
@@ -105,7 +105,7 @@ end CabDisplay
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                       
 class CheckSpeedEvent is subclass of Event
 
 instance variables
@@ -129,7 +129,7 @@ operations
                               mk_Test`EmerBreak(e')) );
 
 end CheckSpeedEvent
-             
+              
 ~~~
 {% endraw %}
 
@@ -137,7 +137,7 @@ end CheckSpeedEvent
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                  
 class EmergencyBreak
 
 instance variables
@@ -162,7 +162,7 @@ operations
     return emergencybreak;
 
 end EmergencyBreak
-              
+                
 ~~~
 {% endraw %}
 
@@ -170,7 +170,7 @@ end EmergencyBreak
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                        
+                                                                                                                                                                                                              
 class Event
 
 operations
@@ -181,7 +181,7 @@ operations
     is subclass responsibility;
 
 end Event
-             
+              
 ~~~
 {% endraw %}
 
@@ -189,11 +189,11 @@ end Event
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                 
 class FLTV is subclass of Beacon
 
 end FLTV
-             
+              
 ~~~
 {% endraw %}
 
@@ -201,7 +201,7 @@ end FLTV
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                      
 class HeadMeetBeaconEvent is subclass of Event
 
 instance variables
@@ -228,7 +228,7 @@ operations
               i in set inds restr ]) );
 
 end HeadMeetBeaconEvent
-             
+              
 ~~~
 {% endraw %}
 
@@ -236,28 +236,28 @@ end HeadMeetBeaconEvent
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                    
 class KLV
-                                                                                                                                                                                                        
+                                                                                                                                                                                                              
 instance variables
   onboardcomp : OnBoardComp := new OnBoardComp();
   cabdisplay : CabDisplay := new CabDisplay();
   emergencybreak : EmergencyBreak := new EmergencyBreak();
-                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                 
 instance variables
 
   announcements : seq of TIV_D := [];
 
   speedrestrictions : seq of TIV_E := [];
   inv len speedrestrictions <= 5;
-                                                                                                                                                          
+                                                                                                                                                               
 instance variables
 
   firstspeedrestriction : bool := true;
-                                                                                                   
+                                                                                                       
 values
   maxspeed : real = 140;
-                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                   
 operations
 
 public
@@ -269,7 +269,7 @@ headMeetsBeacon (beacon) ==
     (isofclass(TIV_A, beacon)) -> deleteAnnouncements(),
     (isofclass(FLTV, beacon))  -> skip
   end;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 public
 tailMeetsBeacon : Beacon ==> ()
 tailMeetsBeacon (beacon) ==
@@ -282,13 +282,13 @@ tailMeetsBeacon (beacon) ==
     (isofclass(FLTV, beacon))  -> ( firstspeedrestriction := true;
                                     removeSpeedRestriction () )
   end;
-                                                                                                                                                                                                             
+                                                                                                                                                                                                                   
 public
 announceSpeedRestriction : TIV_D ==> ()
 announceSpeedRestriction (tiv_d) ==
 ( announcements := announcements ^ [tiv_d];
   deletePossibleGroundFault () );
-                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
 public
 addSpeedRestriction : TIV_E ==> ()
 addSpeedRestriction (tiv_e) ==
@@ -300,40 +300,40 @@ addSpeedRestriction (tiv_e) ==
          deletePossibleGroundFault() )
   else raiseGroundFault()
 pre announcements <> [];
-                                                                                                                                                                                                      
+                                                                                                                                                                                                            
 public
 deleteAnnouncements : () ==> ()
 deleteAnnouncements () ==
 ( announcements := [];
   deletePossibleGroundFault() )
 pre announcements <> [];
-                                                                                                                                                                                                              
+                                                                                                                                                                                                                    
 public
 removeSpeedRestriction : () ==> ()
 removeSpeedRestriction () ==
 ( speedrestrictions := tl speedrestrictions;
   deletePossibleGroundFault() )
 pre speedrestrictions <> [];
-                                                                                                     
+                                                                                                         
 public
 raiseGroundFault : () ==> ()
 raiseGroundFault () ==
   cabdisplay.setGroundFault();
-                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                 
 public
 deletePossibleGroundFault: () ==> ()
 deletePossibleGroundFault () ==
   let mk_(-,-,gf) = cabdisplay.getDisplay() in
   if gf 
   then cabdisplay.unsetGroundFault();
-                                                                                                                                                       
+                                                                                                                                                            
 public
 noBeaconMet : () ==> ()
 noBeaconMet () ==
 ( announcements := tl announcements;
   raiseGroundFault() )
 pre announcements <> [];
-                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                 
 public
 checkSpeed : real ==> ()
 checkSpeed (speed) ==
@@ -346,7 +346,7 @@ checkSpeed (speed) ==
     <EmergencyBreakSpeed> -> ( cabdisplay.setEmergencyBreak();
                                emergencybreak.setEmergencyBreak() )
   end;
-                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                        
 public
 getMaxSpeed : () ==> real
 getMaxSpeed () ==
@@ -366,7 +366,7 @@ then ( cabdisplay.unsetEmergencyBreak ();
        emergencybreak.unsetEmergencyBreak () )
 pre let mk_(-,eb,-) = cabdisplay.getDisplay() in eb and
     emergencybreak.getEmergencyBreak();
-                                                                                                      
+                                                                                                          
 public
 getCabDisplay : () ==> CabDisplay
 getCabDisplay () ==
@@ -388,7 +388,7 @@ getSpeedRestrictions () ==
   return speedrestrictions;
 
 end KLV
-              
+                
 ~~~
 {% endraw %}
 
@@ -396,7 +396,7 @@ end KLV
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                  
 class KLVStateEvent is subclass of Event
 
 operations 
@@ -410,7 +410,7 @@ operations
                              mk_Test`EmerBreak(e')) );
 
 end KLVStateEvent
-             
+              
 ~~~
 {% endraw %}
 
@@ -418,7 +418,7 @@ end KLVStateEvent
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                           
+                                                                                                                                                                                                                 
 class MaxSpeedEvent is subclass of Event
 
 operations 
@@ -438,7 +438,7 @@ end MaxSpeedEvent
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                             
 class NoBeaconMetEvent is subclass of Event
 
 operations 
@@ -461,7 +461,7 @@ end NoBeaconMetEvent
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                            
 class OnBoardComp
 
 types
@@ -473,7 +473,7 @@ values
 
   AlarmSpeedAdd = 5;
   EmergencySpeedAdd = 10;
-                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                           
 functions
 
   public
@@ -486,7 +486,7 @@ functions
     else <EmergencyBreakSpeed>
 
 end OnBoardComp
-              
+                
 ~~~
 {% endraw %}
 
@@ -494,7 +494,7 @@ end OnBoardComp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                      
 class TailMeetBeaconEvent is subclass of Event
 
 instance variables
@@ -529,7 +529,7 @@ end TailMeetBeaconEvent
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 class Test
 
 types
@@ -580,7 +580,7 @@ operations
 --  pre isofclass() => ;
 
 end Test
-             
+              
 ~~~
 {% endraw %}
 
@@ -588,11 +588,11 @@ end Test
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                      
 class TIV_A is subclass of Beacon
  
 end TIV_A
-             
+              
 ~~~
 {% endraw %}
 
@@ -600,7 +600,7 @@ end TIV_A
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 class TIV_D is subclass of Beacon
 
 instance variables
@@ -619,7 +619,7 @@ operations
     return targetspeed;
 
 end TIV_D
-              
+                
 ~~~
 {% endraw %}
 
@@ -627,7 +627,7 @@ end TIV_D
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                          
 class TIV_E is subclass of Beacon
 
 instance variables
@@ -648,7 +648,7 @@ operations
   pre speed <> nil;
 
 end TIV_E
-              
+                
 ~~~
 {% endraw %}
 

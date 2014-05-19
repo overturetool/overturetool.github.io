@@ -22,7 +22,7 @@ test the correct interpretation of these constructs.
 
 {% raw %}
 ~~~
-                                          
+                                            
 class Diet
 
 values
@@ -38,7 +38,7 @@ pre
 	weight > 0 and height > 0
 post
 	RESULT > 0;
-                            
+                              
 static public getWeightFromBMI : real * real -> real
 getWeightFromBMI(height, aBMI) ==
 	let	
@@ -49,21 +49,21 @@ pre
 	height > 0 and aBMI > 0
 post
 	abs(aBMI - BMI(RESULT, height)) <= e;
-                            
+                              
 static public newton: (real ->real) -> real -> real
 newton(f)(x) ==
 	let	isFinish = lambda y : real & abs(f(y)) < e,
 		nextApproximate = lambda y : real & y - (f(y) / derivative(f)(y))	in
 	Funtil[real](isFinish)(nextApproximate)(x);
-                            
+                              
 static public derivative : (real -> real) ->real -> real
 derivative(f)(x) == (f(x+h) - f(x)) / h ;
-                            
+                              
 static public Funtil[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @T
 Funtil(p)(f)(x) == if p(x) then x else Funtil[@T](p)(f)(f(x));
-                            
+                              
 end Diet
-                                                                        
+                                                                            
 ~~~
 {% endraw %}
 

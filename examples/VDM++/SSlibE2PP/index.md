@@ -1750,12 +1750,12 @@ end DoubleListQueueT01
 
 {% raw %}
 ~~~
-                                                                                           
+                                                                                              
 --"$Id"
 class FHashtable
 
 functions
-                                                                                             
+                                                                                                
 static public Put[@T1, @T2] : 
 	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> @T2 
 	-> (map @T1 to (map @T1 to  @T2))
@@ -1767,7 +1767,7 @@ Put(aHashtable)(aHashCode)(aKey)(aValue) ==
 	else
 		aHashtable munion {hashcode |-> {aKey |-> aValue}}
 	;
-                                                                                            
+                                                                                               
 static public PutAll[@T1, @T2] : 
 	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2) 
 	-> (map @T1 to (map @T1 to  @T2)) 
@@ -1786,7 +1786,7 @@ PutAllAux(aHashtable)(aHashCode)(aMap)(aKeySet) ==
 		in
 		PutAllAux[@T1, @T2](newHashtable)(aHashCode)(aMap)(aKeySet \ {aKey})
 	;
-                                                                              
+                                                                                 
 static public Get[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1  -> [@T2]
 Get(aHashtable)(aHashCode)(aKey) ==
 	let	hashcode = aHashCode(aKey)
@@ -1796,17 +1796,17 @@ Get(aHashtable)(aHashCode)(aKey) ==
 	else
 		nil
 	;
-                                                                                                              
+                                                                                                                 
 static public Remove[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> (map @T1 to (map @T1 to  @T2))
 Remove(aHashtable)(aHashCode)(aKey) == 
 	let	hashcode = aHashCode(aKey)
 	in
 	{h |-> ({aKey} <-: aHashtable(hashcode)) | h in set {hashcode}} munion 
 		{hashcode} <-: aHashtable ;
-                                                                               
+                                                                                  
 static public Clear[@T1, @T2] : () -> (map @T1 to (map @T1 to  @T2))
 Clear() == ({ |-> });
-                                                                                               
+                                                                                                  
 static public KeySet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T1
 KeySet(aHashtable) == 
 	--let	aMapSet : set of (map @T1 to @T2) = rng aHashtable,
@@ -1818,7 +1818,7 @@ KeySet(aHashtable) ==
 		dunion  {dom s | s in set aMapSet} 
 	else
 		{};
-                                                                                           
+                                                                                              
 static public ValueSet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T2
 ValueSet(aHashtable) == 
 	--let	aMapSet : set of (map @T1 to @T2) = rng aHashtable,
@@ -1830,13 +1830,13 @@ ValueSet(aHashtable) ==
 		dunion  {rng s | s in set aMapSet} 
 	else
 		{};
-                                                                            
+                                                                               
 static public Size[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> nat
 Size(aHashtable) == card KeySet[@T1, @T2](aHashtable) ;
-                                                                                          
+                                                                                             
 static public IsEmpty[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> bool
 IsEmpty(aHashtable) == KeySet[@T1, @T2](aHashtable) = {};
-                                                                                                       
+                                                                                                          
 static public Contains[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T2 -> bool
 Contains(aHashtable)(aValue) == 
 	let	aMapSet = rng aHashtable	
@@ -1845,7 +1845,7 @@ Contains(aHashtable)(aValue) ==
 		exists aMap in set aMapSet & aValue in set rng aMap
 	else
 		false;
-                                                                                                               
+                                                                                                                  
 static public ContainsKey[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T1 -> bool
 ContainsKey(aHashtable)(aKey) == 
 	let	aMapSet = rng aHashtable	
@@ -1856,7 +1856,7 @@ ContainsKey(aHashtable)(aKey) ==
 		false;
 
 end FHashtable
-                                                                           
+                                                                                
 ~~~
 {% endraw %}
 
@@ -1864,7 +1864,7 @@ end FHashtable
 
 {% raw %}
 ~~~
-                                                         
+                                                            
 class FHashtableT
 
 functions
@@ -1873,7 +1873,7 @@ run() ==
 let	testcases = [ t1(), t2(), t3(), t4(), t5(), t6() ]
 in
 FTestDriver`run(testcases);
-                                                                  
+                                                                     
 static t1 : () -> FTestDriver`TestCase
 t1() ==
 	
@@ -1890,7 +1890,7 @@ t1() ==
 	c1("Sakoh") and
 	c1("") = false)
 	;
-                                                                            
+                                                                               
 static t2 : () -> FTestDriver`TestCase
 t2() ==
 	
@@ -1914,7 +1914,7 @@ t2() ==
 	ck1("a") and
 	ck1("c"))
 	;
-                                                          
+                                                             
 static t3 : () -> FTestDriver`TestCase
 t3() ==
 	
@@ -1937,7 +1937,7 @@ t3() ==
 	FSequence`Fmap[int, seq of char](g)([1, 2]) = ["Sahara", "Sato"] 
 	)
 	;
-                                                                  
+                                                                     
 static t4 : () -> FTestDriver`TestCase
 t4() ==
 	
@@ -1959,7 +1959,7 @@ t4() ==
 	k(p4) = {1,2,14} and
 	v(p4) = {"Sahara", "Sato", "Sakoh"})
 	;
-                                                                            
+                                                                               
 static t5 : () -> FTestDriver`TestCase
 t5() ==
 	
@@ -1974,7 +1974,7 @@ t5() ==
 	FHashtable`KeySet[int, seq of char](h2) = {1, 2, 27} and
 	FHashtable`ValueSet[int, seq of char](h2) = {"SaharaShin",  "SatoKei", "NishikawaNoriko"})
 	;
-                                                      
+                                                         
 static t6 : () -> FTestDriver`TestCase
 t6() ==
 	
@@ -2008,27 +2008,27 @@ end FHashtableT
 
 {% raw %}
 ~~~
-                                                                                  
+                                                                                     
 --"$Id"
 class FMap
 
 functions
-                                                                                                                                 
+                                                                                                                                    
 static public Get[@T1, @T2] : map @T1 to @T2 -> @T1 -> [@T2]
 Get(aMap)(aKey) ==
 	if aKey in set dom aMap then
 		aMap(aKey)
 	else
 		nil;
-                                                                                                                 
+                                                                                                                    
 static public Contains[@T1, @T2] : map @T1 to @T2 -> @T2 -> bool
 Contains(aMap)(aValue) == aValue in set rng aMap;
-                                                                                                                     
+                                                                                                                        
 static public ContainsKey[@T1, @T2] : map @T1 to @T2 -> @T1 -> bool
 ContainsKey(aMap)(aKey) == aKey in set dom aMap;
 	
 end FMap
-                                                              
+                                                                  
 ~~~
 {% endraw %}
 
@@ -2036,34 +2036,34 @@ end FMap
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                               
 class FSequence
 --"$Id: Sequence.vpp,v 1.1 2005/10/31 02:09:58 vdmtools Exp $";
 	
 functions 
 
-                                                                     
+                                                                        
 static public Sum[@T] : seq of @T ->  @T
 Sum(s) == Foldl[@T, @T](Plus[@T])(0)(s)
 pre
 	is_(s, seq of int) or is_(s, seq of nat) or is_(s, seq of nat1) or
  	is_(s, seq of real) or is_(s, seq of rat);
-                                                                      
+                                                                         
 static public Prod[@T] : seq of @T ->  @T
 Prod(s) == Foldl[@T, @T](Product[@T])(1)(s)
 pre
 	is_(s, seq of int) or is_(s, seq of nat) or is_(s, seq of nat1) or
  	is_(s, seq of real) or is_(s, seq of rat);
-                                                       
+                                                          
 static public Plus[@T] : @T -> @T -> @T
 Plus(a)(b) == a + b;
-                                                         
+                                                            
 static public Product[@T] : @T -> @T -> @T
 Product(a)(b) == a * b;
-                                                              
+                                                                 
 static public Append[@T] : seq of @T -> @T -> seq of @T
 Append(s)(e) == s ^ [e];
-                                                                            
+                                                                               
 static public Average[@T]: seq of @T ->  [real]
 Average(s) == if s = [] then nil else AverageAux[@T](0)(0)(s)
 post
@@ -2078,23 +2078,23 @@ AverageAux(total)(numOfElem)(s) ==
 	[x] ^ xs	-> AverageAux[@T](total + x)(numOfElem + 1)(xs),
 	[]		-> total / numOfElem
 	end;
-                                                                                                                                                      
+                                                                                                                                                         
 static public IsAscendingInTotalOrder[@T] : (@T * @T -> bool) -> seq of @T -> bool
 IsAscendingInTotalOrder(f)(s) ==
 	forall i,j  in set inds s & i < j  => f(s(i),s(j)) or s(i) = s(j);
-                                                                                                                                                       
+                                                                                                                                                          
 static public IsDescendingInTotalOrder[@T] : (@T * @T -> bool) -> seq of @T -> bool
 IsDescendingInTotalOrder(f)(s) ==
 	forall i,j  in set inds s & i < j  => f(s(j),s(i)) or s(i) = s(j);
-                                                                                                                                             
+                                                                                                                                                
 static public IsAscending [@T]: seq of @T -> bool
 IsAscending(s) ==
 	IsAscendingInTotalOrder[@T](lambda x : @T, y : @T & x < y)(s);
-                                                                                                                                              
+                                                                                                                                                 
 static public IsDescending[@T]: seq of @T -> bool
 IsDescending(s) ==
 	IsDescendingInTotalOrder[@T](lambda x : @T, y : @T & x < y)(s);
-                                                                                                                                   
+                                                                                                                                      
 static public Sort[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T
 Sort(f)(s) ==
 	cases s:
@@ -2104,17 +2104,17 @@ Sort(f)(s) ==
 			[x] ^
 			Sort[@T](f)([xs(i) | i in set inds xs & not f(xs(i),x)])
 	end;
-                                                                                                                                   
+                                                                                                                                      
 static public AscendingSort[@T] : seq of @T -> seq of @T
 AscendingSort(s) == Sort[@T](lambda x : @T, y : @T & x < y)(s)
 post
 	IsAscending[@T](RESULT);
-                                                                                                                                                                       
+                                                                                                                                                                           
 static public DescendingSort[@T] : seq of @T -> seq of @T
 DescendingSort(s) == Sort[@T](lambda x : @T, y : @T & x > y)(s)
 post
 	IsDescending[@T](RESULT);
-                                                                                                                                                 
+                                                                                                                                                    
 static public IsOrdered[@T] : seq of (@T * @T -> bool) -> seq of @T -> seq of @T -> bool
 IsOrdered(f)(s1)(s2) ==
 	cases mk_(s1,s2):
@@ -2129,7 +2129,7 @@ IsOrdered(f)(s1)(s2) ==
 			else
 				IsOrdered[@T](tl f)(xs1)(xs2)
 	end;
-                                                                                                                   
+                                                                                                                      
 static public Merge[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T -> seq of @T
 Merge(f)(s1)(s2) == 
 	cases mk_(s1,s2):
@@ -2141,7 +2141,7 @@ Merge(f)(s1)(s2) ==
 			else
 				[x2] ^ FSequence`Merge[@T](f)(s1)(xs2)
 	end;
-                                                                                                    
+                                                                                                       
 static public InsertAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
 InsertAt(i)(e)(s) ==
 	cases mk_(i, s) :
@@ -2149,7 +2149,7 @@ InsertAt(i)(e)(s) ==
 	mk_(-, [])		-> [e],
 	mk_(i1, [x] ^ xs)	-> [x] ^ InsertAt[@T](i1 - 1)(e)(xs)
 	end;
-                                                                                                   
+                                                                                                      
 static public RemoveAt[@T]: nat1 -> seq of @T -> seq of @T
 RemoveAt(i)(s) ==
 	cases mk_(i, s) :
@@ -2157,7 +2157,7 @@ RemoveAt(i)(s) ==
 	mk_(i1, [x] ^ xs)	-> [x] ^ RemoveAt[@T](i1 - 1)(xs),
 	mk_(-, [])		-> []
 	end;
-                                                                                          
+                                                                                             
 static public RemoveDup[@T] :  seq of @T ->  seq of @T
 RemoveDup(s) == 
 	cases s :
@@ -2166,21 +2166,21 @@ RemoveDup(s) ==
 	end
 post
 	not IsDup[@T](RESULT);
-                                                                                   
+                                                                                      
 static public RemoveMember[@T] :  @T -> seq of @T -> seq of @T
 RemoveMember(e)(s) == 
 	cases s :
 	[x]^xs		-> if e = x then xs else [x] ^ RemoveMember[@T](e)(xs),
 	[]		-> []
 	end;
-                                                                                                    
+                                                                                                       
 static public RemoveMembers[@T] :  seq of @T -> seq of @T -> seq of @T
 RemoveMembers(es)(s) == 
 	cases es :
 	[]		-> s,
 	[x]^xs		-> RemoveMembers[@T](xs)(RemoveMember[@T](x)(s))
 	end;
-                                                                                                                                  
+                                                                                                                                     
 static public UpdateAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
 UpdateAt(i)(e)(s) ==
 	cases mk_(i, s) :
@@ -2188,10 +2188,10 @@ UpdateAt(i)(e)(s) ==
 	mk_(1, [-] ^ xs)	-> [e] ^ xs,
 	mk_(i1,  [x] ^ xs)	-> [x] ^ UpdateAt[@T](i1 - 1)(e)(xs)
 	end;
-                                                                                   
+                                                                                      
 static public Take[@T] : int -> seq of @T -> seq of @T
 Take(i)(s) == s(1,...,i);
-                                                                                                                         
+                                                                                                                            
 static public TakeWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
 TakeWhile(f)(s) ==
 	cases s :
@@ -2202,10 +2202,10 @@ TakeWhile(f)(s) ==
 			[],
 	[]	-> []
 	end;
-                                                                                
+                                                                                   
 static public Drop[@T]: int -> seq of @T -> seq of @T
 Drop(i)(s) == s(i+1,...,len s);
-                                                                                                                      
+                                                                                                                         
 static public DropWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
 DropWhile(f)(s) ==
 	cases s :
@@ -2216,7 +2216,7 @@ DropWhile(f)(s) ==
 			s,
 	[]	-> []
 	end;
-                                                                                                                                                                                         
+                                                                                                                                                                                            
 static public Span[@T] : (@T -> bool) -> seq of @T -> seq of @T * seq of @T
 Span(f)(s) ==
 	cases s :
@@ -2229,26 +2229,26 @@ Span(f)(s) ==
 			mk_([], s),
 	[]	-> mk_([], [])
 	end;
-                                                                                                                
+                                                                                                                   
 static public SubSeq[@T]: nat -> nat -> seq1 of @T -> seq of @T
 SubSeq(i)(numOfElems)(s) == s(i,...,i + numOfElems - 1);
-                                                                         
+                                                                            
 static public Last[@T]: seq of @T -> @T
 Last(s) == s(len s);
-                                                                                          
+                                                                                             
 static public Fmap[@T1,@T2]: (@T1 -> @T2) -> seq of @T1 -> seq of @T2
 Fmap(f)(s) == [f(s(i)) | i in set inds s];
-                                                                                                                                                                   
+                                                                                                                                                                      
 static public Filter[@T]: (@T -> bool) -> seq of @T -> seq of @T
 Filter(f)(s) == [s(i) | i in set inds s & f(s(i))];
-                                                                                                                    
+                                                                                                                       
 static public Foldl[@T1, @T2] : (@T1 -> @T2 -> @T1) -> @T1 -> seq of @T2 -> @T1
 Foldl(f)(args)(s) == 
 	cases s :
 	[]		-> args,
 	[x] ^ xs	-> Foldl[@T1,@T2](f)(f(args)(x))(xs)
 	end;
-                                                                                                                      
+                                                                                                                         
 static public Foldr[@T1, @T2] : 
 	(@T1 -> @T2 -> @T2) -> @T2 -> seq of @T1 -> @T2
 Foldr(f)(args)(s) == 
@@ -2256,21 +2256,21 @@ Foldr(f)(args)(s) ==
 	[]		-> args,
 	[x] ^ xs	-> f(x)(Foldr[@T1,@T2](f)(args)(xs))
 	end;
-                                                                               
+                                                                                  
 static public IsMember[@T] : @T -> seq of @T -> bool
 IsMember(e)(s) == 
 	cases s :
 	[x]^xs		-> e = x or IsMember[@T] (e)(xs),
 	[]		-> false
 	end;
-                                                                                                             
+                                                                                                                
 static public IsAnyMember[@T]:  seq of @T -> seq of @T -> bool
 IsAnyMember(es)(s) == 
 	cases es :
 	[x]^xs		->  IsMember[@T] (x)(s) or IsAnyMember[@T] (xs)(s) ,
 	[]		-> false
 	end;
-                                                                                            
+                                                                                               
 static public IsDup[@T] : seq of @T -> bool
 IsDup(s) == not card elems s = len s
 post
@@ -2278,7 +2278,7 @@ post
 		RESULT = false
 	else
 		RESULT = not forall i, j in set inds s & s(i) <> s(j) <=> i <> j ;
-                                                                                                                                              
+                                                                                                                                                  
 static public Index[@T]: @T -> seq of @T -> int
 Index(e)(s) == 
 	let	i = 0
@@ -2295,21 +2295,21 @@ IndexAux(e)(s)(i) ==
 			else
 				IndexAux[@T](e)(xs)(i+1)
 	end;
-                                                                                                                                     
+                                                                                                                                        
 static public IndexAll[@T] : @T -> seq of @T -> set of nat1
 IndexAll(e)(s) == {i | i in set inds s & s(i) = e};
-                                                                                                                             
+                                                                                                                                
 static public Flatten[@T] : seq of seq of @T -> seq of @T
 Flatten(s) == conc s;
-                                                                                                 
+                                                                                                    
 static public Compact[@T] : seq of [@T] -> seq of @T
 Compact(s) == [s(i) | i in set inds s & s(i) <> nil]
 post
 	forall i in set inds RESULT & RESULT(i) <> nil;
-                                                                                                                                               
+                                                                                                                                                  
 static public Freverse[@T] : seq of @T -> seq of @T
 Freverse(s) == [s(len s + 1 -  i) | i in set inds s];
-                                                                        
+                                                                           
 static public Permutations[@T]: seq of @T -> set of seq of @T
 Permutations(s) == 
 cases s:
@@ -2318,11 +2318,11 @@ cases s:
 end
 post
 	forall x in set RESULT & elems x = elems s;
-                                                                                                            
+                                                                                                               
 static public IsPermutations[@T]: seq of @T -> seq of @T -> bool
 IsPermutations(s)(t) == 
 	RemoveMembers[@T](s)(t) = [] and RemoveMembers[@T](t)(s) = [];
-                                                                               
+                                                                                  
 static public Unzip[@T1, @T2] : seq of (@T1 * @T2) -> seq of @T1 * seq of @T2
 Unzip(s) ==
 	cases s :
@@ -2332,10 +2332,10 @@ Unzip(s) ==
 		in
 		mk_([x] ^ s1, [y] ^ t)
 	end;
-                                                                             
+                                                                                
 static public Zip[@T1, @T2] : seq of @T1 * seq of @T2 -> seq of (@T1 * @T2)
 Zip(s1, s2) == Zip2[@T1, @T2](s1)(s2);
-                                                                                                                                          
+                                                                                                                                             
 static public Zip2[@T1, @T2] : seq of @T1 -> seq of @T2 -> seq of (@T1 * @T2)
 Zip2(s1)(s2) == 
 	cases mk_(s1, s2) :
@@ -2344,7 +2344,7 @@ Zip2(s1)(s2) ==
 	end;
 
 end FSequence
-                                                                         
+                                                                              
 ~~~
 {% endraw %}
 
@@ -2352,7 +2352,7 @@ end FSequence
 
 {% raw %}
 ~~~
-                                                                                                                                                
+                                                                                                                                                     
 --$Id: TestDriver.vpp,v 1.1 2005/10/31 02:09:59 vdmtools Exp $
 class FTestDriver
 
@@ -2362,7 +2362,7 @@ public TestCase ::
 	testResult : bool;
 
 functions
-                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                              
 static public run: seq of FTestDriver`TestCase +> bool
 run(t) ==
 	let	m = "Result-of-testcases.",
@@ -2372,23 +2372,23 @@ run(t) ==
 		FTestLogger`SuccessAll(m)
 	else
 		FTestLogger`FailureAll(m);
-                                                                                                                                                                                                               
+                                                                                                                                                                                                                  
 static public isOK: FTestDriver`TestCase +> bool
 isOK(t) ==
 	if GetTestResult(t) then
 		FTestLogger`Success(t)
 	else
 		FTestLogger`Failure(t);
-                                                                           
+                                                                              
 static public GetTestResult : FTestDriver`TestCase +> bool
 GetTestResult(t) == t.testResult;
-                                                                       	
+                                                                          	
 static public GetTestName: FTestDriver`TestCase +> seq of char
 GetTestName(t) == t.testCaseName;
 
 end FTestDriver
 
-                                                                             
+                                                                                  
 ~~~
 {% endraw %}
 
@@ -2396,14 +2396,14 @@ end FTestDriver
 
 {% raw %}
 ~~~
-                                                                                                  
+                                                                                                     
 --$Id: TestLogger.vpp,v 1.1 2005/10/31 02:09:59 vdmtools Exp $
 class FTestLogger
 values
 historyFileName =  "VDMTESTLOG.TXT";
 
 functions
-                                                                                                                                        
+                                                                                                                                           
 static public Success: FTestDriver`TestCase +> bool
 Success(t) == 
 	let	message = 
@@ -2412,7 +2412,7 @@ Success(t) ==
 		- = Print(message)		
 	in
 	true;
-                                                                                                                                         
+                                                                                                                                            
 static public Failure: FTestDriver`TestCase +> bool
 Failure(t) == 
 	let	message = FTestDriver`GetTestName(t)^"\tNG.\n",
@@ -2420,7 +2420,7 @@ Failure(t) ==
 		- = Print( message)		
 	in
 	false;
-                                                                                                                                                 
+                                                                                                                                                    
 static public SuccessAll : seq of char +> bool
 SuccessAll(m) ==
 	let	message = m ^ "\tOK!!\n",
@@ -2428,7 +2428,7 @@ SuccessAll(m) ==
 		- = Print( message)
 	in
 	true;
-                                                                                                                                                  	
+                                                                                                                                                     	
 static public FailureAll :  seq of char +> bool
 FailureAll(m) ==
 	let	message = m ^ "\tNG!!\n",
@@ -2436,23 +2436,23 @@ FailureAll(m) ==
 		- = Print( message)
 	in
 	false;
-                                                                                      
+                                                                                          
 static public Print : seq of char -> bool
 Print (s) == new IO().echo(s);
-                                                                                                                                                 
+                                                                                                                                                      
 static public Fprint : seq of char -> bool
 Fprint (s) == new IO().fecho(historyFileName,  s, <append>);
 
 operations
-                                                                                                       
+                                                                                                           
 static public Pr : seq of char ==> ()
 Pr (s) == let - = new IO().echo(s) in skip;
-                                                                                                                                                                   
+                                                                                                                                                                        
 static public Fpr : seq of char ==> ()
 Fpr (s) == let - = new IO().fecho(historyFileName,  s, <append>) in skip;
 
 end FTestLogger
-                                                                            
+                                                                                
 ~~~
 {% endraw %}
 
@@ -2464,13 +2464,13 @@ end FTestLogger
 class Function
 
 functions 
-                            
+                              
 static public Funtil[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @T
 Funtil(p)(f)(x) == if p(x) then x else Funtil[@T](p)(f)(f(x));
-                            
+                              
 static public Fwhile[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @T
 Fwhile(p)(f)(x) == if p(x) then Fwhile[@T](p)(f)(f(x)) else x;
-                            
+                              
 static public Seq[@T] : seq of (@T -> @T) -> @T -> @T
 Seq(fs)(p) ==
 	cases fs :
@@ -2482,7 +2482,7 @@ Seq(fs)(p) ==
 
 --static length[@T] : seq of (@T -> @T) -> @T -> nat
 --length(fs)(-) == len fs;
-                            
+                              
 static public readFn[@T] : seq of char -> [@T]
 readFn(fname) ==
 	let 
@@ -2495,7 +2495,7 @@ readFn(fname) ==
 		let -= io.echo("Can't read values from the data file = " ^ fname)
 		in
 		nil;
-                            
+                              
 end Function
             
 ~~~
@@ -4354,7 +4354,7 @@ end RealT08
 
 {% raw %}
 ~~~
-                                                                                                                                                                          	
+                                                                                                                                                                                 	
 class SBCalendar is subclass of JapaneseCalendar -- date
 
 values
@@ -4381,7 +4381,7 @@ getExerciseDate(aContractMonth) ==
 	calendar.getNthDayOfTheWeek(designatedYear,designatedMonth,2,<Fri>).getPastWeekday()
 pre
 	isCorrectContractMonth(aContractMonth);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                	
 static public getContractDate : Date -> Date 
 getContractDate(aDate) == 	
 	let	 
@@ -4521,7 +4521,7 @@ SBCalendar() ==
 	);
 	
 end SBCalendar
-                                                                          
+                                                                              
 ~~~
 {% endraw %}
 
@@ -4849,7 +4849,7 @@ end SBCalendarT06
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           	
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       	
 class Sequence
 	
 functions 
@@ -5145,7 +5145,7 @@ lengthUnzip(s) == len s;
 
 static public Zip[@T1, @T2] : seq of @T1 * seq of @T2 -> seq of (@T1 * @T2)
 Zip(s1, s2) == Zip2[@T1, @T2](s1)(s2);
-                            	
+                              	
 static public Zip2[@T1, @T2] : seq of @T1 -> seq of @T2 -> seq of (@T1 * @T2)
 Zip2(s1)(s2) == 
 	cases mk_(s1, s2) :
@@ -5154,7 +5154,7 @@ Zip2(s1)(s2) ==
 	end;
 
 end Sequence
-                                                                       
+                                                                            
 ~~~
 {% endraw %}
 

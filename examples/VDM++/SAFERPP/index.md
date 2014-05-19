@@ -50,7 +50,7 @@ More explanation about this work can be found in the papers:
 
 {% raw %}
 ~~~
-                                   
+                                     
 class AAH
  
 types
@@ -156,7 +156,7 @@ operations
        end);
 
 end AAH
-                                                                                                                
+                                                                                                                        
 ~~~
 {% endraw %}
 
@@ -164,7 +164,7 @@ end AAH
 
 {% raw %}
 ~~~
-                                     
+                                       
 class Clock
  
 instance variables
@@ -187,7 +187,7 @@ operations
     return count;
 
 end Clock
-                                                                                                                   
+                                                                                                                          
 ~~~
 {% endraw %}
 
@@ -195,7 +195,7 @@ end Clock
 
 {% raw %}
 ~~~
-                                       
+                                         
 class Command
 types
   public
@@ -249,7 +249,7 @@ operations
 
 
 end Command
-                                                                                                                       
+                                                                                                                              
 ~~~
 {% endraw %}
 
@@ -257,7 +257,7 @@ end Command
 
 {% raw %}
 ~~~
-                                               
+                                                 
 class HandControlUnit
 
 types
@@ -306,7 +306,7 @@ operations
 
 
 end HandControlUnit
-                                                                                                                                       
+                                                                                                                                              
 ~~~
 {% endraw %}
 
@@ -314,7 +314,7 @@ end HandControlUnit
 
 {% raw %}
 ~~~
-                                                 
+                                                   
 class IntegratedCommand is subclass of SixDOfCommand
 
 instance variables
@@ -350,7 +350,7 @@ operations
 
 
 end IntegratedCommand
-                                                                                                                                            
+                                                                                                                                                    
 ~~~
 {% endraw %}
 
@@ -358,7 +358,7 @@ end IntegratedCommand
 
 {% raw %}
 ~~~
-                                         
+                                           
 class Interface
 
 instance variables
@@ -457,7 +457,7 @@ thrusters = mk_(<Pos>,<Zero>,<Zero>,<Zero>,<Tran>,<Down>,
                 { <Roll> |-> <Zero>, <Pitch> |-> <Zero>, <Yaw> |-> <Zero> })
 
 end Interface
-                                                              
+                                                                   
 ~~~
 {% endraw %}
 
@@ -465,7 +465,7 @@ end Interface
 
 {% raw %}
 ~~~
-                                               
+                                                 
 class RotationCommand is subclass of Command
 operations
   public
@@ -474,7 +474,7 @@ operations
     return (exists a in set dom axesdir & axesdir(a) <> <Zero>);
 
 end RotationCommand
-                                                                                                                                        
+                                                                                                                                                
 ~~~
 {% endraw %}
 
@@ -482,7 +482,7 @@ end RotationCommand
 
 {% raw %}
 ~~~
-                                             
+                                               
 class SixDOfCommand
 instance variables
   protected
@@ -534,7 +534,7 @@ operations
 
 
 end SixDOfCommand
-                                                                                                                                    
+                                                                                                                                            
 ~~~
 {% endraw %}
 
@@ -542,7 +542,7 @@ end SixDOfCommand
 
 {% raw %}
 ~~~
-                                    
+                                      
 class Test is subclass of WorkSpace
  
 values
@@ -596,7 +596,7 @@ HT: w.SetupTopology();
      w.ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, aahbutton, aahcmd) 
 
 end Test
-                                                                                                                   
+                                                                                                                           
 ~~~
 {% endraw %}
 
@@ -604,7 +604,7 @@ end Test
 
 {% raw %}
 ~~~
-                                        
+                                          
 class Thruster
 
 types
@@ -631,7 +631,7 @@ operations
     return state;
 
 end Thruster
-                                                                                                                          
+                                                                                                                                  
 ~~~
 {% endraw %}
 
@@ -639,7 +639,7 @@ end Thruster
 
 {% raw %}
 ~~~
-                                               
+                                                 
 class ThrusterControl
 
 values  -- two thruster selection tables...
@@ -796,7 +796,7 @@ operations
      tslogic2.MakeTable(lrud_thrusters));
 
 end ThrusterControl
-                                                                                                                                        
+                                                                                                                                                
 ~~~
 {% endraw %}
 
@@ -804,7 +804,7 @@ end ThrusterControl
 
 {% raw %}
 ~~~
-                                                 
+                                                   
 class ThrusterSelectionTable 
 
 types
@@ -830,7 +830,7 @@ operations
     selections:= m;
 
 end ThrusterSelectionTable
-                                                                                                                                                      
+                                                                                                                                                              
 ~~~
 {% endraw %}
 
@@ -838,7 +838,7 @@ end ThrusterSelectionTable
 
 {% raw %}
 ~~~
-                                                  
+                                                    
 class TranslationCommand is subclass of Command
 operations
   public
@@ -851,7 +851,7 @@ operations
                else axesdir;
 
 end TranslationCommand
-                                                                                                                                              
+                                                                                                                                                      
 ~~~
 {% endraw %}
 
@@ -859,7 +859,7 @@ end TranslationCommand
 
 {% raw %}
 ~~~
-                                                  
+                                                    
 class ValveDriveAssembly
 
 instance variables
@@ -882,7 +882,7 @@ operations
             thrusters(thr).GetState() = <On>}
 
 end ValveDriveAssembly
-                                                                                                                                              
+                                                                                                                                                      
 ~~~
 {% endraw %}
 
@@ -890,7 +890,7 @@ end ValveDriveAssembly
 
 {% raw %}
 ~~~
-                                         
+                                           
 class WorkSpace 
 
 values
@@ -952,7 +952,7 @@ operations
        thrusters inter {<U4R>, <U4F>} <> {}));
   
 end WorkSpace
-                                                                                                                             
+                                                                                                                                      
 ~~~
 {% endraw %}
 

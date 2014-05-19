@@ -30,7 +30,7 @@ on 2 different architectures.
 
 {% raw %}
 ~~~
-                                                 
+                                                   
 
 class ActivePlanManager is subclass of Strategy
 
@@ -281,7 +281,7 @@ mutex(reduce_Q_CR);
 
 end ActivePlanManager
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -289,7 +289,7 @@ end ActivePlanManager
 
 {% raw %}
 ~~~
-                                  
+                                     
 class Company is subclass of Environment
 
 instance variables
@@ -342,7 +342,7 @@ sync
 per isFinished => not busy;
 end Company
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -350,7 +350,7 @@ end Company
 
 {% raw %}
 ~~~
-                                  
+                                    
 system CRSystem
 
 instance variables
@@ -439,7 +439,7 @@ CRSystem()==
 )
 
 end CRSystem
-             
+              
 ~~~
 {% endraw %}
 
@@ -447,7 +447,7 @@ end CRSystem
 
 {% raw %}
 ~~~
-                                  
+                                    
 class Customer is subclass of Environment
 
 instance variables
@@ -555,7 +555,7 @@ per isFinished => not busy; --Ensure interleaving in World
 
 end Customer
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -563,7 +563,7 @@ end Customer
 
 {% raw %}
 ~~~
-                                         
+                                           
 
 
 class CyberRail
@@ -798,7 +798,7 @@ mutex(calculateTransportPlan);
 mutex(addToStimuliQueue);
 mutex(addToSystemQueue);
 end CyberRail
-               
+                  
 ~~~
 {% endraw %}
 
@@ -806,7 +806,7 @@ end CyberRail
 
 {% raw %}
 ~~~
-                                     
+                                       
 class Environment
 
 types 
@@ -860,7 +860,7 @@ thread
 
 end Environment
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -868,7 +868,7 @@ end Environment
 
 {% raw %}
 ~~~
-                                      
+                                        
 
 class Logger
 
@@ -937,7 +937,7 @@ mutex(write);
 
 end Logger
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -945,7 +945,7 @@ end Logger
 
 {% raw %}
 ~~~
-                                      
+                                        
 class MessageQueue
 
 instance variables
@@ -995,7 +995,7 @@ mutex(pop,push);
 --Have not testet if this sync is enough.	
 
 end MessageQueue
-             
+              
 ~~~
 {% endraw %}
 
@@ -1003,7 +1003,7 @@ end MessageQueue
 
 {% raw %}
 ~~~
-                                        
+                                         
 
 class RailwayGrid
 
@@ -1121,7 +1121,7 @@ private writef : Grid ==> ()
 	);
 
 end RailwayGrid
-               
+                  
 ~~~
 {% endraw %}
 
@@ -1129,7 +1129,7 @@ end RailwayGrid
 
 {% raw %}
 ~~~
-                                  
+                                   
 
 
 class SNW is subclass of Strategy
@@ -1170,7 +1170,7 @@ handleEvents(apm) == is subclass responsibility;
 
 end SNW
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -1178,7 +1178,7 @@ end SNW
 
 {% raw %}
 ~~~
-                                       
+                                        
 
 class Strategy
 
@@ -1207,7 +1207,7 @@ is subclass responsibility;
 
 end Strategy
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -1215,7 +1215,7 @@ end Strategy
 
 {% raw %}
 ~~~
-                                           
+                                             
 
 class TokenDevice
 
@@ -1308,7 +1308,7 @@ mutex(travel);
 
 end TokenDevice
 
-               
+                  
 ~~~
 {% endraw %}
 
@@ -1316,7 +1316,7 @@ end TokenDevice
 
 {% raw %}
 ~~~
-                                             
+                                               
 
 
 class TransportPlan
@@ -1417,7 +1417,7 @@ sync
 	mutex(routeTraveled);
 	
 end TransportPlan
-             
+              
 ~~~
 {% endraw %}
 
@@ -1425,7 +1425,7 @@ end TransportPlan
 
 {% raw %}
 ~~~
-                                
+                                   
 
 class MessageTypes
 
@@ -1478,7 +1478,7 @@ operations
 end MessageTypes
 
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -1486,7 +1486,7 @@ end MessageTypes
 
 {% raw %}
 ~~~
-                               
+                                 
 class World
 
 instance variables
@@ -1610,7 +1610,7 @@ operations
 	);
 	
 end World
-             
+              
 ~~~
 {% endraw %}
 

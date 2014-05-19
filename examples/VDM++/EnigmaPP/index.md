@@ -110,7 +110,7 @@ operations
   TearDown () == skip;
 
 end AlphabetTest
-             
+              
 ~~~
 {% endraw %}
 
@@ -218,7 +218,7 @@ operations
   TearDown () == skip;
 
 end ConfigurationTest
-             
+              
 ~~~
 {% endraw %}
 
@@ -429,7 +429,7 @@ operations
   TearDown () == skip
 
 end ReflectorTest
-             
+              
 ~~~
 {% endraw %}
 
@@ -604,7 +604,7 @@ operations
   TearDown () == skip;
 
 end RotorTest
-             
+              
 ~~~
 {% endraw %}
 

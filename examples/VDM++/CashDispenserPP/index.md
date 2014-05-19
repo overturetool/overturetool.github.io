@@ -24,7 +24,7 @@ in 1999 in connection with FM'99.
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                              
+                                                                                                                                                                                                                    
 class Account
 
 instance variables
@@ -33,7 +33,7 @@ instance variables
   transactions : seq of Transaction := [];
 
   inv TransactionsInvariant(transactions);
-                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                       
 values
   dailyLimit : nat = 2000;
 
@@ -42,7 +42,7 @@ types
   public Transaction :: date : Clock`Date
                  cardId : Card`CardId
                  amount : nat;
-                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                            
 operations
   ValidTransaction : Transaction ==> bool
   ValidTransaction(transaction) ==
@@ -57,7 +57,7 @@ public Create : map Card`CardId to Cardholder * nat ==> Account
   public GetBalance : () ==> nat
   GetBalance() ==
     return balance;
-                                                                                                                    
+                                                                                                                         
   public Withdrawal : Card`CardId * nat * Clock`Date ==> bool
   Withdrawal(cardId,amount,date) ==
     let transaction = mk_Transaction(date,cardId,amount)
@@ -80,11 +80,11 @@ public Create : map Card`CardId to Cardholder * nat ==> Account
       (dcl letter : Letter := new Letter();
        letter.Create(nm,addr,date,transactions,balance))
   pre cardId in set dom cards;
-                                                                                                              
+                                                                                                                 
   public GetCardIds: () ==> set of Card`CardId
   GetCardIds() ==
     return dom cards;
-                                                                                                                      
+                                                                                                                          
   public AddCard : Card`CardId * Cardholder ==> ()
   AddCard(cId,ch) ==
     cards := cards munion {cId |-> ch}
@@ -100,7 +100,7 @@ functions
   TransactionsInvariant(ts) ==
     forall date in set {ts(i).date | i in set inds ts} &
       DateTotal(date,ts) <= dailyLimit;
-                                                                                                                                                                                                   
+                                                                                                                                                                                                       
   DateTotal : Clock`Date * seq of Transaction +> nat
   DateTotal(date,ts) ==
     Sum([ts(i).amount | i in set inds ts & ts(i).date = date]);
@@ -112,7 +112,7 @@ functions
       hd rs + Sum(tl rs);
  
 end Account
-                
+                    
 ~~~
 {% endraw %}
 
@@ -120,7 +120,7 @@ end Account
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                          
 class Card
 
 types
@@ -153,7 +153,7 @@ operations
     return cardId;
 
 end Card
-                
+                    
 ~~~
 {% endraw %}
 
@@ -161,7 +161,7 @@ end Card
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                  
 class Cardholder
 
 types
@@ -188,7 +188,7 @@ operations
     return address;
 
 end Cardholder
-                 
+                      
 ~~~
 {% endraw %}
 
@@ -196,7 +196,7 @@ end Cardholder
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                      
 class CentralResource
 
 instance variables
@@ -208,7 +208,7 @@ inv dom numberOfTries union illegalCards subset
 
   letterbox     : Letterbox;
   clock         : Clock;
-                                                                                     
+                                                                                         
   inv forall acc1,acc2 in set rng accounts &
           acc1 <> acc2 =>
           acc1.GetCardIds() inter acc2.GetCardIds() = {};
@@ -221,7 +221,7 @@ operations
   AddLetterbox(c,l) ==
     (clock := c;
      letterbox := l);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   public GetBalance : Account`AccountId ==> [nat]
   GetBalance(accountId) ==
     if accountId in set dom accounts then
@@ -244,7 +244,7 @@ operations
        return true)
     else
       return false;
-                                                                                                                                                 
+                                                                                                                                                      
   public IsLegalCard : Account`AccountId * Card`CardId ==> bool
   IsLegalCard(accountId,cardId) ==
     return
@@ -263,7 +263,7 @@ operations
   public IncrNumberOfTries : Card`CardId ==> ()
   IncrNumberOfTries(cardId) ==
     numberOfTries(cardId) := numberOfTries(cardId) + 1;
-                                                                                                
+                                                                                                    
   public AddAccount : Account`AccountId * Account ==> ()
   AddAccount(accId,acc) ==
     atomic
@@ -278,7 +278,7 @@ operations
     illegalCards := illegalCards union {cId};
 
 end CentralResource
-                
+                    
 ~~~
 {% endraw %}
 
@@ -286,7 +286,7 @@ end CentralResource
 
 {% raw %}
 ~~~
-                                                                                             
+                                                                                                 
 class Clock
 
 types
@@ -306,7 +306,7 @@ operations
     return date;
 
 end Clock
-                
+                    
 ~~~
 {% endraw %}
 
@@ -314,7 +314,7 @@ end Clock
 
 {% raw %}
 ~~~
-                                                                                                      
+                                                                                                          
 class Letter
 
 instance variables
@@ -336,7 +336,7 @@ operations
      return self);
 
 end Letter
-                 
+                      
 ~~~
 {% endraw %}
 
@@ -344,7 +344,7 @@ end Letter
 
 {% raw %}
 ~~~
-                                                                                                         
+                                                                                                             
 class Letterbox
 
 instance variables
@@ -361,7 +361,7 @@ operations
   pre statements <> [];
 
 end Letterbox
-                
+                    
 ~~~
 {% endraw %}
 
@@ -414,7 +414,7 @@ end SimpleTest
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                        
+                                                                                                                                                                                                            
 class Event
 
 operations 
@@ -423,7 +423,7 @@ operations
     is subclass responsibility;
 
 end Event
-             
+              
 ~~~
 {% endraw %}
 
@@ -431,7 +431,7 @@ end Event
 
 {% raw %}
 ~~~
-                                                                                                                                                             
+                                                                                                                                                                 
 class GetBalance is subclass of Event
 
 instance variables
@@ -454,7 +454,7 @@ operations
       else return false;
 
 end GetBalance
-             
+              
 ~~~
 {% endraw %}
 
@@ -462,7 +462,7 @@ end GetBalance
 
 {% raw %}
 ~~~
-                                                       
+                                                         
 class IllegalCard is subclass of Event
 
 instance variables
@@ -482,7 +482,7 @@ operations
      return true);
 
 end IllegalCard
-             
+              
 ~~~
 {% endraw %}
 
@@ -490,7 +490,7 @@ end IllegalCard
 
 {% raw %}
 ~~~
-                                                                                                                                                                
+                                                                                                                                                                    
 class InsertCard is subclass of Event
 
 instance variables
@@ -512,7 +512,7 @@ operations
      return true);
 
 end InsertCard
-             
+              
 ~~~
 {% endraw %}
 
@@ -520,7 +520,7 @@ end InsertCard
 
 {% raw %}
 ~~~
-                                                                                                                                                                          
+                                                                                                                                                                               
 class ReturnCard is subclass of Event
 
 instance variables
@@ -544,7 +544,7 @@ operations
      return true);
 
 end ReturnCard
-             
+              
 ~~~
 {% endraw %}
 
@@ -552,7 +552,7 @@ end ReturnCard
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                    
+                                                                                                                                                                                                          
 class SendStatement is subclass of Event
 
 instance variables
@@ -574,7 +574,7 @@ operations
       else return false;
 
 end SendStatement
-             
+              
 ~~~
 {% endraw %}
 
@@ -582,7 +582,7 @@ end SendStatement
 
 {% raw %}
 ~~~
-                                                                                                                          
+                                                                                                                              
 class System
 
 values
@@ -679,7 +679,7 @@ traces
              (t1.Validate(p);
               t1.MakeWithdrawal(3000)) )
 end System
-             
+              
 ~~~
 {% endraw %}
 
@@ -687,7 +687,7 @@ end System
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 class Test
 types
 
@@ -716,7 +716,7 @@ end Test
 
 {% raw %}
 ~~~
-                                                    
+                                                      
 class Validate is subclass of Event
 
 instance variables
@@ -736,7 +736,7 @@ operations
     sys.GetTill(tillid).Validate(code);
 
 end Validate
-             
+              
 ~~~
 {% endraw %}
 
@@ -744,7 +744,7 @@ end Validate
 
 {% raw %}
 ~~~
-                                                                                                                                                                     
+                                                                                                                                                                         
 class Withdrawal is subclass of Event
 
 instance variables
@@ -768,7 +768,7 @@ operations
       else return false;
 
 end Withdrawal
-             
+              
 ~~~
 {% endraw %}
 
@@ -776,7 +776,7 @@ end Withdrawal
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 class Till
 
 instance variables
@@ -786,17 +786,17 @@ instance variables
   resource : CentralResource;
 
   inv curCard = nil => not cardOk;
-                                                                                                                                                    
+                                                                                                                                                         
 operations
   public Till: CentralResource ==> Till
   Till(res) == 
     resource := res;
-                                                                                                                                                  
+                                                                                                                                                      
   public InsertCard : Card ==> ()
   InsertCard(c) ==
     curCard := c
   pre not CardInside();
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                  
   public Validate : Card`PinCode ==> <PinOk> | <PinNotOk> | <Retained>
   Validate(pin) ==
     let cardId = curCard.GetCardId(),
@@ -821,18 +821,18 @@ operations
               then <PinOk>
               else <PinNotOk>)
   pre CardInside() and not cardOk;
-                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                  
   public ReturnCard : () ==> ()
   ReturnCard() ==
     (cardOk := false;
      curCard:= nil)
   pre CardInside();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   public GetBalance : () ==> [nat]
   GetBalance() ==
     resource.GetBalance(curCard.GetAccountId())
   pre CardValidated();
-                                                                                                                                                                    
+                                                                                                                                                                         
   public MakeWithdrawal : nat ==> bool
   MakeWithdrawal(amount) ==
     resource.Withdrawal
@@ -843,7 +843,7 @@ operations
   RequestStatement() ==
     resource.PostStatement(curCard.GetAccountId(),curCard.GetCardId())
   pre CardValidated();
-                                                                                                         
+                                                                                                             
   public IsLegalCard : () ==> bool
   IsLegalCard() ==
     return 
@@ -859,13 +859,13 @@ operations
     return curCard <> nil;
 
 functions
-                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                         
   Encode: Card`PinCode +> Card`Code
   Encode(pin) ==
     pin; -- NB! The actual encoding procedure has not yet been chosen
 
 end Till
-               
+                  
 ~~~
 {% endraw %}
 

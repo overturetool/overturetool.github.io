@@ -18,7 +18,7 @@ Author: Claus Nielsen
 
 {% raw %}
 ~~~
-                                      
+                                        
 -----------------------------------------------
 -- Class:			Config
 -- Description: 	Config contains configuration values
@@ -67,7 +67,7 @@ public static TrafficCongestionThreshold : nat = 2;
 end Config
 
 
-                                                                          
+                                                                              
 ~~~
 {% endraw %}
 
@@ -75,7 +75,7 @@ end Config
 
 {% raw %}
 ~~~
-                                          
+                                            
 -----------------------------------------------
 -- Class:			Controller
 -- Description: 	Controller is main class in 
@@ -318,7 +318,7 @@ mutex(Step)
 end Controller
 
 
-                                                                              
+                                                                                  
 ~~~
 {% endraw %}
 
@@ -326,7 +326,7 @@ end Controller
 
 {% raw %}
 ~~~
-                                           
+                                             
 -----------------------------------------------
 -- Class:			Environment
 -- Description: 	Environment class in the VDM project
@@ -589,7 +589,7 @@ sync
 
 end Environment
 
-                                                                               
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -597,7 +597,7 @@ end Environment
 
 {% raw %}
 ~~~
-                                        
+                                          
 -----------------------------------------------
 -- Class:			Position
 -- Description: 	Defines a X,Y position
@@ -697,7 +697,7 @@ values
 
 end Position
 
-                                                                            
+                                                                                
 ~~~
 {% endraw %}
 
@@ -705,7 +705,7 @@ end Position
 
 {% raw %}
 ~~~
-                                       
+                                         
 -----------------------------------------------
 -- Class:			Printer
 -- Description: 	Printes text seq via IO
@@ -754,7 +754,7 @@ operations
   
 end Printer
 
-                                                                           
+                                                                               
 ~~~
 {% endraw %}
 
@@ -820,7 +820,7 @@ operations
 
 end TestCase
 
-                                                                             
+                                                                                  
 ~~~
 {% endraw %}
 
@@ -828,7 +828,7 @@ end TestCase
 
 {% raw %}
 ~~~
-                                            
+                                              
 ------------------------------------------------
 -- Class:			TestController
 -- Description: 	Test the Controller class 
@@ -954,7 +954,7 @@ TearDown () == skip;
 
 end TestController
 
-                                                                                  
+                                                                                      
 ~~~
 {% endraw %}
 
@@ -962,7 +962,7 @@ end TestController
 
 {% raw %}
 ~~~
-                                          
+                                            
 -----------------------------------------------
 -- Class:			TestPosition
 -- Description: 	Test the Position class 
@@ -1060,7 +1060,7 @@ testCompare() ==
 
 end TestPosition
 
-                                                                                
+                                                                                    
 ~~~
 {% endraw %}
 
@@ -1094,7 +1094,7 @@ operations
   
 end TestResult
 
-                                                                               
+                                                                                    
 ~~~
 {% endraw %}
 
@@ -1133,7 +1133,7 @@ operations
 
 end TestSuite
 
-                                                                               
+                                                                                     
 ~~~
 {% endraw %}
 
@@ -1141,7 +1141,7 @@ end TestSuite
 
 {% raw %}
 ~~~
-                                          
+                                             
 ------------------------------------------------
 -- Class:			TestTraffic
 -- Description: 	Test the Traffic class 
@@ -1250,7 +1250,7 @@ testCongestion() ==
 )
 end TestTraffic
 
-                                                                               
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -1258,7 +1258,7 @@ end TestTraffic
 
 {% raw %}
 ~~~
-                                             
+                                               
 -----------------------------------------------
 -- Class:			TestTrafficData
 -- Description: 	Test the TrafficData class 
@@ -1331,7 +1331,7 @@ testExpired() ==
 
 end TestTrafficData
 
-                                                                                   
+                                                                                       
 ~~~
 {% endraw %}
 
@@ -1339,7 +1339,7 @@ end TestTrafficData
 
 {% raw %}
 ~~~
-                                              
+                                                
 -----------------------------------------------
 -- Class:			TestTrafficLight
 -- Description: 	Test the TrafficLight class 
@@ -1423,7 +1423,7 @@ testCrossDirection() ==
 
 end TestTrafficLight
 
-                                                                                    
+                                                                                        
 ~~~
 {% endraw %}
 
@@ -1431,7 +1431,7 @@ end TestTrafficLight
 
 {% raw %}
 ~~~
-                                                     
+                                                       
 -----------------------------------------------
 -- Class:			TestVDMComplete
 -- Description: 	Test all test suites and classes in VDM system 
@@ -1468,7 +1468,7 @@ public Execute: () ==> ()
 		
 end TestVDMComplete
 
-                                                                                   
+                                                                                       
 ~~~
 {% endraw %}
 
@@ -1476,7 +1476,7 @@ end TestVDMComplete
 
 {% raw %}
 ~~~
-                                               
+                                                 
 ------------------------------------------------
 -- Class:			TestVDMController
 -- Description: 	Test the VDMController class 
@@ -1583,7 +1583,7 @@ sync
 
 end TestVDMController
 
-                                                                                     
+                                                                                         
 ~~~
 {% endraw %}
 
@@ -1591,7 +1591,7 @@ end TestVDMController
 
 {% raw %}
 ~~~
-                                         
+                                           
 -----------------------------------------------
 -- Class:			TestVehicle
 -- Description: 	Test the Vehicle class 
@@ -1850,7 +1850,7 @@ dcl v : Vehicle := initData();
 
 end TestVehicle
 
-                                                                               
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -1858,7 +1858,7 @@ end TestVehicle
 
 {% raw %}
 ~~~
-                                       
+                                         
 -----------------------------------------------
 -- Class:			Traffic
 -- Description: 	Traffic contains the vehicles known in a VDM
@@ -1990,7 +1990,7 @@ mutex(AddVehicle);
 end Traffic
 
 
-                                                                           
+                                                                               
 ~~~
 {% endraw %}
 
@@ -1998,7 +1998,7 @@ end Traffic
 
 {% raw %}
 ~~~
-                                            
+                                               
 -----------------------------------------------
 -- Class:			TrafficData
 -- Description: 	TrafficData is the base for different types of 
@@ -2087,7 +2087,7 @@ values
 end TrafficData
 
 
-                                                                               
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -2095,7 +2095,7 @@ end TrafficData
 
 {% raw %}
 ~~~
-                                             
+                                                
 -----------------------------------------------
 -- Class:			TrafficLight
 -- Description: 	TrafficLight the VDM project
@@ -2201,7 +2201,7 @@ mutex(Step,GreenLightPath);
 end TrafficLight
 
 
-                                                                                
+                                                                                    
 ~~~
 {% endraw %}
 
@@ -2209,7 +2209,7 @@ end TrafficLight
 
 {% raw %}
 ~~~
-                               
+                                 
 -----------------------------------------------
 -- Class:			Types
 -- Description: 	Defines simple types
@@ -2280,7 +2280,7 @@ functions
 end Types
 
 
-                                                                         
+                                                                             
 ~~~
 {% endraw %}
 
@@ -2288,7 +2288,7 @@ end Types
 
 {% raw %}
 ~~~
-                                    
+                                      
 
 -----------------------------------------------
 -- Class:			VDM
@@ -2439,7 +2439,7 @@ public VDM: () ==> VDM
 end VDM
 
 
-                                                                       
+                                                                           
 ~~~
 {% endraw %}
 
@@ -2447,7 +2447,7 @@ end VDM
 
 {% raw %}
 ~~~
-                                             
+                                               
 -----------------------------------------------
 -- Class:			VDMController
 -- Description: 	VDMController main controller for the VDM system
@@ -2618,7 +2618,7 @@ mutex (CalculateInRange)
 end VDMController
 
 
-                                                                                 
+                                                                                     
 ~~~
 {% endraw %}
 
@@ -2671,7 +2671,7 @@ end VDMUtil
 
 {% raw %}
 ~~~
-                                       
+                                         
 -----------------------------------------------
 -- Class:			Vehicle
 -- Description: 	Vehicle class describes the physical moving 
@@ -2838,7 +2838,7 @@ sync
 end Vehicle
 
 
-                                                                           
+                                                                               
 ~~~
 {% endraw %}
 
@@ -2846,7 +2846,7 @@ end Vehicle
 
 {% raw %}
 ~~~
-                                           
+                                             
 -----------------------------------------------
 -- Class:			Vehicle
 -- Description: 	DTO representing the data in the Vehicle class
@@ -2928,7 +2928,7 @@ values
 end VehicleData
 
 
-                                                                                
+                                                                                     
 ~~~
 {% endraw %}
 
@@ -2936,7 +2936,7 @@ end VehicleData
 
 {% raw %}
 ~~~
-                                     
+                                       
 -----------------------------------------------
 -- Class:			World
 -- Description: 	World class in the VDM project
@@ -3021,7 +3021,7 @@ values
 end World
 
 
-                                                                         
+                                                                             
 ~~~
 {% endraw %}
 

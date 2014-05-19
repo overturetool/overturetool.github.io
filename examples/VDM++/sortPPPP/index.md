@@ -21,7 +21,7 @@ VDM++ model created many years ago at IFAD.
 
 {% raw %}
 ~~~
-                                
+                                  
 class DoSort is subclass of Sorter
 
 operations
@@ -59,7 +59,7 @@ functions
     len list
 
 end DoSort 
-                
+                    
 ~~~
 {% endraw %}
 
@@ -67,7 +67,7 @@ end DoSort
 
 {% raw %}
 ~~~
-                                                                                                                           
+                                                                                                                                 
 class ExplSort is subclass of Sorter
 
 operations
@@ -105,7 +105,7 @@ functions
     len list
 
 end ExplSort
-             
+              
 ~~~
 {% endraw %}
 
@@ -113,7 +113,7 @@ end ExplSort
 
 {% raw %}
 ~~~
-                                                                                                                                    
+                                                                                                                                           
 class ImplSort is subclass of Sorter
 
 operations
@@ -138,7 +138,7 @@ functions
     forall i,j in set inds l & i > j => l(i) >= l(j)
 
 end ImplSort
-             
+              
 ~~~
 {% endraw %}
 
@@ -146,7 +146,7 @@ end ImplSort
 
 {% raw %}
 ~~~
-                                    
+                                       
 class MergeSort is subclass of Sorter
 
 operations
@@ -173,7 +173,7 @@ functions
   Len: seq of real -> nat
   Len(list) ==
     len list;
-                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                              
   Merge: seq of int * seq of int -> seq of int
   Merge(l1,l2) ==
     cases mk_(l1,l2):
@@ -193,7 +193,7 @@ functions
 
 end MergeSort
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -201,7 +201,7 @@ end MergeSort
 
 {% raw %}
 ~~~
-                                      
+                                        
 class Sorter
  
 operations
@@ -212,7 +212,7 @@ operations
     is subclass responsibility
 
 end Sorter
-               
+                  
 ~~~
 {% endraw %}
 
@@ -220,25 +220,25 @@ end Sorter
 
 {% raw %}
 ~~~
-                                       
+                                          
 
 class SortMachine
 
 instance variables
   srt: Sorter := new MergeSort();
 
-                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                 
 
 operations
 
   public SetSort: Sorter ==> ()
   SetSort(s) ==
     srt := s;
-                                                                                   
+                                                                                       
   public GoSorting: seq of int ==> seq of int  
   GoSorting(arr) ==
     return srt.Sort(arr);
-                                                                                         
+                                                                                             
   public SetAndSort: Sorter * seq of int ==> seq of int
   SetAndSort(s, arr) ==
   ( srt := s;
@@ -254,7 +254,7 @@ traces
 
 end SortMachine
 
-             
+              
 ~~~
 {% endraw %}
 

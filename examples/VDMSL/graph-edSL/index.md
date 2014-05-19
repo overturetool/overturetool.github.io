@@ -24,7 +24,7 @@ University, Montreal, Canada, May 1996.
 
 {% raw %}
 ~~~
-                                               
+                                                 
 
 module GRAPH
 
@@ -96,7 +96,7 @@ types
              <ERROR_FRAME_SIZE> | <ERROR_START_POINT> |
              <ERROR_NUM_VERTICES>
 
-                             
+                                
 
 state GraphEditor of
 
@@ -125,7 +125,7 @@ init mk_GraphEditor(drawing_area, objects) ==
 
 end
 
-                             
+                                
 
 functions
 
@@ -1070,7 +1070,7 @@ operations
 
 end GRAPH
 
-              
+                
 ~~~
 {% endraw %}
 

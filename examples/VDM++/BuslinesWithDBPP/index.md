@@ -1115,7 +1115,7 @@ end Road
               
 class TimeStamp
 
-                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                       
 values
 
 public stepLength : nat = 1;
@@ -1129,31 +1129,31 @@ wakeUpMap    : map nat to nat := {|->};
 
 operations
 
-                                                                                                                      
+                                                                                                                        
 
 public WaitRelative : nat ==> ()
 WaitRelative(val) ==
   AddToWakeUpMap(threadid, currentTime + val);
  
-                                                                                          
+                                                                                            
  
 public WaitAbsolute : nat ==> ()
 WaitAbsolute(val) ==
   AddToWakeUpMap(threadid, val);
 
-                                                                                                  
+                                                                                                    
 
 AddToWakeUpMap : nat * nat ==> ()
 AddToWakeUpMap(tId, val) ==
    wakeUpMap := wakeUpMap ++ { tId |-> val };
 
-                                                                                                     
+                                                                                                       
 
 public NotifyThread : nat ==> ()
 NotifyThread(tId) ==
  wakeUpMap := {tId} <-: wakeUpMap;
 
-                                                                                                       
+                                                                                                         
 
 public NotifyAll : () ==> ()
 NotifyAll() ==
@@ -1163,7 +1163,7 @@ NotifyAll() ==
     do
       NotifyThread(t);
 
-                                                                                                                                                                                                
+                                                                                                                                                                                                   
 
 public NotifyAndIncTime : () ==> ()
 NotifyAndIncTime() ==
@@ -1173,18 +1173,18 @@ NotifyAndIncTime() ==
 --		syncWithTimeIncCurrent := syncWithTimeInc; 
  );
 
-                                                             
+                                                               
 
 public GetTime : () ==> nat
 GetTime() ==
   return currentTime;
 
-                                                                                                                    
+                                                                                                                      
 
 public Awake: () ==> ()
 Awake() == skip;
 
-                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                               
 
 --public SyncWithTimeIncrement : () ==> ()
 --SyncWithTimeIncrement() ==	
@@ -1216,7 +1216,7 @@ sync
 --  mutex(SyncWithTimeIncrement, YieldTimeIncrement, NotifyAndIncTime);
 
 end TimeStamp
-                                                                                         
+                                                                                             
 ~~~
 {% endraw %}
 
@@ -1307,7 +1307,7 @@ per Awake => threadid not in set waitset;
 mutex(AddToWaitSet)
 
 end WaitNotify
-                                                                                        
+                                                                                             
 ~~~
 {% endraw %}
 

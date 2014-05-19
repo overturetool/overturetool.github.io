@@ -39,7 +39,7 @@ a simple polynomial representation.
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 module Database
 
 exports all
@@ -309,7 +309,7 @@ TransformRmEdge (rme_id) ==
     end
 
 end Database
-                                          
+                                               
 ~~~
 {% endraw %}
 

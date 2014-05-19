@@ -56,7 +56,7 @@ public static dispenser10 : FlareDispenser := new FlareDispenser(60);
 public static dispenser11 : FlareDispenser := new FlareDispenser(90);
 
 end CM
-             
+              
 ~~~
 {% endraw %}
 
@@ -152,7 +152,7 @@ isFinished () ==
   return inlines = [] and not busy;
 
 end Environment
-                                                                                           
+                                                                                                 
 ~~~
 {% endraw %}
 
@@ -231,7 +231,7 @@ isFinished () ==
             dispensers(id).isFinished();
 
 end FlareController
-                                                                                                      
+                                                                                                            
 ~~~
 {% endraw %}
 
@@ -332,7 +332,7 @@ isFinished () ==
   return not busy
 
 end FlareDispenser
-                                                                                                   
+                                                                                                         
 ~~~
 {% endraw %}
 
@@ -383,7 +383,7 @@ public getAperture: () ==> Angle * Angle
 getAperture () == is subclass responsibility;
 
 end GLOBAL
-                                                                              
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -457,7 +457,7 @@ isFinished () ==
             controllers(id).isFinished()
 
 end MissileDetector
-                                                                                                   
+                                                                                                        
 ~~~
 {% endraw %}
 
@@ -496,7 +496,7 @@ trip (evid, pmt, pa) ==
 pre canObserve(pa, aperture, SENSOR_APERTURE)
 
 end Sensor
-                                                                               
+                                                                                    
 ~~~
 {% endraw %}
 
@@ -535,7 +535,7 @@ GetTime() ==
   return currentTime;
 
 end Timer
-                                                                         
+                                                                             
 ~~~
 {% endraw %}
 
@@ -592,7 +592,7 @@ Run () ==
   env.Run()
 
 end World
-                                                                       
+                                                                            
 ~~~
 {% endraw %}
 

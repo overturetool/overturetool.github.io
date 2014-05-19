@@ -93,7 +93,7 @@ sync
   per getEvent => len events > 0 or len interrupts > 0
 
 end AbstractTask
-             
+              
 ~~~
 {% endraw %}
 
@@ -116,7 +116,7 @@ operations
   getFields () == return mk_ (abstask, ev)
 
 end AbstractTaskEvent
-             
+              
 ~~~
 {% endraw %}
 
@@ -141,7 +141,7 @@ thread
     handleEvent(getEvent())
 
 end BasicTask
-             
+              
 ~~~
 {% endraw %}
 
@@ -239,7 +239,7 @@ sync
   per getMinMaxAverage => card dom s2e = max_stimuli
 
 end EnvironmentTask
-             
+              
 ~~~
 {% endraw %}
 
@@ -261,7 +261,7 @@ operations
   getEvent () == return val
 
 end Event
-             
+              
 ~~~
 {% endraw %}
 
@@ -350,7 +350,7 @@ sync
   per getEvent => len messages > 0 or len interrupts > 0
 
 end EventDispatcher
-             
+              
 ~~~
 {% endraw %}
 
@@ -389,7 +389,7 @@ thread
   periodic (1000,0,0,0) (createSignal)
   
 end InsertAddress
-             
+              
 ~~~
 {% endraw %}
 
@@ -405,7 +405,7 @@ operations
   InterruptEvent (pne) == Event(pne)
 
 end InterruptEvent
-             
+              
 ~~~
 {% endraw %}
 
@@ -439,7 +439,7 @@ operations
       in mode := <append>;
 
 end Logger
-             
+              
 ~~~
 {% endraw %}
 
@@ -466,7 +466,7 @@ operations
       sendMessage("AdjustVolume", pe.getEvent()) )
 
 end MMIHandleKeyPressOne
-             
+              
 ~~~
 {% endraw %}
 
@@ -493,7 +493,7 @@ operations
       sendMessage("DatabaseLookup", pe.getEvent()) )
 
 end MMIHandleKeyPressTwo
-             
+              
 ~~~
 {% endraw %}
 
@@ -520,7 +520,7 @@ operations
       raiseInterrupt("InsertAddress", pe.getEvent()) )
 
 end MMIUpdateScreenAddress
-             
+              
 ~~~
 {% endraw %}
 
@@ -547,7 +547,7 @@ operations
       raiseInterrupt("TransmitTMC", pe.getEvent()) )
 
 end MMIUpdateScreenTMC
-             
+              
 ~~~
 {% endraw %}
 
@@ -574,7 +574,7 @@ operations
       raiseInterrupt("VolumeKnob", pe.getEvent()) )
 
 end MMIUpdateScreenVolume
-             
+              
 ~~~
 {% endraw %}
 
@@ -601,7 +601,7 @@ operations
       sendMessage("UpdateScreenAddress", pe.getEvent()) )
 
 end NavigationDatabaseLookup
-             
+              
 ~~~
 {% endraw %}
 
@@ -628,7 +628,7 @@ operations
       sendMessage("UpdateScreenTMC", pe.getEvent()) )
 
 end NavigationDecodeTMC
-             
+              
 ~~~
 {% endraw %}
 
@@ -644,7 +644,7 @@ operations
   NetworkEvent (pne) == Event(pne)
 
 end NetworkEvent
-             
+              
 ~~~
 {% endraw %}
 
@@ -671,7 +671,7 @@ operations
       sendMessage("UpdateScreenVolume", pe.getEvent()) )
 
 end RadioAdjustVolume
-             
+              
 ~~~
 {% endraw %}
 
@@ -698,7 +698,7 @@ operations
       sendMessage("DecodeTMC", pe.getEvent()) )
 
 end RadioHandleTMC
-             
+              
 ~~~
 {% endraw %}
 
@@ -789,7 +789,7 @@ operations
              | name in set dom envTasks } )
 
 end RadNavSys
-             
+              
 ~~~
 {% endraw %}
 
@@ -828,7 +828,7 @@ thread
   periodic (1000,0,0,0) (createSignal)
 
 end TransmitTMC
-             
+              
 ~~~
 {% endraw %}
 
@@ -867,7 +867,7 @@ thread
   periodic (1000,0,0,0) (createSignal)
   
 end VolumeKnob
-             
+              
 ~~~
 {% endraw %}
 

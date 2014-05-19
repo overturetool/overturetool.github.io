@@ -177,7 +177,7 @@ Angle2MagId(angle) ==
   elseif angle < 270
   then mk_token("Magazine 3")
   else mk_token("Magazine 4");
-                                                                                        
+                                                                                             
 ~~~
 {% endraw %}
 

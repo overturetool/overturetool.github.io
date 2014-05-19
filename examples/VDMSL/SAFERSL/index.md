@@ -117,7 +117,7 @@ functions
 
 end AAH
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -169,7 +169,7 @@ types
 
 end AUX
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -210,7 +210,7 @@ dlmodule GUI
     "my_gui.so"
 
 end GUI
-              
+                
 ~~~
 {% endraw %}
 
@@ -218,7 +218,7 @@ end GUI
 
 {% raw %}
 ~~~
-               
+                
 
 module HCM
 
@@ -260,7 +260,7 @@ functions
 
 end HCM
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -324,7 +324,7 @@ functions
 
 end SAFER
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -503,7 +503,7 @@ operations
 
 end TEST
 
-                                                                                                     
+                                                                                                             
 ~~~
 {% endraw %}
 
@@ -672,7 +672,7 @@ functions
 end TS
 
 
-             
+              
 ~~~
 {% endraw %}
 

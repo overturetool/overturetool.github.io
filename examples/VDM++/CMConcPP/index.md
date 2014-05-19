@@ -175,7 +175,7 @@ mutex (createSignal);
 per isFinished => not busy;
 
 end Environment
-                                                                                           
+                                                                                                 
 ~~~
 {% endraw %}
 
@@ -216,7 +216,7 @@ instance variables
   public static dispenser11 : FlareDispenser := new FlareDispenser(90, nil);
 
 end CM
-              
+                
 ~~~
 {% endraw %}
 
@@ -315,7 +315,7 @@ per getThreat => len threats > 0;
 per isFinished => len threats = 0 --not busy
 
 end FlareController
-                                                                                                      
+                                                                                                            
 ~~~
 {% endraw %}
 
@@ -431,7 +431,7 @@ mutex (addThreat);
 per isFinished => not busy
      
 end FlareDispenser
-                                                                                                   
+                                                                                                         
 ~~~
 {% endraw %}
 
@@ -479,7 +479,7 @@ canObserve (pangle, pleft, psize) ==
     else return (pangle >= pleft and pangle < pright);
 
 end GLOBAL
-                                                                              
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -574,7 +574,7 @@ per isFinished => not busy
 
 
 end MissileDetector
-                                                                                                   
+                                                                                                        
 ~~~
 {% endraw %}
 
@@ -613,7 +613,7 @@ trip (evid, pmt, pa) ==
 pre canObserve(pa, aperture, SENSOR_APERTURE)
 
 end Sensor
-                                                                               
+                                                                                    
 ~~~
 {% endraw %}
 
@@ -805,7 +805,7 @@ Run () ==
    env.showResult())
 
 end World
-                                                                       
+                                                                            
 ~~~
 {% endraw %}
 

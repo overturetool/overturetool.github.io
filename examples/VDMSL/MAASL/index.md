@@ -26,7 +26,7 @@ Development Methods'', Springer-Verlag, October 1991.
 
 {% raw %}
 ~~~
-                                                                             
+                                                                                
 
 values
    Word_Length = 32;
@@ -35,19 +35,19 @@ values
    Maximum_Number_Size_plus_1_div_2 = Maximum_Number_Size_plus_1 div 2;
    Maximum_No_of_Message_blocks = 1000000;
 
-                                                                          
+                                                                             
 
    A = 2 * 2 **24 + 4 * 2 **16 + 8 * 2 **8 + 1;
    B = 0 * 2 **24 + 128 * 2 **16 + 64 * 2 **8 + 33;
    C = 191 * 2 **24 + 239 * 2 **16 + 127 * 2 **8 + 223;
    D = 125 * 2 **24 + 254 * 2 **16 + 251 * 2 **8 + 255;
 
-                                                                                                        
+                                                                                                            
 
    Maximum_No_of_blocks_for_MAC = 1024 div 4;
    Maximum_No_of_blocks_for_MAC_plus_1 = Maximum_No_of_blocks_for_MAC + 1
 
-                                                                           
+                                                                              
 
 types
    Number = nat
@@ -69,14 +69,14 @@ types
    Message_in_blocks = Message_in_blocks_plus_empty_Message
    inv M == 1  <=  len M;
 
-                                                                                                             
+                                                                                                                 
 
    Double_Number = seq of Number
    inv d ==  len d  = 2;
 
    Key = Double_Number;
 
-                                                                                  
+                                                                                     
 
    Key_Constant :: X0 : Number
        Y0 : Number
@@ -85,7 +85,7 @@ types
        S : Number
        T : Number
     
-                                                                                            
+                                                                                                
 
 functions
    Pad_out_Message: Message_in_bits -> Message_in_bits
@@ -114,7 +114,7 @@ functions
     else  hd M + 2 * Form_Number( tl M)
    pre  len M  <= Word_Length;
       
-                                                                                                                                                                                           
+                                                                                                                                                                                                
 
    CYC: Number -> Number
    CYC(X) ==   
@@ -152,7 +152,7 @@ functions
    CAR(X,Y) ==   
    (X + Y) div Maximum_Number_Size_plus_1;
       
-                                                                                                                                                
+                                                                                                                                                    
 
    MUL1: Number * Number -> Number
    MUL1(X,Y) ==   
@@ -162,7 +162,7 @@ functions
    C = CAR(U,L) in ADD(S,C);
       
 
-                                                                                     
+                                                                                        
 
    MUL2: Number * Number -> Number
    MUL2(X,Y) == let L = (X * Y) mod Maximum_Number_Size_plus_1,
@@ -170,7 +170,7 @@ functions
    E = CAR(U,U) in let F = ADD(D,2 * E) in let S = ADD(F,L),
    C = CAR(F,L) in ADD(S,2 * C);
       
-                                                                                               
+                                                                                                   
 
    MUL2A: Number * Number -> Number
    MUL2A(X,Y) ==   
@@ -182,7 +182,7 @@ functions
    pre (X div Maximum_Number_Size_plus_1_div_2  = 0) or 
        (Y div Maximum_Number_Size_plus_1_div_2  = 0);
       
-                                                                                                               
+                                                                                                                  
 
    BYT: Double_Number -> Double_Number
    BYT(K) ==   
@@ -250,7 +250,7 @@ functions
     then Changes( hd M,P)  
     else Record_Changes( tl M,Changes( hd M,P));
       
-                                                                                                                                  
+                                                                                                                                       
 
    Prelude: Key -> Key_Constant
    Prelude(K) ==   
@@ -289,7 +289,7 @@ functions
        ST = BYT([H8,H9]) in   
    mk_Key_Constant( hd X0Y0, hd  tl X0Y0, hd V0W, hd  tl V0W, hd ST, hd  tl ST);
       
-                                                                                   
+                                                                                       
 
    Main_loop: Message_in_blocks_plus_empty_Message * Key_Constant -> Number
    Main_loop(M,KC) ==   
@@ -312,7 +312,7 @@ functions
    Main_loop( tl M,mk_Key_Constant(X'',Y'',V',W,S,T));
       
 
-                                                                     
+                                                                        
 
    Z: Message_in_blocks * Key -> Number
    Z(M,K) ==   
@@ -322,7 +322,7 @@ functions
    let M' = M  ^  [S]  ^  [T] in   
    Main_loop(M',KC);
       
-                                                                                               
+                                                                                                  
 
    MAC: Message_in_bits * Key -> Number
    MAC(M,K) ==   
@@ -343,7 +343,7 @@ functions
                Get_tail_in_blocks(M,No_blocks) in   
        Z_of_SEG(M',K,No_blocks);
       
-                                                                                                                                                        
+                                                                                                                                                            
 
    Get_tail_in_bits: Message_in_bits * nat -> Message_in_bits
    Get_tail_in_bits(M,No_bits) ==   
@@ -373,7 +373,7 @@ functions
     else [ hd M]  ^  Get_head_in_blocks( tl M,No_blocks - 1)
    pre ( len M  >= No_blocks) and (No_blocks  >= 1)
 
-              
+                
 ~~~
 {% endraw %}
 

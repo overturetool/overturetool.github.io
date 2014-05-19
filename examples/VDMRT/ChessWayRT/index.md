@@ -27,7 +27,7 @@ through the first author.
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                            
 class Accelerometer
 
 instance variables
@@ -88,7 +88,7 @@ end Actuator
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 system ChessWay
 
 instance variables
@@ -98,7 +98,7 @@ instance variables
 
   -- communication infrastructure (one BUS at 100 kpbs)
   bus : BUS := new BUS(<FCFS>, 100E3, {fpga1, fpga2});
-                            
+                              
 instance variables
   -- sensors (co-simulation variables)
   public static acc_in: [ISensorReal] := nil;
@@ -107,7 +107,7 @@ instance variables
   -- actuators (co-simulation variables)
   public static acc_out: [IActuatorReal] := nil;
   public static vel_out: [IActuatorReal] := nil
-                            
+                              
 instance variables
   -- deployable objects (two controllers)
   static public lctrl : LeftController := new LeftController();
@@ -115,7 +115,7 @@ instance variables
 
   -- flag to enable debugging logging in system classes
   static public debug : bool := true
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                          
 operations
   -- construct the system class
   public ChessWay : () ==> ChessWay
@@ -125,7 +125,7 @@ operations
       fpga2.deploy(rctrl,"RightCtrl") );
  
 end ChessWay
-             
+              
 ~~~
 {% endraw %}
 
@@ -133,7 +133,7 @@ end ChessWay
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                             
 class Controller
 
 values
@@ -157,7 +157,7 @@ operations
       -- initialise the motor actuator and sensor
       mMotorActuator := new MotorActuator(self);
       mMotorSensor := new MotorSensor(self) )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 instance variables
   -- link back to the environment
   protected mEnvironment : [Environment] := nil;
@@ -178,7 +178,7 @@ operations
   getValue (pName) ==
     return mEnvironment.getValue(mName^"_"^pName)
   pre mEnvironment <> nil
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 values
   protected DEBUGCTRLLOOP = 2
  
@@ -225,7 +225,7 @@ thread
   periodic (1, 0, 0, 0) (CtrlLoop)
 
 end Controller
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 ~~~
 {% endraw %}
 
@@ -233,7 +233,7 @@ end Controller
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                     
 class DirectionSwitch
 
 instance variables
@@ -306,7 +306,7 @@ end DTObject
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 class Environment
 
 values
@@ -332,7 +332,7 @@ values
     -- alternate interface model (using KP CT model)
     "LEFT_ACC", "RIGHT_VEL"
   }
-                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                            
 types
   -- all actuators are represented by a 3-tuple containing
   -- start time, start value, direction coefficient
@@ -348,7 +348,7 @@ instance variables
   -- collection of CT open-loop sensor signals
   -- these will be read from a file (scenario)
   private mCtBehavior : tCtBehavior := {|->}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 operations
   public loadCsvFile: seq of char * seq of char ==> ()
   loadCsvFile (pctvar, pfname) ==
@@ -431,7 +431,7 @@ operations
   evalSingle (ptime, pname, mk_(ltime, lvalue, ldir)) ==
     setValue(pname, lvalue + ldir * (ptime - ltime))
   pre ptime >= ltime
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 instance variables
   -- flag to enable debugging logging in Environment classes
   static public debug : nat := 1
@@ -478,7 +478,7 @@ operations
 
       -- create the user model
       mUser := new User(self, mLeftWheel, mRightWheel) )
-                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                  
 instance variables
   -- sensors
   private ain: ISensorReal := ChessWay`acc_in;
@@ -487,11 +487,11 @@ instance variables
   -- actuators
   private aout: IActuatorReal := ChessWay`acc_out;
   private vout: IActuatorReal := ChessWay`vel_out
-                            
+                              
 instance variables
   -- maintain the list of simulation values
   private mValues: map seq of char to real := {|->}
-                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                      
 operations
   -- auxiliary operation to store actuator data
   public setValue: seq of char * real ==> ()
@@ -555,13 +555,13 @@ operations
       "RIGHT_VEL" -> return ChessWay`vel_in.GetValue(),
       others      -> return mValues(pName)
     end
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 sync
   -- environment access must be atomic 
   mutex (setValue);
   mutex (getValue);
   mutex (setValue,getValue)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 operations
   private mainLoop: () ==> ()
   mainLoop () ==
@@ -597,7 +597,7 @@ thread
   -- run this thread 1000 times per second
   -- with a 250 msec offset
   periodic (1, 0, 0, 0) (mainLoop)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 operations
   -- auxiliary diagnostics operations
   private printDiagnostics: () ==> ()
@@ -619,7 +619,7 @@ operations
           IO`print("\n") ) )
 
 end Environment
-                                                                                                                                   
+                                                                                                                                      
 ~~~
 {% endraw %}
 
@@ -627,7 +627,7 @@ end Environment
 
 {% raw %}
 ~~~
-                                                                                                                                                                                     
+                                                                                                                                                                                           
 class Gyroscope
 
 instance variables
@@ -651,7 +651,7 @@ end Gyroscope
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 class HallSensor
 
 instance variables
@@ -705,7 +705,7 @@ operations
       end
 
 end HallSensor
-                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                    
 ~~~
 {% endraw %}
 
@@ -747,7 +747,7 @@ end ISensorReal
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 class LeftController
   is subclass of Controller
 
@@ -791,7 +791,7 @@ operations
   public setRightController: RightController ==> ()
   setRightController (pRight) == mRight := pRight
   pre mRight = nil
-                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                        
 instance variables
   -- loop count variable
   private mLoopCnt : nat := 0;
@@ -802,7 +802,7 @@ instance variables
   -- enable debug logging
   private mDebug : nat := 0
    
-                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                            
 operations
   public CtrlLoopEntry: () ==> ()
   CtrlLoopEntry () ==
@@ -853,7 +853,7 @@ operations
       if mDebug > DEBUGCTRLLOOP then
         IO`printf("LeftController execution time was %s\n",
           [(mTimeExit - mTimeEntry) / 1E9]) )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 operations
   public PowerUp: () ==> ()
   PowerUp () ==
@@ -868,7 +868,7 @@ operations
   printDiagnostics () ==
     duration (0)
       Controller`printDiagnostics(mLoopCnt)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 operations
   public computeResponse: (bool * bool * bool) *
     (real * real * real) * real ==> real
@@ -883,7 +883,7 @@ end LeftController
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 class MotorActuator
   is subclass of IActuatorReal
 
@@ -967,7 +967,7 @@ end MotorActuator
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                   
 class MotorSensor
   is subclass of ISensorReal
 
@@ -1005,7 +1005,7 @@ end MotorSensor
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                   
 class OnOffSwitch
 
 instance variables
@@ -1260,7 +1260,7 @@ end PID
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 class RightController
   is subclass of Controller
 
@@ -1306,7 +1306,7 @@ operations
   public setLeftController: LeftController ==> ()
   setLeftController (pLeft) == mLeft := pLeft
   pre mLeft = nil
-                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                        
 instance variables
   -- loop count variable
   private mLoopCnt : nat := 0;
@@ -1317,7 +1317,7 @@ instance variables
   -- enable debug logging
   private mDebug : nat := 0
    
-                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                        
 operations
   public CtrlLoopEntry: () ==> ()
   CtrlLoopEntry () ==
@@ -1370,7 +1370,7 @@ operations
         if mDebug > DEBUGCTRLLOOP then
           IO`printf("RightController execution time was %s\n",
             [(mTimeExit - mTimeEntry) / 1E9]) )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 operations
   public PowerUp: () ==> ()
   PowerUp () ==
@@ -1385,7 +1385,7 @@ operations
   printDiagnostics () ==
     duration (0)
       Controller`printDiagnostics(mLoopCnt)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 operations
   public computeResponse: (bool * bool * bool) * bool *
     bool * DirectionSwitch`tDirectionStatus ==> real
@@ -1406,7 +1406,7 @@ end RightController
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                 
 class SafetySwitch
 
 instance variables
@@ -1565,7 +1565,7 @@ end SetpointProfileCSV
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 class User
 
 values
@@ -1614,7 +1614,7 @@ operations
       last := now )
 
 end User
-                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                 
 ~~~
 {% endraw %}
 
@@ -1622,7 +1622,7 @@ end User
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                         
 class Wheel
 
 values
@@ -1681,7 +1681,7 @@ operations
           last := now )  )
 
 end Wheel
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 ~~~
 {% endraw %}
 
@@ -1689,7 +1689,7 @@ end Wheel
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 class World
 
 values
@@ -1703,7 +1703,7 @@ instance variables
   -- are we running a co-simulation or not
   public static cosim : bool := false
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 operations
   -- top-level access function for ChessWay co-simulation
   public run : () ==> ()
@@ -1754,7 +1754,7 @@ operations
       IO`print("ChessWay DE simulation completed at ");
       IO`print(time / SIM_RESOLUTION);
       IO`print(" sec\n") )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 instance variables
   -- boolean to indicate when simulation run is complete
   public finish : bool := false
@@ -1778,7 +1778,7 @@ sync
   per waitForSimulationEnd => finish
 
 end World
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 ~~~
 {% endraw %}
 

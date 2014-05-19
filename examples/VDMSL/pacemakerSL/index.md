@@ -30,7 +30,7 @@ Kaisa Sere, May 2008.
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 module PacemakerAAI
 
 definitions 
@@ -38,19 +38,19 @@ definitions
 values 
 LRL     : nat = 60;
 ARP     : nat = 250;
-                                                                                               
+                                                                                                   
 types 
 SenseTimeline = seq of Sense;
 
 Sense = <NONE> | <PULSE>;
 
-                                                                                                                                                                               
+                                                                                                                                                                                   
 ReactionTimeline = seq of Reaction; 
 
 Reaction = <NONE> | <PULSE>;
    
 functions
-                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                  
 Pacemaker (inp : SenseTimeline) r : ReactionTimeline
 post let m = {i | i in set inds r & r(i) = <PULSE>}
      in len r = len inp 
@@ -66,7 +66,7 @@ post let m = {i | i in set inds r & r(i) = <PULSE>}
 
 
 end PacemakerAAI
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 ~~~
 {% endraw %}
 
@@ -74,7 +74,7 @@ end PacemakerAAI
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 module PacemakerAAT
 
 definitions 
@@ -82,20 +82,20 @@ definitions
 values 
 LRL     : nat = 60;
 ARP     : nat = 250;
-                                                                                               
+                                                                                                   
 types 
 SenseTimeline = seq of Sense ;
 
 Sense = <NONE> | <PULSE>;
 
 Time = nat1;
-                                                                                                                                                                               
+                                                                                                                                                                                   
 ReactionTimeline = seq of Reaction;
 
 Reaction = <NONE> | <PULSE>;
    
 functions
-                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                
 Pacemaker (inp : SenseTimeline) r : ReactionTimeline
 post let m = {i | i in set inds r & r(i) = <PULSE>}
      in len r = len inp 
@@ -107,7 +107,7 @@ post let m = {i | i in set inds r & r(i) = <PULSE>}
 
 
 end PacemakerAAT
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 ~~~
 {% endraw %}
 
@@ -115,27 +115,27 @@ end PacemakerAAT
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 module PacemakerAOO
 
 definitions 
 
 values 
 LRL     : nat = 60;
-                                                                                                                                                 
+                                                                                                                                                     
 types 
 SenseTimeline = map Time to Sense;
 
 Sense = <NONE> | <PULSE>;
 
 Time = nat1;
-                                                                                                                                                          
+                                                                                                                                                              
 ReactionTimeline = map Time to Reaction; 
 
 Reaction = <NONE> | <PULSE>;
    
 functions
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 Pacemaker (inp : SenseTimeline) r : ReactionTimeline
 post let m = {i | i in set dom r & r(i) = <PULSE>}
      in card dom r = card dom inp 
@@ -147,7 +147,7 @@ post let m = {i | i in set dom r & r(i) = <PULSE>}
                  (exists y in set m & abs(x - y) <= 60000/LRL and x <> y));
 
 end PacemakerAOO
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 ~~~
 {% endraw %}
 
@@ -155,7 +155,7 @@ end PacemakerAOO
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 module PacemakerAOOR
 
 definitions 
@@ -173,12 +173,12 @@ inv n == n < 3;
 
 Sense = <NONE> | <PULSE>;
 
-                                                                                                                            
+                                                                                                                                
 
 ReactionTimeline = seq of (Reaction * Time); 
 
 Reaction = <NONE> | <PULSE>;
-                            
+                              
 state Sigma of
    LRL                : nat
    LRLs               : nat
@@ -245,7 +245,7 @@ sensedData : seq of (Sense * [AccelerometerData] * Time) =
 [mk_(<NONE>,nil,i) | i in set {192,...,436}];	
 
 end PacemakerAOOR
-             
+              
 ~~~
 {% endraw %}
 
@@ -333,7 +333,7 @@ c : Time * Time * SenseTimeline * (ReactionTimeline * Alarm * Alarm * Time * Tim
 c (i,t,s,mk_(r,a,v,la,lv)) == mk_(i,t,s,r,a,v,la,lv);
 
 end PacemakerDDD
-             
+              
 ~~~
 {% endraw %}
 
@@ -341,7 +341,7 @@ end PacemakerDDD
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 module PacemakerDOO
 
 definitions 
@@ -353,15 +353,15 @@ Time = nat;
 SensedTimeline = set of (Chamber * Time);
 
 Chamber = <ATRIA> | <VENTRICLE>;
-                                                                                                        
+                                                                                                            
 ReactionTimeline = set of (Chamber * Time);
 
-                                                                                
+                                                                                    
 values
    LRL     : nat = 60;
    URL     : nat = 120;
    FixedAV : nat = 150;
-                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                    
 functions
 
 Pacemaker (mk_(inp,n) : SensedTimeline * nat1) r : ReactionTimeline
@@ -374,7 +374,7 @@ post let nPulsesAtria = card {i | i in set r & i.#1 = <ATRIA>},
          forall mk_(<ATRIA>,ta) in set r & (exists mk_(<VENTRICLE>,tv) in set r & tv = ta + FixedAV) ;
 	                             
 end PacemakerDOO
-                                                                                                                                                                      
+                                                                                                                                                                               
 ~~~
 {% endraw %}
 
@@ -382,7 +382,7 @@ end PacemakerDOO
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 module RateController
 
 definitions 
@@ -390,23 +390,23 @@ definitions
 types 
 
 Input = map Time to ActivityData;
-                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                      
 Time = nat1;
 
 ActivityData = nat1
 inv a == a <= 7;
 
-                                                                                       
+                                                                                           
 RF = nat1
 inv rf == rf <= 16;
-                                                                                                                                   
+                                                                                                                                        
 
 Output = map Time to PPM; 
 
 PPM = nat1
 inv ppm == ppm >= 30 and ppm <= 175;
 
-                                                                                 
+                                                                                     
 values
    LRL           : PPM = 60;
    MSR           : PPM = 120;
@@ -414,7 +414,7 @@ values
    ReactionTime  : Time = 150;
    ResponseFactor: RF = 8; -- Not understood
    RecoveryTime  : Time = 5;
-                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                            
 functions
 
 Simulate(inp : Input)  out : Output
@@ -429,7 +429,7 @@ post forall t in set dom inp &
 
 
 end RateController
-                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                             
 ~~~
 {% endraw %}
 

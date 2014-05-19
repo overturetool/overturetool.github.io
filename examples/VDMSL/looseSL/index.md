@@ -30,7 +30,7 @@ Springer Verlag, October 1994.
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                          
 
 
 -----------------------------------------------------------------------
@@ -47,7 +47,7 @@ types
 Definitions :: valuem : seq of ValueDef
                fnm : map Name to ExplFnDef;
 
-                                                                                                                                                                
+                                                                                                                                                                       
 
 -----------------------------------------------------------------------
 -------------------------- Value Definitions --------------------------
@@ -55,7 +55,7 @@ Definitions :: valuem : seq of ValueDef
 
 ValueDef :: pat : Pattern                                     
             val : Expr;
-                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                     
 -----------------------------------------------------------------------
 -------------------------- Functions Definitions ----------------------
 -----------------------------------------------------------------------
@@ -63,7 +63,7 @@ ValueDef :: pat : Pattern
 ExplFnDef :: nm      : Name
              pat     : Pattern
              body    : Expr;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 -----------------------------------------------------------------------
 -------------------------- Expressions --------------------------------
 -----------------------------------------------------------------------
@@ -113,7 +113,7 @@ ApplyExpr :: fct : Name
 Name :: ids : seq of Id;
 
 Id = seq of char;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 -----------------------------------------------------------------------
 -------------------- Patterns and Bindings ----------------------------
 -----------------------------------------------------------------------
@@ -137,7 +137,7 @@ Bind = SetBind;
 
 SetBind :: pat : Pattern
            Set : Expr;
-                                                                                                                                                                 
+                                                                                                                                                                          
 -----------------------------------------------------------------------
 -------------------- Literals -----------------------------------------
 -----------------------------------------------------------------------
@@ -159,7 +159,7 @@ values
                               
  expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
 
-             
+              
 ~~~
 {% endraw %}
 
@@ -167,7 +167,7 @@ values
 
 {% raw %}
 ~~~
-                                                                                                                    
+                                                                                                                        
 
 operations
 
@@ -185,7 +185,7 @@ SeqOfSetOf2SetOfSeqOf(seq_ls) ==
   );
   return res_s
 )
-                                                                                                         
+                                                                                                             
 functions
 
   Consistent: LVAL * Model -> LVAL
@@ -194,7 +194,7 @@ functions
     | mk_(val,b) in set lval &
       forall id in set (dom b inter dom bind) &
              b(id) = bind(id)};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
   SetToSeq: set of VAL +> seq of VAL
   SetToSeq(s) ==
     if s = {}
@@ -203,7 +203,7 @@ functions
          in
            [e] ^ SetToSeq(s\{e})
  post s = elems RESULT;
-                                                                                                                    
+                                                                                                                        
 
   Permute: seq of VAL -> set of seq of VAL
   Permute(l) ==
@@ -217,7 +217,7 @@ functions
   RestSeq: seq of VAL * nat1 -> seq of VAL
   RestSeq(l,i) ==
     [ l(j) | j in set (inds l \ { i }) ];
-                                                                                                                                        
+                                                                                                                                            
   PatternIds: Pattern +> set of UniqueId
   PatternIds(pat) ==
     cases pat:
@@ -228,7 +228,7 @@ functions
       mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union
                                      PatternIds(rp)
     end
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 ~~~
 {% endraw %}
 
@@ -236,23 +236,23 @@ functions
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 types
 
   ENVL = seq of ENV;
-                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                      
   ENV = seq of BlkEnv;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
   BlkEnv = seq of NameVal;
-                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                         
   NameVal = UniqueId * VAL;
 
   UniqueId = (Name * Position * ([Name * VAL]));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
   LVAL = set of (VAL * Model);
-                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                        
   Model = map UniqueId to VAL;
-                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                   
   VAL = NUM | BOOL | SET;
 
   NUM :: v : int;
@@ -261,7 +261,7 @@ types
 
   SET :: v : set of VAL
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 state Sigma of
   env_l: ENVL
   val_m: map UniqueId to LVAL
@@ -276,14 +276,14 @@ init s ==
 	       {})
 end
 
-                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                           
 operations
 
   CreateContext: Definitions ==> ()
   CreateContext(mk_Definitions(valuem,fnm)) ==
     (InstallValueDefs(valuem);
      InstallFnDefs(fnm));
-                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                    
   InstallValueDefs: seq of ValueDef ==> ()
   InstallValueDefs(val_l) ==
     for mk_ValueDef(pat,expr) in val_l do
@@ -296,7 +296,7 @@ operations
 	             {id |-> {mk_(Look(env,id),model)|env in set env_s}
 		     | id in set dinter {SelDom(env)| env in set env_s}});
 
-                                                                                                                                                                                             
+                                                                                                                                                                                                   
 
   InstallFnDefs: map Name to ExplFnDef ==> ()
   InstallFnDefs(fn_marg) ==
@@ -313,7 +313,7 @@ operations
     curfn := tl curfn
   pre curfn <> []
 
-                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                  
 operations
 
   PopEnvL: () ==> ()
@@ -422,7 +422,7 @@ functions
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
 operations
 
@@ -446,7 +446,7 @@ operations
   LooseEvalBracketedExpr : BracketedExpr ==> LVAL
   LooseEvalBracketedExpr (mk_BracketedExpr(expr)) ==
     LooseEvalExpr(expr);
-                                                          
+                                                              
   LooseEvalLetExpr : LetExpr ==> LVAL
   LooseEvalLetExpr ( mk_LetExpr(pat,expr,in_e)) ==
   ( dcl lval: LVAL := {};
@@ -464,7 +464,7 @@ operations
               )
          else error;
   return lval);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
   LooseEvalLetBeSTExpr : LetBeSTExpr ==> LVAL
   LooseEvalLetBeSTExpr ( mk_LetBeSTExpr(lhs, st_e, in_e)) ==
    (dcl lval : LVAL := {};
@@ -487,7 +487,7 @@ operations
           )
     else error;
     return lval);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
   LooseEvalIfExpr : IfExpr ==> LVAL
   LooseEvalIfExpr(mk_IfExpr (test, cons, altn)) ==
   (dcl lval : set of (VAL * Model) := {};
@@ -501,7 +501,7 @@ operations
          else lval := lval union Consistent(LooseEvalExpr(altn),m)
     else error;
   return lval);
-                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                      
   LooseEvalCasesExpr: CasesExpr ==> LVAL
   LooseEvalCasesExpr (mk_CasesExpr(sel,altns,Others)) ==
   (dcl lval : set of (VAL * Model) := {},
@@ -529,7 +529,7 @@ operations
       then error
       else lval := lval union LooseEvalExpr(Others));
     return lval);
-                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   LooseEvalBinaryExpr: BinaryExpr ==> LVAL
   LooseEvalBinaryExpr (mk_BinaryExpr(left_e, opr, right_e)) ==
     let left_lv  = LooseEvalExpr(left_e),
@@ -540,7 +540,7 @@ operations
       elseif opr = <EQ>
       then LooseEvalEqBinaryExpr(left_lv, right_lv)
       else LooseEvalNumBinaryExpr(left_lv, opr, right_lv);
-                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                  
   LooseEvalSetBinaryExpr: LVAL * LVAL ==> LVAL
   LooseEvalSetBinaryExpr(l_lv, r_lv) ==
    (dcl lval : LVAL := {};
@@ -570,7 +570,7 @@ operations
     end;
     return lval)
   pre forall mk_(v,-) in set l_lv union r_lv & is_NUM(v);
-                                                                      
+                                                                          
   LooseEvalSetEnumerationExpr: SetEnumerationExpr ==> LVAL
   LooseEvalSetEnumerationExpr(mk_SetEnumerationExpr(els)) ==
     (dcl sm_s : set of ((set of VAL) * Model) := {};
@@ -586,7 +586,7 @@ operations
 		        forall id in set (dom m inter dom m2) &
 			m(id) = m2(id)};
            return {mk_(mk_SET(s),m) | mk_(s,m) in set sm_s})); 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
   LooseEvalApplyExpr: ApplyExpr ==> LVAL
   LooseEvalApplyExpr(mk_ApplyExpr(fct_e, arg_e)) ==
    (dcl lval: LVAL := {};
@@ -608,7 +608,7 @@ operations
            LeaveCurFn());
     PopEnvL();
     return lval);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
   LooseEvalLiteral: Literal ==> LVAL
   LooseEvalLiteral(lit) ==
     return if is_NumLit(lit)
@@ -616,7 +616,7 @@ operations
 	   else {mk_(mk_BOOL(lit.val),{|->})}
 
   
-                                                                                                                                                                           
+                                                                                                                                                                               
 ~~~
 {% endraw %}
 
@@ -624,7 +624,7 @@ operations
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                               
 operations
 
   PatternMatch : Pattern * VAL ==> set of BlkEnv
@@ -642,7 +642,7 @@ operations
      (is_SetUnionPattern(pat_p)) -> MatchSetUnionPattern(pat_p, val_v),
      others -> error
     end;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 MatchSetEnumPattern : SetEnumPattern * VAL ==> set of BlkEnv
 MatchSetEnumPattern ( mk_SetEnumPattern(elems_lp), val_v) ==
@@ -654,7 +654,7 @@ then let mk_SET(val_sv) = val_v in
                               tmp_lv in set perm_slv }
        else return {}
 else return {};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 MatchSetUnionPattern : SetUnionPattern * VAL ==> set of BlkEnv
 MatchSetUnionPattern ( mk_SetUnionPattern(lp_p, rp_p), val_v) ==
 ( dcl envres_sl : set of BlkEnv := {};
@@ -676,7 +676,7 @@ MatchSetUnionPattern ( mk_SetUnionPattern(lp_p, rp_p), val_v) ==
        )
   else return {}
 );
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 MatchLists : seq of Pattern * seq of VAL ==> set of BlkEnv
 MatchLists (els_lp, val_lv) ==
  let tmp_ls = [ PatternMatch(els_lp(i), val_lv(i)) |
@@ -685,7 +685,7 @@ MatchLists (els_lp, val_lv) ==
    then let perm_s = SeqOfSetOf2SetOfSeqOf(tmp_ls) in
           UnionMatch({ conc l | l in set perm_s })
    else return {};
-                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                  
 UnionMatch : set of BlkEnv ==> set of BlkEnv
 UnionMatch (blk_sl) ==
 return { StripDoubles(blk_l) |
@@ -693,7 +693,7 @@ return { StripDoubles(blk_l) |
            forall mk_(id1,v1_v) in set elems blk_l,
                   mk_(id2,v2_v) in set elems blk_l & 
                   SelName(id1) = SelName(id2) => (v1_v = v2_v)};
-                                                                                          
+                                                                                              
 StripDoubles : BlkEnv ==> BlkEnv
 StripDoubles (blk_l) ==
 ( dcl tmpblk_l : BlkEnv := blk_l,
@@ -706,11 +706,11 @@ StripDoubles (blk_l) ==
     );
   return res_l
 );
-                                                                                                                            
+                                                                                                                                 
 EvalBind : Bind ==> set of (BlkEnv * Model)
 EvalBind (bind) ==
 EvalSetBind(bind);
-                                                                           
+                                                                               
 EvalSetBind : SetBind ==> set of (BlkEnv * Model)
 EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
 ( dcl env_s : set of (BlkEnv * Model) := {};
@@ -725,7 +725,7 @@ EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
       else error);
     return env_s)
 )
-                                                                                                                                 
+                                                                                                                                     
 ~~~
 {% endraw %}
 

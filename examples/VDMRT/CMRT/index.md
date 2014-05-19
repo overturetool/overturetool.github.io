@@ -81,7 +81,7 @@ operations
      ts.Run())
 
 end CMTest
-                                                                            
+                                                                                  
 ~~~
 {% endraw %}
 
@@ -119,7 +119,7 @@ operations
   TearDown () == skip
 
 end CMTestCase2
-                                                                                    
+                                                                                         
 ~~~
 {% endraw %}
 
@@ -227,7 +227,7 @@ mutex (createSignal);
 per isFinished => not busy;
 
 end Environment
-                                                                                                 
+                                                                                                      
 ~~~
 {% endraw %}
 
@@ -442,7 +442,7 @@ per getThreat => len threats > 0;
 per isFinished => not busy
 
 end FlareController
-                                                                                                     
+                                                                                                          
 ~~~
 {% endraw %}
 
@@ -556,7 +556,7 @@ mutex (addThreat,Step);
 per isFinished => not busy;
 
 end FlareDispenser
-                                                                                                  
+                                                                                                       
 ~~~
 {% endraw %}
 
@@ -604,7 +604,7 @@ operations
   getAperture () == is subclass responsibility;
 
 end GLOBAL
-                                                                              
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -698,7 +698,7 @@ per getThreat => len threats > 0;
 per isFinished => not busy
 
 end MissileDetector
-                                                                                                   
+                                                                                                        
 ~~~
 {% endraw %}
 
@@ -798,7 +798,7 @@ trip (evid, pmt, pa) ==
 pre canObserve(pa, aperture, SENSOR_APERTURE)
 
 end Sensor
-                                                                           
+                                                                                 
 ~~~
 {% endraw %}
 
@@ -806,7 +806,7 @@ end Sensor
 
 {% raw %}
 ~~~
-               
+                
 class Test
 
 operations
@@ -814,7 +814,7 @@ operations
   Run (-) == is subclass responsibility
 
 end Test
-             
+              
 ~~~
 {% endraw %}
 
@@ -822,7 +822,7 @@ end Test
 
 {% raw %}
 ~~~
-               
+                
 class TestCase
   is subclass of Test
 
@@ -835,13 +835,13 @@ operations
 
   public GetName: () ==> seq of char
   GetName () == return name;
-                           
+                            
   protected AssertTrue: bool ==> ()
   AssertTrue (pb) == if not pb then exit <FAILURE>;
 
   protected AssertFalse: bool ==> ()
   AssertFalse (pb) == if pb then exit <FAILURE>;
-                            
+                              
   public Run: TestResult ==> ()
   Run (ptr) ==
     trap <FAILURE>
@@ -851,7 +851,7 @@ operations
         (SetUp();
 	 RunTest();
 	 TearDown());
-                            
+                              
   protected SetUp: () ==> ()
   SetUp () == is subclass responsibility;
 
@@ -862,7 +862,7 @@ operations
   TearDown () == is subclass responsibility
 
 end TestCase
-             
+              
 ~~~
 {% endraw %}
 
@@ -870,7 +870,7 @@ end TestCase
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 class TestResult
 
 instance variables
@@ -893,7 +893,7 @@ operations
         Print (failure.GetName() ^ " failed")
   
 end TestResult
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 ~~~
 {% endraw %}
 
@@ -907,14 +907,14 @@ class TestSuite
 
 instance variables
   tests : seq of Test := [];
-                           
+                            
 operations
   public Run: () ==> ()
   Run () ==
     (dcl ntr : TestResult := new TestResult();
      Run(ntr);
      ntr.Show());
-                           
+                            
   public Run: TestResult ==> ()
   Run (result) ==
     for test in tests do
@@ -925,7 +925,7 @@ operations
     tests := tests ^ [test];
 
 end TestSuite
-             
+              
 ~~~
 {% endraw %}
 
@@ -989,7 +989,7 @@ Run () ==
    env.showResult())
 
 end World
-                                                                       
+                                                                            
 ~~~
 {% endraw %}
 

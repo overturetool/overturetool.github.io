@@ -97,7 +97,7 @@ Erase(p1, p2, bom) ==
   bom ++ { p1 |-> bom(p1) \ {p2} }
 pre (p1 in set dom bom) and (p2 in set dom bom) and
     (p2 in set bom(p1))
-              
+                
 ~~~
 {% endraw %}
 
