@@ -5,11 +5,6 @@ title: VDM++
 
 ### Access-control
 
-| | |
-|------|-------|
-|**Author:**|Jeremy Bryans and John Fitzgerald|
-|**Version:**|VDM_PP - classic|
-||
 
 This specification describes access control and policies for restricting this.
 Details of the specification may be found in:   
@@ -22,17 +17,16 @@ Dynamic Collaborations Jeremy W. Bryans, John S. Fitzgerald and Panos Periorelli
 In Proceedings of the 37th Annual IEEE/IFIP International Conference on Dependable 
 Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinburgh, UK
  
-|
-||<a href="access-controlPP/Access-control.zip">model (zip)</a>  / <a href="access-controlPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Jeremy Bryans and John Fitzgerald|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](access-controlPP/Access-control.zip)  / [show specification](access-controlPP/index.html)|
 
 
 ### Alarm++proof
 
-| | |
-|------|-------|
-|**Author:**|John Fitzgerald and Peter Gorm Larsen|
-|**Version:**|VDM_PP - classic|
-||
 This is a version of the alarm example from the VDM++ book, John 
 Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
 Verhoef, Validated Designs for Object-oriented Systems, Springer, 
@@ -44,17 +38,16 @@ of a large alarm system developed by IFAD A/S. It is modelling the
 management of alarms for an industrial plant. The purpose of the 
 model is to clarify the rules governing the duty roster and calling 
 out of experts to deal with alarms. 
-|
-||<a href="Alarm++proofPP/Alarm++proof.zip">model (zip)</a>  / <a href="Alarm++proofPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|John Fitzgerald and Peter Gorm Larsen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](Alarm++proofPP/Alarm++proof.zip)  / [show specification](Alarm++proofPP/index.html)|
 
 
 ### Alarm++traces
 
-| | |
-|------|-------|
-|**Author:**|John Fitzgerald and Peter Gorm Larsen|
-|**Version:**|VDM_PP - classic|
-||
 This is a version of the alarm example from the VDM++ book where traces
 have been added to test automation purposes. See John Fitzgerald, Peter
 Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel Verhoef, Validated
@@ -64,17 +57,16 @@ alarm system developed by IFAD A/S. It is modelling the management of
 alarms for an industrial plant. The purpose of the model is to clarify
 the rules governing the duty roster and calling out of experts to deal
 with alarms. A comparable model of this example also exists in VDM-SL.
-|
-||<a href="Alarm++tracesPP/Alarm++traces.zip">model (zip)</a>  / <a href="Alarm++tracesPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|John Fitzgerald and Peter Gorm Larsen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](Alarm++tracesPP/Alarm++traces.zip)  / [show specification](Alarm++tracesPP/index.html)|
 
 
 ### AlarmErr
 
-| | |
-|------|-------|
-|**Author:**|John Fitzgerald and Peter Gorm Larsen|
-|**Version:**|VDM_PP - classic|
-||
 This is an erronerous version of the alarm example from the VDM++
 book, John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat
 and Marcel Verhoef. Validated Designs for Object-oriented Systems,
@@ -86,17 +78,16 @@ for an industrial plant. The purpose of the model is to clarify the
 rules governing the duty roster and calling out of experts to deal
 with alarms. A comparable model of this example also exists in VDM-SL.
 
-|
-||<a href="AlarmErrPP/AlarmErr.zip">model (zip)</a>  / <a href="AlarmErrPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|John Fitzgerald and Peter Gorm Larsen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](AlarmErrPP/AlarmErr.zip)  / [show specification](AlarmErrPP/index.html)|
 
 
 ### Alarm
 
-| | |
-|------|-------|
-|**Author:**|John Fitzgerald and Peter Gorm Larsen|
-|**Version:**|VDM_PP - classic|
-||
 This is the alarm example from the VDM++ book, John Fitzgerald, Peter
 Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel Verhoef. Validated
 Designs for Object-oriented Systems, Springer, New York. 2005, ISBN
@@ -105,17 +96,16 @@ alarm system developed by IFAD A/S. It is modelling the management of
 alarms for an industrial plant. The purpose of the model is to clarify
 the rules governing the duty roster and calling out of experts to deal
 with alarms. A comparable model of this example also exists in VDM-SL.
-|
-||<a href="AlarmPP/Alarm.zip">model (zip)</a>  / <a href="AlarmPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|John Fitzgerald and Peter Gorm Larsen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](AlarmPP/Alarm.zip)  / [show specification](AlarmPP/index.html)|
 
 
 ### AutomatedStockBroker
 
-| | |
-|------|-------|
-|**Author:**|Anders Kaels Malmos|
-|**Version:**|VDM_PP - classic|
-||
 The system is an automated stock broker, where you can specify a list
 of stocks which automaticly, can either be bought or sold. This is
 done by defining a prioritised list of stocks to observe, which each
@@ -128,28 +118,26 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 
 More information about the model and the purpose of it can be found in
 the ProjectReport.pdf file included in the zip file with the source files.
-|
-||<a href="AutomatedStockBrokerPP/AutomatedStockBroker.zip">model (zip)</a>  / <a href="AutomatedStockBrokerPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Anders Kaels Malmos|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](AutomatedStockBrokerPP/AutomatedStockBroker.zip)  / [show specification](AutomatedStockBrokerPP/index.html)|
 
 
 ### Autopilot
 
+
 | | |
 |------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="AutopilotPP/Autopilot.zip">model (zip)</a>  / <a href="AutopilotPP/index.html">show specification</a>|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](AutopilotPP/Autopilot.zip)  / [show specification](AutopilotPP/index.html)|
 
 
 ### Buffers
 
-| | |
-|------|-------|
-|**Author:**|Yves Ledru|
-|**Version:**|VDM_PP - classic|
-||
 This model is made by Yves Ledru et al. in a paper illustrating the
 combinatorial testing tool called Tobias. In this model the traces to
 be used for combinatorial testing purposes have been redone by Peter 
@@ -159,17 +147,16 @@ Filtering TOBIAS Combinatorial Test Suites, Yves Ledru, Lydie du
 Bousquet, Olivier Maury and Pierre Bontron, In Fundamental 
 Approaches to Software Engineering, Lecture Notes in Computer Science, 
 Springer, ISSN 0302-9743 (Print) 1611-3349 (Online), Volume 2984/2004. 
- |
-||<a href="buffersPP/Buffers.zip">model (zip)</a>  / <a href="buffersPP/index.html">show specification</a>|
+ 
+| | |
+|------|-------|
+|Author:|Yves Ledru|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](buffersPP/Buffers.zip)  / [show specification](buffersPP/index.html)|
 
 
 ### Buslines
 
-| | |
-|------|-------|
-|**Author:**|Claus Ballegaard Nielsen|
-|**Version:**|VDM_PP - classic|
-||
 This example models bus lines in a city, in which passengers are to be 
 transferred from stop to stop. Passengers with specific destinations 
 will arrive at a central station, and the route and flow of the buses 
@@ -179,17 +166,16 @@ variables.
  
  Remote Debugger must be set to remote class:
 	gui.BuslinesRemote
- |
-||<a href="BuslinesPP/Buslines.zip">model (zip)</a>  / <a href="BuslinesPP/index.html">show specification</a>|
+ 
+| | |
+|------|-------|
+|Author:|Claus Ballegaard Nielsen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](BuslinesPP/Buslines.zip)  / [show specification](BuslinesPP/index.html)|
 
 
 ### BuslinesWithDB
 
-| | |
-|------|-------|
-|**Author:**|Claus Ballegaard Nielsen|
-|**Version:**|VDM_PP - classic|
-||
 This example models bus lines in a city, in which passengers are to be 
 transferred from stop to stop. Passengers with specific destinations 
 will arrive at a central station, and the route and flow of the buses 
@@ -201,154 +187,144 @@ This version connects to a database containing maps and busroutes.
  
  Remote Debugger must be set to remote class:
 	gui.BuslinesRemote
- |
-||<a href="BuslinesWithDBPP/BuslinesWithDB.zip">model (zip)</a>  / <a href="BuslinesWithDBPP/index.html">show specification</a>|
+ 
+| | |
+|------|-------|
+|Author:|Claus Ballegaard Nielsen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](BuslinesWithDBPP/BuslinesWithDB.zip)  / [show specification](BuslinesWithDBPP/index.html)|
 
 
 ### CashDispenserConc
 
-| | |
-|------|-------|
-|**Author:**|Sten Agerholm, Peter Gorm Larsen and Kim Sunesen|
-|**Version:**|VDM_PP - classic|
-||
 This model is concurrent and it is described in VDM++. This enables 
 abstraction from design considerations and can model errors in the
 communication channel and it ensures maximum focus on high-level, 
 precise and systematic analysis. This was developed by Sten Agerholm, 
 Peter Gorm Larsen and Kim Sunesen in 1999 in connection with FM'99.
-|
-||<a href="CashDispenserConcPP/CashDispenserConc.zip">model (zip)</a>  / <a href="CashDispenserConcPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Sten Agerholm, Peter Gorm Larsen and Kim Sunesen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](CashDispenserConcPP/CashDispenserConc.zip)  / [show specification](CashDispenserConcPP/index.html)|
 
 
 ### CashDispenser
 
-| | |
-|------|-------|
-|**Author:**|Sten Agerholm, Peter Gorm Larsen and Kim Sunesen|
-|**Version:**|VDM_PP - classic|
-||
 This model is described in the sequential subset of VDM++. 
 This enables abstraction from design considerations and ensures 
 maximum focus on high-level, precise and systematic analysis. This
 was developed by Sten Agerholm, Peter Gorm Larsen and Kim Sunesen 
 in 1999 in connection with FM'99.
-|
-||<a href="CashDispenserPP/CashDispenser.zip">model (zip)</a>  / <a href="CashDispenserPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Sten Agerholm, Peter Gorm Larsen and Kim Sunesen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](CashDispenserPP/CashDispenser.zip)  / [show specification](CashDispenserPP/index.html)|
 
 
 ### CMConc
 
-| | |
-|------|-------|
-|**Author:**|Peter Gorm Larsen and Marcel Verhoef|
-|**Version:**|VDM_PP - classic|
-||
 This example is used in the guidelines for developing distributed 
 real time systems using the VICE extension to VDM++. This model 
 is available in a sequential version, a concurrent version as
 well as in a distributed real-time VICE version. This is the 
-distributed real time version of this example. |
-||<a href="CMConcPP/CMConc.zip">model (zip)</a>  / <a href="CMConcPP/index.html">show specification</a>|
+distributed real time version of this example. 
+| | |
+|------|-------|
+|Author:|Peter Gorm Larsen and Marcel Verhoef|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](CMConcPP/CMConc.zip)  / [show specification](CMConcPP/index.html)|
 
 
 ### CMSeq
 
-| | |
-|------|-------|
-|**Author:**|Peter Gorm Larsen and Marcel Verhoef|
-|**Version:**|VDM_PP - classic|
-||
 This example is used in the guidelines for developing distributed 
 real time systems using the VICE extension to VDM++. This model 
 is available in a sequential version, a concurrent version as
 well as in a distributed real-time VICE version. This is the 
-distributed real time version of this example. |
-||<a href="CMSeqPP/CMSeq.zip">model (zip)</a>  / <a href="CMSeqPP/index.html">show specification</a>|
+distributed real time version of this example. 
+| | |
+|------|-------|
+|Author:|Peter Gorm Larsen and Marcel Verhoef|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](CMSeqPP/CMSeq.zip)  / [show specification](CMSeqPP/index.html)|
 
 
 ### Codegen
 
-| | |
-|------|-------|
-|**Author:**|Johannes Ulfkjær Jensen, Jon Nielsen and Leni Lausdahl|
-|**Version:**|VDM_PP - classic|
-||
 This example is produced by a group of students as a part
 of a VDM course given at the Engineering College of Aarhus. 
 This model describes how to do code generation from a small 
 applicative language called Simple to a subset of Java (called
 Geraffe). This example also illustrates how one can make use
 of Java jar files as a part of a VDM model supported by
-Overture.  |
-||<a href="CodegenPP/Codegen.zip">model (zip)</a>  / <a href="CodegenPP/index.html">show specification</a>|
+Overture.  
+| | |
+|------|-------|
+|Author:|Johannes Ulfkjær Jensen, Jon Nielsen and Leni Lausdahl|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](CodegenPP/Codegen.zip)  / [show specification](CodegenPP/index.html)|
 
 
 ### Concfactorial
 
-| | |
-|------|-------|
-|**Author:**|Nick Battle|
-|**Version:**|VDM_PP - classic|
-||
 
 This example is made by Nick Battle and it illustrates how one can 
 perform the traditional factorial functionality using the concurrency
 primitives in VDM++.
-|
-||<a href="concfactorialPP/Concfactorial.zip">model (zip)</a>  / <a href="concfactorialPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Nick Battle|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](concfactorialPP/Concfactorial.zip)  / [show specification](concfactorialPP/index.html)|
 
 
 ### Diet2japan
 
-| | |
-|------|-------|
-|**Author:**|Shin Sahara|
-|**Version:**|VDM_PP - classic|
-||
 This example is made by Shin Sahara as a test of local higher order
 functions defined inside explicit function definitions in order to
-test the correct interpretation of these constructs.|
-||<a href="diet2japanPP/Diet2japan.zip">model (zip)</a>  / <a href="diet2japanPP/index.html">show specification</a>|
+test the correct interpretation of these constructs.
+| | |
+|------|-------|
+|Author:|Shin Sahara|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](diet2japanPP/Diet2japan.zip)  / [show specification](diet2japanPP/index.html)|
 
 
 ### Dining
 
-| | |
-|------|-------|
-|**Author:**|Marcel Verhoef|
-|**Version:**|VDM_PP - classic|
-||
 This example is made by Marcel Verhoef and it demonstrates the standard
 classical dining philosophers problem expressed in VDM++. The standard 
 launcer provided here is sufficient to cover the entire VDM++ model.
-|
-||<a href="DiningPP/Dining.zip">model (zip)</a>  / <a href="DiningPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Marcel Verhoef|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](DiningPP/Dining.zip)  / [show specification](DiningPP/index.html)|
 
 
 ### ElectronicPurse
 
-| | |
-|------|-------|
-|**Author:**|Steve Riddle|
-|**Version:**|VDM_PP - classic|
-||
 This example is made by Steve Riddle as an example for an 
 exam question used at the VDM course in Newcastle. It deals
 with an electronic purse in a simple form. This is one of the
 grand challenges that is considered by the formal methods 
 community for formal verification.
-|
-||<a href="ElectronicPursePP/ElectronicPurse.zip">model (zip)</a>  / <a href="ElectronicPursePP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Steve Riddle|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](ElectronicPursePP/ElectronicPurse.zip)  / [show specification](ElectronicPursePP/index.html)|
 
 
 ### Enigma
 
-| | |
-|------|-------|
-|**Author:**|Marvel Verhoef|
-|**Version:**|VDM_PP - classic|
-||
 This VDM++ model is developed by Marcel Verhoef as a part of the VDM++ book
 John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
 Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 
@@ -358,28 +334,26 @@ encrypt and decrypt messages that were exchanged between military
 units. The purpose of the model is to get a basic understanding of the
 cipher mechanism as implemented in Enigma. This example was the first place
 where the VDMUnit testing approach was introduced.
-|
-||<a href="EnigmaPP/Enigma.zip">model (zip)</a>  / <a href="EnigmaPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Marvel Verhoef|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](EnigmaPP/Enigma.zip)  / [show specification](EnigmaPP/index.html)|
 
 
 ### HomeAutomationConc
 
+
 | | |
 |------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="HomeAutomationConcPP/HomeAutomationConc.zip">model (zip)</a>  / <a href="HomeAutomationConcPP/index.html">show specification</a>|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](HomeAutomationConcPP/HomeAutomationConc.zip)  / [show specification](HomeAutomationConcPP/index.html)|
 
 
 ### HomeautomationSeq
 
-| | |
-|------|-------|
-|**Author:**|Sune Wolff|
-|**Version:**|VDM_PP - classic|
-||
 This is a sequential VDM++ version of a home automation example constructed
 by Sune Wolff. 
 
@@ -387,17 +361,16 @@ More information can be found in:
 Peter Gorm Larsen, John Fitzgerald and Sune Wolff, Methods for the Development 
 of Distributed Real-Time Embedded Systems Using VDM, International Journal of 
 Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341. 
-|
-||<a href="HomeautomationSeqPP/HomeautomationSeq.zip">model (zip)</a>  / <a href="HomeautomationSeqPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Sune Wolff|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](HomeautomationSeqPP/HomeautomationSeq.zip)  / [show specification](HomeautomationSeqPP/index.html)|
 
 
 ### HubInSafeMode
 
-| | |
-|------|-------|
-|**Author:**|Klaus Petersen|
-|**Version:**|VDM_PP - classic|
-||
 The purpose of the hub in safe mode is to allow a service technician
 to physically enter the hub of the wind turbine to carry out
 maintenance. For the service technician to do so without risking his
@@ -409,17 +382,16 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 
 More information about the model and the purpose of it can be found in
 the Report.pdf file included in the zip file with the source files.
-|
-||<a href="HubInSafeModePP/HubInSafeMode.zip">model (zip)</a>  / <a href="HubInSafeModePP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Klaus Petersen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](HubInSafeModePP/HubInSafeMode.zip)  / [show specification](HubInSafeModePP/index.html)|
 
 
 ### KLV
 
-| | |
-|------|-------|
-|**Author:**|Niels Kirkegaard|
-|**Version:**|VDM_PP - classic|
-||
 This example describes a VDM++ specification of a KLV system. The
 purpose of the KLV system is to provide a continuous monitoring of the
 speed of a train. The VDM++ specification is inspired by a KLV
@@ -435,55 +407,51 @@ triggers the KLV system. Issues such as how to determine whether a
 beacon has been met within a certain distance calculated from speed
 has been abstracted in away in the current model. They could be issues
 to extend the model with.
-|
-||<a href="KLVPP/KLV.zip">model (zip)</a>  / <a href="KLVPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Niels Kirkegaard|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](KLVPP/KLV.zip)  / [show specification](KLVPP/index.html)|
 
 
 ### Memoryproof
 
+
 | | |
 |------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="memoryproofPP/Memoryproof.zip">model (zip)</a>  / <a href="memoryproofPP/index.html">show specification</a>|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](memoryproofPP/Memoryproof.zip)  / [show specification](memoryproofPP/index.html)|
 
 
 ### Mondex
 
+
 | | |
 |------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="MondexPP/Mondex.zip">model (zip)</a>  / <a href="MondexPP/index.html">show specification</a>|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](MondexPP/Mondex.zip)  / [show specification](MondexPP/index.html)|
 
 
 ### MSAWconcur
 
-| | |
-|------|-------|
-|**Author:**|Augusto Ribeiro|
-|**Version:**|VDM_PP - classic|
-||
 This VDM++ model is made by August Ribeiro as input for the VDM
 courses delivered at IHA in Denmark. It is a concurrent version 
 of the Minimum Safety Altitude Warning System (MSAW) example.
 
 This project is currently not running with the Overture interpreter.
-|
-||<a href="MSAWconcurPP/MSAWconcur.zip">model (zip)</a>  / <a href="MSAWconcurPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Augusto Ribeiro|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](MSAWconcurPP/MSAWconcur.zip)  / [show specification](MSAWconcurPP/index.html)|
 
 
 ### MSAWseq
 
-| | |
-|------|-------|
-|**Author:**|Augusto Ribeiro|
-|**Version:**|VDM_PP - classic|
-||
 This VDM++ model is made by August Ribeiro as input for the VDM
 courses delivered at IHA in Denmark. It is a concurrent version 
 of the Minimum Safety Altitude Warning System (MSAW) example.
@@ -496,17 +464,16 @@ the Radar is invoked.
 
 lib/radar.jar contains binary and source code for the java radar 
 display.
-|
-||<a href="MSAWseqPP/MSAWseq.zip">model (zip)</a>  / <a href="MSAWseqPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Augusto Ribeiro|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](MSAWseqPP/MSAWseq.zip)  / [show specification](MSAWseqPP/index.html)|
 
 
 ### PacemakerConc
 
-| | |
-|------|-------|
-|**Author:**|Hugo Macedo|
-|**Version:**|VDM_PP - classic|
-||
 This model is made by Hugo Macedo as a part of his MSc thesis of a
 pacemaker according to the grand challenge provided by Boston
 Scientific in this area. This is the last of a series of VDM models
@@ -521,17 +488,16 @@ Development of a Distributed Real-Time Model of a Cardiac Pacing System
 using VDM, In FM 2008: Formal Methods, 15th International Symposium on 
 Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
 Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
-|
-||<a href="PacemakerConcPP/PacemakerConc.zip">model (zip)</a>  / <a href="PacemakerConcPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Hugo Macedo|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](PacemakerConcPP/PacemakerConc.zip)  / [show specification](PacemakerConcPP/index.html)|
 
 
 ### PacemakerSeq
 
-| | |
-|------|-------|
-|**Author:**|Hugo Macedo|
-|**Version:**|VDM_PP - classic|
-||
 This model is made by Hugo Macedo as a part of his MSc thesis of a
 pacemaker according to the grand challenge provided by Boston
 Scientific in this area. This is the last of a series of VDM models
@@ -546,86 +512,80 @@ Development of a Distributed Real-Time Model of a Cardiac Pacing System
 using VDM, In FM 2008: Formal Methods, 15th International Symposium on 
 Formal Methods, Eds, Jorge Cuellar and Tom Maibaum and Kaisa Sere, 2008,
 Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
-|
-||<a href="PacemakerSeqPP/PacemakerSeq.zip">model (zip)</a>  / <a href="PacemakerSeqPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Hugo Macedo|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](PacemakerSeqPP/PacemakerSeq.zip)  / [show specification](PacemakerSeqPP/index.html)|
 
 
 ### PacemakerSimple
 
-| | |
-|------|-------|
-|**Author:**|Steve Riddle and Peter Gorm Larsen|
-|**Version:**|VDM_PP - classic|
-||
 This model is a very simple version of the pacemaker as it has
 been used for a small exercise to VDM newcommers. It was first 
 used in a VDM course delivered by Steve Riddle and John Fitzgerald
 and later used and adjusted by Peter Gorm Larsen also. 
-|
-||<a href="PacemakerSimplePP/PacemakerSimple.zip">model (zip)</a>  / <a href="PacemakerSimplePP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Steve Riddle and Peter Gorm Larsen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](PacemakerSimplePP/PacemakerSimple.zip)  / [show specification](PacemakerSimplePP/index.html)|
 
 
 ### POP3
 
-| | |
-|------|-------|
-|**Author:**|Paul Mukherjee|
-|**Version:**|VDM_PP - classic|
-||
 This example is written by Paul Mukherjee and it is used in the VDM++ book
 John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel 
 Verhoef. Validated Designs for Object-oriented Systems, Springer, New York. 
 2005, ISBN 1-85233-881-4. The concurrent system in question is a server 
 for the POP3 protocol. This is a protocol supported by all major email c
-lients to fetch email messages from the email server. |
-||<a href="POP3PP/POP3.zip">model (zip)</a>  / <a href="POP3PP/index.html">show specification</a>|
+lients to fetch email messages from the email server. 
+| | |
+|------|-------|
+|Author:|Paul Mukherjee|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](POP3PP/POP3.zip)  / [show specification](POP3PP/index.html)|
 
 
 ### ProductLine
 
+
 | | |
 |------|-------|
-|**Author:**|Naoyasu Ubayashi, Shin Nakajima and Masayuki Hirayama|
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="ProductLinePP/ProductLine.zip">model (zip)</a>  / <a href="ProductLinePP/index.html">show specification</a>|
+|Author:|Naoyasu Ubayashi, Shin Nakajima and Masayuki Hirayama|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](ProductLinePP/ProductLine.zip)  / [show specification](ProductLinePP/index.html)|
 
 
 ### Quadilateral
 
-| | |
-|------|-------|
-|**Author:**|Stephen Goldsack|
-|**Version:**|VDM_PP - classic|
-||
 This example deals with quadilaterals (figures with four 
 straight lines) and the inheritance between them. A few 
 basic operations are defined in the respective classes. 
 This package also illustrates how to make use of C++ 
 code automatically generated using VDMTools. 
-|
-||<a href="QuadilateralPP/Quadilateral.zip">model (zip)</a>  / <a href="QuadilateralPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Stephen Goldsack|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](QuadilateralPP/Quadilateral.zip)  / [show specification](QuadilateralPP/index.html)|
 
 
 ### ReaderWriter
 
+
 | | |
 |------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="ReaderWriterPP/ReaderWriter.zip">model (zip)</a>  / <a href="ReaderWriterPP/index.html">show specification</a>|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](ReaderWriterPP/ReaderWriter.zip)  / [show specification](ReaderWriterPP/index.html)|
 
 
 ### SAFER
 
-| | |
-|------|-------|
-|**Author:**|Sten Agerholm and Peter Gorm Larsen|
-|**Version:**|VDM_PP - classic|
-||
 This specification is a VDM++ model of the SAFER 
 (Simplified Aid for EVA Rescue) example presented in 
 the second volume of the NASA guidebook on formal 
@@ -657,140 +617,130 @@ More explanation about this work can be found in the papers:
   UML and VDM++, ed: John Fitzgerald and Peter Gorm Larsen, 
   in "VDM Workshop at the Formal Methods 1999 conference, 
   Toulouse 
-|
-||<a href="SAFERPP/SAFER.zip">model (zip)</a>  / <a href="SAFERPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Sten Agerholm and Peter Gorm Larsen|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](SAFERPP/SAFER.zip)  / [show specification](SAFERPP/index.html)|
 
 
 ### SAFERProof
 
+
 | | |
 |------|-------|
-|**Author:**|Sten Agerholm|
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="SAFERProofPP/SAFERProof.zip">model (zip)</a>  / <a href="SAFERProofPP/index.html">show specification</a>|
+|Author:|Sten Agerholm|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](SAFERProofPP/SAFERProof.zip)  / [show specification](SAFERProofPP/index.html)|
 
 
 ### Smoking
 
+
 | | |
 |------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="SmokingPP/Smoking.zip">model (zip)</a>  / <a href="SmokingPP/index.html">show specification</a>|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](SmokingPP/Smoking.zip)  / [show specification](SmokingPP/index.html)|
 
 
 ### SortingParcels
 
-| | |
-|------|-------|
-|**Author:**|Bjarke Møholt|
-|**Version:**|VDM_PP - classic|
-||
 ﻿The purpose of this VDM++ model is to analyse the rules governing for
 distrubuting parcels with different kinds of goods is a
 warehouse. This model is made by Bjarke Møholt as a small mini-project
 in a course on "Modelling of Mission Critical Systems" (see
 https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).
-|
-||<a href="SortingParcelsPP/SortingParcels.zip">model (zip)</a>  / <a href="SortingParcelsPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Bjarke Møholt|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](SortingParcelsPP/SortingParcels.zip)  / [show specification](SortingParcelsPP/index.html)|
 
 
 ### SortPP
 
-| | |
-|------|-------|
-|**Author:**|Peter Gorm Larsen|
-|**Version:**|VDM_PP - vdm10|
-||
 This VDM++ model is made by Peter Gorm Larsen in 2010 based on the original 
 VDM++ model created many years ago at IFAD.
-|
-||<a href="sortPPPP/SortPP.zip">model (zip)</a>  / <a href="sortPPPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Peter Gorm Larsen|
+|Version:|VDM_PP - vdm10|
+|Details...|[model (zip)](sortPPPP/SortPP.zip)  / [show specification](sortPPPP/index.html)|
 
 
 ### SSlibE2
 
-| | |
-|------|-------|
-|**Author:**|Shin Sahara|
-|**Version:**|VDM_PP - classic|
-||
 This example contains a large collection of test classes that can be
 used to test different aspects of VDM++. This makes use of the VDMUnit 
 test approach.
-|
-||<a href="SSlibE2PP/SSlibE2.zip">model (zip)</a>  / <a href="SSlibE2PP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Shin Sahara|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](SSlibE2PP/SSlibE2.zip)  / [show specification](SSlibE2PP/index.html)|
 
 
 ### Stack
 
+
 | | |
 |------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="stackPP/Stack.zip">model (zip)</a>  / <a href="stackPP/index.html">show specification</a>|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](stackPP/Stack.zip)  / [show specification](stackPP/index.html)|
 
 
 ### Trackerproof
 
-| | |
-|------|-------|
-|**Author:**|John Fitzgerald|
-|**Version:**|VDM_PP - vdm10|
-||
 
 This VDM++ model is a direct transformation from the 
 VDM-SL model presented in the Fitzgerald&Larsen98 book 
 on VDM-SL. The tracker takes care of monitoring and 
 controlling the nuclear material in a plant that takes 
 care of processing such waste material. 
-|
-||<a href="trackerproofPP/Trackerproof.zip">model (zip)</a>  / <a href="trackerproofPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|John Fitzgerald|
+|Version:|VDM_PP - vdm10|
+|Details...|[model (zip)](trackerproofPP/Trackerproof.zip)  / [show specification](trackerproofPP/index.html)|
 
 
 ### Trayallocation
 
-| | |
-|------|-------|
-|**Author:**|Kim Bjerge and José Antonio Esparza Jaesparza|
-|**Version:**|VDM_PP - classic|
-||
 ﻿This VDM++ model is made by two students of a sortation system
 able to sort parcels into different trays for example for an
 airport sorting suitcases for different flights. The model here
 focus on the algorithm for prioritising between different feeders
 to the conveyer belt
-|
-||<a href="trayallocationPP/Trayallocation.zip">model (zip)</a>  / <a href="trayallocationPP/index.html">show specification</a>|
+
+| | |
+|------|-------|
+|Author:|Kim Bjerge and José Antonio Esparza Jaesparza|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](trayallocationPP/Trayallocation.zip)  / [show specification](trayallocationPP/index.html)|
 
 
 ### Tree
 
-| | |
-|------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
 
 This VDM++ model contains basic classes for defining 
 and traversing over abstract threes and queues.
- |
-||<a href="treePP/Tree.zip">model (zip)</a>  / <a href="treePP/index.html">show specification</a>|
+ 
+| | |
+|------|-------|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](treePP/Tree.zip)  / [show specification](treePP/index.html)|
 
 
 ### VFS
 
-| | |
-|------|-------|
-|**Author:**|Miguel Ferreira|
-|**Version:**|VDM_PP - classic|
-||
 This is a Specification of the File System Layer, sliced at the 
 FS_DeleteFileDir operation, as defined in the INTEL Flash File 
 System document. It includes: a VDM++ model that can be model 
@@ -799,28 +749,26 @@ of the VDM++ model to be used in the Overture Automated Proof
 Support system. In the test class UseFileSystemLayerAlg there 
 are a few examples of using the traces primitives used for 
 test automation. This model has been developed by Miguel 
-Ferreira|
-||<a href="VFSPP/VFS.zip">model (zip)</a>  / <a href="VFSPP/index.html">show specification</a>|
+Ferreira
+| | |
+|------|-------|
+|Author:|Miguel Ferreira|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](VFSPP/VFS.zip)  / [show specification](VFSPP/index.html)|
 
 
 ### Webserver
 
+
 | | |
 |------|-------|
-|**Author:**||
-|**Version:**|VDM_PP - classic|
-||
-|
-||<a href="webserverPP/Webserver.zip">model (zip)</a>  / <a href="webserverPP/index.html">show specification</a>|
+|Author:||
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](webserverPP/Webserver.zip)  / [show specification](webserverPP/index.html)|
 
 
 ### Worldcup
 
-| | |
-|------|-------|
-|**Author:**|Yves Ledru|
-|**Version:**|VDM_PP - classic|
-||
 
 This example illustrates how one can define the rules 
 for calculating who will qualify in the world 
@@ -829,6 +777,10 @@ This model is made for the championship in 2000 but it
 could easily be updated to reflect the any championships. 
 In the test class UseGP there are a few examples of 
 using the traces primitives used for test automation.
- |
-||<a href="worldcupPP/Worldcup.zip">model (zip)</a>  / <a href="worldcupPP/index.html">show specification</a>|
+ 
+| | |
+|------|-------|
+|Author:|Yves Ledru|
+|Version:|VDM_PP - classic|
+|Details...|[model (zip)](worldcupPP/Worldcup.zip)  / [show specification](worldcupPP/index.html)|
 
