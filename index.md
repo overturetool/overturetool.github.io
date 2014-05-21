@@ -3,10 +3,9 @@ layout: default
 title: Overture Tool Project
 ---
 
-    <link href="https://assets-cdn.github.com/assets/github-dc3b5ef1bc6b1a7195c5411444124d626d072527.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="https://assets-cdn.github.com/assets/github2-7d1aff25db06f83ddd546f0c3a61c74a4a805d56.css" media="all" rel="stylesheet" type="text/css" />
-    
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js">
+<link href="https://assets-cdn.github.com/assets/github-dc3b5ef1bc6b1a7195c5411444124d626d072527.css" media="all" rel="stylesheet" type="text/css" />
+<link href="https://assets-cdn.github.com/assets/github2-7d1aff25db06f83ddd546f0c3a61c74a4a805d56.css" media="all" rel="stylesheet" type="text/css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="github-releases-front.js">
 </script>
