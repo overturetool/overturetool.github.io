@@ -54,7 +54,7 @@ var body =document.getElementById("current-release");
 			//var img = document.createElement("img");
 			//img.src = field.avatar_url;
 			//gitDiv.appendChild(img);
-			var rank = document.createElement("h2");
+			var rank = document.createElement("h3");
 			rank.innerHTML=field.name;
 			rank.className = "contributions";
 			gitDiv.appendChild(rank);

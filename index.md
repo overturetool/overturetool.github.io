@@ -30,7 +30,7 @@ platform.  Overture supports the following VDM language dialects:
 
 ||
 |----|
-| The current stable version is <strong id="current-release-version">2.0.8</strong> <i id="current-release-data">(May 2014)</i> which you can [release note here](https://github.com/overturetool/overture/releases/latest).|
+| The current stable version is <strong id="current-release-version">2.0.8</strong> <i id="current-release-data"> (May 2014) </i> which you can [release note here](https://github.com/overturetool/overture/releases/latest).|
 
 <div id="current-release"><div>
 
