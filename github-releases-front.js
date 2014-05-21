@@ -75,7 +75,7 @@ var body =document.getElementById("current-release");
                       
                       
                       var dlss = document.createElement("span");
-                      dlss.className="tooltipped tooltipped-s";
+                      dlss.className="overture-tooltipped";//"tooltipped tooltipped-s";
                     //  dlss.aria-label=formatSizeUnits(ass.size);
                       dlss.innerHTML=asset.name;
                       
