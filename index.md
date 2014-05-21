@@ -3,7 +3,7 @@ layout: default
 title: Overture Tool Project
 ---
 
-<link href="releases.css" type="text/css" />
+<link rel="stylesheet" href="releases.css">
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="github-releases-front.js">
