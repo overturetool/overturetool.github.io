@@ -17,7 +17,7 @@ The documentation provided here is maintained by the Overture community and it a
 
 External information about VDM can be found at:
 
-- [www.vdmportal.org](www.vdmportal.org)
+- [www.vdmportal.org](http://www.vdmportal.org)
 
 
 <!---
