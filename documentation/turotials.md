@@ -5,11 +5,6 @@ title: Overture Tutorials
 
 # Tutorials
 
-There is a large body of knowledge available on VDM and Overture, here
-we list the most important Overture resources.  Additional information
-about Overture in Japanese can be found
-[here](http://research.nii.ac.jp/~f-ishikawa/vdm/overture.html).
-
 ## Make a flying start: try a tutorial today!
 
 We believe that the best way to experience a new language, method and
