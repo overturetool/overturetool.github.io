@@ -50,6 +50,7 @@ In case you want to uninstall Overture on Linux or Mac, simply delete the unzipp
 Note that if you have used the default workspace (which is a subdirectory of the installation directory) also any models you have created will be removed. 
 Overture does not make any other modifications to your system --- there are no residuals!
 
+<!--
 ## Checking for updates
 
 There are two ways to keep the Overture tool in sync with the project releases. 
@@ -58,11 +59,11 @@ Multiple versions of the Overture tool can happily co-exist as long as you inst
 The second option is also simple and well-known to Eclipse users, by moving to the Help menu and select _Check for Updates_. 
 This will upgrade the currently running tool instance to the latest and greatest.
 
+-->
+
 ## Extending the Overture tool
 
-The current Overture tool release 2.0.0 is based on Eclipse Classic 4.3.1. 
-You can extend the Overture tool with other Eclipse plug-ins that are compatible with that Eclipse release. 
-For example, it is very easy to add the [Subclipse plug-in](http://subclipse.tigris.org) to Overture, such that you can put your specifications under revision control using subversion.
+The Overture tool is based on Eclipse, and can be extended through Eclipse plug-ins. For example, it is very easy to add the [Subclipse plug-in](http://subclipse.tigris.org) to Overture, such that you can put your specifications under revision control using subversion.
 
 ## Integration with other tools
 
