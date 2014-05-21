@@ -3,6 +3,14 @@ layout: default
 title: Overture Tool Project
 ---
 
+    <link href="https://assets-cdn.github.com/assets/github-dc3b5ef1bc6b1a7195c5411444124d626d072527.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="https://assets-cdn.github.com/assets/github2-7d1aff25db06f83ddd546f0c3a61c74a4a805d56.css" media="all" rel="stylesheet" type="text/css" />
+    
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="github-releases-front.js">
+</script>
+
 # Welcome to the Overture Tool Project
 
 Overture is a community-based project developing the next generation
@@ -24,43 +32,7 @@ platform.  Overture supports the following VDM language dialects:
 
 ||
 |----|
-| The current stable version is **2.0.8** (May 2014) which you can [download here](https://github.com/overturetool/overture/releases/latest).|
+| The current stable version is **<div id="current-release-version">2.0.8</div>** <div id="current-release-data">(May 2014)</div> which you can [release note here](https://github.com/overturetool/overture/releases/latest).|
 
-### See Overture in Operation
+<div id="current-release"><div>
 
-<iframe width="640" height="360" src="//www.youtube.com/embed/w8pe1jZsox4" frameborder="0" allowfullscreen></iframe>
-
-## Editing
-
-- Easy editing with color highlighting of keywords
-- Outline of source files for easy navigation
-
-[ ![The Eclipse Overture perspective (click on picture for full view)]({{ site.url }}/images/OverturePerspective.png) ]({{ site.url }}/images/OverturePerspective.png)
-
-## Checking
-
-- On-the-fly syntax and type checking
-- Combinatorial testing
-- Proof obligation generation
-- Run-time checking of pre-/post- conditions, measures and invariants
-
-[ ![The combinatorial testing perspective (click on picture for full view)]({{ site.url }}/images/OvertureTracesPerspective.png) ]({{ site.url }}/images/OvertureTracesPerspective.png)
-
-## Debugging
-
-- Integrated debugger
-- Advanced breakpoints (conditional/hit count)
-- Stepping
-- Coverage generation and presentation
-- Real-Time time log generation of execution and deployment
-
-[ ![Debugging perspective in Overture (click on picture for full view)]({{ site.url }}/images/DebuggingVDM.png) ]({{ site.url }}/images/DebuggingVDM.png)
-
-## Other tool features
-
-- Latex document generation
-- Coverage Editor
-- Quick Interpreter
-- Proof obligation viewer
-- Import / Export of UML 2.0  class diagrams using XMI
-- Real-time log viewer of deployment and call timing on system architecture
