@@ -3,11 +3,11 @@ layout: default
 title: Downloads
 ---
 
-<link rel="stylesheet" href="releases.css">
+<link rel="stylesheet" href="/css/releases.css">
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
-<script src="javascripts/moment-with-langs.js"></script>
-<script src="javascripts/github-releases.js"></script>
+<script src="/javascripts/moment-with-langs.js"></script>
+<script src="/javascripts/github-releases.js"></script>
 <script>updateDownloadPage();</script>
 
 
