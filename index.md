@@ -7,9 +7,9 @@ title: Overture Tool Project
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="javascripts/moment-with-langs.js"></script>
-<script src="github-releases-front.js">
+<script src="javascripts/github-releases.js"></script>
 <script>updateFrontPage();</script>
-</script>
+
 
 # Welcome to the Overture Tool Project
 
