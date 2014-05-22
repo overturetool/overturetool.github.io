@@ -6,7 +6,9 @@ title: Overture Tool Project
 <link rel="stylesheet" href="releases.css">
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
+<script src="javascripts/moment-with-langs.js"></script>
 <script src="github-releases-front.js">
+<script>updateFrontPage();</script>
 </script>
 
 # Welcome to the Overture Tool Project
@@ -30,7 +32,7 @@ platform.  Overture supports the following VDM language dialects:
 
 ||
 |----|
-| The current stable version is <strong id="current-release-version">2.0.8</strong> <i id="current-release-data"> (May 2014) </i> which you can [release note here](https://github.com/overturetool/overture/releases/latest).|
+| The current stable version is <strong id="current-release-version">2.0.8</strong> <i id="current-release-data"> (May 2014) </i> which you can [download  here]({{ site.url }}/download/).|
 
 <div id="current-release"><div>
 
