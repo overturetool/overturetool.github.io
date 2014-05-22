@@ -79,7 +79,7 @@ function updateDownloadPage() {
     $(document).ready(function () {
 
 
-        var body = document.getElementById("current-release");
+        // var body = document.getElementById("current-release");
         //tbl  = document.createElement('table');
 
         //var cell = 0;
@@ -90,7 +90,6 @@ function updateDownloadPage() {
         $.getJSON("https://api.github.com/repos/overturetool/overture/releases", function (result) {
             $.each(result/*.reverse()*/, function (i, field) {
 
-                console.log(field.tag_name + " - " + field.published_at);
                 if (("" + field.tag_name).indexOf("Release") > -1 && field.draft == false && field.prerelease == false) {
 
                     var releaseVersion = field.tag_name.replace("Release/", "");
@@ -114,7 +113,7 @@ function updateDownloadPage() {
                         currentReleaseDiv.appendChild(releaseLink);
                         currentReleaseDiv.appendChild(buildAssetList(releaseUrl, assets));
                     } else {
-                        console.log(i)
+
                         if (i == 1) {
                             var tblBody = document.createElement("tbody");
                             tblBody.id = "release-history-table-body";
@@ -123,67 +122,38 @@ function updateDownloadPage() {
                             tbl.appendChild(tblBody);
                             var releaseHistoryDiv = document.getElementById("release-history");
                             releaseHistoryDiv.appendChild(tbl);
-
-
-                        } else {
-                            var tblBody = document.getElementById("release-history-table-body");
-                            var row = document.createElement("tr");
-                            {
-                                var cell = document.createElement("td");
-                                var cellText = document.createTextNode(releaseName);
-
-                                cell.appendChild(cellText);
-                                row.appendChild(cell);
-                                tblBody.appendChild(row);
-                            }
-                            {
-                                var cell = document.createElement("td");
-                                var cellText = document.createTextNode(releaseDate);
-
-                                cell.appendChild(cellText);
-                                row.appendChild(cell);
-                                tblBody.appendChild(row);
-                            }
-                            {
-                                var cell = document.createElement("td");
-                                var cellText = document.createTextNode("release note");
-
-                                var releaseLink = document.createElement("a");
-                                releaseLink.href = releaseUrl;
-
-                                releaseLink.appendChild(cellText);
-
-                                cell.appendChild(releaseLink);
-                                row.appendChild(cell);
-                                tblBody.appendChild(row);
-                            }
                         }
-                        return;
-                        var divVersion = document.getElementById("current-release-version");
-                        divVersion.innerHTML = field.tag_name.replace("Release/", "");
+                        var tblBody = document.getElementById("release-history-table-body");
+                        var row = document.createElement("tr");
+                        {
+                            var cell = document.createElement("td");
+                            var cellText = document.createTextNode(releaseName);
 
-                        var divDate = document.getElementById("current-release-data");
-                        var publishedAt = new Date(field.published_at);
-                        divDate.innerHTML = "(" + moment(field.published_at).format('MMM YYYY') + ")";
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                            tblBody.appendChild(row);
+                        }
+                        {
+                            var cell = document.createElement("td");
+                            var cellText = document.createTextNode(releaseDate);
 
-                        //var td = tr.insertCell(cell-1);
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                            tblBody.appendChild(row);
+                        }
+                        {
+                            var cell = document.createElement("td");
+                            var cellText = document.createTextNode("release note");
 
-                        /*  var gitDiv = document.createElement("div");
-                          //	gitDiv.className = "githubcontainer";
-      
-                          var link = document.createElement("a");
-                          link.href = field.html_url;
-                          link.appendChild(gitDiv);
-      
-                          var rank = document.createElement("h3");
-                          rank.innerHTML = field.name;
-                         
-                          gitDiv.appendChild(rank);
-      
-                         
-                          //showAssetList();
-      
-                          body.appendChild(link);*/
+                            var releaseLink = document.createElement("a");
+                            releaseLink.href = releaseUrl;
+
+                            releaseLink.appendChild(cellText);
+
+                            cell.appendChild(releaseLink);
+                            row.appendChild(cell);
+                            tblBody.appendChild(row);
+                        }
 
                         return;
                     }
