@@ -13,14 +13,14 @@ title: Downloads
 
 # Downloads
 
-<div id="current-release"><div>
+<div id="current-release"></div>
 
 **Hint:**
 You will need a Java runtime environment (JRE) to use Overture (Java SE 6 or greater is recommended). All downloads are provided under the terms and conditions of the Eclipse Foundation Software User Agreement unless otherwise specified.
 
 ### Release History
 
-<div id="release-history"><div>
+<div id="release-history"></div>
 
 ## Support
 
