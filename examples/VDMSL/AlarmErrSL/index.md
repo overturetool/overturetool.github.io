@@ -29,7 +29,7 @@ alarms. A comparable model of this example also exists in VDM++.
 ### alarmerr.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 types
 
   Plant :: schedule : Schedule

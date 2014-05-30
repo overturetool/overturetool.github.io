@@ -18,7 +18,7 @@ Author:
 ### abpursefunctional.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class AbPurseFunctional
 
 types

@@ -23,7 +23,7 @@ This project is currently not running with the Overture interpreter.
 ### AirSpace.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class AirSpace is subclass of GLOBAL
 
 instance variables
@@ -77,7 +77,7 @@ end AirSpace
 ### atc.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class AirTrafficController is subclass of GLOBAL, BaseThread
 
 instance variables  
@@ -345,7 +345,7 @@ end AirTrafficController
 ### BaseThread.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class BaseThread
 	
 instance variables
@@ -387,7 +387,7 @@ end BaseThread
 ### environment.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Environment is subclass of GLOBAL, BaseThread
 
 types 
@@ -504,7 +504,7 @@ end Environment
 ### FO.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class FO is subclass of GLOBAL
 
 instance variables 
@@ -554,7 +554,7 @@ end FO
 ### GLOBAL.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class GLOBAL
 
 types
@@ -692,7 +692,7 @@ end GLOBAL
 ### MSAW.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class MSAW is subclass of GLOBAL
 
 instance variables 
@@ -715,7 +715,7 @@ end MSAW
 ### obstacle.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Obstacle is subclass of GLOBAL
 
 instance variables
@@ -763,7 +763,7 @@ end Obstacle
 ### Radar.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Radar is subclass of GLOBAL, BaseThread
 
 types 
@@ -897,7 +897,7 @@ end Radar
 ### TimeStamp.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class TimeStamp
 
@@ -1019,7 +1019,7 @@ end TimeStamp
 ### world.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class World
   
 instance variables  

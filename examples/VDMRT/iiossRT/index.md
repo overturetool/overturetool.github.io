@@ -21,7 +21,7 @@ in a stable.
 ### Actuator.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                
 class Actuator is subclass of IIOSSTYPES
 
@@ -54,7 +54,7 @@ end Actuator
 ### Environment.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class Environment is subclass of IIOSSTYPES
 
@@ -208,7 +208,7 @@ end Environment
 ### IIOSS.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 
 system IIOSS
@@ -305,7 +305,7 @@ end IIOSS
 ### iiosstypes.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class IIOSSTYPES
 
@@ -344,7 +344,7 @@ end IIOSSTYPES
 ### Sensor.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                
 class Sensor is subclass of IIOSSTYPES 
 instance variables
@@ -383,7 +383,7 @@ end Sensor
 ### Server.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                
 class Server is subclass of IIOSSTYPES
 
@@ -487,7 +487,7 @@ end Server
 ### StableController.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                
 class StableController is subclass of IIOSSTYPES
 
@@ -588,7 +588,7 @@ end StableController
 ### IIOSSTest.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class IIOSSTest
 operations
@@ -607,7 +607,7 @@ end IIOSSTest
 ### IIOSSTestCase2.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class IIOSSTestCase2 is subclass of TestCase
 instance variables
@@ -681,7 +681,7 @@ end IIOSSTestCase2
 ### Test.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                
 class Test
 
@@ -697,7 +697,7 @@ end Test
 ### TestCase.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class TestCase
   is subclass of Test
@@ -745,7 +745,7 @@ end TestCase
 ### TestResult.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 --The class \vdmstyle{TestResult} maintains a collection
 --of references to test cases that have failed. The
@@ -792,7 +792,7 @@ end TestResult
 ### TestSuite.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class TestSuite
   is subclass of Test
@@ -824,7 +824,7 @@ end TestSuite
 ### World.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class World
 

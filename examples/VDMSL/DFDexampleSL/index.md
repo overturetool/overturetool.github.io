@@ -29,7 +29,7 @@ H.Toetenel, Formal Aspects of Computing'' 1994, Vol 6, December
 ### dfdexample.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 functions
   

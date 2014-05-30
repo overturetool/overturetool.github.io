@@ -25,7 +25,7 @@ using the traces primitives used for test automation.
 ### worldcup.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class GroupPhase
 
 values

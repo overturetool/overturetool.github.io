@@ -23,7 +23,7 @@ ISBN 0-262-10114-9.
 ### hotel.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 types 
 
 Key = token;

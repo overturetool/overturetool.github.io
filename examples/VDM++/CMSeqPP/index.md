@@ -22,7 +22,7 @@ distributed real time version of this example.
 ### CM.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class CM
 
@@ -63,7 +63,7 @@ end CM
 ### environment.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Environment is subclass of GLOBAL
 
@@ -159,7 +159,7 @@ end Environment
 ### flarecontroller.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class FlareController is subclass of GLOBAL
 
@@ -238,7 +238,7 @@ end FlareController
 ### flaredispenser.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class FlareDispenser is subclass of GLOBAL
 
@@ -339,7 +339,7 @@ end FlareDispenser
 ### global.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class GLOBAL
 
@@ -390,7 +390,7 @@ end GLOBAL
 ### missiledetector.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class MissileDetector is subclass of GLOBAL
 
@@ -464,7 +464,7 @@ end MissileDetector
 ### sensor.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Sensor is subclass of GLOBAL
 
@@ -503,7 +503,7 @@ end Sensor
 ### timer.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Timer
 
@@ -542,7 +542,7 @@ end Timer
 ### world.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class World
 

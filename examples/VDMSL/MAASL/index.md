@@ -25,7 +25,7 @@ Development Methods'', Springer-Verlag, October 1991.
 ### maa.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                              
 
 values

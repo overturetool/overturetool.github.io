@@ -24,7 +24,7 @@ lients to fetch email messages from the email server.
 ### connectionchannel.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                       
 class MessageChannelBuffer
 
@@ -67,7 +67,7 @@ end MessageChannelBuffer
 ### messagechannel.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                    
 class MessageChannel
 
@@ -169,7 +169,7 @@ end MessageChannel
 ### pop3clienthandler.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                        
 class POP3ClientHandler
 
@@ -536,7 +536,7 @@ end POP3ClientHandler
 ### pop3message.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                
 class POP3Message
 
@@ -601,7 +601,7 @@ end POP3Message
 ### pop3server.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                
 class POP3Server
 
@@ -875,7 +875,7 @@ end POP3Server
 ### pop3test.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class POP3Test
 
 values
@@ -1143,7 +1143,7 @@ end POP3TestListener
 ### pop3types.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                               
 class POP3Types
 types

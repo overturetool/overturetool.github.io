@@ -24,7 +24,7 @@ Overture debugger.
 ### crossword.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                       
 values size : nat = 8;
        letters : set of char =

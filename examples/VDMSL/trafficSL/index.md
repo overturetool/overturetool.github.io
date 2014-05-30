@@ -25,7 +25,7 @@ ISSN: 0885-8985.
 ### traffic.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 -- Traffic light control kernel
 -- For Chapter 5 (Basic Elements)
 -- First Version: Without timing constraints

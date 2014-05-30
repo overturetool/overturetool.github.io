@@ -26,7 +26,7 @@ best-fit (or neither), produces the most memory fragmentation.
 ### shmem.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 module M
 exports all
 definitions

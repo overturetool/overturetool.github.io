@@ -34,7 +34,7 @@ Draft, January, 1996.
 ### realm.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 module REALM
 
@@ -479,7 +479,7 @@ end REALM
 ### test.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                            
 module TEST
 

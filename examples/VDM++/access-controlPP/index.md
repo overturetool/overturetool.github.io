@@ -30,7 +30,7 @@ Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinbur
 ### Env.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Env
 
 instance variables 
@@ -87,7 +87,7 @@ end Env
 ### Evaluater.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Evaluator
 
 -- Evaluator is the "top level" class.  It receives an access control
@@ -230,7 +230,7 @@ end Evaluator
 ### FExp.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class FExp
 
 instance variables
@@ -516,7 +516,7 @@ end FExp
 ### PDP.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class PDP 
 
 instance variables 
@@ -579,7 +579,7 @@ end PDP
 ### Request.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Request
 
 instance variables
@@ -622,7 +622,7 @@ end Request
 ### Test.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Test
 	values
 

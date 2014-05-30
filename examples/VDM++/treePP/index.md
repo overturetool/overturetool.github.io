@@ -21,7 +21,7 @@ and traversing over abstract threes and queues.
 ### avl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class AVLTree is subclass of Tree
 
   functions
@@ -37,7 +37,7 @@ end AVLTree
 ### bst.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class BinarySearchTree is subclass of Tree
 
 
@@ -87,7 +87,7 @@ end BalancedBST
 ### queue.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Queue
 
   instance variables
@@ -121,7 +121,7 @@ end Queue
 ### tree.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 
 class Tree
 
@@ -231,7 +231,7 @@ end Tree
 ### usetree.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class UseTree
 
 instance variables

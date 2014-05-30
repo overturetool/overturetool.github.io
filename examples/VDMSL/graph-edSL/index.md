@@ -23,7 +23,7 @@ University, Montreal, Canada, May 1996.
 ### graph-ed.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                
 
 module GRAPH

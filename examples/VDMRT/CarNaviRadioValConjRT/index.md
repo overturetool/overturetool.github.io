@@ -23,7 +23,7 @@ coherent application in a distributed application.
 ### mmi.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class MMI
 
 operations
@@ -56,7 +56,7 @@ end MMI
 ### Navigation.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Navigation
 
 operations
@@ -81,7 +81,7 @@ end Navigation
 ### Radio.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Radio
 
 values 
@@ -121,7 +121,7 @@ end Radio
 ### RadNavSys.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 system RadNavSys
 instance variables
   -- create application tasks
@@ -167,7 +167,7 @@ end RadNavSys
 ### Test.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Testing
 
 operations
@@ -204,7 +204,7 @@ end Testing
 ### World.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class World
  
 types

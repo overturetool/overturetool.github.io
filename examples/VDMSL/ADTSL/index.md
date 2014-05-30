@@ -27,7 +27,7 @@ Spring Semester, 1997.
 ### adt.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 types 
      ADDRESS = nat;

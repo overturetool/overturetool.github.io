@@ -23,7 +23,7 @@ implicitly so it cannot be executed.
 ### engine.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 types
 
 ValvePos = <open> | <closed>;

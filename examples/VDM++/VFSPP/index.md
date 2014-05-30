@@ -26,7 +26,7 @@ Ferreira
 ### FileSystemLayerAlg.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class FileSystemLayerAlg
 
 types 
@@ -178,7 +178,7 @@ end FileSystemLayerAlg
 ### UseFileSystemLayerAlg.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class UseFileSystemLayerAlg
 
 instance variables

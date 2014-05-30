@@ -22,7 +22,7 @@ community for formal verification.
 ### Purse.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Purse
 
 types
@@ -66,7 +66,7 @@ end Purse
 ### System.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class System
 
 instance variables

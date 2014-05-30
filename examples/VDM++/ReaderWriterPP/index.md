@@ -18,7 +18,7 @@ Author:
 ### Buffer.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Bufferinstance variablesdata : [nat] := niloperationspublic Buffer: () ==> BufferBuffer() == 	data := nil;public Write: nat ==> ()Write(newData) ==  (IO`print("Writer wrote: "); IO`print(newData); IO`print("\n");   data := newData;  );public Read: () ==> natRead() ==  let oldData : nat = data  in    (IO`print("Reader read: "); IO`print(oldData); IO`print("\n");     data := nil;          return oldData;    );public IsFinished: () ==> ()IsFinished() == skip;syncper Write => #fin(Read) = #fin(Write);per Read => (#fin(Read) + 1) = #fin(Write);--per Write => data = nil;--per Read => data <> nil;per IsFinished => #fin(Read) = 3;end Buffer
 ~~~
 {% endraw %}
@@ -26,7 +26,7 @@ class Bufferinstance variablesdata : [nat] := niloperationspublic Buffer
 ### io.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class IO
 
 -- 	Overture STANDARD LIBRARY: INPUT/OUTPUT
@@ -114,7 +114,7 @@ end IO
 ### Reader.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Readerinstance variablesb : Bufferoperationspublic Reader: Buffer ==> ReaderReader(buf) ==	b := buf;--public Read: nat ==> ()--Read(d) == skip;thread  while true do  ( let x = b.Read() in     (skip;    --Read(x);    )  )end Reader
 ~~~
 {% endraw %}
@@ -122,7 +122,7 @@ end IO
 ### TestClass.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class TestClassinstance variablesB : Buffer;operationspublic Run: () ==> ()Run() ==(    B := new Buffer();    def - = new IO().echo("Going to fire writer" ^ "\n") in skip;    start(new Writer(B));        def - = new IO().echo("Going to fire reader"^ "\n") in skip;    start(new Reader(B));   def - = new IO().echo("TestClass is now going to wait"^"\n") in skip;   B.IsFinished();)end TestClass
 ~~~
 {% endraw %}
@@ -130,7 +130,7 @@ end IO
 ### Writer.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Writerinstance variablesb : Buffer;index : nat := 0;operationspublic Writer: Buffer ==> WriterWriter(buf) == 	b := buf;public Write: () ==> natWrite() ==  (    index := index + 1;   return index; )thread ( while true do  ( let x = Write() in     ( b.Write(x);            )  ) )end Writer
 ~~~
 {% endraw %}

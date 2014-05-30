@@ -19,7 +19,7 @@ that thus this model is not in a state where it makes sense to execute it.
 ### AirSpace.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class AirSpace is subclass of GLOBAL
 
 instance variables
@@ -73,7 +73,7 @@ end AirSpace
 ### atc.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class AirTrafficController is subclass of GLOBAL
 
 instance variables  
@@ -342,7 +342,7 @@ end AirTrafficController
 ### environment.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Environment is subclass of GLOBAL
 
 types 
@@ -447,7 +447,7 @@ end Environment
 ### FO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class FO is subclass of GLOBAL
 
 instance variables 
@@ -497,7 +497,7 @@ end FO
 ### GLOBAL.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class GLOBAL
 
 types
@@ -636,7 +636,7 @@ end GLOBAL
 ### MSAW.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 system MSAW
 
 instance variables 
@@ -674,7 +674,7 @@ end MSAW
 ### obstacle.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Obstacle is subclass of GLOBAL
 
 instance variables
@@ -722,7 +722,7 @@ end Obstacle
 ### Radar.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Radar is subclass of GLOBAL
 
 types 
@@ -852,7 +852,7 @@ end Radar
 ### world.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class World
   
 instance variables  

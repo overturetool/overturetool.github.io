@@ -29,7 +29,7 @@ by an exchange.
 ### telephone.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                     
 module EXCH
 definitions

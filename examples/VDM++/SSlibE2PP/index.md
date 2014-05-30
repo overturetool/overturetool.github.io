@@ -21,7 +21,7 @@ test approach.
 ### AllT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 /*
 Test Group
 	Test of all test cases
@@ -69,7 +69,7 @@ end AllT
 ### Calendar.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class CalendarDefinition
 values
 	public homedir = ".";
@@ -693,7 +693,7 @@ end Calendar
 ### CalendarT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class CalendarT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
@@ -1072,7 +1072,7 @@ end CalendarT12
 ### Character.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Character
 
 values
@@ -1161,7 +1161,7 @@ end Character
 ### CommonDefinition.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class CommonDefinition is subclass of Object
 
 /*
@@ -1205,7 +1205,7 @@ end CommonDefinition
 ### Date.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Date  is subclass of CalendarDefinition	-- date
 /*
 Responsibility
@@ -1417,7 +1417,7 @@ end Date
 ### DateT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class DateT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
@@ -1615,7 +1615,7 @@ end DateT07
 ### DoubleListQueue.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 /*   
  * Queue using 2 sequences.
  * Usage:
@@ -1691,7 +1691,7 @@ end DoubleListQueue
 ### DoubleListQueueT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class DoubleListQueueT is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
@@ -1749,7 +1749,7 @@ end DoubleListQueueT01
 ### FHashtable.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                            
 --"$Id"
 class FHashtable
@@ -1863,7 +1863,7 @@ end FHashtable
 ### FHashtableT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                          
 class FHashtableT
 
@@ -2007,7 +2007,7 @@ end FHashtableT
 ### FMap.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                   
 --"$Id"
 class FMap
@@ -2035,7 +2035,7 @@ end FMap
 ### FSequence.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                         
 class FSequence
 --"$Id: Sequence.vpp,v 1.1 2005/10/31 02:09:58 vdmtools Exp $";
@@ -2351,7 +2351,7 @@ end FSequence
 ### FTestDriver.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                 
 --$Id: TestDriver.vpp,v 1.1 2005/10/31 02:09:59 vdmtools Exp $
 class FTestDriver
@@ -2395,7 +2395,7 @@ end FTestDriver
 ### FTestLogger.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                   
 --$Id: TestLogger.vpp,v 1.1 2005/10/31 02:09:59 vdmtools Exp $
 class FTestLogger
@@ -2459,7 +2459,7 @@ end FTestLogger
 ### Function.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Function
 
@@ -2504,7 +2504,7 @@ end Function
 ### FunctionT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class FunctionT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
@@ -2596,7 +2596,7 @@ end FunctionT03
 ### Hashtable.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 /* Responsibilityï¼
  *	Hash Table
  
@@ -2855,7 +2855,7 @@ end Hashtable
 ### HashtableT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 /*
 Test Group 
 	test of Hashtable
@@ -3388,7 +3388,7 @@ end HashtableT57
 ### Integer.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Integer
 
 functions 
@@ -3511,7 +3511,7 @@ end Integer
 ### IntegerT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class IntegerT is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
@@ -3582,7 +3582,7 @@ end IntegerT02
 ### JapaneseCalendar.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class JapaneseCalendar is subclass of Calendar 
 /*
 Responsibility
@@ -3690,7 +3690,7 @@ end JapaneseCalendar
 ### Map.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Map 
 
 functions
@@ -3714,7 +3714,7 @@ end Map
 ### MapT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class MapT is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
@@ -3777,7 +3777,7 @@ end MapT02
 ### Number.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Number
  
 functions 
@@ -3800,7 +3800,7 @@ end Number
 ### NumberT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class NumberT is subclass of TestDriver 
 
 functions
@@ -3866,7 +3866,7 @@ end NumberT03
 ### Object.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Object
 /*
 ä½æè = ä½åä¼¸
@@ -3898,7 +3898,7 @@ end Object
 ### Product.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Product 
 
 functions
@@ -3916,7 +3916,7 @@ end Product
 ### ProductT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class ProductT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
@@ -3953,7 +3953,7 @@ end ProductT01
 ### Queue.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Queue
 
 functions
@@ -3987,7 +3987,7 @@ end Queue
 ### QueueT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class QueueT is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
@@ -4037,7 +4037,7 @@ end QueueT01
 ### Real.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Real
 
 values
@@ -4172,7 +4172,7 @@ end Real
 ### RealT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class RealT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
@@ -4353,7 +4353,7 @@ end RealT08
 ### SBCalendar.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                           	
 class SBCalendar is subclass of JapaneseCalendar -- date
 
@@ -4528,7 +4528,7 @@ end SBCalendar
 ### SBCalendarT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class SBCalendarT is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
@@ -4848,7 +4848,7 @@ end SBCalendarT06
 ### Sequence.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            	
 class Sequence
 	
@@ -5161,7 +5161,7 @@ end Sequence
 ### SequenceT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class SequenceT is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
@@ -5698,7 +5698,7 @@ end SequenceT25
 ### Set.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Set
 
 functions 
@@ -5751,7 +5751,7 @@ end Set
 ### SetT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class SetT is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
@@ -5837,7 +5837,7 @@ end SetT04
 ### String.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class String is subclass of Sequence
 
 functions
@@ -5996,7 +5996,7 @@ end String
 ### StringT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class StringT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
@@ -6389,7 +6389,7 @@ end StringT14
 ### Term.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Term
 
 values
@@ -6431,7 +6431,7 @@ end  Term
 ### TermT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class TermT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
@@ -6483,7 +6483,7 @@ end TermT01
 ### TestCase.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class TestCase
 
 instance variables
@@ -6520,7 +6520,7 @@ end TestCase
 ### TestDriver.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class TestDriver
 --Super class of TestDriver
 
@@ -6562,7 +6562,7 @@ end TestDriver
 ### TestLogger.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --$Id: TestLogger.vpp,v 1.2 2006/04/04 07:03:05 vdmtools Exp $
 class TestLogger
 --ãã¹ãã®ã­ã°ãç®¡çãã
@@ -6610,7 +6610,7 @@ end TestLogger
 ### Time.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Time is subclass of CalendarDefinition
 /*
 Responsibility
@@ -6910,7 +6910,7 @@ end Time
 ### TimeT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class TimeT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
@@ -7108,7 +7108,7 @@ end TimeT06
 ### UniqueNumber.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ is subclass of CommonDefinition
 
 values
@@ -7151,7 +7151,7 @@ end  ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½
 ### UniqueNumberT.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´ is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
@@ -7201,7 +7201,7 @@ end ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼
 ### UseCalendar.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class UseCalendar
 
 instance variables
@@ -7222,7 +7222,7 @@ end UseCalendar
 ### UseReal.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class UseReal
 
 instance variables
@@ -7239,7 +7239,7 @@ end UseReal
 ### UseUniqueNumber.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class UseUniqueNumber
 
 instance variables

@@ -22,7 +22,7 @@ standard example making use of an Directed Acyclic Graph (DAG) structure.
 ### bom.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 types
 

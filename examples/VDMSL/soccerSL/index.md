@@ -25,7 +25,7 @@ given as an appendix.
 ### soccer.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                              
 module SOCCER_IMPL
 

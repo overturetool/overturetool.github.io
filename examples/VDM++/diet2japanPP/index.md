@@ -21,7 +21,7 @@ test the correct interpretation of these constructs.
 ### Diet.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                           
 class Diet
 

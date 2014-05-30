@@ -18,7 +18,7 @@ Author:
 ### memory.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Example3
 
 types 

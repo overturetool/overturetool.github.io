@@ -23,7 +23,7 @@ version using VDM-SL.
 ### CMflat.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 types
 

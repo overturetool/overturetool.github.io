@@ -26,7 +26,7 @@ through the first author.
 ### Accelerometer.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                      
 class Accelerometer
 
@@ -54,7 +54,7 @@ end Accelerometer
 ### Actuator.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Actuator is subclass of IActuatorReal
 
 instance variables
@@ -87,7 +87,7 @@ end Actuator
 ### ChessWay.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 system ChessWay
 
@@ -132,7 +132,7 @@ end ChessWay
 ### Controller.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                     
 class Controller
 
@@ -232,7 +232,7 @@ end Controller
 ### DirectionSwitch.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                             
 class DirectionSwitch
 
@@ -267,7 +267,7 @@ end DirectionSwitch
 ### DTControl.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class DTControl is subclass of DTObject
 
 operations
@@ -284,7 +284,7 @@ end DTControl
 ### DTObject.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class DTObject
 
 instance variables
@@ -305,7 +305,7 @@ end DTObject
 ### Environment.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 class Environment
 
@@ -626,7 +626,7 @@ end Environment
 ### Gyroscope.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                      
 class Gyroscope
 
@@ -650,7 +650,7 @@ end Gyroscope
 ### HallSensor.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 class HallSensor
 
@@ -712,7 +712,7 @@ end HallSensor
 ### IActuatorReal.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class IActuatorReal
 
 operations
@@ -729,7 +729,7 @@ end IActuatorReal
 ### ISensorReal.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class ISensorReal
 
 operations
@@ -746,7 +746,7 @@ end ISensorReal
 ### LeftController.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 class LeftController
   is subclass of Controller
@@ -882,7 +882,7 @@ end LeftController
 ### MotorActuator.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 class MotorActuator
   is subclass of IActuatorReal
@@ -966,7 +966,7 @@ end MotorActuator
 ### MotorSensor.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                             
 class MotorSensor
   is subclass of ISensorReal
@@ -1004,7 +1004,7 @@ end MotorSensor
 ### OnOffSwitch.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                             
 class OnOffSwitch
 
@@ -1029,7 +1029,7 @@ end OnOffSwitch
 ### P.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class P is subclass of DTControl
 
 instance variables
@@ -1070,7 +1070,7 @@ end P
 ### PD.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class PD is subclass of DTControl
 
 instance variables
@@ -1132,7 +1132,7 @@ end PD
 ### PI.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class PI is subclass of DTControl
 
 instance variables
@@ -1186,7 +1186,7 @@ end PI
 ### PID.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class PID is subclass of DTControl
 
 instance variables
@@ -1259,7 +1259,7 @@ end PID
 ### RightController.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 class RightController
   is subclass of Controller
@@ -1405,7 +1405,7 @@ end RightController
 ### SafetySwitch.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                           
 class SafetySwitch
 
@@ -1430,7 +1430,7 @@ end SafetySwitch
 ### Sensor.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Sensor is subclass of ISensorReal
 
 instance variables
@@ -1463,7 +1463,7 @@ end Sensor
 ### SetpointProfileCSV.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class SetpointProfileCSV
 
 instance variables
@@ -1564,7 +1564,7 @@ end SetpointProfileCSV
 ### User.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 class User
 
@@ -1621,7 +1621,7 @@ end User
 ### Wheel.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                  
 class Wheel
 
@@ -1688,7 +1688,7 @@ end Wheel
 ### World.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 class World
 

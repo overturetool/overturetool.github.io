@@ -21,7 +21,7 @@ distributed real time version of this example.
 ### BaseThread.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class BaseThread
 	
 types
@@ -74,7 +74,7 @@ end BaseThread
 ### environment.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Environment is subclass of GLOBAL, BaseThread
 
@@ -182,7 +182,7 @@ end Environment
 ### fighteraircraft.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class CM
 
@@ -223,7 +223,7 @@ end CM
 ### flarecontroller.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class FlareController is subclass of GLOBAL, BaseThread
 
@@ -322,7 +322,7 @@ end FlareController
 ### flaredispenser.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class FlareDispenser is subclass of GLOBAL, BaseThread
 
@@ -438,7 +438,7 @@ end FlareDispenser
 ### global.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class GLOBAL
 
@@ -486,7 +486,7 @@ end GLOBAL
 ### missiledetector.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class MissileDetector is subclass of GLOBAL, BaseThread
 
@@ -581,7 +581,7 @@ end MissileDetector
 ### sensor.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Sensor is subclass of GLOBAL
 
@@ -620,7 +620,7 @@ end Sensor
 ### TimeStamp.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class TimeStamp
 
@@ -748,7 +748,7 @@ end TimeStamp
 ### world.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class World
 

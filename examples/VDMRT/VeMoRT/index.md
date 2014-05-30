@@ -25,7 +25,7 @@ Master's thesis, Aarhus University (December 2010).
 ### Config.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                       
 -----------------------------------------------
 -- Class:			Config
@@ -82,7 +82,7 @@ end Config
 ### Controller.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                           
 -----------------------------------------------
 -- Class:			Controller
@@ -349,7 +349,7 @@ end Controller
 ### Environment.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                            
 -----------------------------------------------
 -- Class:			Environment
@@ -627,7 +627,7 @@ end Environment
 ### gui_Graphics.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class gui_Graphics
 
 	instance variables
@@ -665,7 +665,7 @@ end gui_Graphics
 ### Position.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                         
 -----------------------------------------------
 -- Class:			Position
@@ -779,7 +779,7 @@ end Position
 ### Printer.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                        
 -----------------------------------------------
 -- Class:			Printer
@@ -839,7 +839,7 @@ end Printer
 ### Test.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test
 
 operations
@@ -855,7 +855,7 @@ end Test
 ### TestCase.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 
 class TestCase
@@ -905,7 +905,7 @@ end TestCase
 ### TestController.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                             
 ------------------------------------------------
 -- Class:			TestController
@@ -1039,7 +1039,7 @@ end TestController
 ### TestPosition.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                           
 -----------------------------------------------
 -- Class:			TestPosition
@@ -1145,7 +1145,7 @@ end TestPosition
 ### TestResult.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class TestResult
 
@@ -1179,7 +1179,7 @@ end TestResult
 ### TestSuite.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class TestSuite
   is subclass of Test
@@ -1218,7 +1218,7 @@ end TestSuite
 ### TestTraffic.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                           
 ------------------------------------------------
 -- Class:			TestTraffic
@@ -1335,7 +1335,7 @@ end TestTraffic
 ### TestTrafficData.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                              
 -----------------------------------------------
 -- Class:			TestTrafficData
@@ -1416,7 +1416,7 @@ end TestTrafficData
 ### TestTrafficLight.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                               
 -----------------------------------------------
 -- Class:			TestTrafficLight
@@ -1508,7 +1508,7 @@ end TestTrafficLight
 ### TestVehicle.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                          
 -----------------------------------------------
 -- Class:			TestVehicle
@@ -1775,7 +1775,7 @@ end TestVehicle
 ### TestVeMoComplete.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                       
 -----------------------------------------------
 -- Class:			TestVeMoComplete
@@ -1820,7 +1820,7 @@ end TestVeMoComplete
 ### TestVeMoController.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                 
 ------------------------------------------------
 -- Class:			TestVeMoController
@@ -1935,7 +1935,7 @@ end TestVeMoController
 ### Traffic.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                        
 -----------------------------------------------
 -- Class:			Traffic
@@ -2075,7 +2075,7 @@ end Traffic
 ### TrafficData.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                             
 -----------------------------------------------
 -- Class:			TrafficData
@@ -2172,7 +2172,7 @@ end TrafficData
 ### TrafficLight.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                              
 -----------------------------------------------
 -- Class:			TrafficLight
@@ -2286,7 +2286,7 @@ end TrafficLight
 ### Types.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                
 -----------------------------------------------
 -- Class:			Types
@@ -2375,7 +2375,7 @@ end Types
 ### Vehicle.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                        
 -----------------------------------------------
 -- Class:			Vehicle
@@ -2554,7 +2554,7 @@ end Vehicle
 ### VehicleData.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                            
 -----------------------------------------------
 -- Class:			Vehicle
@@ -2644,7 +2644,7 @@ end VehicleData
 ### VeMo.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                      
 
 -----------------------------------------------
@@ -2716,7 +2716,7 @@ end VeMo
 ### VeMoController.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                               
 -----------------------------------------------
 -- Class:			VeMoController
@@ -2936,7 +2936,7 @@ end VeMoController
 ### World.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                      
 -----------------------------------------------
 -- Class:			World

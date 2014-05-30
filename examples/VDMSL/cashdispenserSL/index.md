@@ -23,7 +23,7 @@ in 1999 in connection with FM'99.
 ### cashdispenser.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 state System of
   accounts : map AccountId to Account
   illegalCards : set of CardId

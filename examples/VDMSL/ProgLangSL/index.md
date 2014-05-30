@@ -23,7 +23,7 @@ of the software technology course at the Technical University Graz, Austria.
 ### ast.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                              
 module AST
 
@@ -87,7 +87,7 @@ end AST
 ### dynsem.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                          
 module DYNSEM
 
@@ -237,7 +237,7 @@ end DYNSEM
 ### statsem.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                       
 module STATSEM
 
@@ -360,7 +360,7 @@ end STATSEM
 ### Test.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                          
 module Test
 

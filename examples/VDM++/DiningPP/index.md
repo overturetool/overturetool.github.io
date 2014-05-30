@@ -21,7 +21,7 @@ launcer provided here is sufficient to cover the entire VDM++ model.
 ### philosopher.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Philosopher
 
@@ -57,7 +57,7 @@ end Philosopher
 ### table.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Table
 

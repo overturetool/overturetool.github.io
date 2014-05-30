@@ -30,7 +30,7 @@ display.
 ### AirSpace.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class AirSpace is subclass of GLOBAL
 
 instance variables
@@ -84,7 +84,7 @@ end AirSpace
 ### atc.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class AirTrafficController is subclass of GLOBAL
 
 instance variables  
@@ -311,7 +311,7 @@ end AirTrafficController
 ### dk_au_eng_Radar.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class dk_au_eng_Radar
 --
 -- External Java implementation of radar screen
@@ -389,7 +389,7 @@ end dk_au_eng_Radar
 ### environment.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Environment is subclass of GLOBAL
 
 types 
@@ -482,7 +482,7 @@ end Environment
 ### FO.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class FO is subclass of GLOBAL
 
 instance variables 
@@ -532,7 +532,7 @@ end FO
 ### GLOBAL.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class GLOBAL
 
 types
@@ -672,7 +672,7 @@ end GLOBAL
 ### MSAW.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class MSAW is subclass of GLOBAL
 
 instance variables 
@@ -698,7 +698,7 @@ end MSAW
 ### obstacle.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Obstacle is subclass of GLOBAL
 
 instance variables
@@ -746,7 +746,7 @@ end Obstacle
 ### Radar.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Radar is subclass of GLOBAL
 
 types 
@@ -877,7 +877,7 @@ end Radar
 ### timer.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Timer 
 
 instance variables
@@ -906,7 +906,7 @@ end Timer
 ### UseATC.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class UseATC
 
 values
@@ -940,7 +940,7 @@ end UseATC
 ### world.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class World
   
 instance variables  

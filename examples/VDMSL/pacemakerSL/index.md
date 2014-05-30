@@ -29,7 +29,7 @@ Kaisa Sere, May 2008.
 ### PacemakerAAI.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 module PacemakerAAI
 
@@ -73,7 +73,7 @@ end PacemakerAAI
 ### PacemakerAAT.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 module PacemakerAAT
 
@@ -114,7 +114,7 @@ end PacemakerAAT
 ### PacemakerAOO.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 module PacemakerAOO
 
@@ -154,7 +154,7 @@ end PacemakerAOO
 ### PacemakerAOOR.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 module PacemakerAOOR
 
@@ -252,7 +252,7 @@ end PacemakerAOOR
 ### PacemakerDDD.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 module PacemakerDDD
 
@@ -340,7 +340,7 @@ end PacemakerDDD
 ### PacemakerDOO.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 module PacemakerDOO
 
@@ -381,7 +381,7 @@ end PacemakerDOO
 ### RateController.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 module RateController
 

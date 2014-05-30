@@ -35,7 +35,7 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 ### Accelerometer.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                 
 class Accelerometer is subclass of GLOBAL
 
@@ -53,7 +53,7 @@ end Accelerometer
 ### Environment.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                       
 class Environment is subclass of GLOBAL
 
@@ -185,7 +185,7 @@ end Environment
 ### GLOBAL.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                           
 class GLOBAL
 
@@ -234,7 +234,7 @@ end GLOBAL
 ### HeartController.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                              
 class HeartController is subclass of GLOBAL
 
@@ -367,7 +367,7 @@ end HeartController
 ### Lead.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                       
 class Lead is subclass of GLOBAL
 
@@ -440,7 +440,7 @@ end Lead
 ### Pacemaker.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                         
 class Pacemaker 
 
@@ -474,7 +474,7 @@ end Pacemaker
 ### RateController.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                    
 class RateController is subclass of GLOBAL
 
@@ -576,7 +576,7 @@ end RateController
 ### Timer.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                 
 class Timer is subclass of GLOBAL
 
@@ -610,7 +610,7 @@ end Timer
 ### World.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                         
 class World is subclass of GLOBAL
 

@@ -26,7 +26,7 @@ included.
 ### bag.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                            
 module BAG
 
@@ -190,7 +190,7 @@ end BAG
 ### bagtest.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                          
 module BAGTEST
 
@@ -319,7 +319,7 @@ end BAGTEST
 ### bar.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                             
 module BAR
 imports

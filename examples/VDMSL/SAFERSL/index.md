@@ -26,7 +26,7 @@ NASA Conference, Publication 3356, September 1997.
 ### aah.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 
 
@@ -124,7 +124,7 @@ end AAH
 ### auxilary.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 module AUX 
 
@@ -176,7 +176,7 @@ end AUX
 ### geom.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 dlmodule GEOM
 
 exports
@@ -197,7 +197,7 @@ end GEOM
 ### gui.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 dlmodule GUI
 
@@ -217,7 +217,7 @@ end GUI
 ### hcm.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                
 
 module HCM
@@ -267,7 +267,7 @@ end HCM
 ### safer.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 
 
@@ -331,7 +331,7 @@ end SAFER
 ### test.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 
 module TEST
@@ -510,7 +510,7 @@ end TEST
 ### ts.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 
 
@@ -679,7 +679,7 @@ end TS
 ### workspace.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 module WorkSpace
 
 imports from SAFER all,

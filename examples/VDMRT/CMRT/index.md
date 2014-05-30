@@ -22,7 +22,7 @@ distributed real time version of this example.
 ### BaseRTThread.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class BaseRTThread
 
 types
@@ -70,7 +70,7 @@ end BaseRTThread
 ### CMTest.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class CMTest
 operations
@@ -88,7 +88,7 @@ end CMTest
 ### CMTestCase2.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class CMTestCase2 is subclass of TestCase
 
@@ -126,7 +126,7 @@ end CMTestCase2
 ### environment.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class Environment is subclass of GLOBAL, BaseRTThread
 
@@ -234,7 +234,7 @@ end Environment
 ### fighteraircraft.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 system CM
 
@@ -348,7 +348,7 @@ end CM
 ### flarecontroller.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class FlareController is subclass of GLOBAL, BaseRTThread
 
@@ -449,7 +449,7 @@ end FlareController
 ### flaredispenser.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class FlareDispenser is subclass of GLOBAL, BaseRTThread
 
@@ -563,7 +563,7 @@ end FlareDispenser
 ### global.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class GLOBAL
 
@@ -611,7 +611,7 @@ end GLOBAL
 ### missiledetector.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class MissileDetector is subclass of GLOBAL, BaseRTThread
 
@@ -705,7 +705,7 @@ end MissileDetector
 ### RTTimeStamp.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class RTTimeStamp
 
 instance variables
@@ -766,7 +766,7 @@ end RTTimeStamp
 ### sensor.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class Sensor is subclass of GLOBAL
 
@@ -805,7 +805,7 @@ end Sensor
 ### Test.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                
 class Test
 
@@ -821,7 +821,7 @@ end Test
 ### TestCase.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                
 class TestCase
   is subclass of Test
@@ -869,7 +869,7 @@ end TestCase
 ### TestResult.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 class TestResult
 
@@ -900,7 +900,7 @@ end TestResult
 ### TestSuite.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class TestSuite
   is subclass of Test
@@ -932,7 +932,7 @@ end TestSuite
 ### world.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
               
 class World
 

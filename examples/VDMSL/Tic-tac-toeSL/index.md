@@ -18,7 +18,7 @@ A standard Tic-tac-toe game
 ### XO.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- A simple model of a tic-tac-toe game (noughts and crosses)
 --
@@ -167,7 +167,7 @@ end XO
 ### XOTests.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- A simple model of a tic-tac-toe game (noughts and crosses)
 --

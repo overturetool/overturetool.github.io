@@ -26,7 +26,7 @@ type instead of <nil> would be appropriate here.
 ### library.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 types
 
 Id = nat;

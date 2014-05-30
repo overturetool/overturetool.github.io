@@ -31,7 +31,7 @@ In C. Sennett (ed), "High-Integrity Software", Pitman 1989.
 ### newspeak.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 values
 
 beta:nat1 = 2;

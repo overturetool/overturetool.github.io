@@ -27,7 +27,7 @@ order in which they were received from the sensor.
 ### monitor.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 -- A temperature monitor
 -- For Chapter 4 (Logic)
 

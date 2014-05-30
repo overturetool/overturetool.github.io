@@ -47,7 +47,7 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 ### Accelerometer.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                   
 class Accelerometer is subclass of GLOBAL
 
@@ -65,7 +65,7 @@ end Accelerometer
 ### Environment.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                 
 class Environment is subclass of GLOBAL
 
@@ -191,7 +191,7 @@ end Environment
 ### GLOBAL.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                            
 class GLOBAL
 
@@ -240,7 +240,7 @@ end GLOBAL
 ### HeartController.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                             
 class HeartController is subclass of GLOBAL
 
@@ -377,7 +377,7 @@ end HeartController
 ### Lead.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                         
 class Lead is subclass of GLOBAL
 
@@ -460,7 +460,7 @@ end Lead
 ### Pacemaker.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                 
 system Pacemaker 
 
@@ -528,7 +528,7 @@ end Pacemaker
 ### RateController.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                         
 class RateController is subclass of GLOBAL
 
@@ -652,7 +652,7 @@ end RateController
 ### testBrokenHeartAAI.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test4
 
 operations
@@ -668,7 +668,7 @@ end Test4
 ### testBrokenHeartAAT.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test5
 
 operations
@@ -684,7 +684,7 @@ end Test5
 ### testBrokenHeartAOO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test1
 
 operations
@@ -700,7 +700,7 @@ end Test1
 ### testBrokenHeartDDD.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test2
 
 operations
@@ -716,7 +716,7 @@ end Test2
 ### testBrokenHeartDOO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test3
 
 operations
@@ -732,7 +732,7 @@ end Test3
 ### testDoubleHeartAAI.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test9
 
 operations
@@ -748,7 +748,7 @@ end Test9
 ### testDoubleHeartAAT.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test10
 
 operations
@@ -764,7 +764,7 @@ end Test10
 ### testDoubleHeartAOO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test6
 
 operations
@@ -780,7 +780,7 @@ end Test6
 ### testDoubleHeartDDD.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test7
 
 operations
@@ -796,7 +796,7 @@ end Test7
 ### testDoubleHeartDOO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test8
 
 operations
@@ -812,7 +812,7 @@ end Test8
 ### testGoodHeartAAI.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test15
 
 operations
@@ -828,7 +828,7 @@ end Test15
 ### testGoodHeartAAT.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test16
 
 operations
@@ -844,7 +844,7 @@ end Test16
 ### testGoodHeartAOO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test11
 
 operations
@@ -860,7 +860,7 @@ end Test11
 ### testGoodHeartDDD.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test13
 
 operations
@@ -876,7 +876,7 @@ end Test13
 ### testGoodHeartDOO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test14
 
 operations
@@ -892,7 +892,7 @@ end Test14
 ### testSometimesHeartAAI.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test20
 
 operations
@@ -908,7 +908,7 @@ end Test20
 ### testSometimesHeartAAT.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test21
 
 operations
@@ -924,7 +924,7 @@ end Test21
 ### testSometimesHeartAOO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test17
 
 operations
@@ -940,7 +940,7 @@ end Test17
 ### testSometimesHeartDDD.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test18
 
 operations
@@ -956,7 +956,7 @@ end Test18
 ### testSometimesHeartDOO.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
 class Test19
 
 operations
@@ -972,7 +972,7 @@ end Test19
 ### World.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                          
 class World is subclass of GLOBAL 
 

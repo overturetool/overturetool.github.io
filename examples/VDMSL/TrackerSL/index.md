@@ -31,7 +31,7 @@ FACIT Series, 1998.
 ### testtracker.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 values
 
 glass = mk_token("Glass");
@@ -78,7 +78,7 @@ SetUp() ==
 ### tracker.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 types
 
 Tracker :: containers : ContainerInfo

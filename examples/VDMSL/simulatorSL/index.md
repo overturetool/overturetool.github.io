@@ -25,7 +25,7 @@ operations in the version contained in Section 3.
 ### simulator1.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 module TROM

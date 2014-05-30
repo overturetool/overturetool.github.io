@@ -27,7 +27,7 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 ### alarm.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Alarm
 types
@@ -61,7 +61,7 @@ end Alarm
 ### expert.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Expert
 
@@ -91,7 +91,7 @@ end Expert
 ### plant.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Plant
 
@@ -173,7 +173,7 @@ end Plant
 ### test1.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class Test1
 

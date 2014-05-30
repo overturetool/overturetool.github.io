@@ -47,7 +47,7 @@ Springer-Verlag, 2009.
 ### LUPSL.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 types
 
 array = seq1 of int;

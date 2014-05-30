@@ -20,7 +20,7 @@ VDM++ model created many years ago at IFAD.
 ### dosort.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                 
 class DoSort is subclass of Sorter
 
@@ -66,7 +66,7 @@ end DoSort
 ### explsort.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                            
 class ExplSort is subclass of Sorter
 
@@ -112,7 +112,7 @@ end ExplSort
 ### implsort.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                     
 class ImplSort is subclass of Sorter
 
@@ -145,7 +145,7 @@ end ImplSort
 ### mergesort.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                     
 class MergeSort is subclass of Sorter
 
@@ -200,7 +200,7 @@ end MergeSort
 ### sorter.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                       
 class Sorter
  
@@ -219,7 +219,7 @@ end Sorter
 ### sortmachine.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                        
 
 class SortMachine

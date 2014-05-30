@@ -17,7 +17,7 @@ Author:
 ### file.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class File
 
   instance variables
@@ -39,7 +39,7 @@ end File
 ### filename.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 
 class Filename
 
@@ -65,7 +65,7 @@ end Filename
 ### url.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 
 class URL
 
@@ -86,7 +86,7 @@ end URL
 ### webserver.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 
 class Webserver
 

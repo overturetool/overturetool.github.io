@@ -23,7 +23,7 @@ Peter Gorm Larsen and Kim Sunesen in 1999 in connection with FM'99.
 ### Account.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                
 class Account
 
@@ -108,7 +108,7 @@ end Account
 ### Card.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                       
 class Card
 
@@ -149,7 +149,7 @@ end Card
 ### CardHolder.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                              
 class Cardholder
 
@@ -183,7 +183,7 @@ end Cardholder
 ### CentralResource.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                   
 class CentralResource
 
@@ -268,7 +268,7 @@ end CentralResource
 ### Channel.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 class Channel
                                                                                                                                                                                                                                                                                                                                              
@@ -364,7 +364,7 @@ end Channel
 ### Clock.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                              
 class Clock
 
@@ -391,7 +391,7 @@ end Clock
 ### concur.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Main
 
 instance variables
@@ -631,7 +631,7 @@ end User
 ### Letter.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                       
 class Letter
 
@@ -660,7 +660,7 @@ end Letter
 ### Letterbox.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                          
 class Letterbox
 
@@ -685,7 +685,7 @@ end Letterbox
 ### LocalResource.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                             
 class LocalResource
                                                                                                        
@@ -769,7 +769,7 @@ end LocalResource
 ### LocalTill.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                 
 class LocalTill
                                                                                                                                                                                                                                                                                                                                                                                                         
@@ -842,7 +842,7 @@ end LocalTill
 ### Till.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 class Till
 
@@ -953,7 +953,7 @@ end Till
 ### Timer.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                        
 class Timer
                                                                                                                                                                                                              

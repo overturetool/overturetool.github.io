@@ -17,7 +17,7 @@ Author:
 ### Agent.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Agent
 
 values
@@ -80,7 +80,7 @@ end Agent
 ### gui_Graphics.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class gui_Graphics
 	operations
 
@@ -120,7 +120,7 @@ end gui_Graphics
 ### IO.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class IO
 
 --  Overture STANDARD LIBRARY: INPUT/OUTPUT
@@ -265,7 +265,7 @@ end IO
 ### MATH.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class MATH
 
 -- 	Overture STANDARD LIBRARY: MATH
@@ -395,7 +395,7 @@ end MATH
 ### VDMUtil.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class VDMUtil
 
 -- 	Overture STANDARD LIBRARY: MiscUtils
@@ -444,7 +444,7 @@ end VDMUtil
 ### Smoker.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Smoker
 
 instance variables
@@ -497,7 +497,7 @@ end Smoker
 ### Table.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Table
 
 types
@@ -567,7 +567,7 @@ end Table
 ### World.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class World
 
 instance variables

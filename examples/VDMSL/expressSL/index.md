@@ -38,7 +38,7 @@ a simple polynomial representation.
 ### express.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 module Database
 

@@ -33,7 +33,7 @@ to extend the model with.
 ### Beacon.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 class Beacon
  
@@ -45,7 +45,7 @@ end Beacon
 ### CabDisplay.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                               
 class CabDisplay
 
@@ -104,7 +104,7 @@ end CabDisplay
 ### CheckSpeedEvent.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                 
 class CheckSpeedEvent is subclass of Event
 
@@ -136,7 +136,7 @@ end CheckSpeedEvent
 ### EmergencyBreak.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                            
 class EmergencyBreak
 
@@ -169,7 +169,7 @@ end EmergencyBreak
 ### Event.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                         
 class Event
 
@@ -188,7 +188,7 @@ end Event
 ### FLTV.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                           
 class FLTV is subclass of Beacon
 
@@ -200,7 +200,7 @@ end FLTV
 ### HeadMeetBeaconEvent.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                
 class HeadMeetBeaconEvent is subclass of Event
 
@@ -235,7 +235,7 @@ end HeadMeetBeaconEvent
 ### KLV.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                              
 class KLV
                                                                                                                                                                                                         
@@ -395,7 +395,7 @@ end KLV
 ### KLVStateEvent.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                             
 class KLVStateEvent is subclass of Event
 
@@ -417,7 +417,7 @@ end KLVStateEvent
 ### MaxSpeedEvent.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                            
 class MaxSpeedEvent is subclass of Event
 
@@ -437,7 +437,7 @@ end MaxSpeedEvent
 ### NoBeaconMetEvent.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                       
 class NoBeaconMetEvent is subclass of Event
 
@@ -460,7 +460,7 @@ end NoBeaconMetEvent
 ### OnBoardComp.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                    
 class OnBoardComp
 
@@ -493,7 +493,7 @@ end OnBoardComp
 ### TailMeetBeaconEvent.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                
 class TailMeetBeaconEvent is subclass of Event
 
@@ -528,7 +528,7 @@ end TailMeetBeaconEvent
 ### Test.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 class Test
 
@@ -587,7 +587,7 @@ end Test
 ### TIV_A.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                
 class TIV_A is subclass of Beacon
  
@@ -599,7 +599,7 @@ end TIV_A
 ### TIV_D.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 class TIV_D is subclass of Beacon
 
@@ -626,7 +626,7 @@ end TIV_D
 ### TIV_E.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                   
 class TIV_E is subclass of Beacon
 
@@ -655,7 +655,7 @@ end TIV_E
 ### useKLV.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class UseKLV
 
 values

@@ -21,7 +21,7 @@ European research project called SPECTRUM.
 ### metro.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
               
 module Metro1
 

@@ -23,7 +23,7 @@ and later used and adjusted by Peter Gorm Larsen also.
 ### Heart.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Heart
 
 types
@@ -80,7 +80,7 @@ end Heart
 ### Pacemaker.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Pacemaker
 
 values

@@ -26,7 +26,7 @@ VDM AST representation.
 ### MMParser.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 module MMParser
 /***
 MMParser
@@ -126,7 +126,7 @@ end MMParser
 ### VCParser.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 module VCParser
 /***
 VCParser

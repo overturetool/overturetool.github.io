@@ -28,7 +28,7 @@ Formal Methods
 ### stv.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 values
 
 Number_of_vacancies = 5;

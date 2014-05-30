@@ -29,7 +29,7 @@ on 2 different architectures.
 ### ActivePlanManager.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                                  
 
 class ActivePlanManager is subclass of Strategy
@@ -288,7 +288,7 @@ end ActivePlanManager
 ### Company.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                   
 class Company is subclass of Environment
 
@@ -349,7 +349,7 @@ end Company
 ### CRSystem.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                   
 system CRSystem
 
@@ -446,7 +446,7 @@ end CRSystem
 ### Customer.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                   
 class Customer is subclass of Environment
 
@@ -562,7 +562,7 @@ end Customer
 ### CyberRail.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                          
 
 
@@ -805,7 +805,7 @@ end CyberRail
 ### Environment.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                      
 class Environment
 
@@ -867,7 +867,7 @@ end Environment
 ### Logger.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                       
 
 class Logger
@@ -944,7 +944,7 @@ end Logger
 ### MessageQueue.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                       
 class MessageQueue
 
@@ -1002,7 +1002,7 @@ end MessageQueue
 ### RailwayGrid.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                         
 
 class RailwayGrid
@@ -1128,7 +1128,7 @@ end RailwayGrid
 ### snw.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                   
 
 
@@ -1177,7 +1177,7 @@ end SNW
 ### strategy.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                        
 
 class Strategy
@@ -1214,7 +1214,7 @@ end Strategy
 ### TokenDevice.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                            
 
 class TokenDevice
@@ -1315,7 +1315,7 @@ end TokenDevice
 ### TransportPlan.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                              
 
 
@@ -1424,7 +1424,7 @@ end TransportPlan
 ### types.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                 
 
 class MessageTypes
@@ -1485,7 +1485,7 @@ end MessageTypes
 ### World.vdmrt
 
 {% raw %}
-~~~vdm
+~~~
                                
 class World
 

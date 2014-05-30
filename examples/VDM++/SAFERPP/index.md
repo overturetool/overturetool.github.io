@@ -49,7 +49,7 @@ More explanation about this work can be found in the papers:
 ### AAH.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                    
 class AAH
  
@@ -163,7 +163,7 @@ end AAH
 ### Clock.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                      
 class Clock
  
@@ -194,7 +194,7 @@ end Clock
 ### Command.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                        
 class Command
 types
@@ -256,7 +256,7 @@ end Command
 ### HandControlUnit.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                
 class HandControlUnit
 
@@ -313,7 +313,7 @@ end HandControlUnit
 ### IntegratedCommand.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                  
 class IntegratedCommand is subclass of SixDOfCommand
 
@@ -357,7 +357,7 @@ end IntegratedCommand
 ### Interface.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                          
 class Interface
 
@@ -464,7 +464,7 @@ end Interface
 ### RotationCommand.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                
 class RotationCommand is subclass of Command
 operations
@@ -481,7 +481,7 @@ end RotationCommand
 ### SixDOfCommand.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                              
 class SixDOfCommand
 instance variables
@@ -541,7 +541,7 @@ end SixDOfCommand
 ### Test.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                     
 class Test is subclass of WorkSpace
  
@@ -603,7 +603,7 @@ end Test
 ### Thruster.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                         
 class Thruster
 
@@ -638,7 +638,7 @@ end Thruster
 ### ThrusterControl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                
 class ThrusterControl
 
@@ -803,7 +803,7 @@ end ThrusterControl
 ### ThrusterSelectionTable.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                  
 class ThrusterSelectionTable 
 
@@ -837,7 +837,7 @@ end ThrusterSelectionTable
 ### TranslationCommand.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                   
 class TranslationCommand is subclass of Command
 operations
@@ -858,7 +858,7 @@ end TranslationCommand
 ### ValveDriveAssembly.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                   
 class ValveDriveAssembly
 
@@ -889,7 +889,7 @@ end ValveDriveAssembly
 ### WorkSpace.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                          
 class WorkSpace 
 

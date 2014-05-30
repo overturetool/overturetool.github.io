@@ -27,7 +27,7 @@ where the VDMUnit testing approach was introduced.
 ### Alphabet.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Alphabet
 
 instance variables
@@ -81,7 +81,7 @@ end Alphabet
 ### AlphabetTest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class AlphabetTest
   is subclass of TestCase
@@ -117,7 +117,7 @@ end AlphabetTest
 ### Component.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Component
 
 instance variables
@@ -153,7 +153,7 @@ end Component
 ### Configuration.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Configuration
   is subclass of Component
 
@@ -187,7 +187,7 @@ end Configuration
 ### ConfigurationTest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class ConfigurationTest
   is subclass of Configuration, TestCase
@@ -225,7 +225,7 @@ end ConfigurationTest
 ### EnigmaTest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class EnigmaTest
 operations
   public Execute: () ==> ()
@@ -247,7 +247,7 @@ end EnigmaTest
 ### Plugboard.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Plugboard
   is subclass of Configuration
 
@@ -284,7 +284,7 @@ end Plugboard
 ### PlugboardTest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class PlugboardTest
   is subclass of TestCase
 
@@ -342,7 +342,7 @@ end PlugboardTest
 ### Reflector.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Reflector
   is subclass of Configuration
 
@@ -382,7 +382,7 @@ end Reflector
 ### ReflectorTest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class ReflectorTest
   is subclass of TestCase
@@ -436,7 +436,7 @@ end ReflectorTest
 ### Rotor.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Rotor
   is subclass of Configuration
 
@@ -505,7 +505,7 @@ end Rotor
 ### RotorTest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
               
 class RotorTest
   is subclass of TestCase
@@ -611,7 +611,7 @@ end RotorTest
 ### SimpleEnigma.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class SimpleEnigma
   is subclass of Component
 
@@ -661,7 +661,7 @@ end SimpleEnigma
 ### SimpleEnigmaTest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class SimpleEnigmaTest is subclass of TestCase
 
 operations
@@ -690,7 +690,7 @@ end SimpleEnigmaTest
 ### Test.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Test
 
 operations
@@ -706,7 +706,7 @@ end Test
 ### TestCase.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class TestCase
   is subclass of Test
 
@@ -753,7 +753,7 @@ end TestCase
 ### TestResult.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class TestResult
 
 instance variables
@@ -783,7 +783,7 @@ end TestResult
 ### TestSuite.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class TestSuite
   is subclass of Test
 

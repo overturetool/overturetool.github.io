@@ -23,7 +23,7 @@ in 1999 in connection with FM'99.
 ### Account.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                               
 class Account
 
@@ -119,7 +119,7 @@ end Account
 ### Card.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                     
 class Card
 
@@ -160,7 +160,7 @@ end Card
 ### CardHolder.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                             
 class Cardholder
 
@@ -195,7 +195,7 @@ end Cardholder
 ### CentralResource.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                
 class CentralResource
 
@@ -285,7 +285,7 @@ end CentralResource
 ### Clock.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                              
 class Clock
 
@@ -313,7 +313,7 @@ end Clock
 ### Letter.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                       
 class Letter
 
@@ -343,7 +343,7 @@ end Letter
 ### Letterbox.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                          
 class Letterbox
 
@@ -368,7 +368,7 @@ end Letterbox
 ### SimpleTest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class SimpleTest
 
 values
@@ -413,7 +413,7 @@ end SimpleTest
 ### Event.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                         
 class Event
 
@@ -430,7 +430,7 @@ end Event
 ### GetBalance.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                              
 class GetBalance is subclass of Event
 
@@ -461,7 +461,7 @@ end GetBalance
 ### IllegalCard.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                        
 class IllegalCard is subclass of Event
 
@@ -489,7 +489,7 @@ end IllegalCard
 ### InsertCard.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                 
 class InsertCard is subclass of Event
 
@@ -519,7 +519,7 @@ end InsertCard
 ### ReturnCard.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                           
 class ReturnCard is subclass of Event
 
@@ -551,7 +551,7 @@ end ReturnCard
 ### SendStatement.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                     
 class SendStatement is subclass of Event
 
@@ -581,7 +581,7 @@ end SendStatement
 ### System.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                           
 class System
 
@@ -686,7 +686,7 @@ end System
 ### Test.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 class Test
 types
@@ -715,7 +715,7 @@ end Test
 ### Validate.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                     
 class Validate is subclass of Event
 
@@ -743,7 +743,7 @@ end Validate
 ### Withdrawal.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                      
 class Withdrawal is subclass of Event
 
@@ -775,7 +775,7 @@ end Withdrawal
 ### Till.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 class Till
 

@@ -18,7 +18,7 @@ This example comes from the book "Formal Software Development: From VDM to Java"
 ### AccountSys.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 types
 
 AccNum = token;

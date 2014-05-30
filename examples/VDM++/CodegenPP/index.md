@@ -24,7 +24,7 @@ Overture.
 ### GiraffeBasicTypeImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -40,7 +40,7 @@ end GiraffeBasicTypeImpl
 ### GiraffeBinaryExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -77,7 +77,7 @@ end GiraffeBinaryExpressionImpl
 ### GiraffeBinaryOperatorImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -93,7 +93,7 @@ end GiraffeBinaryOperatorImpl
 ### GiraffeBooleanLiteralExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -120,7 +120,7 @@ end GiraffeBooleanLiteralExpressionImpl
 ### GiraffeCaseAlternativeImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -152,7 +152,7 @@ end GiraffeCaseAlternativeImpl
 ### GiraffeCasesExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -192,7 +192,7 @@ end GiraffeCasesExpressionImpl
 ### GiraffeClassDefinitionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -224,7 +224,7 @@ end GiraffeClassDefinitionImpl
 ### GiraffeDoubleLiteralExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -251,7 +251,7 @@ end GiraffeDoubleLiteralExpressionImpl
 ### GiraffeElseIfExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Thu Mar 11 11:27:03 CET 2010
@@ -283,7 +283,7 @@ end GiraffeElseIfExpressionImpl
 ### GiraffeExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -299,7 +299,7 @@ end GiraffeExpressionImpl
 ### GiraffeIdentifierImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -326,7 +326,7 @@ end GiraffeIdentifierImpl
 ### GiraffeIfExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -363,7 +363,7 @@ end GiraffeIfExpressionImpl
 ### GiraffeIntegerLiteralExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -390,7 +390,7 @@ end GiraffeIntegerLiteralExpressionImpl
 ### GiraffeLiteralExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -406,7 +406,7 @@ end GiraffeLiteralExpressionImpl
 ### GiraffeMethodDefinitionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -448,7 +448,7 @@ end GiraffeMethodDefinitionImpl
 ### GiraffeNodeImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -464,7 +464,7 @@ end GiraffeNodeImpl
 ### GiraffeParameterImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -496,7 +496,7 @@ end GiraffeParameterImpl
 ### GiraffeReturnStatementImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -523,7 +523,7 @@ end GiraffeReturnStatementImpl
 ### GiraffeSpecificationImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -550,7 +550,7 @@ end GiraffeSpecificationImpl
 ### GiraffeStatementImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -566,7 +566,7 @@ end GiraffeStatementImpl
 ### GiraffeTypeImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -582,7 +582,7 @@ end GiraffeTypeImpl
 ### GiraffeUnaryExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -614,7 +614,7 @@ end GiraffeUnaryExpressionImpl
 ### GiraffeUnaryOperatorImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -630,7 +630,7 @@ end GiraffeUnaryOperatorImpl
 ### GiraffeVariableDeclStatementImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -667,7 +667,7 @@ end GiraffeVariableDeclStatementImpl
 ### GiraffeVariableExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:16 CET 2010
@@ -694,7 +694,7 @@ end GiraffeVariableExpressionImpl
 ### GiraffeBasicType.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -721,7 +721,7 @@ end GiraffeBasicType
 ### GiraffeBinaryExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -745,7 +745,7 @@ end GiraffeBinaryExpression
 ### GiraffeBinaryOperator.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -782,7 +782,7 @@ end GiraffeBinaryOperator
 ### GiraffeBooleanLiteralExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -800,7 +800,7 @@ end GiraffeBooleanLiteralExpression
 ### GiraffeCaseAlternative.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -821,7 +821,7 @@ end GiraffeCaseAlternative
 ### GiraffeCasesExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -848,7 +848,7 @@ end GiraffeCasesExpression
 ### GiraffeClassDefinition.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -869,7 +869,7 @@ end GiraffeClassDefinition
 ### GiraffeDoubleLiteralExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -887,7 +887,7 @@ end GiraffeDoubleLiteralExpression
 ### GiraffeElseIfExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Thu Mar 11 11:27:03 CET 2010
@@ -908,7 +908,7 @@ end GiraffeElseIfExpression
 ### GiraffeExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -924,7 +924,7 @@ end GiraffeExpression
 ### GiraffeIdentifier.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -942,7 +942,7 @@ end GiraffeIdentifier
 ### GiraffeIfExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -966,7 +966,7 @@ end GiraffeIfExpression
 ### GiraffeIntegerLiteralExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -984,7 +984,7 @@ end GiraffeIntegerLiteralExpression
 ### GiraffeLiteralExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1000,7 +1000,7 @@ end GiraffeLiteralExpression
 ### GiraffeMethodDefinition.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1027,7 +1027,7 @@ end GiraffeMethodDefinition
 ### GiraffeNode.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1043,7 +1043,7 @@ end GiraffeNode
 ### GiraffeParameter.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1064,7 +1064,7 @@ end GiraffeParameter
 ### GiraffeReturnStatement.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1082,7 +1082,7 @@ end GiraffeReturnStatement
 ### GiraffeSpecification.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1100,7 +1100,7 @@ end GiraffeSpecification
 ### GiraffeStatement.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1116,7 +1116,7 @@ end GiraffeStatement
 ### GiraffeType.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1132,7 +1132,7 @@ end GiraffeType
 ### GiraffeUnaryExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1153,7 +1153,7 @@ end GiraffeUnaryExpression
 ### GiraffeUnaryOperator.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1180,7 +1180,7 @@ end GiraffeUnaryOperator
 ### GiraffeVariableDeclStatement.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1204,7 +1204,7 @@ end GiraffeVariableDeclStatement
 ### GiraffeVariableExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 13:43:15 CET 2010
@@ -1222,7 +1222,7 @@ end GiraffeVariableExpression
 ### SimpleApplyExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1254,7 +1254,7 @@ end SimpleApplyExpressionImpl
 ### SimpleBasicTypeImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1270,7 +1270,7 @@ end SimpleBasicTypeImpl
 ### SimpleBinaryExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1307,7 +1307,7 @@ end SimpleBinaryExpressionImpl
 ### SimpleBinaryOperatorImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1323,7 +1323,7 @@ end SimpleBinaryOperatorImpl
 ### SimpleBooleanLiteralExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1350,7 +1350,7 @@ end SimpleBooleanLiteralExpressionImpl
 ### SimpleCaseAlternativeImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1382,7 +1382,7 @@ end SimpleCaseAlternativeImpl
 ### SimpleCasesExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1422,7 +1422,7 @@ end SimpleCasesExpressionImpl
 ### SimpleDefinitionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1438,7 +1438,7 @@ end SimpleDefinitionImpl
 ### SimpleElseIfExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1470,7 +1470,7 @@ end SimpleElseIfExpressionImpl
 ### SimpleExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1486,7 +1486,7 @@ end SimpleExpressionImpl
 ### SimpleFunctionDefinitionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1523,7 +1523,7 @@ end SimpleFunctionDefinitionImpl
 ### SimpleIdentifierImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1550,7 +1550,7 @@ end SimpleIdentifierImpl
 ### SimpleIfExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1592,7 +1592,7 @@ end SimpleIfExpressionImpl
 ### SimpleIntegerLiteralExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1619,7 +1619,7 @@ end SimpleIntegerLiteralExpressionImpl
 ### SimpleLetExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1651,7 +1651,7 @@ end SimpleLetExpressionImpl
 ### SimpleLiteralExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1667,7 +1667,7 @@ end SimpleLiteralExpressionImpl
 ### SimpleLocalDefinitionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1699,7 +1699,7 @@ end SimpleLocalDefinitionImpl
 ### SimpleNodeImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1715,7 +1715,7 @@ end SimpleNodeImpl
 ### SimpleParameterImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1747,7 +1747,7 @@ end SimpleParameterImpl
 ### SimpleRealLiteralExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1774,7 +1774,7 @@ end SimpleRealLiteralExpressionImpl
 ### SimpleSpecificationImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1801,7 +1801,7 @@ end SimpleSpecificationImpl
 ### SimpleTypeDefinitionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1833,7 +1833,7 @@ end SimpleTypeDefinitionImpl
 ### SimpleTypeImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1849,7 +1849,7 @@ end SimpleTypeImpl
 ### SimpleUnaryExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1881,7 +1881,7 @@ end SimpleUnaryExpressionImpl
 ### SimpleUnaryOperatorImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1897,7 +1897,7 @@ end SimpleUnaryOperatorImpl
 ### SimpleVariableExpressionImpl.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:55 CET 2010
@@ -1924,7 +1924,7 @@ end SimpleVariableExpressionImpl
 ### SimpleApplyExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -1945,7 +1945,7 @@ end SimpleApplyExpression
 ### SimpleBasicType.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -1973,7 +1973,7 @@ end SimpleBasicType
 ### SimpleBinaryExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -1997,7 +1997,7 @@ end SimpleBinaryExpression
 ### SimpleBinaryOperator.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2038,7 +2038,7 @@ end SimpleBinaryOperator
 ### SimpleBooleanLiteralExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2056,7 +2056,7 @@ end SimpleBooleanLiteralExpression
 ### SimpleCaseAlternative.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2077,7 +2077,7 @@ end SimpleCaseAlternative
 ### SimpleCasesExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2104,7 +2104,7 @@ end SimpleCasesExpression
 ### SimpleDefinition.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2120,7 +2120,7 @@ end SimpleDefinition
 ### SimpleElseIfExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2141,7 +2141,7 @@ end SimpleElseIfExpression
 ### SimpleExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2157,7 +2157,7 @@ end SimpleExpression
 ### SimpleFunctionDefinition.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2181,7 +2181,7 @@ end SimpleFunctionDefinition
 ### SimpleIdentifier.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2199,7 +2199,7 @@ end SimpleIdentifier
 ### SimpleIfExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2226,7 +2226,7 @@ end SimpleIfExpression
 ### SimpleIntegerLiteralExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2244,7 +2244,7 @@ end SimpleIntegerLiteralExpression
 ### SimpleLetExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2265,7 +2265,7 @@ end SimpleLetExpression
 ### SimpleLiteralExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2281,7 +2281,7 @@ end SimpleLiteralExpression
 ### SimpleLocalDefinition.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2302,7 +2302,7 @@ end SimpleLocalDefinition
 ### SimpleNode.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2318,7 +2318,7 @@ end SimpleNode
 ### SimpleParameter.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2339,7 +2339,7 @@ end SimpleParameter
 ### SimpleRealLiteralExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2357,7 +2357,7 @@ end SimpleRealLiteralExpression
 ### SimpleSpecification.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2375,7 +2375,7 @@ end SimpleSpecification
 ### SimpleType.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2391,7 +2391,7 @@ end SimpleType
 ### SimpleTypeDefinition.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2412,7 +2412,7 @@ end SimpleTypeDefinition
 ### SimpleUnaryExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2433,7 +2433,7 @@ end SimpleUnaryExpression
 ### SimpleUnaryOperator.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2460,7 +2460,7 @@ end SimpleUnaryOperator
 ### SimpleVariableExpression.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 --
 -- Created automatically by VDMJ ASTgen. DO NOT EDIT.
 -- Wed Mar 17 17:56:54 CET 2010
@@ -2478,7 +2478,7 @@ end SimpleVariableExpression
 ### Codegen.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Codegen
 	types
 	
@@ -2586,7 +2586,7 @@ end Codegen
 ### Compiler.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class Compiler
 	types
 
@@ -2783,7 +2783,7 @@ end Compiler
 ### nativetest.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class codegen_Util
 
 instance variables
@@ -2850,7 +2850,7 @@ end codegen_Util
 ### returnConstInt.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class returnConstInt
 values
 public returnConstInt = 
@@ -2868,7 +2868,7 @@ end returnConstInt
 ### VDMUtil.vdmpp
 
 {% raw %}
-~~~vdm
+~~~
 class VDMUtil
 
 -- 	Overture STANDARD LIBRARY: MiscUtils

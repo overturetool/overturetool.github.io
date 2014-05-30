@@ -29,7 +29,7 @@ Springer Verlag, October 1994.
 ### as.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                
 
 
@@ -166,7 +166,7 @@ values
 ### auxil.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                     
 
 operations
@@ -235,7 +235,7 @@ functions
 ### env.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 types
 
@@ -421,7 +421,7 @@ functions
 ### expr.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 operations
@@ -623,7 +623,7 @@ operations
 ### pat.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
                                                                                                                                                                                                                                                                                                                                                                                                        
 operations
 

@@ -35,7 +35,7 @@ does not have a main debug functionality.
 ### acs.vdmsl
 
 {% raw %}
-~~~vdm
+~~~
 
 types
 
