@@ -21,7 +21,7 @@ European research project called SPECTRUM.
 ### metro.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
               
 module Metro1
 
@@ -56,7 +56,7 @@ operations
     (doors:= <Closed>)
 
 end Metro1
-                                                                                                                                                                                              
+                                                                                                                                                                                         
 module Metro1a
 
 exports all
@@ -92,7 +92,7 @@ operations
   post not doorsopen
 
 end Metro1a
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 module Metro2
 
 exports all
@@ -141,7 +141,7 @@ operations
   pre bellon <> nil
 
 end Metro2
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 module Metro3
 
 exports all
@@ -202,7 +202,7 @@ functions -- Auxiliary functions
     undefined; -- not specified yet.
 
 end Metro3
-                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                      
 ~~~
 {% endraw %}
 

@@ -36,7 +36,7 @@ to be applied repeatedly to create further generations.
 ### Conway.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 /**
  * Conways Game of Life
  *
@@ -223,7 +223,7 @@ end Conway
 ### Graphics.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 module gui_Graphics 
 
 imports from Conway all

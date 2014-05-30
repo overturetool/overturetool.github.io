@@ -22,7 +22,7 @@ code automatically generated using VDMTools.
 ### math.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class MATH
 
 -- 	VDMTools STANDARD LIBRARY: MATH
@@ -146,7 +146,7 @@ end MATH
 ### mathematics.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Mathematics
  
   values
@@ -171,7 +171,7 @@ end Mathematics
 ### parallelogram.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Parallelogram is subclass of Quadrilateral
  
    instance variables
@@ -194,7 +194,7 @@ end Parallelogram
 ### quadrilateral.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Quadrilateral is subclass of Vector
  
   instance variables
@@ -233,7 +233,7 @@ end Quadrilateral
 ### rectangle.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Rectangle is subclass of Parallelogram
  
   instance variables
@@ -247,7 +247,7 @@ end Rectangle
 ### rhombus.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Rhombus is subclass of Parallelogram
  
   instance variables
@@ -261,7 +261,7 @@ end Rhombus
 ### square.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Square is subclass of Rhombus, Rectangle
  
 end Square
@@ -272,7 +272,7 @@ end Square
 ### vector.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Vector 
  
   values
@@ -321,7 +321,7 @@ end Vector
 ### workspace.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class WorkSpace is subclass of Vector
  
   types

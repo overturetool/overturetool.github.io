@@ -20,7 +20,7 @@ a cave aiming at avioding different obstacles on its path.
 ### DataReader.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class DataReader
  
 operations
@@ -54,7 +54,7 @@ end DataReaderTest
 ### Enviroment.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Enviroment
  
 instance variables
@@ -128,7 +128,7 @@ end EnviromentTest
 ### Grid.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Grid
  
 types
@@ -215,7 +215,7 @@ end GridTest
 ### MovingObstacle.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class MovingObstacle
 types
 public MoveDirection = <North> | <South> | <East> | <West>;
@@ -304,7 +304,7 @@ end MovingObstacleTest
 ### NextMoveController.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class NextMoveController
  
 instance variables
@@ -440,7 +440,7 @@ end NextMoveControllerTest
 ### ObstacleSensor.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class ObstacleSensor
 types
 public SensorDirection = <North> | <South> | <East> | <West>;
@@ -494,7 +494,7 @@ end ObstacleSensorTest
 ### Robot.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 system Robot
  
 instance variables
@@ -575,7 +575,7 @@ end Robot
 ### RobotTest.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class RobotTest
  
 operations
@@ -598,7 +598,7 @@ end RobotTest
 ### SteeringController.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class SteeringController
 values
  
@@ -900,7 +900,7 @@ end SteeringControllerTest
 ### Storage.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Storage
  
 types
@@ -1078,7 +1078,7 @@ end StorageTest
 ### Util.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Util
  
  
@@ -1117,7 +1117,7 @@ end Util
 ### VDMUnit Framework.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test
  
 operations
@@ -1223,7 +1223,7 @@ end TestResult
 ### World.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class World
  
 instance variables

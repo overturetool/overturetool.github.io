@@ -23,8 +23,8 @@ Peter Gorm Larsen and Kim Sunesen in 1999 in connection with FM'99.
 ### Account.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                    
+~~~vdm
+                                                                                                                                                                                                               
 class Account
 
 instance variables
@@ -33,7 +33,7 @@ instance variables
   transactions : seq of Transaction := [];
   
   inv TransactionsInvariant(transactions);
-                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                   
 values
   dailyLimit : nat = 2000;
 
@@ -42,7 +42,7 @@ types
   public Transaction :: date : Clock`Date
                  cardId : Card`CardId
                  amount : nat;
-                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                       
 operations
   public Account : map Card`CardId to Cardholder * nat ==> Account
   Account(cs,b) ==
@@ -52,7 +52,7 @@ operations
   public GetBalance : () ==> nat
   GetBalance() ==
     return balance;
-                                                                                                                         
+                                                                                                                     
   public Withdrawal : Card`CardId * nat * Clock`Date ==> bool
   Withdrawal(cardId,amount,date) ==
     let transaction = mk_Transaction(date,cardId,amount)
@@ -74,11 +74,11 @@ operations
     in 
       return new Letter(nm,addr,date,transactions,balance)
   pre cardId in set dom cards;
-                                                                                                                   
+                                                                                                               
   public GetCardIds: () ==> set of Card`CardId
   GetCardIds() == 
     return dom cards;
-                                                                                                                          
+                                                                                                                      
   AddCard : Card`CardId * Cardholder ==> ()
   AddCard(cId,ch) ==
     cards := cards munion {cId |-> ch}
@@ -89,7 +89,7 @@ functions
   TransactionsInvariant(ts) ==
     forall date in set {ts(i).date | i in set inds ts} &
       DateTotal(date,ts) <= dailyLimit;
-                                                                                                                                                                                                       
+                                                                                                                                                                                                   
   DateTotal : Clock`Date * seq of Transaction +> nat
   DateTotal(date,ts) ==
     Sum([ts(i).amount | i in set inds ts & ts(i).date = date]);
@@ -108,8 +108,8 @@ end Account
 ### Card.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                            
+~~~vdm
+                                                                                                                                                                                                                                      
 class Card
 
 types
@@ -142,15 +142,15 @@ operations
     return cardId;
 
 end Card
-                  
+               
 ~~~
 {% endraw %}
 
 ### CardHolder.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                  
+~~~vdm
+                                                                                                                                                                                                             
 class Cardholder
 
 types
@@ -176,15 +176,15 @@ operations
     return address;
 
 end Cardholder
-                
+              
 ~~~
 {% endraw %}
 
 ### CentralResource.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                         
+~~~vdm
+                                                                                                                                                                                                                                                                                                                  
 class CentralResource
 
 instance variables
@@ -193,7 +193,7 @@ instance variables
   illegalCards  : set of Card`CardId := {};
   letterbox     : Letterbox;
   clock         : Clock;
-                                                                                         
+                                                                                     
   inv forall acc1,acc2 in set rng accounts &
           acc1 <> acc2 => 
           acc1.GetCardIds() inter acc2.GetCardIds() = {};
@@ -206,7 +206,7 @@ operations
   CentralResource(c,l) ==
     (clock := c;
      letterbox := l);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
   public GetBalance : Account`AccountId ==> [nat]
   GetBalance(accountId) ==
     if accountId in set dom accounts then
@@ -229,7 +229,7 @@ operations
        return true)
     else 
       return false;
-                                                                                                                                                        
+                                                                                                                                                   
   public IsLegalCard : Account`AccountId * Card`CardId ==> bool
   IsLegalCard(accountId,cardId) ==
     return 
@@ -248,7 +248,7 @@ operations
   public IncrNumberOfTries : Card`CardId ==> ()
   IncrNumberOfTries(cardId) ==
     numberOfTries(cardId) := numberOfTries(cardId) + 1;
-                                                                                                    
+                                                                                                
   public AddAccount : Account`AccountId * Account ==> ()
   AddAccount(accId,acc) ==
     (numberOfTries := numberOfTries ++ 
@@ -261,78 +261,78 @@ operations
     illegalCards := illegalCards union {cId};
 
 end CentralResource
-              
+             
 ~~~
 {% endraw %}
 
 ### Channel.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 class Channel
-                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                             
 instance variables
   req : [Request] := nil;
   resp :[Response] := nil;
   timer : Timer := new Timer();
   curTime : nat := 0;
-                                                                                                                                                                                                                
+                                                                                                                                                                                                          
 values
   timeout = 1500;
-                                                                                                                                                   
+                                                                                                                                              
 types
-                                                                                                                                            
+                                                                                                                                       
   public Request :: command : Command
                     data : set of ReqData;
-                                                                                                                                                
+                                                                                                                                           
   public Command = <TriesExceeded> | <ResetTries> | <IncTries> | 
                    <GetBalance> | <Withdrawal> | <PostStmt> | 
                   <IsLegalCard>;
-                                                                                                                           
+                                                                                                                       
   public ReqData = CardId | AccountId | Amount;
   public CardId :: val : Card`CardId;
   public AccountId :: val : Account`AccountId;
   public Amount :: val : nat;
-                                                                                                                                                                           
+                                                                                                                                                                      
   public Response :: command : Command
               data : RespData;
   public RespData = [nat] | bool;
-                                                                                                                                                                            
+                                                                                                                                                                       
 operations
-                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                            
   public SendRequest : Request ==> ()
   SendRequest(r) ==
     (req := r;
      timer.Start())
   pre req = nil;
-                                                                                                                                                                                                        
+                                                                                                                                                                                                  
   public ReceiveRequest : () ==> Request
   ReceiveRequest() ==
     let r = req in
     (req := nil;
      return r);
-                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                          
   public SendResponse : Response ==> ()
   SendResponse(r) ==
     (resp := r;
      timer.Stop())
   pre resp = nil;
-                                                                                                                                                                                          
+                                                                                                                                                                                     
   public ReceiveResponse : () ==> [Response]
   ReceiveResponse() ==
     let r = resp in
     (resp := nil;
      return r);
-                                                                                                                                                                           
+                                                                                                                                                                      
   public Wait: () ==> ()
   Wait() == 
     skip;
-                                                                                                                                                                  
+                                                                                                                                                             
   CheckTime: () ==> ()
   CheckTime() ==
     curTime := timer.GetTime()
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 functions
 
   AllReceived : nat * nat * nat * nat -> bool
@@ -340,7 +340,7 @@ functions
     act_send = fin_send and
     act_rec = fin_rec and
     (act_send + fin_send) = (act_send + fin_send);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 sync
   per SendResponse => 
         AllReceived(#act(SendRequest), #fin(SendRequest),
@@ -348,24 +348,24 @@ sync
         AllReceived(#act(SendResponse), #fin(SendResponse),
                     #act(ReceiveResponse), #fin(ReceiveResponse)) and
         #act(SendRequest) - #fin(SendResponse) = 1;
-                                                                                                                                                                                     
+                                                                                                                                                                                
   per ReceiveRequest => req <> nil;
-                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                               
   per Wait => curTime > timeout or resp <> nil;
-                                                                                                                                                              
+                                                                                                                                                         
 thread
   periodic(1000)(CheckTime)
 
 end Channel
-              
+             
 ~~~
 {% endraw %}
 
 ### Clock.vdmpp
 
 {% raw %}
-~~~
-                                                                                                 
+~~~vdm
+                                                                                             
 class Clock
 
 types
@@ -384,14 +384,14 @@ operations
     return date;
 
 end Clock
-              
+             
 ~~~
 {% endraw %}
 
 ### concur.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Main
 
 instance variables
@@ -631,8 +631,8 @@ end User
 ### Letter.vdmpp
 
 {% raw %}
-~~~
-                                                                                                          
+~~~vdm
+                                                                                                      
 class Letter
 
 instance variables
@@ -653,15 +653,15 @@ operations
      balance:= b)
      
 end Letter
-                
+              
 ~~~
 {% endraw %}
 
 ### Letterbox.vdmpp
 
 {% raw %}
-~~~
-                                                                                                             
+~~~vdm
+                                                                                                         
 class Letterbox
 
 instance variables
@@ -685,26 +685,26 @@ end Letterbox
 ### LocalResource.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                   
+~~~vdm
+                                                                                                                                                                                                                                                                                                            
 class LocalResource
-                                                                                                           
+                                                                                                       
 instance variables
   c : Channel := new Channel();
 
 operations
-                                                                                         
+                                                                                     
   public LocalResource : Channel ==> LocalResource
   LocalResource(nc) ==
     c := nc;
-                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                              
   public GetBalance : Account`AccountId ==> [nat]| <Fail>
   GetBalance(accountId) ==
     let req = mk_Channel`Request(<GetBalance>,
                                  {mk_Channel`AccountId(accountId)}) in
     (c.SendRequest(req);
      Wait(<GetBalance>));
-                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                             
   Wait : Channel`Command ==> Channel`RespData | <Fail>
   Wait(comm) ==
     (c.Wait();
@@ -714,7 +714,7 @@ operations
      elseif resp.command <> comm
      then return <Fail>
      else return resp.data);
-                                                                                                                                                   
+                                                                                                                                              
   public Withdrawal : Account`AccountId * Card`CardId * nat ==> bool | <Fail>
   Withdrawal(accountId,cardId,amount) ==
     let req = mk_Channel`Request(<Withdrawal>,
@@ -762,28 +762,28 @@ operations
      Wait(<IncTries>));
 
 end LocalResource
-                
+              
 ~~~
 {% endraw %}
 
 ### LocalTill.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                        
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                
 class LocalTill
-                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                        
 instance variables
   c: Channel;
   resource : CentralResource;
   enabled : bool := true;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 thread
   while enabled do
       let req = c.ReceiveRequest() in
       if enabled
       then ProcessRequest(req);
-                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                                     
 operations
 
   ProcessRequest : Channel`Request ==> ()
@@ -819,31 +819,31 @@ operations
               respdata := nil)
     end;
     c.SendResponse(mk_Channel`Response(req.command, respdata)));
-                                                                                                                                         
+                                                                                                                                    
   public LocalTill : Channel * CentralResource ==> LocalTill
   LocalTill(nc, nr) ==
     (c := nc;
      resource := nr);
-                                                                                                                                                 
+                                                                                                                                            
   public Fail : () ==> ()
   Fail() ==
     enabled := false;
-                                                                                                                                                                                     
+                                                                                                                                                                                
   public Repair : Channel ==> ()
   Repair(nc) ==
    (c := nc;
     enabled := true);
 
 end LocalTill
-                
+              
 ~~~
 {% endraw %}
 
 ### Till.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 class Till
 
 instance variables
@@ -924,7 +924,7 @@ operations
   RequestStatement() ==
     resource.PostStatement(curCard.GetAccountId(),curCard.GetCardId())
   pre CardValidated();
-                                                                                                             
+                                                                                                         
   public IsLegalCard : () ==> bool | <Fail>
   IsLegalCard() ==
     return 
@@ -953,14 +953,14 @@ end Till
 ### Timer.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                             
+~~~vdm
+                                                                                                                                                                                                                                       
 class Timer
-                                                                                                                                                                                                                   
+                                                                                                                                                                                                             
 instance variables
   curTime : nat := 0;
   active : bool := false;
-                                                                                                                  
+                                                                                                              
 operations
   public Start : () ==> ()
   Start() ==
@@ -979,12 +979,12 @@ operations
   IncTime() ==
     if active
     then curTime := curTime + 100;
-                                                                                                                                                                               
+                                                                                                                                                                          
 thread
   periodic(1000)(IncTime)
 
 end Timer
-              
+             
 ~~~
 {% endraw %}
 

@@ -47,8 +47,8 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 ### Accelerometer.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                         
+~~~vdm
+                                                                                                                                                                                                                                                  
 class Accelerometer is subclass of GLOBAL
 
 operations
@@ -58,15 +58,15 @@ operations
  stimulate (a) == Pacemaker`rateController.stimulate(a);
 
 end Accelerometer
-                
+              
 ~~~
 {% endraw %}
 
 ### Environment.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                       
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                
 class Environment is subclass of GLOBAL
 
  types 
@@ -91,7 +91,7 @@ busy : bool := true;
 
 -- Amount of time we want to simulate
 simtime : Time;
-                                                                                                                                                             
+                                                                                                                                                         
  instance variables
 -- Sensors
 
@@ -102,7 +102,7 @@ leads : map Chamber to Lead := {|->};
 -- Accelerometer
 accelerometer : Accelerometer;
 
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                    
  operations
 
 -- Constructor
@@ -114,7 +114,7 @@ Environment (fname) ==
       simtime  := timeval
      );
 
-                                                                                            
+                                                                                        
 public 
 addLeadSensor : Lead ==> ()
 addLeadSensor(lsens) == 
@@ -125,7 +125,7 @@ addAccelerometer : Accelerometer ==> ()
 addAccelerometer(acc) == 
    accelerometer := acc;
 
-                                                                                           
+                                                                                       
 private 
 createSignal : () ==> ()
 createSignal () == 
@@ -148,13 +148,13 @@ createSignal () ==
      if len inplines = 0 then busy := false;
     );
 
-                                                                                                                                                                                
+                                                                                                                                                                            
 
 public 
 handleEvent : Pulse * Chamber * Time ==> ()
 handleEvent(p,c,t) == 
   outlines := outlines ^ [mk_(p,c,t)]; 
-                                                                                             
+                                                                                         
 public
 showResult : () ==> ()
 showResult () ==
@@ -164,18 +164,18 @@ functions
 
 convert : seq of Outline -> seq of Outline
 convert (s) == [mk_(s(i).#1,s(i).#2,floor(s(i).#3 / 10)) | i in set inds s];
-                                                                                                                                                                          
+                                                                                                                                                                      
 operations
 public 
 isFinished: () ==> ()
 isFinished () == skip
-                                                                                                                                                 
+                                                                                                                                             
 
 thread
   periodic (1000E6,10,900,0) (createSignal);
 
 
-                              
+                            
 sync 
 mutex (handleEvent,showResult);
 mutex (createSignal);
@@ -184,64 +184,64 @@ per isFinished => not busy and time >= simtime;
 
 
 end Environment
-              
+             
 ~~~
 {% endraw %}
 
 ### GLOBAL.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                                                                                
+~~~vdm
+                                                                                                                                                                           
 class GLOBAL
 
 types 
 
-                                                                                                                                             
+                                                                                                                                        
 -- Sensed activity
 public
 Sense = <NONE> | <PULSE>;
-                                                                                                                                                                 
+                                                                                                                                                            
 -- Heart chamber identifier
 public 
 Chamber = <ATRIA> | <VENTRICLE>;
-                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                           
 
 -- Accelerometer output
 public 
 ActivityData = nat1
 inv a == a <= 7;
 
-                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                   
 -- Paced actvity
 public
 Pulse = <PULSE> | <TRI_PULSE>;
-                                                                                                                                       
+                                                                                                                                  
 -- Operation mode
 public 
 Mode = <OFF> | <AOO> | <AAI> | <AOOR> | <AAT> | <DOO> | <DDD>;
 
-                                                                          
+                                                                      
 -- PPM
 public 
 PPM = nat1
 inv ppm == ppm >= 30 and ppm <= 175;
 
-                                                                                                   
+                                                                                               
 -- Time
 public 
 Time = nat;
     
 end GLOBAL
-                    
+                
 ~~~
 {% endraw %}
 
 ### HeartController.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                
+~~~vdm
+                                                                                                            
 class HeartController is subclass of GLOBAL
 
 instance variables 
@@ -254,7 +254,7 @@ instance variables
  lastpulse : Time;
  ARP       : Time;
  interval  : Time;
-                              
+                            
 
 operations
  
@@ -272,14 +272,14 @@ operations
     interval  := Pacemaker`rateController.getInterval();
    );
 
-                              
+                            
 
  public 
  addLeadPacer : Lead ==> ()
  addLeadPacer (lead) == 
    leads := leads ++ {lead.getChamber() |-> lead};
 
-                              
+                            
  public 
  pace : ()  ==> ()
  pace () == 
@@ -293,7 +293,7 @@ operations
     sensed := {|->}
    );
 
-                                           
+                                       
  private
  PaceAOO : () ==> ()
  PaceAOO () == 
@@ -305,7 +305,7 @@ operations
            )
       else skip
   ;
-                                           
+                                       
  private
  PaceAAT : () ==> ()
  PaceAAT () == 
@@ -324,7 +324,7 @@ operations
            )
       else skip
   ;
-                                           
+                                       
  private
  PaceDOO : () ==> ()
  PaceDOO () == 
@@ -338,26 +338,26 @@ operations
        else skip;
        )
   ;
-                                  
+                              
  public 
  isFinished : () ==> ()
  isFinished () == for all lead in set rng leads do
                      lead.isFinished();
-                              
+                            
  public 
  sensorNotify : Sense * Chamber ==> ()
  sensorNotify (s,c) == 
    (sensed := sensed ++ {c |-> s});
-                              
+                            
  public 
  setInterval : Time ==> ()
  setInterval (t) == interval := t;
-                                                                              
+                                                                          
  public 
  setMode : Mode ==> ()
  setMode (m) == 
    (mode := m);
-                              
+                            
 thread
  periodic (200E6,0,190,0) (pace);
    
@@ -370,15 +370,15 @@ per isFinished => sensed = {|->} and #active(pace) = 0;
 mutex(sensorNotify,pace,setInterval);
 mutex(sensorNotify,PaceAOO,PaceDOO,PaceAAT);
 end HeartController
-              
+             
 ~~~
 {% endraw %}
 
 ### Lead.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                               
+~~~vdm
+                                                                                                                                                                                                                                        
 class Lead is subclass of GLOBAL
 
 instance variables
@@ -395,23 +395,23 @@ operations
     chamber := chm;
     scheduledPulse := nil
    );
-                                                                                                                          
+                                                                                                                     
 
  public 
  getChamber: () ==> Chamber
  getChamber () == return chamber;
-                                                                                                                                                    
+                                                                                                                                               
 
  public 
  stimulate : Sense ==> ()
  stimulate (s) == Pacemaker`heartController.sensorNotify(s,chamber);
 
-                              
+                            
  public 
  isFinished : () ==> ()
  isFinished () == skip;
 
-                                                                                          
+                                                                                      
  public 
  addLeadPace : Pulse * Time ==> ()
  addLeadPace (p,t) == 
@@ -419,13 +419,13 @@ operations
    then dischargePulse(p,chamber)
    else (scheduledPulse := mk_(t,p);
          return);
-                              
+                            
  private 
  dischargePulse : Pulse * Chamber ==> ()
  dischargePulse (p,c) ==
     duration(4)
     World`env.handleEvent(p,c,time);
-                              
+                            
  private 
  followPlan : () ==> ()
  followPlan () ==
@@ -439,12 +439,12 @@ operations
    );
    
       
-                                
+                             
 thread
   periodic (50E6,0,49,0) (followPlan)
 
 
-                              
+                            
 sync
 
 mutex(addLeadPace);
@@ -453,15 +453,15 @@ mutex(followPlan);
 per isFinished =>  scheduledPulse = nil;
 
 end Lead 
-              
+             
 ~~~
 {% endraw %}
 
 ### Pacemaker.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                       
+~~~vdm
+                                                                                                                                                                                                                                                
 system Pacemaker 
 
  instance variables
@@ -472,7 +472,7 @@ system Pacemaker
  public static 
  ventricleLead   : Lead       := new Lead(<VENTRICLE>);
 
-                                                                                    
+                                                                                
 instance variables
 
  public static 
@@ -481,12 +481,12 @@ instance variables
  public static 
  rateController      : RateController  := new RateController();
 
-                              
+                            
  instance variables
 
  public static 
  heartController : HeartController := new HeartController();
-                                                                            
+                                                                        
 instance variables
 
  cpu1 : CPU := new CPU(<FCFS>,1E3); 
@@ -503,7 +503,7 @@ instance variables
  -- Accelerometer <-> RateController
  bus3 : BUS := new BUS(<FCFS>,1E6,{cpu3,cpu4});
 
-                                                     
+                                                 
 
 operations
  
@@ -521,15 +521,15 @@ operations
    );
    
 end Pacemaker
-              
+             
 ~~~
 {% endraw %}
 
 ### RateController.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                            
+~~~vdm
+                                                                                                                        
 class RateController is subclass of GLOBAL
 
 instance variables
@@ -539,7 +539,7 @@ instance variables
  finished : bool;
 
  
-                              
+                            
 instance variables
 -- programmable values
  LRL       : PPM;
@@ -556,7 +556,7 @@ inv threshold < 8
     recoveryT in set {2,...,16}
     and 
     responseF <= 16;
-                                                                                                                                                  
+                                                                                                                                             
 operations
   
  public 
@@ -573,11 +573,11 @@ operations
     finished  := false;
 
    );
-                               
+                             
 public
 getInterval : () ==> Time
 getInterval () == return interval;
-                                
+                             
  private
  controlRate : () ==> ()
  controlRate () == 
@@ -590,12 +590,12 @@ getInterval () == return interval;
      );
     sensed := nil;
     );
-                              
+                            
 
  public 
  stimulate : ActivityData ==> ()
  stimulate (ad) == sensed := ad;
-                                 
+                              
  public
  increaseRate : () ==> ()
  increaseRate () == 
@@ -604,7 +604,7 @@ getInterval () == return interval;
     Pacemaker`heartController.setInterval(interval)
    );
 
-                              
+                            
  public
  decreaseRate : () ==> ()
  decreaseRate () == 
@@ -612,7 +612,7 @@ getInterval () == return interval;
     interval := 1 / ((LRL / 60) / 10000);
     Pacemaker`heartController.setInterval(interval)
    );
-                              
+                            
  public 
  finish : () ==> ()
  finish () == finished := true; 
@@ -620,7 +620,7 @@ getInterval () == return interval;
  public 
  isFinished : () ==> ()
  isFinished () == skip; 
-                              
+                            
 
 thread
  while true do
@@ -633,7 +633,7 @@ mutex(stimulate);
 per isFinished => finished;
 
 per controlRate => sensed <> nil;
-                               
+                             
 values
 
 --V-LOW 1
@@ -645,14 +645,14 @@ MED : ActivityData = 4;
 --V-HIGH 6
 
 end RateController
-               
+              
 ~~~
 {% endraw %}
 
 ### testBrokenHeartAAI.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test4
 
 operations
@@ -668,7 +668,7 @@ end Test4
 ### testBrokenHeartAAT.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test5
 
 operations
@@ -684,7 +684,7 @@ end Test5
 ### testBrokenHeartAOO.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test1
 
 operations
@@ -700,7 +700,7 @@ end Test1
 ### testBrokenHeartDDD.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test2
 
 operations
@@ -716,7 +716,7 @@ end Test2
 ### testBrokenHeartDOO.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test3
 
 operations
@@ -732,7 +732,7 @@ end Test3
 ### testDoubleHeartAAI.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test9
 
 operations
@@ -748,7 +748,7 @@ end Test9
 ### testDoubleHeartAAT.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test10
 
 operations
@@ -764,7 +764,7 @@ end Test10
 ### testDoubleHeartAOO.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test6
 
 operations
@@ -780,7 +780,7 @@ end Test6
 ### testDoubleHeartDDD.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test7
 
 operations
@@ -796,7 +796,7 @@ end Test7
 ### testDoubleHeartDOO.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test8
 
 operations
@@ -812,7 +812,7 @@ end Test8
 ### testGoodHeartAAI.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test15
 
 operations
@@ -828,7 +828,7 @@ end Test15
 ### testGoodHeartAAT.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test16
 
 operations
@@ -844,7 +844,7 @@ end Test16
 ### testGoodHeartAOO.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test11
 
 operations
@@ -860,7 +860,7 @@ end Test11
 ### testGoodHeartDDD.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test13
 
 operations
@@ -876,7 +876,7 @@ end Test13
 ### testGoodHeartDOO.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test14
 
 operations
@@ -892,7 +892,7 @@ end Test14
 ### testSometimesHeartAAI.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test20
 
 operations
@@ -908,7 +908,7 @@ end Test20
 ### testSometimesHeartAAT.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test21
 
 operations
@@ -924,7 +924,7 @@ end Test21
 ### testSometimesHeartAOO.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test17
 
 operations
@@ -940,7 +940,7 @@ end Test17
 ### testSometimesHeartDDD.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test18
 
 operations
@@ -956,7 +956,7 @@ end Test18
 ### testSometimesHeartDOO.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test19
 
 operations
@@ -972,8 +972,8 @@ end Test19
 ### World.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                                                              
+~~~vdm
+                                                                                                                                                         
 class World is subclass of GLOBAL 
 
 types
@@ -981,7 +981,7 @@ types
 instance variables
 
 public static env : [Environment] := nil;
-                                                                                                                 
+                                                                                                            
 operations
 
 public World: seq of char * GLOBAL`Mode ==> World
@@ -1011,7 +1011,7 @@ World(filename,mode) ==
      
      
   );
-                                                                                       
+                                                                                   
 
 public Run: () ==> ()
 Run () == 
@@ -1024,7 +1024,7 @@ Run () ==
   
 
 end World
-              
+             
 ~~~
 {% endraw %}
 

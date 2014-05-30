@@ -27,17 +27,17 @@ Spring Semester, 1997.
 ### adt.vdmsl
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 types 
      ADDRESS = nat;
 
 values
      NIL: ADDRESS = 0;   
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 types
      Nodes_Data = Data;
-                                                                                                                                                                                                         
+                                                                                                                                                                                                       
 types
 
 Nodes_SingleLink ::
@@ -72,7 +72,7 @@ Nodes_MkBinaryTree: Nodes_Data * Nodes_NodePtr * Nodes_NodePtr * Nodes_NodePtr
 Nodes_MkBinaryTree(data, right, left, parent) == 
      mk_Nodes_BinaryTree(data, right, left, parent);
 
-                                                                                                                                                                                                            
+                                                                                                                                                                                                         
 
 Nodes_GetData: Nodes_Node -> Nodes_Data
 Nodes_GetData(node) == 
@@ -166,22 +166,22 @@ Nodes_SetParent(node, parent) ==
      let mk_Nodes_BinaryTree(data, right, left, -) = node in
           mk_Nodes_BinaryTree(data, right, left, parent)
 pre is_Nodes_BinaryTree(node);     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 types Heaps_Data = [Nodes_Node];
 values Heaps_Size = 20;
-                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                        
 types
      
 Heaps_Location :: 
      data: [Heaps_Data]
      allocated: bool
 inv mk_Heaps_Location(d, a) == (a = true) <=> (d <> nil);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
 Heaps_Heap ::
      storage: seq of Heaps_Location
 inv mk_Heaps_Heap(s) == len s = Heaps_Size
-                                                                                                                                  
+                                                                                                                               
 
 functions
      
@@ -192,7 +192,7 @@ Heaps_InitSequence(length) ==
                ^Heaps_InitSequence(length - 1)
      else
           [mk_Heaps_Location(nil, false)];
-                                                                                                                                                                                 
+                                                                                                                                                                              
 
 Heaps_Init: () -> Heaps_Heap
 Heaps_Init() == mk_Heaps_Heap(Heaps_InitSequence(Heaps_Size));
@@ -202,18 +202,18 @@ Heaps_AmountUsed(heap) ==
      let store = heap.storage in
           len [store(i) | i in set inds store 
                & store(i).allocated = true];
-                                                                                                                                                                                   
+                                                                                                                                                                                
 
 Heaps_Available: Heaps_Heap -> bool
 Heaps_Available(heap) == 
      Heaps_AmountUsed(heap) < len heap.storage;
-                                                                                                                                     
+                                                                                                                                  
 
 Heaps_ModifyLoc: Heaps_Heap * ADDRESS * Heaps_Location -> Heaps_Heap
 Heaps_ModifyLoc(heap, address, location) ==
      mk_Heaps_Heap(heap.storage++{address|->location})
 pre address in set inds heap.storage;
-                                                                                                                                                               
+                                                                                                                                                            
      
 Heaps_Modify: Heaps_Heap * ADDRESS * Heaps_Data -> Heaps_Heap
 Heaps_Modify(heap, address, data) ==
@@ -222,7 +222,7 @@ Heaps_Modify(heap, address, data) ==
 pre let store = heap.storage in
      address in set inds store
      and store(address).allocated = true;
-                                                                                                                                                          
+                                                                                                                                                       
 
 Heaps_Retrieve: Heaps_Heap * ADDRESS -> [Heaps_Data]
 Heaps_Retrieve(heap, address) ==
@@ -231,20 +231,20 @@ pre
      let store = heap.storage in
           address in set inds store     
           and store(address).allocated = true;
-                                                                                                                                                            
+                                                                                                                                                         
      
 Heaps_UnallocatedAddresses: Heaps_Heap -> set of ADDRESS
 Heaps_UnallocatedAddresses(heap) ==
      let store = heap.storage in
           {i|i in set inds store & store(i).allocated = false};
-                                                                                                                                        
+                                                                                                                                     
 
 Heaps_UnallocatedAddress: Heaps_Heap -> ADDRESS
 Heaps_UnallocatedAddress(heap) ==
      iota new in set Heaps_UnallocatedAddresses(heap) & 
           (forall i in set Heaps_UnallocatedAddresses(heap) & new <= i) 
 pre Heaps_Available(heap); 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
 operations
      
@@ -257,13 +257,13 @@ NEW(data) ==
      )
 )
 pre Heaps_Available(heap);    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 DISPOSE: ADDRESS ==> ()
 DISPOSE(address) == 
      heap := Heaps_ModifyLoc(heap, address, mk_Heaps_Location(nil, false))
 pre pre_Heaps_ModifyLoc(heap, address, mk_Heaps_Location(nil, false));
-                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                        
 
 SET_DATA: ADDRESS * Data ==> ()
 SET_DATA(ptr, data) == 
@@ -316,9 +316,9 @@ PARENT: ADDRESS ==> ADDRESS
 PARENT(ptr) ==
      return Nodes_GetParent(Heaps_Retrieve(heap, ptr));
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 types SList_Data = Data;
-                                                                                                                                                                     
+                                                                                                                                                                   
 
 types SList_List = Nodes_NodePtr;
 
@@ -336,7 +336,7 @@ SList_Seq(heap, list) ==
                [data]^SList_Seq(heap, tail)
      else
           [];  
-                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                      
 
 SList_Lengthf: Heaps_Heap * SList_List -> nat
 SList_Lengthf(heap, list) == 
@@ -346,7 +346,7 @@ SList_Lengthf(heap, list) ==
      else
           0
 post RESULT = len SList_Seq(heap, list);
-                                                                                                                                                                                               
+                                                                                                                                                                                            
 
 SList_PtrToNode: Heaps_Heap * SList_List * nat1 -> Nodes_NodePtr
 
@@ -360,11 +360,11 @@ post
      let data = Nodes_GetData(Heaps_Retrieve(heap, RESULT)), 
           listSeq = SList_Seq(heap, list) in
                data = listSeq(position);
-                                                                                                                                   
+                                                                                                                                
 
 SList_Init: () -> SList_List
 SList_Init() == NIL;
-                                                                          
+                                                                       
 
 operations
 
@@ -372,7 +372,7 @@ SList_InsertAtBeginning: SList_List * SList_Data ==> SList_List
 SList_InsertAtBeginning(list, data) ==
      return NEW(Nodes_MkSingleLink(data, list))
 post [data]^SList_Seq(heap~, list) = SList_Seq(heap, RESULT);
-                                                                                                                         
+                                                                                                                      
 
 SList_InsertAfter: SList_List * Nodes_NodePtr * SList_Data ==> SList_List
 SList_InsertAfter(list, ptr, data) ==
@@ -383,7 +383,7 @@ SList_InsertAfter(list, ptr, data) ==
 post 
      let old = SList_Seq(heap~, ptr) in
           [old(1)]^[data]^tl old = SList_Seq(heap, ptr);
-                                                                                                                                                    
+                                                                                                                                                
 
 SList_Insert: SList_List * SList_Data * nat1 ==> SList_List
 SList_Insert(list, data, position) ==
@@ -398,7 +398,7 @@ post let new = SList_Seq(heap, RESULT) in
           = [new(i) | i in set inds new & i <> position]
      and new(position) = data
      and Heaps_AmountUsed(heap~) + 1 = Heaps_AmountUsed(heap);
-                                                                                                                   
+                                                                                                                
      
 SList_Append: SList_List * SList_Data ==> SList_List
 SList_Append(list, data) ==
@@ -413,7 +413,7 @@ SList_Append(list, data) ==
 pre Heaps_Available(heap)
 post SList_Seq(heap~, list)^[data] = SList_Seq(heap, RESULT)
      and Heaps_AmountUsed(heap~) + 1 = Heaps_AmountUsed(heap);
-                                                                                                           
+                                                                                                        
 
 SList_Update: SList_List * SList_Data * nat1 ==> SList_List
 SList_Update(list, data, position) ==
@@ -425,7 +425,7 @@ pre position <= SList_Lengthf(heap, list)
 post SList_Seq(heap~, list)++{position |-> data} = SList_Seq(heap, RESULT)
 
      and Heaps_AmountUsed(heap~) = Heaps_AmountUsed(heap);
-                                                                                                                                                
+                                                                                                                                              
 
 SList_DeleteAtBeginning: SList_List ==> SList_List
 SList_DeleteAtBeginning(list) ==
@@ -435,7 +435,7 @@ SList_DeleteAtBeginning(list) ==
      return newlist;
 )
 post tl SList_Seq(heap~, list) = SList_Seq(heap, RESULT);
-                                                                                                          
+                                                                                                        
 
 SList_DeleteAfter: SList_List * Nodes_NodePtr ==> SList_List
 SList_DeleteAfter(list, ptr) ==
@@ -447,7 +447,7 @@ SList_DeleteAfter(list, ptr) ==
 )
 post let old = SList_Seq(heap~, ptr) in
      [old(1)]^tl (tl old) = SList_Seq(heap, ptr);
-                                                                                                                      
+                                                                                                                    
 
 SList_Delete: SList_List * nat1 ==> SList_List
 SList_Delete(list, position) ==
@@ -462,7 +462,7 @@ post let old = SList_Seq(heap~, list) in
           = SList_Seq(heap, RESULT)
 
      and Heaps_AmountUsed(heap~) = Heaps_AmountUsed(heap) + 1;
-                                                                                                                      
+                                                                                                                   
 
 SList_Traverse:  SList_List * (SList_Data -> SList_Data) ==> SList_List
 SList_Traverse(list, traversal) ==
@@ -477,7 +477,7 @@ post
      let old = SList_Seq(heap~, list) in
           old <> [] => [traversal(old(i)) | i in set inds old] 
                = SList_Seq(heap, RESULT);
-                                                                                                                      
+                                                                                                                   
 
 SList_Length: SList_List ==> nat
 SList_Length(list) == return SList_Lengthf(heap, list); 
@@ -487,11 +487,11 @@ SList_Empty(list) == return SList_IsEmpty(list);
 
 SList_Element: SList_List * nat1 ==> SList_Data
 SList_Element(list, position) == DATA(SList_PtrToNode(heap, list, position));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
 types
 DList_Data = Data;
-                                                                                                           
+                                                                                                         
 
 types
 DList_List = Nodes_NodePtr;
@@ -504,11 +504,11 @@ DList_LastNode(heap, list) ==
           if next <> NIL then
                DList_LastNode(heap, next)
           else list;
-                                                                                                            
+                                                                                                         
 
 DList_Forward: Heaps_Heap * DList_List -> seq of DList_Data
 DList_Forward(heap, list) == SList_Seq(heap, list);
-                                                                                                                                                                                    
+                                                                                                                                                                                
 
 DList_Backward: Heaps_Heap * DList_List -> seq of DList_Data
 DList_Backward(heap, list) ==
@@ -517,7 +517,7 @@ DList_Backward(heap, list) ==
           let data = Nodes_GetData(Heaps_Retrieve(heap, list)) in
                DList_Backward(heap, prev)^[data]
      else [];
-                                                                                                                                                                                   
+                                                                                                                                                                                
                
 DList_IsList: Heaps_Heap * DList_List -> bool
 DList_IsList(heap, list) == 
@@ -525,7 +525,7 @@ DList_IsList(heap, list) ==
           DList_Forward(heap, list) 
                = DList_Backward(heap, DList_LastNode(heap, list))
      else true;
-                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                  
 
 DList_Init: () -> DList_List
 DList_Init() == NIL;                         
@@ -633,9 +633,9 @@ DList_Traverse(list, traversal) == SList_Traverse(list, traversal);
      
 DList_Update: DList_List * DList_Data * nat1 ==> DList_List
 DList_Update(list, data, position) == SList_Update(list, data, position);
-                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                     
 types Queues_Data = Data;
-                                                                                                                  
+                                                                                                               
 
 types Queues_Queue = SList_List;
 
@@ -664,9 +664,9 @@ Queues_Head(queue) ==
      else error;
 
 
-                                                                                                                                                                                 
+                                                                                                                                                                          
 types Stacks_Data = Data;
-                                                                                                              
+                                                                                                            
 
 types Stacks_Stack = SList_List;
 
@@ -693,21 +693,21 @@ Stacks_Pop(stack) ==
      else error
 );
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
 types
 STrees_Data = Data;
-                                                                                                                                                                              
+                                                                                                                                                                           
 
 types 
 STrees_Direction = <ToRoot> | <ToLeft> | <ToRight>
-                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                        
 
 types
 STrees_Node ::
      data: STrees_Data
      position: nat1;
-                                                                                                                                                                                          
+                                                                                                                                                                                       
 
 STrees_Tree = set of STrees_Node
 inv tree == 
@@ -716,7 +716,7 @@ inv tree ==
           and STrees_IsUnique(tree, node)) 
      and (tree <> {} <=> exists1 node in set tree & 
                                  STrees_IsRoot(tree, node));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 STrees_Info ::
      tree: STrees_Tree
@@ -724,14 +724,14 @@ STrees_Info ::
 inv mk_STrees_Info(t, c) == 
      (c = nil <=> t = {}) and
      (c <> nil <=> (c in set t and let r = STrees_Root(t) in r.position = 1));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
 functions
 
 STrees_GetTree: STrees_Info -> STrees_Tree
 
 STrees_GetTree(mk_STrees_Info(tree, -)) == tree;
-                                                                                                     
+                                                                                                  
  
 STrees_MkNode: STrees_Data * nat1 -> STrees_Node
 STrees_MkNode(data, position) ==
@@ -745,17 +745,17 @@ STrees_MkInfo: STrees_Tree * STrees_Node -> STrees_Info
 STrees_MkInfo(tree, current) ==
      mk_STrees_Info(tree, current)
 pre inv_STrees_Info(mk_STrees_Info(tree, current));
-                                                                                                                                   
+                                                                                                                                
 
 STrees_Init: () -> STrees_Info
 STrees_Init() == mk_STrees_Info({}, nil);
-                                                                                                                                                           
+                                                                                                                                                        
 
 STrees_IsRoot: set of STrees_Node * STrees_Node -> bool
 STrees_IsRoot(tree, mk_STrees_Node(dr, pr)) == 
      not STrees_IsChild(tree, mk_STrees_Node(dr, pr))
 pre mk_STrees_Node(dr, pr) in set tree;
-                                                                                                                                                                                              
+                                                                                                                                                                                           
 
 STrees_IsParent: STrees_Tree * STrees_Node -> bool
 STrees_IsParent(tree, node) ==
@@ -772,7 +772,7 @@ STrees_IsUnique: set of STrees_Node * STrees_Node -> bool
 STrees_IsUnique(tree, mk_STrees_Node(data, position)) ==
      (mk_STrees_Node(data, position) in set tree) and
      (exists1 node in set tree & node.position = position);
-                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                        
 
 STrees_IsParentOf: set of STrees_Node * STrees_Node * STrees_Node -> bool
 STrees_IsParentOf(tree, node1, node2) == 
@@ -793,7 +793,7 @@ STrees_IsLeftChildOf(tree, node1, node2) ==
      let mk_STrees_Node(-, position2) = node2 in
           (position1 = 2*position2)
 pre node1 in set tree and node2 in set tree;
-                                                                                                                                     
+                                                                                                                                  
 
 STrees_Insert: STrees_Info * STrees_Data * STrees_Direction -> STrees_Info
 STrees_Insert(mk_STrees_Info(tree, current), data, direction) == 
@@ -808,7 +808,7 @@ pre
      (direction = <ToLeft> => not STrees_HasLeftChild(tree, current)) and 
      (direction = <ToRight> => not STrees_HasRightChild(tree, current))
 post inv_STrees_Info(RESULT);
-                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                        
 
 STrees_InsertRoot: STrees_Data -> STrees_Info
 STrees_InsertRoot(data) == 
@@ -840,7 +840,7 @@ STrees_Traverse(treeinfo, traversal) ==
                          mk_STrees_Node(traversal(data), position))
           else
                treeinfo;
-                                                                                                                                 
+                                                                                                                               
 
 STrees_MoveInDir: STrees_Info * STrees_Direction -> STrees_Info
 STrees_MoveInDir(mk_STrees_Info(tree, current), direction) ==
@@ -851,19 +851,19 @@ STrees_MoveInDir(mk_STrees_Info(tree, current), direction) ==
  end
 pre STrees_ExistsDirection(mk_STrees_Info(tree, current), direction);
 
-                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                               
 
 STrees_MoveToNode: STrees_Info * nat1 -> STrees_Info
 STrees_MoveToNode(mk_STrees_Info(tree, current), position) ==
      mk_STrees_Info(tree, STrees_GetNode(tree, position))
 pre STrees_ExistsNode(mk_STrees_Info(tree, current), position);
-                                                                                                                                                                                              
+                                                                                                                                                                                           
 
 STrees_MoveToParent: STrees_Info -> STrees_Info
 STrees_MoveToParent(mk_STrees_Info(tree, current)) ==
      mk_STrees_Info(tree, STrees_Parent(tree, current))
 pre not STrees_IsRoot(tree, current);
-                                                                                                                                                                                    
+                                                                                                                                                                                 
 
 STrees_MoveToAnscestor: STrees_Info * nat1 -> STrees_Info 
 STrees_MoveToAnscestor(treeinfo, pathlength) ==
@@ -872,7 +872,7 @@ STrees_MoveToAnscestor(treeinfo, pathlength) ==
   else STrees_MoveToParent(treeinfo)
 pre pre_STrees_MoveToParent(treeinfo);
 
-                                                                                                                          
+                                                                                                                       
 
 STrees_Root: STrees_Tree -> STrees_Node
 STrees_Root(tree) ==
@@ -901,14 +901,14 @@ STrees_GetNode: STrees_Tree * nat1 -> STrees_Node
 STrees_GetNode(tree, position) ==
   iota node in set tree & node.position = position
 pre exists node in set tree & node.position = position; 
-                                                                                                                
+                                                                                                             
 
 STrees_GetData: STrees_Info * nat1 -> STrees_Data
 STrees_GetData(mk_STrees_Info(tree, current), position) ==
      let mk_STrees_Node(data, -) = STrees_GetNode(tree, position) in 
           data
 pre STrees_ExistsNode(mk_STrees_Info(tree, current), position);
-                                                                                                                  
+                                                                                                               
 
 STrees_StoreCurrentData: STrees_Info * STrees_Data -> STrees_Info
 
@@ -917,16 +917,16 @@ STrees_StoreCurrentData(mk_STrees_Info(tree, current), data) ==
      let newcurrent = mk_STrees_Node(data, position) in 
           mk_STrees_Info((tree\{current}) union {newcurrent}, newcurrent)
 pre current <> nil;
-                                                                                                             
+                                                                                                          
 
 STrees_GetCurrentData: STrees_Info -> STrees_Data
 STrees_GetCurrentData(mk_STrees_Info(tree, mk_STrees_Node(data, -))) == data
 pre tree <> {};
-                                                                                                              
+                                                                                                           
 
 STrees_Size: STrees_Info -> nat
 STrees_Size(mk_STrees_Info(tree, -)) == card tree;
-                                                                                             
+                                                                                          
 
 STrees_GetCurrentNode: STrees_Info -> STrees_Node
 STrees_GetCurrentNode(mk_STrees_Info(-, current)) == current;
@@ -935,7 +935,7 @@ STrees_SetCurrentNode: STrees_Info * STrees_Node -> STrees_Info
 STrees_SetCurrentNode(mk_STrees_Info(tree, -), newcurrent) == 
      mk_STrees_Info(tree, newcurrent)
 pre newcurrent in set tree;
-                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                       
 
 STrees_HasLeftChild: STrees_Tree * STrees_Node -> bool
 STrees_HasLeftChild(tree, parent) ==
@@ -949,7 +949,7 @@ STrees_HasRightChild(tree, parent) ==
      exists1 child in set tree
           & STrees_IsRightChildOf(tree, child, parent)
 pre parent in set tree;
-                                                                                                                                                                                                      
+                                                                                                                                                                                                   
 
 STrees_InOrderPredecessor: STrees_Tree * STrees_Node -> STrees_Node
 STrees_InOrderPredecessor(tree, node) ==
@@ -962,7 +962,7 @@ STrees_InOrderPredecessor(tree, node) ==
           iota pred in set rightpath 
                     & (forall n in set rightpath & n.position <= pred.position)
 pre node in set tree and STrees_HasLeftChild(tree, node);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 
 STrees_Delete: STrees_Info -> STrees_Info
 STrees_Delete(mk_STrees_Info(tree, current)) ==
@@ -997,7 +997,7 @@ STrees_Delete(mk_STrees_Info(tree, current)) ==
           mk_STrees_Info(tree \ {current}, STrees_Parent(tree, current))
 pre current <> nil
 post inv_STrees_Info(RESULT);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
 STrees_Subtree: STrees_Tree * STrees_Node -> STrees_Tree
 STrees_Subtree(tree, mk_STrees_Node(rootdata, rootpos)) ==
@@ -1005,7 +1005,7 @@ STrees_Subtree(tree, mk_STrees_Node(rootdata, rootpos)) ==
           & (exists1 n in set {0, ..., card tree} 
                & p >= rootpos*2**n and p < (rootpos + 1)*2**n)}
 pre mk_STrees_Node(rootdata, rootpos) in set tree;
-                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                         
 
 STrees_MoveSubtree:  STrees_Tree * STrees_Node * nat1 -> STrees_Tree
 STrees_MoveSubtree(tree, subtreeRoot, newRootPos) ==
@@ -1014,7 +1014,7 @@ STrees_MoveSubtree(tree, subtreeRoot, newRootPos) ==
           {STrees_MoveNode(tree, node, oldRootPos, newRootPos) 
           | node in set subtree} 
 pre subtreeRoot in set tree;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
 STrees_MoveNode: STrees_Tree * STrees_Node * nat1 * nat1 -> STrees_Node
 STrees_MoveNode(tree, mk_STrees_Node(d, p), oldRootPos, newRootPos) ==
@@ -1022,17 +1022,17 @@ STrees_MoveNode(tree, mk_STrees_Node(d, p), oldRootPos, newRootPos) ==
      let n = (iota n in set {0, ..., card tree} 
                & p >= oldRootPos*2**n and p < (oldRootPos + 1)*2**n) in
           mk_STrees_Node(d, newRootPos*2**n + p - oldRootPos*2**n);
-                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                  
 
 STrees_ExistsData: STrees_Info * STrees_Data -> bool
 STrees_ExistsData(mk_STrees_Info(tree, -), data) ==
      exists node in set tree & node.data = data;
-                                                                                                                                                            
+                                                                                                                                                         
 
 STrees_ExistsNode: STrees_Info * nat1 -> bool
 STrees_ExistsNode(mk_STrees_Info(tree, -), position) ==
      exists node in set tree & node.position = position;
-                                                                                                                                                            
+                                                                                                                                                         
 
 STrees_ExistsDirection: STrees_Info * STrees_Direction -> bool
 STrees_ExistsDirection(mk_STrees_Info(tree, current), direction) ==
@@ -1047,9 +1047,9 @@ STrees_ExistsDirection(mk_STrees_Info(tree, current), direction) ==
                     STrees_HasRightChild(tree, current) 
                else false
      end;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 types Trees_Data = Data
-                                                                                                             
+                                                                                                          
 
 types
 Trees_Direction = STrees_Direction;
@@ -1057,7 +1057,7 @@ Trees_Direction = STrees_Direction;
 Trees_Tree ::
      treePtr: Nodes_NodePtr
      current: Nodes_NodePtr
-                                                                                                                                                       
+                                                                                                                                                    
 
 
 functions
@@ -1071,7 +1071,7 @@ Trees_Position(heap, child) ==
           else 
                2*Trees_Position(heap, parent)
 pre child <> NIL; 
-                                                                                                                                                                                           
+                                                                                                                                                                                        
 
 Trees_Set: Heaps_Heap * Trees_Tree -> STrees_Info
 Trees_Set(heap, mk_Trees_Tree(treePtr, current)) == 
@@ -1083,7 +1083,7 @@ Trees_Set(heap, mk_Trees_Tree(treePtr, current)) ==
           let currentnode = STrees_MkNode(data, position) in
           STrees_MkInfo(treeset, currentnode)
      else STrees_Init();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
 Trees_SubtreeToSet: Heaps_Heap * Nodes_NodePtr * nat1 -> set of STrees_Node
 Trees_SubtreeToSet(heap, subtree, position) ==
@@ -1096,7 +1096,7 @@ Trees_SubtreeToSet(heap, subtree, position) ==
                Nodes_GetRight(
 		          Heaps_Retrieve(heap, subtree)), 2*position + 1)
      else {};
-                                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                           
 
 Trees_HasLeftChild: Heaps_Heap * Nodes_NodePtr -> bool
 Trees_HasLeftChild(heap, ptr) ==
@@ -1226,7 +1226,7 @@ pre treePtr <> NIL
 post Heaps_AmountUsed(heap~) = Heaps_AmountUsed(heap) + 1 and
      let old = Trees_Set(heap~, mk_Trees_Tree(treePtr, current)) in
           STrees_Delete(old) = Trees_Set(heap, RESULT);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 Trees_SearchSubtree: Nodes_NodePtr * Trees_Data ==> bool
 Trees_SearchSubtree(subtree, dataToFind) ==
@@ -1242,7 +1242,7 @@ Trees_SearchSubtree(subtree, dataToFind) ==
 
      else return false
 );
-                                                                                                                                          
+                                                                                                                                       
            
 Trees_ExistsData: Trees_Tree * Trees_Data ==> bool
 Trees_ExistsData(tree, data) == Trees_SearchSubtree(tree.treePtr, data)
@@ -1313,7 +1313,7 @@ Trees_SubtreeSize(subtree) ==
                + Trees_SubtreeSize(LEFT(subtree))
      else return 0;
 
-                                                                                                                                               
+                                                                                                                                            
 
 Trees_Traverse: Trees_Tree * (Trees_Data -> Trees_Data) ==> Trees_Tree
 Trees_Traverse(tree, traversal) == 
@@ -1331,7 +1331,7 @@ Trees_TraverseSubtree(subtree, traversal) ==
           Trees_TraverseSubtree(LEFT(subtree), traversal);
           Trees_TraverseSubtree(RIGHT(subtree), traversal);
      );
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
      state SystemState of
           heap: Heaps_Heap
           slist: SList_List
@@ -1352,7 +1352,7 @@ Trees_TraverseSubtree(subtree, traversal) ==
 
  
 types Data = char;
-                                                                                                                                                                                 
+                                                                                                                                                                              
 
 operations
 
@@ -1389,7 +1389,7 @@ TestSList() ==
      slist := SList_Delete(slist, 10);
      return [SList_Element(slist, i)| i in set {1, ..., 9}] = "abcdefghi";
 );
-                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                            
 
 TestDList: () ==> bool
 TestDList() ==
@@ -1424,7 +1424,7 @@ TestDList() ==
      dlist := DList_Delete(dlist, 10);
      return [DList_Element(dlist, i)| i in set {1, ..., 9}] = "abcdefghi";
 );
-                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                
 
 values
  
@@ -1509,13 +1509,13 @@ TraverseResult = STrees_MkTree(
           });
 
 AlphabetSubset = {'a','b','c','d','e','f','g','h','i','j'};
-                                                                                                                             
+                                                                                                                          
 
 functions
 Traversal: char -> char
 Traversal(ch) ==
      if ch in set AlphabetSubset then 'a' else 'b';
-                                                                                                                                                                                                                             
+                                                                                                                                                                                                                          
 
 operations
 
@@ -1645,7 +1645,7 @@ TestSTreesDelete() ==
      stree := STrees_Delete(stree);
      return STrees_GetTree(stree) = DeleteResult;
 );
-                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
 TestSTrees: () ==> bool
 TestSTrees() ==
@@ -1688,7 +1688,7 @@ TestSTrees() ==
 );
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
 operations
 

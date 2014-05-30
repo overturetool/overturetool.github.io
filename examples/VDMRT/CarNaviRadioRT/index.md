@@ -25,7 +25,7 @@ coherent application in a distributed application.
 ### EnvTask.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class EnvironmentTask 
 
 instance variables
@@ -120,7 +120,7 @@ end EnvironmentTask
 ### InsertAdress.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class InsertAddress
   is subclass of EnvironmentTask
 
@@ -153,7 +153,7 @@ end InsertAddress
 ### mmi.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class MMI
 
 operations
@@ -186,7 +186,7 @@ end MMI
 ### navigation.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Navigation
 
 operations
@@ -212,7 +212,7 @@ end Navigation
 ### radhavsys.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 system RadNavSys
 
 instance variables
@@ -260,7 +260,7 @@ end RadNavSys
 ### radio.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Radio
 
 operations
@@ -286,7 +286,7 @@ end Radio
 ### Test.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test
 
 instance variables
@@ -314,7 +314,7 @@ end Test
 ### TransmitTMC.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class TransmitTMC
   is subclass of EnvironmentTask
 
@@ -347,7 +347,7 @@ end TransmitTMC
 ### VolumeKnob.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class VolumeKnob
   is subclass of EnvironmentTask
 
@@ -380,7 +380,7 @@ end VolumeKnob
 ### World.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class World
 
 types

@@ -25,7 +25,7 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 ### HA.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 types
 
 HAInputs = seq of HAInput;

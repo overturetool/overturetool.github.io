@@ -23,7 +23,7 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 ### Colli.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 
 class Colli
 
@@ -63,7 +63,7 @@ end Colli
 ### Conveyor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Conveyor
  
 functions
@@ -140,7 +140,7 @@ end Conveyor
 ### Slide.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Slide
 
 functions
@@ -179,7 +179,7 @@ end Slide
 ### test.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Test
 
 instance variables

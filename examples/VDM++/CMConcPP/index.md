@@ -21,7 +21,7 @@ distributed real time version of this example.
 ### BaseThread.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class BaseThread
 	
 types
@@ -74,7 +74,7 @@ end BaseThread
 ### environment.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Environment is subclass of GLOBAL, BaseThread
 
@@ -175,14 +175,14 @@ mutex (createSignal);
 per isFinished => not busy;
 
 end Environment
-                                                                                                 
+                                                                                           
 ~~~
 {% endraw %}
 
 ### fighteraircraft.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class CM
 
@@ -216,14 +216,14 @@ instance variables
   public static dispenser11 : FlareDispenser := new FlareDispenser(90, nil);
 
 end CM
-                
+              
 ~~~
 {% endraw %}
 
 ### flarecontroller.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class FlareController is subclass of GLOBAL, BaseThread
 
@@ -315,14 +315,14 @@ per getThreat => len threats > 0;
 per isFinished => len threats = 0 --not busy
 
 end FlareController
-                                                                                                            
+                                                                                                      
 ~~~
 {% endraw %}
 
 ### flaredispenser.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class FlareDispenser is subclass of GLOBAL, BaseThread
 
@@ -431,14 +431,14 @@ mutex (addThreat);
 per isFinished => not busy
      
 end FlareDispenser
-                                                                                                         
+                                                                                                   
 ~~~
 {% endraw %}
 
 ### global.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class GLOBAL
 
@@ -479,14 +479,14 @@ canObserve (pangle, pleft, psize) ==
     else return (pangle >= pleft and pangle < pright);
 
 end GLOBAL
-                                                                                   
+                                                                              
 ~~~
 {% endraw %}
 
 ### missiledetector.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class MissileDetector is subclass of GLOBAL, BaseThread
 
@@ -574,14 +574,14 @@ per isFinished => not busy
 
 
 end MissileDetector
-                                                                                                        
+                                                                                                   
 ~~~
 {% endraw %}
 
 ### sensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Sensor is subclass of GLOBAL
 
@@ -613,14 +613,14 @@ trip (evid, pmt, pa) ==
 pre canObserve(pa, aperture, SENSOR_APERTURE)
 
 end Sensor
-                                                                                    
+                                                                               
 ~~~
 {% endraw %}
 
 ### TimeStamp.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class TimeStamp
 
@@ -748,7 +748,7 @@ end TimeStamp
 ### world.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class World
 
@@ -805,7 +805,7 @@ Run () ==
    env.showResult())
 
 end World
-                                                                            
+                                                                       
 ~~~
 {% endraw %}
 

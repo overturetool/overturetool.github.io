@@ -31,7 +31,7 @@ www.stadtools.com.
 ### digraph.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 ------------------------------------------------------------------
 -- Module   digraph. Used in SAMS (Software Analysis and Modeling System)
 -- Author:  Janusz Laski
@@ -87,7 +87,7 @@ end digraph
 ### flowgraphtypes.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 ------------------------------------------------------------------
 -- Module  flowgraph_types
 -- Author:  Janusz Laski
@@ -188,7 +188,7 @@ end flowgraph_types
 ### Relations.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 ------------------------------------------------------------------
 -- Module   relations
 -- Author:  Janusz Laski

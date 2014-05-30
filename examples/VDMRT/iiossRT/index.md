@@ -21,7 +21,7 @@ in a stable.
 ### Actuator.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
                
 class Actuator is subclass of IIOSSTYPES
 
@@ -47,14 +47,14 @@ sync
 	mutex(SetValues);
 end Actuator
 
-                                                                                
+                                                                            
 ~~~
 {% endraw %}
 
 ### Environment.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class Environment is subclass of IIOSSTYPES
 
@@ -201,14 +201,14 @@ thread
 
 end Environment
 
-                                                                                   
+                                                                               
 ~~~
 {% endraw %}
 
 ### IIOSS.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 
 system IIOSS
@@ -298,14 +298,14 @@ IIOSS () ==
 
 end IIOSS
 
-                  
+               
 ~~~
 {% endraw %}
 
 ### iiosstypes.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class IIOSSTYPES
 
@@ -337,14 +337,14 @@ operations
 	
 end IIOSSTYPES
 
-                                                                                    
+                                                                               
 ~~~
 {% endraw %}
 
 ### Sensor.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
                
 class Sensor is subclass of IIOSSTYPES 
 instance variables
@@ -376,14 +376,14 @@ operations
 	 
 end Sensor
 
-                                                                              
+                                                                          
 ~~~
 {% endraw %}
 
 ### Server.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
                
 class Server is subclass of IIOSSTYPES
 
@@ -480,14 +480,14 @@ thread
 	periodic (1000E6,0,0,0) (NeedMedic)
 end Server
 
-                                                                              
+                                                                          
 ~~~
 {% endraw %}
 
 ### StableController.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
                
 class StableController is subclass of IIOSSTYPES
 
@@ -581,14 +581,14 @@ sync
 
 end StableController
 
-                                                                                        
+                                                                                    
 ~~~
 {% endraw %}
 
 ### IIOSSTest.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class IIOSSTest
 operations
@@ -600,14 +600,14 @@ operations
 		)
      
 end IIOSSTest
-                
+              
 ~~~
 {% endraw %}
 
 ### IIOSSTestCase2.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class IIOSSTestCase2 is subclass of TestCase
 instance variables
@@ -674,14 +674,14 @@ operations
 	TearDown () == skip
 
 end IIOSSTestCase2
-              
+             
 ~~~
 {% endraw %}
 
 ### Test.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
                
 class Test
 
@@ -690,14 +690,14 @@ operations
 	Run (-) == is subclass responsibility
 
 end Test
-              
+             
 ~~~
 {% endraw %}
 
 ### TestCase.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class TestCase
   is subclass of Test
@@ -738,14 +738,14 @@ operations
 	TearDown () == is subclass responsibility
 
 end TestCase
-              
+             
 ~~~
 {% endraw %}
 
 ### TestResult.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 --The class \vdmstyle{TestResult} maintains a collection
 --of references to test cases that have failed. The
@@ -785,14 +785,14 @@ operations
 	        Print (failure.GetName() ^ " failed")
   
 end TestResult
-              
+             
 ~~~
 {% endraw %}
 
 ### TestSuite.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class TestSuite
   is subclass of Test
@@ -817,14 +817,14 @@ public AddTest: Test ==> ()
     tests := tests ^ [test];
 
 end TestSuite
-                
+              
 ~~~
 {% endraw %}
 
 ### World.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class World
 
@@ -891,7 +891,7 @@ operations
 
 end World
 
-                                                                             
+                                                                         
 ~~~
 {% endraw %}
 

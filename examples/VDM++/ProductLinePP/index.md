@@ -17,7 +17,7 @@ Author: Naoyasu Ubayashi, Shin Nakajima and Masayuki Hirayama
 ### CONTEXT-atmospheric-air-pressureplace-high.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class HighAtmosphericAirPressure is subclass of AtmosphericAirPressure
 
 instance variables
@@ -32,7 +32,7 @@ end HighAtmosphericAirPressure
 ### CONTEXT-atmospheric-air-pressureplace-low.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class LowAtmosphericAirPressure is subclass of AtmosphericAirPressure
 
 instance variables
@@ -47,7 +47,7 @@ end LowAtmosphericAirPressure
 ### CONTEXT-atmospheric-air-pressureplace-normal.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class NormalAtmosphericAirPressure is subclass of AtmosphericAirPressure
 
 instance variables
@@ -62,7 +62,7 @@ end NormalAtmosphericAirPressure
 ### CONTEXT-atmospheric-air-pressureplace.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class AtmosphericAirPressure
 
 types
@@ -89,7 +89,7 @@ end AtmosphericAirPressure
 ### CONTEXT-liquid-water.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Water is subclass of Liquid
 
 operations
@@ -107,7 +107,7 @@ end Water
 ### CONTEXT-liquid.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Liquid
 
 instance variables
@@ -177,7 +177,7 @@ end Liquid
 ### REALWORLD-low-water.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class RealWorld1
 
 instance variables
@@ -211,7 +211,7 @@ end RealWorld1
 ### REALWORLD-normal-water.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class RealWorld2
 
 instance variables
@@ -245,7 +245,7 @@ end RealWorld2
 ### SYSTEM-HW-heater.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Heater
 
 types
@@ -277,7 +277,7 @@ end Heater
 ### SYSTEM-HW-liquid-level-sensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class LiquidLevelSensor
 
 instance variables
@@ -302,7 +302,7 @@ end LiquidLevelSensor
 ### SYSTEM-HW-thermistor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Thermistor
 
 instance variables
@@ -327,7 +327,7 @@ end Thermistor
 ### SYSTEM-SW-controller.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Software
 
 instance variables
@@ -365,7 +365,7 @@ end Software
 ### USER-test.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class UserTest
 
 instance variables

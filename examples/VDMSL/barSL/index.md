@@ -26,8 +26,8 @@ included.
 ### bag.vdmsl
 
 {% raw %}
-~~~
-                                             
+~~~vdm
+                                           
 module BAG
 
 exports
@@ -91,7 +91,7 @@ functions
   LenPar1 : seq of Elem * Bag -> nat
   LenPar1(list,-) ==
     len list;
-                              
+                            
   -- Functions Required by Customer
   -- These as described by the user document 
   -- (Exercise 7)
@@ -162,7 +162,7 @@ functions
    CardDom: Bag -> nat
    CardDom(b) ==
      card dom b;
-                              
+                            
   Intersection : Bag * Bag -> Bag
   Intersection (b1, b2) ==
     {e |-> Min (Count(e, b1), Count(e, b2)) | 
@@ -183,15 +183,15 @@ values
                  <E> |-> 1}
 
 end BAG
-              
+             
 ~~~
 {% endraw %}
 
 ### bagtest.vdmsl
 
 {% raw %}
-~~~
-                                           
+~~~vdm
+                                         
 module BAGTEST
 
 imports from BAG all
@@ -319,8 +319,8 @@ end BAGTEST
 ### bar.vdmsl
 
 {% raw %}
-~~~
-                                              
+~~~vdm
+                                            
 module BAR
 imports
 
@@ -368,7 +368,7 @@ types
   -- target stocking level of cellar
   Stock = BAG`Bag;
   Order = BAG`Bag
-                              
+                            
 functions
   -- Buy an arbitrary amount of stock from 
   -- a supplier, assuming they have it
@@ -398,7 +398,7 @@ functions
         BAG`Difference(r, BAG`SeqToBag(sold))
     )
   pre BAG`SubBag(BAG`SeqToBag(sold), r);
-                              
+                            
   -- Given a map of suppliers and what they have, 
   -- work through the list of suppliers until either 
   -- filled requirements of cellar level or run out 
@@ -488,7 +488,7 @@ values -- introduced for the purposes of testing
             "Scrumpy" |-> {<B> |-> 1, <C> |-> 10}}
   
 end BAR 
-              
+             
 ~~~
 {% endraw %}
 

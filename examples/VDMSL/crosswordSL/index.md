@@ -24,8 +24,8 @@ Overture debugger.
 ### crossword.vdmsl
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                      
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                      
 values size : nat = 8;
        letters : set of char =
 		{'a','b','c','d','e','f','g','h',
@@ -33,23 +33,23 @@ values size : nat = 8;
 		'q','r','s','t','u','v','w','x','y','z'};
 	black : char = '*';
 	white : char = '_'
-                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                     
 types  word = seq of char 
 	inv w == elems(w) subset letters 
 		and len w >= 2  ;
-                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                        
         pos = nat1 
         inv pos_v == pos_v <= size;
 	position :: h : pos
 		    v : pos;
-                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                      
 	grid = map position to char
 	inv gr == rng gr subset (letters union {white, black}) and 
 	          dom gr = {mk_position(i,j) | i in set {1,...,size}, 
 	                                       j in set {1,...,size}};
-                                                                                                                              
+                                                                                                                         
 	HV = <H> | <V>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 state  crosswords of
 	 cwgrid : grid
 	 valid_words : set of word
@@ -62,34 +62,34 @@ init mk_crosswords(gr,val,wait) ==
 	forall j in set {1,...,size} &
 	gr(mk_position(i,j)) = white
 end
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 functions
-                              
+                            
 CW_INVARIANT: grid * set of word * set of word +> bool
 CW_INVARIANT(gr,val,wait) ==
 val inter wait = {} 
 and WORDS(gr) subset (val union wait)
 and wait subset WORDS(gr)
 ;
-                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                        
 WORDS : grid +> set of word
 WORDS(g) == HOR_WORDS(g) union VER_WORDS(g)
 ;
-                                                                                                                                                                                                                       
+                                                                                                                                                                                                                  
 HOR_WORDS : grid +> set of word
 HOR_WORDS(g) == dunion { WORDS_OF_SEQ(LINE(i,g)) | i in set {1,...,size}}
 ;
 VER_WORDS : grid +> set of word
 VER_WORDS(g) == dunion { WORDS_OF_SEQ(COL(i,g)) | i in set {1,...,size}}
 ;
-                                                                                                                                                                         
+                                                                                                                                                                    
 LINE : pos *  grid +> seq of char
 LINE(i,g) == [g(mk_position(i,c)) | c in set {1,...,size}]
 ;
 COL : pos *  grid +> seq of char
 COL(i,g) == [g(mk_position(l,i)) | l in set {1,...,size}]
 ;
-                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                            
 WORDS_OF_SEQ : seq of char +> set of word
 WORDS_OF_SEQ(s) == {w | w : word & 
 		exists s1, s2 : seq of char &
@@ -97,7 +97,7 @@ WORDS_OF_SEQ(s) == {w | w : word &
 		        and (s1 = [] or s1(len s1) = black or s1(len s1) = white)
 			and (s2 = [] or s2(1) = black or s2(1) = white)}
 ;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                       
 COMPATIBLE : grid * word * position * HV +> bool
 COMPATIBLE (g, w, p, d ) == 
 	    (d = <H> => 
@@ -113,7 +113,7 @@ COMPATIBLE (g, w, p, d ) ==
 			g(mk_position(p.h, p.v + i -1)) = white
 			or g(mk_position(p.h, p.v + i -1)) = w(i))
 ;
-                                                                                                                                                                                                                       
+                                                                                                                                                                                                                 
 IS_LOCATED : grid * word * position * HV +> bool
 IS_LOCATED (g, w, p, d ) == 
 	    (d = <H> => 
@@ -124,7 +124,7 @@ IS_LOCATED (g, w, p, d ) ==
 		 forall i in set inds w &
 			g(mk_position(p.h, p.v + i -1)) = w(i))
 ;
-                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                           
 IN_WORD: grid * position * HV +> bool
 IN_WORD(g,p,d) ==
 (d = <H> => 
@@ -139,9 +139,9 @@ and
 		forall k in set {i,..., j} &
 			g(mk_position(p.h,k)) in set letters)
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 operations
-                               
+                              
 VALIDATE_WORD (w : word)
 ext wr valid_words : set of word
     wr waiting_words : set of word
@@ -149,7 +149,7 @@ ext wr valid_words : set of word
   post valid_words = valid_words~ union {w}
        and waiting_words = waiting_words~ \ {w}
 ;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 ADD_WORD (w : word, p : position, d : HV)
 ext wr cwgrid : grid
     rd valid_words : set of word
@@ -165,19 +165,19 @@ ext wr cwgrid : grid
 	and
 	CW_INVARIANT(cwgrid, valid_words,waiting_words)
 ;
-                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                    
 ADD_BLACK ( p : position)
 ext wr cwgrid : grid
    pre cwgrid(p) = white
   post cwgrid = cwgrid~ ++ { p |-> black }
 ;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 DELETE_BLACK ( p : position)
 ext wr cwgrid : grid
    pre cwgrid(p) = black
   post cwgrid = cwgrid~ ++ { p |-> white }
 ;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 STRONG_DELETE (w : word, p : position, d : HV)
 ext wr cwgrid : grid
     rd valid_words : set of word
@@ -193,7 +193,7 @@ ext wr cwgrid : grid
 	and
 	CW_INVARIANT(cwgrid,valid_words, waiting_words)
 ;
-                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                         
 SOFT_DELETE (w : word, p : position, d : HV)
 ext wr cwgrid : grid
     rd valid_words : set of word
@@ -212,7 +212,7 @@ ext wr cwgrid : grid
 			& not IN_WORD(cwgrid~,mk_position(p.h, p.v + i - 1),<H>) })
 	and
 	CW_INVARIANT(cwgrid,valid_words, waiting_words)
-                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                    
 ~~~
 {% endraw %}
 

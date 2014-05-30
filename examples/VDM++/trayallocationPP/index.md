@@ -23,7 +23,7 @@ to the conveyer belt
 ### AllocatorOneTray.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- AllocatorOneTray in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -69,7 +69,7 @@ end AllocatorOneTray
 ### AllocatorStrategy.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- Allocator in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -105,7 +105,7 @@ end AllocatorStrategy
 ### AllocatorTwoTray.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- AllocatorTwoTray in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -155,7 +155,7 @@ end AllocatorTwoTray
 ### InductionController.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- InductionController in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -269,7 +269,7 @@ end InductionController
 ### Item.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- Item in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -340,7 +340,7 @@ end Item
 ### ItemLoader.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- ItemLoader in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -432,7 +432,7 @@ end ItemLoader
 ### SC.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- SorterController in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -479,7 +479,7 @@ end SC
 ### SorterEnviroment.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- SorterEnvironment in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -572,7 +572,7 @@ end SorterEnviroment
 ### String.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- String helper class for converting numbers
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -616,7 +616,7 @@ end String
 ### TestSenarios.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- TestTraces in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -668,7 +668,7 @@ end TestTraces
 ### Tray.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- Tray in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -771,7 +771,7 @@ end Tray
 ### TrayAllocator.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- TrayAllocator in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010
@@ -939,7 +939,7 @@ end TrayAllocator
 ### World.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- ===============================================================================================================
 -- World in tray allocation for a sortation system
 -- By José Antonio Esparza and Kim Bjerge - spring 2010

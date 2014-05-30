@@ -29,8 +29,8 @@ on 2 different architectures.
 ### ActivePlanManager.vdmrt
 
 {% raw %}
-~~~
-                                                   
+~~~vdm
+                                                 
 
 class ActivePlanManager is subclass of Strategy
 
@@ -281,15 +281,15 @@ mutex(reduce_Q_CR);
 
 end ActivePlanManager
 
-              
+             
 ~~~
 {% endraw %}
 
 ### Company.vdmrt
 
 {% raw %}
-~~~
-                                     
+~~~vdm
+                                  
 class Company is subclass of Environment
 
 instance variables
@@ -342,15 +342,15 @@ sync
 per isFinished => not busy;
 end Company
 
-              
+             
 ~~~
 {% endraw %}
 
 ### CRSystem.vdmrt
 
 {% raw %}
-~~~
-                                    
+~~~vdm
+                                  
 system CRSystem
 
 instance variables
@@ -439,15 +439,15 @@ CRSystem()==
 )
 
 end CRSystem
-              
+             
 ~~~
 {% endraw %}
 
 ### Customer.vdmrt
 
 {% raw %}
-~~~
-                                    
+~~~vdm
+                                  
 class Customer is subclass of Environment
 
 instance variables
@@ -555,15 +555,15 @@ per isFinished => not busy; --Ensure interleaving in World
 
 end Customer
 
-              
+             
 ~~~
 {% endraw %}
 
 ### CyberRail.vdmrt
 
 {% raw %}
-~~~
-                                           
+~~~vdm
+                                         
 
 
 class CyberRail
@@ -798,15 +798,15 @@ mutex(calculateTransportPlan);
 mutex(addToStimuliQueue);
 mutex(addToSystemQueue);
 end CyberRail
-                  
+               
 ~~~
 {% endraw %}
 
 ### Environment.vdmrt
 
 {% raw %}
-~~~
-                                       
+~~~vdm
+                                     
 class Environment
 
 types 
@@ -860,15 +860,15 @@ thread
 
 end Environment
 
-              
+             
 ~~~
 {% endraw %}
 
 ### Logger.vdmrt
 
 {% raw %}
-~~~
-                                        
+~~~vdm
+                                      
 
 class Logger
 
@@ -937,15 +937,15 @@ mutex(write);
 
 end Logger
 
-              
+             
 ~~~
 {% endraw %}
 
 ### MessageQueue.vdmrt
 
 {% raw %}
-~~~
-                                        
+~~~vdm
+                                      
 class MessageQueue
 
 instance variables
@@ -995,15 +995,15 @@ mutex(pop,push);
 --Have not testet if this sync is enough.	
 
 end MessageQueue
-              
+             
 ~~~
 {% endraw %}
 
 ### RailwayGrid.vdmrt
 
 {% raw %}
-~~~
-                                         
+~~~vdm
+                                        
 
 class RailwayGrid
 
@@ -1121,15 +1121,15 @@ private writef : Grid ==> ()
 	);
 
 end RailwayGrid
-                  
+               
 ~~~
 {% endraw %}
 
 ### snw.vdmrt
 
 {% raw %}
-~~~
-                                   
+~~~vdm
+                                  
 
 
 class SNW is subclass of Strategy
@@ -1170,15 +1170,15 @@ handleEvents(apm) == is subclass responsibility;
 
 end SNW
 
-              
+             
 ~~~
 {% endraw %}
 
 ### strategy.vdmrt
 
 {% raw %}
-~~~
-                                        
+~~~vdm
+                                       
 
 class Strategy
 
@@ -1207,15 +1207,15 @@ is subclass responsibility;
 
 end Strategy
 
-              
+             
 ~~~
 {% endraw %}
 
 ### TokenDevice.vdmrt
 
 {% raw %}
-~~~
-                                             
+~~~vdm
+                                           
 
 class TokenDevice
 
@@ -1308,15 +1308,15 @@ mutex(travel);
 
 end TokenDevice
 
-                  
+               
 ~~~
 {% endraw %}
 
 ### TransportPlan.vdmrt
 
 {% raw %}
-~~~
-                                               
+~~~vdm
+                                             
 
 
 class TransportPlan
@@ -1417,15 +1417,15 @@ sync
 	mutex(routeTraveled);
 	
 end TransportPlan
-              
+             
 ~~~
 {% endraw %}
 
 ### types.vdmrt
 
 {% raw %}
-~~~
-                                   
+~~~vdm
+                                
 
 class MessageTypes
 
@@ -1478,15 +1478,15 @@ operations
 end MessageTypes
 
 
-              
+             
 ~~~
 {% endraw %}
 
 ### World.vdmrt
 
 {% raw %}
-~~~
-                                 
+~~~vdm
+                               
 class World
 
 instance variables
@@ -1610,7 +1610,7 @@ operations
 	);
 	
 end World
-              
+             
 ~~~
 {% endraw %}
 

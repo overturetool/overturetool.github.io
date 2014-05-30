@@ -25,8 +25,8 @@ Master's thesis, Aarhus University (December 2010).
 ### Config.vdmrt
 
 {% raw %}
-~~~
-                                        
+~~~vdm
+                                      
 -----------------------------------------------
 -- Class:			Config
 -- Description: 	Config contains configuration values
@@ -75,15 +75,15 @@ public static TrafficCongestionThreshold : nat = 2;
 end Config
 
 
-                                                                              
+                                                                          
 ~~~
 {% endraw %}
 
 ### Controller.vdmrt
 
 {% raw %}
-~~~
-                                            
+~~~vdm
+                                          
 -----------------------------------------------
 -- Class:			Controller
 -- Description: 	Controller is main class in 
@@ -342,15 +342,15 @@ mutex(Step)
 end Controller
 
 
-                                                                                  
+                                                                              
 ~~~
 {% endraw %}
 
 ### Environment.vdmrt
 
 {% raw %}
-~~~
-                                             
+~~~vdm
+                                           
 -----------------------------------------------
 -- Class:			Environment
 -- Description: 	Environment class in the VeMo project
@@ -620,14 +620,14 @@ sync
 
 end Environment
 
-                                                                                   
+                                                                               
 ~~~
 {% endraw %}
 
 ### gui_Graphics.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class gui_Graphics
 
 	instance variables
@@ -665,8 +665,8 @@ end gui_Graphics
 ### Position.vdmrt
 
 {% raw %}
-~~~
-                                          
+~~~vdm
+                                        
 -----------------------------------------------
 -- Class:			Position
 -- Description: 	Defines a X,Y position
@@ -772,15 +772,15 @@ values
 
 end Position
 
-                                                                                
+                                                                            
 ~~~
 {% endraw %}
 
 ### Printer.vdmrt
 
 {% raw %}
-~~~
-                                         
+~~~vdm
+                                       
 -----------------------------------------------
 -- Class:			Printer
 -- Description: 	Printes text seq via IO
@@ -832,14 +832,14 @@ sync
   
 end Printer
 
-                                                                               
+                                                                           
 ~~~
 {% endraw %}
 
 ### Test.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Test
 
 operations
@@ -855,7 +855,7 @@ end Test
 ### TestCase.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 
 class TestCase
@@ -898,15 +898,15 @@ operations
 
 end TestCase
 
-                                                                                  
+                                                                             
 ~~~
 {% endraw %}
 
 ### TestController.vdmrt
 
 {% raw %}
-~~~
-                                              
+~~~vdm
+                                            
 ------------------------------------------------
 -- Class:			TestController
 -- Description: 	Test the Controller class 
@@ -1032,15 +1032,15 @@ TearDown () == skip;
 
 end TestController
 
-                                                                                      
+                                                                                  
 ~~~
 {% endraw %}
 
 ### TestPosition.vdmrt
 
 {% raw %}
-~~~
-                                            
+~~~vdm
+                                          
 -----------------------------------------------
 -- Class:			TestPosition
 -- Description: 	Test the Position class 
@@ -1138,14 +1138,14 @@ testCompare() ==
 
 end TestPosition
 
-                                                                                    
+                                                                                
 ~~~
 {% endraw %}
 
 ### TestResult.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class TestResult
 
@@ -1172,14 +1172,14 @@ operations
   
 end TestResult
 
-                                                                                    
+                                                                               
 ~~~
 {% endraw %}
 
 ### TestSuite.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class TestSuite
   is subclass of Test
@@ -1211,15 +1211,15 @@ operations
 
 end TestSuite
 
-                                                                                     
+                                                                               
 ~~~
 {% endraw %}
 
 ### TestTraffic.vdmrt
 
 {% raw %}
-~~~
-                                             
+~~~vdm
+                                          
 ------------------------------------------------
 -- Class:			TestTraffic
 -- Description: 	Test the Traffic class 
@@ -1328,15 +1328,15 @@ testCongestion() ==
 )
 end TestTraffic
 
-                                                                                   
+                                                                               
 ~~~
 {% endraw %}
 
 ### TestTrafficData.vdmrt
 
 {% raw %}
-~~~
-                                               
+~~~vdm
+                                             
 -----------------------------------------------
 -- Class:			TestTrafficData
 -- Description: 	Test the TrafficData class 
@@ -1409,15 +1409,15 @@ testExpired() ==
 
 end TestTrafficData
 
-                                                                                       
+                                                                                   
 ~~~
 {% endraw %}
 
 ### TestTrafficLight.vdmrt
 
 {% raw %}
-~~~
-                                                
+~~~vdm
+                                              
 -----------------------------------------------
 -- Class:			TestTrafficLight
 -- Description: 	Test the TrafficLight class 
@@ -1501,15 +1501,15 @@ testCrossDirection() ==
 
 end TestTrafficLight
 
-                                                                                        
+                                                                                    
 ~~~
 {% endraw %}
 
 ### TestVehicle.vdmrt
 
 {% raw %}
-~~~
-                                           
+~~~vdm
+                                         
 -----------------------------------------------
 -- Class:			TestVehicle
 -- Description: 	Test the Vehicle class 
@@ -1768,15 +1768,15 @@ dcl v : Vehicle := initData();
 
 end TestVehicle
 
-                                                                                   
+                                                                               
 ~~~
 {% endraw %}
 
 ### TestVeMoComplete.vdmrt
 
 {% raw %}
-~~~
-                                                        
+~~~vdm
+                                                      
 -----------------------------------------------
 -- Class:			TestVeMoComplete
 -- Description: 	Test all test suites and classes in VeMo system 
@@ -1813,15 +1813,15 @@ public Execute: () ==> ()
 		
 end TestVeMoComplete
 
-                                                                                        
+                                                                                    
 ~~~
 {% endraw %}
 
 ### TestVeMoController.vdmrt
 
 {% raw %}
-~~~
-                                                  
+~~~vdm
+                                                
 ------------------------------------------------
 -- Class:			TestVeMoController
 -- Description: 	Test the VeMoController class 
@@ -1928,15 +1928,15 @@ sync
 
 end TestVeMoController
 
-                                                                                          
+                                                                                      
 ~~~
 {% endraw %}
 
 ### Traffic.vdmrt
 
 {% raw %}
-~~~
-                                         
+~~~vdm
+                                       
 -----------------------------------------------
 -- Class:			Traffic
 -- Description: 	Traffic contains the vehicles known by VeMo
@@ -2068,15 +2068,15 @@ mutex(AddVehicle);
 end Traffic
 
 
-                                                                               
+                                                                           
 ~~~
 {% endraw %}
 
 ### TrafficData.vdmrt
 
 {% raw %}
-~~~
-                                               
+~~~vdm
+                                            
 -----------------------------------------------
 -- Class:			TrafficData
 -- Description: 	TrafficData is the base for different types of 
@@ -2165,15 +2165,15 @@ values
 end TrafficData
 
 
-                                                                                   
+                                                                               
 ~~~
 {% endraw %}
 
 ### TrafficLight.vdmrt
 
 {% raw %}
-~~~
-                                                
+~~~vdm
+                                             
 -----------------------------------------------
 -- Class:			TrafficLight
 -- Description: 	TrafficLight the VeMo project
@@ -2279,15 +2279,15 @@ mutex(Step,GreenLightPath);
 end TrafficLight
 
 
-                                                                                    
+                                                                                
 ~~~
 {% endraw %}
 
 ### Types.vdmrt
 
 {% raw %}
-~~~
-                                 
+~~~vdm
+                               
 -----------------------------------------------
 -- Class:			Types
 -- Description: 	Defines simple types
@@ -2368,15 +2368,15 @@ functions
 end Types
 
 
-                                                                             
+                                                                         
 ~~~
 {% endraw %}
 
 ### Vehicle.vdmrt
 
 {% raw %}
-~~~
-                                         
+~~~vdm
+                                       
 -----------------------------------------------
 -- Class:			Vehicle
 -- Description: 	Vehicle class describes the physical moving 
@@ -2547,15 +2547,15 @@ sync
 end Vehicle
 
 
-                                                                               
+                                                                           
 ~~~
 {% endraw %}
 
 ### VehicleData.vdmrt
 
 {% raw %}
-~~~
-                                             
+~~~vdm
+                                           
 -----------------------------------------------
 -- Class:			Vehicle
 -- Description: 	DTO representing the data in the Vehicle class
@@ -2637,15 +2637,15 @@ values
 end VehicleData
 
 
-                                                                                     
+                                                                                
 ~~~
 {% endraw %}
 
 ### VeMo.vdmrt
 
 {% raw %}
-~~~
-                                       
+~~~vdm
+                                     
 
 -----------------------------------------------
 -- Class:			VeMo
@@ -2709,15 +2709,15 @@ public VeMo: () ==> VeMo
 end VeMo
 
 
-                                                                            
+                                                                        
 ~~~
 {% endraw %}
 
 ### VeMoController.vdmrt
 
 {% raw %}
-~~~
-                                                
+~~~vdm
+                                              
 -----------------------------------------------
 -- Class:			VeMoController
 -- Description: 	VeMoController main controller for the VeMo system
@@ -2929,15 +2929,15 @@ mutex (CalculateInRange)
 end VeMoController
 
 
-                                                                                      
+                                                                                  
 ~~~
 {% endraw %}
 
 ### World.vdmrt
 
 {% raw %}
-~~~
-                                       
+~~~vdm
+                                     
 -----------------------------------------------
 -- Class:			World
 -- Description: 	World class in the VeMo project
@@ -3021,7 +3021,7 @@ values
 end World
 
 
-                                                                             
+                                                                         
 ~~~
 {% endraw %}
 

@@ -24,22 +24,22 @@ lients to fetch email messages from the email server.
 ### connectionchannel.vdmpp
 
 {% raw %}
-~~~
-                                                        
+~~~vdm
+                                                      
 class MessageChannelBuffer
 
 instance variables
-                              
+                            
 instance variables
 
 data : [MessageChannel] := nil;
-                              
+                            
 operations
 
 public Put: MessageChannel ==> ()
 Put(msg) ==
   data := msg;
-                              
+                            
 operations
 
 public Get: () ==> MessageChannel
@@ -48,40 +48,40 @@ let d = data in
   ( data := nil;
     return d
   )
-                              
+                            
 sync
 
 per Get => data <> nil;
 per Put   => data = nil;
-                              
+                            
 sync
   mutex(Put, Get);
   mutex(Put);
   mutex(Get);
 
 end MessageChannelBuffer
-              
+             
 ~~~
 {% endraw %}
 
 ### messagechannel.vdmpp
 
 {% raw %}
-~~~
-                                                     
+~~~vdm
+                                                   
 class MessageChannel
 
 instance variables
-                              
+                            
 instance variables
   data : [POP3Types`ClientCommand |
           POP3Types`ServerResponse]  := nil;
-                              
+                            
 instance variables
 
 io : IO := new IO();
 debug : bool := true;
-                              
+                            
 operations
 
 Send: POP3Types`ClientCommand | 
@@ -95,7 +95,7 @@ Listen() ==
 let d = data in
   ( data := nil; return d
   );
-                               
+                             
 operations
 
 public ServerSend: POP3Types`ServerResponse ==> ()
@@ -108,7 +108,7 @@ ServerSend(p) ==
   then let - = io.echo("***> fin ServerSend")
        in skip                               
 );                                           
-                              
+                            
 public ClientListen: () ==> POP3Types`ServerResponse
 ClientListen() == 
 ( if debug
@@ -145,16 +145,16 @@ ServerListen() ==
   in 
     return c
 );
-                              
+                            
 sync 
   per ServerListen => #fin(ClientSend) - 1 = 
                       #fin(ServerListen);
-                              
+                            
   per ClientListen => #fin(ServerSend) - 1 = #fin(ClientListen);
-                              
+                            
   per ServerSend => #fin(ClientSend) = #fin(ServerListen) and
                     #fin(ServerListen) - 1 = #fin(ServerSend);
-                              
+                            
   per ClientSend => #fin(ServerSend) = #fin(ClientListen) 
                     and 
                     #fin(ClientSend) = #fin(ServerListen) 
@@ -162,30 +162,30 @@ sync
                     #fin(ServerSend) = #fin(ClientSend) ;
 
 end MessageChannel
-              
+             
 ~~~
 {% endraw %}
 
 ### pop3clienthandler.vdmpp
 
 {% raw %}
-~~~
-                                                         
+~~~vdm
+                                                       
 class POP3ClientHandler
 
 types
-                              
+                            
 types
 
 ServerState = <Authorization> | <Transaction> | <Update>;
 
-                              
+                            
 values
 
 unknownMessageMsg: seq of char = "No such message";
 negativeStatusMsg: seq of char = 
                      "Wrong state for this command";
-                              
+                            
 alreadyDeletedMsg: seq of char = "Message already deleted";
 deleteFailMsg    : seq of char = "Some deleted messages not removed";
 maildropLockedMsg: seq of char = "Maildrop already locked";
@@ -193,18 +193,18 @@ maildropReadyMsg : seq of char = "Maildrop locked and ready";
 passwordFailedMsg: seq of char = "User/password authentication failed";
 quitMsg          : seq of char = "Quitting POP3 Server";
 submitPasswordMsg: seq of char = "Enter password";
-                              
+                            
 instance variables
   ss    : ServerState;
   parent: POP3Server;
   user  : POP3Types`UserName;
-                            
+                           
 instance variables
   msgChannel: MessageChannel;
   id: POP3Server`ClientHandlerId;
   lastWasUser: bool := false
 
-                              
+                            
 operations
 
 public POP3ClientHandler: POP3Server * MessageChannel ==> POP3ClientHandler
@@ -217,7 +217,7 @@ POP3ClientHandler(nparent, nch) ==
 );
 
 
-                              --[ReceiveCommand]
+                            --[ReceiveCommand]
 ReceiveCommand: POP3Types`ClientCommand 
                 ==> POP3Types`ServerResponse
 ReceiveCommand(c) ==
@@ -242,7 +242,7 @@ ReceiveCommand(c) ==
     return response            
   );                          
 
-                              
+                            
 ReceiveQUIT: POP3Types`QUIT ==> POP3Types`ServerResponse
 ReceiveQUIT(-) ==
 ( dcl response: POP3Types`ServerResponse;
@@ -265,7 +265,7 @@ ReceiveQUIT(-) ==
   return response
 );
 
-                              
+                            
 ReceiveSTAT: POP3Types`STAT ==> POP3Types`ServerResponse
 ReceiveSTAT (-) ==
   if ss = <Transaction>
@@ -275,7 +275,7 @@ ReceiveSTAT (-) ==
                             int2string(parent.GetMailBoxSize(user)))
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
 
-                              
+                            
 ReceiveLIST: POP3Types`LIST ==> POP3Types`ServerResponse
 ReceiveLIST(list) ==
   if ss = <Transaction>
@@ -288,7 +288,7 @@ ReceiveLIST(list) ==
        else return mk_POP3Types`ErrResponse(unknownMessageMsg)
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
 
-                              
+                            
 functions
 
 MakeScanListHeader: set of POP3Server`MessageInfo -> seq of char
@@ -298,7 +298,7 @@ MakeScanListHeader(msgs) ==
   int2string(sum({msg.size | msg in set msgs})) ^
   " octets)";
 
-                              
+                            
 set2seq[@tp]: set of @tp -> seq of @tp
 set2seq(s) ==
 if s = {}
@@ -313,7 +313,7 @@ MakeScanListing(msgs) ==
                          int2string(msgSeq(i).size) 
                         | i in set inds msgSeq]);
 
-                              
+                            
 MakeMultilineResponse: seq of seq of char -> seq of char
 MakeMultilineResponse(resps) ==
   if resps = []
@@ -346,7 +346,7 @@ measure Len;
 Len: seq of char | seq of seq of char -> nat
 Len(l) ==
   len l;
-                              
+                            
 sum: set of nat -> nat
 sum(s) ==
   if s = {}
@@ -359,7 +359,7 @@ Card: set of nat -> nat
 Card(s) ==
   card s;
 
-                              
+                            
 operations
 
 ReceiveRETR: POP3Types`RETR ==> POP3Types`ServerResponse
@@ -382,7 +382,7 @@ ReceiveRETR(retr) ==
     else return 
            mk_POP3Types`ErrResponse(unknownMessageMsg)
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
-                              
+                            
 ReceiveDELE: POP3Types`DELE ==> POP3Types`ServerResponse
 ReceiveDELE(retr) ==
   if ss = <Transaction>
@@ -398,14 +398,14 @@ ReceiveDELE(retr) ==
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
 
 
-                              
+                            
 ReceiveNOOP: POP3Types`NOOP ==> POP3Types`ServerResponse
 ReceiveNOOP(-) ==
   if ss = <Transaction>
   then return mk_POP3Types`OkResponse("")
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
 
-                              
+                            
 ReceiveRSET: POP3Types`RSET ==> POP3Types`ServerResponse
 ReceiveRSET(-) ==
   if ss = <Transaction>
@@ -418,7 +418,7 @@ ReceiveRSET(-) ==
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
 
 
-                              
+                            
 ReceiveTOP:  POP3Types`TOP ==> POP3Types`ServerResponse
 ReceiveTOP(top) ==
   if ss = <Transaction>
@@ -433,7 +433,7 @@ ReceiveTOP(top) ==
                                               top.numLines)))
        else return mk_POP3Types`ErrResponse(unknownMessageMsg)
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
-                              
+                            
 ReceiveUIDL: POP3Types`UIDL ==> POP3Types`ServerResponse
 ReceiveUIDL(uidl) ==
   if ss = <Transaction>
@@ -450,7 +450,7 @@ ReceiveUIDL(uidl) ==
        else return mk_POP3Types`ErrResponse(unknownMessageMsg)
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
 
-                              
+                            
 ReceiveUSER: POP3Types`USER ==> POP3Types`ServerResponse
 ReceiveUSER(usercmd) ==
   if ss = <Authorization>
@@ -459,7 +459,7 @@ ReceiveUSER(usercmd) ==
        )
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
 
-                              
+                            
 ReceivePASS: POP3Types`PASS ==> POP3Types`ServerResponse
 ReceivePASS(pass) ==
   if ss = <Authorization> and lastWasUser
@@ -474,7 +474,7 @@ ReceivePASS(pass) ==
          else return mk_POP3Types`ErrResponse(passwordFailedMsg)
        )
   else return mk_POP3Types`ErrResponse(negativeStatusMsg);
-                              
+                            
 functions
 
 static public int2string: int -> seq of char
@@ -516,7 +516,7 @@ Id(n) == n;
 
 
 
-                              
+                            
 thread
 ( dcl cmd: POP3Types`ClientCommand;
   id := threadid;
@@ -527,17 +527,17 @@ thread
   );
   msgChannel.ServerSend(ReceiveCommand(cmd));
 )
-                              
+                            
 end POP3ClientHandler
-                                                                               
+                                                                          
 ~~~
 {% endraw %}
 
 ### pop3message.vdmpp
 
 {% raw %}
-~~~
-                                                 
+~~~vdm
+                                               
 class POP3Message
 
 instance variables
@@ -594,25 +594,25 @@ GetUniqueId() ==
   return uniqueId;
 
 end POP3Message
-              
+             
 ~~~
 {% endraw %}
 
 ### pop3server.vdmpp
 
 {% raw %}
-~~~
-                                                 
+~~~vdm
+                                               
 class POP3Server
 
 types
-                              
+                            
 public MessageInfo :: index : nat
                       size  : nat;
-                              
+                            
 instance variables
   connChannel: MessageChannelBuffer;
-                              
+                            
 instance variables
   maildrop      : MailDrop;
   passwords     : map POP3Types`UserName to 
@@ -630,7 +630,7 @@ public MailBox ::
   msgs   : seq of POP3Message
   locked : bool;
 public ClientHandlerId = nat;
-                              
+                            
 operations
 
 public POP3Server: POP3Server`MailDrop * MessageChannelBuffer * 
@@ -651,29 +651,29 @@ public IsLocked: POP3Types`UserName ==> bool
 IsLocked(user) ==
   return user in set rng locks;
 
-                              
+                            
 operations
 
 SetUserMessages: POP3Types`UserName * seq of POP3Message 
                  ==> ()
 SetUserMessages(user, newMsgs) ==
   maildrop(user) := mu(maildrop(user), msgs |-> newMsgs);
-                              
+                            
 GetUserMail: POP3Types`UserName ==> MailBox
 GetUserMail(user) ==
   return maildrop(user);
-                              
+                            
 sync
   mutex(SetUserMessages);
   mutex(SetUserMessages, GetUserMail)
-                              
+                            
 operations
 
 GetUserMessages: POP3Types`UserName ==> seq of POP3Message
 GetUserMessages(user) ==
   return GetUserMail(user).msgs;
 
-                              
+                            
 public RemoveDeletedMessages: POP3Types`UserName ==> bool
 RemoveDeletedMessages(user) ==
   let oldMsgs = GetUserMessages(user),
@@ -683,14 +683,14 @@ RemoveDeletedMessages(user) ==
     ( SetUserMessages(user, newMsgs);
       return true
     );
-                              
+                            
 public AcquireLock: ClientHandlerId * POP3Types`UserName ==> ()
 AcquireLock (clId, user) ==
   locks := locks ++ { clId |-> user}
 pre clId not in set dom locks and
     user in set dom maildrop;
 
-                              
+                            
 public ReleaseLock: ClientHandlerId ==> ()
 ReleaseLock(clId) ==
   locks := {clId} <-: locks
@@ -700,14 +700,14 @@ sync
 mutex(AcquireLock);
 mutex(ReleaseLock);
 mutex(AcquireLock, ReleaseLock, IsLocked);
-                              
+                            
 operations
 
 CreateClientHandler: MessageChannel ==> ()
 CreateClientHandler(mc) ==
   start(new POP3ClientHandler(self, mc));
 
-                              
+                            
 public IsMessageNumber: POP3Types`UserName * nat ==> bool
 IsMessageNumber(user, index) ==
   let mb = GetUserMessages(user) 
@@ -802,7 +802,7 @@ GetMessageInfo(user, index) ==
 pre index <> nil => (index in set inds maildrop(user).msgs and
                        not maildrop(user).msgs(index).IsDeleted());
 
-                              
+                            
 
 public GetUidl: POP3Types`UserName * nat ==> seq of char
 GetUidl (user, index) ==
@@ -817,13 +817,13 @@ GetAllUidls(user) ==
   in
     return [GetUidl(user, index) | index in set inds mb];
 
-                              
+                            
 public GetNumberOfMessages: POP3Types`UserName ==> nat
 GetNumberOfMessages(user) ==
   return len GetUserMessages(user)
 pre user in set dom maildrop;
 
-                              
+                            
 public GetMailBoxSize: POP3Types`UserName ==> nat
 GetMailBoxSize(user) ==
   let mb = GetUserMail(user) in
@@ -833,7 +833,7 @@ pre user in set dom maildrop;
 public GetChannel: () ==> MessageChannelBuffer
 GetChannel() ==
   return connChannel;
-                              
+                            
 functions
 
 public sumseq: seq of nat -> nat
@@ -847,7 +847,7 @@ Len: seq of nat -> nat
 Len(l) ==
   len l; 
 
-                              
+                            
 thread
 
 while true do
@@ -856,7 +856,7 @@ while true do
     CreateClientHandler(msgChannel);
   serverStarted := true;
 )
-                              
+                            
 operations
 
 public WaitForServerStart: () ==> ()
@@ -866,16 +866,16 @@ WaitForServerStart() ==
 sync
 
 per WaitForServerStart => serverStarted;
-                              
+                            
 end POP3Server
-                                                                          
+                                                                    
 ~~~
 {% endraw %}
 
 ### pop3test.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class POP3Test
 
 values
@@ -1143,11 +1143,11 @@ end POP3TestListener
 ### pop3types.vdmpp
 
 {% raw %}
-~~~
-                                                
+~~~vdm
+                                              
 class POP3Types
 types
-                              
+                            
 types
 
 public ClientCommand = StandardClientCommand | 
@@ -1157,56 +1157,56 @@ public StandardClientCommand = QUIT | STAT | LIST | RETR |
 public OptionalClientCommand = TOP | UIDL | USER | PASS | 
                                APOP;
 
-                              
+                            
 public QUIT :: ;
 
-                              
+                            
 public STAT :: ;
 
-                              
+                            
 public LIST :: messageNumber : [nat];
 
-                              
+                            
 public RETR :: messageNumber : nat;
-                              
+                            
 public DELE :: messageNumber : nat;
 
-                              
+                            
 public NOOP :: ;
 
-                              
+                            
 public RSET :: ;
 
-                              
+                            
 public TOP :: messageNumber : nat
               numLines      : nat;
 
-                              
+                            
 public UIDL :: messageNumber : [nat];
 
-                              
+                            
 public USER :: name : UserName;
 
-                              
+                            
 public PASS :: string : seq of char;
 
-                              
+                            
 public APOP :: name   : seq of char
                digest : seq of char;
 
-                              
+                            
 public UserName = seq of char;
 public Password = seq of char;
 
-                              
+                            
 public ServerResponse = OkResponse | ErrResponse;
 public OkResponse ::  data : seq of char;
 public ErrResponse :: data : seq of char;
-                              
+                            
 functions
 
 end POP3Types
-                      
+                 
 ~~~
 {% endraw %}
 

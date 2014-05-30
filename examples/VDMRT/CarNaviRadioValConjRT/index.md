@@ -8,13 +8,9 @@ Author: Marcel Verhoef
 
 
 
-This example is a modified version of the car radio navigation
-example. It demonstrates the use of validation conjectures.
+This example is a modified version of the car radio navigation example. It demonstrates the use of validation conjectures.
 
-The origin of the car radio navigation example comes from Marcel
-Verhoef as a part of his PhD thesis where it was used to compary
-different formalisms. This example shows how an embedded application
-with both radio, navigation and traffic messages are joined in one
+The origin of the car radio navigation example comes from Marcel Verhoef as a part of his PhD thesis where it was used to compare different formalisms. This example shows how an embedded application with both radio, navigation and traffic messages are joined in one
 coherent application in a distributed application.
 
 
@@ -27,7 +23,7 @@ coherent application in a distributed application.
 ### mmi.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class MMI
 
 operations
@@ -60,7 +56,7 @@ end MMI
 ### Navigation.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Navigation
 
 operations
@@ -85,7 +81,7 @@ end Navigation
 ### Radio.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Radio
 
 values 
@@ -125,7 +121,7 @@ end Radio
 ### RadNavSys.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 system RadNavSys
 instance variables
   -- create application tasks
@@ -171,7 +167,7 @@ end RadNavSys
 ### Test.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class Testing
 
 operations
@@ -208,7 +204,7 @@ end Testing
 ### World.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class World
  
 types

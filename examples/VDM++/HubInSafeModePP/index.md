@@ -29,7 +29,7 @@ the Report.pdf file included in the zip file with the source files.
 ### Brake.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Brake
  instance variables
  mLowLimit : MainShaftController`RPMType;
@@ -78,7 +78,7 @@ end Brake
 ### Enviroment.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Enviroment
 
  types
@@ -116,7 +116,7 @@ end Enviroment
 ### Hub.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Hub
  instance variables
  mSpeaker : Speaker;
@@ -175,7 +175,7 @@ end Hub
 ### HubController.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class HubController
  instance variables
  mHub : Hub;
@@ -238,7 +238,7 @@ end HubController
 ### MainShaftController.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class MainShaftController
  values
  public static LOCK_LIMIT : RPMType = 1;
@@ -336,7 +336,7 @@ end MainShaftController
 ### Mode.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Mode
  instance variables
  protected static mHubController : [HubController] := nil;
@@ -486,7 +486,7 @@ end ModeOperational
 ### OperatingPanel.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class OperatingPanel
  types
  --Enter Hub In Safe Mode (E) | Leave Hub In Safe Mode (L) | No Command (N)
@@ -565,7 +565,7 @@ end OperatingPanel
 ### Speaker.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Speaker
  instance variables
  mAlarm : nat := 0;
@@ -598,7 +598,7 @@ end Speaker
 ### WindMeasurementController.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class WindMeasurementController
  types
  public WindSpeedType = nat
@@ -647,7 +647,7 @@ end WindMeasurementController
 ### WindTurbine.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class WindTurbine
  instance variables
  mHubController : HubController;

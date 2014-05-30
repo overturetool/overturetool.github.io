@@ -18,7 +18,7 @@ Author:
 ### stack.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Stack
 
   instance variables
@@ -56,7 +56,7 @@ end Stack
 ### usestack.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class UseStack
 instance variables
   stack : Stack := new Stack();

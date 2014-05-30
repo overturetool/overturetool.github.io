@@ -23,14 +23,14 @@ implicitly so it cannot be executed.
 ### engine.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 types
 
 ValvePos = <open> | <closed>;
 
 SwitchPos = <on> | <off>;
 
-StartAttempt = nat1
+StartAttempt = nat
 inv s == s <= DVMAXNUMBERATTEMPTS;
 
 StartState = <FuelSwitchAtCut> | 

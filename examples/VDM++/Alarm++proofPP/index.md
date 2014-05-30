@@ -29,7 +29,7 @@ out of experts to deal with alarms.
 ### alarmProof.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -- alarm-with-POs.vdm
 -- The alarm example 
 class alarm

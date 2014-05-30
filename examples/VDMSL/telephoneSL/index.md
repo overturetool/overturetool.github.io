@@ -29,8 +29,8 @@ by an exchange.
 ### telephone.vdmsl
 
 {% raw %}
-~~~
-                                                                      
+~~~vdm
+                                                                    
 module EXCH
 definitions
  types
@@ -41,7 +41,7 @@ definitions
    Recipient = <WR> | <SR>;
 
    Status = <fr> | <un> | Initiator | Recipient;
-                                                                         
+                                                                      
  state Exchange of
    status: map Subscriber to Status
    calls:  inmap Subscriber to Subscriber
@@ -52,7 +52,7 @@ definitions
        (status(i) = <SI> and status(calls(i)) = <SR>)
  end
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 
 operations
 
@@ -61,7 +61,7 @@ operations
   pre s in set dom (status :> {<fr>})
 -- pre s in set dom status and status(s) = <fr>
   post status = status~ ++ {s |-> <AI>};
-                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                               
   Connect(i: Subscriber, r: Subscriber)
   ext wr status
       wr calls
@@ -69,43 +69,43 @@ operations
       r in set dom (status :> {<fr>})
   post status = status~ ++ {i |-> <WI>, r |-> <WR>} and
        calls = calls~ ++ {i |-> r};
-                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                          
   MakeUn(i: Subscriber)
   ext wr status
   pre i in set dom (status :> {<AI>}) 
   post status = status~ ++ {i |-> <un>};
-                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                            
   Answer(r: Subscriber)    
   ext rd calls
       wr status
   pre r in set dom (status :> {<WR>}) 
   post status = status~ ++ {r |-> <SR>, (inverse calls)(r) |-> <SI>};  
-                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                             
   ClearAttempt(i: Subscriber)
   ext wr status
   pre  i in set dom (status :> {<AI>}) 
   post status = status~ ++ {i |-> <fr>};
-                                
+                             
   ClearWait(i: Subscriber)
   ext wr status
       wr calls
   pre  i in set dom (status :> {<WI>}) 
   post status = status~ ++ {i |-> <fr>, calls(i) |-> <fr>} and
        calls =  {i} <-: calls~;
-                                
+                             
   ClearSpeak(i: Subscriber)
   ext wr status
       wr calls
   pre  i in set dom (status :> {<SI>}) 
   post status = status~ ++ {i |-> <fr>, calls(i) |-> <un>} and
        calls =  {i} <-: calls~;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                     
   Suspend(r: Subscriber)
   ext rd calls
       wr status
   pre r in set dom (status :> {<SR>}) 
   post status = status~ ++ {r |-> <WR>, (inverse calls)(r) |-> <WI>};
-                                                                                                                                                                             
+                                                                                                                                                                         
   ClearUn(s: Subscriber)
   ext wr status
   pre s in set dom (status :> {<un>})

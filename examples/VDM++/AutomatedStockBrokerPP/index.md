@@ -30,7 +30,7 @@ the ProjectReport.pdf file included in the zip file with the source files.
 ### AutomatedStockBroker.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class AutomatedStockBroker is subclass of GLOBAL
   
 instance variables
@@ -216,7 +216,7 @@ end AutomatedStockBroker
 ### GLOBAL.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class GLOBAL
 types
 public String = seq of char;
@@ -293,7 +293,7 @@ end GLOBAL
 ### Stock.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Stock is subclass of GLOBAL
  types
   
@@ -393,7 +393,7 @@ end Stock
 ### StockMarket.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class StockMarket is subclass of GLOBAL
 
  instance variables
@@ -433,7 +433,7 @@ end StockMarket
 ### StockWatcher.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class StockWatcher is subclass of GLOBAL
  
  instance variables
@@ -612,7 +612,7 @@ end StockWatcher
 ### timer.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Timer 
 
 instance variables
@@ -641,7 +641,7 @@ end Timer
 ### World.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class World is subclass of GLOBAL
  
 values

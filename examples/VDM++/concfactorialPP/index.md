@@ -22,7 +22,7 @@ primitives in VDM++.
 ### concfactorial.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Factorial
 instance variables
 	result : nat := 5;

@@ -25,7 +25,7 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 ### Actuator.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The Actuator Class
 
 -----------------------------------------------
@@ -74,7 +74,7 @@ end Actuator
 ### Environment.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The Environment Class
 
 -----------------------------------------------
@@ -205,7 +205,7 @@ end Environment
 ### HomeAutomation.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The HA Class
 
 -----------------------------------------------
@@ -266,7 +266,7 @@ end HA
 ### HostController.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The HostController Class
 
 -----------------------------------------------
@@ -505,7 +505,7 @@ end HostController
 ### HumidSensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The HumidSensor Class
 
 -----------------------------------------------
@@ -544,7 +544,7 @@ end HumidSensor
 ### NetworkTypes.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The NetworkTypes Class
 
 -----------------------------------------------
@@ -594,7 +594,7 @@ end NetworkTypes
 ### Sensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The Sensor Class
 
 -----------------------------------------------
@@ -647,7 +647,7 @@ end Sensor
 ### Surroundings.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The Surroundings Class
 
 -----------------------------------------------
@@ -720,7 +720,7 @@ end Surroundings
 ### TemperatureSensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TemperatureSensor Class
 
 -----------------------------------------------
@@ -759,7 +759,7 @@ end TemperatureSensor
 ### Test.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The Test Class
 
 -----------------------------------------------
@@ -789,7 +789,7 @@ end Test
 ### TestActuator.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TestActuator Class
 
 -----------------------------------------------
@@ -848,7 +848,7 @@ end TestActuator
 ### TestCase.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TestCase Class
 
 -----------------------------------------------
@@ -914,7 +914,7 @@ end TestCase
 ### TestComplete.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TestComplete Class
 
 -----------------------------------------------
@@ -951,7 +951,7 @@ end TestComplete
 ### TestHostController.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TestHostController Class
 
 -----------------------------------------------
@@ -1137,7 +1137,7 @@ end TestHostController
 ### TestResult.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TestResult Class
 
 -----------------------------------------------
@@ -1186,7 +1186,7 @@ end TestResult
 ### TestSensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TestSensor Class
 
 -----------------------------------------------
@@ -1248,7 +1248,7 @@ end TestSensor
 ### TestSuite.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TestSuite Class
 
 -----------------------------------------------
@@ -1298,7 +1298,7 @@ end TestSuite
 ### TestSurroundings.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The TestSurroundings Class
 
 -----------------------------------------------
@@ -1365,7 +1365,7 @@ end TestSurroundings
 ### Thermostat.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The Thermostat Class
 
 -----------------------------------------------
@@ -1416,7 +1416,7 @@ end Thermostat
 ### timer.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Timer
 
@@ -1439,14 +1439,14 @@ GetTime() ==
   return currentTime;
 
 end Timer
-                                                                             
+                                                                         
 ~~~
 {% endraw %}
 
 ### Window.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The Window Class
 
 -----------------------------------------------
@@ -1497,7 +1497,7 @@ end Window
 ### World.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 --The World Class
 
 -----------------------------------------------

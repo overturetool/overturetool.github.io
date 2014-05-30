@@ -3,6 +3,17 @@ layout: default
 title: VDMSL
 ---
 
+### AccountSys
+This example comes from the book "Formal Software Development: From VDM to Java" written by Quentin Charatan and Aaron Kans. This example illustrate how to model bank accounts and transactions made on these as a series of deposits and withdrawals.
+
+
+| | |
+|------|-------|
+|Author:|Quentin Charatan and Aaron Kans|
+|Version:|VDM_SL - classic|
+|Details...|[model (zip)](AccountSysSL/AccountSys.zip)  / [show specification](AccountSysSL/index.html)|
+
+
 ### ACS
 This specification describes the safety requirements involved in adding and 
 removing explosives at an explosives storage site. The specification is based 
@@ -483,7 +494,7 @@ use the algorithm as a simple method of distinguishing valid numbers from collec
 |Details...|[model (zip)](LUHNSL/LUHN.zip)  / [show specification](LUHNSL/index.html)|
 
 
-### LUPSL
+### LUP
 This VDM model is made by Lothar Schmitz and it has taken different
 standard algorithms for the length of longest upsequence problem
 from David Gries and Janusz Laski (see references below). Different 
@@ -500,7 +511,7 @@ Springer-Verlag, 2009.
 |------|-------|
 |Author:|Lothar Schmitz|
 |Version:|VDM_SL - classic|
-|Details...|[model (zip)](LUPSLSL/LUPSL.zip)  / [show specification](LUPSLSL/index.html)|
+|Details...|[model (zip)](LUPSL/LUP.zip)  / [show specification](LUPSL/index.html)|
 
 
 ### MAA

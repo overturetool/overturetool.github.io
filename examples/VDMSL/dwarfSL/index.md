@@ -28,7 +28,7 @@ executable specification.
 ### dwarf.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 types
 
   LampId = <L1> | <L2> | <L3>;

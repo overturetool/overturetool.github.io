@@ -49,8 +49,8 @@ More explanation about this work can be found in the papers:
 ### AAH.vdmpp
 
 {% raw %}
-~~~
-                                     
+~~~vdm
+                                   
 class AAH
  
 types
@@ -156,15 +156,15 @@ operations
        end);
 
 end AAH
-                                                                                                                        
+                                                                                                                
 ~~~
 {% endraw %}
 
 ### Clock.vdmpp
 
 {% raw %}
-~~~
-                                       
+~~~vdm
+                                     
 class Clock
  
 instance variables
@@ -187,15 +187,15 @@ operations
     return count;
 
 end Clock
-                                                                                                                          
+                                                                                                                   
 ~~~
 {% endraw %}
 
 ### Command.vdmpp
 
 {% raw %}
-~~~
-                                         
+~~~vdm
+                                       
 class Command
 types
   public
@@ -249,15 +249,15 @@ operations
 
 
 end Command
-                                                                                                                              
+                                                                                                                       
 ~~~
 {% endraw %}
 
 ### HandControlUnit.vdmpp
 
 {% raw %}
-~~~
-                                                 
+~~~vdm
+                                               
 class HandControlUnit
 
 types
@@ -306,15 +306,15 @@ operations
 
 
 end HandControlUnit
-                                                                                                                                              
+                                                                                                                                       
 ~~~
 {% endraw %}
 
 ### IntegratedCommand.vdmpp
 
 {% raw %}
-~~~
-                                                   
+~~~vdm
+                                                 
 class IntegratedCommand is subclass of SixDOfCommand
 
 instance variables
@@ -350,15 +350,15 @@ operations
 
 
 end IntegratedCommand
-                                                                                                                                                    
+                                                                                                                                            
 ~~~
 {% endraw %}
 
 ### Interface.vdmpp
 
 {% raw %}
-~~~
-                                           
+~~~vdm
+                                         
 class Interface
 
 instance variables
@@ -457,15 +457,15 @@ thrusters = mk_(<Pos>,<Zero>,<Zero>,<Zero>,<Tran>,<Down>,
                 { <Roll> |-> <Zero>, <Pitch> |-> <Zero>, <Yaw> |-> <Zero> })
 
 end Interface
-                                                                   
+                                                              
 ~~~
 {% endraw %}
 
 ### RotationCommand.vdmpp
 
 {% raw %}
-~~~
-                                                 
+~~~vdm
+                                               
 class RotationCommand is subclass of Command
 operations
   public
@@ -474,15 +474,15 @@ operations
     return (exists a in set dom axesdir & axesdir(a) <> <Zero>);
 
 end RotationCommand
-                                                                                                                                                
+                                                                                                                                        
 ~~~
 {% endraw %}
 
 ### SixDOfCommand.vdmpp
 
 {% raw %}
-~~~
-                                               
+~~~vdm
+                                             
 class SixDOfCommand
 instance variables
   protected
@@ -534,15 +534,15 @@ operations
 
 
 end SixDOfCommand
-                                                                                                                                            
+                                                                                                                                    
 ~~~
 {% endraw %}
 
 ### Test.vdmpp
 
 {% raw %}
-~~~
-                                      
+~~~vdm
+                                    
 class Test is subclass of WorkSpace
  
 values
@@ -596,15 +596,15 @@ HT: w.SetupTopology();
      w.ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, aahbutton, aahcmd) 
 
 end Test
-                                                                                                                           
+                                                                                                                   
 ~~~
 {% endraw %}
 
 ### Thruster.vdmpp
 
 {% raw %}
-~~~
-                                          
+~~~vdm
+                                        
 class Thruster
 
 types
@@ -631,15 +631,15 @@ operations
     return state;
 
 end Thruster
-                                                                                                                                  
+                                                                                                                          
 ~~~
 {% endraw %}
 
 ### ThrusterControl.vdmpp
 
 {% raw %}
-~~~
-                                                 
+~~~vdm
+                                               
 class ThrusterControl
 
 values  -- two thruster selection tables...
@@ -796,15 +796,15 @@ operations
      tslogic2.MakeTable(lrud_thrusters));
 
 end ThrusterControl
-                                                                                                                                                
+                                                                                                                                        
 ~~~
 {% endraw %}
 
 ### ThrusterSelectionTable.vdmpp
 
 {% raw %}
-~~~
-                                                   
+~~~vdm
+                                                 
 class ThrusterSelectionTable 
 
 types
@@ -830,15 +830,15 @@ operations
     selections:= m;
 
 end ThrusterSelectionTable
-                                                                                                                                                              
+                                                                                                                                                      
 ~~~
 {% endraw %}
 
 ### TranslationCommand.vdmpp
 
 {% raw %}
-~~~
-                                                    
+~~~vdm
+                                                  
 class TranslationCommand is subclass of Command
 operations
   public
@@ -851,15 +851,15 @@ operations
                else axesdir;
 
 end TranslationCommand
-                                                                                                                                                      
+                                                                                                                                              
 ~~~
 {% endraw %}
 
 ### ValveDriveAssembly.vdmpp
 
 {% raw %}
-~~~
-                                                    
+~~~vdm
+                                                  
 class ValveDriveAssembly
 
 instance variables
@@ -882,15 +882,15 @@ operations
             thrusters(thr).GetState() = <On>}
 
 end ValveDriveAssembly
-                                                                                                                                                      
+                                                                                                                                              
 ~~~
 {% endraw %}
 
 ### WorkSpace.vdmpp
 
 {% raw %}
-~~~
-                                           
+~~~vdm
+                                         
 class WorkSpace 
 
 values
@@ -952,7 +952,7 @@ operations
        thrusters inter {<U4R>, <U4F>} <> {}));
   
 end WorkSpace
-                                                                                                                                      
+                                                                                                                             
 ~~~
 {% endraw %}
 

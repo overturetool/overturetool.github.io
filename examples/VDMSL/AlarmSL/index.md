@@ -34,7 +34,7 @@ with alarms. A comparable model of this example also exists in VDM++.
 ### alarm.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 types
 
   Plant :: schedule : Schedule
@@ -92,7 +92,7 @@ functions
 ### changeexpert.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 functions
 
 -- this function is NOT correct. Why not?
@@ -106,7 +106,7 @@ ChangeExpert(mk_Plant(plan,alarms),ex1,ex2,peri) ==
 ### testalarm.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 values
  
   p1:Period = mk_token("Monday day");

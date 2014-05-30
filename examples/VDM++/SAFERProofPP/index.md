@@ -19,7 +19,7 @@ Author: Sten Agerholm
 ### saferproof.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class SAFERSys
 
 types

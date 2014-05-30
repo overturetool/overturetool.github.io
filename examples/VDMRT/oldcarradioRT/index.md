@@ -24,7 +24,7 @@ multiple CPUs connected with BUSses.
 ### AbstractTask.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class AbstractTask
 
@@ -93,14 +93,14 @@ sync
   per getEvent => len events > 0 or len interrupts > 0
 
 end AbstractTask
-              
+             
 ~~~
 {% endraw %}
 
 ### AbstractTaskEvent.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class AbstractTaskEvent
 
@@ -116,14 +116,14 @@ operations
   getFields () == return mk_ (abstask, ev)
 
 end AbstractTaskEvent
-              
+             
 ~~~
 {% endraw %}
 
 ### BasicTask.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class BasicTask is subclass of AbstractTask
 
@@ -141,14 +141,14 @@ thread
     handleEvent(getEvent())
 
 end BasicTask
-              
+             
 ~~~
 {% endraw %}
 
 ### EnvironmentTask.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class EnvironmentTask is subclass of AbstractTask
 
@@ -239,14 +239,14 @@ sync
   per getMinMaxAverage => card dom s2e = max_stimuli
 
 end EnvironmentTask
-              
+             
 ~~~
 {% endraw %}
 
 ### Event.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class Event
 
@@ -261,14 +261,14 @@ operations
   getEvent () == return val
 
 end Event
-              
+             
 ~~~
 {% endraw %}
 
 ### EventDispatcher.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class EventDispatcher is subclass of Logger
 
@@ -350,14 +350,14 @@ sync
   per getEvent => len messages > 0 or len interrupts > 0
 
 end EventDispatcher
-              
+             
 ~~~
 {% endraw %}
 
 ### InsertAddress.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class InsertAddress is subclass of EnvironmentTask
 
@@ -389,14 +389,14 @@ thread
   periodic (1000,0,0,0) (createSignal)
   
 end InsertAddress
-              
+             
 ~~~
 {% endraw %}
 
 ### InterruptEvent.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class InterruptEvent is subclass of Event
 
@@ -405,14 +405,14 @@ operations
   InterruptEvent (pne) == Event(pne)
 
 end InterruptEvent
-              
+             
 ~~~
 {% endraw %}
 
 ### Logger.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class Logger
 
@@ -439,14 +439,14 @@ operations
       in mode := <append>;
 
 end Logger
-              
+             
 ~~~
 {% endraw %}
 
 ### MMIHandleKeyPressOne.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class MMIHandleKeyPressOne is subclass of BasicTask
 
@@ -466,14 +466,14 @@ operations
       sendMessage("AdjustVolume", pe.getEvent()) )
 
 end MMIHandleKeyPressOne
-              
+             
 ~~~
 {% endraw %}
 
 ### MMIHandleKeyPressTwo.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class MMIHandleKeyPressTwo is subclass of BasicTask
 
@@ -493,14 +493,14 @@ operations
       sendMessage("DatabaseLookup", pe.getEvent()) )
 
 end MMIHandleKeyPressTwo
-              
+             
 ~~~
 {% endraw %}
 
 ### MMIUpdateScreenAddress.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class MMIUpdateScreenAddress is subclass of BasicTask
 
@@ -520,14 +520,14 @@ operations
       raiseInterrupt("InsertAddress", pe.getEvent()) )
 
 end MMIUpdateScreenAddress
-              
+             
 ~~~
 {% endraw %}
 
 ### MMIUpdateScreenTMC.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class MMIUpdateScreenTMC is subclass of BasicTask
 
@@ -547,14 +547,14 @@ operations
       raiseInterrupt("TransmitTMC", pe.getEvent()) )
 
 end MMIUpdateScreenTMC
-              
+             
 ~~~
 {% endraw %}
 
 ### MMIUpdateScreenVolume.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class MMIUpdateScreenVolume is subclass of BasicTask
 
@@ -574,14 +574,14 @@ operations
       raiseInterrupt("VolumeKnob", pe.getEvent()) )
 
 end MMIUpdateScreenVolume
-              
+             
 ~~~
 {% endraw %}
 
 ### NavigationDatabaseLookup.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class NavigationDatabaseLookup is subclass of BasicTask
 
@@ -601,14 +601,14 @@ operations
       sendMessage("UpdateScreenAddress", pe.getEvent()) )
 
 end NavigationDatabaseLookup
-              
+             
 ~~~
 {% endraw %}
 
 ### NavigationDecodeTMC.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class NavigationDecodeTMC is subclass of BasicTask
 
@@ -628,14 +628,14 @@ operations
       sendMessage("UpdateScreenTMC", pe.getEvent()) )
 
 end NavigationDecodeTMC
-              
+             
 ~~~
 {% endraw %}
 
 ### NetworkEvent.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class NetworkEvent is subclass of Event
 
@@ -644,14 +644,14 @@ operations
   NetworkEvent (pne) == Event(pne)
 
 end NetworkEvent
-              
+             
 ~~~
 {% endraw %}
 
 ### RadioAdjustVolume.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class RadioAdjustVolume is subclass of BasicTask
 
@@ -671,14 +671,14 @@ operations
       sendMessage("UpdateScreenVolume", pe.getEvent()) )
 
 end RadioAdjustVolume
-              
+             
 ~~~
 {% endraw %}
 
 ### RadioHandleTMC.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class RadioHandleTMC is subclass of BasicTask
 
@@ -698,14 +698,14 @@ operations
       sendMessage("DecodeTMC", pe.getEvent()) )
 
 end RadioHandleTMC
-              
+             
 ~~~
 {% endraw %}
 
 ### RadNavSys.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class RadNavSys
 
@@ -789,14 +789,14 @@ operations
              | name in set dom envTasks } )
 
 end RadNavSys
-              
+             
 ~~~
 {% endraw %}
 
 ### TransmitTMC.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class TransmitTMC is subclass of EnvironmentTask
 
@@ -828,14 +828,14 @@ thread
   periodic (1000,0,0,0) (createSignal)
 
 end TransmitTMC
-              
+             
 ~~~
 {% endraw %}
 
 ### VolumeKnob.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class VolumeKnob is subclass of EnvironmentTask
 
@@ -867,7 +867,7 @@ thread
   periodic (1000,0,0,0) (createSignal)
   
 end VolumeKnob
-              
+             
 ~~~
 {% endraw %}
 

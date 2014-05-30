@@ -25,7 +25,7 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 ### Actuator.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		21/4 - 2008
@@ -71,7 +71,7 @@ end Actuator
 ### Environment.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		20/4 - 2008
@@ -239,7 +239,7 @@ end Environment
 ### HomeAutomation.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolf - 20022462
 -- Created:		20/4 - 2008
@@ -296,7 +296,7 @@ end HA
 ### HostController.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		20/4 - 2008
@@ -531,7 +531,7 @@ end HostController
 ### HumidSensor.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		21/4 - 2008
@@ -591,7 +591,7 @@ end HumidSensor
 ### NetworkTypes.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		15/4 - 2008
@@ -619,7 +619,7 @@ end NetworkTypes
 ### Sensor.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		20/4 - 2008
@@ -670,7 +670,7 @@ end Sensor
 ### TemperatureSensor.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		20/4 - 2008
@@ -730,7 +730,7 @@ end TemperatureSensor
 ### Thermostat.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		21/4 - 2008
@@ -807,7 +807,7 @@ end Thermostat
 ### Window.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		21/4 - 2008
@@ -883,7 +883,7 @@ end Window
 ### World.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		20/4 - 2008

@@ -35,8 +35,8 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 ### Accelerometer.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                   
+~~~vdm
+                                                                                                                                                                                                                                               
 class Accelerometer is subclass of GLOBAL
 
 operations
@@ -46,14 +46,14 @@ operations
  stimulate (a) == Pacemaker`rateController.stimulate(a);
 
 end Accelerometer
-                
+              
 ~~~
 {% endraw %}
 
 ### BaseThread.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class BaseThread
 	
 instance variables
@@ -99,8 +99,8 @@ end BaseThread
 ### Environment.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                 
+~~~vdm
+                                                                                                                                                                                                                                                                                                                             
 class Environment is subclass of GLOBAL, BaseThread
 
  types 
@@ -125,7 +125,7 @@ busy : bool := true;
 
 -- Amount of time we want to simulate
 simtime : Time;
-                                                                                                                                                             
+                                                                                                                                                         
  instance variables
 -- Sensors
 
@@ -136,7 +136,7 @@ leads : map Chamber to Lead := {|->};
 -- Accelerometer
 accelerometer : Accelerometer;
 
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                    
  operations
 
 -- Constructor
@@ -150,7 +150,7 @@ Environment (fname, p, isP) ==
       isPeriodic := isP;
      );
 
-                                                                                            
+                                                                                        
 public 
 addLeadSensor : Lead ==> ()
 addLeadSensor(lsens) == 
@@ -161,7 +161,7 @@ addAccelerometer : Accelerometer ==> ()
 addAccelerometer(acc) == 
    accelerometer := acc;
 
-                                                                                           
+                                                                                       
 
 private 
 createSignal : () ==> ()
@@ -185,19 +185,19 @@ createSignal () ==
      if len inplines = 0 then busy := false;
     );
 
-                                                                                                                                                                                
+                                                                                                                                                                            
 
 public 
 handleEvent : Pulse * Chamber * Time ==> ()
 handleEvent(p,c,t) == outlines := outlines ^ [mk_(p,c,t)]; 
 
-                                                                                             
+                                                                                         
 public
 showResult : () ==> ()
 showResult () ==
    def - = io.writeval[seq of Outline](outlines) in skip;
 
-                                                                                                                                                                    
+                                                                                                                                                                
 public 
 isFinished: () ==> ()
 isFinished () == skip;
@@ -212,7 +212,7 @@ Step() ==
         Pacemaker`rateController.finish()
        );
  );
-                                                                                            
+                                                                                        
 --thread
 --  (
 --   while true do
@@ -225,7 +225,7 @@ Step() ==
 --     );
 
 --  );
-                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                         
 sync 
 
 mutex (handleEvent,showResult);
@@ -234,64 +234,64 @@ per isFinished => not busy;
 
 end Environment
 
-              
+             
 ~~~
 {% endraw %}
 
 ### GLOBAL.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                              
+~~~vdm
+                                                                                                                                                                          
 class GLOBAL
 
 types 
 
-                                                                                                                                          
+                                                                                                                                      
 -- Sensed activity
 public
 Sense = <NONE> | <PULSE>;
-                                                                                                                                                               
+                                                                                                                                                           
 -- Heart chamber identifier
 public 
 Chamber = <ATRIA> | <VENTRICLE>;
-                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                          
 
 -- Accelerometer output
 public 
 ActivityData = nat1
 inv a == a <= 7;
 
-                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                
 -- Paced actvity
 public
 Pulse = <PULSE> | <TRI_PULSE>;
-                                                                                                                                       
+                                                                                                                                  
 -- Operation mode
 public 
 Mode = <OFF> | <AOO> | <AOOR> | <AAT> | <DOO>;
 
-                                                                          
+                                                                      
 -- PPM
 public 
 PPM = nat1
 inv ppm == ppm >= 30 and ppm <= 175;
 
-                                                                                                   
+                                                                                               
 -- Time
 public 
 Time = nat;
     
 end GLOBAL
-                    
+                
 ~~~
 {% endraw %}
 
 ### HeartController.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                
+~~~vdm
+                                                                                                            
 class HeartController is subclass of GLOBAL, BaseThread
 
 instance variables 
@@ -304,7 +304,7 @@ instance variables
  lastpulse : Time;
  ARP       : Time;
  interval  : Time;
-                              
+                            
 
 operations
  
@@ -324,14 +324,14 @@ operations
     isPeriodic := isP;
    );
 
-                              
+                            
 
  public 
  addLeadPacer : Lead ==> ()
  addLeadPacer (lead) == 
    leads := leads ++ {lead.getChamber() |-> lead};
 
-                              
+                            
  public 
  pace : ()  ==> ()
  pace () == 
@@ -345,7 +345,7 @@ operations
     sensed := {|->}
    );
 
-                                           
+                                       
  private
  PaceAOO : () ==> ()
  PaceAOO () == 
@@ -357,7 +357,7 @@ operations
            )
       else skip
   ;
-                                           
+                                       
  private
  PaceAAT : () ==> ()
  PaceAAT () == 
@@ -376,7 +376,7 @@ operations
            )
       else skip
   ;
-                                           
+                                       
  private
  PaceDOO : () ==> ()
  PaceDOO () == 
@@ -390,7 +390,7 @@ operations
        else skip;
        )
   ;
-                                
+                             
  public 
  finish : () ==> ()
  finish () == finished := true;
@@ -399,16 +399,16 @@ operations
  isFinished : () ==> ()
  isFinished () ==  for all lead in set rng leads do
                      lead.isFinished();
-                              
+                            
  public 
  sensorNotify : Sense * Chamber ==> ()
  sensorNotify (s,c) == 
    (sensed := sensed ++ {c |-> s});
-                              
+                            
  public 
  setInterval : Time ==> ()
  setInterval (t) == interval := t;
-                                                                              
+                                                                          
  public 
  setMode : Mode ==> ()
  setMode (m) == 
@@ -418,7 +418,7 @@ public Step: () ==> ()
 Step() ==
   pace();
  
-                                                                                                                 
+                                                                                                             
 --thread
 
 -- (while true do
@@ -427,7 +427,7 @@ Step() ==
 --      World`timerRef.WaitRelative(interval);
 --    );
 -- );
-                                                                                                                                                                          
+                                                                                                                                                                      
 sync
 
 per isFinished => sensed = {|->} and finished;
@@ -435,15 +435,15 @@ per isFinished => sensed = {|->} and finished;
 mutex(sensorNotify,pace);
 
 end HeartController
-              
+             
 ~~~
 {% endraw %}
 
 ### Lead.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                           
+~~~vdm
+                                                                                                                                                                                                                                      
 class Lead is subclass of GLOBAL, BaseThread
 
 instance variables
@@ -462,23 +462,23 @@ operations
     period := p;
     isPeriodic := isP;
    );
-                                                                                                                          
+                                                                                                                     
 
  public 
  getChamber: () ==> Chamber
  getChamber () == return chamber;
-                                                                                                                                                  
+                                                                                                                                              
 
  public 
  stimulate : Sense ==> ()
  stimulate (s) == Pacemaker`heartController.sensorNotify(s,chamber);
 
-                              
+                            
  public 
  isFinished : () ==> ()
  isFinished () == skip;
 
-                                                                                          
+                                                                                      
  public 
  addLeadPace : Pulse * Time ==> ()
  addLeadPace (p,t) ==  
@@ -486,7 +486,7 @@ operations
    then dischargePulse(p)
    else (scheduledPulse := mk_(t,p);
          return);
-                              
+                            
  private 
  followPlan : () ==> ()
  followPlan () ==
@@ -500,7 +500,7 @@ operations
    );
    
       
-                                  
+                              
  private 
  dischargePulse : Pulse ==> ()
  dischargePulse (p) ==
@@ -513,7 +513,7 @@ Step() ==
   --    World`timerRef.WaitRelative(5);
  );
 
-                                                                                                                             
+                                                                                                                          
 --thread
 --  while true do 
 --    ( if(scheduledPulse <> nil)
@@ -523,7 +523,7 @@ Step() ==
 --      World`timerRef.Awake();
 --    );
     
-                                                                                          
+                                                                                      
 
 sync
 
@@ -535,15 +535,15 @@ mutex(addLeadPace);
 mutex(dischargePulse);
 
 end Lead 
-              
+             
 ~~~
 {% endraw %}
 
 ### Pacemaker.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                             
+~~~vdm
+                                                                                                                                                                                                                                                        
 class Pacemaker 
 
  instance variables
@@ -553,7 +553,7 @@ class Pacemaker
 
  public static 
  ventricleLead : Lead      := new Lead(<VENTRICLE>, 5, true);
-                                                                                    
+                                                                                
 
  instance variables
 
@@ -562,22 +562,22 @@ class Pacemaker
 
  public static 
  rateController      : RateController  := new RateController(1, true);
-                              
+                            
  instance variables
  
  public static 
  heartController     : HeartController := new HeartController(1000, true);
 
 end Pacemaker
-              
+             
 ~~~
 {% endraw %}
 
 ### RateController.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                            
+~~~vdm
+                                                                                                                        
 class RateController is subclass of GLOBAL, BaseThread
 
 instance variables
@@ -587,7 +587,7 @@ instance variables
  finished : bool;
 
  
-                              
+                            
 instance variables
 -- programmable values
  LRL       : PPM;
@@ -604,7 +604,7 @@ inv threshold < 8
     recoveryT in set {2,...,16}
     and 
     responseF <= 16;
-                                                                                                                                                
+                                                                                                                                            
 operations
   
  public 
@@ -622,11 +622,11 @@ operations
     period := p;
     isPeriodic := isP;
    );
-                               
+                             
 public
 getInterval : () ==> Time
 getInterval () == return interval;
-                              
+                            
  private
  controlRate : () ==> ()
  controlRate () == 
@@ -638,12 +638,12 @@ getInterval () == return interval;
     else skip;
     sensed := nil;
     );
-                              
+                            
 
  public 
  stimulate : ActivityData ==> ()
  stimulate (ad) == sensed := ad;
-                                 
+                              
  private
  increaseRate : () ==> ()
  increaseRate () == 
@@ -652,7 +652,7 @@ getInterval () == return interval;
     Pacemaker`heartController.SetPeriod(interval); --setInterval(interval)
    );
 
-                              
+                            
  private
  decreaseRate : () ==> ()
  decreaseRate () == 
@@ -660,7 +660,7 @@ getInterval () == return interval;
     interval := 1 / ((LRL / 60) / 1000);
     Pacemaker`heartController.setInterval(interval)
    );
-                                
+                             
  public 
  finish : () ==> ()
  finish () == finished := true; 
@@ -674,12 +674,12 @@ Step() ==
   if (sensed <> nil)
   then controlRate();
 
-                                                                                                          
+                                                                                                       
 
 --thread
 -- while true do
 --    controlRate();
-                                                                  
+                                                              
 
 sync
 mutex(stimulate);
@@ -691,7 +691,7 @@ per isFinished => finished;
 mutex(Step);
 --per controlRate => sensed <> nil;
 
-                               
+                             
 values
 
 --V-LOW 1
@@ -703,18 +703,18 @@ MED : ActivityData = 4;
 --V-HIGH 6
 
 end RateController
-                   
+                
 ~~~
 {% endraw %}
 
 ### TimeStamp.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class TimeStamp
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
 values
 
@@ -832,8 +832,8 @@ end TimeStamp
 ### World.vdmpp
 
 {% raw %}
-~~~
-                                                                                                                                                            
+~~~vdm
+                                                                                                                                                        
 class World is subclass of GLOBAL
 
 types
@@ -842,7 +842,7 @@ instance variables
 
 public static env      : [Environment] := nil;
 public static timerRef : TimeStamp := new TimeStamp(0); --3
-                                                                                                               
+                                                                                                           
 operations
 
 public World: seq of char * Mode ==> World
@@ -870,7 +870,7 @@ World(filename,mode) ==
      --start(Pacemaker`ventricleLead);
   );
 
-                                                                                       
+                                                                                   
 public Run: () ==> ()
 Run () == 
   (
@@ -883,7 +883,7 @@ Run () ==
   
 
 end World
-              
+             
 ~~~
 {% endraw %}
 

@@ -26,11 +26,11 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 ### alarm.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Alarm
 types
-                              
+                            
 types
 
 public String = seq of char;
@@ -39,7 +39,7 @@ instance variables
 
 descr    : String;
 reqQuali : Expert`Qualification;
-                              
+                            
 operations
 
 public Alarm: Expert`Qualification * String ==> Alarm
@@ -47,50 +47,50 @@ Alarm(quali,str) ==
 ( descr := str;
   reqQuali := quali
 );
-                                 
+                               
 public GetReqQuali: () ==> Expert`Qualification
 GetReqQuali() ==
   return reqQuali;
   
 end Alarm
-              
+             
 ~~~
 {% endraw %}
 
 ### expert.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Expert
 
 instance variables
 
 quali : set of Qualification;
-                              
+                            
 types 
  
 public Qualification = <Mech> | <Chem> | <Bio> | <Elec>;
-                              
+                            
 operations
 
 public Expert: set of Qualification ==> Expert
 Expert(qs) ==
   quali := qs;
-                                
+                              
 public GetQuali: () ==> set of Qualification
 GetQuali() ==
   return quali;
   
 end Expert
-              
+             
 ~~~
 {% endraw %}
 
 ### plant.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Plant
 
@@ -131,7 +131,7 @@ post let expert = RESULT
      in
        expert in set schedule(p) and
        a.GetReqQuali() in set expert.GetQuali();
-                                
+                              
 public NumberOfExperts: Period ==> nat
 NumberOfExperts(p) ==
   return card schedule(p)
@@ -151,14 +151,14 @@ Plant(als,sch) ==
 pre PlantInv(als,sch);
 
 end Plant
-              
+             
 ~~~
 {% endraw %}
 
 ### test1.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Test1
 
@@ -190,7 +190,7 @@ Run() ==
     return mk_(periods,expert);
 
 end Test1
-              
+             
 ~~~
 {% endraw %}
 

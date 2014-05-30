@@ -23,7 +23,7 @@ care of processing such waste material.
 ### tracker.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class TRACKER
 -- The tracker example
 

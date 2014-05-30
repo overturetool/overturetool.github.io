@@ -22,7 +22,7 @@ distributed real time version of this example.
 ### BaseRTThread.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class BaseRTThread
 
 types
@@ -70,7 +70,7 @@ end BaseRTThread
 ### CMTest.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class CMTest
 operations
@@ -81,14 +81,14 @@ operations
      ts.Run())
 
 end CMTest
-                                                                                  
+                                                                            
 ~~~
 {% endraw %}
 
 ### CMTestCase2.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class CMTestCase2 is subclass of TestCase
 
@@ -119,14 +119,14 @@ operations
   TearDown () == skip
 
 end CMTestCase2
-                                                                                         
+                                                                                    
 ~~~
 {% endraw %}
 
 ### environment.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class Environment is subclass of GLOBAL, BaseRTThread
 
@@ -227,14 +227,14 @@ mutex (createSignal);
 per isFinished => not busy;
 
 end Environment
-                                                                                                      
+                                                                                                 
 ~~~
 {% endraw %}
 
 ### fighteraircraft.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 system CM
 
@@ -348,7 +348,7 @@ end CM
 ### flarecontroller.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class FlareController is subclass of GLOBAL, BaseRTThread
 
@@ -442,14 +442,14 @@ per getThreat => len threats > 0;
 per isFinished => not busy
 
 end FlareController
-                                                                                                          
+                                                                                                     
 ~~~
 {% endraw %}
 
 ### flaredispenser.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class FlareDispenser is subclass of GLOBAL, BaseRTThread
 
@@ -556,14 +556,14 @@ mutex (addThreat,Step);
 per isFinished => not busy;
 
 end FlareDispenser
-                                                                                                       
+                                                                                                  
 ~~~
 {% endraw %}
 
 ### global.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class GLOBAL
 
@@ -604,14 +604,14 @@ operations
   getAperture () == is subclass responsibility;
 
 end GLOBAL
-                                                                                   
+                                                                              
 ~~~
 {% endraw %}
 
 ### missiledetector.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class MissileDetector is subclass of GLOBAL, BaseRTThread
 
@@ -698,14 +698,14 @@ per getThreat => len threats > 0;
 per isFinished => not busy
 
 end MissileDetector
-                                                                                                        
+                                                                                                   
 ~~~
 {% endraw %}
 
 ### RTTimeStamp.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
 class RTTimeStamp
 
 instance variables
@@ -766,7 +766,7 @@ end RTTimeStamp
 ### sensor.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class Sensor is subclass of GLOBAL
 
@@ -798,15 +798,15 @@ trip (evid, pmt, pa) ==
 pre canObserve(pa, aperture, SENSOR_APERTURE)
 
 end Sensor
-                                                                                 
+                                                                           
 ~~~
 {% endraw %}
 
 ### Test.vdmrt
 
 {% raw %}
-~~~
-                
+~~~vdm
+               
 class Test
 
 operations
@@ -814,15 +814,15 @@ operations
   Run (-) == is subclass responsibility
 
 end Test
-              
+             
 ~~~
 {% endraw %}
 
 ### TestCase.vdmrt
 
 {% raw %}
-~~~
-                
+~~~vdm
+               
 class TestCase
   is subclass of Test
 
@@ -835,13 +835,13 @@ operations
 
   public GetName: () ==> seq of char
   GetName () == return name;
-                            
+                           
   protected AssertTrue: bool ==> ()
   AssertTrue (pb) == if not pb then exit <FAILURE>;
 
   protected AssertFalse: bool ==> ()
   AssertFalse (pb) == if pb then exit <FAILURE>;
-                              
+                            
   public Run: TestResult ==> ()
   Run (ptr) ==
     trap <FAILURE>
@@ -851,7 +851,7 @@ operations
         (SetUp();
 	 RunTest();
 	 TearDown());
-                              
+                            
   protected SetUp: () ==> ()
   SetUp () == is subclass responsibility;
 
@@ -862,15 +862,15 @@ operations
   TearDown () == is subclass responsibility
 
 end TestCase
-              
+             
 ~~~
 {% endraw %}
 
 ### TestResult.vdmrt
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 class TestResult
 
 instance variables
@@ -893,28 +893,28 @@ operations
         Print (failure.GetName() ^ " failed")
   
 end TestResult
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 ~~~
 {% endraw %}
 
 ### TestSuite.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class TestSuite
   is subclass of Test
 
 instance variables
   tests : seq of Test := [];
-                            
+                           
 operations
   public Run: () ==> ()
   Run () ==
     (dcl ntr : TestResult := new TestResult();
      Run(ntr);
      ntr.Show());
-                            
+                           
   public Run: TestResult ==> ()
   Run (result) ==
     for test in tests do
@@ -925,14 +925,14 @@ operations
     tests := tests ^ [test];
 
 end TestSuite
-              
+             
 ~~~
 {% endraw %}
 
 ### world.vdmrt
 
 {% raw %}
-~~~
+~~~vdm
               
 class World
 
@@ -989,7 +989,7 @@ Run () ==
    env.showResult())
 
 end World
-                                                                            
+                                                                       
 ~~~
 {% endraw %}
 

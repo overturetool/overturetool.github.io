@@ -40,8 +40,8 @@ Denmark, 1996.
 ### rail.vdmsl
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 module station
 
 exports
@@ -75,31 +75,31 @@ types
         Tracks = set of (Track_id * Track_id);
         Track_id  =  seq of char
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 functions
 
     NoReflexive : Tracks +> bool
     NoReflexive (tracks) ==
       forall mk_(t1,t2) in set tracks & t1 <> t2;
-                                                                                                                                                                                                                           
+                                                                                                                                                                                                                     
   Symmetric : Tracks +> bool
   Symmetric (tracks) ==
      forall mk_(t1,t2) in set tracks & mk_(t2,t1) in set tracks
-                                                                                                
+                                                                                          
 functions
 
     Is_wf_Tracks : Tracks +> bool
     Is_wf_Tracks (tracks)  ==
           NoReflexive (tracks) and
           Symmetric (tracks)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 types
      Points      = map (Track_id * Track_id) to 
                        (map Track_id to Point_control);
      Point_control = <left> | <right>;
      Crossings   =  set of (Track_id * Track_id)
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 functions
 
    PointsInTracks : Tracks * Points +> bool
@@ -107,14 +107,14 @@ functions
    PointsInTracks (tracks,points) ==
     dom points subset tracks;
 
-                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                          
    Inverses : Points +> bool
 
    Inverses (points) ==
      forall mk_(t1,t2) in set dom points &
       mk_(t2,t1) in set dom points and
       points (mk_(t1,t2)) = points (mk_(t2,t1));
-                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                        
    OkDomRng: Points +> bool
 
    OkDomRng (points) ==
@@ -122,7 +122,7 @@ functions
       points (mk_(t1,t2)) <> {|->} and
       dom (points (mk_(t1,t2))) subset {t1,t2};
 
-                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                             
    RelateToTracks: Tracks * Points +> bool
 
    RelateToTracks (tracks,points) ==
@@ -133,7 +133,7 @@ functions
      (not exists tpair in set dom points & 
              t1 in set dom points (tpair)) =>
       card {t|mk_(t,t') in set tracks & t'=t1} <= 2 );
-                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                        
    Control2Dir: Points +> bool
 
    Control2Dir (points) ==
@@ -146,7 +146,7 @@ functions
            exists mk_(t,t') in set dom points &
              t = t1 and
             {t1} <: points (mk_(t1,t')) = {t1 |->  <left>});
-                                                                                                          
+                                                                                                    
    Is_wf_Points: Tracks * Points +> bool
 
    Is_wf_Points (tracks,points) ==
@@ -156,13 +156,13 @@ functions
      RelateToTracks (tracks,points) and
      Control2Dir (points);
 
-                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                        
    SeperateBranches: Tracks * Crossings +> bool
 
    SeperateBranches (tracks,crossings) ==
      crossings inter tracks = {};
 
-                                                                                                                               
+                                                                                                                          
    CrossInTracks: Tracks * Crossings +> bool
 
    CrossInTracks (tracks,crossings) ==
@@ -170,7 +170,7 @@ functions
        (exists mk_(t3,-) in set tracks & t1 = t3) and
        (exists mk_(t4,-) in set tracks & t2 = t4);
 
-                                                                                                       
+                                                                                                 
    UniqueCross: Crossings +> bool
 
    UniqueCross (crossings) ==
@@ -179,7 +179,7 @@ functions
       forall mk_(t3,t4) in set crossings \ {mk_(t1,t2)} &
        (t1 <> t3 and t1 <> t4 and t2 <> t3 and t2 <> t4);
 
-                                                                                                                                                      
+                                                                                                                                                 
    DiffPointsCrossings: Points * Crossings +> bool
 
    DiffPointsCrossings (points,crossings) ==
@@ -187,7 +187,7 @@ functions
        forall pointcontrol in set rng points &
          t1 not in set dom pointcontrol and
          t2 not in set dom pointcontrol;
-                                                                                                              
+                                                                                                        
    Is_wf_Crossings: Tracks * Points * Crossings +> bool
 
    Is_wf_Crossings (tracks,points,crossings) ==
@@ -195,11 +195,11 @@ functions
      CrossInTracks (tracks,crossings)       and
      UniqueCross (crossings)                and
      DiffPointsCrossings (points,crossings)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 types
      Signals   = map (Track_id * Track_id) to Signal_id;
      Signal_id = seq of char
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 functions
 
    UniqueSignals: Signals +> bool
@@ -207,7 +207,7 @@ functions
    UniqueSignals (signals) ==
      card rng signals = card dom signals;
 
-                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                       
    SigInTracks: Tracks * Signals +> bool
 
    SigInTracks (tracks,signals) ==
@@ -217,20 +217,20 @@ functions
       (t2 = "ol" => card { t | mk_(t,t') in set tracks 
                              & t' = t1 } = 1 ) and
       (t1 <> "ol" and t2 <> "ol" => mk_(t1,t2) in set tracks );
-                                                                                                                        
+                                                                                                                   
    Is_wf_Signals: Tracks * Signals +> bool
 
    Is_wf_Signals (tracks,signals) ==
      UniqueSignals (signals) and
      SigInTracks (tracks,signals)
 
-                                                                                                                                                                                      
+                                                                                                                                                                              
 types
      Station_topo :: tracks    : Tracks
                 points    : Points
                 crossings : Crossings
                 signals   : Signals
-                                                                                                                                           
+                                                                                                                                      
 functions
    Is_wf_Station_topo: Station_topo +> bool
 
@@ -240,26 +240,26 @@ functions
      Is_wf_Crossings (stationtopo.tracks,stationtopo.points,
                       stationtopo.crossings) and
      Is_wf_Signals (stationtopo.tracks,stationtopo.signals)
-                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                               
 
 types
      Station_state :: trackstates  : Track_states
                       pointstates  : Point_states
                       signalstates : Signal_states;
-                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                        
      Track_states  = map Track_id  to Track_state;
      Point_states  = map Track_id  to Point_state;
      Signal_states = map Signal_id to Signal_state;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
    Track_state   =  map Train_id to Train_type;
    Train_id      = seq of char;
    Train_type    =  <fixedroute> | <autonomous> ;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
    Point_state    =  Point_control * Operation ;
    Operation      =  <manual> | <interlock>;
-                                                                                                                                                                                                                              
+                                                                                                                                                                                                                       
       Signal_state = <stop> | <driveaspect>
-                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                               
 functions
 
    ConformTracks: Tracks * Track_states  +> bool
@@ -268,14 +268,14 @@ functions
      TracksStateInTopo (tracks,trackstates) and
      TracksTopoInState (tracks,trackstates);
 
-                              
+                            
    TracksStateInTopo: Tracks * Track_states  +> bool
 
    TracksStateInTopo (tracks,trackstates)  ==
      forall t in set dom trackstates &
        exists mk_(t1,t2) in set tracks & t = t1 or t = t2;
 
-                              
+                            
    TracksTopoInState: Tracks * Track_states  +> bool
 
    TracksTopoInState (tracks,trackstates)  ==
@@ -283,21 +283,21 @@ functions
        t1 in set dom trackstates and
        t2 in set dom trackstates;
 
-                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                    
    ConformPoints: Points * Point_states  +> bool
 
    ConformPoints (points,pointstates)  ==
      PointsStateInTopo (points,pointstates) and
      PointsTopoInState (points,pointstates);
 
-                              
+                            
    PointsStateInTopo: Points * Point_states  +> bool
 
    PointsStateInTopo (points,pointstates)  ==
      forall t in set dom pointstates &
       exists mk_(t1,t2) in set dom points  &
        t in set dom points (mk_(t1,t2));
-                              
+                            
    PointsTopoInState: Points * Point_states  +> bool
 
    PointsTopoInState (points,pointstates)  ==
@@ -306,13 +306,13 @@ functions
        t1 in set dom pointstates) and
       (t2 in set dom points (mk_(t1,t2)) => 
        t2 in set dom pointstates);
-                                                                                                                                                                                                                               
+                                                                                                                                                                                                                      
    ConformSignals: Signals * Signal_states  +> bool
 
    ConformSignals (signals,signalstates)  ==
      rng signals = dom signalstates;
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
    Is_wf_Trains: Tracks * Points * Crossings * Track_states +> 
                  bool
 
@@ -323,7 +323,7 @@ functions
          OkPointTrains (trains,points) and
          OkCrossTrains (trains,crossings);
 
-                                                                                                                                                                                    
+                                                                                                                                                                              
    UniqueTrain : Track_states +> bool
 
    UniqueTrain (trackstates) ==
@@ -337,7 +337,7 @@ functions
         (forall trackid' in set dom trackstates &
         (trainid in set dom trackstates (trackid') =>
          trackstates (trackid')(trainid) = <autonomous>)));
-                                                                                                                                                             
+                                                                                                                                                       
    Trains: Track_states * (map Train_id to set of Track_id) +> 
            (map Train_id to set of Track_id)
 
@@ -349,7 +349,7 @@ functions
               then Trains ({t} <-: trackstates,sorted)
               else Trains ({t} <-: trackstates, 
                            Update (mk_(t,trackstates(t)),sorted));
-                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                
    Update: (Track_id * Track_state) * 
            (map Train_id to set of Track_id) +> 
            (map Train_id to set of Track_id)
@@ -364,21 +364,21 @@ functions
                                { tid |-> {t} union sorted (tid)} )
               else Update (mk_(t,{tid} <-: trackstate), 
                                sorted munion { tid |-> {t} } );
-                                                                                                                                  
+                                                                                                                             
    Connected: (map Train_id to set of Track_id) * Tracks +> bool
 
    Connected (trains,tracks)  ==
      forall trackset in set rng trains &
       ExistsPath (trackset,tracks);
 
-                                                                                                                                                                       
+                                                                                                                                                                  
    ExistsPath: set of Track_id * Tracks +> bool
 
    ExistsPath (trackset,tracks)  ==
      exists t in set trackset &
          Path (trackset \ {t},[t],tracks,{});
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
    Path: set of Track_id * seq of Track_id * Tracks * 
          set of Track_id +> bool
 
@@ -395,7 +395,7 @@ functions
                                tried,connected^[t],tracks,{})
                    else Path ((trackset \ {t}),connected,tracks,
                                tried union {t});
-                                                                                                                                                                      
+                                                                                                                                                                 
    OkPointTrains: (map Train_id to set of Track_id) * Points +> 
                   bool
 
@@ -408,7 +408,7 @@ functions
             mk_(t1,t3) in set dom points and
             t1 in set dom points (mk_(t1,t3)) =>
               points (mk_(t1,t2))(t1) = points (mk_(t1,t3))(t1) );
-                                                                                                                                                                           
+                                                                                                                                                                      
    OkCrossTrains: (map Track_id to set of Track_id) * Crossings +> 
                   bool
 
@@ -416,7 +416,7 @@ functions
      forall trackidset in set rng trains &
       forall t1,t2 in set trackidset &
         mk_(t1,t2) not in set crossings;
-                                                                                                                                                
+                                                                                                                                          
 Is_wf_Station_state :  Station_topo * Station_state +> bool
 
 Is_wf_Station_state (stationtopo,stationstate) ==
@@ -428,7 +428,7 @@ Is_wf_Station_state (stationtopo,stationstate) ==
 
 
 end station
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 module safe_req
 
 imports
@@ -488,7 +488,7 @@ exports
 
 definitions
 
-                                                                                                                                                      
+                                                                                                                                                 
 functions
    SafeReq: Station_topo * Station_state +> bool
 
@@ -498,20 +498,20 @@ functions
 
   pre Is_wf_Station_topo (stationtopo) and 
       Is_wf_Station_state (stationtopo,stationstate); 
-                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                   
    NoCollision: Station_topo * Station_state +> bool
 
    NoCollision (stationtopo,stationstate)  ==
      forall tid in set dom stationstate.trackstates &
       card dom (stationstate.trackstates(tid)) <= 1 and
       OneTrainAtCross (stationtopo.crossings,stationstate.trackstates);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
    OneTrainAtCross: Crossings * Track_states +> bool
 
    OneTrainAtCross (crossings,trackstates)  ==
      forall mk_(tid1,tid2) in set crossings &
       card dom (trackstates(tid1)) + card dom (trackstates(tid2)) <= 1;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
    NoDerail: Station_topo * Station_state +> bool
 
    NoDerail (stationtopo,stationstate)  ==
@@ -521,7 +521,7 @@ functions
            mk_(t1,t2) in set dom stationtopo.points =>
            Ok_Point_states (mk_(t1,t2),stationtopo.points,
                             stationstate.pointstates);
-                                                                                                                                                                           
+                                                                                                                                                                      
    Trains: Track_states * (map Train_id to set of Track_id) +> 
            (map Train_id to set of Track_id)
    Trains (trackstates,sorted)  ==
@@ -532,7 +532,7 @@ functions
               then Trains ({t} <-: trackstates,sorted)
               else Trains ({t} <-: trackstates, 
                            Update (mk_(t,trackstates(t)),sorted));
-                              
+                            
    Update: (Track_id * Track_state) * 
            (map Train_id to set of Track_id) +> 
    (map Train_id to set of Track_id)
@@ -547,7 +547,7 @@ functions
                            { tid |-> {t} union sorted (tid)} )
               else Update (mk_(t,{tid} <-: trainids), 
                            sorted ++ { tid |-> {t} });
-                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                            
    Ok_Point_states: (Track_id * Track_id) * Points * Point_states +> 
                     bool
 
@@ -560,7 +560,7 @@ functions
           else Point_state_ok (mk_(t1,t2),t2,points,pointstates)
                
    pre mk_(t1,t2) in set dom points;
-                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                       
    Point_state_ok: (Track_id * Track_id) * Track_id * Points * 
                    Point_states +> bool
 
@@ -572,7 +572,7 @@ functions
        t in set dom points(tpair)
 
 end safe_req
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 module impl
 
 imports
@@ -642,7 +642,7 @@ definitions
 types
      Areas = map Train_id to Area;
      Area = set of Track_id
-                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                       
 functions
    Impl: Station_topo * Station_state +> bool
 
@@ -655,7 +655,7 @@ functions
         Is_wf_Station_state (stationtopo,stationstate);
 
 
-                                                                                                                                                                               
+                                                                                                                                                                          
    NoCollision: Areas * Crossings +> bool
 
    NoCollision (areas,crossings) ==
@@ -665,13 +665,13 @@ functions
                              forall t1 in set areas (train1) &
                               (forall t2 in set areas (train2) &
                                 mk_(t1,t2) not in set crossings));
-                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                        
    NoDerail: Areas * Station_topo * Station_state +> bool
 
    NoDerail (areas,stationtopo,stationstate) ==
      NoDerailUnderTrains (stationtopo,stationstate) and 
      NoDerailPossible (areas,stationtopo,stationstate); 
-                                                                                                                                         
+                                                                                                                                    
    NoDerailUnderTrains: Station_topo * Station_state +> bool 
 
    NoDerailUnderTrains (stationtopo,stationstate) == 
@@ -681,7 +681,7 @@ functions
            mk_(t1,t2) in set dom stationtopo.points =>
            Ok_Point_states (mk_(t1,t2),stationtopo.points,
                             stationstate.pointstates);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
   NoDerailPossible : Areas * Station_topo * Station_state +> bool 
 
   NoDerailPossible (areas,stationtopo,stationstate) ==
@@ -690,7 +690,7 @@ functions
           if   traintype = <fixedroute>
           then NoDerailFixed (area,stationtopo,stationstate)
           else NoDerailAutonomous (area,stationtopo,stationstate);
-                                                                                                                                                   
+                                                                                                                                              
    Trains: Track_states * (map Train_id to set of Track_id) +> 
            (map Train_id to set of Track_id)
 
@@ -717,7 +717,7 @@ functions
                                { tid |-> {t} union sorted (tid)} )
               else Update (mk_(t,{tid} <-: trainids), 
                                sorted ++ { tid |-> {t} });
-                                                                                                                                                                                      
+                                                                                                                                                                                
    TrainType : Area * Station_state +> Train_type
 
    TrainType (area,stationstate) ==
@@ -726,7 +726,7 @@ functions
               stationstate.trackstates (t) (tt)
 
    pre forall t in set area & t in set dom stationstate.trackstates ;
-                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                
    NoDerailFixed : Area * Station_topo * Station_state +> bool
 
    NoDerailFixed (area,stationtopo,stationstate) ==
@@ -736,7 +736,7 @@ functions
                         stationstate.pointstates) and
       InterlockPoints (mk_(t1,t2),stationtopo.points,
                        stationstate.pointstates);
-                                                                                                                                                                                    
+                                                                                                                                                                               
    Ok_Point_states: (Track_id * Track_id) * Points * Point_states +> 
                     bool
 
@@ -761,7 +761,7 @@ functions
 
    pre t in set dom pointstates and tpair in set dom points and 
        t in set dom points(tpair); 
-                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                 
    InterlockPoints: (Track_id * Track_id) * Points * Point_states +> 
                     bool
 
@@ -774,13 +774,13 @@ functions
           else IsInterlockPoint (t2,points,pointstates)
 
 pre IsPoint (t1,points) or IsPoint (t2,points);
-                                                                                                   
+                                                                                               
    IsPoint: Track_id * Points +> bool
 
    IsPoint (t,points) ==
      exists mk_(t1,t2) in set dom points &
       t in set dom points (mk_(t1,t2));
-                                                                                                                                                             
+                                                                                                                                                        
    IsInterlockPoint: Track_id * Points * Point_states +> bool
 
    IsInterlockPoint (t,points,pointstates) ==
@@ -788,7 +788,7 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
      then let mk_(-,operation) = pointstates (t) in
               operation = <interlock>
      else false;
-                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                          
    NoDerailAutonomous: Area * Station_topo * Station_state +> bool
 
    NoDerailAutonomous (area,stationtopo,stationstate) ==
@@ -811,13 +811,13 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
           else if IsInterlockPoint (t2,points,pointstates)
                then Point_state_ok (mk_(t1,t2),t2,points,pointstates)
                else true; 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
    FindAreas : Station_topo * Station_state +> Areas
 
    FindAreas (stationtopo,stationstate) ==
      let occupied = Occupied (stationstate.trackstates,{|->}) in
          DeduceAreas (occupied,stationtopo,stationstate);
-                                                                                                                           
+                                                                                                                      
    Occupied: Track_states * (map Train_id to set of Track_id) +> 
              map Train_id to set of Track_id
    Occupied (trackstates,occupied) ==
@@ -835,7 +835,7 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
    pre forall trackstate in set rng trackstates & 
        dom trackstate inter dom occupied = {};
 
-                                                                                                                                                                                   
+                                                                                                                                                                              
    RemoveTrain : Train_id * Track_states +> Track_states
 
    RemoveTrain (train,trackstates) ==
@@ -849,7 +849,7 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
               else {tid |-> trackstates (tid)} munion 
                    RemoveTrain (train,{tid} <-: trackstates);
 
-                                                                                                           
+                                                                                                       
    DeduceAreas: (map Train_id to set of Track_id) * 
                 Station_topo * Station_state +> Areas
    DeduceAreas (occupied,stationtopo,stationstate) ==
@@ -861,7 +861,7 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
              {train |-> area} munion
              DeduceAreas ({train} <-: occupied, 
                           stationtopo,stationstate);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
    FindArea : set of Track_id * Area * Station_topo * Station_state +> 
               Area
 
@@ -875,7 +875,7 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
                            area union {t},
                            stationtopo,stationstate);
 
-                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                           
    Neighbours : Track_id * set of Track_id * Station_topo * 
                 Station_state +> 
                 set of Track_id
@@ -884,27 +884,27 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
      let neighcand = NeighbourCandidates (t,area,stationtopo.tracks) in
          {t' | t' in set neighcand 
              & OkEdge (mk_(t,t'),stationtopo,stationstate)};
-                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                              
    NeighbourCandidates: Track_id * set of Track_id * Tracks +> 
                         set of Track_id
 
    NeighbourCandidates (t,area,tracks) ==
      {t'| mk_(t1,t') in set tracks & t = t1 and t' not in set area };
-                                                                                                                                                                                                   
+                                                                                                                                                                                            
    OkEdge: (Track_id * Track_id) * Station_topo * Station_state +> bool
 
    OkEdge (tpair,stationtopo,stationstate) ==
      OkPoints (tpair,stationtopo.points,stationstate.pointstates) and
      not (StopSignal (tpair,stationtopo.signals,
                       stationstate.signalstates));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
    OkPoints: (Track_id * Track_id) * Points * Point_states +> bool
 
    OkPoints (mk_(t,t'),points,pointstates) ==
      IsInterlockPoint (t,points,pointstates) and
      Branch (mk_(t,t'),points) =>
      Point_state_ok (mk_(t,t'),t,points,pointstates);
-                                                                                                                                                                                                     
+                                                                                                                                                                                              
    StopSignal: (Track_id * Track_id) * Signals * Signal_states +> bool
 
    StopSignal (tpair,signals,signalstates) ==
@@ -912,7 +912,7 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
      then let sigid = signals (tpair) in
               signalstates (sigid) = <stop>
      else false;
-                                                                                                                                                                                                                       
+                                                                                                                                                                                                                 
    Branch : (Track_id * Track_id) * Points +> bool
 
    Branch (mk_(t1,t2),points) ==
@@ -920,7 +920,7 @@ pre IsPoint (t1,points) or IsPoint (t2,points);
      t1 in set dom points (mk_(t1,t2))
 
 end impl 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 module Test
 
 exports all
@@ -1029,7 +1029,7 @@ signalstatev = { "N"  |-> <stop>,
                  "P"  |-> <driveaspect>,
                  "Q"  |-> <stop> }
 end Test
-              
+             
 ~~~
 {% endraw %}
 

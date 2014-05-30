@@ -25,8 +25,8 @@ operations in the version contained in Section 3.
 ### simulator1.vdmsl
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
 module TROM
 
@@ -290,7 +290,7 @@ inv mk_Subsystem(label, includes, troms, portlinks) ==
            ((not linked_trom(pl.tromporttuple2, troms)) and
             (linked_subsystem(pl.tromporttuple2, includes)))))))
 
-                                
+                             
 
 state System of
 
@@ -379,7 +379,7 @@ init mk_System(subsys, simeventlist, lsllib, clock) ==
 
 end
 
-                                
+                             
 
 functions
 
@@ -1128,7 +1128,7 @@ operations
 
 end TROM
 
-                                
+                             
 ~~~
 {% endraw %}
 

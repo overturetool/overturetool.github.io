@@ -27,7 +27,7 @@ Springer, ISSN 0302-9743 (Print) 1611-3349 (Online), Volume 2984/2004.
 ### buffers2.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Buffers
 

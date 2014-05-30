@@ -34,8 +34,8 @@ Draft, January, 1996.
 ### realm.vdmsl
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 module REALM
 
 imports from TEST all
@@ -52,7 +52,7 @@ types
 
   N = nat
   inv n == n < max;
-                                                                                                  
+                                                                                              
   NPoint ::
     x : N 
     y : N;
@@ -60,7 +60,7 @@ types
   NSeg :: 
     pts: set of NPoint 
   inv mk_NSeg(ps) == card ps = 2
-                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                
 functions
 
   SelPoints: NSeg +> NPoint * NPoint
@@ -70,7 +70,7 @@ functions
       let q in set pts \ {p}
       in
         mk_(p,q)
-                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                         
 functions
 
   Points: NSeg +> set of NPoint
@@ -80,21 +80,21 @@ functions
       {mk_NPoint(x,y)| x in set DiffX(p1,p2), y in set DiffY(p1,p2) &
                        let p = mk_NPoint(x,y) in
                          RatEq(Slope(p,p1),Slope(p2,p)) or p = p1 or p = p2}
-                                                                                                                                                                                    
+                                                                                                                                                                               
 types
 
   Rat = int * int
-                                                                                                                 
+                                                                                                             
 functions
 
   Slope: NPoint * NPoint +> Rat
   Slope(mk_NPoint(x1,y1),mk_NPoint(x2,y2)) ==
     mk_((y2-y1),(x2-x1));
-                                                                                                   
+                                                                                               
   RatEq: Rat * Rat +> bool
   RatEq(mk_(x1,y1),mk_(x2,y2)) ==
     x1 * y2 = x2 * y1;
-                                                                                                                                                                   
+                                                                                                                                                              
   DiffX: NPoint * NPoint +> set of N
   DiffX(mk_NPoint(x1,-),mk_NPoint(x2,-)) ==
     if x1 < x2
@@ -106,34 +106,34 @@ functions
     if y1 < y2
     then {y1,...,y2}
     else {y2,...,y1};
-                                                                                                        
+                                                                                                    
   On: NPoint * NSeg +> bool
   On(p,s) ==
      p in set Points(s);
-                                                                                                                                 
+                                                                                                                            
   In: NPoint * NSeg +> bool
   In(p,s) ==
     On(p,s) and p not in set s.pts;
-                                                                                                                        
+                                                                                                                   
   Meet: NSeg * NSeg +> bool
   Meet(mk_NSeg(pts1),mk_NSeg(pts2)) ==
     card (pts1 inter pts2) = 1;
-                                                                                                           
+                                                                                                      
   Parallel: NSeg * NSeg +> bool
   Parallel(s,t) ==
     let mk_(p1,p2) = SelPoints(s),
         mk_(p3,p4) = SelPoints(t)
     in
       Slope(p1,p2) = Slope(p3,p4);
-                                                                                                                         
+                                                                                                                    
   Overlap: NSeg * NSeg +> bool
   Overlap(s1,s2) ==
     card (Points(s1) inter Points(s2)) > 1;
-                                                                                                 
+                                                                                             
   Aligned: NSeg * NSeg +> bool
   Aligned(s1,s2) ==
     Coliner(s1,s2) and not Overlap(s1,s2);
-                                                                                                                                       
+                                                                                                                                  
   Intersect: NSeg * NSeg +> bool
   Intersect(s,t) ==
     let mk_(mk_NPoint(x11,y11),mk_NPoint(x12,y12)) = SelPoints(s),
@@ -165,11 +165,11 @@ functions
       RatEq(Slope(p1,p2),Slope(p3,p4)) and 
       (RatEq(Slope(p1,p3),Slope(p1,p4)) or
        RatEq(Slope(p3,p1),Slope(p1,p4)));
-                                                                                                           
+                                                                                                      
   Disjoint: NSeg * NSeg +> bool
   Disjoint(s1,s2) ==
     s1 <> s2 and not Meet(s1,s2) and not Intersect(s1,s2);
-                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                               
   Intersection: NSeg * NSeg -> NPoint
   Intersection(s,t) ==
     let mk_(mk_NPoint(x11,y11),mk_NPoint(x12,y12)) = SelPoints(s),
@@ -202,7 +202,7 @@ functions
       if aa = 0 or 2 * aa <= b
       then z
       else z + 1
-                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                          
 types
 
   Realm ::
@@ -212,7 +212,7 @@ types
     (forall mk_NSeg(pts) in set ss & pts subset ps) and
     (forall s in set ss, p in set ps & not In(p,s)) and
     (forall s1,s2 in set ss & s1 <> s2 => (not Intersect(s1,s2) and not Overlap(s1,s2)))
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 functions
 
   InsertNPoint: Realm * NPoint +> Realm
@@ -229,7 +229,7 @@ functions
            in
              mk_Realm(ps union {p},(ss union ss1)\s_env) 
   pre not exists s in set ss & In(p,s);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
   InsertNSegment: Realm * NSeg +> Realm
   InsertNSegment(mk_Realm(ps,ss),s) ==
     if s in set ss
@@ -246,7 +246,7 @@ functions
              in
                mk_Realm(ps union new_ps,new_ss)
   pre s.pts subset ps;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
   ChopNPoints: set of NPoint * set of NSeg +> set of NSeg
   ChopNPoints(ps,ss) ==
     if ps = {}
@@ -262,7 +262,7 @@ functions
                in
                  ChopNPoints(ps\{p},(ss \{s}) union {mk_NSeg({p1,p}),mk_NSeg({p2,p})})
   pre forall p in set ps & exists s in set ss & p in set E(s) and p not in set s.pts;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
   ChopNSegs: set of NSeg * set of NSeg * set of NSeg * set of NPoint +> 
              set of NPoint * set of NSeg
@@ -280,7 +280,7 @@ functions
                in
                  ChopNSegs((ss \ {t}) union chop_t,
                            s_inter\{t}, (newss \ {s}) union chop_s, ps union{p});
-                                                                                                                                                                                
+                                                                                                                                                                          
   E: NSeg +> set of NPoint
   E(s) ==
     let mk_(p1,p2) = SelPoints(s)
@@ -290,11 +290,11 @@ functions
                               Intersect(mk_NSeg({mk_NPoint(x,y-1),mk_NPoint(x,y+1)}),s)) or
                         (0 < x and x < max - 1 and
                               Intersect(mk_NSeg({mk_NPoint(x-1,y),mk_NPoint(x+1,y)}),s))};
-                                                                                                                                                         
+                                                                                                                                                    
   EndPoints: set of NSeg -> set of NPoint
   EndPoints(ss) ==
     dunion{pts|mk_NSeg(pts) in set ss};
-                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                      
 
   CycleCheck: set of NSeg +> bool
   CycleCheck(ss) ==
@@ -305,7 +305,7 @@ functions
                                    i,
                                    if i = len sl then 1 else i+1} & 
           not Meet(sl(i),sl(j));
-                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                       
   AllLists: set of NSeg +> set of seq of NSeg
   AllLists(ss) ==
     cases ss:
@@ -315,12 +315,12 @@ functions
                          l in set AllLists(ss \{s})} | 
                          s in set ss}
     end
-                                                                                                                           
+                                                                                                                      
 types
 
   Cycle = set of NSeg
   inv ss == CycleCheck(ss)
-                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                     
 functions
 
   OnCycle: NPoint * Cycle +> bool
@@ -334,7 +334,7 @@ functions
   OutsideCycle: NPoint * Cycle +> bool
   OutsideCycle(p,c) ==
     not (OnCycle(p,c) or InsideCycle(p,c));
-                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                        
   SR: NPoint * Cycle +> set of NSeg
   SR(p,ss) ==
     {s | s in set ss & let mk_(p1,p2) = SelPoints(s)
@@ -355,18 +355,18 @@ functions
   IsOdd: nat +> bool
   IsOdd(n) ==
     n mod 2 <> 0;
-                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                              
 
   Partition: (NPoint * set of NSeg -> bool) * Cycle +> set of NPoint
   Partition(pred,ss) ==
     {mk_NPoint(x,y) | x in set {0,...,max-1}, y in set {0,...,max-1} & 
                       pred(mk_NPoint(x,y),ss)};
-                                                                                                                                                                                       
+                                                                                                                                                                                 
 
   P: Cycle +> set of NPoint
   P(ss) ==
     Partition(OnCycle,ss) union Partition(InsideCycle,ss);
-                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                   
 
   AreaInside: Cycle * Cycle +> bool
   AreaInside(c1,c2) ==
@@ -402,7 +402,7 @@ functions
   MeetCycles(c1,c2) ==
     EdgeDisjoint(c1,c2) and
     Partition(OnCycle,c1) inter Partition(OnCycle,c2) <> {};
-                                                                                                       
+                                                                                                   
 
   SAreaInside: NSeg * Cycle +> bool
   SAreaInside(s,c) ==
@@ -422,7 +422,7 @@ functions
     let mk_(p1,p2) = SelPoints(s)
     in
       PVertexInside(p1,c) and PVertexInside(p2,c);
-                                                                        
+                                                                    
 
   PAreaInside: NPoint * Cycle +> bool
   PAreaInside(p,c) ==
@@ -431,7 +431,7 @@ functions
   PVertexInside: NPoint * Cycle +> bool
   PVertexInside(p,c) ==
     p in set Partition(InsideCycle,c)
-                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                            
 types
 
   Face :: c  : Cycle
@@ -441,7 +441,7 @@ types
     (forall h1,h2 in set hs & h1 <> h2 => EdgeDisjoint(h1,h2)) and
     (forall ss in set power (c union dunion hs) & 
            CycleCheck(ss) => ss in set hs union {c}) 
-                                                                                                       
+                                                                                                   
 functions
 
   PAreaInsideF: NPoint * Face +> bool
@@ -451,7 +451,7 @@ functions
   SAreaInsideF: NSeg * Face +> bool
   SAreaInsideF(s,mk_Face(c,hs)) ==
     SAreaInside(s,c) and forall h in set hs & not SEdgeInside(s,h);
-                                                                                                                                    
+                                                                                                                               
 
   FAreaInside: Face * Face +> bool
   FAreaInside(mk_Face(c1,hs1),mk_Face(c2,hs2)) ==
@@ -472,15 +472,15 @@ functions
     (exists h1 in set hs1 & EdgeInside(c2,h1))
     
 end REALM
-                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                           
 ~~~
 {% endraw %}
 
 ### test.vdmsl
 
 {% raw %}
-~~~
-                                             
+~~~vdm
+                                           
 module TEST
 
 imports from REALM all
@@ -556,7 +556,7 @@ values
   r5: REALM`Realm = mk_REALM`Realm({p10,p13},{s13})
 
 end TEST
-              
+             
 ~~~
 {% endraw %}
 

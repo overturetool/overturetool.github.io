@@ -29,7 +29,7 @@ This version connects to a database containing maps and busroutes.
 ### Bus.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Bus
 	
 	instance variables
@@ -247,7 +247,7 @@ end Bus
 ### Busstop.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Busstop is subclass of Waypoint
 
 	instance variables
@@ -299,7 +299,7 @@ end Busstop
 ### City.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class City
 
 	instance variables
@@ -511,7 +511,7 @@ end City
 ### ClockTick.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class ClockTick
 
 thread 
@@ -529,7 +529,7 @@ thread
 ### Config.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Class:			Config
 -- Description: 	Config contains configuration values
@@ -561,7 +561,7 @@ end Config
 ### Environment.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Class:			Environment
 -- Description: 	Environment class in the VeMo project
@@ -870,7 +870,7 @@ end Environment
 ### gui_Graphics.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class gui_Graphics
 	operations
 	    public init : () ==> ()
@@ -916,7 +916,7 @@ end gui_Graphics
 ### Passenger.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Passenger
 
 	instance variables
@@ -999,7 +999,7 @@ end Passenger
 ### Printer.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Printer
 
 	operations		
@@ -1033,7 +1033,7 @@ end Printer
 ### Road.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Road
 	types
 		public RoadNumber = <R1> | <R2> | <R3> | <R4> | <R5> | <R6> | <R7> | <R8> 
@@ -1111,11 +1111,11 @@ end Road
 ### TimeStamp.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class TimeStamp
 
-                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                
 values
 
 public stepLength : nat = 1;
@@ -1129,31 +1129,31 @@ wakeUpMap    : map nat to nat := {|->};
 
 operations
 
-                                                                                                                        
+                                                                                                                      
 
 public WaitRelative : nat ==> ()
 WaitRelative(val) ==
   AddToWakeUpMap(threadid, currentTime + val);
  
-                                                                                            
+                                                                                          
  
 public WaitAbsolute : nat ==> ()
 WaitAbsolute(val) ==
   AddToWakeUpMap(threadid, val);
 
-                                                                                                    
+                                                                                                  
 
 AddToWakeUpMap : nat * nat ==> ()
 AddToWakeUpMap(tId, val) ==
    wakeUpMap := wakeUpMap ++ { tId |-> val };
 
-                                                                                                       
+                                                                                                     
 
 public NotifyThread : nat ==> ()
 NotifyThread(tId) ==
  wakeUpMap := {tId} <-: wakeUpMap;
 
-                                                                                                         
+                                                                                                       
 
 public NotifyAll : () ==> ()
 NotifyAll() ==
@@ -1163,7 +1163,7 @@ NotifyAll() ==
     do
       NotifyThread(t);
 
-                                                                                                                                                                                                   
+                                                                                                                                                                                                
 
 public NotifyAndIncTime : () ==> ()
 NotifyAndIncTime() ==
@@ -1173,18 +1173,18 @@ NotifyAndIncTime() ==
 --		syncWithTimeIncCurrent := syncWithTimeInc; 
  );
 
-                                                               
+                                                             
 
 public GetTime : () ==> nat
 GetTime() ==
   return currentTime;
 
-                                                                                                                      
+                                                                                                                    
 
 public Awake: () ==> ()
 Awake() == skip;
 
-                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                          
 
 --public SyncWithTimeIncrement : () ==> ()
 --SyncWithTimeIncrement() ==	
@@ -1216,14 +1216,14 @@ sync
 --  mutex(SyncWithTimeIncrement, YieldTimeIncrement, NotifyAndIncTime);
 
 end TimeStamp
-                                                                                             
+                                                                                         
 ~~~
 {% endraw %}
 
 ### Types.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Types
 
 types   
@@ -1266,7 +1266,7 @@ end Types
 ### WaitNotify.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class WaitNotify
 
@@ -1307,14 +1307,14 @@ per Awake => threadid not in set waitset;
 mutex(AddToWaitSet)
 
 end WaitNotify
-                                                                                             
+                                                                                        
 ~~~
 {% endraw %}
 
 ### Waypoint.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Waypoint
 
 	types
@@ -1376,7 +1376,7 @@ end Waypoint
 ### World.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 -----------------------------------------------
 -- Class:			World
 -- Description: 	World class

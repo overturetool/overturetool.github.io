@@ -22,7 +22,7 @@ structures and functionality over such graphs.
 ### graphs.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 types
 
 Graph = map Id to set of Id
@@ -130,7 +130,7 @@ values
 ### labgraphs.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 types
 
 LabGraph = map NodeId to (map ArcId to NodeId)

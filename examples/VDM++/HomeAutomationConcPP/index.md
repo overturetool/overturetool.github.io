@@ -17,7 +17,7 @@ Author:
 ### Actuator.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Actuator
 
 instance variables
@@ -49,7 +49,7 @@ end Actuator
 ### BaseThread.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class BaseThread
 	
 instance variables
@@ -91,7 +91,7 @@ end BaseThread
 ### Environment.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Environment is subclass of BaseThread
 
 instance variables
@@ -185,7 +185,7 @@ end Environment
 ### HomeAutomation.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 
 class HA
 
@@ -205,7 +205,7 @@ end HA
 ### HostController.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 
 class HostController is subclass of BaseThread
 
@@ -439,7 +439,7 @@ end HostController
 ### HumidSensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class HumidSensor is subclass of Sensor, BaseThread
 
 instance variables
@@ -491,7 +491,7 @@ end HumidSensor
 ### NetworkTypes.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class NetworkTypes
 
 types   
@@ -506,7 +506,7 @@ end NetworkTypes
 ### Sensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Sensor
 
 instance variables
@@ -537,7 +537,7 @@ end Sensor
 ### Surroundings.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Surroundings
 
 instance variables
@@ -603,7 +603,7 @@ end Surroundings
 ### TemperatureSensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class TemperatureSensor is subclass of Sensor, BaseThread
 
 instance variables
@@ -655,7 +655,7 @@ end TemperatureSensor
 ### Thermostat.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 
 class Thermostat is subclass of Actuator, BaseThread
 
@@ -726,11 +726,11 @@ end Thermostat
 ### TimeStamp.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class TimeStamp
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
 values
 
@@ -848,7 +848,7 @@ end TimeStamp
 ### Window.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class Window is subclass of Actuator, BaseThread
 
 instance variables
@@ -912,7 +912,7 @@ end Window
 ### World.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
 class World
 
 instance variables

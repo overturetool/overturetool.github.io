@@ -35,7 +35,7 @@ Springer-Verlag, LNCS 428, 1990
 ### ndb.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 types
 
 	Eid = token;

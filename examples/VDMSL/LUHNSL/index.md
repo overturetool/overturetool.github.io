@@ -32,7 +32,7 @@ use the algorithm as a simple method of distinguishing valid numbers from collec
 ### LUHN.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 /**
  * A specification of the Luhn check digit algorithm.
  */

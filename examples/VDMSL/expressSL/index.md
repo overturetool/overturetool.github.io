@@ -38,8 +38,8 @@ a simple polynomial representation.
 ### express.vdmsl
 
 {% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+~~~vdm
+                                                                                                                                                                                                                                                                                                                                                                                                                                                
 module Database
 
 exports all
@@ -309,7 +309,7 @@ TransformRmEdge (rme_id) ==
     end
 
 end Database
-                                               
+                                          
 ~~~
 {% endraw %}
 

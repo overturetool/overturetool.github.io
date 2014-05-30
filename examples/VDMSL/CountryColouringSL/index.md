@@ -22,7 +22,7 @@ countries shall be coloured differently.
 ### CountryColouring.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
               
 types
 

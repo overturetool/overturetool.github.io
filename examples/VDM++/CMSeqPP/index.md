@@ -22,7 +22,7 @@ distributed real time version of this example.
 ### CM.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class CM
 
@@ -56,14 +56,14 @@ public static dispenser10 : FlareDispenser := new FlareDispenser(60);
 public static dispenser11 : FlareDispenser := new FlareDispenser(90);
 
 end CM
-              
+             
 ~~~
 {% endraw %}
 
 ### environment.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Environment is subclass of GLOBAL
 
@@ -152,14 +152,14 @@ isFinished () ==
   return inlines = [] and not busy;
 
 end Environment
-                                                                                                 
+                                                                                           
 ~~~
 {% endraw %}
 
 ### flarecontroller.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class FlareController is subclass of GLOBAL
 
@@ -231,14 +231,14 @@ isFinished () ==
             dispensers(id).isFinished();
 
 end FlareController
-                                                                                                            
+                                                                                                      
 ~~~
 {% endraw %}
 
 ### flaredispenser.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class FlareDispenser is subclass of GLOBAL
 
@@ -332,14 +332,14 @@ isFinished () ==
   return not busy
 
 end FlareDispenser
-                                                                                                         
+                                                                                                   
 ~~~
 {% endraw %}
 
 ### global.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class GLOBAL
 
@@ -383,14 +383,14 @@ public getAperture: () ==> Angle * Angle
 getAperture () == is subclass responsibility;
 
 end GLOBAL
-                                                                                   
+                                                                              
 ~~~
 {% endraw %}
 
 ### missiledetector.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class MissileDetector is subclass of GLOBAL
 
@@ -457,14 +457,14 @@ isFinished () ==
             controllers(id).isFinished()
 
 end MissileDetector
-                                                                                                        
+                                                                                                   
 ~~~
 {% endraw %}
 
 ### sensor.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Sensor is subclass of GLOBAL
 
@@ -496,14 +496,14 @@ trip (evid, pmt, pa) ==
 pre canObserve(pa, aperture, SENSOR_APERTURE)
 
 end Sensor
-                                                                                    
+                                                                               
 ~~~
 {% endraw %}
 
 ### timer.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class Timer
 
@@ -535,14 +535,14 @@ GetTime() ==
   return currentTime;
 
 end Timer
-                                                                             
+                                                                         
 ~~~
 {% endraw %}
 
 ### world.vdmpp
 
 {% raw %}
-~~~
+~~~vdm
               
 class World
 
@@ -592,7 +592,7 @@ Run () ==
   env.Run()
 
 end World
-                                                                            
+                                                                       
 ~~~
 {% endraw %}
 

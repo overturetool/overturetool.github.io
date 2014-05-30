@@ -51,7 +51,7 @@ Verlag, March 1996.
 ### gateway.vdmsl
 
 {% raw %}
-~~~
+~~~vdm
 -- A trusted gateway
 -- For Chapter 7 (Sequences)
 
