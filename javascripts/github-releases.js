@@ -102,7 +102,7 @@ function updateDownloadPage() {
                     if (i == 0) {
                         //latests release
                         var releaseTitle = document.createElement("h3");
-                        releaseTitle.innerHTML = releaseName;
+                        releaseTitle.innerHTML = releaseName + " (" + countTotalAssetDownloads(assets) + " downloads)";
 
                         var releaseLink = document.createElement("a");
                         releaseLink.href = releaseUrl;
@@ -127,7 +127,7 @@ function updateDownloadPage() {
                         var row = document.createElement("tr");
                         {
                             var cell = document.createElement("td");
-                            var cellText = document.createTextNode(releaseName);
+                            var cellText = document.createTextNode(releaseName + " (" + countTotalAssetDownloads(assets) + " downloads)");
 
                             cell.appendChild(cellText);
                             row.appendChild(cell);
@@ -163,6 +163,17 @@ function updateDownloadPage() {
             //body.appendChild(tbl);
         });
     });
+}
+
+function countTotalAssetDownloads(assets) {
+
+    var count = 0;
+    $.each(assets, function (i, asset) {
+        if (("" + asset.name).indexOf("Overture") > -1) {
+            count = count + asset.download_count;
+        }
+    });
+    return count;
 }
 
 function buildAssetList(baseUrl, assets) {
