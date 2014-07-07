@@ -12,8 +12,9 @@ about Overture in Japanese can be found
 
 The documentation provided here is maintained by the Overture community and it avaliable through this site:
 
-- [Overture Manuals]({{site.url}}/documentation/manuals.html)
+- [Manuals]({{site.url}}/documentation/manuals.html)
 - [Tutorials]({{site.url}}/documentation/turotials.html)
+- [Screenshots]({{site.url}}/documentation/Screenshots.html)
 
 External information about VDM can be found at:
 
