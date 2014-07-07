@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>{{ page.title }}</title>
@@ -12,44 +12,77 @@
 
     <!-- Javascript -->
     <script src="{{ site.url }}/javascripts/scale.fix.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <div class="wrapper">
-      <header>
-        <h1>Overture Tool</h1>
-        <h3>Formal Modelling in VDM</h3>
+        <header>
+            <h1>Overture Tool</h1>
+            <h3>Formal Modelling in VDM</h3>
 
-        <ul>
-          <li><a href="{{ site.url }}/">Home</a></li>
-          <li><a href="{{ site.url }}/download/">Download</a></li>
-          <li><a href="{{ site.url }}/documentation/">Documentation</a>
             <ul>
-                <li><a href="{{ site.url }}/documentation/Screenshots.html">Screenshots</a></li>
-              <li><a href="{{ site.url }}/documentation/manuals.html">Manuals</a></li>
-              <li><a href="{{ site.url }}/documentation/turotials.html">Tutorials</a></li>
+                <li><a href="{{ site.url }}/">Home</a></li>
+				
+				<li>
+                    <a href="{{ site.url }}/community/">Community</a>
+                    <ul>
+                        <li><a href="{{ site.url }}/community/contact">Contact</a></li>
+                        <li><a href="{{ site.url }}/community/industrialsupport">Industrial Support</a></li>
+                        <!--li><a href="{{ site.url }}/about/">About</a></li-->
+
+                        <li><a href="{{ site.url }}/contributors/">Contributors</a></li>
+                        <li><a href="http://wiki.overturetool.org/index.php/Main_Page">Wiki</a></li>
+                    </ul>
+                </li>
+				
+				<!--li><a href="{{ site.url }}/languages/">Languages</a></li-->
+				
+                <li>
+                    <a href="{{ site.url }}/download/">Download</a>
+                    <ul>
+                        <li>
+                            <a href="{{ site.url }}/examples/">Examples</a>
+                            <!--ul>
+                              <li><a href="{{ site.url }}/examples/VDMSL/">VDM-SL</a></li>
+                              <li><a href="{{ site.url }}/examples/VDM++/">VDM++</a></li>
+                              <li><a href="{{ site.url }}/examples/VDMRT/">VDM-RT</a></li>
+                            </ul-->
+                        </li>
+                    </ul>
+
+                </li>
+                <li>
+                    <a href="{{ site.url }}/documentation/">Documentation</a>
+                    <!--ul>
+                        <li><a href="{{ site.url }}/documentation/Screenshots.html">Screenshots</a></li>
+                        <li><a href="{{ site.url }}/documentation/manuals.html">Manuals</a></li>
+                        <li><a href="{{ site.url }}/documentation/turotials.html">Tutorials</a></li>
+                    </ul-->
+                </li>
+                
+                
+
+
+                <li>
+                    <a href="{{ site.url }}/publications/">Publications</a>
+                    <ul>
+                        <li><a href="{{ site.url }}/publications/books/">Books</a></li>
+                        <li><a href="{{ site.url }}/publications/training/">Training</a></li>
+
+                    </ul>
+                </li>
+
+
             </ul>
-          </li>
-          <li><a href="{{ site.url }}/examples/">Examples</a>
-            <ul>
-              <li><a href="{{ site.url }}/examples/VDMSL/">VDM-SL</a></li>
-              <li><a href="{{ site.url }}/examples/VDM++/">VDM++</a></li>
-              <li><a href="{{ site.url }}/examples/VDMRT/">VDM-RT</a></li>
-            </ul>
-          </li>
-          <li><a href="{{ site.url }}/about/">About Overture</a></li>
-          <li><a href="{{ site.url }}/contributors/">Contributors</a></li>
-          <li><a href="http://wiki.overturetool.org/index.php/Main_Page">Wiki</a></li>
-        </ul>
-        <p><img src="{{ site.url }}/images/Overture-logo.png" alt="Overture Tool"></p>
-        <p><a href="https://github.com/overturetool">Go to our GitHub Profile</a></p>
-        <p><a href="http://twitter.com/overturetool">Follow @overturetool</a></p>
-      </header>
-      <section>
-        {{ content }}
-      </section>
-      <footer>
-        <p><small>Hosted on GitHub Pages &mdash; Original theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+            <p><img src="{{ site.url }}/images/Overture-logo.png" alt="Overture Tool"></p>
+            <p><a href="https://github.com/overturetool">Go to our GitHub Profile</a></p>
+            <p><a href="http://twitter.com/overturetool">Follow @overturetool</a></p>
+        </header>
+        <section>
+            {{ content }}
+        </section>
+        <footer>
+            <p><small>Hosted on GitHub Pages &mdash; Original theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        </footer>
     </div>
-  </body>
+</body>
 </html>

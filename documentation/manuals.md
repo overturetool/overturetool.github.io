@@ -23,9 +23,9 @@ Note that there is a large collection of
 [examples]({{site.url}}/examples/) on-line available, and it is worth
 checking them out!  Additional publications can be found on our
 development wiki
-[Publication page](http://wiki.overturetool.org/index.php/Overture_Publications).
+[Publication page]({{ site.url }}/publications/).
 For tutors that plan to use Overture tool in a classroom setting, note
 that there is a large collection of
-[teaching materials](http://www.vdmportal.org/twiki/bin/view/Main/WebHome#VDM_teaching_material)
+[teaching materials]({{ site.url }}/publications/training/)
 available, including lecture slides!
 
