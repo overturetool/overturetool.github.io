@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Modelling Systems: Using Mappings
+title: Modelling Systems Using Mappings
 ---
 
 ## Modelling Systems: Additional Exercises on Mappings
