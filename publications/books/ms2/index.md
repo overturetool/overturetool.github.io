@@ -65,6 +65,17 @@ We have [teaching materials]({{site.url}}/publications/training/) for the book.
 * [tracker]({{site.url}}/publications/books/ms2/examples/tracker.vdm)
 * [traffic]({{site.url}}/publications/books/ms2/examples/traffic.vdm)
 
+### Exercises
+
+1. General Exercises ([Questions]({{site.url}}/publications/books/ms2/exercises/general-questions.html)|[Answers]({{site.url}}/publications/books/ms2/exercises/general-answers.html))
+2. Logic ([Questions]({{site.url}}/publications/books/ms2/exercises/logic-questions.html)|[Answers]({{site.url}}/publications/books/ms2/exercises/logic-answers.html))
+3. Using Sets ([Questions]({{site.url}}/publications/books/ms2/exercises/sets-questions.html)|[Answers]({{site.url}}/publications/books/ms2/exercises/sets-answers.html))
+4. Using Sequences ([Questions]({{site.url}}/publications/books/ms2/exercises/sequences-questions.html)|[Answers]({{site.url}}/publications/books/ms2/exercises/sequences-answers.html))
+5. Using Mappings ([Questions]({{site.url}}/publications/books/ms2/exercises/mappings-questions.html)|[Answers]({{site.url}}/publications/books/ms2/exercises/mappings-answers.html))
+6. Implicit Specification
+7. Validation
+8. Mock Examination material
+
 ### Errata
 
 * Page 5, last line: "or equal to" should be deleted.
