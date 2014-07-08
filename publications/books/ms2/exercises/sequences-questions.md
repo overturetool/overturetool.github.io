@@ -9,8 +9,8 @@ Exercises 2 & 3 are based on those supplied by Prof. Janusz Laski from Oakland U
 ### Basic Exercises
 
 1. Evaluate the following expressions:
-1.1 [x | x in set {2,...,5} & x > 2]
-1.2 [x | x in set {3,5,2,4} & x*x < 22]
+ 1. [x | x in set {2,...,5} & x > 2]
+ 2. [x | x in set {3,5,2,4} & x*x < 22]
 2. Express the following in VDM-SL:
 2.1 The sequence L has less than 5 distinct elements.
 2.2 The sequence L has no duplicated elements.
