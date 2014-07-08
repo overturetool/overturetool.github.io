@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Industrial Support
+title: Institutional Supporters
 ---
 
 ## Institutional support
