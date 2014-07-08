@@ -46,7 +46,7 @@ The alternative to VDMTools is to use the Overture open source solution built on
 
 ### Learning and Teaching Materials Online
 
-We have [teaching materials](http://www.vdmbook.com/twiki/bin/view/Main/MSCourseMaterial) for the book.
+We have [teaching materials]({{site.url}}/publications/training/) for the book.
 
 ### Book Examples
 

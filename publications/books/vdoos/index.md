@@ -44,7 +44,7 @@ You can purchase the book on-line at the [Springer web-site](http://www.springer
 
 ### Course material
 
-Slides supporting the book can be found on the [VDM Portal](http://www.vdmportal.org/twiki/bin/view/Main/Vdmbookteaching)
+Slides supporting the book can be found on at [teaching materials]({{site.url}}/publications/training/)
 
 ### Book Examples
 Most chapters of the book have major examples used to illustrate the different concepts presented in the chapter. Here it is possible to extract the sources for each of the chapters.

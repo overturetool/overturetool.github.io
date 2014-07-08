@@ -36,5 +36,9 @@ The slide collection contains slides for:
 * Modelling unordered collections
 * Modelling ordered collections
 * Modelling relationships
+* Introduction and the connection between UML and VDM++
+* Concurrency
+* Real-time Development in VDM++ Seperate guidelines for the newest VICE extensions to VDMTools.
+* Model quality
 
 Download: [slide bundle]({{site.url}}/publications/vdoos/vdoos-slides.zip)
