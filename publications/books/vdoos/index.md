@@ -62,7 +62,7 @@ Most chapters of the book have major examples used to illustrate the different c
 
 The robot controller was made using sets in chapter 6. For various reasons part of this model was not natural. The solution here demonstrates how it can be made more naturally with the presence of sequences.
 
-* [Solution for exercise 7.17]({{site.url}/publications/books/vdoos/exercises/exercise7_17.zip}) 
+* [Solution for exercise 7.17]({{site.url}}/publications/books/vdoos/exercises/exercise7_17.zip) 
 
 ### Errata
 
