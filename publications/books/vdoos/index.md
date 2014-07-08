@@ -46,6 +46,18 @@ You can purchase the book on-line at the [Springer web-site](http://www.springer
 
 Slides supporting the book can be found on the [VDM Portal](http://www.vdmportal.org/twiki/bin/view/Main/Vdmbookteaching)
 
+### Book Examples
+Most chapters of the book have major examples used to illustrate the different concepts presented in the chapter. Here it is possible to extract the sources for each of the chapters.
+
+* [The chemical plant example]({{site.utl}}/publications/books/vdoos/examples/chapter2.zip)
+* [The initial chemical plant example for VDMTools analysis]({{site.utl}}/publications/books/vdoos/examples/chapter3.zip)
+* [The robot controller example]({{site.utl}}/publications/books/vdoos/examples/chapter6.zip)
+* [The Congestion warning system with sequences]({{site.utl}}/publications/books/vdoos/examples/chapter7.zip)
+* [The Congestion warning system with mappings]({{site.utl}}/publications/books/vdoos/examples/chapter8.zip)
+* [The enigma example]({{site.utl}}/publications/books/vdoos/examples/chapter9.zip)
+* [The control speed limitation and monitoring example]({{site.utl}}/publications/books/vdoos/examples/chapter10.zip)
+* [The POP3 example]({{site.utl}}/publications/books/vdoos/examples/chapter13.zip)
+
 ### Errata
 
 #### page 75
