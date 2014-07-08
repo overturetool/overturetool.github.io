@@ -1,0 +1,87 @@
+-- Ammunition Storage System without Compatibility Groups
+-- State-based version for Chapter 10 (state-based modelling) 
+
+
+types
+
+Point :: x : nat
+         y : nat;
+
+StoreName = token;
+
+Object :: position : Point
+          xlength  : nat
+          ylength  : nat; 
+
+
+state Store of
+         contents : set of Object
+         xbound   : nat
+         ybound   : nat
+inv mk_Store(contents, xbound, ybound) ==
+   forall o in set contents & InBounds(o,xbound,ybound)
+   and 
+   not exists o1, o2 in set contents & o1 <> o2 and Overlap(o1,o2)
+init s == s = mk_Store({},10,10)
+end
+
+functions
+
+InBounds : Object * nat * nat -> bool
+InBounds(o,xbound,ybound) == 
+   o.position.x + o.xlength <= xbound and 
+   o.position.y + o.ylength <= ybound;
+
+
+Overlap : Object * Object -> bool
+Overlap(o1,o2) ==
+   Points(o1) inter Points(o2) <> {}; 
+
+
+Points : Object -> set of Point
+Points(mk_Object(pos,xlen,ylen)) == 
+   {mk_Point(x,y) | x in set {pos.x ,..., pos.x + xlen},
+                    y in set {pos.y ,..., pos.y + ylen}};
+
+
+RoomAt: Object * set of Object * nat * nat * Point -> bool
+RoomAt(o,contents, xbound, ybound, p) == 
+   let new_o = mk_Object(p,o.xlength,o.ylength) in 
+      InBounds(new_o,xbound,ybound) and 
+      not exists o1 in set contents & Overlap(o1,new_o)
+
+
+
+
+
+operations
+-- Main Functionality
+
+NumObjects() r: nat
+ext rd contents : set of Object 
+post r = card contents;
+
+
+SuggestPos(o:Object) p:[Point]
+ext  rd contents : set of Object
+     rd xbound   : nat
+     rd ybound   : nat
+
+post if exists pt:Point & RoomAt(o,contents,xbound,ybound,pt) 
+     then RoomAt(o,contents,xbound,ybound,p) 
+     else p = nil;
+
+
+Place(o:Object, p:Point) 
+ext  wr contents : set of Object
+     rd xbound   : nat
+     rd ybound   : nat
+pre RoomAt(o,contents,xbound,ybound,p)
+post let new_o = mk_Object(p,o.xlength,o.ylength) in 
+     contents  = contents~ union {new_o};
+
+
+Remove(sp:set of Point)
+ext  wr contents : set of Object
+post let os = {o |o in set contents & o.position in set sp} in
+     contents = contents~\os

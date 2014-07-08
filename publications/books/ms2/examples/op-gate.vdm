@@ -1,0 +1,54 @@
+types
+
+  String = seq of char
+  inv s == s <> [];  
+
+  Message = String
+  inv m == len m <= 100;
+
+  Classification = <HI> | <LO>;
+
+  Category = set of String;
+
+state TrustedGateway of
+  input : seq of Message
+  cat   : Category
+  outHi : seq of Message
+  outLo : seq of Message
+init gate == gate = mk_TrustedGateway([],{},[],[])  
+end
+
+functions
+
+  Occurs: String * String -> bool
+  Occurs(substr,str) ==
+    exists i,j in set inds str & substr = str(i,...,j);
+
+  Classify: Message * Category -> Classification
+  Classify(m,cat) ==
+    if exists hi in set cat & Occurs(hi,m)
+    then <HI>
+    else <LO>;
+
+
+operations
+
+ProcessMessage(m:Message)
+ext rd cat   : Category
+    wr outHi : seq of Message
+    wr outLo : seq of Message
+post if Classify(m,cat) = <HI>
+     then outHi = [m]^outHi~ and outLo = outLo~
+     else outHi = outHi~ and outLo = [m]^outLo~;
+
+Gateway()
+ext  rd input : seq of Message
+     rd cat   : Category
+     wr outHi : seq of Message
+     wr outLo : seq of Message
+
+post outHi = [input(i) | i in set inds input & 
+                         Classify(input(i),cat) = <HI>]
+     and
+     outLo = [input(i) | i in set inds input & 
+                         Classify(input(i),cat) = <LO>]

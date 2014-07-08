@@ -1,0 +1,115 @@
+values
+
+  p1 : Path = mk_token("A1North");
+
+  p2 : Path = mk_token("A1South");
+
+  p3 : Path = mk_token("A66East");
+
+  p4 : Path = mk_token("A66West");
+
+  lights : map Path to Light
+         = {p1 |-> <Red>,
+            p2 |-> <Red>,
+            p3 |-> <Green>,
+            p4 |-> <Green>};
+
+  conflicts : set of Conflict
+            = {mk_Conflict(p1,p3),
+               mk_Conflict(p1,p4),
+               mk_Conflict(p2,p3),
+               mk_Conflict(p2,p4),
+               mk_Conflict(p3,p1),
+               mk_Conflict(p4,p1),
+               mk_Conflict(p3,p2),
+               mk_Conflict(p4,p2)};
+
+  lastchanged : map Path to Time
+              = {p1 |-> 0,p2 |-> 0,p3 |-> 0,p4 |-> 0};
+
+  kernel : Kernel 
+         = mk_Kernel(lights,conflicts,lastchanged)
+
+types
+
+  Light = <Red> | <Amber> | <Green>;
+
+  Time = real
+  inv t == t >= 0;
+
+  Path = token;
+  
+  Conflict :: path1: Path
+              path2: Path
+  inv mk_Conflict(p1,p2) == p1 <> p2;
+
+
+  Kernel :: lights    : map Path to Light
+            conflicts : set of Conflict
+            lastch    : map Path to Time
+  inv mk_Kernel(ls,cs,lc) ==
+        dom ls = dom lc and
+        forall c in set cs & 
+              mk_Conflict(c.path2,c.path1) in set cs and
+              c.path1 in set dom ls and 
+	      c.path2 in set dom ls and 
+              (ls(c.path1) = <Red> or ls(c.path2) = <Red>)
+
+values
+
+  RedClearance : Time = 2.6;
+
+  MinimumGreen : Time = 1;
+  
+  AmberChange  : Time = 2.6
+
+functions
+
+  ToGreen: Path * Kernel * Time -> Kernel
+  ToGreen(p,mk_Kernel(lights,conflicts,lastch),clock) ==
+    mk_Kernel(ChgLight(lights,p,<Green>),conflicts,
+              ChgTime(lastch,p,clock))
+  pre p in set dom lights and
+      lights(p) = <Red> and
+      forall mk_Conflict(p1,p2) in set conflicts &
+             (p = p1 => (lights(p2) = <Red> and
+                         RedClearance < clock - lastch(p2)));
+
+  ToRed: Path * Kernel * Time -> Kernel
+  ToRed(p,mk_Kernel(lights,conflicts,lastch),clock) ==
+    mk_Kernel(ChgLight(lights,p,<Red>),conflicts,
+              ChgTime(lastch,p,clock))
+  pre p in set dom lights and lights(p) = <Amber> and
+      AmberChange < clock - lastch(p);
+
+  ToAmber: Path * Kernel * Time -> Kernel
+  ToAmber(p,mk_Kernel(lights,conflicts,lastch),clock) ==
+    mk_Kernel(ChgLight(lights,p,<Amber>),conflicts,
+              ChgTime(lastch,p,clock))
+  pre p in set dom lights and lights(p) = <Green>;
+
+  ToColour: Path * Kernel * Time * Light -> Kernel
+  ToColour(p,con,clock,light) ==
+    cases light:
+      <Red>   -> ToRed(p,con,clock), 
+      <Amber> -> ToAmber(p,con,clock),
+      <Green> -> ToGreen(p,con,clock)
+    end
+  pre ((light = <Red>)   => pre_ToRed(p,con,clock)) and
+      ((light = <Amber>) => pre_ToAmber(p,con,clock)) and
+      ((light = <Green>) => pre_ToGreen(p,con,clock));
+
+  ChgLight: (map Path to Light) * Path * Light -> (map Path to Light)
+  ChgLight(lights,p,colour) ==
+    lights ++ {p |-> colour}; 
+
+  ChgTime: (map Path to Time) * Path * Time -> (map Path to Time)
+  ChgTime(lastch,p,time) ==
+    lastch ++ {p |-> time} 
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+-- Ammunition Storage System without Compatibility Groups
+-- For Chapter 6 (sets)
+-- First Version: no distributed operators
+
+types
+
+Point :: x : nat
+         y : nat;
+
+Object :: position : Point
+          xlength  : nat
+          ylength  : nat;
+
+Store :: contents : set of Object
+         xbound   : nat
+         ybound   : nat
+inv mk_Store(contents, xbound, ybound) ==
+
+-- 1. objects fit within bounds of the store
+   forall o in set contents & InBounds(o,xbound,ybound)
+   and 
+
+-- 2. no two distinct objects overlap
+   not exists o1, o2 in set contents & o1 <> o2 and Overlap(o1,o2)
+
+
+   
+functions
+
+-- Auxiliary functions for invariant
+
+InBounds : Object * nat * nat -> bool
+InBounds(o,xbound,ybound) == 
+   o.position.x + o.xlength <= xbound and 
+   o.position.y + o.ylength <= ybound;
+
+
+Overlap : Object * Object -> bool
+Overlap(o1,o2) ==
+   Points(o1) inter Points(o2) <> {}; 
+
+Points : Object -> set of Point
+Points(mk_Object(pos,xlen,ylen)) == 
+   {mk_Point(x,y) | x in set {pos.x ,..., pos.x + xlen},
+                    y in set {pos.y ,..., pos.y + ylen}};
+
+
+-- Main Functionality
+
+NumObjects : Store -> nat
+NumObjects(store) == card store.contents;
+
+RoomAt : Object * Store * Point -> bool
+RoomAt(o,s,p) == 
+   let new_o = mk_Object(p,o.xlength,o.ylength) in 
+      InBounds(new_o,s.xbound,s.ybound) and 
+      not exists o1 in set s.contents & Overlap(o1,new_o);
+
+
+SuggestPos(o:Object, s:Store) p:[Point]
+post if exists pt:Point & RoomAt(o,s,pt) 
+     then RoomAt(o,s,p)
+     else p = nil;
+
+
+Place : Object * Store * Point -> Store
+Place(o,s,p) == 
+   let new_o = mk_Object(p,o.xlength,o.ylength) in 
+   mk_Store(s.contents union {new_o},
+            s.xbound,
+            s.ybound)
+pre RoomAt(o,s,p);
+
+Remove : Store * set of Point -> Store
+Remove(mk_Store(contents,xbound,ybound),sp) == 
+   let os = {o |o in set contents & o.position in set sp} in
+   mk_Store(contents \ os, xbound, ybound)
+
+
+
+
+
+
+
+

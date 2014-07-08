@@ -1,0 +1,5 @@
+functions
+
+ChangeExpert: Plant * Expert * Expert * Period -> Plant
+ChangeExpert(mk_Plant(plan,alarms),ex1,ex2,per) ==
+  mk_Plant(plan ++ {per |-> plan(per)\{ex1} union {ex2}},alarms)

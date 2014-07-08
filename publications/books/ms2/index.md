@@ -48,6 +48,23 @@ The alternative to VDMTools is to use the Overture open source solution built on
 
 We have [teaching materials](http://www.vdmbook.com/twiki/bin/view/Main/MSCourseMaterial) for the book.
 
+### Book Examples
+
+* [acs]({{site.url}}/publications/books/ms2/examples/acs.vdm)
+* [alarm]({{site.url}}/publications/books/ms2/examples/alarm.vdm)
+* [alarmerr]({{site.url}}/publications/books/ms2/examples/alarmerr.vdm)
+* [changeexpert]({{site.url}}/publications/books/ms2/examples/changeexpert.vdm)
+* [explo1]({{site.url}}/publications/books/ms2/examples/explo1.vdm)
+* [explo2]({{site.url}}/publications/books/ms2/examples/explo2.vdm)
+* [gateway]({{site.url}}/publications/books/ms2/examples/gateway.vdm)
+* [monitor]({{site.url}}/publications/books/ms2/examples/monitor.vdm)
+* [op-acs]({{site.url}}/publications/books/ms2/examples/op-acs.vdm)
+* [op-gate]({{site.url}}/publications/books/ms2/examples/op-gate.vdm)
+* [siteacs]({{site.url}}/publications/books/ms2/examples/siteacs.vdm)
+* [testalarm]({{site.url}}/publications/books/ms2/examples/testalarm.vdm)
+* [tracker]({{site.url}}/publications/books/ms2/examples/tracker.vdm)
+* [traffic]({{site.url}}/publications/books/ms2/examples/traffic.vdm)
+
 ### Errata
 
 * Page 5, last line: "or equal to" should be deleted.

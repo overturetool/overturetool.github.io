@@ -1,0 +1,41 @@
+types
+
+  TempRead = seq of int
+  inv temps == len temps = 5
+
+functions
+
+  Rising: TempRead -> bool
+  Rising(temps) ==
+   temps(1) < temps(5);
+
+  OverLimit: TempRead -> bool
+  OverLimit(temps) ==
+    temps(1) > 400 or 
+    temps(2) > 400 or 
+    temps(3) > 400 or 
+    temps(4) > 400 or 
+    temps(5) > 400;
+
+  OverLimit2: TempRead -> bool
+  OverLimit2(temps) ==
+    exists i in set inds temps & temps(i) > 400;
+
+  ContOverLimit: TempRead -> bool
+  ContOverLimit(temps) ==
+    temps(1) > 400 and 
+    temps(2) > 400 and 
+    temps(3) > 400 and 
+    temps(4) > 400 and 
+    temps(5) > 400;
+
+  ContOverLimit2: TempRead -> bool
+  ContOverLimit2(temps) ==
+    forall i in set inds temps & temps(i) > 400;
+
+  Safe: TempRead -> bool
+  Safe(temps) ==
+    temps(3) > 400 => temps(5) < 400;
+
+  RaiseAlarm(temps: TempRead) alarm : bool
+  post not Safe(temps) <=> alarm
