@@ -29,6 +29,7 @@ Download: [slide bundle]({{site.url}}/publications/ms/ms-slides.zip)
 We have prepared a set of slides (Microsoft Powerpoint) that can be used for teaching VDM++, currently covering chapter 1 to 8 of the book. Each file corresponds roughly to a one hour lecture. The course material uses the examples from the book. It is encouraged to combine the lectures with practical exercises (home work assignments) using Overture or VDMTools Lite. 
 
 The slide collection contains slides for: 
+
 * Introduction and process
 * VDMTools and Logic
 * Defining data and functionality
