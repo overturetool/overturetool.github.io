@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Validated Designs for Object-oriented Systems
 ---
@@ -20,10 +20,6 @@ title: Validated Designs for Object-oriented Systems
 </table>
 
 ### Validated Designs for Object-oriented Systems
-
-Here you can find sample models, solutions to exercises, course material
-
-**Exercises and course material not moved yet**
 
 ### About the book
 

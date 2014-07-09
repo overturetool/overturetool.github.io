@@ -24,7 +24,6 @@ title: Modelling Systems
 John Fitzgerald and Peter Gorm Larsen, Cambridge University Press, 2nd Edition, 2009 ISBN 0 521 62348 0 with a foreword by Dines Bjørner and Cliff Jones Hardback £40.00 Paperback c £24.95
 This site contains Exercises, VDM-SL examples from the book, course material and more information on the VDM family of modelling languages and tools.
 
-**Exercises and course material not moved yet**
 
 ### About the book
 
