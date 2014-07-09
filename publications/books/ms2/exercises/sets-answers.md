@@ -53,7 +53,7 @@ Notice that the following is incorrect:
        forall s1,s2 in set s & s1 inter s2 = {}
 ~~~
 	   
-because s1 and s2 could evaluate to the same set in s. The erroneous expression above is going to be false for any s except the set containing only the empty set (i.e. the case where s = { Ø }
+because s1 and s2 could evaluate to the same set in s. The erroneous expression above is going to be false for any s except the set containing only the empty set (i.e. the case where s = { Ã˜ }
 
 ### Connected Sets
 
