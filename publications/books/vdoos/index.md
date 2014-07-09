@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Validated Designs for Object-oriented Systems
 ---
