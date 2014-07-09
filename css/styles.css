@@ -71,6 +71,17 @@ code, pre {
   font-size:12px;
 }
 
+pre code {
+  border: none;
+}
+
+code {
+  padding: 2px;
+  background: #f8f8f8;
+  border-radius: 3px;
+  border: 1px solid #e5e5e5;
+}
+
 pre {
   padding:8px 15px;
   background: #f8f8f8;  
