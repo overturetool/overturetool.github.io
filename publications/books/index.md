@@ -32,7 +32,7 @@ Finally the book on the Crescendo technology:
 				<td><a href="{{ site.url }}/publications/books/vdoos/"> <img src="{{ site.url }}/publications/books/vdoos.jpg" height="140" alt="Validated Designs for Object-oriented Systems"> </a></td>
 				<td><a href="{{ site.url }}/publications/books/vdoos/index-jp.html"> <img src="{{ site.url }}/publications/books/vdoos-jp.jpg" height="140" alt="Validated Designs for Object-oriented Systems"> </a></td>
 				
-				<td><a href="{{ site.url }}/publications/books/proof-in-vdm/"> <img src="{{ site.url }}/publications/books/proof-in-vdm.jpg" height="140" alt="Proof in VDM: A Practitioner Guide"> </a></td>
+				
 				
 				<td><a href="{{ site.url }}/publications/books/crescendo/"> <img src="{{ site.url }}/publications/books/crescendo.png" height="140" alt="The Book on Collaborative Development of Cyber-Physical Systems"> </a></td>
             </tr>
@@ -40,7 +40,7 @@ Finally the book on the Crescendo technology:
                 
 				<td><a href="{{ site.url }}/publications/books/mural/"> <img src="{{ site.url }}/publications/books/mural.jpg" height="140" alt="mural: A Formal Development Support System"> </a></td>
 				
-				
+				<td><a href="{{ site.url }}/publications/books/proof-in-vdm/"> <img src="{{ site.url }}/publications/books/proof-in-vdm.jpg" height="140" alt="Proof in VDM: A Practitioner Guide"> </a></td>
             </tr>
         </tbody>
 </table>
