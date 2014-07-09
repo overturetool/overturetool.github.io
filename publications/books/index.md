@@ -4,8 +4,9 @@ title: Overture Books
 ---
 # Books on VDM
 
-This page supports the use of two current texts on the Vienna Development Method (VDM) and in addition the the book on co-modelling and co-simulation with the Crescendo tool using the VDM-RT dialect. 
+This page provides an overview of books on the Vienna Development Method (VDM) and in addition the book on co-modelling and co-simulation with the Crescendo tool:
 
+<!--
 The following two books are also available in Japanese:
 
 1. "Modelling Systems" (Fitzgerald & Larsen, second edition, 2009) is the main guide to the principles and practice of system modelling in VDM. It assumes no prior knowledge of formal modelling techniques. 
@@ -13,7 +14,7 @@ The following two books are also available in Japanese:
 
 Finally the book on the Crescendo technology:
 3. "Collaborative Design for Embedded Systems" (Fitzgerald, Larsen and Verhoef (eds), 2014). 
-
+-->
 
 *Click on the image of the book you are interested in to access support material, including teaching materials, additional exercises, tools and other information.*
 
