@@ -41,7 +41,7 @@ You can order the book (including inpection copies) from the [Cambridge Universi
 
 ### Tool support
 
-[SCSK Systems](http://www.csk.com/) has kindly provided a special version of [VDMTools](http://www.vdmbook.com/twiki/bin/view/Main/VdmTools) to support our book. VDMTools Lite is available free of charge and can be downloaded from www.vdmtools.jp/en. Versions are available for Windows 2000/XP, Mac (G4, G5 and x86) and Linux. For academic users, site licenses are available, also free of charge, for the full version of the tool. The full version includes automatic code generation for Java and C++, dynamic link library and CORBA support. Please contact [VDM.SP@csk.com](mailto:VDM.SP@csk.com) for any queries related to licensing.
+[SCSK Systems](http://www.csk.com/) has kindly provided a special version of [VDMTools]({{site.url}}/publications/books/vdmtools.html) to support our book. VDMTools Lite is available free of charge and can be downloaded from www.vdmtools.jp/en. Versions are available for Windows 2000/XP, Mac (G4, G5 and x86) and Linux. For academic users, site licenses are available, also free of charge, for the full version of the tool. The full version includes automatic code generation for Java and C++, dynamic link library and CORBA support. Please contact [VDM.SP@csk.com](mailto:VDM.SP@csk.com) for any queries related to licensing.
 The alternative to VDMTools is to use the Overture open source solution built on top of the Eclipse platform. A tutorial introducing Overture in a way similar to chapter 3 of the book can be [downloaded]({{site.url}}/files/VDMPPGuideToOverture.pdf). Overture stand-alone executables for Windows, Mac and Linux are also [freely available]({{site.url}}/download/).
 
 ### Learning and Teaching Materials Online
