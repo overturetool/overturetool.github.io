@@ -112,6 +112,7 @@ values
 
 ### Equivalence recordings
 
+{% raw %}
 ~~~
 -- solution for part 1
 types
@@ -165,6 +166,7 @@ functions
   -- between a singleton set with elem and the rest (parti) 
   -- is used to make an arbitrary split between them.
 ~~~
+{% endraw %}
 
 ### A thesaurus
 
