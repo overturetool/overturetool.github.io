@@ -30,7 +30,9 @@ Finally the book on the Crescendo technology:
 				<td><a href="{{ site.url }}/publications/books/ms2/"> <img src="{{ site.url }}/publications/books/ms2-jp.png" height="140" alt="Modelling Systems: Practical Tools and Techniques for Software Development: 2nd Edition"> </a></td>
  
 				<td><a href="{{ site.url }}/publications/books/vdoos/"> <img src="{{ site.url }}/publications/books/vdoos.jpg" height="140" alt="Validated Designs for Object-oriented Systems"> </a></td>
-				<td><a href="{{ site.url }}/publications/books/vdoos/"> <img src="{{ site.url }}/publications/books/vdoos-jp.jpg" height="140" alt="Validated Designs for Object-oriented Systems"> </a></td>
+				<td><a href="{{ site.url }}/publications/books/vdoos/index-jp.html"> <img src="{{ site.url }}/publications/books/vdoos-jp.jpg" height="140" alt="Validated Designs for Object-oriented Systems"> </a></td>
+				
+				<td><a href="{{ site.url }}/publications/books/proof-in-vdm/"> <img src="{{ site.url }}/publications/books/proof-in-vdm.jpg" height="140" alt="Proof in VDM: A Practitioner’s Guide"> </a></td>
 				
 				<td><a href="{{ site.url }}/publications/books/crescendo/"> <img src="{{ site.url }}/publications/books/crescendo.png" height="140" alt="The Book on Collaborative Development of Cyber-Physical Systems"> </a></td>
             </tr>
