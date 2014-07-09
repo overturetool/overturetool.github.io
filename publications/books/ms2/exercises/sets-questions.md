@@ -5,7 +5,7 @@ title: Modelling Systems Using Sets
 
 ## Modelling Systems: Additional Exercises on Modelling with Sets
 
-Exercises 2 & 3 are based on those supplied by Prof. Dines Bjørner of the Technical University of Denmark, whose assistance is gratefully acknowledged.
+Exercises 2 & 3 are based on those supplied by Prof. Dines BjÃ¸rner of the Technical University of Denmark, whose assistance is gratefully acknowledged.
 
 ### Basic Exercises
 
