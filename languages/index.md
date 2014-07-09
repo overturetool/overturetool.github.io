@@ -22,27 +22,6 @@ title: The VDM languages
   -->
   
   
-Contents
---------
-
-[VDM Features](#VDM_Features)
-
-[Basic Types: numeric, character, token and quote types](#Basic_Types:_numeric.2C_character.2C_token_and_quote_types)
-
-[Type Constructors: Union, Product and Composite Types](#Type_Constructors:_Union.2C_Product_and_Composite_Types)
-
-[Collections](#Collections)
-
--   [Sets](#Sets)
--   [Sequences](#Sequences)
--   [Maps](#Maps)
-
-[Structuring](#Structuring)
-
--   [Structuring in VDM-SL](#Structuring_in_VDM-SL)
--   [Structuring in VDM++](#Structuring_in_VDM.2B.2B)
-
-* * * * *
 
 VDM Features
 ------------
