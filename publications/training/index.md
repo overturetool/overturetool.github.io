@@ -4,7 +4,6 @@ title: Overture Training Material
 ---
 # Training Material
 
-Move in progress from: [vdmbooks.com](http://www.vdmportal.org/twiki/bin/view/Main/WebHome#VDM_teaching_material)
 
 ## Teaching Material for "Modelling Systems"
 
@@ -45,12 +44,12 @@ Download: [slide bundle]({{site.url}}/publications/training/vdoos/vdoos-slides.z
 
 ## Other
 
-Slides for explaining:
+Slides:
 
-* the [satisfiability proof obligations for implicitly defined functions/operations]({{site.url}}/publications/training/other/Satisfiability_example.ppt)  
-* and for [statebased modelling]({{site.url}}/publications/training/other/10._State-Based_modelling-deliver.ppt). 
-
-Finally a small [tutorial]({{site.url}}/publications/training/other/vdmtools_tutorial1.pdf) for introducing newcommers to VDMTools is available.
+* The [satisfiability proof obligations for implicitly defined functions/operations]({{site.url}}/publications/training/other/Satisfiability_example.ppt)  
+* [statebased modelling]({{site.url}}/publications/training/other/10._State-Based_modelling-deliver.ppt)
+* A small [tutorial]({{site.url}}/publications/training/other/vdmtools_tutorial1.pdf) for introducing newcommers to VDMTools
+* [Dines Bjørner's VDM overview]({{site.url}}/publications/training/other/bjorner-vdm-ipsj-20oct06.pdf)
 
 ## Validation Course
 
