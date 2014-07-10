@@ -8,6 +8,11 @@ title: Contact
 
 [Stack Overflow](http://stackoverflow.com/) is the main venue for posting questions and discussions about VDM. Posts with tag ''vdm++'' are actively monitored by the developers of the language.
 
+## Tool Issues
+
+* [Browse open issues](https://github.com/overturetool/overture/issues?labels=&milestone=&page=1&state=open)
+* [Submit a new issue](https://github.com/overturetool/overture/issues/new)
+
 
 ### Mailing lists
 

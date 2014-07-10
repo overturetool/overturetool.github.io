@@ -22,14 +22,14 @@ You will need a Java runtime environment (JRE) to use Overture (Java SE 6 or gre
 
 <div id="release-history"></div>
 
-## Support
+<!-- ## Support
 
 In case you experience problems, there are two options for you to get support, directly from the Overture developers. 
 You can either post a question on the [StackOverflow with the VDM++ tag](http://stackoverflow.com/questions/tagged/vdm%2b%2b) or [send us an e-mail](http://www.google.com/recaptcha/mailhide/d?k=01mU5bAq4Rogp5FVouKumLoQ==&c=pHoefT8t8vvgTnqYB_4422-4CEytwUaijr_er5aSbIw=). 
 In your message, please include information on the host operating system you are using (for example: Windows XP SP3, 32-bit), the Java JRE version you have installed (include the output of "java -version") and the name of the Overture installation package that you have downloaded. 
 If you believe that you have found a real bug in the Overture Tool, please submit it [here](https://github.com/overturetool/overture/issues). 
 You can browse the [open issue list](https://github.com/overturetool/overture/issues), to check whether your problem has already been raised by someone else.
-
+-->
 
 <!--
 ## Checking for updates
