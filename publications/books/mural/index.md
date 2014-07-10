@@ -18,7 +18,7 @@ title: mural A Formal Development Support System
         </tbody>
 </table>
 
-### Proof in VDM: a Practitioner's Guide and Case Studies
+### mural: a Formal Development Support System
 
 "mural: a Formal Development Support System" C B Jones, K D Jones, P A Lindsay and R Moore, Springer Verlag, 1991. Regrettably, some screen dumps are missing from the current PDF.
 
