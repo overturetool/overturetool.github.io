@@ -41,6 +41,7 @@ Finally the book on the Crescendo technology:
 						
 				<td><a href="{{ site.url }}/publications/books/FSDFromVDM2Java/"> <img src="{{ site.url }}/publications/books/FSDFromVDM2Java.jpg" height="140" alt="Formal Software Development: From VDM to Java"> </a></td>
                 
+				<td><a href="{{ site.url }}/publications/books/SSDusingVDM/"> <img src="{{ site.url }}/publications/books/SSDusingVDM.jpg" height="140" alt="SYSTEMATIC SOFTWARE DEVELOPMENT USING VDM"></a></td>
 				<td><a href="{{ site.url }}/publications/books/mural/"> <img src="{{ site.url }}/publications/books/mural.jpg" height="140" alt="mural: A Formal Development Support System"> </a></td>
 				
 				<td><a href="{{ site.url }}/publications/books/proof-in-vdm/"> <img src="{{ site.url }}/publications/books/proof-in-vdm.jpg" height="140" alt="Proof in VDM: A Practitioner Guide"> </a></td>
