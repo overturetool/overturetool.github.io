@@ -18,9 +18,9 @@ download a bundle of all examples for each dialect:
 
 |||
 |---|---|
-| [VDM-SL example listing page]({{ site.url }}/examples/VDMSL/) | [zip bundle]({{ site.url }}/examples/Examples-VDMSL.zip) |
-| [VDM++ example listing page]({{ site.url }}/examples/VDM++/)  | [zip bundle]({{ site.url }}/examples/Examples-VDM++.zip) |
-| [VDM-RT example listing page]({{ site.url }}/examples/VDMRT/) | [zip bundle]({{ site.url }}/examples/Examples-VDMRT.zip) |
+| [VDM-SL example listing page]({{ site.url }}/download/examples/VDMSL/) | [zip bundle]({{ site.url }}/download/examples/Examples-VDMSL.zip) |
+| [VDM++ example listing page]({{ site.url }}/download/examples/VDM++/)  | [zip bundle]({{ site.url }}/download/examples/Examples-VDM++.zip) |
+| [VDM-RT example listing page]({{ site.url }}/download/examples/VDMRT/) | [zip bundle]({{ site.url }}/download/examples/Examples-VDMRT.zip) |
 
 <!--If you have questions on these examples, you can either post a
 question on
@@ -29,4 +29,4 @@ or [send us an email](mailto:info@overturetool.org).  If you have an
 example to contribute to our collection, we are very happy to hear
 from you!-->
 
-A guide that explains how to import the projects are avaliable at [Importing External Zipped Projects into Overture]({{ site.url }}/examples/importing-external-projects.html).
+A guide that explains how to import the projects are avaliable at [Importing External Zipped Projects into Overture]({{ site.url }}/download/examples/importing-external-projects.html).
