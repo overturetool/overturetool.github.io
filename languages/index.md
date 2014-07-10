@@ -34,61 +34,18 @@ A VDM-SL model is a system description given in terms of the functionality perfo
 
 VDM-SL includes basic types modelling numbers and characters as follows:
 
-Basic Types
+| Basic Types |||
+| ------------- |:-------------:| -----:|
+| `bool`|[Boolean datatype](/Boolean_datatype "Boolean datatype")|`false, true`|
+| `nat` |[natural numbers](/Natural_number "natural number") (including zero)|0, 1, 2, 3, ...|
+| `nat1`| natural numbers (excluding zero)| 1, 2, 3, 4, ...|
+| `int`| [integers](/Integer "integer")| ..., -3, -2, -1, 0, 1, 2, 3, ...|
+| `rat`| [rational numbers](/Rational_number "rational number")| a/b, where a and b are integers, b is not 0|
+| `real`| [real numbers](/Real_number "real number")| ...|
+| `char`| characters| `A, B, C, ...`|
+|`token`| structureless tokens| ...|
+|`<A>`|the quote type containing the value `<A>`|...|
 
-`bool`
-
-[Boolean datatype](/Boolean_datatype "Boolean datatype")
-
-`false, true`
-
-`nat`
-
-[natural numbers](/Natural_number "natural number") (including zero)
-
-0, 1, 2, 3, ...
-
-`nat1`
-
-natural numbers (excluding zero)
-
-1, 2, 3, 4, ...
-
-`int`
-
-[integers](/Integer "integer")
-
-..., -3, -2, -1, 0, 1, 2, 3, ...
-
-`rat`
-
-[rational numbers](/Rational_number "rational number")
-
-a/b, where a and b are integers, b is not 0
-
-`real`
-
-[real numbers](/Real_number "real number")
-
-...
-
-`char`
-
-characters
-
-`A, B, C, ...`
-
-`token`
-
-structureless tokens
-
-...
-
-` `
-
-the quote type containing the value ` `
-
-...
 
 Data types are defined to represent the main data of the modelled system. Each type definition introduces a new type name and gives a representation in terms of the basic types or in terms of types already introduced. For example, a type modelling user identifiers for a log-in management system might be defined as follows:
 
