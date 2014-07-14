@@ -13,26 +13,23 @@ title: Overture Tool Project
 
 # Welcome to the Overture Tool Project
 
-Overture is a community-based project developing the next generation
-of open-source tools to support modelling and analysis in the design
-of computer-based systems. Overture supports
-[VDM: The Vienna Development Method](http://www.vdmportal.org/), a set
-of modelling techniques with a long and successful history of
-industrial application and research.  Overture is an integrated
-development environment (IDE) for developing VDM models.  The Overture
-tools are written entirely in Java and built on top of the Eclipse
-platform.  Overture supports the following VDM language dialects:
+The Overture project is a community-based project aimed at developing open-source tools to support the modelling and analysis of the design and development of computer-based systems.
 
-- VDM-SL: the VDM Specification Language,
-  [ISO/IEC 13817-1:1996](http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=22988),
-  with extensions for modules
-- VDM-PP: Object oriented extension of VDM-SL, also known as VDM++
-- VDM-RT: Extension of VDM++ for specifying real-time and distributed
-  systems
+The Overture project is focused on supporting the modelling method [VDM: The Vienna Development Method](http://www.vdmportal.org/) which is a set of modelling techniques that have a long and successful history of use in both research and industrial application.
+
+The Overture community  supports the use of VDM by providing documentation, creating teaching material, organizing workshops and at the heart of the project is the development of the Overture Tool. The Overture tool is an open-source integrated development environment (IDE) for developing and analysing VDM models. The tool suite is written entirely in Java and built on top of the Eclipse platform.
+
+The Overture project has two related projects:
+
+The [Cresendo Tool](http://crescendotool.org/) that uses the Overture platform and [Controllab's 20-sim](http://www.controllab.nl/en/products/20-sim.html) to perform co-simulations that can be used in the analysis and development of cyber-physical systems.
+
+The [Symphony Tool](https://github.com/symphonytool/symphony) that extends parts of the Overture tool in order to support the CML aimed at describing and analysing System of Systems.
+
+
 
 ||
 |----|
-| The current stable version is <strong id="current-release-version">2.0.8</strong> <i id="current-release-data"> (May 2014) </i> which you can [download  here]({{ site.url }}/download/).|
+| The current stable version is <strong id="current-release-version">2.0.8</strong> <i id="current-release-data"> (May 2014) </i> which you can [download here]({{ site.url }}/download/).|
 
 <div id="current-release"><div>
 
