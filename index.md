@@ -30,7 +30,7 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 
 <div id="current-release"><div>
 
-Overture Extentions:
+=== Extentions:
 <table>
         <thead>
             <tr>
