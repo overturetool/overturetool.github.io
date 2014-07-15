@@ -16,9 +16,9 @@ title: Overview
 <!--The Overture project is a community-based project aimed at developing open-source tools to support the modelling and analysis of the design and development of computer-based systems.
 The Overture project is focused on supporting the modelling method [VDM: The Vienna Development Method](http://www.vdmportal.org/) which is a set of modelling techniques that have a long and successful history of use in both research and industrial application.-->
 
-The Overture community  supports the modelling method The Vienna Development Method (VDM) which is a set of modelling techniques that have a long and successful history of use in both research and industrial application. It does so by providing documentation, teaching material, and at the heart of the project is the development of the Overture Tool. 
+The Overture community  supports the modelling method *The Vienna Development Method (VDM)* which is a set of modelling techniques that have a long and successful history of use in both research and industrial application. <!--It does so by providing documentation, teaching material, and at the heart of the project is the development of the Overture Tool.--> 
 
-The Overture Tool is an open-source integrated development environment (IDE) for developing and analysing VDM models. The tool suite is written entirely in Java and built on top of the Eclipse platform.
+The *Overture Tool* is an open-source integrated development environment (IDE) for developing and analysing VDM models. The tool suite is written entirely in Java and built on top of the Eclipse platform.
 
 ![Tool preview]({{ site.url }}/images/tool-preview.png)
 
@@ -28,9 +28,29 @@ The Overture Tool is an open-source integrated development environment (IDE) for
 
 <div id="current-release"><div>
 
-The Overture project has two related projects:
+Overture Extentions:
 
-The [Cresendo Tool](http://crescendotool.org/) that uses the Overture platform and [Controllab's 20-sim](http://www.controllab.nl/en/products/20-sim.html) to perform co-simulations that can be used in the analysis and development of cyber-physical systems.
+<table>
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+               <td><a href="http://crescendotool.org"> <img src="{{ site.url }}/images/crescendo.png" height="50" alt="Cresendo Tool"> </a></td>
+			   <td>The [Cresendo Tool](http://crescendotool.org/) that uses the Overture platform and [Controllab's 20-sim](http://www.controllab.nl/en/products/20-sim.html) to perform co-simulations that can be used in the analysis and development of cyber-physical systems.</td>
+            </tr>
+			<tr>
+				<td><a href="http://symphonytool.org"> <img src="{{ site.url }}/images/symphony.png" height="50" alt="Symphony Tool"> </a></td>
+			   <td>The [Symphony Tool](https://github.com/symphonytool/symphony) that extends parts of the Overture tool in order to support the CML aimed at describing and analysing System of Systems.</td>		
+            </tr>
+        </tbody>
+</table>
 
-The [Symphony Tool](https://github.com/symphonytool/symphony) that extends parts of the Overture tool in order to support the CML aimed at describing and analysing System of Systems.
+
+
+
+
 
