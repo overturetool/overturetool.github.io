@@ -16,10 +16,6 @@ The documentation provided here is maintained by the Overture community and it a
 - [Tutorials]({{site.url}}/documentation/turotials.html)
 - [Screenshots]({{site.url}}/documentation/Screenshots.html)
 
-External information about VDM can be found at:
-
-- [www.vdmportal.org](http://www.vdmportal.org)
-
 
 <!---
 ## Nuts and bolts: reference manuals
