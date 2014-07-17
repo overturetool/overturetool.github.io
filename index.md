@@ -16,7 +16,7 @@ title: Overview
 <!--The Overture project is a community-based project aimed at developing open-source tools to support the modelling and analysis of the design and development of computer-based systems.
 The Overture project is focused on supporting the modelling method [VDM: The Vienna Development Method](http://www.vdmportal.org/) which is a set of modelling techniques that have a long and successful history of use in both research and industrial application.-->
 
-The Overture community  supports the modelling method *The Vienna Development Method (VDM)* which is a set of modelling techniques that have a long and successful history of use in both research and industrial application. 
+The Overture community supports the modelling method *The Vienna Development Method (VDM)* which is a set of modelling techniques that have a long and successful history in both research and industrial application in the development of computer-based systems.
 
 <!-- It does so by providing documentation, teaching material, and at the heart of the project is the development of the Overture Tool. --> 
 
@@ -30,7 +30,7 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 
 <div id="current-release"><div>
 
-#### Extentions:
+#### Extensions:
 <table>
         <thead>
             <tr>
