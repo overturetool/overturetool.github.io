@@ -49,11 +49,15 @@ VDM-SL includes basic types modelling numbers and characters as follows:
 
 Data types are defined to represent the main data of the modelled system. Each type definition introduces a new type name and gives a representation in terms of the basic types or in terms of types already introduced. For example, a type modelling user identifiers for a log-in management system might be defined as follows:
 
+~~~
 types UserId = nat
+~~~
 
 For manipulating values belonging to data types, operators are defined on the values. Thus, natural number addition, subtraction etc. are provided, as are Boolean operators such as equality and inequality. The language does not fix a maximum or minimum representable number or a precision for real numbers. Such constraints are defined where they are required in each model by means of data type invariants - Boolean expressions denoting conditions that must be respected by all elements of the defined type. For example a requirement that user identifiers must be no greater than 9999 would be expressed as follows (where `<=` is the "less than or equal to" Boolean operator on natural numbers):
 
+~~~
 UserId = nat inv uid == uid <= 9999
+~~~
 
 Since invariants can be arbitrarily complex logical expressions, and membership of a defined type is limited to only those values satisfying the invariant, type correctness in VDM-SL is not automatically decidable in all situations.
 
@@ -61,7 +65,9 @@ The other basic types include char for characters. In some cases, the representa
 
 For example, in modelling a traffic signal controller, it may be convenient to define values to represent the colours of the traffic signal as quote types:
 
-<Red\>, <Amber\>, <FlashingAmber\>, <Green\>
+~~~
+<Red>, <Amber>, <FlashingAmber>, <Green>
+~~~
 
 ### Type Constructors: Union, Product and Composite Types
 
@@ -69,7 +75,9 @@ The basic types alone are of limited value. New, more structured data types are 
 
 Basic Type Constructors
 
+~~~
 T2 | ... | Tn
+~~~
 
 Union of types `T1,...,Tn`
 
@@ -83,21 +91,29 @@ Composite (Record) type
 
 The most basic type constructor forms the union of two predefined types. The type `(A|B)` contains all elements of the type A and all of the type `B`. In the traffic signal controller example, the type modelling the colour of a traffic signal could be defined as follows:
 
+~~~
 SignalColour = <Red\> | <Amber\> | <FlashingAmber\> | <Green\>
+~~~
 
 [Enumerated types](/Enumerated_type "Enumerated type") in VDM-SL are defined as shown above as unions on quote types.
 
 Cartesian product types may also be defined in VDM-SL. The type `(A1*...*An)` is the type composed of all tuples of values, the first element of which is from the type `A1` and the second from the type `A2` and so on. The composite or record type is a Cartesian product with labels for the fields. The type
 
+~~~
 T :: f1:A1 f2:A2 ... fn:An
+~~~
 
 is the Cartesian product with fields labelled `f1,...,fn`. An element of type `T` can be composed from its constituent parts by a constructor, written `mk_T`. Conversely, given an element of type `T`, the field names can be used to select the named component. For example, the type
 
+~~~
 Date :: day:nat1 month:nat1 year:nat inv mk\_Date(d,m,y) == d <=31 and m<=12
+~~~
 
 models a simple date type. The value `mk_Date(1,4,2001)` corresponds to 1 April 2001. Given a date `d`, the expression `d.month` is a natural number representing the month. Restrictions on days per month and leap years could be incorporated into the invariant if desired. Combining these:
 
-mk\_Date(1,4,2001).month = 4
+~~~
+mk_Date(1,4,2001).month = 4
+~~~
 
 ### Collections
 
@@ -107,7 +123,9 @@ Collection types model groups of values. Sets are finite unordered collections i
 
 The set type constructor (written `set of T` where `T` is a predefined type) constructs the type composed of all finite sets of values drawn from the type `T`. For example, the type definition
 
+~~~
 UGroup = set of UserId
+~~~
 
 defines a type `UGroup` composed of all finite sets of `UserId` values. Various operators are defined on sets for constructing their union, intersections, determining proper and non-strict subset relationships etc.
 
@@ -165,7 +183,9 @@ The cardinality of set `s`
 
 The finite sequence type constructor (written `seq of T` where `T` is a predefined type) constructs the type composed of all finite lists of values drawn from the type `T`. For example, the type definition
 
+~~~
 String = seq of char
+~~~
 
 Defines a type `String` composed of all finite strings of characters. Various operators are defined on sequences for constructing concatenation, selection of elements and subsequences etc. Many of these operators are partial in the sense that they are not defined for certain applications. For example, selecting the 5th element of a sequence that contains only three elements is undefined.
 
@@ -214,7 +234,9 @@ the sequence formed by concatenating sequences `s1` and `s2`
 
 A finite mapping is a correspondence between two sets, the domain and range, with the domain indexing elements of the range. It is therefore similar to a finite function. The mapping type constructor in VDM-SL (written `map T1 to T2` where `T1` and `T2` are predefined types) constructs the type composed of all finite mappings from sets of `T1` values to sets of `T2` values. For example, the type definition
 
+~~~
 Birthdays = map String to Date
+~~~
 
 Defines a type `Birthdays` which maps character strings to `Date`. Again, operators are defined on mappings for indexing into the mapping, merging mappings, overwriting extracting sub-mappings.
 
@@ -338,7 +360,7 @@ In VDM-SL, functions do not have side-effects such as changing the state of a pe
 For example, if we have a state consisting of a single variable `someStateRegister : nat`, we could define this in VDM-SL as:
 
 ~~~
-state Register of someStateRegister : nat end
+state Register of someStateRegister : nat end 
 ~~~
 
 In VDM++ this would instead be defined as:
