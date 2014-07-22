@@ -157,44 +157,19 @@ Defines a type `String` composed of all finite strings of characters. Various op
 
 The order and repetition of items in a sequence is significant, so `[a, b]` is not equal to `[b, a]`, and `[a]` is not equal to `[a, a]`.
 
-Main Operators on Sequences (s, s1,s2 are sequences)
+##### Main Operators on Sequences (s, s1,s2 are sequences)
 
-`[a, b, c]`
+* Sequence enumeration: the sequence of elements `a`, `b` and `c`: `[a, b, c]`
+* Sequence comprehension: sequence of expressions `f(x)` for each `x` of (numeric) type `T` such that `P(x)` holds \
+(`x` values taken in numeric order): `[f(x) | x:T & P(x)]`
+* The head (first element) of `s`: `hd s`
+* The tail (remaining sequence after head is removed) of `s`: `tl s`
+* The length of `s`: `len s`
+* The set of elements of `s`: `elems s`
+* The `i`^th^ element of `s`: `s(i)`
+* The set of indices for the sequence `s`: `inds s`
+* The sequence formed by concatenating sequences `s1` and `s2`: `s1^s2`
 
-Sequence enumeration: the sequence of elements `a`, `b` and `c`
-
-`[f(x) | x:T & P(x)]`
-
-Sequence comprehension: sequence of expressions `f(x)` for each `x` of (numeric) type `T` such that `P(x)` holds \
-(`x` values taken in numeric order)
-
-`hd s`
-
-The head (first element) of `s`
-
-`tl s`
-
-The tail (remaining sequence after head is removed) of `s`
-
-`len s`
-
-The length of `s`
-
-`elems s`
-
-The set of elements of `s`
-
-`s(i)`
-
-The `i`^th^ element of `s`
-
-`inds s`
-
-the set of indices for the sequence `s`
-
-`s1^s2`
-
-the sequence formed by concatenating sequences `s1` and `s2`
 
 #### Maps
 
@@ -206,35 +181,16 @@ Birthdays = map String to Date
 
 Defines a type `Birthdays` which maps character strings to `Date`. Again, operators are defined on mappings for indexing into the mapping, merging mappings, overwriting extracting sub-mappings.
 
-Main Operators on Mappings
+##### Main Operators on Mappings
 
-`{a |-> r, b |-> s}`
+* Mapping enumeration: `a` maps to `r`, `b` maps to `s`: `{a |-> r, b |-> s}`
+* Mapping comprehension: `x` maps to `f(x)` for all `x` for type `T` such that `P(x)`: `{x |-> f(x) | x:T & P(x)}`
+* The domain of `m`: `dom m`
+* The range of `m`: `rng m`
+* Application, `m` applied to `x`: `m(x)`
+* Union of mappings `m1` and `m2` (`m1`, `m2` must be consistent where they overlap): `m1 munion m2`
+* Override, `m1` overwritten by `m2`: `m1 ++ m2`
 
-Mapping enumeration: `a` maps to `r`, `b` maps to `s`
-
-`{x |-> f(x) | x:T & P(x)}`
-
-Mapping comprehension: `x` maps to `f(x)` for all `x` for type `T` such that `P(x)`
-
-`dom m`
-
-The domain of `m`
-
-`rng m`
-
-The range of `m`
-
-`m(x)`
-
-`m` applied to `x`
-
-`m1 munion m2`
-
-Union of mappings `m1` and `m2` (`m1`, `m2` must be consistent where they overlap)
-
-`m1 ++ m2`
-
-`m1` overwritten by `m2`
 
 ### Structuring
 
