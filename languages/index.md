@@ -26,7 +26,7 @@ title: The VDM languages
 VDM Features
 ------------
 
-The VDM-SL and VDM++ syntax and semantics are described at length in the VDMTools language manuals and in the available texts. The ISO Standard contains a formal definition of the language's semantics. In the remainder of this article, the ISO-defined interchange (ASCII) syntax is used. Some texts prefer a more concise [mathematical syntax](/Mathematical_notation "Mathematical notation").
+The VDM-SL and VDM++ syntax and semantics are described at length in the VDMTools language manuals and in the available texts. The ISO Standard contains a formal definition of the language's semantics. In the remainder of this article, the ISO-defined interchange (ASCII) syntax is used. Some texts prefer a more concise mathematical syntax.
 
 A VDM-SL model is a system description given in terms of the functionality performed on data. It consists of a series of definitions of data types and functions or operations performed upon them.
 
