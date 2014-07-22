@@ -267,7 +267,7 @@ and an explicit function:
 f:T_p -> T_r
 ~~~
 
-we say it satisfies the specification [iff](/Iff "iff"):
+we say it satisfies the specification iff:
 
 ~~~
 forall p in set T_p & pre-f(p) => f(p):T_r and post-f(p, f(p))
