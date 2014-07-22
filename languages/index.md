@@ -36,12 +36,12 @@ VDM-SL includes basic types modelling numbers and characters as follows:
 
 | Basic Types |||
 | ------------- |:-------------:| -----:|
-| `bool`|[Boolean datatype](/Boolean_datatype "Boolean datatype")|`false, true`|
-| `nat` |[natural numbers](/Natural_number "natural number") (including zero)|0, 1, 2, 3, ...|
+| `bool`|Boolean datatype|`false, true`|
+| `nat` |natural numbers (including zero)|0, 1, 2, 3, ...|
 | `nat1`| natural numbers (excluding zero)| 1, 2, 3, 4, ...|
-| `int`| [integers](/Integer "integer")| ..., -3, -2, -1, 0, 1, 2, 3, ...|
-| `rat`| [rational numbers](/Rational_number "rational number")| a/b, where a and b are integers, b is not 0|
-| `real`| [real numbers](/Real_number "real number")| ...|
+| `int`| integers| ..., -3, -2, -1, 0, 1, 2, 3, ...|
+| `rat`| rational numbers| a/b, where a and b are integers, b is not 0|
+| `real`| real numbers| ...|
 | `char`| characters| `A, B, C, ...`|
 |`token`| structureless tokens| ...|
 |`<A>`|the quote type containing the value `<A>`|...|
@@ -92,10 +92,10 @@ Composite (Record) type
 The most basic type constructor forms the union of two predefined types. The type `(A|B)` contains all elements of the type A and all of the type `B`. In the traffic signal controller example, the type modelling the colour of a traffic signal could be defined as follows:
 
 ~~~
-SignalColour = <Red\> | <Amber\> | <FlashingAmber\> | <Green\>
+SignalColour = <Red> | <Amber> | <FlashingAmber> | <Green>
 ~~~
 
-[Enumerated types](/Enumerated_type "Enumerated type") in VDM-SL are defined as shown above as unions on quote types.
+Enumerated types in VDM-SL are defined as shown above as unions on quote types.
 
 Cartesian product types may also be defined in VDM-SL. The type `(A1*...*An)` is the type composed of all tuples of values, the first element of which is from the type `A1` and the second from the type `A2` and so on. The composite or record type is a Cartesian product with labels for the fields. The type
 
@@ -106,7 +106,7 @@ T :: f1:A1 f2:A2 ... fn:An
 is the Cartesian product with fields labelled `f1,...,fn`. An element of type `T` can be composed from its constituent parts by a constructor, written `mk_T`. Conversely, given an element of type `T`, the field names can be used to select the named component. For example, the type
 
 ~~~
-Date :: day:nat1 month:nat1 year:nat inv mk\_Date(d,m,y) == d <=31 and m<=12
+Date :: day:nat1 month:nat1 year:nat inv mk_Date(d,m,y) == d <=31 and m<=12
 ~~~
 
 models a simple date type. The value `mk_Date(1,4,2001)` corresponds to 1 April 2001. Given a date `d`, the expression `d.month` is a natural number representing the month. Restrictions on days per month and leap years could be incorporated into the invariant if desired. Combining these:
@@ -160,7 +160,7 @@ The order and repetition of items in a sequence is significant, so `[a, b]` is n
 ##### Main Operators on Sequences (s, s1,s2 are sequences)
 
 * Sequence enumeration: the sequence of elements `a`, `b` and `c`: `[a, b, c]`
-* Sequence comprehension: sequence of expressions `f(x)` for each `x` of (numeric) type `T` such that `P(x)` holds \
+* Sequence comprehension: sequence of expressions `f(x)` for each `x` of (numeric) type `T` such that `P(x)` holds 
 (`x` values taken in numeric order): `[f(x) | x:T & P(x)]`
 * The head (first element) of `s`: `hd s`
 * The tail (remaining sequence after head is removed) of `s`: `tl s`
@@ -222,7 +222,7 @@ Modelling functionality
 In VDM-SL, functions are defined over the data types defined in a model. Support for abstraction requires that it should be possible to characterize the result that a function should compute without having to say how it should be computed. The main mechanism for doing this is the *implicit function definition* in which, instead of a formula computing a result, a logical predicate over the input and result variables, termed a *postcondition*, gives the result's properties. For example, a function `SQRT` for calculating a square root of a natural number might be defined as follows:
 
 ~~~
-SQRT(x:nat)r:real post r\*r = x
+SQRT(x:nat)r:real post r*r = x
 ~~~
 
 Here the postcondition does not define a method for calculating the result `r` but states what properties can be assumed to hold of it. Note that this defines a function that returns a valid square root; there is no requirement that it should be the positive or negative root. The specification above would be satisfied, for example, by a function that returned the negative root of 4 but the positive root of all other valid inputs. Note that functions in VDM-SL are required to be *deterministic* so that a function satisfying the example specification above must always return the same result for the same input.
@@ -230,13 +230,13 @@ Here the postcondition does not define a method for calculating the result `r` b
 A more constrained function specification is arrived at by strengthening the postcondition. For example the following definition constrains the function to return the positive root.
 
 ~~~
-SQRT(x:nat)r:real post r\*r = x and r\>=0
+SQRT(x:nat)r:real post r*r = x and r>=0
 ~~~
 
 All function specifications may be restricted by *preconditions* which are logical predicates over the input variables only and which describe constraints that are assumed to be satisfied when the function is executed. For example, a square root calculating function that works only on positive real numbers might be specified as follows:
 
 ~~~
-SQRTP(x:real)r:real pre x \>=0 post r\*r = x and r\>=0
+SQRTP(x:real)r:real pre x >=0 post r*r = x and r>=0
 ~~~
 
 The precondition and postcondition together form a *contract* that to be satisfied by any program claiming to implement the function. The precondition records the assumptions under which the function guarantees to return a result satisfying the postcondition. If a function is called on inputs that do not satisfy its precondition, the outcome is undefined (indeed, termination is not even guaranteed).
@@ -244,13 +244,13 @@ The precondition and postcondition together form a *contract* that to be satisfi
 VDM-SL also supports the definition of executable functions in the manner of a functional programming language. In an *explicit* function definition, the result is defined by means of an expression over the inputs. For example, a function that produces a list of the squares of a list of numbers might be defined as follows:
 
 ~~~
-SqList: seq of nat -\> seq of nat SqList(s) == if s = [] then [] else [(hd s)\*\*2] \^ SqList(tl s)
+SqList: seq of nat -> seq of nat SqList(s) == if s = [] then [] else [(hd s)**2] ^ SqList(tl s)
 ~~~
 
 This recursive definition consists of a function signature giving the types of the input and result and a function body. An implicit definition of the same function might take the following form:
 
 ~~~
-SqListImp(s:seq of nat)r:seq of nat post len r = len s and forall i in set inds s & r(i) = s(i)\*\*2
+SqListImp(s:seq of nat)r:seq of nat post len r = len s and forall i in set inds s & r(i) = s(i)**2
 ~~~
 
 The explicit definition is in a simple sense an implementation of the implicitly specified function. The correctness of an explicit function definition with respect to an implicit specification may be defined as follows.
@@ -258,19 +258,19 @@ The explicit definition is in a simple sense an implementation of the implicitly
 Given an implicit specification:
 
 ~~~
-f(p:T\_p)r:T\_r pre pre-f(p) post post-f(p, r)
+f(p:T_p)r:T_r pre pre-f(p) post post-f(p, r)
 ~~~
 
 and an explicit function:
 
 ~~~
-f:T\_p -\> T\_r
+f:T_p -> T_r
 ~~~
 
 we say it satisfies the specification [iff](/Iff "iff"):
 
 ~~~
-forall p in set T\_p & pre-f(p) =\> f(p):T\_r and post-f(p, f(p))
+forall p in set T_p & pre-f(p) => f(p):T_r and post-f(p, f(p))
 ~~~
 
 So, "`f` is a correct implementation" should be interpreted as "`f` satisfies the specification".
@@ -300,7 +300,7 @@ The *externals* clause (`ext`) specifies which parts of the state can be accesse
 Sometimes it is important to refer to the value of a state before it was modified; for example, an operation to add a value to the variable may be specified as:
 
 ~~~
-ADD(i:nat) ext wr someStateRegister : nat post someStateRegister = someStateRegister\~ + i
+ADD(i:nat) ext wr someStateRegister : nat post someStateRegister = someStateRegister~ + i
 ~~~
 
 Where the `~` symbol on the state variable in the postcondition indicates the value of the state variable before execution of the operation.
