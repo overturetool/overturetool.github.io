@@ -129,55 +129,21 @@ UGroup = set of UserId
 
 defines a type `UGroup` composed of all finite sets of `UserId` values. Various operators are defined on sets for constructing their union, intersections, determining proper and non-strict subset relationships etc.
 
-Main Operators on Sets (s, s1, s2 are sets)
+##### Main Operators on Sets (s, s1, s2 are sets)
 
-`{a, b, c}`
+* Set enumeration: the set of elements `a`, `b` and `c`: `{a, b, c}`
+* Set comprehension: the set of `x` from type `T` such that `P(x)`: `{x | x:T & P(x)}`
+* The set of integers in the range `i` to `j`: `{i, ..., j}`
+* Set membership, `e` is an element of set `s`: `e in set s`
+* Not a member of, `e` is not an element of set `s`: `e not in set s`
+* Union of sets `s1` and `s2`: `s1 union s2`
+* Intersection of sets `s1` and `s2`: `s1 inter s2`
+* Set difference of sets `s1` and `s2`: `s1 \ s2`
+* Distributed union of set of sets `s`: `dunion s`
+* Proper subset, s1 is a (proper) subset of `s2`: `s1 psubset s2`
+* (weak) subset, s1 is a (weak) subset of `s2`: `s1 subset s2`
+* The cardinality of set `s`: `card s`
 
-Set enumeration: the set of elements `a`, `b` and `c`
-
-`{x | x:T & P(x)}`
-
-Set comprehension: the set of `x` from type `T` such that `P(x)`
-
-`{i, ..., j}`
-
-The set of integers in the range `i` to `j`
-
-`e in set s`
-
-`e` is an element of set `s`
-
-`e not in set s`
-
-`e` is not an element of set `s`
-
-`s1 union s2`
-
-Union of sets `s1` and `s2`
-
-`s1 inter s2`
-
-Intersection of sets `s1` and `s2`
-
-`s1 \ s2`
-
-Set difference of sets `s1` and `s2`
-
-`dunion s`
-
-Distributed union of set of sets `s`
-
-`s1 psubset s2`
-
-s1 is a (proper) subset of `s2`
-
-`s1 subset s2`
-
-s1 is a (weak) subset of `s2`
-
-`card s`
-
-The cardinality of set `s`
 
 #### Sequences
 
