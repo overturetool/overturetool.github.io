@@ -73,21 +73,11 @@ For example, in modelling a traffic signal controller, it may be convenient to d
 
 The basic types alone are of limited value. New, more structured data types are built using type constructors.
 
-Basic Type Constructors
+##### Basic Type Constructors
 
-~~~
-T2 | ... | Tn
-~~~
-
-Union of types `T1,...,Tn`
-
-`T1*T2*...*Tn`
-
-Cartesian product of types `T1,...,Tn`
-
-`T :: f1:T1 ... fn:Tn`
-
-Composite (Record) type
+* Union of types `T1,...,Tn`: `T2 | ... | Tn`
+* Cartesian product of types `T1,...,Tn`: `T1*T2*...*Tn`
+* Composite (Record) type: `T :: f1:T1 ... fn:Tn`
 
 The most basic type constructor forms the union of two predefined types. The type `(A|B)` contains all elements of the type A and all of the type `B`. In the traffic signal controller example, the type modelling the colour of a traffic signal could be defined as follows:
 
