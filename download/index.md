@@ -26,5 +26,9 @@ You will need a Java runtime environment (JRE) to use Overture (Java SE 6 or gre
 
 ### Development Builds
 
-It is possible to get access to development builds of the Overture Tool on [the Overture Buildserver](http://overture.au.dk) hosted at Aarhus University.  **Warning:** the development builds may not work correctly (or at all!), so use at your own risk.
+It is possible to get access to development builds of the Overture Tool on:
+
+ * [the Overture Buildserver](http://overture.au.dk) hosted at Aarhus University. 
+
+**Warning:** the development builds may not work correctly (or at all!), so use at your own risk.
 
