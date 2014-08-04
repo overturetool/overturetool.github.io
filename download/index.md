@@ -1,5 +1,5 @@
---- 
-layout: default 
+---
+layout: default
 title: Downloads
 ---
 
@@ -15,10 +15,10 @@ title: Downloads
 
 <div id="current-release"></div>
 
-<!--span class="small"-->
+<small>
 **Hint:**
 You will need a Java runtime environment (JRE) to use Overture (Java SE 6 or greater is recommended). All downloads are provided under the terms and conditions of the Eclipse Foundation Software User Agreement unless otherwise specified.
-<!--/span-->
+</small>
 
 ### Release History
 
