@@ -212,7 +212,8 @@ Modelling functionality
 In VDM-SL, functions are defined over the data types defined in a model. Support for abstraction requires that it should be possible to characterize the result that a function should compute without having to say how it should be computed. The main mechanism for doing this is the *implicit function definition* in which, instead of a formula computing a result, a logical predicate over the input and result variables, termed a *postcondition*, gives the result's properties. For example, a function `SQRT` for calculating a square root of a natural number might be defined as follows:
 
 ~~~
-SQRT(x:nat)r:real post r*r = x
+SQRT(x:nat) r:real 
+	post r*r = x
 ~~~
 
 Here the postcondition does not define a method for calculating the result `r` but states what properties can be assumed to hold of it. Note that this defines a function that returns a valid square root; there is no requirement that it should be the positive or negative root. The specification above would be satisfied, for example, by a function that returned the negative root of 4 but the positive root of all other valid inputs. Note that functions in VDM-SL are required to be *deterministic* so that a function satisfying the example specification above must always return the same result for the same input.
@@ -220,13 +221,16 @@ Here the postcondition does not define a method for calculating the result `r` b
 A more constrained function specification is arrived at by strengthening the postcondition. For example the following definition constrains the function to return the positive root.
 
 ~~~
-SQRT(x:nat)r:real post r*r = x and r>=0
+SQRT(x:nat) r:real 
+	post r*r = x and r >= 0
 ~~~
 
 All function specifications may be restricted by *preconditions* which are logical predicates over the input variables only and which describe constraints that are assumed to be satisfied when the function is executed. For example, a square root calculating function that works only on positive real numbers might be specified as follows:
 
 ~~~
-SQRTP(x:real)r:real pre x >=0 post r*r = x and r>=0
+SQRTP(x:real) r:real 
+	pre x >=0 
+	post r*r = x and r >= 0
 ~~~
 
 The precondition and postcondition together form a *contract* that to be satisfied by any program claiming to implement the function. The precondition records the assumptions under which the function guarantees to return a result satisfying the postcondition. If a function is called on inputs that do not satisfy its precondition, the outcome is undefined (indeed, termination is not even guaranteed).
@@ -234,13 +238,19 @@ The precondition and postcondition together form a *contract* that to be satisfi
 VDM-SL also supports the definition of executable functions in the manner of a functional programming language. In an *explicit* function definition, the result is defined by means of an expression over the inputs. For example, a function that produces a list of the squares of a list of numbers might be defined as follows:
 
 ~~~
-SqList: seq of nat -> seq of nat SqList(s) == if s = [] then [] else [(hd s)**2] ^ SqList(tl s)
+SqList: seq of nat -> seq of nat 
+SqList(s) == 
+	if s = [] 
+	then [] 
+	else [(hd s)**2] ^ SqList(tl s)
 ~~~
 
 This recursive definition consists of a function signature giving the types of the input and result and a function body. An implicit definition of the same function might take the following form:
 
 ~~~
-SqListImp(s:seq of nat)r:seq of nat post len r = len s and forall i in set inds s & r(i) = s(i)**2
+SqListImp(s:seq of nat)r:seq of nat 
+	post len r = len s and 
+		 forall i in set inds s & r(i) = s(i)**2
 ~~~
 
 The explicit definition is in a simple sense an implementation of the implicitly specified function. The correctness of an explicit function definition with respect to an implicit specification may be defined as follows.
@@ -248,7 +258,9 @@ The explicit definition is in a simple sense an implementation of the implicitly
 Given an implicit specification:
 
 ~~~
-f(p:T_p)r:T_r pre pre-f(p) post post-f(p, r)
+f(p:T_p) r:T_r 
+	pre pre-f(p) 
+	post post-f(p, r)
 ~~~
 
 and an explicit function:
@@ -260,7 +272,8 @@ f:T_p -> T_r
 we say it satisfies the specification iff:
 
 ~~~
-forall p in set T_p & pre-f(p) => f(p):T_r and post-f(p, f(p))
+forall p in set T_p & pre-f(p) => 
+	f(p):T_r and post-f(p, f(p))
 ~~~
 
 So, "`f` is a correct implementation" should be interpreted as "`f` satisfies the specification".
@@ -272,7 +285,9 @@ In VDM-SL, functions do not have side-effects such as changing the state of a pe
 For example, if we have a state consisting of a single variable `someStateRegister : nat`, we could define this in VDM-SL as:
 
 ~~~
-state Register of someStateRegister : nat end 
+state Register of 
+	someStateRegister : nat 
+end 
 ~~~
 
 In VDM++ this would instead be defined as:
@@ -282,7 +297,9 @@ instance variables someStateRegister : nat
 An operation to load a value into this variable might be specified as:
 
 ~~~
-LOAD(i:nat) ext wr someStateRegister:nat post someStateRegister = i
+LOAD(i:nat) 
+	ext wr someStateRegister:nat 
+	post someStateRegister = i
 ~~~
 
 The *externals* clause (`ext`) specifies which parts of the state can be accessed by the operation; `rd` indicating read-only access and `wr` being read/write access.
@@ -290,7 +307,9 @@ The *externals* clause (`ext`) specifies which parts of the state can be accesse
 Sometimes it is important to refer to the value of a state before it was modified; for example, an operation to add a value to the variable may be specified as:
 
 ~~~
-ADD(i:nat) ext wr someStateRegister : nat post someStateRegister = someStateRegister~ + i
+ADD(i:nat) 
+	ext wr someStateRegister : nat 
+	post someStateRegister = someStateRegister~ + i
 ~~~
 
 Where the `~` symbol on the state variable in the postcondition indicates the value of the state variable before execution of the operation.
