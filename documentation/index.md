@@ -13,7 +13,7 @@ about Overture in Japanese can be found
 The documentation provided here is maintained by the Overture community and it avaliable through this site:
 
 - [Manuals]({{site.url}}/documentation/manuals.html)
-- [Tutorials]({{site.url}}/documentation/turotials.html)
+- [Tutorials]({{site.url}}/documentation/tutorials.html)
 - [Screenshots]({{site.url}}/documentation/Screenshots.html)
 
 
