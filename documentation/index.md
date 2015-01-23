@@ -14,6 +14,7 @@ The documentation provided here is maintained by the Overture community and it a
 
 - [Manuals]({{site.url}}/documentation/manuals.html)
 - [Tutorials]({{site.url}}/documentation/tutorials.html)
+- [Videos]({{site.url}}/documentation/videos.html)
 - [Screenshots]({{site.url}}/documentation/Screenshots.html)
 
 
