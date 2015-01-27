@@ -18,8 +18,8 @@ title: The VDM languages
 ## The Real-Time extension
 
 - VDM-RT: Extension of VDM++ for specifying real-time and distributed
-  systems
-  -->
+  systems. Draft content below.
+      -->
   
   
 
@@ -313,3 +313,15 @@ ADD(i:nat)
 ~~~
 
 Where the `~` symbol on the state variable in the postcondition indicates the value of the state variable before execution of the operation.
+
+
+<!--
+*TBD VDM-RT section
+Text originally by PGL on vdmportal
+
+[The VDM-RT] extensions can be summarised as:
+* **System Composition:** A system class has been introduced as a first class citizen to the language, which is composed of one or more processors which are connected by one or more communication channels. In this way it is possible to explore the performance of the overall system based on the capacities of the hardware and an abstract model of the desired functionality. Potential bottlenecks can be found at a very early stage of the design.
+* **Deployment of functionality:** A set of special predefined classes, BUS and CPU, are made available to construct the distributed architecture in the model. The system class is used to contain such an architecture model. Regular user-defined VDM++ classes can be instantiated and deployed on a specific CPU in the model. The communication topology between the computation resources in the model can be described using the BUS class.
+* **Asynchronous operations:** The VDM++ notation is extended with an async keyword in the signature of an operation to denote that an operation is asynchronous. The caller shall no longer be blocked; it can immediately resume its own thread of control after the call is initiated. A new thread is created and started immediately to execute the body of the asynchronous operation.
+* **Special timing instructions:** In the timed version of VDM++ each instruction has its own time characteristics. However, these default values can be overwritten using either a duration or a cycles statement to specify time delays that are independent or dependent of the processor capacity respectively. The time delay incurred by the message transfer over the BUS is made dependent on the size of the message being transferred, which is a function of the parameter values passed to the operation call.
+  -->
