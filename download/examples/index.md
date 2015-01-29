@@ -7,7 +7,7 @@ title: Examples
 
 We maintain a large database of illustrative examples, coming from a
 wide variety of sources and application areas. These examples can be
-used as inspiration for your own modeling work. We also use these
+used as inspiration for your own modelling work. We also use these
 examples to validate changes made to the tools.  All examples are
 included in our continuous build environment such that both model and
 tool consistency is checked.
@@ -29,4 +29,4 @@ or [send us an email](mailto:info@overturetool.org).  If you have an
 example to contribute to our collection, we are very happy to hear
 from you!-->
 
-A guide that explains how to import the projects are avaliable at [Importing External Zipped Projects into Overture]({{ site.url }}/download/examples/importing-external-projects.html).
+A guide that explains how to import the projects are available at [Importing External Zipped Projects into Overture]({{ site.url }}/download/examples/importing-external-projects.html).
