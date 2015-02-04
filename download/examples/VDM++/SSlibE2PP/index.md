@@ -41,7 +41,7 @@ run () ==
 			new FHashtableT().run(),
 			new DoubleListQueueT().run(),
 			new QueueT().run(),
-			new ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´().run(),
+			new ＵｎｉｑｕｅＮｕｍｂｅｒＴ().run(),
 			new RealT().run(), 
 			new SetT().run(),
 			new SequenceT().run(),
@@ -243,74 +243,74 @@ post
 	forall Date0, Date1  in set setOfTheDayOfTheWeek &
 		startDate.LE(Date0) and Date0.LE(Date1) and Date1.LE(endDate) =>
 			diffOfDates(Date1, Date0) mod 7 = 0 and 
-	exists1 æ¥i  in set setOfTheDayOfTheWeek &
-		diffOfDates(æ¥i, startDate) < 6 and
-		exists1 æ¥j  in set setOfTheDayOfTheWeek &
-			diffOfDates(endDate, æ¥j) < 6 and
-			diffOfDates(æ¥j, æ¥i) = 7 * ((card setOfTheDayOfTheWeek) - 1)
+	exists1 日i  in set setOfTheDayOfTheWeek &
+		diffOfDates(日i, startDate) < 6 and
+		exists1 日j  in set setOfTheDayOfTheWeek &
+			diffOfDates(endDate, 日j) < 6 and
+			diffOfDates(日j, 日i) = 7 * ((card setOfTheDayOfTheWeek) - 1)
 */
 		;
 /*
 Following Japanese statement are the refinement proof by Shin Sahara and Mr. Toshiharu Yamazaki.
-ä»¥ä¸ã¯ãä¸è¨é¢æ°ã®å±±å´å©æ²»ããã«ããæ®µéçæ´ç·´ãä½åããç¿»è¨³ãããè¨è¿°
+以下は、上記関数の山崎利治さんによる段階的洗練を佐原が「翻訳」した記述
 
 pre
-type R = {|rng [n â n / 7 | nâInt]|} 	-- 7ã§å²ã£ãåã®éå
-f, tâInt, wâR, 0â¦fâ¦t,
-h: Int â R 		--ç°æºååï¼ring homomorphismï¼
+type R = {|rng [n → n / 7 | n∈Int]|} 	-- 7で割った商の集合
+f, t∈Int, w∈R, 0≦f≦t,
+h: Int → R 		--環準同型（ring homomorphism）
 
 post
-S = dom h(w) â© {f..t}ã»RESULT â¡ card(S) 	-- RESULTãç­ã ï¼dom h(w)â¡h-1(w)ï¼
+S = dom h(w) ∩ {f..t}・RESULT ≡ card(S) 	-- RESULTが答え （dom h(w)≡h-1(w)）
 
---æ´æ°ç³»ãç°ï¼ringï¼ã¨è¦ã¦ããã®åç°ï¼quotient ringï¼ã¸ã®æºååååãããããã®ä»£æ°ç³»ä¸ã§äºå¾æ¡ä»¶ãæºãããã­ã°ã©ã ãä½ã
-I =ï½f..t}
+--整数系を環（ring）と見て、その商環（quotient ring）への準同型写像があり、その代数系上で事後条件を満たすプログラムを作る
+I =｛f..t}
 d = t - f + 1 	-- = card(I)
 q = d / 7
-r = d \ 7 		--7ã§å²ã£ãä½ã
+r = d \ 7 		--7で割った余り
 
-ã¨ããã¨ã
+とすると、
 
-q â¦ A â¦ q+1
+q ≦ A ≦ q+1
 
-ãæãç«ã¤ããªããªãã
+が成り立つ。なぜなら、
 
-ä»»æã®é£ç¶ããï¼æ¥éã«ã¯ãå¿ãwææ¥ãã¡ããã©ï¼æ¥å­å¨ããã
-card(I) = 7Ãq + r (0â¦rï¼7)ã§ãããããIã«ã¯å°ãªãã¨ãqåã®é£ç¶ããï¼æ¥éãå­å¨ããããq+1åã¯å­å¨ããªãã
-ä½ãã®ræ¥éã«wææ¥ãå­å¨ããããç¥ããªãã
+任意の連続する７日間には、必ずw曜日がちょうど１日存在する。
+card(I) = 7×q + r (0≦r＜7)であるから、Iには少なくともq個の連続する７日間が存在するが、q+1個は存在しない。
+余りのr日間にw曜日が存在するかも知れない。
 
-æ¬¡ã«ã
+次に、
 
 x ++ y = (x + y) \ 7
-x â´ y = max(x - y, 0)
-ã¨ãã¦ã
+x ┴ y = max(x - y, 0)
+として、
 
-T = {h(f)..h(f) ++ (r â´ 1)}
-ãèãããTã¯ä½ãræ¥éã®ææ¥ã«å¯¾å¿ããï¼card(T) = rï¼ã
-ããã¨ã
+T = {h(f)..h(f) ++ (r ┴ 1)}
+を考える。Tは余りr日間の曜日に対応する（card(T) = r）。
+すると、
 
-A â¡ if wâT then q + 1 els q end
+A ≡ if w∈T then q + 1 els q end
 
-ããã§ã
+ここで、
 
-x minus y = if x â§ y then x - y els x - y + 7 end
-ã¨ããã°ã
+x minus y = if x ≧ y then x - y els x - y + 7 end
+とすれば、
 
-wâT â (w minus h(f)) + 1 â¦ r
-ã§ããããªããªãã°
+w∈T ⇔ (w minus h(f)) + 1 ≦ r
+である。なぜならば
 
-wâT	â {0..(r â´ 1)}âwï¾ = w minus h(f)
-	â r â´ 1 â§ wï¾
-	â r â§ (w minus h(f)) + 1
+w∈T	⇔ {0..(r ┴ 1)}∋wﾕ = w minus h(f)
+	⇔ r ┴ 1 ≧ wﾕ
+	⇔ r ≧ (w minus h(f)) + 1
 
-å¾ã£ã¦ããã­ã°ã©ã ã¯ä»¥ä¸ã®ããã«ãªãã
+従って、プログラムは以下のようになる。
 
-A(f, t w)â¡
+A(f, t w)≡
 	let
-		d â¡ t - f + 1
-		q â¡ d / 7
-		r â¡ d \ 7
-		delta â¡ if (w minus h(f)) + 1 â¦ r then 1 els 0 end
-		x minus y â¡ if x â§ y then x - y els x - y + 7 end
+		d ≡ t - f + 1
+		q ≡ d / 7
+		r ≡ d \ 7
+		delta ≡ if (w minus h(f)) + 1 ≦ r then 1 els 0 end
+		x minus y ≡ if x ≧ y then x - y els x - y + 7 end
 	in
 		q + delta
 	end
@@ -319,7 +319,7 @@ A(f, t w)â¡
 private subtractDayOfTheWeek: int * int -> int
 subtractDayOfTheWeek(x,y) == if x >= y then x - y else x - y + daysInWeek;
 
---dateããããã®dateã®å±ããyearãæ±ããã
+--dateから、そのdateの属するyearを求める。
 public Year: Date -> int
 Year(date) ==
 if monthAux(date) < correctedMonths then
@@ -327,14 +327,14 @@ if monthAux(date) < correctedMonths then
 	else
 		yearAux(date) - calculationCoefficientOfYear + 1;
 		
---dateããããã®dateã®å±ããmonthãæ±ããã
+--dateから、そのdateの属するmonthを求める。
 public Month: Date -> int
 Month(date) == if monthAux(date) < correctedMonths then
 		monthAux(date) - 1
 	else
 		monthAux(date) - 13;
 		
---dateãããdayãæ±ããã
+--dateから、dayを求める。
 public day: Date -> int
 day(date) == daysFromTheBeginningOfTheMonth(date);
 
@@ -415,7 +415,7 @@ dateAdding(date,addNumOfDays) == date.plus(addNumOfDays);
 public diffOfDates: Date * Date -> int
 diffOfDates(date1,date2) == floor(date1.getModifiedJulianDate() - date2.getModifiedJulianDate());
 
---dateããnumOfDaysãæ¸ç®ããdateãè¿ã
+--dateからnumOfDaysを減算したdateを返す
 public dateSubtracting: Date * int -> Date
 dateSubtracting(date,subtractNumOfDays) == date.minus(subtractNumOfDays);
 
@@ -427,7 +427,7 @@ mjd2Jd(modifiedJulianDate) == modifiedJulianDate + daysDifferenceOfModifiedJulia
 public julianDate2ModifiedJulianDate: real -> real
 julianDate2ModifiedJulianDate(julianDate) == julianDate - daysDifferenceOfModifiedJulianDate;
 
---yyyymmddãéå¸¸ã®å¤ã®ç¯å²åã«å¤æããã
+--yyyymmddを通常の値の範囲内に変換する。
 --new Calendar().getRegularDate(2003, 14, 29) = getDateFrom_yyyy_mm_dd(2004, 2, 29)
 public getRegularDate : int * int * int -> Date
 getRegularDate(candidateYear, candidateOfMonth, candidateDate) ==
@@ -435,7 +435,7 @@ getRegularDate(candidateYear, candidateOfMonth, candidateDate) ==
 	in
 	getDateFrom_yyyy_mm_dd(year, month, candidateDate);
 
---å¹´æãéå¸¸ã®å¤ã®ç¯å²åã«å¤æããã
+--年月を通常の値の範囲内に変換する。
 public getRegularMonth : int * int -> int * int
 getRegularMonth(candidateYear, candidateOfMonth) ==
 	let	year = 
@@ -453,10 +453,10 @@ getRegularMonth(candidateYear, candidateOfMonth) ==
 	mk_(year, month);
 	
 	
---ï¼æ´æ°ä¸ã¤çµã®ï¼date2Year(2001,7,1) = 2001.5
+--（整数三つ組の）date2Year(2001,7,1) = 2001.5
 public date2Year:  int * int * int
 	-> 
-	real	--dateãYear(å®æ°)ã«å¤æããå¤
+	real	--dateをYear(実数)に変換した値
 date2Year(year, month, day) == year + (month - 1) / monthsInYear + (day - 1.0) / daysInYear;
 
 public date2Str : Date +> seq of char
@@ -468,10 +468,10 @@ convertDateFromString(dateStr) ==
    	in	if date = false then nil
    		else date;
 
---ä»¥ä¸ã¯ãä¼æ¥ã®èæ®ãããæ©è½ã§ããµãã¯ã©ã¹ã§ä¼æ¥ã®éåãå®ç¾©ããå¿è¦ãããã
+--以下は、休日の考慮をした機能で、サブクラスで休日の集合を定義する必要がある。
 
 /* Query */
---ï¼ã¤ã®dateã®éã®ä¼æ¥ã®éåãè¿ããæ¥ææ¥ã§ããä¼æ¥ãå«ãããä¼æ¥ã§ãªãæ¥ææ¥ã¯å«ã¾ãªãã
+--２つのdateの間の休日の集合を返す。日曜日である休日も含むが、休日でない日曜日は含まない。
 public getSetOfDayOffBetweenDates : Date * Date -> set of Date
 getSetOfDayOffBetweenDates(date1,date2) ==
 	let	Date1 = min(date1)(date2),
@@ -481,11 +481,11 @@ getSetOfDayOffBetweenDates(date1,date2) ==
 	in
 	{dayOff | dayOff in set setOfDayOff & date1.LE(dayOff) and dayOff.LE(date2)};
 
---ï¼ã¤ã®dateã®éã®ä¼æ¥ã®æ°ãè¿ããæ¥ææ¥ã§ããä¼æ¥ãå«ãããä¼æ¥ã§ãªãæ¥dayOfWeekã¯å«ã¾ãªãã
+--２つのdateの間の休日の数を返す。日曜日である休日も含むが、休日でない日dayOfWeekは含まない。
 public getDayOffsExceptSunday: Date * Date -> int
 getDayOffsExceptSunday(date1,date2) == card (getSetOfDayOffBetweenDates(date1,date2));
 
---ï¼ã¤ã®dateã®éã®ä¼æ¥ãããã¯æ¥ææ¥ã®æ°ãè¿ãï¼startDateãå«ãï¼
+--２つのdateの間の休日あるいは日曜日の数を返す（startDateを含む）
 public getTheNumberOfDayOff: Date * Date -> int
 getTheNumberOfDayOff(date1,date2) ==
 	let	Date1 = min(date1)(date2),
@@ -493,7 +493,7 @@ getTheNumberOfDayOff(date1,date2) ==
 		numberOfSunday = getNumberOfTheDayOfWeek(Date1,Date2,<Sun>)	in
 	numberOfSunday + card getSetOfNotSundayDayOff(Date1,Date2);
 
---ï¼ã¤ã®dateã®éã®ä¼æ¥ãããã¯æ¥ææ¥ã®æ°ãè¿ãï¼startDateãå«ã¾ãªãï¼
+--２つのdateの間の休日あるいは日曜日の数を返す（startDateを含まない）
 public getTheNumberOfDayOffExceptStartDate: Date * Date -> int
 getTheNumberOfDayOffExceptStartDate(date1,date2) ==
 	let	Date1 = min(date1)(date2),
@@ -505,7 +505,7 @@ getSetOfNotSundayDayOff(date1,date2) ==
 	let	setOfDayOff = getSetOfDayOffBetweenDates(date1,date2)	in
 	{dayOff | dayOff in set setOfDayOff & not isSunday(dayOff)};
 
---æ¥ææ¥ã§ããä¼æ¥ã®éåãè¿ã
+--日曜日である休日の集合を返す
 public getDayOffsAndSunday : Date * Date -> set of Date
 getDayOffsAndSunday(date1,date2) == 
 	let	setOfDayOff = getSetOfDayOffBetweenDates(date1,date2)	in
@@ -513,7 +513,7 @@ getDayOffsAndSunday(date1,date2) ==
 
 /* Conversion */
 
---ä¼æ¥ã§ãªãdateãè¿ãï¼æªæ¥ã¸åãã£ã¦æ¢ç´¢ããï¼
+--休日でないdateを返す（未来へ向かって探索する）
 public getFutureWeekday : Date-> Date
 getFutureWeekday(date) ==
 	cases  isSundayOrDayoff(date) or isSaturday(date):
@@ -521,7 +521,7 @@ getFutureWeekday(date) ==
 		others	-> date
 	end;
 
---ä¼æ¥ã§ãªãdateãè¿ãï¼éå»ã¸åãã£ã¦æ¢ç´¢ããï¼
+--休日でないdateを返す（過去へ向かって探索する）
 public getPastWeekday : Date-> Date
 getPastWeekday(date) ==
 	cases   isSundayOrDayoff(date) or isSaturday(date):
@@ -533,7 +533,7 @@ getPastWeekday(date) ==
 getPastWeekdaymeasure : Date +> nat
 getPastWeekdaymeasure(d) == d.getModifiedJulianDate();
 
---ä¸ããããå¹³æ¥ã«ãå¹³æ¥næ¥åãå ç®ãã
+--与えられた平日に、平日n日分を加算する
 public addWeekday : Date * int -> Date
 addWeekday(date,addNumOfDays) == addWeekdayAux(getFutureWeekday(date),addNumOfDays);
 
@@ -548,7 +548,7 @@ addWeekdayAux(date,addNumOfDays) ==
 						addWeekdayAux(date.plus(1), addNumOfDays-1)
 	end;
 
---ä¸ããããå¹³æ¥ã«ãå¹³æ¥næ¥åãæ¸ç®ãã
+--与えられた平日に、平日n日分を減算する
 public subtractWeekday : Date * int -> Date
 subtractWeekday(date,subtractNumOfDays) == subtractWeekdayAux(getPastWeekday(date),subtractNumOfDays);
 
@@ -675,7 +675,7 @@ today() ==
 	else
 		return iToday;
 
---todayã®dateãæå®ããreadFromFileã
+--todayのdateを指定したreadFromFile。
 public readFromFiletoday: seq of char ==> Date
 readFromFiletoday(fname) == 
 	if iToday = nil then
@@ -1065,7 +1065,6 @@ setUp() == TestName := "CalendarT12:\tgetRegularMonth";
 protected tearDown: () ==> ()
 tearDown() == return;
 end CalendarT12
-
 ~~~
 {% endraw %}
 
@@ -1154,7 +1153,6 @@ static public GE2 : char -> char -> bool
 GE2(c1)(c2) == not Character`LT2(c1)(c2);
 			
 end Character
-
 ~~~
 {% endraw %}
 
@@ -1223,8 +1221,8 @@ private ModifiedJulianDate : real := 0;
 private usingCalendar : Calendar;
 
 /*
-ModifiedJulianDateã¯ãjulianDateã§ã¯æ°å¤ãå¤§ãããªããããã®ã§æ¡ç¨ãããdateãè¡¨ãæ°å¤ã§ã1858å¹´11æ17æ¥ã0ã¨ããã
-calculationèª¤å·®ã®é¢ä¿ããã2åç²¾åº¦æµ®åå°æ°ç¹(Cã§ã¯double)ã§ãªããã°ãªããªãã
+ModifiedJulianDateは、julianDateでは数値が大きくなりすぎたので採用されたdateを表す数値で、1858年11月17日を0とする。
+calculation誤差の関係から、2倍精度浮動小数点(Cではdouble)でなければならない。
 */
 
 functions
@@ -1237,45 +1235,45 @@ getNumberOfDayOfTheWeek() == calendar().getNumberOfDayOfTheWeek(self);
 public getNameOfDayOfTheWeek : () -> Calendar`NameOfDayOfTheWeek
 getNameOfDayOfTheWeek() == calendar().getNameOfDayOfTheWeek(self) ;
 
---æå®ãããææ¥ããselfã¨dateã®éã«ä½æ¥ããããè¿ãã 
+--指定された曜日が、selfとdateの間に何日あるかを返す。 
 public getNumberOfTheDayOfWeek: Date * Calendar`NameOfDayOfTheWeek -> int
 getNumberOfTheDayOfWeek(date,nameOfDayOfTheWeek) == calendar().getNumberOfTheDayOfWeek(self,date,nameOfDayOfTheWeek);
 
---selfã¨dateã®éã®ä¼æ¥ãããã¯æ¥ææ¥ã®æ°ãè¿ãï¼startDateãå«ãï¼
+--selfとdateの間の休日あるいは日曜日の数を返す（startDateを含む）
 public getTheNumberOfDayOff: Date -> int
 getTheNumberOfDayOff(date) == calendar().getTheNumberOfDayOff(self,date);
 
---selfã¨dateã®éã®ä¼æ¥ãããã¯æ¥ææ¥ã®æ°ãè¿ãï¼startDateãå«ã¾ãªãï¼
+--selfとdateの間の休日あるいは日曜日の数を返す（startDateを含まない）
 public getTheNumberOfDayOffExceptStartDate: Date -> int
 getTheNumberOfDayOffExceptStartDate(date) == calendar().getTheNumberOfDayOffExceptStartDate(self,date) ;
 
---dateããããã®dateã®å±ããå¹´ãæ±ããã
+--dateから、そのdateの属する年を求める。
 public Year: () -> int
 Year() == calendar().Year(self);
 		
---dateããããã®dateã®å±ããæãæ±ããã
+--dateから、そのdateの属する月を求める。
 public Month: () -> int
 Month() == calendar().Month(self);
 		
---dateãããæ¥ãæ±ããã
+--dateから、日を求める。
 public day: () -> int
 day() == calendar().day(self);
 
 /* calculation  */
 
---ä¼æ¥ã§ãªãdateãè¿ãï¼æªæ¥ã¸åãã£ã¦æ¢ç´¢ããï¼
+--休日でないdateを返す（未来へ向かって探索する）
 public getFutureWeekday : ()-> Date
 getFutureWeekday() == calendar().getFutureWeekday(self);
 
---ä¼æ¥ã§ãªãdateãè¿ãï¼éå»ã¸åãã£ã¦æ¢ç´¢ããï¼
+--休日でないdateを返す（過去へ向かって探索する）
 public getPastWeekday : ()-> Date
 getPastWeekday() == calendar().getPastWeekday(self);
 
---selfã«ãå¹³æ¥næ¥åãå ç®ãã
+--selfに、平日n日分を加算する
 public addWeekday : int -> Date
 addWeekday(addNumOfDays) == calendar().addWeekday(self,addNumOfDays);
 
---selfã«ãå¹³æ¥næ¥åãæ¸ç®ãã
+--selfに、平日n日分を減算する
 public subtractWeekday : int -> Date
 subtractWeekday(subtractNumOfDays) == calendar().subtractWeekday(self,subtractNumOfDays) ;
 
@@ -1347,17 +1345,17 @@ print() ==
 	);
 
 
-----æ¯è¼
+----比較
 
 /*
-æä½å
-	å¤§å°æ¯è¼ãè¡ãé¢æ°ç¾¤ã
-å¼æ°
+操作名
+	大小比較を行う関数群。
+引数
 	date
-è¿å¤
-	çãªãtrueãè¿ããããã§ãªããã°falseãè¿ãã
-åå®¹
-	èªèº«ã¨ä¸ããããdateã®å¤§å°æ¯è¼ãè¡ãã
+返値
+	真ならtrueを返し、そうでなければfalseを返す。
+内容
+	自身と与えられたdateの大小比較を行う。
 */
 public LT: Date ==> bool
 LT(date) == return floor self.getModifiedJulianDate() < floor date.getModifiedJulianDate();
@@ -1371,25 +1369,25 @@ LE(date) == return not self.GT(date);
 public GE: Date ==> bool
 GE(date) == return not self.LT(date);
 
---èªèº«ã¨ä¸ããããdateãEQãå¤å®ããã
-public EQ: Date ==> bool	--ç­ãããã°trueãè¿ããããã§ãªããã°falseãè¿ãã
+--自身と与えられたdateがEQか判定する。
+public EQ: Date ==> bool	--等しければtrueを返し、そうでなければfalseを返す。
 EQ(date) ==  return (floor self.getModifiedJulianDate() = floor date.getModifiedJulianDate());
 
---èªèº«ã¨ä¸ããããdateãç­ãããªããå¤å®ããã
-public NE: Date ==> bool	--ç­ãããã°falseãè¿ããããã§ãªããã°trueãè¿ãã
+--自身と与えられたdateが等しくないか判定する。
+public NE: Date ==> bool	--等しければfalseを返し、そうでなければtrueを返す。
 NE(date) ==  return (floor self.getModifiedJulianDate() <> floor date.getModifiedJulianDate());
 
 ----calculation
 
---èªèº«ã«numOfDaysãå ç®ããdateãè¿ã
+--自身にnumOfDaysを加算したdateを返す
 public plus: int ==> Date
 plus(addNumOfDays) == return calendar().modifiedJulianDate2Date(self.getModifiedJulianDate() + addNumOfDays) ;
 
---èªèº«ããnumOfDaysãæ¸ç®ããdateãè¿ã
+--自身からnumOfDaysを減算したdateを返す
 public minus: int ==> Date
 minus(subtractNumOfDays) == return calendar().modifiedJulianDate2Date(self.getModifiedJulianDate() - subtractNumOfDays) ;
 
---ã¤ã³ã¹ã¿ã³ã¹å¤æ°ã¸ã®ã¢ã¯ã»ã¹æä½
+--インスタンス変数へのアクセス操作
 
 --ModifiedJulianDate
 public setModifiedJulianDate: real ==> ()
@@ -1608,7 +1606,6 @@ setUp() == TestName := "DateT07:\tQuery about date.date";
 protected tearDown: () ==> ()
 tearDown() == return;
 end DateT07
-
 ~~~
 {% endraw %}
 
@@ -1684,7 +1681,6 @@ static toListMeasure[@T] :  (seq of @T * seq of @T) +> nat
 toListMeasure(mk_(s1, s2)) == len s1 + len s2;
 
 end DoubleListQueue
-
 ~~~
 {% endraw %}
 
@@ -2056,10 +2052,14 @@ pre
  	is_(s, seq of real) or is_(s, seq of rat);
                                                        
 static public Plus[@T] : @T -> @T -> @T
-Plus(a)(b) == a + b;
+Plus(a)(b) == if is_real(a) and is_real(b)
+              then a + b
+              else undefined;
                                                          
 static public Product[@T] : @T -> @T -> @T
-Product(a)(b) == a * b;
+Product(a)(b) == if is_real(a) and is_real(b)
+              then a * b
+              else undefined;
                                                               
 static public Append[@T] : seq of @T -> @T -> seq of @T
 Append(s)(e) == s ^ [e];
@@ -2069,15 +2069,21 @@ Average(s) == if s = [] then nil else AverageAux[@T](0)(0)(s)
 post
 	if s = [] then
 		RESULT = nil
-	else
-		RESULT = Sum[@T](s) / len s;
+	else let sum = Sum[@T](s)
+	     in
+		RESULT = if is_real(sum) 
+		         then sum / len s
+		         else undefined;
 
 static AverageAux[@T] : @T -> @T -> seq of @T -> real
 AverageAux(total)(numOfElem)(s) ==
+  if is_(s,seq of real) and is_real(total) and is_real(numOfElem)
+  then
 	cases s :
 	[x] ^ xs	-> AverageAux[@T](total + x)(numOfElem + 1)(xs),
-	[]		-> total / numOfElem
-	end;
+	[]		-> total / numOfElem 
+	end
+	else undefined;
                                                                                                                                                       
 static public IsAscendingInTotalOrder[@T] : (@T * @T -> bool) -> seq of @T -> bool
 IsAscendingInTotalOrder(f)(s) ==
@@ -2089,11 +2095,17 @@ IsDescendingInTotalOrder(f)(s) ==
                                                                                                                                              
 static public IsAscending [@T]: seq of @T -> bool
 IsAscending(s) ==
-	IsAscendingInTotalOrder[@T](lambda x : @T, y : @T & x < y)(s);
+	IsAscendingInTotalOrder[@T](lambda x : @T, y : @T & 
+	                              if is_real(x) and is_real(y) 
+	                              then x < y
+	                              else undefined)(s);
                                                                                                                                               
 static public IsDescending[@T]: seq of @T -> bool
 IsDescending(s) ==
-	IsDescendingInTotalOrder[@T](lambda x : @T, y : @T & x < y)(s);
+	IsDescendingInTotalOrder[@T](lambda x : @T, y : @T & 
+	                                  if is_real(x) and is_real(y) 
+	                                  then x < y
+	                                  else undefined)(s);
                                                                                                                                    
 static public Sort[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T
 Sort(f)(s) ==
@@ -2106,12 +2118,18 @@ Sort(f)(s) ==
 	end;
                                                                                                                                    
 static public AscendingSort[@T] : seq of @T -> seq of @T
-AscendingSort(s) == Sort[@T](lambda x : @T, y : @T & x < y)(s)
+AscendingSort(s) == Sort[@T](lambda x : @T, y : @T & 
+                                if is_real(x) and is_real(y) 
+	                              then x < y
+	                              else undefined)(s)
 post
 	IsAscending[@T](RESULT);
                                                                                                                                                                        
 static public DescendingSort[@T] : seq of @T -> seq of @T
-DescendingSort(s) == Sort[@T](lambda x : @T, y : @T & x > y)(s)
+DescendingSort(s) == Sort[@T](lambda x : @T, y : @T & 
+                                  if is_real(x) and is_real(y) 
+	                                then x > y
+	                                else undefined)(s)
 post
 	IsDescending[@T](RESULT);
                                                                                                                                                  
@@ -2597,11 +2615,11 @@ end FunctionT03
 
 {% raw %}
 ~~~
-/* Responsibilityï¼
+/* Responsibility：
  *	Hash Table
  
- * Usageï¼
- *	ï¼ï¼ï¼ Object in Hashtable have to have hashCode() function and equals() function.
+ * Usage：
+ *	（１） Object in Hashtable have to have hashCode() function and equals() function.
  
  * From historical reason, there are functional programming style and object-oriented style functions.
  * if function name starts chapital letter, the function is functional programming style
@@ -2632,7 +2650,7 @@ Hashtable(aContents) ==
 	return self
 	);
 
---Hashtableã®ã¯ãªã¢ã¼
+--Hashtableのクリアー
 public clear : () ==> ()
 clear() == setBuckets({ |-> });
 
@@ -2796,7 +2814,7 @@ Remove(aHashtable)(aHashCode)(aKey) ==
 	{h |-> ({aKey} <-: aHashtable(hashcode)) | h in set {hashcode}} munion 
 		{hashcode} <-: aHashtable ;
 
---Hashtableã®ã¯ãªã¢ã¼
+--Hashtableのクリアー
 static public Clear[@T1, @T2] : () -> (map @T1 to (map @T1 to  @T2))
 Clear() == ({ |-> });
 
@@ -3504,7 +3522,6 @@ LCM(x)(y) ==
 	end;
 			
 end Integer
-
 ~~~
 {% endraw %}
 
@@ -3793,7 +3810,6 @@ static public max[@e] : ( @e * @e -> bool) -> @e -> @e -> @e
 max(f)(n1)(n2) == if f(n1,n2) then n2 else n1;
 			
 end Number
-
 ~~~
 {% endraw %}
 
@@ -3869,13 +3885,13 @@ end NumberT03
 ~~~
 class Object
 /*
-ä½æè = ä½åä¼¸
-ä½ææ¥ = 2000å¹´ 8æ 23æ¥ 
+作成者 = 佐原伸
+作成日 = 2000年 8月 23日 
 Responsibility
-	ãªãã¸ã§ã¯ãå±éã®æ¯ãèããè¡¨ãã
+	オブジェクト共通の振る舞いを表す。
 
 Abstract
-	ãã¹ã¦ã®ãªãã¸ã§ã¯ãã«å±éãªæ©è½ãå®ç¾©ããã
+	すべてのオブジェクトに共通な機能を定義する。
 */
 	
 functions 
@@ -3891,7 +3907,6 @@ public getContent : () ==> [seq of char | int]
 getContent() == return 1374;	--meaningless value. so subclass must set.
 			
 end Object
-
 ~~~
 {% endraw %}
 
@@ -4346,7 +4361,6 @@ end RealT08
 
 
 
-
 ~~~
 {% endraw %}
 
@@ -4438,7 +4452,7 @@ public setTheSetOfDayOffs: int ==> () 	-- get the set of dayoff, but Sundays are
 setTheSetOfDayOffs(year) ==
 	let	japaneseCalendar = new JapaneseCalendar(),
 		japaneseDayoffSet = japaneseCalendar.getSetOfDayOff(year),
-		TR1ã®setOfDayOff = {
+		TR1のsetOfDayOff = {
 			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,1,2), 
 			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,1,3), 
 			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,12,29), 
@@ -4446,11 +4460,11 @@ setTheSetOfDayOffs(year) ==
 			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,12,31)
 		},
 		saturdaySet = japaneseCalendar.getDayOfTheWeekInYear(year,<Sat>) 	in
-	Year2Holidays := Year2Holidays munion { year |-> japaneseDayoffSet union TR1ã®setOfDayOff union saturdaySet}
+	Year2Holidays := Year2Holidays munion { year |-> japaneseDayoffSet union TR1のsetOfDayOff union saturdaySet}
 pre
 	year >= 2000;
 
---todayOnBusinessãreadFromFile
+--todayOnBusinessをreadFromFile
 public readTodayOnBusiness : seq of char ==> [Date]
 readTodayOnBusiness(fname) ==
 	let	mk_(rslt, mk_(y,m,d)) = io.freadval[int * int * int](fname)
@@ -4554,7 +4568,7 @@ test() ==
 	return
 		(
 		--c.maxDate().EQ(c.getDateFrom_yyyy_mm_dd(9999,12,31)) and
-		--c.maxDate().date2Str = c.dateã®æå¤§å¤ and
+		--c.maxDate().date2Str = c.dateの最大値 and
 		c.todayOnBusiness().EQ(c.getDateFrom_yyyy_mm_dd(2001,9,12)) and
 		c.isDateNil(nil) = true and
 		--c.isDateNil(c.maxDate()) = true and
@@ -4861,10 +4875,13 @@ pre
 
 static SumAux[@T] : seq of @T -> @T -> @T
 SumAux(s)(sum) ==
+  if is_(s,seq of real) and is_real(sum)
+  then
 	if s = [] then
 		sum
 	else
-		SumAux[@T](tl s)(sum + hd s);
+		SumAux[@T](tl s)(sum + hd s)
+  else undefined;
 --measure length_measure;
 
 static length_measure[@T] : seq of @T +> nat
@@ -4877,10 +4894,13 @@ pre
  	
 static ProductAux[@T] : seq of @T -> @T -> @T
 ProductAux(s)(p) ==
+ if is_(s,seq of real) and is_real(p)
+ then
 	cases s :
 	[h] ^ tail	-> ProductAux[@T](tail)(p * h),
 	[]			-> p
-	end;
+	end
+ else undefined;
 --measure length_measure;
 
 static public GetAverage[@T]: seq of @T ->  [real]
@@ -4888,10 +4908,13 @@ GetAverage(s) == if s = [] then nil else GetAverageAux[@T](s)(0)(len s);
 
 static GetAverageAux[@T] : seq of @T -> @T -> @T -> real
 GetAverageAux(s)(sum)(numberOfElem) ==
+ if is_(s,seq of real) and is_real(sum) and is_real(numberOfElem)
+ then
 	cases s :
 	[h] ^ tail	-> GetAverageAux[@T](tail)(sum + h)(numberOfElem),
 	[]			-> sum / numberOfElem
-	end;
+	end
+else undefined;
 --measure length_measure;
 
 static public isAscendingTotalOrder [@T]:
@@ -4906,11 +4929,15 @@ isDescendingTotalOrder (decideOrderFunc)(s) ==
 
 static public isAscendingOrder [@T]: seq of @T -> bool
 isAscendingOrder(s) ==
-	isAscendingTotalOrder [@T](lambda x : @T, y : @T & x < y)(s);
+	isAscendingTotalOrder [@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
+                                                     then x < y
+                                                     else undefined)(s);
 
 static public isDescendingOrder[@T]: seq of @T -> bool
 isDescendingOrder(s) ==
-	isDescendingTotalOrder [@T](lambda x : @T, y : @T & x < y)(s);
+	isDescendingTotalOrder [@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
+                                                      then x < y
+                                                      else undefined)(s);
 
 static public sort[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T
 sort(decideOrderFunc)(s) ==
@@ -4923,10 +4950,14 @@ sort(decideOrderFunc)(s) ==
 	end;
 
 static public ascendingOrderSort[@T] : seq of @T -> seq of @T
-ascendingOrderSort(s) == sort[@T](lambda x : @T, y : @T & x < y)(s);
+ascendingOrderSort(s) == sort[@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
+                                                          then x < y
+                                                          else undefined)(s);
 
 static public descendingOrderSort[@T] : seq of @T -> seq of @T
-descendingOrderSort(s) == sort[@T](lambda x : @T, y : @T & x > y)(s);
+descendingOrderSort(s) == sort[@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
+                                                           then x > y
+                                                           else undefined)(s);
 
 static public isOrdered[@T] : seq of (@T * @T -> bool) -> seq of @T -> seq of @T -> bool
 isOrdered(decideOrderFuncSeq)(s1)(s2) ==
@@ -5738,13 +5769,14 @@ SumAux(aSet)(aSum) ==
 	cases aSet :
 	({})	-> aSum,
 	{e} union s->
-		SumAux[@T](s)(aSum + e)
+		SumAux[@T](s)(if is_real(aSum) and is_real(e)
+		              then aSum + e
+		              else undefined)
 	end
 pre
 	pre_Sum[@T](aSet);
 
 end Set
-
 ~~~
 {% endraw %}
 
@@ -6291,73 +6323,73 @@ operations
 public test: () ==> bool
 test() == 
 	return 
-		let åºåãæå­ = elems "\t\n " in
-		String`GetToken("sahara\tshin", åºåãæå­) = "sahara" and
-		String`GetToken("sahara\tshin SCSK", åºåãæå­) = "sahara" and
-		String`DropToken("sahara\tshin", åºåãæå­) = "\tshin" and
-		String`DropToken("sahara\tshin SCSK", åºåãæå­) = "\tshin SCSK" and
-		String`DropToken("sahara\tshin SCSK\n", åºåãæå­) = "\tshin SCSK\n"
+		let 区切り文字 = elems "\t\n " in
+		String`GetToken("sahara\tshin", 区切り文字) = "sahara" and
+		String`GetToken("sahara\tshin SCSK", 区切り文字) = "sahara" and
+		String`DropToken("sahara\tshin", 区切り文字) = "\tshin" and
+		String`DropToken("sahara\tshin SCSK", 区切り文字) = "\tshin SCSK" and
+		String`DropToken("sahara\tshin SCSK\n", 区切り文字) = "\tshin SCSK\n"
 ;
 protected setUp: () ==> ()
-setUp() == TestName := "StringT11:\tæå®ããæå­åã®åé ­tokenãå¾ãã";
+setUp() == TestName := "StringT11:\t指定した文字列の先頭tokenを得る。";
 protected tearDown: () ==> ()
 tearDown() == return;
 end StringT11
 
 /*
-ã·ããªãªID
-	æå­åãè¡ã«åè§£ããã·ããªãª
-åå®¹
-	æå­åãè¡ã«åè§£ããããæ¤æ»ããã
+シナリオID
+	文字列を行に分解するシナリオ
+内容
+	文字列を行に分解するかを検査する。
 */
 class StringT12 is subclass of TestCase
 operations 
 public test: () ==> bool
 test() == 
 	return 
-		let å¯¾è±¡æå­å1 = "private æ¬¡ç¶æãå¾ã : () ==> ãç¶æã\næ¬¡ç¶æãå¾ã(aã¬ã¼ã, aã¬ã¼ãå¼æ°, aã¤ãã³ã, aã¤ãã³ãå¼æ°,  aå¦çæé) == (\ncases mk_(aã¬ã¼ã, ç¾å¨ç¶æ, aã¤ãã³ã)  :\n\tmk_(-,-,(ã¨ã©ã¼æ¤ç¥)) -> return ã¨ã©ã¼ä¸­,\n",
-			ss1 = String`getLines(å¯¾è±¡æå­å1),
-			å¯¾è±¡æå­å2 = "ä½å\nä¼¸",
-			ss2 = String`getLines(å¯¾è±¡æå­å2)
+		let 対象文字列1 = "private 次状態を得る : () ==> 「状態」\n次状態を得る(aガード, aガード引数, aイベント, aイベント引数,  a処理時間) == (\ncases mk_(aガード, 現在状態, aイベント)  :\n\tmk_(-,-,(エラー検知)) -> return エラー中,\n",
+			ss1 = String`getLines(対象文字列1),
+			対象文字列2 = "佐原\n伸",
+			ss2 = String`getLines(対象文字列2)
 		in
-		ss1(1) = "private æ¬¡ç¶æãå¾ã : () ==> ãç¶æã" and
-		ss1(2) = "æ¬¡ç¶æãå¾ã(aã¬ã¼ã, aã¬ã¼ãå¼æ°, aã¤ãã³ã, aã¤ãã³ãå¼æ°,  aå¦çæé) == (" and
-		ss1(3) = "cases mk_(aã¬ã¼ã, ç¾å¨ç¶æ, aã¤ãã³ã)  :" and
-		ss1(4) = "\tmk_(-,-,(ã¨ã©ã¼æ¤ç¥)) -> return ã¨ã©ã¼ä¸­," and
-		ss2(1) = "ä½å" and
-		ss2(2) = "ä¼¸"
+		ss1(1) = "private 次状態を得る : () ==> 「状態」" and
+		ss1(2) = "次状態を得る(aガード, aガード引数, aイベント, aイベント引数,  a処理時間) == (" and
+		ss1(3) = "cases mk_(aガード, 現在状態, aイベント)  :" and
+		ss1(4) = "\tmk_(-,-,(エラー検知)) -> return エラー中," and
+		ss2(1) = "佐原" and
+		ss2(2) = "伸"
 ;
 protected setUp: () ==> ()
-setUp() == TestName := "StringT12:\tæå­åãè¡ã«åè§£ããã";
+setUp() == TestName := "StringT12:\t文字列を行に分解する。";
 protected tearDown: () ==> ()
 tearDown() == return;
 end StringT12
 
 /*
-ã·ããªãªID
-	è±æ°å­ãå¤å®ããã·ããªãª
-åå®¹
-	è±æ°å­ãå¤å®ãæ­£ããããæ¤æ»ããã
+シナリオID
+	英数字か判定するシナリオ
+内容
+	英数字か判定が正しいかを検査する。
 */
 class StringT13 is subclass of TestCase
 operations 
 public test: () ==> bool
 test() == 
 	return 
-		let	wè±å­å = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ",
-			wæ°å­å = "0123456789",
-			wè±æ°å­å = wè±å­å ^ wæ°å­å
+		let	w英字列 = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ",
+			w数字列 = "0123456789",
+			w英数字列 = w英字列 ^ w数字列
 		in
-		String`isLetters(wè±å­å) and
-		not String`isLetters(" " ^ wè±å­å) and
-		String`isDigits(wæ°å­å) and
-		not String`isDigits(" " ^ wæ°å­å) and
-		not String`isDigits("a" ^ wæ°å­å) and
-		String`isLetterOrDigits(wè±æ°å­å)  and
-		not String`isLetterOrDigits(wè±æ°å­å ^ " ") 
+		String`isLetters(w英字列) and
+		not String`isLetters(" " ^ w英字列) and
+		String`isDigits(w数字列) and
+		not String`isDigits(" " ^ w数字列) and
+		not String`isDigits("a" ^ w数字列) and
+		String`isLetterOrDigits(w英数字列)  and
+		not String`isLetterOrDigits(w英数字列 ^ " ") 
 ;
 protected setUp: () ==> ()
-setUp() == TestName := "StringT13:\tè±æ°å­ãã®å¤å®ãæ­£ããããæ¤æ»ããã";
+setUp() == TestName := "StringT13:\t英数字かの判定が正しいかを検査する。";
 protected tearDown: () ==> ()
 tearDown() == return;
 end StringT13
@@ -6381,7 +6413,6 @@ setUp() == TestName := "StringT11:\tIs a some kind of string?";
 protected tearDown: () ==> ()
 tearDown() == return;
 end StringT14
-
 
 ~~~
 {% endraw %}
@@ -6513,7 +6544,6 @@ tearDown() == return;
 
 end TestCase
 
-
 ~~~
 {% endraw %}
 
@@ -6555,7 +6585,6 @@ run() ==
 	
 end TestDriver
 
-
 ~~~
 {% endraw %}
 
@@ -6565,7 +6594,7 @@ end TestDriver
 ~~~
 --$Id: TestLogger.vpp,v 1.2 2006/04/04 07:03:05 vdmtools Exp $
 class TestLogger
---ãã¹ãã®ã­ã°ãç®¡çãã
+--テストのログを管理する
 
 values
 
@@ -6614,28 +6643,28 @@ end TestLogger
 class Time is subclass of CalendarDefinition
 /*
 Responsibility
-	æéãè¡¨ãã
+	時間を表す。
 Abstract
-	ç§ã¯æéãããã¯ã¢ããªã·ã¹ã»ãã¿ã¼ã³ã§è¨ãã¨ããã®æç¹ã§ãããaDateã®æéãè¡¨ãã
-	ä¾ãã°2003å¹´7æ28æ¥14æ15å59ç§ãè¡¨ãã
+	私は時間あるいはアナリシス・パターンで言うところの時点であり、aDateの時間を表す。
+	例えば2003年7月28日14時15分59秒を表す。
 */
 
 values
-public hoursPerDay = 24;	--ï¼æ¥ã®æéæ°
-public minutesPerHour = 60;	--ï¼æéã®åæ°
-public secondsPerMinute = 60;	--ï¼åã®ç§æ°
-public ããª = 1000;		--ããªãéå¸¸ã®åä½ã«ããããã®åæ°
-public milliSecondsPerDay = hoursPerDay * minutesPerHour * secondsPerMinute * ããª;	--ï¼æ¥=ï¼ï¼æéãmilliSecondã§è¡¨ããæ°
-public milliSecondsPerHour = minutesPerHour * secondsPerMinute * ããª;	--ï¼æéãmilliSecondã§è¡¨ããæ°
+public hoursPerDay = 24;	--１日の時間数
+public minutesPerHour = 60;	--１時間の分数
+public secondsPerMinute = 60;	--１分の秒数
+public ミリ = 1000;		--ミリを通常の単位にするための倍数
+public milliSecondsPerDay = hoursPerDay * minutesPerHour * secondsPerMinute * ミリ;	--１日=２４時間をmilliSecondで表した数
+public milliSecondsPerHour = minutesPerHour * secondsPerMinute * ミリ;	--１時間をmilliSecondで表した数
 private io = new IO();
 
 types
-public TimeInMilliSeconds = nat;	--ï¼æ¥ã®æå»ãï¼æã0ã¨ããmilliSecondåä½ã§æã¤ã
+public TimeInMilliSeconds = nat;	--１日の時刻を０時を0としたmilliSecond単位で持つ。
 	
 instance variables
-/*ãæ¬æ¥ã¯ãJavaã®ããã«dateã»æéãåããã¦milliSecondåä½ã§æã¤ã¹ãã ãããã
-ããDateã¯åç²¾åº¦æµ®åå°æ°ç¹æ°ã§ModifiedJulianDateãæã£ã¦ãããããæéã®ç²¾åº¦ã¯ï¼åç¨åº¦ã¨ãªãã
-ãããã®ãããdateã¨æå»ãåãã¦æã¤ãã¨ã«ããã
+/*　本来は、Javaのようにdate・時間を合わせてmilliSecond単位で持つべきだろうが、
+　　Dateは倍精度浮動小数点数でModifiedJulianDateを持っているため、時間の精度は５分程度となる。
+　　このため、dateと時刻を分けて持つことにした。
 */
 sDate : Date;
 sTime : TimeInMilliSeconds;
@@ -6643,17 +6672,17 @@ sTime : TimeInMilliSeconds;
 operations
 --Constructor
 public Time : Calendar * int * int * int * nat * nat * nat  * nat ==> Time
-Time(cal, year, month, æ¥, æ, aMinute, aSecond, milliSecond) ==
+Time(cal, year, month, 日, 時, aMinute, aSecond, milliSecond) ==
 	(
-	sDate := cal.getDateFrom_yyyy_mm_dd(year, month, æ¥);
-	sTime := self.IntProduct2TimeMillieSeconds(æ, aMinute, aSecond, milliSecond);
+	sDate := cal.getDateFrom_yyyy_mm_dd(year, month, 日);
+	sTime := self.IntProduct2TimeMillieSeconds(時, aMinute, aSecond, milliSecond);
 	return self
 	);
 
 public Time : Calendar * int * int * int ==> Time
-Time(cal, year, month, æ¥) ==
+Time(cal, year, month, 日) ==
 	(
-	sDate := cal.getDateFrom_yyyy_mm_dd(year, month, æ¥);
+	sDate := cal.getDateFrom_yyyy_mm_dd(year, month, 日);
 	sTime := self.IntProduct2TimeMillieSeconds(0, 0, 0, 0);
 	return self
 	);
@@ -6666,7 +6695,7 @@ Time(aDate) ==
 	return self
 	);
 	
---currentDateTimeãæ±ããåä½ãã¹ãç¨é¢æ°ã
+--currentDateTimeを求める単体テスト用関数。
 public Time: Calendar ==> Time
 Time(cal) == 
 	(
@@ -6680,11 +6709,11 @@ Time(cal) ==
 	);
 
 
---currentDateTimeãæå®ããreadFromFileåä½ãã¹ãç¨é¢æ°ã
+--currentDateTimeを指定したreadFromFile単体テスト用関数。
 public Time: seq of char * seq of char * Calendar ==> Time
-Time(dateFileName, æéfname, cal) ==
+Time(dateFileName, 時間fname, cal) ==
 	(
-	let	currentDateTime = readCurrentDateTime(dateFileName, æéfname, cal)
+	let	currentDateTime = readCurrentDateTime(dateFileName, 時間fname, cal)
 	in
 	(
 	sDate := currentDateTime.getDate();
@@ -6693,12 +6722,12 @@ Time(dateFileName, æéfname, cal) ==
 	return self
 	);
 		
---currentDateTimeãreadFromFile
+--currentDateTimeをreadFromFile
 public readCurrentDateTime : seq of char * seq of char * Calendar ==> [Time]
-readCurrentDateTime(dateFileName, æéfname, cal) ==
-	let	mk_(çµæ, mk_(h, m, s, ms)) = io.freadval[int * int * int * int](æéfname)
+readCurrentDateTime(dateFileName, 時間fname, cal) ==
+	let	mk_(結果, mk_(h, m, s, ms)) = io.freadval[int * int * int * int](時間fname)
 	in
-	if çµæ then
+	if 結果 then
 		let	d = cal.readFromFiletoday(dateFileName)	in
 		return new Time(cal, d.Year(),  d.Month(), d.day(), h, m, s, ms)
 	else
@@ -6706,7 +6735,7 @@ readCurrentDateTime(dateFileName, æéfname, cal) ==
 		in
 		return nil;
 
---ã¤ã³ã¹ã¿ã³ã¹å¤æ°æä½
+--インスタンス変数操作
 
 public getDate : () ==> Date
 getDate() == return sDate;	
@@ -6771,19 +6800,19 @@ setMilliSecond(aMilliSecond) ==
 functions
 -- Get attribute.
 
---æéããããã®æéã®å±ããæ¦ãæ±ããã
+--時間から、その時間の属する暦を求める。
 public calendar : () -> Calendar
 calendar() == getDate().calendar();
 
---æéããããã®æéã®å±ããå¹´ãæ±ããã
+--時間から、その時間の属する年を求める。
 public Year: () -> int
 Year() == self.getDate().calendar().Year(self.getDate());
 		
---æéããããã®æéã®å±ããæãæ±ããã
+--時間から、その時間の属する月を求める。
 public Month: () -> int
 Month() == self.getDate().calendar().Month(self.getDate());
 		
---æéãããæ¥ãæ±ããã
+--時間から、日を求める。
 public day: () -> int
 day() == self.getDate().calendar().day(self.getDate());
 
@@ -6816,24 +6845,24 @@ LE(aTime) == not self.GT(aTime);
 public GE: Time -> bool
 GE(aTime) == not self.LT(aTime);
 
---èªèº«ã¨ä¸ããããæéãEQãå¤å®ããã
+--自身と与えられた時間がEQか判定する。
 public EQ: Time  ->  bool
 EQ(aTime) == 
 	self.getDate().EQ(aTime.getDate()) and self.getTimeAsNat() = aTime.getTimeAsNat();
 
---èªèº«ã¨ä¸ããããæéãç­ãããªããå¤å®ããã
+--自身と与えられた時間が等しくないか判定する。
 public NE: Time ->  bool
 NE(aTime) ==  not self.EQ(aTime);
 
---å¤æ
+--変換
 
 public IntProduct2TimeMillieSeconds : int * int * int * int -> int
-IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond) ==((hour * minutesPerHour + aMinute) * secondsPerMinute + aSecond) * ããª + milliSecond;
+IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond) ==((hour * minutesPerHour + aMinute) * secondsPerMinute + aSecond) * ミリ + milliSecond;
 
 public Time2IntProduct : TimeInMilliSeconds -> nat * nat * nat * nat
 Time2IntProduct(aTime) ==
-	let	hms = aTime div ããª,
-		milliSecond = aTime mod ããª,
+	let	hms = aTime div ミリ,
+		milliSecond = aTime mod ミリ,
 		hm = hms div secondsPerMinute,
 		aSecond = hms mod secondsPerMinute,
 		hour = hm div minutesPerHour,
@@ -6866,7 +6895,7 @@ print() ==
 
 ----calculation
 
---milliSecondãå ç®ãã
+--milliSecondを加算する
 public plusmilliSecond : int ==> Time
 plusmilliSecond(aMilliSecond) == 
 	let	time = self.getTime() + aMilliSecond,
@@ -6885,18 +6914,18 @@ plusmilliSecond(aMilliSecond) ==
 	);
 	
 public plussecond : int ==> Time
-plussecond(aSecond) == self.plusmilliSecond(aSecond * ããª);
+plussecond(aSecond) == self.plusmilliSecond(aSecond * ミリ);
 	
 public plusminute : int ==> Time
-plusminute(minute) == self.plusmilliSecond(minute * secondsPerMinute * ããª);
+plusminute(minute) == self.plusmilliSecond(minute * secondsPerMinute * ミリ);
 	
 public plushour : int ==> Time
-plushour(hour) == self.plusmilliSecond(hour * minutesPerHour * secondsPerMinute * ããª);
+plushour(hour) == self.plusmilliSecond(hour * minutesPerHour * secondsPerMinute * ミリ);
 	
 public plus: int * int * int * int ==> Time
 plus(hour, aMinute, aSecond, milliSecond) == self.plusmilliSecond(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond));
 	
---milliSecondãæ¸ç®ãã
+--milliSecondを減算する
 public minusmilliSecond : int ==> Time
 minusmilliSecond(aMilliSecond) == return self.plusmilliSecond(-aMilliSecond);
 		
@@ -6943,7 +6972,7 @@ test() ==
 		t3.getTime() = t2.IntProduct2TimeMillieSeconds(0, 0, 0, 0) 
 	;
 protected setUp: () ==> ()
-setUp() == TestName := "ï¼´ï½ï½ï½ï¼ï¼ï¼Â¥tï¼´ï½ï½ï½ãï½ï½ãï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï¼";
+setUp() == TestName := "Ｔｉｍｅ０１：¥tＴｅｓｔ　ｏｆ　ｃｏｎｓｔｒｕｃｔｏｒ．";
 protected tearDown: () ==> ()
 tearDown() == return;
 end TimeT01
@@ -7109,13 +7138,13 @@ end TimeT06
 
 {% raw %}
 ~~~
-class ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ is subclass of CommonDefinition
+class ＵｎｉｑｕｅＮｕｍｂｅｒ is subclass of CommonDefinition
 
 values
-ï¼¤ï½ï½ï½ï½ï½ï½ï¼¶ï½ï½ï½ï½ = 1;
+ＤｅｆａｕｌｔＶａｌｕｅ = 1;
 
 instance variables
-protected UniqNum  : int := ï¼¤ï½ï½ï½ï½ï½ï½ï¼¶ï½ï½ï½ï½		-- UniqNum of next issued
+protected UniqNum  : int := ＤｅｆａｕｌｔＶａｌｕｅ		-- UniqNum of next issued
 
 functions
 public getUniqNum : int * nat1 -> int
@@ -7127,8 +7156,8 @@ getUniqNum(aCandidateNum, aNumberOfDigit) ==
 
 operations
 -- make an unique number within aNumberOfDigit
-public ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½ : nat1 ==> seq of char
-ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(aNumberOfDigit) ==
+public ｇｅｔＵｎｉｑＮｕｍＳｔｒ : nat1 ==> seq of char
+ｇｅｔＵｎｉｑＮｕｍＳｔｒ(aNumberOfDigit) ==
 	let	n = getUniqNum(UniqNum, aNumberOfDigit)
 	in
 	(
@@ -7139,12 +7168,11 @@ public ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½�
 public initialize : () ==> int
 initialize() == 
 	(
-	UniqNum := ï¼¤ï½ï½ï½ï½ï½ï½ï¼¶ï½ï½ï½ï½;
+	UniqNum := ＤｅｆａｕｌｔＶａｌｕｅ;
 	return UniqNum
 	);
 
-end  ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½
-
+end  ＵｎｉｑｕｅＮｕｍｂｅｒ
 ~~~
 {% endraw %}
 
@@ -7152,49 +7180,48 @@ end  ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½
 
 {% raw %}
 ~~~
-class ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´ is subclass of TestDriver
+class ＵｎｉｑｕｅＮｕｍｂｅｒＴ is subclass of TestDriver
 functions
 public tests : () -> seq of TestCase
 tests () == 
-	[new ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01()
+	[new ＵｎｉｑｕｅＮｕｍｂｅｒＴ01()
 	];
-end ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´
+end ＵｎｉｑｕｅＮｕｍｂｅｒＴ
 
-class ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01 is subclass of TestCase
+class ＵｎｉｑｕｅＮｕｍｂｅｒＴ01 is subclass of TestCase
 operations 
 protected test: () ==> bool
 test() == 
-	let	o = new ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½()	in
+	let	o = new ＵｎｉｑｕｅＮｕｍｂｅｒ()	in
 	return
 		(
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "1" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "2" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "3" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "4" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "5" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "6" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "7" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "8" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "9" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "1" and 
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(1) = "2" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "3" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "4" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "5" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "6" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "7" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "8" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "9" and
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "10" and 
-		o.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(2) = "11"
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "1" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "2" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "3" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "4" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "5" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "6" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "7" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "8" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "9" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "1" and 
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "2" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "3" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "4" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "5" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "6" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "7" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "8" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "9" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "10" and 
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "11"
 		)
 ;
 protected setUp: () ==> ()
-setUp() == TestName := " ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01:\t ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01 Unit test";
+setUp() == TestName := " ＵｎｉｑｕｅＮｕｍｂｅｒＴ01:\t ＵｎｉｑｕｅＮｕｍｂｅｒＴ01 Unit test";
 protected tearDown: () ==> ()
 tearDown() == return;
-end ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ï¼´01
-
+end ＵｎｉｑｕｅＮｕｍｂｅｒＴ01
 ~~~
 {% endraw %}
 
@@ -7243,12 +7270,12 @@ end UseReal
 class UseUniqueNumber
 
 instance variables
-sUN : ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½ :=  new ï¼µï½ï½ï½ï½ï½ï¼®ï½ï½ï½ï½ï½()
+sUN : ＵｎｉｑｕｅＮｕｍｂｅｒ :=  new ＵｎｉｑｕｅＮｕｍｂｅｒ()
 
 traces
 
 S1 : 
-	let n in set {1,...,4} in sUN.ï½ï½ï½ï¼µï½ï½ï½ï¼®ï½ï½ï¼³ï½ï½(n){100}
+	let n in set {1,...,4} in sUN.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(n){100}
 
 end UseUniqueNumber
 ~~~

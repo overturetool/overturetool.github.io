@@ -89,7 +89,6 @@ functions
        forall i in set {1,...,5} &
           i <> min =>
           temp(i) > temp(min)
-
 ~~~
 {% endraw %}
 

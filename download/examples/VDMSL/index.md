@@ -3,6 +3,21 @@ layout: default
 title: VDMSL
 ---
 
+### AbstractPacemaker
+This model is described in VDM-SL as a short, flat specification. 
+This enables abstraction from design considerations and ensures 
+maximum focus on high-level, precise and systematic analysis. This
+was developed by Sten Agerholm, Peter Gorm Larsen and Kim Sunesen 
+in 1999 in connection with FM'99.
+
+
+| | |
+|------|-------|
+|Author:|Sten Agerholm, Peter Gorm Larsen and Kim Sunesen|
+|Version:|VDM_SL - vdm10|
+|Details...|[model (zip)](AbstractPacemakerSL/AbstractPacemaker.zip)  / [show specification](AbstractPacemakerSL/index.html)|
+
+
 ### AccountSys
 This example comes from the book "Formal Software Development: From VDM to Java" written by Quentin Charatan and Aaron Kans. This example illustrate how to model bank accounts and transactions made on these as a series of deposits and withdrawals.
 
@@ -20,14 +35,12 @@ removing explosives at an explosives storage site. The specification is based
 on United Kingdom Ministry of Defence regulations concerning safe storage of 
 explosives, which in turn are based on UN regulations. 
 Details of the specification may be found in:   
-
 1. P. Mukherjee and V. Stavridou, "The Formal Specification of Safety 
    Requirements for the Storage of Explosives", technical report DITC 185/91, 
    National Physical Laboratory, 1991. 
 2. P. Mukherjee and V. Stavridou, "The Formal Specification of Safety 
    Requirements for Storing Explosives", Formal Aspects of Computing, 
    5(4):299-336, 1993. 
-
 This example is primarily specified using the implicit style in VDM so it
 does not have a main debug functionality.
 

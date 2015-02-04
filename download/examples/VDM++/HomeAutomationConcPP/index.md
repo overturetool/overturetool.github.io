@@ -42,7 +42,6 @@ GetCorr() ==
   return Corr;
 
 end Actuator
-
 ~~~
 {% endraw %}
 
@@ -66,7 +65,7 @@ BaseThread() ==
   then start(self);  
  );
 
-Step : () ==> ()
+protected Step : () ==> ()
 Step() ==
   is subclass responsibility
 
@@ -151,7 +150,7 @@ public Finish: () ==> ()
 Finish() ==
   finished := true;
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
  (if World`timerRef.GetTime() < simtime 
   then CreateSignal()   
@@ -411,7 +410,7 @@ public Finish: () ==> ()
 Finish() == 
   finished := true;
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
  (UpdateValues();
   Algorithm();
@@ -466,7 +465,7 @@ public IsFinished: () ==> ()
 IsFinished() ==
   skip;
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
   Value := Env.ReadHumid();
 
@@ -630,7 +629,7 @@ public IsFinished: () ==> ()
 IsFinished() ==
   skip;
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
   Value := Env.ReadTemp();
 
@@ -689,7 +688,7 @@ public IsFinished: () ==> ()
 IsFinished() ==
   skip;
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
  (dcl tempCorr: NetworkTypes`correction := GetCorr();
 
@@ -880,7 +879,7 @@ public IsFinished: () ==> ()
 IsFinished() ==
   skip;
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
  (if (GetCorr() = <OPEN>)
   then (HA`Sur.DecHumid();

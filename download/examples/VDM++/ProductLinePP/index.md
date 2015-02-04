@@ -25,7 +25,6 @@ instance variables
     atm > 1
 
 end HighAtmosphericAirPressure
-
 ~~~
 {% endraw %}
 
@@ -40,7 +39,6 @@ instance variables
     atm < 1
 
 end LowAtmosphericAirPressure
-
 ~~~
 {% endraw %}
 
@@ -55,7 +53,6 @@ instance variables
     atm = 1
 
 end NormalAtmosphericAirPressure
-
 ~~~
 {% endraw %}
 
@@ -82,7 +79,6 @@ operations
     atm := a;
 
 end AtmosphericAirPressure
-
 ~~~
 {% endraw %}
 
@@ -100,7 +96,6 @@ operations
                       0.53 |-> 85.0};  --- 0.53atm(=400mmHg) --> 85
 
 end Water
-
 ~~~
 {% endraw %}
 
@@ -170,7 +165,6 @@ operations
     amount := a;
 
 end Liquid
-
 ~~~
 {% endraw %}
 
@@ -204,7 +198,6 @@ operations
      liquid.SetAmount(1000.0));
 
 end RealWorld1
-
 ~~~
 {% endraw %}
 
@@ -238,7 +231,6 @@ operations
      liquid.SetAmount(1000.0));
 
 end RealWorld2
-
 ~~~
 {% endraw %}
 
@@ -270,7 +262,6 @@ operations
     sw := <Off>;
 
 end Heater
-
 ~~~
 {% endraw %}
 
@@ -295,7 +286,6 @@ operations
     return realworld_liquid.GetAmount() > 0;
 
 end LiquidLevelSensor
-
 ~~~
 {% endraw %}
 
@@ -320,7 +310,6 @@ operations
     return realworld_liquid.GetTemperature();
 
 end Thermistor
-
 ~~~
 {% endraw %}
 
@@ -358,7 +347,6 @@ operations
   post liquid_level_sensor.IsOn();
 
 end Software
-
 ~~~
 {% endraw %}
 
@@ -384,7 +372,6 @@ operations
      return true);
 
 end UserTest
-
 ~~~
 {% endraw %}
 

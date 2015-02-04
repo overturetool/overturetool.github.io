@@ -113,7 +113,6 @@ sync
   per IsFinished => #fin(logSysToEnv) > 0;
 
 end EnvironmentTask
-
 ~~~
 {% endraw %}
 
@@ -146,7 +145,6 @@ thread
     (createSignal)
 
 end InsertAddress
-
 ~~~
 {% endraw %}
 
@@ -179,7 +177,6 @@ operations
       end )
 
 end MMI
-
 ~~~
 {% endraw %}
 
@@ -205,7 +202,6 @@ operations
       RadNavSys`mmi.UpdateScreen(3, pno) )
 
 end Navigation
-
 ~~~
 {% endraw %}
 
@@ -253,7 +249,6 @@ operations
     );
 
 end RadNavSys
-
 ~~~
 {% endraw %}
 
@@ -279,7 +274,6 @@ operations
       RadNavSys`navigation.DecodeTMC(pno) )
 
 end Radio
-
 ~~~
 {% endraw %}
 
@@ -340,7 +334,6 @@ thread
     (createSignal)
 
 end TransmitTMC
-
 ~~~
 {% endraw %}
 
@@ -373,7 +366,6 @@ thread
     (createSignal)
 
 end VolumeKnob
-
 ~~~
 {% endraw %}
 
@@ -410,7 +402,6 @@ operations
              | name in set dom envTasks } );
 
 end World
-
 ~~~
 {% endraw %}
 

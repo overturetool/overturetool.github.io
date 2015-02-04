@@ -113,7 +113,6 @@ class gui_Graphics
 
 end gui_Graphics
 
-
 ~~~
 {% endraw %}
 
@@ -258,7 +257,6 @@ printf(format, args) ==
     is not yet specified;
 
 end IO
-
 ~~~
 {% endraw %}
 
@@ -388,7 +386,6 @@ public
 
  
 end MATH
-
 ~~~
 {% endraw %}
 
@@ -435,7 +432,6 @@ static public classname[@T] : @T -> [seq1 of char]
     classname(s) == is not yet specified;
 
 end VDMUtil
-
 
 
 ~~~

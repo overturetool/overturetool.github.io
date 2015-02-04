@@ -64,21 +64,25 @@ operations
 
 
 --Strategy-------------------------------------------------
-strategyInit : () ==> ()
+protected strategyInit : () ==> ()
 strategyInit() == 
 (
 	state := <halt>
 );
 
-strategyNotify : () ==> ()
+protected strategyNotify : () ==> ()
 strategyNotify() == skip; -- is subclass responsibility;
 
 
-strategyEnd : () ==> ()
+protected strategyEnd : () ==> ()
 strategyEnd() == 
 (
 	state := <run>;
 );
+
+protected handleEvents : () ==> ()
+handleEvents() == 
+is not yet specified;
 -----------------------------------------------------------
   public ActivePlanManager : ()  ==> ActivePlanManager
   ActivePlanManager() == (skip;);
@@ -1012,7 +1016,7 @@ instance variables
 private routeList : set of TransportPlan`Route; 
 private grid : Grid := {};
 private inactiveGrid : Grid := {};
-private inactiveRouteID : set of TransportPlan`Route := {};
+private inactiveRouteID : set of (TransportPlan`Route | nat) := {};
 private io : IO := new IO();
 
 types
@@ -1148,23 +1152,23 @@ operations
 
 
 
-strategyInit : () ==> ()
+protected strategyInit : () ==> ()
 strategyInit() == 
 (
 	state := <halt>
 );
 
-strategyNotify : () ==> ()
+protected strategyNotify : () ==> ()
 strategyNotify() == is subclass responsibility;
 
 
-strategyEnd : () ==> ()
+protected strategyEnd : () ==> ()
 strategyEnd() == 
 (
 	state := <run>;
 );
 
-handleEvents : ActivePlanManager ==> ()
+protected handleEvents : ActivePlanManager ==> ()
 handleEvents(apm) == is subclass responsibility;
 
 
@@ -1187,19 +1191,19 @@ types
 
 operations
 
-strategyInit : () ==> ()
+protected strategyInit : () ==> ()
 strategyInit() == 
 is subclass responsibility;
 
-strategyNotify : () ==> ()
+protected strategyNotify : () ==> ()
 strategyNotify() == 
 is subclass responsibility;
 
-strategyEnd : () ==> ()
+protected strategyEnd : () ==> ()
 strategyEnd() == 
 is subclass responsibility;
 
-handleEvents : () ==> ()
+protected handleEvents : () ==> ()
 handleEvents() == 
 is subclass responsibility;
 

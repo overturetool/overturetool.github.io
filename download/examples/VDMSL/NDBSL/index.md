@@ -152,7 +152,6 @@ end
 	post let ri = mu(rm~(rk),r |-> (rm~(rk)).r \
 	     {mk_Tuple(fval,tval)}) in
 	     rm =rm~ ++ {rk |->ri}
-
 ~~~
 {% endraw %}
 

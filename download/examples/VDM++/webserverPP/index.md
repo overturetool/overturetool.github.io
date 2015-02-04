@@ -8,6 +8,9 @@ Author:
 
 
 
+This is a very simple VDM++ of the basic functionality of a web
+server.
+
 
 | Properties | Values          |
 | :------------ | :---------- |
@@ -32,7 +35,6 @@ class File
       data := chs
 
 end File
-
 ~~~
 {% endraw %}
 
@@ -58,7 +60,6 @@ class Filename
    put_file (f) == is not yet specified; 
 
 end Filename
-
 ~~~
 {% endraw %}
 
@@ -79,7 +80,6 @@ class URL
      
 
 end URL
-
 ~~~
 {% endraw %}
 
@@ -141,7 +141,6 @@ class Webserver
 end Webserver
 
   
-
 ~~~
 {% endraw %}
 

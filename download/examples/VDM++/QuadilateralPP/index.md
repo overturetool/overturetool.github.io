@@ -139,7 +139,6 @@ public
 
  
 end MATH
-
 ~~~
 {% endraw %}
 
@@ -164,7 +163,6 @@ class Mathematics
     post res**2 = r
 
 end Mathematics
-
 ~~~
 {% endraw %}
 
@@ -186,7 +184,6 @@ class Parallelogram is subclass of Quadrilateral
         return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
  
 end Parallelogram
-
 
 ~~~
 {% endraw %}
@@ -226,7 +223,6 @@ class Quadrilateral is subclass of Vector
  
 end Quadrilateral
 
-
 ~~~
 {% endraw %}
 
@@ -240,7 +236,6 @@ class Rectangle is subclass of Parallelogram
   inv inproduct (v1 , v2) = 0 
  
 end Rectangle
-
 ~~~
 {% endraw %}
 
@@ -254,7 +249,6 @@ class Rhombus is subclass of Parallelogram
   inv length (v1) = length (v2)
  
 end Rhombus
-
 ~~~
 {% endraw %}
 
@@ -265,7 +259,6 @@ end Rhombus
 class Square is subclass of Rhombus, Rectangle
  
 end Square
-
 ~~~
 {% endraw %}
 
@@ -313,7 +306,6 @@ class Vector
         mk_vector(hd1, mk_(tl1x + (tl2x - hd2x), tl1y + (tl2y - hd2y)))
  
 end Vector
-
 
 ~~~
 {% endraw %}
@@ -365,7 +357,6 @@ class WorkSpace is subclass of Vector
     pre qid in set dom screen
   
 end WorkSpace
-
 
 ~~~
 {% endraw %}

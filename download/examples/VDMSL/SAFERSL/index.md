@@ -190,7 +190,6 @@ exports
     "geom_lib.so"
 
 end GEOM
-
 ~~~
 {% endraw %}
 
@@ -775,7 +774,6 @@ handgrippos = mk_HCM`HandGripPosition (<Zero>,<Pos>,<Zero>,<Zero>);
 rotcomm = { <Roll> |-> <Zero>, <Pitch> |-> <Zero>, <Yaw> |-> <Zero> }
 
 end WorkSpace
-
 ~~~
 {% endraw %}
 

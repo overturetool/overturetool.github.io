@@ -88,7 +88,6 @@ thread
 	doit(); 
 	
 end Multiplier
-
 ~~~
 {% endraw %}
 

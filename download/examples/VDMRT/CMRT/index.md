@@ -55,7 +55,7 @@ BaseRTThread(t) ==
   then start(registeredSelf);   
  );
 
-Step : () ==> ()
+protected Step : () ==> ()
 Step() ==
   is subclass responsibility;
 
@@ -154,6 +154,9 @@ inv dom ranges = dom sensors;
 busy : bool := true;
 
 operations
+
+ public getAperture: () ==> Angle * Angle
+  getAperture () == is not yet specified;
 
 public Environment: seq of char * [ThreadDef] ==> Environment
 Environment (fname, tDef) ==
@@ -418,7 +421,7 @@ isFinished () ==
   for all id in set dom dispensers do
     dispensers(id).isFinished();
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
   (if threats <> []
    then (def mk_ (evid,pmt, pa, pt) = getThreat() in
@@ -525,7 +528,7 @@ addThreat (evid, pmt, ptime) ==
 pre pmt in set dom missilePriority and
     pmt in set dom responseDB;
 
-async Step: () ==> ()
+protected async Step: () ==> ()
 Step () ==
   cycles (1E5) 
   (if len curplan > 0
@@ -548,7 +551,10 @@ releaseFlare (evid, pfltp, pt1, pt2) ==
   World`env.handleEvent(evid,pfltp,aparature,pt1,pt2);
 
 public isFinished: () ==> ()
-isFinished () == skip
+isFinished () == skip;
+
+  public getAperture: () ==> Angle * Angle
+  getAperture () == is not yet specified;
 
 sync
 
@@ -675,7 +681,7 @@ isFinished () ==
   for all id in set dom controllers do
     controllers(id).isFinished();
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
  (if threats <> []
   then (def mk_ (evid,pmt, pa, pt) = getThreat() in
@@ -685,6 +691,9 @@ Step() ==
               then controllers(id).addThreat(evid,pmt,pa,pt);
         busy := len threats > 0);
  );
+
+  public getAperture: () ==> Angle * Angle
+  getAperture () == is not yet specified;
 
 sync
 

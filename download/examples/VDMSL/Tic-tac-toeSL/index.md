@@ -39,7 +39,10 @@ types
 	inv p ==
 		p.row <= SIZE and p.col <= SIZE;	-- Row/col must be on the board
 
-	Game = map Pos to Player;				-- A game (who has moved where)
+	Game = map Pos to Player				-- A game (who has moved where)
+	inv g ==
+		forall p1, p2 : Player &			-- No player is ever more than one move ahead
+			card dom (g :> {p1}) - card dom (g :> {p2}) in set {-1, 0, 1}
 
 
 values
@@ -160,7 +163,6 @@ operations
 		 else RESULT = whoWon(game);
 
 end XO
-
 ~~~
 {% endraw %}
 
@@ -220,7 +222,6 @@ traces
 			XO`play(XO, [m1, m2, m3, m4, m5]);
 
 end XOTests
-
 ~~~
 {% endraw %}
 

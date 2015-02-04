@@ -74,7 +74,7 @@ public SetPeriod : nat1 ==> ()
 SetPeriod(p) ==
   period := p;
 
-Step : () ==> ()
+protected Step : () ==> ()
 Step() ==
   is subclass responsibility
 

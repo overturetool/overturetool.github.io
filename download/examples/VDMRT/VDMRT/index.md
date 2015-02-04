@@ -770,7 +770,6 @@ operations
 
 end Test
 
-
 ~~~
 {% endraw %}
 
@@ -2663,7 +2662,6 @@ seq_of_char2val(s) ==
   post let mk_(b,t) = RESULT in not b => t = nil;
 
 end VDMUtil
-
 ~~~
 {% endraw %}
 

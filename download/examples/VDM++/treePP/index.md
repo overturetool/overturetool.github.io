@@ -30,7 +30,6 @@ class AVLTree is subclass of Tree
   tree_isAVLTree(t) == true
 
 end AVLTree
-
 ~~~
 {% endraw %}
 
@@ -80,7 +79,6 @@ class BalancedBST is subclass of BinarySearchTree
   v = 1
 
 end BalancedBST
-
 ~~~
 {% endraw %}
 
@@ -114,7 +112,6 @@ class Queue
       return(vals = [])
 
 end Queue
-
 ~~~
 {% endraw %}
 

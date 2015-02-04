@@ -386,7 +386,6 @@ class Stock is subclass of GLOBAL
    else []
 
 end Stock
-
 ~~~
 {% endraw %}
 

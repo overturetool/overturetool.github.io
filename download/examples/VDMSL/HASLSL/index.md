@@ -141,7 +141,6 @@ CounterOutput(output, curTime) ==
     elseif (lastOutput = <IncTemp> or lastOutput = <DecTemp>)
     then output ^ [mk_(<LeaveTemp>, curTime)]
     else output;
-
 ~~~
 {% endraw %}
 

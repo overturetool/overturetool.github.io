@@ -353,8 +353,10 @@ sync
                                                                                                                                                                                                                                                                                                                
   per Wait => curTime > timeout or resp <> nil;
                                                                                                                                                          
-thread
-  periodic(1000)(CheckTime)
+-- FIXME: Example used RT constructs must be rewritten using threads
+--thread
+--  periodic(1000)(CheckTime)
+
 
 end Channel
              
@@ -624,7 +626,6 @@ thread
   Test1()
 
 end User
-
 ~~~
 {% endraw %}
 
@@ -980,8 +981,9 @@ operations
     if active
     then curTime := curTime + 100;
                                                                                                                                                                           
-thread
-  periodic(1000)(IncTime)
+-- FIXME: Example used RT constructs must be rewritten using threads
+--thread
+--  periodic(1000)(IncTime)
 
 end Timer
              

@@ -26,7 +26,7 @@ to the conveyer belt
 ~~~
 -- ===============================================================================================================
 -- AllocatorOneTray in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- (strategy pattern)
 -- ===============================================================================================================
 
@@ -72,7 +72,7 @@ end AllocatorOneTray
 ~~~
 -- ===============================================================================================================
 -- Allocator in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- (strategy pattern)
 -- ===============================================================================================================
 
@@ -108,7 +108,7 @@ end AllocatorStrategy
 ~~~
 -- ===============================================================================================================
 -- AllocatorTwoTray in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- (strategy pattern)
 -- ===============================================================================================================
 
@@ -158,7 +158,7 @@ end AllocatorTwoTray
 ~~~
 -- ===============================================================================================================
 -- InductionController in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class InductionController
@@ -272,7 +272,7 @@ end InductionController
 ~~~
 -- ===============================================================================================================
 -- Item in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class Item
@@ -343,7 +343,7 @@ end Item
 ~~~
 -- ===============================================================================================================
 -- ItemLoader in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class ItemLoader
@@ -435,7 +435,7 @@ end ItemLoader
 ~~~
 -- ===============================================================================================================
 -- SorterController in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class SC
@@ -482,7 +482,7 @@ end SC
 ~~~
 -- ===============================================================================================================
 -- SorterEnvironment in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class SorterEnviroment
@@ -575,7 +575,7 @@ end SorterEnviroment
 ~~~
 -- ===============================================================================================================
 -- String helper class for converting numbers
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class String
@@ -619,7 +619,7 @@ end String
 ~~~
 -- ===============================================================================================================
 -- TestTraces in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class TestTraces
@@ -671,7 +671,7 @@ end TestTraces
 ~~~
 -- ===============================================================================================================
 -- Tray in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class Tray
@@ -774,7 +774,7 @@ end Tray
 ~~~
 -- ===============================================================================================================
 -- TrayAllocator in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class TrayAllocator
@@ -942,7 +942,7 @@ end TrayAllocator
 ~~~
 -- ===============================================================================================================
 -- World in tray allocation for a sortation system
--- By José Antonio Esparza and Kim Bjerge - spring 2010
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
 class World

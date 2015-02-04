@@ -119,7 +119,6 @@ values
     	end;
             
 end MMParser
-
 ~~~
 {% endraw %}
 
@@ -320,7 +319,6 @@ functions
                 mk_PARSED(mk_TREE(-, -), -) -> parsed
             end), parser)
 end VCParser
-
 ~~~
 {% endraw %}
 

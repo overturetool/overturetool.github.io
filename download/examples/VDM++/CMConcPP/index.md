@@ -48,7 +48,7 @@ BaseThread(t) ==
   then start(registeredSelf);  
  );
 
-Step : () ==> ()
+protected Step : () ==> ()
 Step() ==
   is subclass responsibility;
 
@@ -291,7 +291,7 @@ isFinished () ==
   for all id in set dom dispensers do
     dispensers(id).isFinished();
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
   (if threats <> []
   then (def mk_ (evid,pmt, pa, pt) = getThreat() in
@@ -398,7 +398,7 @@ addThreat (evid, pmt, ptime) ==
 pre pmt in set dom missilePriority and
     pmt in set dom responseDB;
 
-private Step: () ==> ()
+protected Step: () ==> ()
 Step () ==
   (if len curplan > 0
    then (dcl curtime : Time := World`timerRef.GetTime(),
@@ -548,7 +548,7 @@ isFinished () ==
   for all id in set dom controllers do
     controllers(id).isFinished();
 
-Step: () ==> ()
+protected Step: () ==> ()
 Step() ==
 ( if threats <> []
   then (def mk_ (evid,pmt, pa, pt) = getThreat() in

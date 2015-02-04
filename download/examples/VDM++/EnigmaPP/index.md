@@ -74,7 +74,6 @@ operations
   public Shift: nat ==> nat
   Shift (pidx) == Shift(pidx, 1)
 end Alphabet
-
 ~~~
 {% endraw %}
 
@@ -146,7 +145,6 @@ operations
   Rotate (-) == skip
 
 end Component
-
 ~~~
 {% endraw %}
 
@@ -180,7 +178,6 @@ operations
   pre next <> nil
 
 end Configuration
-
 ~~~
 {% endraw %}
 
@@ -240,7 +237,6 @@ operations
      ts.Run())
      
 end EnigmaTest
-
 ~~~
 {% endraw %}
 
@@ -277,7 +273,6 @@ operations
        isofclass(Reflector,next))
 
 end Plugboard
-
 ~~~
 {% endraw %}
 
@@ -335,7 +330,6 @@ operations
   TearDown () == skip;
 
 end PlugboardTest
-
 ~~~
 {% endraw %}
 
@@ -375,7 +369,6 @@ operations
     else Decode(pidx)
 
 end Reflector
-
 ~~~
 {% endraw %}
 
@@ -498,7 +491,6 @@ operations
   pre ppos in set alph.GetIndices();
     
 end Rotor
-
 ~~~
 {% endraw %}
 
@@ -654,7 +646,6 @@ operations
   
 
 end SimpleEnigma
-
 ~~~
 {% endraw %}
 
@@ -683,7 +674,6 @@ operations
   TearDown () == skip
 
 end SimpleEnigmaTest
-
 ~~~
 {% endraw %}
 
@@ -698,7 +688,6 @@ operations
   Run (-) == is subclass responsibility
 
 end Test
-
 
 ~~~
 {% endraw %}
@@ -746,7 +735,6 @@ operations
   TearDown () == is subclass responsibility
 
 end TestCase
-
 ~~~
 {% endraw %}
 
@@ -776,7 +764,6 @@ operations
         Print (failure.GetName() ^ " failed")
   
 end TestResult
-
 ~~~
 {% endraw %}
 
@@ -807,7 +794,6 @@ operations
     tests := tests ^ [test];
 
 end TestSuite
-
 ~~~
 {% endraw %}
 

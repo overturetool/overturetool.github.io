@@ -882,7 +882,6 @@ class gui_Graphics
 
 end gui_Graphics
 
-
 ~~~
 {% endraw %}
 
@@ -1344,14 +1343,14 @@ end Waypoint
 --		|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ | 
 --							 HW1
 --
--- ¤ Passengers arrive at a certain inflow rate on central station, their destination is randomly picked
--- ¤ Buses always drives at full speed according to the roads speed limit
--- ¤ Passengers will not get on buses that do not pass their stop
--- ¤ Passenger will not change between multiple buses to get to a stop
--- ¤ Buses always drives in cicles. i.e. the start and the stop of a route must be the same
--- ¤ A bus route is defined by roads, and the bus will stop at all stops it passes on these roads
--- ¤ The roads in the bus route must be connected end to end, as the bus can not jump passed pieces of road
--- ¤ Roads are connected by waypoints, some of these waypoints function as bus stops where passengers get off. 
+-- � Passengers arrive at a certain inflow rate on central station, their destination is randomly picked
+-- � Buses always drives at full speed according to the roads speed limit
+-- � Passengers will not get on buses that do not pass their stop
+-- � Passenger will not change between multiple buses to get to a stop
+-- � Buses always drives in cicles. i.e. the start and the stop of a route must be the same
+-- � A bus route is defined by roads, and the bus will stop at all stops it passes on these roads
+-- � The roads in the bus route must be connected end to end, as the bus can not jump passed pieces of road
+-- � Roads are connected by waypoints, some of these waypoints function as bus stops where passengers get off. 
 
 class World
 

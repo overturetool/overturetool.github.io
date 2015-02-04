@@ -54,7 +54,6 @@ GetReqQuali() ==
   return reqQuali;
   
 end Alarm
-
 ~~~
 {% endraw %}
 
@@ -83,7 +82,6 @@ GetQuali() ==
   return quali;
   
 end Expert
-
 ~~~
 {% endraw %}
 
@@ -148,7 +146,6 @@ Plant(als,sch) ==
 pre PlantInv(als,sch);
 
 end Plant
-
 ~~~
 {% endraw %}
 
@@ -186,7 +183,6 @@ Run() ==
     return mk_(periods,expert);
 
 end Test1
-
 ~~~
 {% endraw %}
 

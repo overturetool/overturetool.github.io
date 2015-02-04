@@ -75,7 +75,6 @@ functions
   QualificationOK: set of Expert * Qualification -> bool
   QualificationOK(exs,reqquali) ==
     exists ex in set exs  reqquali = ex.quali
-
 ~~~
 {% endraw %}
 

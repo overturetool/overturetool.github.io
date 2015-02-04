@@ -663,7 +663,6 @@ pre number_of_candidates_satisfying_quota(continuing,stages,quota) <=
       number_of_remaining_vacancies({e.name | e in set elected})
 
 
-
 ~~~
 {% endraw %}
 

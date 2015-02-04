@@ -198,7 +198,6 @@ traces
   SeqTest: (let com : LogCom
             in
               NormalTrans(com)){5};
-
 ~~~
 {% endraw %}
 

@@ -151,6 +151,9 @@ public isFinished : () ==> bool
 isFinished () == 
   return inlines = [] and not busy;
 
+public getAperture: () ==> Angle * Angle
+getAperture () == return mk_(0,0);
+
 end Environment
                                                                                            
 ~~~
@@ -329,7 +332,10 @@ releaseFlare (evid,pfltp, pt1, pt2) ==
 
 public isFinished: () ==> bool
 isFinished () == 
-  return not busy
+  return not busy;
+
+public getAperture: () ==> Angle * Angle
+getAperture () == return mk_(0,0);
 
 end FlareDispenser
                                                                                                    
@@ -454,7 +460,10 @@ getThreat () ==
 public isFinished: () ==> bool
 isFinished () ==
   return forall id in set dom controllers &
-            controllers(id).isFinished()
+            controllers(id).isFinished();
+
+public getAperture: () ==> Angle * Angle
+getAperture () == return mk_(0,0);
 
 end MissileDetector
                                                                                                    

@@ -10,7 +10,7 @@ we list the most important Overture resources.  Additional information
 about Overture in Japanese can be found
 [here](http://research.nii.ac.jp/~f-ishikawa/vdm/overture.html).
 
-The documentation provided here is maintained by the Overture community and it available through this site:
+The documentation provided here is maintained by the Overture community and is available through this site:
 
 - [Manuals]({{site.url}}/documentation/manuals.html)
 - [Tutorials]({{site.url}}/documentation/tutorials.html)

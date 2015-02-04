@@ -193,7 +193,6 @@ ext rd lightuptimer : int
 pre LightupTimeOutDetect (lightuptimer) and coolflushcmd or
     (tempTGT > DVHOTSTART) or stalldet
 post (attempt = attempt~ + 1)
-
 ~~~
 {% endraw %}
 

@@ -118,7 +118,7 @@ Float::range:set of Floatrng
 Void::val:<nil>
       type: VoidType;
 
-VoidType :: Flavdom;
+VoidType :: fl: Flavdom;
 
 Structure:: val: StructValue
             type: StructureType;

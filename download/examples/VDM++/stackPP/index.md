@@ -67,7 +67,6 @@ traces
     (stack.Push(9) | stack.Pop())
 
 end UseStack
-
 ~~~
 {% endraw %}
 

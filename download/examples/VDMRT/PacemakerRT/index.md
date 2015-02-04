@@ -661,7 +661,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioBrokenHeart.arg",<AAI>).Run()
 ;
 end Test4
-
 ~~~
 {% endraw %}
 
@@ -677,7 +676,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioBrokenHeart.arg",<AAT>).Run()
 ;
 end Test5
-
 ~~~
 {% endraw %}
 
@@ -693,7 +691,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioBrokenHeart.arg",<AOO>).Run()
 ;
 end Test1
-
 ~~~
 {% endraw %}
 
@@ -709,7 +706,6 @@ public Test : () ==> ()
 Test() == new World ("tests/scenarioBrokenHeart.arg",<DDD>).Run()
 ;
 end Test2
-
 ~~~
 {% endraw %}
 
@@ -725,7 +721,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()
 ;
 end Test3
-
 ~~~
 {% endraw %}
 
@@ -741,7 +736,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioDoubleHeart.arg",<AAI>).Run()
 ;
 end Test9
-
 ~~~
 {% endraw %}
 
@@ -757,7 +751,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioDoubleHeart.arg",<AAT>).Run()
 ;
 end Test10
-
 ~~~
 {% endraw %}
 
@@ -773,7 +766,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioDoubleHeart.arg",<AOO>).Run()
 ;
 end Test6
-
 ~~~
 {% endraw %}
 
@@ -789,7 +781,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioDoubleHeart.arg",<DDD>).Run()
 ;
 end Test7
-
 ~~~
 {% endraw %}
 
@@ -805,7 +796,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()
 ;
 end Test8
-
 ~~~
 {% endraw %}
 
@@ -821,7 +811,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioGoodHeart.arg",<AAI>).Run()
 ;
 end Test15
-
 ~~~
 {% endraw %}
 
@@ -837,7 +826,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioGoodHeart.arg",<AAT>).Run()
 ;
 end Test16
-
 ~~~
 {% endraw %}
 
@@ -853,7 +841,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioGoodHeart.arg",<AOO>).Run()
 ;
 end Test11
-
 ~~~
 {% endraw %}
 
@@ -869,7 +856,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioGoodHeart.arg",<DDD>).Run()
 ;
 end Test13
-
 ~~~
 {% endraw %}
 
@@ -885,7 +871,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioGoodHeart.arg",<DOO>).Run()
 ;
 end Test14
-
 ~~~
 {% endraw %}
 
@@ -901,7 +886,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioSometimesHeart.arg",<AAI>).Run()
 ;
 end Test20
-
 ~~~
 {% endraw %}
 
@@ -917,7 +901,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioSometimesHeart.arg",<AAT>).Run()
 ;
 end Test21
-
 ~~~
 {% endraw %}
 
@@ -933,7 +916,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioSometimesHeart.arg",<AOO>).Run()
 ;
 end Test17
-
 ~~~
 {% endraw %}
 
@@ -949,7 +931,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioSometimesHeart.arg",<DDD>).Run()
 ;
 end Test18
-
 ~~~
 {% endraw %}
 
@@ -965,7 +946,6 @@ public Test : () ==> ()
 Test () == new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()
 ;
 end Test19
-
 ~~~
 {% endraw %}
 

@@ -33,7 +33,6 @@ Overture.
 class GiraffeBasicTypeImpl is subclass of GiraffeBasicType
 
 end GiraffeBasicTypeImpl
-
 ~~~
 {% endraw %}
 
@@ -86,7 +85,6 @@ end GiraffeBinaryExpressionImpl
 class GiraffeBinaryOperatorImpl is subclass of GiraffeBinaryOperator
 
 end GiraffeBinaryOperatorImpl
-
 ~~~
 {% endraw %}
 
@@ -292,7 +290,6 @@ end GiraffeElseIfExpressionImpl
 class GiraffeExpressionImpl is subclass of GiraffeNodeImpl
     -- empty
 end GiraffeExpressionImpl
-
 ~~~
 {% endraw %}
 
@@ -399,7 +396,6 @@ end GiraffeIntegerLiteralExpressionImpl
 class GiraffeLiteralExpressionImpl is subclass of GiraffeExpressionImpl
     -- empty
 end GiraffeLiteralExpressionImpl
-
 ~~~
 {% endraw %}
 
@@ -457,7 +453,6 @@ end GiraffeMethodDefinitionImpl
 class GiraffeNodeImpl
     -- empty
 end GiraffeNodeImpl
-
 ~~~
 {% endraw %}
 
@@ -559,7 +554,6 @@ end GiraffeSpecificationImpl
 class GiraffeStatementImpl is subclass of GiraffeNodeImpl
     -- empty
 end GiraffeStatementImpl
-
 ~~~
 {% endraw %}
 
@@ -575,7 +569,6 @@ end GiraffeStatementImpl
 class GiraffeTypeImpl is subclass of GiraffeNodeImpl
     -- empty
 end GiraffeTypeImpl
-
 ~~~
 {% endraw %}
 
@@ -623,7 +616,6 @@ end GiraffeUnaryExpressionImpl
 class GiraffeUnaryOperatorImpl is subclass of GiraffeUnaryOperator
 
 end GiraffeUnaryOperatorImpl
-
 ~~~
 {% endraw %}
 
@@ -714,7 +706,6 @@ operations
     GiraffeBasicType(n) == name := n;
 
 end GiraffeBasicType
-
 ~~~
 {% endraw %}
 
@@ -775,7 +766,6 @@ operations
     GiraffeBinaryOperator(n) == name := n;
 
 end GiraffeBinaryOperator
-
 ~~~
 {% endraw %}
 
@@ -917,7 +907,6 @@ end GiraffeElseIfExpression
 class GiraffeExpression is subclass of GiraffeNode
     -- Abstract
 end GiraffeExpression
-
 ~~~
 {% endraw %}
 
@@ -993,7 +982,6 @@ end GiraffeIntegerLiteralExpression
 class GiraffeLiteralExpression is subclass of GiraffeExpression
     -- Abstract
 end GiraffeLiteralExpression
-
 ~~~
 {% endraw %}
 
@@ -1036,7 +1024,6 @@ end GiraffeMethodDefinition
 class GiraffeNode
     -- Abstract
 end GiraffeNode
-
 ~~~
 {% endraw %}
 
@@ -1109,7 +1096,6 @@ end GiraffeSpecification
 class GiraffeStatement is subclass of GiraffeNode
     -- Abstract
 end GiraffeStatement
-
 ~~~
 {% endraw %}
 
@@ -1125,7 +1111,6 @@ end GiraffeStatement
 class GiraffeType is subclass of GiraffeNode
     -- Abstract
 end GiraffeType
-
 ~~~
 {% endraw %}
 
@@ -1173,7 +1158,6 @@ operations
     GiraffeUnaryOperator(n) == name := n;
 
 end GiraffeUnaryOperator
-
 ~~~
 {% endraw %}
 
@@ -1263,7 +1247,6 @@ end SimpleApplyExpressionImpl
 class SimpleBasicTypeImpl is subclass of SimpleBasicType
 
 end SimpleBasicTypeImpl
-
 ~~~
 {% endraw %}
 
@@ -1316,7 +1299,6 @@ end SimpleBinaryExpressionImpl
 class SimpleBinaryOperatorImpl is subclass of SimpleBinaryOperator
 
 end SimpleBinaryOperatorImpl
-
 ~~~
 {% endraw %}
 
@@ -1431,7 +1413,6 @@ end SimpleCasesExpressionImpl
 class SimpleDefinitionImpl is subclass of SimpleNodeImpl
     -- empty
 end SimpleDefinitionImpl
-
 ~~~
 {% endraw %}
 
@@ -1479,7 +1460,6 @@ end SimpleElseIfExpressionImpl
 class SimpleExpressionImpl is subclass of SimpleNodeImpl
     -- empty
 end SimpleExpressionImpl
-
 ~~~
 {% endraw %}
 
@@ -1660,7 +1640,6 @@ end SimpleLetExpressionImpl
 class SimpleLiteralExpressionImpl is subclass of SimpleExpressionImpl
     -- empty
 end SimpleLiteralExpressionImpl
-
 ~~~
 {% endraw %}
 
@@ -1708,7 +1687,6 @@ end SimpleLocalDefinitionImpl
 class SimpleNodeImpl
     -- empty
 end SimpleNodeImpl
-
 ~~~
 {% endraw %}
 
@@ -1842,7 +1820,6 @@ end SimpleTypeDefinitionImpl
 class SimpleTypeImpl is subclass of SimpleNodeImpl
     -- empty
 end SimpleTypeImpl
-
 ~~~
 {% endraw %}
 
@@ -1890,7 +1867,6 @@ end SimpleUnaryExpressionImpl
 class SimpleUnaryOperatorImpl is subclass of SimpleUnaryOperator
 
 end SimpleUnaryOperatorImpl
-
 ~~~
 {% endraw %}
 
@@ -1966,7 +1942,6 @@ operations
     SimpleBasicType(n) == name := n;
 
 end SimpleBasicType
-
 ~~~
 {% endraw %}
 
@@ -2031,7 +2006,6 @@ operations
     SimpleBinaryOperator(n) == name := n;
 
 end SimpleBinaryOperator
-
 ~~~
 {% endraw %}
 
@@ -2113,7 +2087,6 @@ end SimpleCasesExpression
 class SimpleDefinition is subclass of SimpleNode
     -- Abstract
 end SimpleDefinition
-
 ~~~
 {% endraw %}
 
@@ -2150,7 +2123,6 @@ end SimpleElseIfExpression
 class SimpleExpression is subclass of SimpleNode
     -- Abstract
 end SimpleExpression
-
 ~~~
 {% endraw %}
 
@@ -2274,7 +2246,6 @@ end SimpleLetExpression
 class SimpleLiteralExpression is subclass of SimpleExpression
     -- Abstract
 end SimpleLiteralExpression
-
 ~~~
 {% endraw %}
 
@@ -2311,7 +2282,6 @@ end SimpleLocalDefinition
 class SimpleNode
     -- Abstract
 end SimpleNode
-
 ~~~
 {% endraw %}
 
@@ -2384,7 +2354,6 @@ end SimpleSpecification
 class SimpleType is subclass of SimpleNode
     -- Abstract
 end SimpleType
-
 ~~~
 {% endraw %}
 
@@ -2453,7 +2422,6 @@ operations
     SimpleUnaryOperator(n) == name := n;
 
 end SimpleUnaryOperator
-
 ~~~
 {% endraw %}
 
@@ -2843,7 +2811,6 @@ functions
 	
 end codegen_Util
 
-
 ~~~
 {% endraw %}
 
@@ -2911,7 +2878,6 @@ functions
 		== VDMUtil`get_file_pos();
 	
 end A
-
 ~~~
 {% endraw %}
 

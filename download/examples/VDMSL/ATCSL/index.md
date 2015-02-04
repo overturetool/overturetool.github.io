@@ -1025,7 +1025,6 @@ Preceding_Path_Exists_at_Connect(ln) ==
                           else <ADIR> in
                 p2.used(dr2) and
                 EndJoint(p2, dr2) = n2.no));
-
 ~~~
 {% endraw %}
 

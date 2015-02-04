@@ -85,7 +85,6 @@ functions
   QualificationOK(exs,reqquali) ==
     exists ex in set exs & reqquali in set ex.quali;
 
-
 ~~~
 {% endraw %}
 
@@ -99,7 +98,6 @@ functions
 ChangeExpert: Plant * Expert * Expert * Period -> Plant
 ChangeExpert(mk_Plant(plan,alarms),ex1,ex2,peri) ==
   mk_Plant(plan ++ {peri |-> plan(peri)\{ex1} union {ex2}},alarms)
-
 ~~~
 {% endraw %}
 

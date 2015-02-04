@@ -563,8 +563,8 @@ HumidSensor (id, type, val) ==
   Value := val;
  );
 
-public PeriodicOp: () ==> ()
-PeriodicOp () ==
+public Step: () ==> ()
+Step () ==
   --cycles(1E3)
   Value := World`env.ReadHumid();
 
@@ -582,7 +582,7 @@ sync
 thread
 
 -- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (PeriodicOp)
+periodic(1000E6,0,0,0) (Step)
 
 end HumidSensor
 ~~~
@@ -702,8 +702,8 @@ TemperatureSensor (id, type, val) ==
   Value := val;
  );
 
-public PeriodicOp: () ==> ()
-PeriodicOp() ==
+public Step: () ==> ()
+Step() ==
   --cycles(1E3)
   Value := World`env.ReadTemp();
 
@@ -721,7 +721,7 @@ sync
 thread
 
 -- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (PeriodicOp)
+periodic(1000E6,0,0,0) (Step)
 
 end TemperatureSensor
 ~~~
@@ -763,8 +763,8 @@ Thermostat (id, type) ==
   Corr := <NONE>;
  );
 
-private PeriodicOp: () ==> ()
-PeriodicOp() ==
+public Step: () ==> ()
+Step() ==
   --cycles(1E3)
  (dcl tempCorr: NetworkTypes`correction := GetCorrection();
   if (tempCorr = <INC>)
@@ -798,7 +798,7 @@ sync
 thread
 
 -- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (PeriodicOp)
+periodic(1000E6,0,0,0) (Step)
 
 end Thermostat
 ~~~
@@ -839,8 +839,8 @@ Window (id, type) ==
   Corr := <CLOSE>;
  );
 
-private PeriodicOp: () ==> ()
-PeriodicOp() ==
+public Step: () ==> ()
+Step() ==
   --cycles(1E3)
  (dcl tempCorr: NetworkTypes`correction := GetCorrection();
   if (tempCorr = <OPEN>)
@@ -874,7 +874,7 @@ sync
 thread
 
 -- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (PeriodicOp)
+periodic(1000E6,0,0,0) (Step)
 
 end Window
 ~~~
