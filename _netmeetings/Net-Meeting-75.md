@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 75
-date: 4 February 2007, 1200 CET
+date: 13/12/01
 ---
 
 
@@ -9,143 +9,178 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
-| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
+| Date | 13/12/01 |
+| Participants | Joey Coleman, Ken Pierce, Marcel Verhoef, Nick Battle, Peter Gorm Larsen, John Fitzgerald, Hiroshi Sako,  Peter Jorgensen, Shin Sahara, Luis Diogo Couto (minutes) |
 
-Review of Action List
----------------------
+Review Status of the Action List
+--------------------------------
 
-The actions are all at Overture on SourceForge.
+The action item list is maintained as a tracker on
+[SourceForge](https://sourceforge.net/p/overture/netmeeting-actions/).
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+-   41/1: No progress
+-   59/1: No progress
+-   70/1: Completed. Git documents are live on this very wiki
+-   73/1: Completed. Dev board activity has been made clear
 
-VDMTools
---------
+Overture Language Board Status
+------------------------------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+LB meeting held on Nov 10: Minutes available at
+[Minutes\_of\_the\_LB\_NM%2C\_10th\_November\_2013](Minutes_of_the_LB_NM%2C_10th_November_2013 "wikilink")
 
-Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+Next meeting will be held on Dec 15 - the year's last
 
-Overture
---------
+A new convener has not yet been selected. One will be chosen (along with
+a secretary) at the beginning of the new year
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
+Status of VDMTools Development
+------------------------------
 
-<!-- -->
+DB Brothers
 
-Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
+SCSK released following frameworks and library. Following SCSK pages are
+in Japanese. Japanese VDM people will translate someday.
 
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
+<http://www.vdmtools.jp/modules/wfdownloads/viewcat.php?cid=15>
+(Japanese page)
 
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
+-   DBI Library: The DBI library is a DDL to access RDB through ODBC.
+    <http://www.vdmtools.jp/doc/vdmLib/DBI.html> (Japanese page)
+-   DB Framework: The DB framework is the VDM++ interface to simulate
+    RDB access. <http://www.vdmtools.jp/doc/vdmLib/DBFramework.html>
+    (Japanese page)
+-   SQL Framework: SQL framework is the framework to generate SQL
+    statement from VDM++. <http://www.vdmtools.jp/doc/vdmLib/SQL.html>
+    (Japanese page)
 
-<!-- -->
+The LB has had no input into the creation of these libraries. Better
+coordination is needed. Shin will take an action speak with SCSK to this
+effect (see action
+[https://sourceforge.net/p/overture/netmeeting-actions/108/
+here](https://sourceforge.net/p/overture/netmeeting-actions/108/ here "wikilink")).
 
-More potential projects for Overture
-:   Discussed already.
-
-<!-- -->
-
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
-
-<!-- -->
-
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
-
-<!-- -->
-
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
-
-<!-- -->
-
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
-
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
-
-Mondex and Pacemaker case studies
+Status of the Overture Components
 ---------------------------------
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
+VDMJ
 
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
+The following bug fixes have been made to VDMJ since the last meeting.
+They will be pulled into the 2.0 branch in due course:
 
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+`2013-11-27 Correction to atomic evaluation with class invariants`\
+`2013-11-22 Correction to satisfiability POs`\
+`2013-11-21 Removed the "nil" type from the parser`\
+`2013-11-19 Allow breakpoints on class invariant expressions`\
+`2013-11-16 Correct type checking of static calls to non static operations`\
+`2013-11-15 Allow static operation postconditions to use "old" static data`\
+`2013-11-11 Corrected scheduling policy unfairness that affects stop ordering`\
+`2013-11-11 Only allow stop to work on the same CPU as the caller`\
+`2013-10-30 Fix breakpoints with "for" statement without "by" clause`\
+`2013-10-30 Correction to type checking of nil returns`\
+`2013-10-28 Type checker correction for "while true" loops`
+
+Overture Ide-2.0.1-SNAPSHOT
+
+We met error (! Too many }'s.) in LateX process of Japanese VDM++ model.
+
+We met some internal errors in debug of Japanese models.
+
+Reporting of errors issues is difficult since the models and errors are
+in Japanese but bug reports will be filed in the new GitHub tracker.
+
+Synch between Overture and VDMJ
+
+Peter J has been porting NB's VDMJ fixes over but the progress is slow.
+NB will try and help more with this process. NB will become more
+familiarised with ASTV2 so that the fixes can be done directly.
+
+New features
+
+Interpretation of post conditions is expected to available sometime
+before the end of the year. Some problems
+
+Release Planning
+----------------
+
+Overture 2.0.0
+
+*still in holding state*
+
+Overture 2.0.0 is up on sf.net, but the release hasn't been announced
+yet. We still need to:
+
+1.  Run down the bug list, closing those that are definitely fixed
+2.  Update the web pages
+3.  Upload the Overture Eclipse Plugin repository (so that pure Eclipse
+    users can install it in a general environment)
+
+This is, as usual, constrained by my time (except for the bug list).
+
+At some point in December we expect to release a v2.0.2 that includes
+some cleanups/small fixes. I will need to run down the commit log to see
+what's changed, but there have been significant changes that to support
+aspects of COMPASS, and some of them may be more general.
+
+An email will be sent out to Overture users announcing the new version
+sometime during the upcoming week.
+
+Move to GitHub
+
+The move happened on Thu 21 Nov; many of you will remember this date as
+the day your inbox suddenly received 1000 emails. Other than that, the
+move went smoothly and is now complete. The repository is at
+<https://github.com/overturetool/overture> and the issue tracker is at
+<https://github.com/overturetool/overture/issues>. Crescendo (DESTECS)
+has been on GitHub for a couple weeks longer, and Symphony (COMPASS)
+will likely be moved in December.
+
+Note: only the Overture *'bug* tracker has been moved. The trackers for
+the LB, NM actions, and features are still on sf.net; I'm open to
+discussing moving them, but for the LB and NM trackers it's not clear to
+me how they should be moved. However, the features tracker will probably
+migrate onto GitHub and be integrated in with the bugs, as the issues
+feature there naturally integrates bugs and feature requests.
+
+Strategic Research Agenda
+-------------------------
+
+The Strategic [Research](Research "wikilink") Agenda is reviewed every
+other NetMeeting.
+
+Publications Status and Plans
+-----------------------------
+
+Some new papers added and others moved to published (yay!).
+
+Overture Workshop TR is expected soon.
+
+CODES book will go to the publisher today. Should be out soon.
+
+Also see [Planned Publications](Planned Publications "wikilink").
 
 Any Other Business
 ------------------
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
+Community Building
 
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
+The discussion on community building has been resumed. Most agree that
+it is something that we need to work more on. Community building will
+now be a standing item in future NMs.
 
-Next Meeting
-------------
+Infrastructure
 
-4 March 2007 1200 CET
+As part of the move to GitHub, we need to decide what to do with the NM
+and LB trackers.
+
+-   The LB will its own tracker on GitHub but in separate repository.
+    JWC will help with this -
+    [https://sourceforge.net/p/overture/netmeeting-actions/109/
+    action](https://sourceforge.net/p/overture/netmeeting-actions/109/ action "wikilink").
+-   The NM tracker will be migrated to the Overture wiki. MV will take
+    care of this -
+    [https://sourceforge.net/p/overture/netmeeting-actions/110/
+    action](https://sourceforge.net/p/overture/netmeeting-actions/110/ action "wikilink").
+
+JWC, MV and KP will meet and make a plan to harmonise the Overture
+infrastructure.

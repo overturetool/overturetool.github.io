@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 21
-date: 4 February 2007, 1200 CET
+date: 14 October 2007, 1300 CET
 ---
 
 
@@ -9,143 +9,147 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
-| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
+| Date | 14 October 2007, 1300 CET |
+| Participants | Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Emma Nicholls,Adriana Santos and Carlos Vilhena |
 
 Review of Action List
 ---------------------
 
 The actions are all at Overture on SourceForge.
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+-   13/2 Ongoing: Ken Pierce has taken it over.
+-   15/2 Ongoing: Thomas is going to write the wiki about the
+    TypeCheker.
+-   16/1 Ongoing.
+-   20/1 Closed.
+-   20/2 Ongoing: Hugo is going to upload PACEMAKER report information.
+-   20/3 Ongoing: Need contributions on modules and classes.
+-   20/4 Closed.
+-   20/5 Ongoing.
 
 VDMTools
 --------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+Status and development plans for VDMTools version 8.xx
+:   The VDMTools newest version is 8.0.1b-071011 with some small bugs
+    fixed. A part of interpreter code was rewritten for efficiency.
+:   There are two new users. Both are still small jobs, one decided to
+    use VDM as a detail design specification language. The other
+    requires a report on "How to write requirement specification". The
+    problem is how to make the requirement specification for plant model
+    (physical model) and control software.
+
+<!-- -->
 
 Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+:   All bugs reported in English were fixed.
 
 Overture
 --------
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
-
-<!-- -->
-
 Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
-
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
-
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
+:   Nothing to report.
 
 <!-- -->
 
-More potential projects for Overture
-:   Discussed already.
+Status of Hugo's work on the Overture interpreter
+:   Hugo will add status information and update the wiki with his
+    technical report.
 
 <!-- -->
 
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
+Status of Sander's work on the Overture proof support
+:   Sander is to update the wiki according to the VDMTools Proof
+    Obligation generation new features (file output).
 
 <!-- -->
 
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
+The MONDEX case study
+:   Latest report from John is that there is steady progress and some
+    interesting refinement issues have been identified. Current plan is
+    prepare a paper for the FM08 Grand Challenge workshops (which may
+    then transform into a journal paper).
 
 <!-- -->
 
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
+The Pacemaker case study
+:   Hugo is to upload his thesis after defense and Emma's thesis was
+    approved this week.
 
 <!-- -->
 
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
+Introduction to new Overture subjects (Adriana, Carlos and Augusto)
+:   Carlos is starting his thesis: "Connecting between VDM++ and JML" .
+    Now reading some material to get into this theme, while modelling
+    the "Alarm System" in JML in order to compare the differences
+    between JML and VDM++.
+:   Adriana is working on test automation support. Now reading about the
+    different ways to make test automation and trying to run the VDMTesk
+    tool.
 
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
+Publication plans
+-----------------
 
-Mondex and Pacemaker case studies
----------------------------------
+In preparation:
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
+-   Paper path case study (Marcel)
+-   PhD thesis (Marcel)
+-   Pacemaker modelling & validation (Hugo, Peter, John)
+-   Paper about proof work (Sander)
+-   ACM Computing Surveys paper on industrial applications of FMs
+    (Peter, Juan, John)
+-   FeliCa paper (Araki, Peter and FeliCa)
+-   2nd edition of "Modelling Systems", Cambridge University Press (John
+    & Peter) by end 2007
 
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
+In review:
 
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+-   Wiley Encyclopedia of Computer Science & Engineering entry on "VDM"
+    (John, Peter, Marcel) - review comments have been promised
+    imminently
+-   "The Connection between Two Ways of Reasoning about Partial
+    Functions" (John and Cliff), submitted to Information Processing
+    Letters
+-   MSc Thesis (Hugo)
 
-Any Other Business
+In press:
+
+-   New Wikipedia entry on "VDM", replacing current separate entries on
+    VDM and VDM-SL. (John)
+-   "Learning by Doing" (John, Peter, Steve Riddle), submitted to FACJ
+    special issue on education
+-   Traces Paper (John, Peter, Simon, Marcel), accepted by HASE07
+-   Formal models of access control in XACML (Jeremy,John) accepted by
+    ICFEM 2007
+-   Workshop submission on visualizing models of access control
+
+Recently Appeared:
+
+-   "Balancing Insight and Effort: the Industrial Uptake of Formal
+    Methods" (Peter, John), to appear in Proc. Dines' Festschrift
+-   MSc Thesis (Emma)
+
+Strategic Research Agenda and Wikipedia
+---------------------------------------
+
+Peter updated <http://www.vdmportal.org/twiki/bin/view/Main/SRA> and
+feedback is welcome.
+
+Wikipedia VDM section has been updated but still need improvements.
+
+Any other business
 ------------------
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
+Note that FM'09 will be in Eindhoven.
 
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
+John also said, he is PC Chair for ICTAC 2008 and welcome suggestions
+for workshops or indeed papers for the conference. Also welcome are
+papers on the application of theories, especially in areas such as
+domain modelling; Also welcome are papers on support for theories in
+tools. There are likely to be a couple of special tracks, probably on
+domain modelling and tool support as the topics.
 
 Next Meeting
 ------------
 
-4 March 2007 1200 CET
+18 November 2007, 1300 CET

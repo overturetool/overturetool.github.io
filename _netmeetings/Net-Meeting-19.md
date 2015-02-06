@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 19
-date: 4 February 2007, 1200 CET
+date: 8 July 2007, 1300 CET
 ---
 
 
@@ -9,143 +9,136 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
-| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
+| Date | 8 July 2007, 1300 CET |
+| Participants | Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
 
 Review of Action List
 ---------------------
 
 The actions are all at Overture on SourceForge.
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+-   13/2 Ongoing: Progressing as a by-product of the Mondex work.
+-   15/2 Ongoing: Thomas have uploaded a zip file.
+-   15/3 Ongoing.
+-   15/4 Ongoing.
+-   16/1 Ongoing.
 
 VDMTools
 --------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+Status and development plans for VDMTools version 8.xx
+:   Currently released 8.0 RC version including VICE, this version fixed
+    many small bugs from IFAD era.
+:   The VDM team got 2 new VDM users. The jobs still small, but we think
+    this is the important step for VDM.
+
+<!-- -->
 
 Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+:   Fixed all bugs reported in English.
+
+<!-- -->
+
+Seminar at the end of July in Japan
+:   On 23rd and 24th July, VDM seminars will be hold in Tokyo and
+    Nagoya. Peter, Marcel and Shin are speakers.
 
 Overture
 --------
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
-
-<!-- -->
-
 Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
-
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
-
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
+:   Thesis now defended successfully with the Danish mark 10.
 
 <!-- -->
 
-More potential projects for Overture
-:   Discussed already.
+Status of Hugo's work on the Overture interpreter
+:   Studies on the requirements the interpreter need to fulfill in order
+    to use Eclipse as an interface were done and on what's the amount of
+    effort to be done in the Eclipse side.
+:   The conclusions so far are that it would be good to extend the
+    specification of the interpreter and thus implementation to add
+    functionality required by Eclipse GUI.
 
 <!-- -->
 
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
+Status of Sander's work on the Overture proof support
+:   Sander is writing his thesis and have not developed anything anymore
+    since he left Denmark. The estimate on how much it is possible to
+    prove is above 60%, from that point on. In the writing pauses Sander
+    will try to apply the tool to the RTRI and Pacemaker examples and
+    report on the amount of proof that can be automated.
 
 <!-- -->
 
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
+The MONDEX case study
+:   Two mornings (15th and 22nd August) are planned to work on
+    refinement between the Abstract and Concrete models. These will
+    begin with a short tutorial on proof by John.
 
 <!-- -->
 
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
+The Pacemaker case study
+:   Marcel reported that Tom Maibaum is the professor from McMaster that
+    has adopted the PACEMAKER case for the GC6 initiative and they are
+    working (with Brian Larson) on setting up an initiative in north
+    America for certifying this kind of applications. Basically, the
+    Food and Drug Administration will make a standard to which all these
+    kind of devices shall conform.
+:   A workshop at FM'08 is planned as a side event for FM'08 aiming to
+    assess how first responses to the pacemaker challenge would look
+    like when trying to conform to this draft standard.
+:   With the work done so far we are on the edge and we should try to be
+    involved in the workshop planned to FM'08.
+:   We decided to try Sander's work to prove part of Hugo's PACEMAKER.
 
 <!-- -->
 
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
+New students from Minho for Overture
+:   Currently the new students are planning to work on
+    -   Test automation
+    -   JML coupling
 
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
+Publication plans
+-----------------
 
-Mondex and Pacemaker case studies
----------------------------------
+In preparation:
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
+-   Paper path case study (Marcel)
+-   PhD thesis (Marcel)
+-   MSc Thesis (Hugo)
+-   MSc Thesis (Sander)
+-   Pacemaker modelling & validation (Hugo leading, Peter, John)
+-   Paper about proof work (Sander leading)
+-   Ways of handling Equality in LPF (John and Cliff) for IPL
 
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
+In review:
 
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+-   Traces Paper (John, Peter, Simon, Marcel), submitted to HASE07
+-   Encyclopedia of Computer Science & Engineering entry on "VDM" (John,
+    Peter, Marcel)
+-   Learning by Doing (John, Peter), submitted to FACJ special issue on
+    education
 
-Any Other Business
-------------------
+In press:
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
+-   Formal models of access control in XACML (Jeremy,John) accepted by
+    ICFEM 2007
+-   Trading off Effort and Insight (Peter, John), to apear in Proc.
+    Dines' Festschrift
+-   Triumphs & Challenges for Lightweight Apps of M-O FMs (John, Peter,
+    keynote) in Proc Isola 2006 (IEEE proc., but no response from
+    editors on publication date yet).
+-   Dynamic Coalitions (Jeremy, John) in Proc. Isola 2006 (IEEE proc.,
+    but no response from editors on publication date yet)
+-   The LPF and VDM (John) in Dines and Martin Henson's new book (with
+    Springer, estimated release 8 November).
 
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
+Recently Appeared:
+
+-   IFM Paper (Marcel et al.)
+-   DSN Fast Abstracts (Zoe, Marcel, John, Jeremy)
 
 Next Meeting
 ------------
 
-4 March 2007 1200 CET
+26 Aug 1300 CET

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 58
-date: 4 February 2007, 1200 CET
+date: 18 December 2011, 13h00 CET.
 ---
 
 
@@ -9,143 +9,154 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
-| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
+| Date | 18 December 2011, 13h00 CET. |
+| Participants | Nick Battle, Marcel Verhoef, John Fitzgerald, Joey Coleman, Sune Wolff, Nico Plat, Hiroshi Sako. |
 
 Review of Action List
 ---------------------
 
-The actions are all at Overture on SourceForge.
+The action item list is maintained as a tracker on
+[SourceForge](https://sourceforge.net/tracker/?func=browse&group_id=141350&atid=775371).
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+41/1 : PGL: No progress. Carried forward
+
+52/1 : JC: Some progress, not finished. See report below.
+
+52/2 : PGL: Progress but still not closed. Carried forward
+
+57/1 : **Closed**: the meeting agreed that the LB is enlarged to seven
+members.
+
+57/2 **Closed**: send note to LB on status of VDM libraries. The view
+(NB/NP) was that libraries were a tool matter, rather than an LB/LRM
+matter.
+
+57/3 : **Closed**: all authors have updated the publications list and
+added the target conference or journal.
 
 VDMTools
 --------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+The newest version is following:
 
-Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+-   The VDM++ Toolbox v9.0.2b - Thu 08-Dec-2011 08:26:34 +0900.
+
+I've uploaded in Dropbox share area, and mail all of you where it is.
+But, I'll delete the share area on 31th Dec. 2011.
+
+Modified properties are followings:
+
+1.  Change GC timing.
+2.  Append /\* \*/ type comment in VDM-SL.
+3.  Fixed bugs in narrow expression.
 
 Overture
 --------
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
+**VDMJ**: Only two small changes since the last meeting. The reporting
+of warnings for non-deterministic statements that include sub-statements
+that may return a value was improved (some statements may not be
+reached, but we don't know which). And the new "classname" function was
+added to the internal library so that it can be called via VDMUtils.
 
-<!-- -->
+**IDE**: Only small changes has been made to the IDE, mostly
+improvements inside the tool which is not visible to the user.
 
-Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
+**Overture build**:
 
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
+-   We are currently working on some improvements for the maven build
+    needed for the branch for the new AST. The change will mostly be in
+    the way the IDE uses core artifacts (VDMJ). This should also solve
+    some of the problems new users might have with eclipse or at lease
+    reduce the complexity. The change will also allow us to use Maven 3
+    which should have some improvements especially on the networking
+    side.
 
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
+**New AST**
 
-<!-- -->
+-   AST generator is ready without the extension feature. A version had
+    been made that allowed extensions but it was discovered that it was
+    not good enough do to the restriction on reuse of utility (e.g. not
+    possible to use utility functions made for the type check when
+    implementing the interpreter).
+-   Parser for VDM-SL, VDM-PP and VDM-RT is completed.
+-   Type checker for VDM-SL, VDM-PP and VDM-RT is completed.
+-   Proof Obligation gernerator for VDM-SL, VDM-PP and VDM-RT is mostly
+    completed.
+-   We hope to start implementing the new AST into the IDE this Monday
+    (19 dec 2011).
+-   The improved extension feature for the AST generator is ongoing but
+    not completed. The idea is to subclass the base tree in the extended
+    tree making all utility functions and visitors possible to use with
+    the extended tree.
 
-More potential projects for Overture
-:   Discussed already.
+Release 2.0.0RC1 is expected mid January 2012, which includes these
+features.
 
-<!-- -->
+Language Board
+--------------
 
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
+Minutes of the last meeting are available here:
+[Minutes\_of\_the\_LB\_NM%2C\_20th\_November\_2011](Minutes_of_the_LB_NM%2C_20th_November_2011 "wikilink")
 
-<!-- -->
+There has been very little activity or progress since the last meeting.
 
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
+The meeting has agreed to extend the board to seven members. Marcel
+Verhoef volunteered to join, one position still open. The current board
+members have opted for re-election for another one year term. The
+meeting has kindly accepted that offer and reinstated the LB for the
+year 2012.
 
-<!-- -->
+Release Management
+------------------
 
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
+Overture 1.1.1 has now been officially released.
 
-<!-- -->
+An initial draft of the 2012 release plan is made. You can see my
+initial draft on the [SourceForge SVN
+Browser](http://overture.svn.sourceforge.net/viewvc/overture/trunk/documentation/releaseplanning/),
+though I am still gathering features for the broad list. Eventually the
+release process will become its own document, and the feature & actions
+list will be handled by something with better dependency/target tracking
+than LaTeX (I will look in depth at the current bug system, though I
+don't think it will suffice, and also at Trac; if necessary I will
+broaden my search).
 
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
+Joey is proposing to use TRAC as the tool to make the release management
+easier to administer.
 
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
+Overture release 2.0.0-RC1 is expected mid January 2012, which includes
+the overhauled AST.
 
-Mondex and Pacemaker case studies
----------------------------------
+Strategic Research Agenda
+-------------------------
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
+The research agenda is reviewed at every second meeting and was
+discussed last time. Since then there have only been comments from Nick
+Battle, who asked whether [methods and
+applications](Methods+Apps page "wikilink") could be regarded as part of
+the research agenda. We await any further comments for discussion at the
+next NM. Everyone is encouraged to discuss and make modifications to the
+[Research](Research "wikilink") agenda pages.
 
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
+We will have an interactive discussion session on the SRA at NM 59.
 
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+Publication plans
+-----------------
+
+Also see [Planned Publications](Planned Publications "wikilink"). Joey
+has volunteered to maintain a list of uncoming events where Overture
+papers could be submitted, everyone should add events as they become
+aware of them. Nico announced that a workshop is planned at ICSE this
+year focused on formal methods, he suggests that we could submit there
+too.
 
 Any Other Business
 ------------------
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
-
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
+Please note that ABZ papers are due on January 14th!
 
 Next Meeting
 ------------
 
-4 March 2007 1200 CET
+[ January 22nd 2012, 1300 CET](Net Meeting 59 "wikilink").

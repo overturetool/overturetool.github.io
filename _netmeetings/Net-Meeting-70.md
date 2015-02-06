@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 70
-date: 4 February 2007, 1200 CET
+date: 28th April 2013, 1300 CET
 ---
 
 
@@ -9,143 +9,150 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
-| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
+| Date | 28th April 2013, 1300 CET |
+| Participants | Joey Coleman, Luis Diogo Couto (minutes), Nick Battle, Peter Gorm Larsen (chair), Peter Jørgensen, Sako Hiroshi. |
 
-Review of Action List
----------------------
+Review Status of the Action List
+--------------------------------
 
-The actions are all at Overture on SourceForge.
+The action item list is maintained as a tracker on
+[SourceForge](https://sourceforge.net/p/overture/netmeeting-actions/).
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+-   41/?1: Video on Deploying VDM - no changes
+-   59/?1: Reconsider SRA input and structure - no changes
+-   63/?1: Set up new SF-based mailing lists - closed pending setup of
+    overture-users mailing list
 
-VDMTools
---------
+Status of VDMTools Development
+------------------------------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+Tool Status
 
-Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+Same as last month.
 
-Overture
---------
+VDM related people in Japan
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
+In software Symposium 2013 (on 8th - 10th July), Dr. Kurita and Dr.
+Nakatsugawa (both are from FeliCa Networks) have become a program vice
+chair and a leader of the formal methods working group. Mr. Sakoh and I
+are the sub leader of the working group.
 
-<!-- -->
-
-Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
-
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
-
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
-
-<!-- -->
-
-More potential projects for Overture
-:   Discussed already.
-
-<!-- -->
-
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
-
-<!-- -->
-
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
-
-<!-- -->
-
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
-
-<!-- -->
-
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
-
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
-
-Mondex and Pacemaker case studies
+Status of the Overture Components
 ---------------------------------
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
+VDMJ
 
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
+A few small bugs fixed this period. A bug with negative "mod"
+expressions; a bug regarding the accessibility check (in VDM++) for
+state designators that refer to private fields; there was a parser
+correction for "is not yet specified" and "is subclass responsibility";
+and a small fix for inconclusive function calls in traces (thanks to PJ
+for that one!). A rather nastier bug was found/fixed on Friday, where
+field updates to record values with invariants were not checking the
+invariant. This was also hiding a problem with the atomic assignment
+statement, which was not supressing type invariant checks. All fixes
+checked-in and merged with the ASTv2 branches (except perhaps the last
+two, but coming soon).
 
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+astCreator
+
+An unfortunate implementation choice from the COMPASS project meant that
+the extended ASTs were generating conflicting classes. For the moment,
+JWC has changed the astCreator generation to use Java Strings in a way
+that requires Java 7. This is meant to be short-term temporary, and we
+have two student programmer looking at different aspects to help resolve
+this.
+
+Development Board Status
+------------------------
+
+Current status
+
+-   Selected members for board
+-   Established responsibilities and long term goals
+-   Began elaborating the code standards document
+-   Approved the initial dev task list
+
+There are some tasks in the git repository that have not been published
+on the list. They are too complex to be used for "getting started". But
+more tasks will come.
+
+Online presence
+
+2 pages on this wiki:
+
+-   [Development Board](Development Board "wikilink") (main page)
+-   [Overture Dev Tasks](Overture Dev Tasks "wikilink")
+
+Coming up
+
+-   Approve architecture redesign
+-   more to come...
+
+Release Planning
+----------------
+
+Overture astv2
+
+Version 2.0.0beta1 is informally released; time constraints mean that
+JWC has not announced it. The "jumpiness" bug on OS X and Linux is still
+present. PWVJ is resolving bugs as they come in, that come from the
+students in PGL's course as they use the tool.
+
+-   Java 1.7 is being used as a temporary fix. We will downgrade to 1.6
+    for the release version of 2.0.0
+-   The goal is to release 2.0.0 sometime in the summer
+-   Documentation is currently being updated but help is needed with
+    this
+-   Along with 2.0.0, there will be a final 1.2.x release
+
+Community Maintenance Reporting
+-------------------------------
+
+The motivation, responsibilities and tasks for community management have
+been defined. The team has been officially launched by putting its page
+up on the overture wiki.
+
+There will be 3 main responsibilities in the community management team.
+We are currently looking for people to tackle 2 of them (wiki editor and
+online presence manager).
+
+We will look for these members in the core list and elsewhere. The wiki
+job is significantly more important. It will not require that the person
+do all the work themselves but simply lead the effort and be responsible
+for the wiki.
+
+Publications Status and Plans
+-----------------------------
+
+Also see [Planned Publications](Planned Publications "wikilink").
+
+No changes.
 
 Any Other Business
 ------------------
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
+Overture Workshop
 
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
+A new deadline has been planned for the summer period. The workshop will
+be held in Aarhus at the end of August.
+
+Separating Documentation/Code in the repository
+
+The documentation will remain in the git repository (to simplify the
+build process). But the separation will be introduced. A new aggregation
+branch for documentation will be created. All work on documentation
+should be centered around it. PGL will monitor and oversee this branch.
+
+Branch Policies
+
+A document explaining the oficial policies for branch naming and use is
+required. A draft of this document has been started ([Using
+Git](Using Git "wikilink")) and a new
+[action](https://sourceforge.net/p/overture/netmeeting-actions/106/) has
+been created for its completion. LDC is responsible for it.
 
 Next Meeting
 ------------
 
-4 March 2007 1200 CET
+26th May 2013, 1300 CEST

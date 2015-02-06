@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 17
-date: 4 February 2007, 1200 CET
+date: 14 April 2007, 1300 CET
 ---
 
 
@@ -9,7 +9,7 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
+| Date | 14 April 2007, 1300 CET |
 | Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
 
 Review of Action List
@@ -17,135 +17,123 @@ Review of Action List
 
 The actions are all at Overture on SourceForge.
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+-   13/2 Ongoing: Progressing as a by-product of the Mondex work.
+-   15/2 Ongoing: Should be closed at the next NM
+-   15/3 Ongoing: Have all been too bit busy to do this. Suggested to
+    set a date for getting together on this point but after Marcel's PHD
+    submission and after FP7 close.
+-   15/4 Ongoing: Same reason as above. Hugo is going to have a first go
+    at a part of it in Peter's VDM course
+-   16/1 URL for bug reporting of VDMTools bugs is:
+    <http://www.vdmtools.jp/en/modules/bmsurvey/survey.php?name=Bug_report>
+
+Mail address for questions about bugs is: bug\_report@vdmtools.jp Not
+yet decided upon possibility for users to see the status of the bugs
+that have been reported
 
 VDMTools
 --------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+Status of VDMTools development and the CSK VDM development team
+:   Shin reports that the focus next year is to get customers. Then to
+    decide on features during the job training. They have 4 candidate
+    users And, will get 3 VDM engineers from out of CSK.
 
 Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+:   Peter expresses his concern about the statement that the Rose link
+    does not work. Shin does not know the details yet. Discussion
+    postponed.
 
 Overture
 --------
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
-
-<!-- -->
-
 Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
+:   Unknown how far Thomas is, but considering that he has to hand in
+    his thesis by the 30th of April, the SS should be uploaded within a
+    couple of weeks.
 
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
-
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
-
-<!-- -->
-
-More potential projects for Overture
-:   Discussed already.
+Status of Hugo's work on the Overture interpreter
+:   Finishing (debugging) the legacy evaluator aproach. Plans once the
+    legacy version is finished are:
+    -   Try to measure its performance and
+    -   Develop ideas on the Java interpreter (the alternative where JVM
+        is used for interpreting VDM instructions directly).
+    -   The translation between Oml AST and AS is the main problem Hugo
+        is still working on w.r.t. porting the interpreter.
 
 <!-- -->
 
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
+Status of Sander's work on the Overture proof support
+:   On the status report Peter comments that OO support and explicit
+    operations are not trivial. John suggests to take a look at the
+    abstract spec of the Mondex case study, which will be good to work
+    on next time Sander visits Newcastle. John will send the abstract
+    specs after a quick walkthrough next week.
 
 <!-- -->
-
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
-
-<!-- -->
-
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
-
-<!-- -->
-
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
-
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
 
 Mondex and Pacemaker case studies
----------------------------------
+:   John explains that they are using the Mondex study to involve more
+    people in Newcastle in VDM and increase skills in VDM++. So far the
+    abstract and concrete models are developed and they're starting the
+    refinement proof after this week. Peter agrees to Marcel to send an
+    email to their contact in the US, informing that they are starting
+    with it.
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
+Publication plans
+-----------------
 
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
+Peter mentions they have a paper to be submitted tomorrow. About
+formulating validation conjectures over execution traces.
 
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+Marcel has just delivered the final version of the IFM paper It has
+improved as well, due to the review comments. He has also made the
+following arrangement with Chess: April is used for FP7 related work.
+May is for the final touch on his thesis. June 1: really start working
+for Chess again.
+
+In preparation:
+
+-   Traces Paper (John, Peter, Simon, Marcel), now due 14 April.
+-   The Goldsmith Conjecture and LPF (John, Cliff) now due end April for
+    IPL.
+-   Paper path case study (Marcel) for SCSC (a leading simulation
+    conference).
+-   Encyclopedia of Computer Science & Engineering entry on "VDM" (John,
+    Peter, Marcel) due 25 May
+-   Wikipedia entry on VDM (John) aiming for 25 May as well.
+-   Marcel's thesis.
+-   PGL DB festschrift contribution.
+-   JSF DB festschrift contribution.
+
+In review:
+
+-   Fast Abstracts for DSN 2007 (John, Jeremy, Zoe, Marcel). There is
+    one (Jeremy & John) on VDM++ modelling in support of access control
+    policy negotiation in dynamic coalitions and there is one (Zoe, John
+    & Marcel) on fault modelling and simulation as an augmentation to
+    the 20-SIM/VDMTools co-simulation environment.
+
+In press:
+
+-   Water Tank case study (IFM)
+-   Isola keynote (John, Peter) in Isola proceedings (No response so far
+    to two requests for publication date from editors).
+-   Dynamic Coalitions (Jeremy, John) in Isola proceedings (No response
+    so far to two requests for publication date from editors).
+-   The LPF and VDM (John) in Dines and Martin Henson's new book (with
+    publisher).
 
 Any Other Business
 ------------------
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
-
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
+Marcel mentions there is a student at TU Delft who is using the Overture
+parser (via Cees Pronk) translating VDM++ models to Lydia a language for
+dependability analysis Agreed to have a workshop in December and one at
+FM08. The first more dedicated on GC, Sander and Hugo's work. Marcel
+will be general chair in December.
 
 Next Meeting
 ------------
 
-4 March 2007 1200 CET
+20 May 1300 CET

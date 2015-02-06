@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 59
-date: 4 February 2007, 1200 CET
+date: 22 January 2012, 1300 CET
 ---
 
 
@@ -9,143 +9,173 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
-| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
+| Date | 22 January 2012, 1300 CET |
+| Participants | Peter Gorm Larsen, John Fitzgerald, Marcel Verhoef, Nick Battle, Shin Sahara, Nico Plat, Hiroshi Sako, Kenneth Lausdahl, Joey Coleman.  Received appologies from Ken Pierce. |
 
 Review of Action List
 ---------------------
 
-The actions are all at Overture on SourceForge.
+The action item list is maintained as a tracker on
+[SourceForge](https://sourceforge.net/tracker/?func=browse&group_id=141350&atid=775371).
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+-   41/1 (pgl - video on deployment of VDM) - No progress has been made
+-   52/1 (jwc - propose release plan 2012) - See Release Management
+    section
+-   52/2 (pgl - publish OW as ASE techrep) - Will be solved before next
+    NM at new AU web-pages
 
 VDMTools
 --------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+-   Newest version: The VDM++ Toolbox v9.0.2b - Thu 19-Jan-2012
+    14:09:52 +0900
 
-Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+1.  Now, we can redefine class name in types.
+
+-   Bug status
+
+1.  Sometimes, the interpreter can't execute redefined records. Now,
+    fixed.
+2.  inv\_ functions were not static. Now, they are static.
+3.  Signatures of pre\_ / post\_ functions were not generated in type
+    check. Now, they are generated.
 
 Overture
 --------
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
+**VDMJ**: A few bugs fixed this period. A parser error was fixed that
+now disallows empty blocks; fixes were made to iota and exists1 to allow
+them to work correctly with type binds (for finite types); a small
+change to the type checker was made to better handle the type of blocks
+that "return nil"; and a larger change was added to perform better
+pattern matching, especially for cases where a pattern correlates the
+value of a variable from two or more place in the pattern.
 
-<!-- -->
+**IDE + AST**: A few minor bugs has been fixed. One of the bugs was with
+the working directory not being set, this was introduced when fixing a
+mac debugger problem. The new IDE with the new AST is also progressing,
+all features are available except combinatorial testing and the quick
+interpreter. There is a few minor bugs left in the type checker which
+was introduced when a new location search engine was added to the IDE,
+this engine handles the editor outline sync and will also open for the
+implementation of more advanced completion.
 
-Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
+Language Board
+--------------
 
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
+The last meeting's minutes are available
+[here](http://wiki.overturetool.org/index.php/Minutes_of_the_LB_NM%2C_18th_December_2011).
+The status of the language changes under review is shown
+[here](https://spreadsheets.google.com/pub?key=ryibeUenlWcxrukJBlwQKuA&output=html).
 
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
+Release Management
+------------------
 
-<!-- -->
+Overture 2.0.0 has clearly been delayed; integrating the new AST into
+the interpreter is not yet finished.
 
-More potential projects for Overture
-:   Discussed already.
+A release plan for future features in Overture is pending some feedback
+on what future features we wish to add, and who is to add them. IHA is
+holding a brainstorming meeting in the coming week to work out possible
+local effort.
 
-<!-- -->
+Strategic Research Agenda
+-------------------------
 
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
+John Fitzgerald: The Strategic [Research](Research "wikilink") Agenda is
+due to be reviewed this meeting. Everyone is asked to read the relevant
+pages prior to the meeting. We well have an interactive discussion
+session dedicated to its contents. If you have concrete suggestions or
+comments to the SRA, please write them down here.
 
-<!-- -->
+**NB:** Reading the second bullet on the main SRA page, it seems to say
+that the strategy is to treat Overture as an experimental platform (ie.
+not for stable industrial use), while VDMTools is the preferred
+industrial platform. Is that the intended meaning? It seems at odds with
+the description of the tools thread at the bottom of the page. The SEN
+paper we wrote a few years ago talks about building a platform to
+integrate VDM tools, but we don't talk about tool integration much these
+days. I always thought that meant technical integration (at one time,
+you could select your VDM interpreter from a dropdown in Overture), but
+perhaps now it means that Overture is an umbrella term for various
+related VDM tools? Can we clear this up?
 
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
+**JSF:** This reflects where we were a few years ago, before DESTECS and
+COMPASS got going. I think we were trying to say that we were targeting
+our research activity on making Overture an attractive platform for
+interesting extensions (e.g. in verification, testing, domain-specific
+modelling) that woudl arise primarily through research projects. If we
+intend Overture to be developed towards industry-readiness, is that part
+of the strategic research agenda?
 
-<!-- -->
+**NB:** Also in the second bullet, it specifically mentions OO models
+and distributed/RT aspects as strategic. Does that mean non-OO VDM
+specification is deprecated in the strategy, or are we just responding
+to the current DESTECS type projects that are OO/RT. Does this mean the
+OO/RT aspects of the semantics thread have greater urgency?
 
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
+**JSF:** I don't think that the emphasis on OO/RT is especially
+appropriate now - it may have been more of a leading concern a couple of
+years ago. One observation from DESTECS is that VDM-SL definitely has a
+place.
 
-<!-- -->
+**MV:** Removed several typos from the main page. It could use a simple
+graphic that visualise the main strands. More appealing then just text,
+in any case.
 
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
+**MV:** Semantics sub-page: no reference to interest into probabilistics
+while this seems a logical next step. Furthermore, the link to (and the
+role of) the LB is missing. Who's *in control* of the language?
 
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
+**JSF:** If we want to make stochastics part of our agenda, that's fine.
+It may be worth a workshop that looks at appropriate directions to take.
+In my experience, this needs to be thought through very carefully
+indeed, as it can become a semantic minefield. You need to be very
+precise about what you want stochastic analysis for, and what kinds of
+analysis you wish to do. For me, it makes most sense in the embedded
+systems domain.
 
-Mondex and Pacemaker case studies
----------------------------------
+Publication plans
+-----------------
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
-
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
-
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+See [Planned Publications](Planned Publications "wikilink").
 
 Any Other Business
 ------------------
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
+John Fitzgerald: Consider moving future NMs to Skype (text only, not
+video or audio in general). This has some advantage of making screen
+sharing possible for demos etc. For many of us, skype has become the
+norm for NMs in other projects as it appears to be more reliable for
+users on Macs. Against this, we do not have skype ids for all the
+typical Overture meeting participants.
 
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
+**All:** Agreed, next NM will be on Skype.
+
+John Fitzgerald: Consider moving the NM action list from SF to this
+Wiki. Upside: it's one less window to have to have open in the NM.
+Downside: maybe we lose some tracking facilities (like all those useful
+emails that we receive when they change :-))
+
+**All:** We keep the procedure as-is, just using a deep-link from the
+minutes to the SF action list. If action holders report progress prior
+to the NM then any discussions can be easy to edit during the NM.
+
+Shin Sahara:
+
+1.  We SCSK Corporation got a new customer that is network software
+    company.
+2.  IPA/SEC( <http://www.ipa.go.jp/index-e.html>)
+    1.  held the formal method seminar in Kumamoto city. We got some
+        future users of VDMTools.
+    2.  starts a new small research project. The project was knocked
+        down to my former company SRA(Mr. Oda) and Mr. Sakoh. So,
+        they'll contact with Peter and Marcel. I'm the chief examiner of
+        the SEC Working Group for this project, and Dr. Kurita is the
+        vice-examiner :-)
 
 Next Meeting
 ------------
 
-4 March 2007 1200 CET
+[Net Meeting 60](Net Meeting 60 "wikilink"): February 26th 2012, 1300
+CET.

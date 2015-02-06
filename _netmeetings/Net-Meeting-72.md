@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 72
-date: 4 February 2007, 1200 CET
+date: 30th June 2013
 ---
 
 
@@ -9,143 +9,295 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
-| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
+| Date | 30th June 2013 |
+| Participants | Augusto Ribeiro, Hiroshi Sako, John Fitzgerald, Marcel Verhoef, Nick Battle, Peter Gorm Larsen, Peter Jorgensen, Shin Sahara, Luis Couto (minutes) |
 
-Review of Action List
----------------------
+Review Status of the Action List
+--------------------------------
 
-The actions are all at Overture on SourceForge.
+The action item list is maintained as a tracker on
+[SourceForge](https://sourceforge.net/p/overture/netmeeting-actions/).
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+-   41/?1: Video on Deploying VDM
+    -   No progress but hope to have it done for the 2.0 release
+-   59/?1: Reconsider SRA input and structure
+    -   Suspended for now. Will be revisited at the Overture workshop
+-   70/?1: Document on Using Git
+    -   Completed and awaiting feedback (see [Using
+        Git](Using Git "wikilink")).
 
-VDMTools
---------
+Overture Language Board Status
+------------------------------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+No LB meeting since the last time, though a paper is being worked on.
 
-Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+Status of VDMTools Development
+------------------------------
 
-Overture
---------
+Newest Version
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
+The VDM Toolbox 9.0.3- Fri 14-June-2013
 
-<!-- -->
+Measure functions became executable. And, we can check return values
+decrease.
 
-Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
+Following is a sample: Based on LRM sample. Current checking checks
+return value is smaller than old one. For example, if n.\#1 of id2
+changed to n.\#2 then runtime error occurs. --- class A
 
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
+operations public Test: () ==\> seq of nat Test() ==
 
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
+`return [`\
+` fac(10),`\
+` fac2(10),`\
+` fac4(mk_(10,3)),`\
+` fac5(10)(3),`\
+` fac6[nat](10),`\
+` fac7[nat](10)(2)`\
+`];`
 
-<!-- -->
+functions public fac: nat +\> nat fac(n) ==
 
-More potential projects for Overture
-:   Discussed already.
+`cases n:`\
+`  0      -> 1,`\
+`  others -> n * fac(n-1)`\
+`end`
 
-<!-- -->
+measure id;
 
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
+public fac2: nat +\> nat fac2(n) ==
 
-<!-- -->
+`cases n:`\
+`  0      -> 1,`\
+`  others -> n * fac3(n-1)`\
+`end`
 
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
+measure id;
 
-<!-- -->
+public fac3: nat +\> nat fac3(n) == fac2(n);
 
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
+public fac4: (nat \* nat) +\> nat fac4(mk\_(n, x)) ==
 
-<!-- -->
+`cases n:`\
+`  0      -> 1,`\
+`  others -> n * fac4(mk_(n-1, x))`\
+`end`
 
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
+measure id2;
 
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
+public fac5: nat +\> nat +\> nat fac5(n)(x) ==
 
-Mondex and Pacemaker case studies
+`cases n:`\
+`  0      -> 1,`\
+`  others -> n * fac5(n-1)(x)`\
+`end`
+
+measure id3;
+
+public fac6[@T]: @T +\> @T fac6(n) ==
+
+`cases n:`\
+`  0      -> 1,`\
+`  others -> n * fac6[@T](n-1)`\
+`end`
+
+measure id4;
+
+public fac7[@T]: @T +\> @T +\> @T fac7(n)(x) ==
+
+`cases n:`\
+`  0      -> 1,`\
+`  others -> n * fac7[@T](n-1)(x)`\
+`end`
+
+measure id5;
+
+public id: nat +\> nat id(n) == n;
+
+public id2: (nat \* nat) +\> nat id2(n) == n.\#1;
+
+public id3: nat +\> nat +\> nat id3(n)(-) == n;
+
+public id4[@T2]: @T2 +\> nat id4(n) == n;
+
+public id5[@T2]: @T2 +\> @T2 +\> nat id5(n)(-) == n;
+
+end A
+
+------------------------------------------------------------------------
+
+How to execute:
+
+vpp\> r test.vdm Parsing "test.vdm" (Plain Text) ... done vpp\> set
+measure??????????????\<--- set measure execution measure check set vpp\>
+init Initializing specification ... Initializing A done vpp\> d new
+A().Test() [ 3628800, 3628800, 3628800, 3628800, 3628800, 3628800 ]
+vpp\> tcov write vdm.tc vpp\> rtinfo vdm.tc
+
+`` 100%     22  A`id ``\
+`` 100%     11  A`fac ``\
+`` 100%     11  A`id2 ``\
+`` 100%     11  A`id3 ``\
+`` 100%     11  A`id4 ``\
+`` 100%     11  A`id5 ``\
+`` 100%      1  A`Test ``\
+`` 100%     11  A`fac2 ``\
+`` 100%     10  A`fac3 ``\
+`` 100%     11  A`fac4 ``\
+`` 100%     11  A`fac5 ``\
+`` 100%     11  A`fac6 ``\
+`` 100%     11  A`fac7 ``\
+`100%  A`
+
+Total Coverage: 100% vpp\> unset measure????????????\<--- stop measure
+execution measure check unset vpp\> tcov reset vpp\> d new A().Test() [
+3628800, 3628800, 3628800, 3628800, 3628800, 3628800 ] vpp\> tcov write
+vdm.tc vpp\> rtinfo vdm.tc
+
+``   0%      0  A`id ``\
+`` 100%     11  A`fac ``\
+``   0%      0  A`id2 ``\
+``   0%      0  A`id3 ``\
+``   0%      0  A`id4 ``\
+``   0%      0  A`id5 ``\
+`` 100%      1  A`Test ``\
+`` 100%     11  A`fac2 ``\
+`` 100%     10  A`fac3 ``\
+`` 100%     11  A`fac4 ``\
+`` 100%     11  A`fac5 ``\
+`` 100%     11  A`fac6 ``\
+`` 100%     11  A`fac7 ``\
+` 94%  A`
+
+Total Coverage: 94% vpp\>
+
+------------------------------------------------------------------------
+
+These new tests have not yet been tried on VDMJ/Overture. Nick will be
+handling this. Also, Shin will try the additional tests for this in
+Overture.
+
+The goal is for closer synchronization between both tools.
+
+Status of the Overture Components
 ---------------------------------
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
+VDMJ
 
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
+A few more small bugs fixed this period. A fix to type accessibility
+checks, a fix to restore coverage tracking for atomic statements, an
+improvement to class invariant handling, and a type-check correction for
+access to fields of object references passed as parameters. I think
+these have been copied into the ASTv2 branches now. There were also a
+couple of late fixes to the PO generator, following from work I'm doing
+with Luis, but those probably won't have made it into ASTv2 yet.
 
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+Misc Fixes
+
+Kenneth and Peter have fixed various small issues with the tool. Also,
+all the changes made to VDMJ have been ported to ASTv2. Except for the
+ongoing work on POG, which must be ported when it has reached a steady
+state in VDMJ. In addition, Overture has some issues with respect to
+coverage coloring that needs to be checked into. For some language
+constructs the coverage coloring is not handed correctly.
+
+New POG
+
+Work on the new POG by Luis and Nick is ongoing. Only a few obligations
+are left to be converted. The next stage will be testing.
+
+Development Board Status
+------------------------
+
+Module Reps
+
+The Dev board continues to discuss the assignment of modules to the
+various rep. Progress is ongoing.
+
+Overture Dev Night
+
+Members of the Dev Board are planning an informal coding social event
+called Overture Dev night for September in Aarhus. More information will
+be available soon.
+
+Release Planning
+----------------
+
+Overture 2.0.0
+
+Status for the full release is essentially the same; JWC hasn't had the
+opportunity to fully focus on this during the past month. Factoring out
+the bits that require Java7 has only had slow progress.
+
+Remaining work includes:
+
+-   Finishing the refactoring of the assistants to remove the Java7
+    dependency
+-   Standalone documentation updates
+-   Internal documentation updates (help pages, about boxes, welcome
+    screens, etc)
+-   Sorting out OS X signing keys
+
+We still plan to release during the summer, but it won't be until
+August.
+
+Overture 1.2.x
+
+As before; expect a version 1.2.5 concurrent with the final 2.0.0
+
+AstCreator split out
+
+It is still planned to split AstCreator into a separate repository, but
+no progress has been made.
+
+Community Maintenance Reporting
+-------------------------------
+
+Membership
+
+Still no new members. Tasks and responsibilities must be rethought.
+
+Tasks
+
+We must discuss which tasks to prioritize and which responsibilities to
+keep/drop.
+
+I propose wiki maintenance as the most important responsibility and as
+such the one that must kept. The blog/etc. will have to be dropped for
+now.
+
+In terms of tasks, there are 3:
+
+1.  wiki clean up
+2.  website redesign
+3.  web presence overhaul.
+
+The first one is again the most important but it would be very nice if
+we could complete 2 and 3 in time for the release of Overture 2.0 (the
+new website could be launched along with 2.0 to "celebrate"). Some help
+would be needed to complete all 3 in time.
+
+No volunteers were available to help with these tasks. Luis will make a
+plan and proceed on his own.
+
+Publications Status and Plans
+-----------------------------
+
+[Planned Publications](Planned Publications "wikilink") has been cleaned
+up (titles, dates, etc.).
+
+But further updating is necessary on the status of some papers. Their
+authors (namely Sune) will be contacted to do so.
+
+Also, some papers will be moved from In Press to Recently Appeared and
+their links updated (Shin and PGL).
 
 Any Other Business
 ------------------
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
-
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
+It has been proposed that the next NetMeeting (August 25) be held at the
+Overture workshop instead (1 week later). The idea was approved but we
+must coordinate with the organizers of the Overture workshop.
 
 Next Meeting
 ------------
-
-4 March 2007 1200 CET

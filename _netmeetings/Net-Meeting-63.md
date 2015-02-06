@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 63
-date: 4 February 2007, 1200 CET
+date: 10 June 2012, 1300 CEST
 ---
 
 
@@ -9,143 +9,142 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | 4 February 2007, 1200 CET |
-| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
+| Date | 10 June 2012, 1300 CEST |
+| Participants | Hiroshi Sako, Joey Coleman, Kenneth Lausdahl, John Fitzgerald, Marcel Verhoef, Nick Battle, Peter Gorm Larsen, Shin Sahara |
 
 Review of Action List
 ---------------------
 
-The actions are all at Overture on SourceForge.
+The action item list is maintained as a tracker on
+[SourceForge](https://sourceforge.net/tracker/?func=browse&group_id=141350&atid=775371).
 
--   9/10 Closed
--   10/2 Closed
--   13/2 remains open. John suggested that job could be done as a
-    by-product of the Mondex challenge. He has contacted Jeremy Bryans
-    (leading the Mondex challenge) to ask for this to be done.
--   14/1 Closed. The Third Overture Workshop was considered a success.
-    Thanks to all those who contributed.
--   14/2 remains open. Discussed further when considering the research
-    agenda.
--   **Action 15/1** (replaces unnumbered item on project descriptions):
-    Project descriptions to go on overturetool.org (John) for subsequent
-    extension (Peter)
+-   62/1: Propose rationalisation of mailing lists and similar. Closed.
+    **Resolved:** two lists, overture-core and overture-users, both
+    hosted on SourceForge.
+-   59/1: Reconsider SRA input and structure. No progress.
+-   41/1: Video on Deploying VDM. No progress.
 
 VDMTools
 --------
 
-Status of VDMTools development
-:   Shin reported that CSK has opened a VDMTools subversion source
-    repository: <https://www.vdmtools.jp/svn/vdmtools/> It is free of
-    charge, but you have to sign a following non disclosure agreement
-    with CSK Systems before accessing the repository. Peter and Marcel
-    had used the SVN reporsitory successfully.
+Version
 
-Bug reporting for VDMTools bugs
-:   Nothing to report at present.
+`v9.0.2b - Thu 07-Jun-2012 10:08:32 +0900`
+
+-   evolved Code Generation.
+-   bug fixes.
+
+Publishing in Japanese
+
+1.  Mr. Oda and Mr. Sakoh are writing a research report in IPA/SEC. The
+    report is based on their interview with Peter, Dr. Jonathan Bowen
+    and others.
+2.  IPA/SEC WG decided to write a booklet about Formal Method
+    (especially VDM) in Japanese. The main author is Shin, and the
+    second author is Dr. Keijiro Araki.
+
+VDM Project in Japan
+
+1.  SCSK started a new VDM project. But, the detail is a secret.
+2.  Dr. Keijiro Araki started a new research project around VDM and
+    formal method.
 
 Overture
 --------
 
-Parser movedto Sourceforce and testing of it
-:   Estimate moving the parser to sourceforge on 1 April. The wiki
-    distribution is sufficient for current purposes. Any problems with
-    the parser can be addressed on demand by Marcel (by email in the
-    first instance).
+VDMJ
 
-<!-- -->
+The RM 3438625 feature from the Language Board to add map patterns was
+added to VDMJ and is therefore available for informal testing. A small
+bug fix went in for the parser to avoid problems with expressions like
+"mk\_token()". The coverage Latex output was tweaked to detect
+overloaded functions and operations and differentiate the coverage
+information in the summary table.
 
-Status of Thomas' work on the Overture type checker
-:   Peter had no explicit status message regarding the static semantics
-    but understands that Thomas is almost finished with the subset that
-    he will be able to cover. He needs then to write up the actual
-    thesis. The Static Semantics should go into Sourceforge, along with
-    the parser.
+ASTv2
 
--   **Action 15/2:** Thomas to place static semantics on Sourceforge
-    (Peter)
+We have now completed most of the implementation to the new AST except
+for the interpreter. We have implemented a test suite that runs c. 4K
+tests on each build. There is only a about 5 tests failing at the moment
+when considering the parser, type checker and proof obligation
+generator.
 
-Welcome to Hugo and Sander starting their MSc thesis work on Overture
-:   We welcomed Hugo and Sander!
+The build server link for the new ASTv2 version is
+[1](http://overture.iha.dk:8080/job/Overture-ASTv2/) and the output
+version build is located at
+[2](http://build.overturetool.org/builds/overtureAst2/). To future
+improve the quality of the tool we enabled coverage information to the
+collected from all test cases
+[<http://overture.iha.dk:8080/job/Overture-ASTv2/lastBuild/emma/>?]. A
+more detailed version is also available for e.g. the type checker, (only
+available when not building),
+[3](http://overture.iha.dk:8080/job/Overture-ASTv2/ws/core/typechecker/target/site/emma/index.html).
 
-<!-- -->
+Future work:
 
-More potential projects for Overture
-:   Discussed already.
+-   Fix the UML translator. Work on this is started and the plan is to
+    use UML2 [4](http://www.eclipse.org/modeling/mdt/?project=uml2) from
+    Eclipse so any tool that supports this can be used. (Most open
+    source tools for Eclipse uses this format)
+-   Interpreter. We plan to build the skeleton Monday and then during
+    the week add convert the scheduling code as well. Leaving the
+    expression and statement evaluation for later.
+-   Eclipse RCP test. We are currently building the Overture
+    IDE[5](http://build.overturetool.org/builds/overtureAst2/) but it
+    needs to be tested.
+-   Add VDM specifications that increase the
+    coverage[6](http://overture.iha.dk:8080/job/Overture-ASTv2/ws/core/typechecker/target/site/emma/index.html)
+    in the type checker.
 
-<!-- -->
+Language Board
+--------------
 
-Structure of future Overture research
-:   John has agreed to make a pass over the There is a Strategic
-    Research Agenda (SRA) wiki topic at vdmportal.org.
+No issues
 
-<!-- -->
+Release Management
+------------------
 
-:   At [3rd Overture Workshop](3rd Overture Workshop "wikilink") in
-    Newcastle we agreed to try to develop and maintain a Strategic
-    Research Agenda. This is a sort of guide that will allow people to
-    easily join us and select cool research topics to address and write
-    papers about etc. It also allows us to ensure coverage of important
-    core concepts so that we do not end up with rather patchy research
-    with some core areas not addressed. We agreed to structure research
-    activity into three strands of work: Semantics; Methods &
-    Applications and Tools. For example, Hugo's work will largely fit
-    within the Tools strand.
+Maven 2?
 
-<!-- -->
+Following the query from [Net Meeting 62](Net Meeting 62 "wikilink"), is
+there any need to maintain compatibility with Maven 2? At NM63, no-ne
+suggested any cuase to maintain this.
 
-:   Cutting across the three strands of research, we will have
-    Challenges. These are focussed specific problems that bring together
-    research in several areas and allows us to see our progress and also
-    allows us to test out developments. The three main challenges under
-    consideration at the moment are "Mondex", "Pacemaker" and "Posix".
+SF.net Transition
 
-<!-- -->
+Detail at [SF.net Transition](SF.net Transition "wikilink")
 
-:   John proposes that the SRA page should evolve by the lead contacts
-    in each stream or challenge soliciting brainstorm lists of open
-    research problems in their area, as well as identifying important
-    base research that should be done in order to provide a suitable
-    platform. For example, in Semantics, John will have "Denotational
-    Semantics of VDM++" as a base topic and "Can we adequately represent
-    LPF in HOL" as an open question. As an example of a challenge,
-    Marcel could propose a specific problem arising out of his doctoral
-    work, such as modelling and analysis of a photocopier controller.
+Summary: Joey would like to transition the hosting environment at
+SourceForge to the new system they are developing. They plan to migrate
+all projects 'in the next few months', this would just move us a bit
+early. The new environment appears to be stable, and is used by the
+COMPASS and DESTECS projects.
 
--   **Action 15/3:** Progress the SRA by asking strand and challenge
-    leaders to brainstorm open questions and identify areas of more
-    basic research that shoudl be addressed (John).
+Suggested transition date in Week 24 (next week).
 
-Mondex and Pacemaker case studies
----------------------------------
+Development/Release Process
 
-Our first challenge is Mondex - an electronic purse system specified and
-designed via data refinement originally in Z. Several people have
-expressed interest in tackling Mondex in VDM. This work is being led by
-Jeremy Bryans at Newcastle. A workshop is scheduled for 2-3 April at
-Newcastle for the interested people to make concrete progress. Prior to
-that, a reading group at Newcastle will review the monograph that
-describes the Mondex study in Z.
+Not yet written up; this should be available before September's meeting.
 
-The Pacemaker study has now been released and we need to find a champion
-within the Overture community. It was suggested that CSR Newcastle could
-again take the lead, with Zoe Andrews contributing, as the application
-lends itself well to the work that Marcel and Zoe have been doing on
-stochastic fault modelling. It's also Zoe's potential PhD topic, which
-John would supervise.
+LB Coordination
 
--   **Action 15/4:** Produce a concrete proposal for progressing the
-    Pacemaker study. (John, Peter, Marcel)
+Nothing to report
+
+Strategic Research Agenda
+-------------------------
+
+The Strategic [Research](Research "wikilink") Agenda is reviewed every
+other NetMeeting.
+
+Publication plans
+-----------------
+
+See [Planned Publications](Planned Publications "wikilink").
 
 Any Other Business
 ------------------
 
-John suggested having a discussion of publication status and plans as a
-regular topic in Overture net meetings.
-
--   **Action 15/5:** Add publication status and plans as a regular topic
-    in Overture net meetings (Peter).
-
 Next Meeting
 ------------
 
-4 March 2007 1200 CET
+2 September 2012
