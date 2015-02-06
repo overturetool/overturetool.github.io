@@ -10,7 +10,7 @@ date: 28 November 2010, 1300 CET
 |||
 |---|---|
 | Date | 28 November 2010, 1300 CET |
-| Participants | Peter Gorm Larsen, Hiroshi Sako, Shin Sahara, Kenneth Lausdahl,  Nick Battle,  Ken Pierce, David Møller, Sune Wolff and Augusto Ribeiro |
+| Participants | Peter Gorm Larsen, Hiroshi Sako, Shin Sahara, Kenneth Lausdahl,  Nick Battle,  Ken Pierce, David MÃ¸ller, Sune Wolff and Augusto Ribeiro |
 
 Review of Action List
 ---------------------
