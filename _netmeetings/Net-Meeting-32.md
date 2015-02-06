@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Net Meeting 32
 date: 8 February 2009, 1400 CET
@@ -10,7 +10,7 @@ date: 8 February 2009, 1400 CET
 |||
 |---|---|
 | Date | 8 February 2009, 1400 CET |
-| Participants | Peter Gorm Larsen, Shin Sahara, Nick Battle and Miguel Ferreira, MarcelVerhoef, SanderVermolen and David Holst M�ller. |
+| Participants | Peter Gorm Larsen, Shin Sahara, Nick Battle and Miguel Ferreira, MarcelVerhoef, SanderVermolen and David Holst Møller. |
 
 Review of Action List
 ---------------------
