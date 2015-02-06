@@ -5,16 +5,12 @@ date: 4 February 2007, 1200 CET
 ---
 
 
-Date
-----
+# Net Meeting 81
 
-4 February 2007, 1200 CET
-
-Participants
-------------
-
-John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel
-Verhoef, Sander Vermolen
+|||
+|---|---|
+| Date | 4 February 2007, 1200 CET |
+| Participants | John Fitzgerald, Peter Gorm Larsen, Hugo Macedo, Shin Sahara, Marcel Verhoef, Sander Vermolen |
 
 Review of Action List
 ---------------------
