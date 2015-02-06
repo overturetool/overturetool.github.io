@@ -8,6 +8,8 @@ url: http://overturetool.org
 collections:
   netmeetings:
     output: true
+  workshops:
+    output: true
 
 defaults:
   -

@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>overture-workshop-notes</title>
+<!-- 2015-02-06 Fri 14:17 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Joey Coleman" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">overture-workshop-notes</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Current State/What's happened since the 11th Overture Workshop</a>
+<ul>
+<li><a href="#sec-1-1">1.1. 6 releases: 2.0.0 through 2.0.8, 2.1.0</a>
+<ul>
+<li><a href="#sec-1-1-1">1.1.1. 04Dec/31Jan/10Mar/01Apr/20May/13Jun</a></li>
+<li><a href="#sec-1-1-2">1.1.2. Average around 1.5 months between releases</a></li>
+<li><a href="#sec-1-1-3">1.1.3. New version 2.x features</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">1.2. GitHub migration</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1. Started trialling May 2012</a></li>
+<li><a href="#sec-1-2-2">1.2.2. Really started transition October 2013</a></li>
+<li><a href="#sec-1-2-3">1.2.3. Issue tracker 21 Nov 2013 (the day I generated 1000+ emails&#x2026;)</a></li>
+<li><a href="#sec-1-2-4">1.2.4. Better integration between issues, code, etc</a></li>
+<li><a href="#sec-1-2-5">1.2.5. Easier to work with &#x2014; we're actually using this</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">1.3. Two buildservers + Travis-CI</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1. Briefly: experimental OS X-based VM (machine was overprovisioned; system performance sucked)</a></li>
+<li><a href="#sec-1-3-2">1.3.2. Now: new beefy Linux-based VM at overture.au.dk</a></li>
+<li><a href="#sec-1-3-3">1.3.3. Travis-CI &#x2014; lightweight, live feedback on buildstatus of <b>all</b> commits</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">1.4. New website</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1. Shinier!</a></li>
+<li><a href="#sec-1-4-2">1.4.2. GitHub hosted, static site &#x2014; essentially zero attack surface aside from GitHub itself</a></li>
+<li><a href="#sec-1-4-3">1.4.3. More flexible than the old</a></li>
+<li><a href="#sec-1-4-4">1.4.4. Has a issue tracker for website bugs!</a></li>
+<li><a href="#sec-1-4-5">1.4.5. Rewriting (slowly) to sound less like an academic paper</a></li>
+<li><a href="#sec-1-4-6">1.4.6. Download numbers (somebody is downloading, at least)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Things at the top of my mind</a>
+<ul>
+<li><a href="#sec-2-1">2.1. File release hosting</a>
+<ul>
+<li><a href="#sec-2-1-1">2.1.1. GitHub "Releases" used for the standalone files</a></li>
+<li><a href="#sec-2-1-2">2.1.2. We still use SourceForge.net for (some of) stuff</a></li>
+<li><a href="#sec-2-1-3">2.1.3. Eclipse update site</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-2">2.2. Build procedure</a>
+<ul>
+<li><a href="#sec-2-2-1">2.2.1. all in maven</a></li>
+<li><a href="#sec-2-2-2">2.2.2. no doc yet</a></li>
+<li><a href="#sec-2-2-3">2.2.3. developement branch should always build</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-3">2.3. Release procedure</a>
+<ul>
+<li><a href="#sec-2-3-1">2.3.1. Release procedure documentation incomplete</a></li>
+<li><a href="#sec-2-3-2">2.3.2. There are many little tasks, distributed everywhere</a></li>
+<li><a href="#sec-2-3-3">2.3.3. Next release will be done by Kenneth</a></li>
+<li><a href="#sec-2-3-4">2.3.4. Native installers</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-4">2.4. Wiki migration(s)</a>
+<ul>
+<li><a href="#sec-2-4-1">2.4.1. Backed by a git repository</a></li>
+<li><a href="#sec-2-4-2">2.4.2. Easier to keep "clean"</a></li>
+<li><a href="#sec-2-4-3">2.4.3. Development wiki already on GitHub</a></li>
+<li><a href="#sec-2-4-4">2.4.4. General wiki currently on an old IHA host</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-5">2.5. GitHub &#x2014; issue reporting</a>
+<ul>
+<li><a href="#sec-2-5-1">2.5.1. Limited file attachments to bug reports</a></li>
+<li><a href="#sec-2-5-2">2.5.2. Encourages reporters to make minimal examples</a></li>
+<li><a href="#sec-2-5-3">2.5.3. Small examples make bugs easier to find</a></li>
+<li><a href="#sec-2-5-4">2.5.4. We <b>actively</b> use the GitHub Issues tools</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-6">2.6. CSK tests</a>
+<ul>
+<li><a href="#sec-2-6-1">2.6.1. We should have these under version control somewhere</a></li>
+<li><a href="#sec-2-6-2">2.6.2. Occasional small changes (recently from Nick in bug #304)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Reaction to Kiniry</a>
+<ul>
+<li><a href="#sec-3-1">3.1. His slides</a>
+<ul>
+<li><a href="#sec-3-1-1">3.1.1. adoption why?</a></li>
+<li><a href="#sec-3-1-2">3.1.2. adoption context</a></li>
+<li><a href="#sec-3-1-3">3.1.3. noted</a></li>
+<li><a href="#sec-3-1-4">3.1.4. Recommendations: age, impact, influence, nationality, memes</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-2">3.2. What's happened to address those recommendations</a>
+<ul>
+<li><a href="#sec-3-2-1">3.2.1. I've not done anything to address these directly, to my amusement</a></li>
+<li><a href="#sec-3-2-2">3.2.2. Memes &#x2014; if you take GitHub, StackOverflow to be a meme</a></li>
+<li><a href="#sec-3-2-3">3.2.3. Eclipse?</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-3">3.3. Foundational effort</a>
+<ul>
+<li><a href="#sec-3-3-1">3.3.1. The move the GitHub aims (partially) to reduce friction</a></li>
+<li><a href="#sec-3-3-2">3.3.2. Website update is intended to make the project look live (a site design that visually dated us to 2002 wasn't helping)</a></li>
+<li><a href="#sec-3-3-3">3.3.3. StackOverflow tag</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-4">3.4. Awkward niche (devil's advocate)</a>
+<ul>
+<li><a href="#sec-3-4-1">3.4.1. Kiniry's "prove that VDM is applicable"</a></li>
+<li><a href="#sec-3-4-2">3.4.2. Overture doesn't (yet) support the refinement/reificiation chains that are so popular on paper</a></li>
+<li><a href="#sec-3-4-3">3.4.3. Overture doesn't do the strong inferential typechecking seen in FP Langs (union types are no help!)</a></li>
+<li><a href="#sec-3-4-4">3.4.4. Overture/VDM is not a great language to implement in</a></li>
+<li><a href="#sec-3-4-5">3.4.5. What an awkward niche!</a></li>
+<li><a href="#sec-3-4-6">3.4.6. What's our compelling advantage?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+Overture Development Status Update
+Joey Coleman &#x2014; 21 June 2014
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Current State/What's happened since the 11th Overture Workshop</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 6 releases: 2.0.0 through 2.0.8, 2.1.0</h3>
+<div class="outline-text-3" id="text-1-1">
+</div><div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> 04Dec/31Jan/10Mar/01Apr/20May/13Jun</h4>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Average around 1.5 months between releases</h4>
+</div>
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> New version 2.x features</h4>
+<div class="outline-text-4" id="text-1-1-3">
+</div><ol class="org-ol"><li><a id="sec-1-1-3-1" name="sec-1-1-3-1"></a>Eclipse 4.2 base<br  /></li>
+<li><a id="sec-1-1-3-2" name="sec-1-1-3-2"></a>ASTv2 integration<br  /></li>
+<li><a id="sec-1-1-3-3" name="sec-1-1-3-3"></a>New AST-based pog<br  /></li>
+<li><a id="sec-1-1-3-4" name="sec-1-1-3-4"></a>New code generation module<br  /></li>
+<li><a id="sec-1-1-3-5" name="sec-1-1-3-5"></a>ProB use<br  /></li>
+<li><a id="sec-1-1-3-6" name="sec-1-1-3-6"></a>Smaller interface improvements (quickfixes, etc) (probably)<br  /></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> GitHub migration</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Started trialling May 2012</h4>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> Really started transition October 2013</h4>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> Issue tracker 21 Nov 2013 (the day I generated 1000+ emails&#x2026;)</h4>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4"><span class="section-number-4">1.2.4</span> Better integration between issues, code, etc</h4>
+</div>
+<div id="outline-container-sec-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5"><span class="section-number-4">1.2.5</span> Easier to work with &#x2014; we're actually using this</h4>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Two buildservers + Travis-CI</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Briefly: experimental OS X-based VM (machine was overprovisioned; system performance sucked)</h4>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Now: new beefy Linux-based VM at overture.au.dk</h4>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> Travis-CI &#x2014; lightweight, live feedback on buildstatus of <b>all</b> commits</h4>
+<div class="outline-text-4" id="text-1-3-3">
+</div><ol class="org-ol"><li><a id="sec-1-3-3-1" name="sec-1-3-3-1"></a>No extra configuration on the buildserver<br  /></li>
+<li><a id="sec-1-3-3-2" name="sec-1-3-3-2"></a>(still a bit buggy, due to build complexity)<br  /></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> New website</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Shinier!</h4>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> GitHub hosted, static site &#x2014; essentially zero attack surface aside from GitHub itself</h4>
+</div>
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> More flexible than the old</h4>
+</div>
+<div id="outline-container-sec-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4"><span class="section-number-4">1.4.4</span> Has a issue tracker for website bugs!</h4>
+<div class="outline-text-4" id="text-1-4-4">
+</div><ol class="org-ol"><li><a id="sec-1-4-4-1" name="sec-1-4-4-1"></a>Still need to link it on the site<br  /></li></ol>
+</div>
+<div id="outline-container-sec-1-4-5" class="outline-4">
+<h4 id="sec-1-4-5"><span class="section-number-4">1.4.5</span> Rewriting (slowly) to sound less like an academic paper</h4>
+</div>
+<div id="outline-container-sec-1-4-6" class="outline-4">
+<h4 id="sec-1-4-6"><span class="section-number-4">1.4.6</span> Download numbers (somebody is downloading, at least)</h4>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Things at the top of my mind</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+(Everything here is a request for comments)
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> File release hosting</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> GitHub "Releases" used for the standalone files</h4>
+</div>
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> We still use SourceForge.net for (some of) stuff</h4>
+<div class="outline-text-4" id="text-2-1-2">
+</div><ol class="org-ol"><li><a id="sec-2-1-2-1" name="sec-2-1-2-1"></a>To be phased out<br  /></li>
+<li><a id="sec-2-1-2-2" name="sec-2-1-2-2"></a>Standalone files are posted<br  /></li>
+<li><a id="sec-2-1-2-3" name="sec-2-1-2-3"></a>Eclipse update site posted<br  /></li></ol>
+</div>
+<div id="outline-container-sec-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> Eclipse update site</h4>
+<div class="outline-text-4" id="text-2-1-3">
+</div><ol class="org-ol"><li><a id="sec-2-1-3-1" name="sec-2-1-3-1"></a>No good public+free solution<br  /></li>
+<li><a id="sec-2-1-3-2" name="sec-2-1-3-2"></a>Will soon use the AU buildserver (temporarily?)<br  /></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Build procedure</h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> all in maven</h4>
+</div>
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> no doc yet</h4>
+</div>
+<div id="outline-container-sec-2-2-3" class="outline-4">
+<h4 id="sec-2-2-3"><span class="section-number-4">2.2.3</span> developement branch should always build</h4>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Release procedure</h3>
+<div class="outline-text-3" id="text-2-3">
+</div><div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Release procedure documentation incomplete</h4>
+<div class="outline-text-4" id="text-2-3-1">
+</div><ol class="org-ol"><li><a id="sec-2-3-1-1" name="sec-2-3-1-1"></a>But <b>some</b> exists<br  /></li></ol>
+</div>
+<div id="outline-container-sec-2-3-2" class="outline-4">
+<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> There are many little tasks, distributed everywhere</h4>
+</div>
+<div id="outline-container-sec-2-3-3" class="outline-4">
+<h4 id="sec-2-3-3"><span class="section-number-4">2.3.3</span> Next release will be done by Kenneth</h4>
+<div class="outline-text-4" id="text-2-3-3">
+</div><ol class="org-ol"><li><a id="sec-2-3-3-1" name="sec-2-3-3-1"></a>I will sit beside and document what's missing<br  /></li></ol>
+</div>
+<div id="outline-container-sec-2-3-4" class="outline-4">
+<h4 id="sec-2-3-4"><span class="section-number-4">2.3.4</span> Native installers</h4>
+<div class="outline-text-4" id="text-2-3-4">
+</div><ol class="org-ol"><li><a id="sec-2-3-4-1" name="sec-2-3-4-1"></a>Value of this? (unzipping files isn't <b>that</b> difficult)<br  /></li>
+<li><a id="sec-2-3-4-2" name="sec-2-3-4-2"></a>Windows: Not a huge effort, just not prioritised<br  /></li>
+<li><a id="sec-2-3-4-3" name="sec-2-3-4-3"></a>OS X: configuration wrestling with tycho/maven<br  /></li>
+<li><a id="sec-2-3-4-4" name="sec-2-3-4-4"></a>Linux: zip is the only real option (or tar.gz)<br  /></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Wiki migration(s)</h3>
+<div class="outline-text-3" id="text-2-4">
+</div><div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> Backed by a git repository</h4>
+</div>
+<div id="outline-container-sec-2-4-2" class="outline-4">
+<h4 id="sec-2-4-2"><span class="section-number-4">2.4.2</span> Easier to keep "clean"</h4>
+<div class="outline-text-4" id="text-2-4-2">
+</div><ol class="org-ol"><li><a id="sec-2-4-2-1" name="sec-2-4-2-1"></a>Dead content is removed by just deleting files<br  /></li></ol>
+</div>
+<div id="outline-container-sec-2-4-3" class="outline-4">
+<h4 id="sec-2-4-3"><span class="section-number-4">2.4.3</span> Development wiki already on GitHub</h4>
+<div class="outline-text-4" id="text-2-4-3">
+</div><ol class="org-ol"><li><a id="sec-2-4-3-1" name="sec-2-4-3-1"></a>i.e. the one we actually use (AU devs, at least)<br  /></li></ol>
+</div>
+<div id="outline-container-sec-2-4-4" class="outline-4">
+<h4 id="sec-2-4-4"><span class="section-number-4">2.4.4</span> General wiki currently on an old IHA host</h4>
+<div class="outline-text-4" id="text-2-4-4">
+</div><ol class="org-ol"><li><a id="sec-2-4-4-1" name="sec-2-4-4-1"></a>Should be moved; I'd like to put it on GitHub<br  /></li>
+<li><a id="sec-2-4-4-2" name="sec-2-4-4-2"></a>Test migration soon<br  /></li>
+<li><a id="sec-2-4-4-3" name="sec-2-4-4-3"></a>Cleanup in the process<br  /></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> GitHub &#x2014; issue reporting</h3>
+<div class="outline-text-3" id="text-2-5">
+</div><div id="outline-container-sec-2-5-1" class="outline-4">
+<h4 id="sec-2-5-1"><span class="section-number-4">2.5.1</span> Limited file attachments to bug reports</h4>
+<div class="outline-text-4" id="text-2-5-1">
+</div><ol class="org-ol"><li><a id="sec-2-5-1-1" name="sec-2-5-1-1"></a>Code can be inlined between ``` or <code>~</code><br  /></li>
+<li><a id="sec-2-5-1-2" name="sec-2-5-1-2"></a>Images may be attached<br  /></li>
+<li><a id="sec-2-5-1-3" name="sec-2-5-1-3"></a>No real possibility for anything else<br  /></li></ol>
+</div>
+<div id="outline-container-sec-2-5-2" class="outline-4">
+<h4 id="sec-2-5-2"><span class="section-number-4">2.5.2</span> Encourages reporters to make minimal examples</h4>
+</div>
+<div id="outline-container-sec-2-5-3" class="outline-4">
+<h4 id="sec-2-5-3"><span class="section-number-4">2.5.3</span> Small examples make bugs easier to find</h4>
+<div class="outline-text-4" id="text-2-5-3">
+</div><ol class="org-ol"><li><a id="sec-2-5-3-1" name="sec-2-5-3-1"></a>Hidden advantage?<br  /></li></ol>
+</div>
+<div id="outline-container-sec-2-5-4" class="outline-4">
+<h4 id="sec-2-5-4"><span class="section-number-4">2.5.4</span> We <b>actively</b> use the GitHub Issues tools</h4>
+<div class="outline-text-4" id="text-2-5-4">
+</div><ol class="org-ol"><li><a id="sec-2-5-4-1" name="sec-2-5-4-1"></a>Stark contrast against the sf.net bug tracker<br  /></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> CSK tests</h3>
+<div class="outline-text-3" id="text-2-6">
+</div><div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1"><span class="section-number-4">2.6.1</span> We should have these under version control somewhere</h4>
+<div class="outline-text-4" id="text-2-6-1">
+</div><ol class="org-ol"><li><a id="sec-2-6-1-1" name="sec-2-6-1-1"></a>I will set up a private AU repository<br  /></li></ol>
+</div>
+<div id="outline-container-sec-2-6-2" class="outline-4">
+<h4 id="sec-2-6-2"><span class="section-number-4">2.6.2</span> Occasional small changes (recently from Nick in bug #304)</h4>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Reaction to Kiniry</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> His slides</h3>
+<div class="outline-text-3" id="text-3-1">
+</div><div id="outline-container-sec-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1"><span class="section-number-4">3.1.1</span> adoption why?</h4>
+<div class="outline-text-4" id="text-3-1-1">
+</div><ol class="org-ol"><li><a id="sec-3-1-1-1" name="sec-3-1-1-1"></a>solves new, real problem<br  /></li>
+<li><a id="sec-3-1-1-2" name="sec-3-1-1-2"></a>community<br  /></li>
+<li><a id="sec-3-1-1-3" name="sec-3-1-1-3"></a>best-in-class<br  /></li>
+<li><a id="sec-3-1-1-4" name="sec-3-1-1-4"></a>artifacts<br  /></li></ol>
+</div>
+<div id="outline-container-sec-3-1-2" class="outline-4">
+<h4 id="sec-3-1-2"><span class="section-number-4">3.1.2</span> adoption context</h4>
+<div class="outline-text-4" id="text-3-1-2">
+</div><ol class="org-ol"><li><a id="sec-3-1-2-1" name="sec-3-1-2-1"></a>teaching (student's interest) &gt; artifacts for instruction &gt; robustness &gt; community<br  /></li>
+<li><a id="sec-3-1-2-2" name="sec-3-1-2-2"></a>research: impact &gt; bootstrapping &gt; community<br  /></li>
+<li><a id="sec-3-1-2-3" name="sec-3-1-2-3"></a>commercial: paying &gt; future opportunities &gt; community<br  /></li></ol>
+</div>
+<div id="outline-container-sec-3-1-3" class="outline-4">
+<h4 id="sec-3-1-3"><span class="section-number-4">3.1.3</span> noted</h4>
+<div class="outline-text-4" id="text-3-1-3">
+</div><ol class="org-ol"><li><a id="sec-3-1-3-1" name="sec-3-1-3-1"></a>strengths: history, age, foundations, community, artifacts<br  /></li>
+<li><a id="sec-3-1-3-2" name="sec-3-1-3-2"></a>neutral: size, communication, artifacts, quality, source, motivation, uniqueness, momentum<br  /></li>
+<li><a id="sec-3-1-3-3" name="sec-3-1-3-3"></a>weaknesses: nationality, history, age, foundations, impact, wealth, influence, memes<br  /></li></ol>
+</div>
+<div id="outline-container-sec-3-1-4" class="outline-4">
+<h4 id="sec-3-1-4"><span class="section-number-4">3.1.4</span> Recommendations: age, impact, influence, nationality, memes</h4>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> What's happened to address those recommendations</h3>
+<div class="outline-text-3" id="text-3-2">
+</div><div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> I've not done anything to address these directly, to my amusement</h4>
+</div>
+<div id="outline-container-sec-3-2-2" class="outline-4">
+<h4 id="sec-3-2-2"><span class="section-number-4">3.2.2</span> Memes &#x2014; if you take GitHub, StackOverflow to be a meme</h4>
+</div>
+<div id="outline-container-sec-3-2-3" class="outline-4">
+<h4 id="sec-3-2-3"><span class="section-number-4">3.2.3</span> Eclipse?</h4>
+<div class="outline-text-4" id="text-3-2-3">
+</div><ol class="org-ol"><li><a id="sec-3-2-3-1" name="sec-3-2-3-1"></a>You'll note I use Emacs<br  /></li>
+<li><a id="sec-3-2-3-2" name="sec-3-2-3-2"></a>Can we do better? and,<br  /></li>
+<li><a id="sec-3-2-3-3" name="sec-3-2-3-3"></a>We claim a strong border between core/ and ide/<br  /></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Foundational effort</h3>
+<div class="outline-text-3" id="text-3-3">
+</div><div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> The move the GitHub aims (partially) to reduce friction</h4>
+<div class="outline-text-4" id="text-3-3-1">
+</div><ol class="org-ol"><li><a id="sec-3-3-1-1" name="sec-3-3-1-1"></a>For curious onlookers, it's now <b>easy</b> to look at and search the code<br  /></li>
+<li><a id="sec-3-3-1-2" name="sec-3-3-1-2"></a>For potential developers, GitHub directly supports forking and contribution mechanisms, <b>without requiring permission</b><br  /></li></ol>
+</div>
+<div id="outline-container-sec-3-3-2" class="outline-4">
+<h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> Website update is intended to make the project look live (a site design that visually dated us to 2002 wasn't helping)</h4>
+</div>
+<div id="outline-container-sec-3-3-3" class="outline-4">
+<h4 id="sec-3-3-3"><span class="section-number-4">3.3.3</span> StackOverflow tag</h4>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Awkward niche (devil's advocate)</h3>
+<div class="outline-text-3" id="text-3-4">
+</div><div id="outline-container-sec-3-4-1" class="outline-4">
+<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> Kiniry's "prove that VDM is applicable"</h4>
+</div>
+<div id="outline-container-sec-3-4-2" class="outline-4">
+<h4 id="sec-3-4-2"><span class="section-number-4">3.4.2</span> Overture doesn't (yet) support the refinement/reificiation chains that are so popular on paper</h4>
+<div class="outline-text-4" id="text-3-4-2">
+</div><ol class="org-ol"><li><a id="sec-3-4-2-1" name="sec-3-4-2-1"></a>POG-TP would help mitigate this<br  /></li></ol>
+</div>
+<div id="outline-container-sec-3-4-3" class="outline-4">
+<h4 id="sec-3-4-3"><span class="section-number-4">3.4.3</span> Overture doesn't do the strong inferential typechecking seen in FP Langs (union types are no help!)</h4>
+</div>
+<div id="outline-container-sec-3-4-4" class="outline-4">
+<h4 id="sec-3-4-4"><span class="section-number-4">3.4.4</span> Overture/VDM is not a great language to implement in</h4>
+</div>
+<div id="outline-container-sec-3-4-5" class="outline-4">
+<h4 id="sec-3-4-5"><span class="section-number-4">3.4.5</span> What an awkward niche!</h4>
+<div class="outline-text-4" id="text-3-4-5">
+</div><ol class="org-ol"><li><a id="sec-3-4-5-1" name="sec-3-4-5-1"></a>Is there a good story for <b>all</b> of our tradeoffs?<br  /></li></ol>
+</div>
+<div id="outline-container-sec-3-4-6" class="outline-4">
+<h4 id="sec-3-4-6"><span class="section-number-4">3.4.6</span> What's our compelling advantage?</h4>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Joey Coleman</p>
+<p class="date">Created: 2015-02-06 Fri 14:17</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
