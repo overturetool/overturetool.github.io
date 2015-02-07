@@ -14,7 +14,7 @@ date:  2015-01-28 13:00 CET
 * Update the header title and date
 * Commit the file. It can be edited after it is created by selecing it and pressing the pen on the top right.
 
-A github guide for creating pages are avaliable from here: https://help.github.com/articles/creating-new-files/
+A github guide for creating pages is avaliable from here: https://help.github.com/articles/creating-new-files/
 
 Template starts below this line:
 
