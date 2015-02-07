@@ -1,10 +1,12 @@
 ---
 layout: default
 title: Net Meeting 26
-date: -
+date: 20 June 2008, 1300 CET
 ---
 
 # Net Meeting 26
+
+Date estimated!
 
 Review of Action List
 ---------------------
