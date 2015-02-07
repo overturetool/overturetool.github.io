@@ -11,6 +11,7 @@ date:  2015-01-28 13:00 CET
 * Find and press the + sign at the end of: overturetool.github.io/_netmeetings/+
 * Enter the new file name: `Net-Meeting-XX.md`, where XX is the netmeeting number.
 * Paste the content of the template below into the Edit new file box
+* Update the header title and date
 * Commit the file. It can be edited after it is created by selecing it and pressing the pen on the top right.
 
 A github guide for creating pages are avaliable from here: https://help.github.com/articles/creating-new-files/
@@ -20,6 +21,11 @@ Template starts below this line:
 --------------------------------------- Template Begin ----------------------------------------------------------
 
 ~~~
+---
+layout: default
+title: Net Meeting XX
+date: 4 February 2007, 1200 CET
+---
 
 # {{ page.title }}
 
