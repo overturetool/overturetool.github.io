@@ -23,7 +23,7 @@ And we have a [meeting template](template.html)
 
 ## Past Meetings
 
-{% for nm in site.netmeetings %}
+{% for nm in site.netmeetings reversed %}
 * [{{ nm.title }}]({{ site.url }}{{ nm.url }}): {{ nm.date }}{% endfor %}
 {% comment %} The endfor needs to be on the line with the list item {% endcomment %}
 
