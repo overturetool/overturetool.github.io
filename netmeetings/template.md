@@ -3,7 +3,9 @@ title: NetMeeting Default Template
 date:  2015-01-28 13:00 CET
 ---
 
-_This template should be copied to the `_netmeetings/` directory and edited appropriately._
+# Net-Meeting Template and Addition Guide
+
+<!-- _This template should be copied to the `_netmeetings/` directory and edited appropriately._ -->
 
 * Navigate to: https://github.com/overturetool/overturetool.github.io/tree/master/_netmeetings
 * Find and press the + sign at the end of: overturetool.github.io/_netmeetings/+
@@ -16,6 +18,7 @@ A github guide for creating pages are avaliable from here: https://help.github.c
 Template starts below this line:
 
 --------------------------------------- Template Begin ----------------------------------------------------------
+
 ~~~
 
 # {{ page.title }}
