@@ -20,7 +20,8 @@ title: The VDM languages
 - VDM-RT: Extension of VDM++ for specifying real-time and distributed
   systems. Draft content below.
       -->
-  
+
+The complete VDM-10 Language Manual can be downloaded [here.]({{ site.url }}/files/VDM10_lang_man.pdf)	  
   
 
 VDM Features
