@@ -58,7 +58,7 @@ Call for Papers and Participation (2nd November 2009, Eindhoven)
 ----------------------------------------------------------------
 
 -   [Download a flyer for the VDM-Overture
-    workshop](OvertureFlyer.pdf "wikilink")
+    workshop](7/OvertureFlyer.pdf "wikilink")
 
 The Vienna Development Method (VDM, <http://www.vdmportal.org>) is a
 well established formal method supported by industry strength tools
