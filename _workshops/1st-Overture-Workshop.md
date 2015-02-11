@@ -80,7 +80,7 @@ Pictures
 		<tr>
 			<td>
 				<a href="1/120px-IMG_0463.JPG">
-					<img src="1/120px-IMG_0463.JPG" style="width:200px;height:200px"/>
+					<img src="1/120px-IMG_0463.JPG" style="width:200px;height:200px;overflow: hidden"/>
 				</a>
 			</td>
 			<td></td>
