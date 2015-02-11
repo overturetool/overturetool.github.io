@@ -18,7 +18,7 @@ The proceedings of the workshop are available as a technical
 report[1](http://eng.au.dk/fileadmin/DJF/ENG/PDF-filer/Tekniske_rapporter/Technical_Report_ECE-TT-2-SAMLET.pdf)
 from Aarhus University.
 
-![](9/700px-9thgroup "700px-9thgroup")
+![](9/700px-9thgroup.jpg "700px-9thgroup")
 
 ### Programme
 
