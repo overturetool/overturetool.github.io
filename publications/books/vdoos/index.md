@@ -34,7 +34,7 @@ The alternative to VDMTools is to use the Overture open source solution built on
 
 Validated Designs for Object-oriented Systems. John Fitzgerald, Peter Gorm Larsen, Paul Mukherjee, Nico Plat and Marcel Verhoef. ISBN: 1-85233-881-4. Springer, New York. 2005.
 
-Download the BIB file entry from the [publication list]({{site.url}}/publications/})
+Download the BIB file entry from the [publication list]({{site.url}}/publications/)
 
 You can purchase the book on-line at the [Springer web-site](http://www.springer.com/east/home/generic/search/results?SGWID=5-40109-22-33837368-0). A Japanese translation is available as ISBN 978-1-85233-881-7 from August 2010, also available from the same publisher.
 
