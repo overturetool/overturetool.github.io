@@ -1,3 +1,8 @@
+---
+layout: default
+title: Overture Publications
+---
+
 # Planned Publications
 
 Conferences / Journals
