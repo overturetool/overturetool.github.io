@@ -45,28 +45,28 @@ validation of tools and methods and the development of tools.
 ### Program
 
 The morning program consisted of an introduction given by Nico Plat
-([Slides](Overture_10th_workshop_intro.ppt "wikilink")), followed by a
+([Slides](10/Overture_10th_workshop_intro.ppt "wikilink")), followed by a
 number of paper presentations. These included:
 
 -   "The Co-Simulation of a Cardiac Pacemaker using VDM and 20-sim"
     (Carl Gamble, Martin Mansfield, and John Fitzgerald)
-    [Slides](FM-20120-Pacemaker.pdf‎ "wikilink")
+    [Slides](10/FM-20120-Pacemaker.pdf‎ "wikilink")
 -   "Supporting the Partitioning Process in Hardware/Software Co-design
     with VDM-RT" (José Antonio Esparza Isasa, Peter Gorm Larsen and Kim
-    Bjerge) [Slides](Jaei_OvertureWorkshop.pdf‎ "wikilink")
+    Bjerge) [Slides](10/Jaei_OvertureWorkshop.pdf‎ "wikilink")
 -   "Evolution of the Overture Tool Platform" (Joey Coleman, Anders
     Kaels Malmos, Claus Ballegaard Nielsen and Peter Gorm Larsen)
-    [Slides](evo.pdf‎ "wikilink")
+    [Slides](10/evo.pdf‎ "wikilink")
 -   "Towards an extensible core model for Digital Rights Management in
     VDM" (Rasmus W. Lauritsen and Lasse Lorenzen)
-    [Slides](Overture_10th_DrmPresentation.pdf‎ "wikilink")
+    [Slides](10/Overture_10th_DrmPresentation.pdf‎ "wikilink")
 -   "Towards a Co-simulation Semantics of VDM-RT/Overture and 20-sim"
     (Joey Coleman, Kenneth Lausdahl and Peter Gorm Larsen)
-    [Slides](Vdmrt-semanticsPresentation.pdf‎ "wikilink")
+    [Slides](10/Vdmrt-semanticsPresentation.pdf‎ "wikilink")
 -   "Initial Report of the Impact of Using Overture/VDM in a Development
     Process in an Architecture-Oriented Approach" (Shigeru Kusakabe,
     Yoich Omori and Keijiro Araki)
-    [Slides](PersonalSoftwareProcessUsingVDM_pub.pdf "wikilink")
+    [Slides](10/PersonalSoftwareProcessUsingVDM_pub.pdf "wikilink")
 
 The afternoon was dedicated to getting hands-on experience with the
 Overture platform. The intention of this was to get more developers able
@@ -76,22 +76,22 @@ of the Overture toolset.
 The session was started with a few short presentations:
 
 -   "The Overture AST and Plug-in Development" (Kenneth Lausdahl) [
-    Slides](Overture10_ASTGen_and_plugin_creation.pdf‎ "wikilink"),
+    Slides](10/Overture10_ASTGen_and_plugin_creation.pdf‎ "wikilink"),
     [Tutorial 1 Java
     Source](http://build.overturetool.org/builds/Overture-Workshop10/Overture10_plugin_tutorial1.zip),
     [Tutorial 1 VDM
     Source](http://build.overturetool.org/builds/Overture-Workshop10/Overture10_tutorial1_vdm_model.zip),
     [Screencase](http://staff.iha.dk/pgl/overture%20plugin/overture%20plugin.html)
 -   "The Inner Workings of Overture-core" (Kenneth Lausdahl)
-    [Slides](The_inner_workings_of_overture_core.pdf‎ "wikilink")
+    [Slides](10/The_inner_workings_of_overture_core.pdf‎ "wikilink")
     [Screencast](http://staff.iha.dk/pgl/Inner%20workings%20of%20Overture/Inner%20workings%20of%20Overture.html)
 -   "The build process, using Git and the dependencies" (Joey Coleman).
-    [Slides](Build_process.pdf‎ "wikilink")
+    [Slides](10/Build_process.pdf‎ "wikilink")
     [Screencast](http://staff.iha.dk/pgl/Overture%20Build%20Process/Overture%20Build%20Process.html)
 -   "Next Generation Showtrace" (Peter W.V. Joergensen)
-    [Slides](ShowtraceNextGeneration.pdf‎ "wikilink")
+    [Slides](10/ShowtraceNextGeneration.pdf‎ "wikilink")
 -   "State Machines ... VDM" (Marcel Verhoef)
-    [Slides](Overture10_StateMachines.pdf‎ "wikilink")
+    [Slides](10/Overture10_StateMachines.pdf‎ "wikilink")
 
 After these presentations the workshop participants got the opportunity
 to get hands-on experience working with development and compilation of
