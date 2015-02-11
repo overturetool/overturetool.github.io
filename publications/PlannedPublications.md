@@ -46,7 +46,7 @@ title: Overture Publications
     (Luis Diogo Couto, Peter W. V. Jorgensen, Joey W. Coleman, Kenneth
     Lausdahl for WICSA 2015)
 
-#### In press
+## In press
 
 -   Claus Ballegaard Nielsen, Kenneth Lausdahl, Peter Gorm Larsen.
     Distributed Simulation of Formal Models in System of Systems
