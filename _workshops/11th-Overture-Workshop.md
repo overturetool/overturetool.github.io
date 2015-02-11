@@ -1,100 +1,150 @@
 ---
 layout: default
-title: The 12th Overture Workshop
-date: 2014-06-21
-location: Newcastle upon Tyne, UK
+title: The 11th Overture Workshop
+date: 2013-08-28
+location: Aarhus University, Aarhus, Denmark
 ---
 
 # {{ page.title }}
 
-## 12th Overture Workshop on VDM, Newcastle University, Newcastle upon Tyne, UK, Saturday 21 June 2014 
+11th Overture Workshop on VDM, Aarhus University, Aarhus, Denmark, 28-29th August 2013
+--------------------------------------------------------------------------------------
 
-<img src="12/Ncl18980.jpg" width="200px" />
-<img src="12/Ncl7971.jpg" width="200px" />
-<img src="12/Ncl26696.jpg" width="200px" />
+### About the Workshop
 
-The proceedings are available [HERE](12/TR1446.pdf) as N. Battle and J. S. Fitzgerald (Eds.), Proceedings of the 12th Overture Workshop, Newcastle University, 21 June 2014, Technical Report CS-TR-1446, School of Computing Science, Newcastle University. 
+The 11th Overture Workshop was held in Aarhus, Denmark on Wed/Thu
+28-29th August 2013. This workshop was the 11th in the current series
+focusing on the Vienna Development Method (VDM) and particularly its
+community-based tools development project, Overture
+(http://www.overturetool.org/), and related projects such as COMPASS
+(http://www.compass-research.eu/) and DESTECS (http://www.destecs.org).
+Invited talks were given by [Yves
+Ledru](http://membres-lig.imag.fr/ledru/YLVersionE.html) and [Joe
+Kiniry](http://www2.imm.dtu.dk/~jkin/). The workshop attracted 25
+participants representing 10 nationalities.
 
-The 12th in the “Overture” series of workshops on the Vienna Development Method, its associated tools and applications, was held in association with the [COMPASS](http://www.compass-research.eu) project at Newcastle in June 2014. The workshop aimed to identify and encourage new collaborative research, and to foster current strands of work towards new projects and publications. 
+![](2013group.jpg "2013group.jpg")
 
-VDM is one of the longest established formal methods, having its origins in compiler development work in IBM in the 1970s. In the 1990s, the basic VDM modelling language was standardized by ISO and the first commercial tools emerged. Since 2000, the method has been extended to support object-orientation, concurrency, real-time and distribution. Advances in these areas led to the development of new technology for the design of embedded systems based on [collaborative modelling and co-simulation](http://www.springer.com/computer/communication+networks/book/978-3-642-54117-9). A notable recent development has been the very successful combination of VDM with Circus as a basis for the COMPASS Modelling Language (CML) – the first formal modelling language developed specifically for systems of systems (SoSs). 
+The goal of the workshop was to provide a forum to present new ideas, to
+identify and encourage new collaborative research, and to foster current
+strands of work towards publication in the mainstream conferences and
+journals. The Overture initiative held its first workshop at FM'05.
+Workshops were held subsequently at FM'06, FM'08 and FM'09, FM'11, FM'12
+and in between.
 
-Research in VDM is driven as much by the needs of industry practice as by a wish to develop fundamental theory. As a consequence, the need for robust tool support has been a priority for many years. The community-based [Overture](http://www.overturetool.org) initiative is developing industry-strength tools on a new open platform that has been successfully adapted to form a platforms for co-modelling and co-simulation in embedded systems design (the [Crescendo](http://www.crescendotool.org) platform), and latterly SoS modelling, verification and testing (the [Symphony](http://www.symphonytool.org) platform). 
+### Workshop Programme
 
-The 12th workshop reflected the breadth and depth of work in VDM. Contributions covered topics as diverse as fundamental approaches to reasoning about concurrency, design space exploration, the use of Crescendo in teaching, and of course tools (interpreter design, code generation and the maturing architecture of Overture itself). Presentations most talks are to be found in the Overture Wiki .
+A programme for the workshop appears in the table below. Slides and
+screencasts for some talks can be found in the links next to the titles.
+The full proceedings from the event can be found
+[here](http://eng.au.dk/fileadmin/DJF/ENG/PDF-filer/Tekniske_rapporter/ECE-TR-17-samlet.pdf).
 
-We are grateful to the [School of Computing Science](http://www.ncl.ac.uk/computing) at [Newcastle University](http://www.ncl.ac.uk/) for its kind hospitality in hosting the workshop for the fourth time in the fifteen year history of the series.
+  ------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+          *Main Workshop*                                                                                                                                                                                                              
 
+          **Wed 28th August**                                                                                                                                                                                                          **Thu 29th August**
 
-### Programme
+  09:00   Coffee / welcome                                                                                                                                                                                                             [Lessons learned from the translation of SecureUML to B and Z](http://eng.au.dk/aktuelt/arrangementer/vis/artikel/specialized-engineering-seminar-lessons-learned-from-the/)\
+                                                                                                                                                                                                                                       *Yves Ledru*
 
-* 0900-0930 Coffee and Welcome (John Fitzgerald and Nick Battle) 
-* 0930-1010 Enabling Interpretation of Implicit VDM Specifications using ProB (Kenneth Lausdahl, Hiroshi Ishikawa and Peter Gorm Larsen)
-* 1010-1050 Code Generation for VDM++ (Peter Würtz Vinther Jørgensen, Morten Larsen and Luis Diogo Couto)
-* 1050-1120 Coffee 
-* 1120-1200 A Guide to the Architecture of Overture (Luis Diogo Couto)
-* 1200-1230 Tools Development Update (Joey Coleman) 
-* 1220-1330 Lunch at the [Northern Stage](http://www.northernstage.co.uk/northern-stage/)
-* 1330-1410 Concurrency, Rely/Guarantee and Separation Logic (Cliff Jones)
-* 1410-1450 Design Space Exploration through Co-modelling and Co-simulation – the Pacemaker Challenge (John Fitzgerald, Carl Gamble, Peter Gorm Larsen, and Martin Mansfield)
-* 1450-1530 Teaching With Crescendo (Ken Pierce) 
-* 1530-1600 Tea
-* 1600-1645 Closing Discussion (John Fitzgerald and Nick Battle)
-* 19:00 Dinner at the [Bridge Tavern](http://www.thebridgetavern.com/)
+  09:30   Modelling a Smart Grid System-of-Systems using VDM\
+          *Stefan Hallerstede and Peter Gorm Larsen* [(Slides)](StefanHallerstede_SmartGrid.pdf "wikilink")
 
+  10:00   An Architectural Evolution of the Overture Tool\                                                                                                                                                                             Coffee break
+          *Peter Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen* [(Slides)](PeterJørgensen_ASTv2.pdf "wikilink")                                                                                                                    
 
-### Abstracts
+  10:30   Coffee break                                                                                                                                                                                                                 Co-modelling of a Robot Swarm with DESTECS\
+                                                                                                                                                                                                                                       *Ken Pierce*
 
-#### Enabling Interpretation of Implicit VDM Specifications using ProB
+  11:00   Towards an Overture Code Generator\                                                                                                                                                                                          Modelling Systems of Cyber-Physical Systems\
+           *Peter Jørgensen and Peter Gorm Larsen* [(Slides)](PeterJørgensen_CodeGen.pdf "wikilink")                                                                                                                                   *Martin Mansfield and John Fitzgerald* [(Slides)](MartinMansfield_SoCPS.pdf "wikilink")
 
-_Authors_ Kenneth Lausdahl, Hiroshi Ishikawa and Peter Gorm Larsen <br />
-_Abstract__ Modelling of software can with advantage start by the creation of an initial software design at a high-level of abstraction expressed as implicit specifications. The Vienna Development Method is a formal method that support different levels of abstraction including such implicit specification mechanisms. However, most of the existing tool-support for VDM does not support this style of modelling adequately from an analysis perspective. In this paper we demonstrate how such implicit specifications can be made interpretable through the use of the ProB constraint solver allowing them to be validated like explicit specifications. We shown how an internal translation to ProB is made and how this integrates with the existing VDM interpreter from Overture.
+  11:30   The COMPASS Proof Obligation Generator\                                                                                                                                                                                      Modelling Different CPU Power States in VDM-RT\
+          *Luis Diogo Couto and Richard Payne* [(Slides)](LuisDiogoCouto_POG.pdf "wikilink")                                                                                                                                           *José Antonio Esparza Isasa and Peter Gorm Larsen* [(Slides)](JoseEsparzaIsasa_CPU.pdf‎ "wikilink")
 
-#### [A Code Generation Platform for VDM](12/Slides_codegen.pdf)
+  12:00   Model Based Testing of VDM Models\                                                                                                                                                                                           The Overture Approach to VDM Language Evolution\
+          *Uwe Schulze* [(Slides)](UweSchulze MBT.pdf "wikilink")                                                                                                                                                                      *Nico Plat and Peter Jørgensen* [(Slides)](PeterJørgensen_NicoPlat_Evolution.pdf "wikilink")
 
-_Author_ Peter Würtz Vinther Jørgensen, Morten Larsen and Luis Diogo Couto <br />
-_Abstract_ In this paper we describe ongoing work on a code generation platform that simplifies the construction of code generators for VDM in the Overture tool. The platform represents the code generated model as an Intermediate Representation (IR) and assists a code generator in transforming the IR into a structure that is easier to code generate. Since the IR is independent of any target language, a code generator can choose the transformations it needs to obtain the IR it desires. Based on the code generation platform a VDM++ to Java code generator has been developed, while early work is currently being made on a C++ code generator. Implementing the Java and C++ code generators has provided useful feedback for the architecture of the code generation platform. This has helped us to generalise the platform structure in order to make it a stronger foundation to use for constructing code generators.
+  12:30   Lunch                                                                                                                                                                                                                        Lunch
 
-#### [A Guide to the Architecture of Overture](12/Archi-guide-intro.pdf)
+  13:00   [Enhancing formal modelling tool support with increased automation](http://phd.au.dk/gradschools/scienceandtechnology/newsandevents/show-news/artikel/enhancing-formal-modelling-tool-support-with-increased-automation/)\
+          PhD defence, *Kenneth Lausdahl*\
+          Room 140, Edison Building\
+          \
+          13:00-13:45 *Presentation*\
+          13:45-13:50 *Break*\
+          13:50-15:30 *Q&A session followed by a reception*
 
-_Author_ Luis Diogo Couto <br />
-_Abstract_ Overture is an open source IDE for VDM with an extensible, plug-in based architecture. However, it currently faces significant challenges to its developer resources. The number of active developers is small and it is difficult to attract new developers, in part because the Overture code base is large and complex and therefore challenging to learn.  This is further complicated by a lack of documentation throughout. This paper presents an initial effort to address these challenges in the form of a guide to the architecture of Overture. The guide itself is a living document, being maintained in the developer wiki. This paper presents key sections of the guide as well as issues encountered during its production and possible solutions.
+  13:30   Latest on the Overture / COMPASS platform\                                                                                                                                                                                   Autonomous Tractor Demonstration\
+          13:30-13:50 *Joey Coleman*\                                                                                                                                                                                                  *Martin Peter Christiansen*
+          13:50-14:00 *Jesper Gaarsdal* (Testing the UI of Overture)                                                                                                                                                                   
 
+  14:00   Tools Session 1: [Overture programming tutorial](http://tinyurl.com/overture11tutorial)\
+          *Kenneth Lausdahl*
 
-#### [Tools Development Update](12/ToolsDevelopmentUpdate.html)
+  14:30   Strategic Research Agenda discussion introduction\
+          *John Fitzgerald*
 
-_Author_ Joey Coleman <br />
-_Abstract_ We will give an overview of the nut and bolts state of how development, and what we're currently working to improve upon.
+  15:00   Coffee break                                                                                                                                                                                                                 Coffee break
 
-#### [Concurrency, Rely/Guarantee and Separation Logic](12/2014-06-Overture-CJ.pdf)
+  15:30   Tools Session 2: [Overture hands-on programming session](http://tinyurl.com/overture11tutorial)\                                                                                                                             Strategic Research Agenda discussion continued\
+          *Kenneth Lausdahl*                                                                                                                                                                                                           +\
+                                                                                                                                                                                                                                       slack time
 
-_Author_ Cliff Jones <br />
-_Background ( by JSF)_ One of the largest research challenges in formal methods is finding compositional development methods to cope with systems which run in concurrent environments. This challenge becomes ever more pressing with the advent of many-core hardware. My Oxford research showed how the notion of interference could be handled in specifications and design verification by using rely and guarantee-conditions. However rely/guarantee reasoning is heavier than for sequential programs, and subsequent work -- for example on object-based approaches and on atomicity refinement -- has sought to ease this burden. Current promising research includes looking at the links to separation logics. Relevant active projects include the UK EPSRC-funded [Taming Concurrency](http://www.ncl.ac.uk/computing/research/project/4519) with [Dr Nisansala Yatapanage](http://homepages.cs.ncl.ac.uk/nisansala.yatapanage/) and [Andrius Velykis](http://andrius.velykis.lt/), and the ARC-funded [Reasoning about concurrent programs: Refining rely-guarantee thinking](http://www.ncl.ac.uk/computing/research/publication/195502), led by [Prof. Ian Hayes](http://staff.itee.uq.edu.au/ianh/). 
+  16:00
 
-
-#### Design Space Exploration through Co-modelling and Co-Simulation - the Pacemaker Challenge
-
-_Author_ John S Fitzgerald, Carl Gamble, Peter Gorm Larsen and Martin Mansfield <br />
-_Abstract_ We present a study aiming to demonstrate that co-modelling and co-simulation can be used to explore design alternatives in the context of the pacemaker challenge problem. Specifically, we show the use of VDM as a discrete-event formalism modelling the controller, coupled to a continuous time model of the leads and heart environment represented in 20-sim. Possibilities for the exploration of design alternatives through co-simulation are illustrated by examining the change from synchronous to asynchronous pacing modes in the presence of noise. 
-
-#### Teaching with Crescendo
-
-_Author_ Ken Pierce <br />
-_Abstract_ We describe the use of Crescendo, Overture and 20-sim in the design and delivery of an undergraduate course on Real-Time and Cyber-Physical Systems. The underlying goal is to be able to teach Computing Science students the basic elements of real-time control using co-simulation of VDM-RT with 20-sim, instead of direct control of real laboratory robots. Based on the experience in delivering the course, we have developed fresh tutorial material for Crescendo, and piloted it at FM 2014 this year.
-
-
-### Key Dates
-
-* Final Versions Due: 21 June 2014
-* Workshop: 21 June 2014
+  16:30
+  ------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Organisers
 
-* [Nick Battle](mailto:Nick.Battle@gmail.com), Fujitsu UK 
-* [John Fitzgerald](mailto:John.Fitzgerald@ncl.ac.uk), Newcastle University, UK
-* [Claire Smith](mailto:Claire.Smith@ncl.ac.uk), Newcastle University, UK
+-   Stefan Hallerstede (Aarhus University, Denmark)
 
-### Participants
+<!-- -->
 
-![Front row: Ken Pierce, Kenneth Lausdahl, Cliff Jones, Joey Coleman, Peter Gorm Larsen, Carl Gamble; Back row: Mark Jackson, Marcel Verhoef, Luis Couto, John Fitzgerald, Nick Battle, Peter Joergensen, Hiroshi Ishikawa](12/I26A5745.JPG)
+-   Ken Pierce (University of Newcastle, UK)
+
+### Program Committee
+
+-   John Fitzgerald (Newcastle University, UK)
+
+<!-- -->
+
+-   Peter Gorm Larsen (Aarhus University, Denmark)
+
+<!-- -->
+
+-   Cliff Jones (Newcastle University, UK)
+
+<!-- -->
+
+-   Shin Sahara (Hosei University, Japan)
+
+<!-- -->
+
+-   Sakoh Hiroshi (Designers' Den Corporation, Japan)
+
+<!-- -->
+
+-   Uwe Schulze, (Bremen University, Germany)
+
+<!-- -->
+
+-   Alexandre Mota (Universidade Federal de Pernambuco, Brazil)
+
+<!-- -->
+
+-   Rasmus Lauritzen (Aarhus University, Denmark)
+
+<!-- -->
+
+-   Simon Foster (University of York, UK)
+
+<!-- -->
+
+-   Nico Plat (West Consulting BV, The Netherlands)
+
+<!-- -->
+
+-   José Nuno Oliveira (Minho University, Portugal)
 
