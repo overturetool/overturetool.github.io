@@ -1,6 +1,6 @@
 # Planned Publications
 
-Conferences / Jurnals
+Conferences / Journals
 -------
 
 -   Exploring Alternative Designs using Automated Co-model Analysis
