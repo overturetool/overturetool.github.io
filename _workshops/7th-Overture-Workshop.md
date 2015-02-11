@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 7th Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2009-11-02
+location: Technical University of Eindhoven, NL
 ---
 
 # {{ page.title }}

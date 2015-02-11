@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 1st Pre-Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 1999-09-21
+location: Tolouse, France
 ---
 
 # {{ page.title }}

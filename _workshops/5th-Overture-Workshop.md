@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 5th Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2008-11-08
+location: University of Minho, Portugal
 ---
 
 # {{ page.title }}

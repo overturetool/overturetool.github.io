@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 2nd Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2006-08-21
+location: McMaster University, Canada
 ---
 
 # {{ page.title }}

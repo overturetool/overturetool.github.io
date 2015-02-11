@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 3rd Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2006-11-27
+location: Newcastle University, UK
 ---
 
 # {{ page.title }}

@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 8th Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2010-06-13
+location: BCS, London, UK
 ---
 
 # {{ page.title }}

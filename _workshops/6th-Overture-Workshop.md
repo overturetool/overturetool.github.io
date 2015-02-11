@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 6th Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2009-05-07
+location: Newcastle University, UK
 ---
 
 # {{ page.title }}

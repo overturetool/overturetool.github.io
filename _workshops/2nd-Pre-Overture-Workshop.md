@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 2nd Pre-Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2000-09-02
+location: York, UK
 ---
 
 # {{ page.title }}

@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 9th Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2011-06-20
+location: LERO, Limerick, IE
 ---
 
 # {{ page.title }}

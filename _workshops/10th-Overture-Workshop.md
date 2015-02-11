@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 10th Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2012-08-28
+location: CNAM, Paris, France
 ---
 
 # {{ page.title }}

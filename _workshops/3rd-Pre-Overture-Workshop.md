@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 3rd Pre-Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2002-07-20
+location: Copenhagen, Denmark
 ---
 
 # {{ page.title }}
