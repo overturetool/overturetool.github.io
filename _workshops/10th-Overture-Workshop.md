@@ -24,7 +24,7 @@ object-orientation, concurrency, real-time and distribution. A notable
 recent advance has been the use of VDM as a base language for modelling
 systems-of-systems (SOS) [COMPASS](http://www.compass-research.eu/).
 
-![](Attendees10..jpg "Attendees10..jpg")
+![](10/Attendees10..jpg "Attendees10..jpg")
 
 The community-based Overture initiative is developing an
 industry-strength tool on a new open platform, exploiting research
