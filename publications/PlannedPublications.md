@@ -5,16 +5,15 @@ title: Overture Publications
 
 # Planned Publications
 
-Conferences / Journals
--------
+#### Conferences / Journals
+
 
 -   Exploring Alternative Designs using Automated Co-model Analysis
     (Peter, Kenneth, Ken, Carl, and John for a journal)
 -   Co-modelling and Co-simulation for an Artificial Cardiac pacemaker
     (John, John Komp, Carl, Martin, Peter, for a workshop?)
 
-Overture Workshop
---------------------------------------
+#### Overture Workshop
 
 -   Concurrency Code Generation, George Kanakis, Peter Tran-Jørgensen
     and Peter Gorm Larsen
@@ -24,8 +23,7 @@ Overture Workshop
 -   Animation environments for wider range of audiences, Tomohiro Oda
     and Peter Gorm Larsen
 
-In preparation
---------------
+#### In preparation
 
 -   Methodological Guidelines for Collaborative Modelling - Managing
     Heterogeneous System Complexity (Sune Wolff, need to find new venue)
@@ -35,8 +33,7 @@ In preparation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
 
-In review
----------
+#### In review
 
 -   Semantics for Generic Co-simulation of Heterogeneous Models (Kenneth
     Lausdahl, Joey Coleman and Peter Gorm Larsen, resubmitted to Formal
@@ -48,8 +45,7 @@ In review
     (Luis Diogo Couto, Peter W. V. Jorgensen, Joey W. Coleman, Kenneth
     Lausdahl for WICSA 2015)
 
-In press
---------
+#### In press
 
 -   Claus Ballegaard Nielsen, Kenneth Lausdahl, Peter Gorm Larsen.
     Distributed Simulation of Formal Models in System of Systems
