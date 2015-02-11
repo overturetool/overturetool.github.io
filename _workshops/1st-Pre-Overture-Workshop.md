@@ -15,7 +15,7 @@ This workshop was held on the 21st and 22nd of September 1999.
 Day 1: Methods, Training and Tools
 ----------------------------------
 
--   [ VDM Modules](Ws1_LedruFm99vdm.pdf "wikilink") by Yves Ledru,
+-   [ VDM Modules](1/LedruFm99vdm.pdf "wikilink") by Yves Ledru,
     Marie-Laure Potet & Rémy Sanlaville
 -   [ Invariants as Design Templates in Object-based
     Systems](Ws1_goldsack-new.pdf "wikilink") by S. J. Goldsack & K.
