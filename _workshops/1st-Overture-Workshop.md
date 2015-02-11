@@ -1,8 +1,8 @@
 ---
 layout: default
 title: The 1st Overture Workshop
-date: 2014-06-21
-location: Unknown
+date: 2005-07-18
+location: Newcastle University, UK
 ---
 
 # {{ page.title }}
