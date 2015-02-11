@@ -39,7 +39,7 @@ The VDM and Overture community aims to be open, supportive and welcoming
 of new ideas and approaches. We invite contributions in the form of
 papers on any subject relating to the foundations, tool support or
 applications of VDM or related formalisms. [The final programme can be
-found here](4thOvertureWorkshopProgrammeV1.0.pdf "wikilink"). Paper
+found here](4/4thOvertureWorkshopProgrammeV1.0.pdf "wikilink"). Paper
 contributions will be published as a Newcastle University (UK) Technical
 Report at the workshop, so camera ready copies will be required two
 weeks before the workshop.
@@ -58,16 +58,16 @@ Procedings and Presentations
 here](http://www.cs.ncl.ac.uk/publications/trs/papers/1099.pdf). The
 different presentations can be found as:
 
--   [Opening](4thWorkshopOpening.pdf "wikilink") by Peter Gorm Larsen
--   [rCOS Method and tool](RcosOVDM.pdf "wikilink") by Volker Stolz
+-   [Opening](4/4thWorkshopOpening.pdf "wikilink") by Peter Gorm Larsen
+-   [rCOS Method and tool](4/RcosOVDM.pdf "wikilink") by Volker Stolz
 -   [Developing Tool Support for Problem Diagrams with CPN and
-    VDM++](Tjell.pdf "wikilink") by Simon Tjell
+    VDM++](4/Tjell.pdf "wikilink") by Simon Tjell
 -   [Overture: Combinatorial Test Automation Support for
-    VDM++](AdrianaPresentationFM08.pdf "wikilink") by Adriana Santos
+    VDM++](4/AdrianaPresentationFM08.pdf "wikilink") by Adriana Santos
 -   [Automatically Discharging VDM Proof
-    Obligations](SanderFM08.pdf "wikilink") by Sander Vermolen
+    Obligations](4/SanderFM08.pdf "wikilink") by Sander Vermolen
 -   [Parser Development Tools for
-    Overture](Marcel1overture_250508.pdf "wikilink") by Marcel Verhoef
+    Overture](4/Marcel1overture_250508.pdf "wikilink") by Marcel Verhoef
 -   Verifying Intel's Flash File System Core by Miguel Ferreira
 -   Predictable Development of Embedded Systems by Marcel Verhoef
 
