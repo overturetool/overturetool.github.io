@@ -68,35 +68,35 @@ authors directly.
 A Review of the VDM-SL Static and Dynamic Semantics, Peter Gorm Larsen,
 IHA, Denmark:
 
--   [Static Semantics](OWS3-11.pdf "wikilink")
--   [The Domain Universe](OWS3-12.pdf "wikilink")
--   [Dynamic Semantics](OWS3-13.pdf "wikilink")
+-   [Static Semantics](3/OWS3-11.pdf "wikilink")
+-   [The Domain Universe](3/OWS3-12.pdf "wikilink")
+-   [Dynamic Semantics](3/OWS3-13.pdf "wikilink")
 
 <!-- -->
 
 -   [Getting PROSPER Tool Support Usable Again
-    (Slides)](OWS3-1.pdf "wikilink") Peter Gorm Larsen, IHA, Denmark
+    (Slides)](3/OWS3-1.pdf "wikilink") Peter Gorm Larsen, IHA, Denmark
 -   What Next for VDMTools? Model Checking, Test Case Generation or
     Proof? (Slides) Shin Sahara, CSK Systems, Japan
 -   [Reinvigorating pen-and-paper Proofs in VDM: the pointfree approach
-    (Slides)](OWS3-3.pdf "wikilink") Jose N. Oliveira, University of
+    (Slides)](3/OWS3-3.pdf "wikilink") Jose N. Oliveira, University of
     Minho, Portugal
--   [Proofs using SOS: support tooling (Slides)](OWS3-4.pdf "wikilink")
+-   [Proofs using SOS: support tooling (Slides)](3/OWS3-4.pdf "wikilink")
     John Hughes and Cliff Jones, Newcastle University, UK
--   [To be or not to be (LPF) (Slides)](OWS3-5.pdf "wikilink") John
+-   [To be or not to be (LPF) (Slides)](3/OWS3-5.pdf "wikilink") John
     Fitzgerald and Cliff Jones, Newcastle University, UK
 -   [Explicit vs. Implicit Polymorphism in OML
-    (Slides)](OWS3-6.pdf "wikilink") Thomas Christensen, University of
+    (Slides)](3/OWS3-6.pdf "wikilink") Thomas Christensen, University of
     Aarhus, Denmark
 -   [Future Proof Dynamic Semantics for Overture
-    (Slides)](OWS3-7a.pdf "wikilink") Marcel Verhoef, CHESS and Radboud
+    (Slides)](3/OWS3-7a.pdf "wikilink") Marcel Verhoef, CHESS and Radboud
     University Nijmegen, The Netherlands
--   [Hybrid System Modeling in VDM (Slides)](OWS3-7b.pdf "wikilink")
+-   [Hybrid System Modeling in VDM (Slides)](3/OWS3-7b.pdf "wikilink")
     Marcel Verhoef
 -   [Recent Trends in O-o Modelling Languages JML, rCOS, CREDO
-    (Slides)](OWS3-8.pdf "wikilink") Bernhard Aichernig, Graz University
+    (Slides)](3/OWS3-8.pdf "wikilink") Bernhard Aichernig, Graz University
     of Technology, Austria
--   [Overture Architecture & Status (Slides)](OWS3-9.pdf "wikilink")
+-   [Overture Architecture & Status (Slides)](3/OWS3-9.pdf "wikilink")
     Peter Gorm Larsen and Marcel Verhoef
 
 The following paper was sent by Tiago Alves, who could not attend in
@@ -105,7 +105,7 @@ person: Sex up Overture
 Discussions
 -----------
 
-See the [Discussion Summary](OWS3 Discussion Summary.pdf "wikilink") for
+See the [Discussion Summary](3/OWS3 Discussion Summary.pdf "wikilink") for
 a record of discussions at the workshop, including a summary of the main
 actions.
 
