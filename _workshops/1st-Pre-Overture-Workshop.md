@@ -64,6 +64,6 @@ Workshop Chairs
 ---------------
 
 -   [JohnFitzgerald](mailto:John.Fitzgerald@ncl.ac.uk), Centre for
-    Software Reliability
+    Software Reliability, Newcastle University
 -   [PeterGormLarsen](mailto:pgl@eng.au.dk), IFAD
 
