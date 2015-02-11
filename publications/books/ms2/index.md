@@ -33,7 +33,7 @@ How can we make sure that the software we build does what it is supposed to? Thi
  * Class tested in universities and industrial courses
  * Software tools now available online, together with teaching materials, exercises, solutions and more
  
- #### Contents
+#### Contents
  
  Foreword to the first edition; Preface; 1. Introduction; 2. Constructing a model; 3. VDMTools Lite; 4. Describing system properties using logical expressions; 5. The elements of a formal model; 6. Sets; 7. Sequences; 8. Mappings; 9. Recursive structures; 10. Validating models; 11. State-based modelling; 12. Large-scale modelling; 13. Using VDM in practice; A. Language guide; B. Solutions to exercises; Bibliography; Subject index; Definitions index. ISBN 0 521 62348 0
 You can order the book (including inpection copies) from the [Cambridge University Press Site](http://www.cambridge.org/uk/catalogue/catalogue.asp?isbn=9780521899116)
