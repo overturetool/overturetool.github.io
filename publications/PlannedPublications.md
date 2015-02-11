@@ -5,6 +5,8 @@ title: Overture Publications
 
 # Planned Publications
 
+## Planned
+
 #### Conferences / Journals
 
 
@@ -23,7 +25,7 @@ title: Overture Publications
 -   Animation environments for wider range of audiences, Tomohiro Oda
     and Peter Gorm Larsen
 
-#### In preparation
+## In preparation
 
 -   Methodological Guidelines for Collaborative Modelling - Managing
     Heterogeneous System Complexity (Sune Wolff, need to find new venue)
@@ -33,7 +35,7 @@ title: Overture Publications
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
 
-#### In review
+## In review
 
 -   Semantics for Generic Co-simulation of Heterogeneous Models (Kenneth
     Lausdahl, Joey Coleman and Peter Gorm Larsen, resubmitted to Formal
