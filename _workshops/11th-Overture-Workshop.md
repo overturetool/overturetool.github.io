@@ -23,7 +23,7 @@ Ledru](http://membres-lig.imag.fr/ledru/YLVersionE.html) and [Joe
 Kiniry](http://www2.imm.dtu.dk/~jkin/). The workshop attracted 25
 participants representing 10 nationalities.
 
-![](11/2013group.jpg "2013group.jpg")
+![](11/900px-2013group.jpg "2013group.jpg")
 
 The goal of the workshop was to provide a forum to present new ideas, to
 identify and encourage new collaborative research, and to foster current
