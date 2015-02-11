@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 1st Overture Workshop
+title: The 1st Overture Workshop
 date: 2014-06-21
 location: Unknown
 ---
