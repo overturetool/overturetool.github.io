@@ -48,22 +48,22 @@ The full proceedings from the event can be found
                                                                                                                                                                                                                                        *Yves Ledru*
 
   09:30   Modelling a Smart Grid System-of-Systems using VDM\
-          *Stefan Hallerstede and Peter Gorm Larsen* [(Slides)](StefanHallerstede_SmartGrid.pdf "wikilink")
+          *Stefan Hallerstede and Peter Gorm Larsen* [(Slides)](11/StefanHallerstede_SmartGrid.pdf "wikilink")
 
   10:00   An Architectural Evolution of the Overture Tool\                                                                                                                                                                             Coffee break
-          *Peter Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen* [(Slides)](PeterJørgensen_ASTv2.pdf "wikilink")                                                                                                                    
+          *Peter Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen* [(Slides)](11/PeterJørgensen_ASTv2.pdf "wikilink")                                                                                                                    
 
   10:30   Coffee break                                                                                                                                                                                                                 Co-modelling of a Robot Swarm with DESTECS\
                                                                                                                                                                                                                                        *Ken Pierce*
 
   11:00   Towards an Overture Code Generator\                                                                                                                                                                                          Modelling Systems of Cyber-Physical Systems\
-           *Peter Jørgensen and Peter Gorm Larsen* [(Slides)](PeterJørgensen_CodeGen.pdf "wikilink")                                                                                                                                   *Martin Mansfield and John Fitzgerald* [(Slides)](MartinMansfield_SoCPS.pdf "wikilink")
+           *Peter Jørgensen and Peter Gorm Larsen* [(Slides)](11/PeterJørgensen_CodeGen.pdf "wikilink")                                                                                                                                   *Martin Mansfield and John Fitzgerald* [(Slides)](11/MartinMansfield_SoCPS.pdf "wikilink")
 
   11:30   The COMPASS Proof Obligation Generator\                                                                                                                                                                                      Modelling Different CPU Power States in VDM-RT\
-          *Luis Diogo Couto and Richard Payne* [(Slides)](LuisDiogoCouto_POG.pdf "wikilink")                                                                                                                                           *José Antonio Esparza Isasa and Peter Gorm Larsen* [(Slides)](JoseEsparzaIsasa_CPU.pdf‎ "wikilink")
+          *Luis Diogo Couto and Richard Payne* [(Slides)](11/LuisDiogoCouto_POG.pdf "wikilink")                                                                                                                                           *José Antonio Esparza Isasa and Peter Gorm Larsen* [(Slides)](11/JoseEsparzaIsasa_CPU.pdf‎ "wikilink")
 
   12:00   Model Based Testing of VDM Models\                                                                                                                                                                                           The Overture Approach to VDM Language Evolution\
-          *Uwe Schulze* [(Slides)](UweSchulze MBT.pdf "wikilink")                                                                                                                                                                      *Nico Plat and Peter Jørgensen* [(Slides)](PeterJørgensen_NicoPlat_Evolution.pdf "wikilink")
+          *Uwe Schulze* [(Slides)](11/UweSchulze MBT.pdf "wikilink")                                                                                                                                                                      *Nico Plat and Peter Jørgensen* [(Slides)](11/PeterJørgensen_NicoPlat_Evolution.pdf "wikilink")
 
   12:30   Lunch                                                                                                                                                                                                                        Lunch
 

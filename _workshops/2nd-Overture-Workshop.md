@@ -20,7 +20,7 @@ supplied by their authors. They have not been subject to peer review. If
 you have any queries about externally published materials based on these
 papers, please contact the authors directly.
 
-[Flyer](VDMFlyer1.pdf "wikilink")
+[Flyer](2/VDMFlyer1.pdf "wikilink")
 
 Presentations
 -------------
@@ -30,23 +30,23 @@ They have not been subject to peer review. If you have any queries about
 externally published materials based on these papers, please contact the
 authors directly.
 
--   [Workshop programme](2ndOWSlides2.pdf "wikilink"). John S.
+-   [Workshop programme](2/2ndOWSlides2.pdf "wikilink"). John S.
     Fitzgerald, Centre for Software Reliability (UK)
 -   [Separation of Context Concerns - Applying Aspect Orientation to
     VDM](2ndOWAspect.pdf "wikilink"). Naoyasu Ubayashi (Kyushu Institute
     of Technology, JP) and Shin Nakajima (National Institute of
-    Informatics, JP). [Slides](2ndOWSlides3.pdf "wikilink").
+    Informatics, JP). [Slides](2/2ndOWSlides3.pdf "wikilink").
 -   [Overture status and
-    improvements](2ndOWToolimprovement.pdf "wikilink"). Peter Gorm
+    improvements](2/2ndOWToolimprovement.pdf "wikilink"). Peter Gorm
     Larsen (Engineering College Aarhus, DK) and Marcel Verhoef (CHESS,
     NL).
 -   [Methods, Tools and Applications: VDM-related work at
-    Newcastle](2ndOWSlides4.pdf "wikilink"). John S. Fitzgerald, Centre
+    Newcastle](2/2ndOWSlides4.pdf "wikilink"). John S. Fitzgerald, Centre
     for Software Reliability (UK)
 -   [Extending VDMTools with Continuous Time
-    Simulation](2ndOWSlides5.pdf "wikilink"). Marcel Verhoef (CHESS,
+    Simulation](2/2ndOWSlides5.pdf "wikilink"). Marcel Verhoef (CHESS,
     NL), Peter Visser (Twente University, NL)
--   [Current status of VDMTools](2ndOWSlides6.pdf "wikilink"). Shin
+-   [Current status of VDMTools](2/2ndOWSlides6.pdf "wikilink"). Shin
     Sahara, CSK Systems, Japan.
 
 Pictures

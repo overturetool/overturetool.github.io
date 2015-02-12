@@ -69,7 +69,7 @@ Abstracts and presentations
 ---------------------------
 
 -   Nick Battle (Fujitsu, UK): [Object Oriented Issues in
-    VDM++](2010battle.pdf "wikilink")
+    VDM++](8/2010battle.pdf "wikilink")
 
 Abstract: The semantics of the VDM-SL dialect of VDM is formally defined
 in an ISO standard. However, the object oriented dialect, VDM++, has
@@ -80,7 +80,7 @@ encountered while developing VDM++ support in the VDMJ tool, and the
 informal proposals for how to address them in VDM-10.
 
 -   Erik Ernst (Aarhus University, Denmark): [The Case for Simple
-    Object-Orientation in VDM++](2010ernst.pdf "wikilink")
+    Object-Orientation in VDM++](8/2010ernst.pdf "wikilink")
 
 Abstract: In the process of defining a precise semantics for VDM++,
 there are many possible criteria for the selection of features and their
@@ -97,7 +97,7 @@ transparency, but at least the division between core and additional
 features is explicit which puts the user in control of the trade-off.
 
 -   Matthew Lovert (University of Newcastle, UK): [A Semantic Model for
-    the Logic of Partial Functions](2010lovert.pdf "wikilink")
+    the Logic of Partial Functions](8/2010lovert.pdf "wikilink")
 
 Abstract: Partial functions and operators arise frequently in program
 specifications. The application of partial functions and operators can
@@ -113,7 +113,7 @@ LPF copes with non-denoting terms that can arise.
 
 -   Claus Nielsen (Aarhus School of Engineering, Denmark): [Towards
     Dynamic Reconfiguration of Distributed Systems in
-    VDM-RT](2010nielsen.pdf "wikilink")
+    VDM-RT](8/2010nielsen.pdf "wikilink")
 
 Abstract: The VDM-RT dialect enables the modeling and validation of
 distributed embedded real-time systems by expressing the distributed
@@ -128,9 +128,9 @@ proposed extension and demonstrate the impact on a model.
 
 -   Kenneth Lausdahl (Aarhus School of Engineering, Denmark), [Towards a
     Formal Semantics for Concurrency, Communication, Real-time and
-    Probabilities in VDM-RT](2010lausdahl.pdf "wikilink") and and Marcel
+    Probabilities in VDM-RT](8/2010lausdahl.pdf "wikilink") and and Marcel
     Verhoef (Chess, The Netherlands): [Preparing Overure for the
-    Future - VDM10++ / VDM1X](2010mave.pdf "wikilink")
+    Future - VDM10++ / VDM1X](8/2010mave.pdf "wikilink")
 
 Abstract: An inventory of current semantic models of the VDM language is
 presented, for which their purpose, strengths and weaknesses are

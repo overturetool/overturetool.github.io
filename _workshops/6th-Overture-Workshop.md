@@ -36,17 +36,17 @@ Agenda
     Møller)
 -   Break
 -   10:30 – 11:00 Exercise with the Overture editor (David Møller)
--   11:00 – 12:00 [Introduction to VDMJ](VDMJ Workshop.pdf "wikilink")
+-   11:00 – 12:00 [Introduction to VDMJ](6/VDMJ Workshop.pdf "wikilink")
     (Nick Battle)
 -   Lunch
 -   13:00 – 14:15 VDMJ continued and the VDMJ interpreter (Nick Battle)
 -   Break
 -   14:30 – 16:00 Incorporating the VDMJ interpreter;
-    [Exercise](Exercises09WorkshopWithSolution.pdf "wikilink") (David
+    [Exercise](6/Exercises09WorkshopWithSolution.pdf "wikilink") (David
     Møller)
 -   Break
 -   16:15 – 17:30 [Calling external code from
-    Eclipse](CorbaVDMT.pdf "wikilink"); Exercise (David Møller)
+    Eclipse](6/CorbaVDMT.pdf "wikilink"); Exercise (David Møller)
 -   17:30 – 18:00 Closing (Peter Gorm Larsen)
 -   19:00 Workshop Dinner
 
@@ -58,16 +58,16 @@ Agenda
 -   11:30 – 13:00 Introduction to the Overture kernel (Marcel Verhoef)
 -   Lunch
 -   14:00 – 14:30 [Overture UML mapper using the Overture
-    kernel](NewcastleUmltransPresentation.pdf "wikilink") (Kenneth
+    kernel](6/NewcastleUmltransPresentation.pdf "wikilink") (Kenneth
     Lausdahl)
 -   14:30 – 15:00 Overture proof obligation and export to HOL (Miguel
     Ferriera)
 -   15:00 – 15:30 [Combinatorial Testing
-    Component](NewcastleTracesPresentation.pdf "wikilink") (Kenneth
+    Component](6/NewcastleTracesPresentation.pdf "wikilink") (Kenneth
     Lausdahl & Peter Gorm Larsen)
 -   Break
 -   15:45 – 16:30 The Maven plug-in for VDM models in Overture
-    [Exercise](NewcastleVDMToolsMavenPresentation.pdf "wikilink")
+    [Exercise](6/NewcastleVDMToolsMavenPresentation.pdf "wikilink")
     (Kenneth Lausdahl)
 -   16:30 – 17:00 Closing Discussion (Peter Gorm Larsen)
 
