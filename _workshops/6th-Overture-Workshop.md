@@ -13,9 +13,9 @@ to exercise different aspects of developing software for the Overture
 open source platform on top of Eclipse. In order to compile the Overture
 executables different steps need to be taken to produce subprojects
 [without the Eclipse
-interface](6/Overture Maven Core Components Guide.pdf "wikilink") or [with
+interface](6/Overture Maven_Core_Components_Guide.pdf "wikilink") or [with
 the Eclipse
-interface](6/Overture Maven Eclipse plugin Guide.pdf "wikilink"). The
+interface](6/Overture_Maven_Eclipse_plugin_Guide.pdf "wikilink"). The
 aspects that will be covered included:
 
 -   Kernel functionality developed on top of the abstract syntax using
@@ -32,11 +32,11 @@ Agenda
 -   08:30 – 09:00 Welcome, check internet access etc.
 -   09:00 – 10:00 [Introduction to Eclipse, creating Eclipse plug-ins
     and the Overture
-    editor](6/Eclipse Plug-ins and Overture IDE.pdf "wikilink") (David
+    editor](6/Eclipse_Plug-ins_and_Overture_IDE.pdf "wikilink") (David
     Møller)
 -   Break
 -   10:30 – 11:00 Exercise with the Overture editor (David Møller)
--   11:00 – 12:00 [Introduction to VDMJ](6/VDMJ Workshop.pdf "wikilink")
+-   11:00 – 12:00 [Introduction to VDMJ](6/VDMJ_Workshop.pdf "wikilink")
     (Nick Battle)
 -   Lunch
 -   13:00 – 14:15 VDMJ continued and the VDMJ interpreter (Nick Battle)
