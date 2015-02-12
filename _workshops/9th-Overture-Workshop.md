@@ -15,7 +15,7 @@ location: LERO, Limerick, IE
 The workshop took place in the Kemmy Business School.
 
 The proceedings of the workshop are available as a technical
-report[1](http://eng.au.dk/fileadmin/DJF/ENG/PDF-filer/Tekniske_rapporter/Technical_Report_ECE-TT-2-SAMLET.pdf)
+report[ENG-ECE-2](http://eng.au.dk/fileadmin/DJF/ENG/PDF-filer/Tekniske_rapporter/Technical_Report_ECE-TT-2-SAMLET.pdf)
 from Aarhus University.
 
 ![](9/700px-9thgroup.jpg "700px-9thgroup")
