@@ -39,7 +39,7 @@ Agenda
 -   9:00 - 9:10 Welcome to the 5th Overture workshop by Peter Gorm
     Larsen
 -   9:10 - 10:00 Overall structure of the Overture tool development,
-    [SourceForge](5/Overture Sourceforge "wikilink"), SVN, Maven and
+    [SourceForge](5/Overture_Sourceforge "wikilink"), SVN, Maven and
     VDMTools Java code generation by Marcel Verhoef
 -   10:00 - 11:00 Exercise: Structure the simple DoSort? example
     according to these priciples and generate and compile Java code for
@@ -53,7 +53,7 @@ Agenda
     ast file and ASTGEN) by Marcel Verhoef
 -   13:00 - 14:00 Lunch
 -   14:00 - 15:00 Exercise: Add "measure" for recursive functions to all
-    components ([Measure Notes](5/Measure exercise.pdf "wikilink"))
+    components ([Measure Notes](5/Measure_exercise.pdf "wikilink"))
 -   15:00 - 15:20 Presentation of the existing proof support component
     by Miguel Ferreira
 -   15:20 - 15:40 Presentation of the existing UML mapper component by
@@ -64,7 +64,7 @@ Agenda
 -   16:15 - 19:00 Group work: Each group will restructure the component
     allocated to them according to the Marven principles, add tests and
     check it into the SVN respository at
-    [SourceForge](5/Overture Sourceforge "wikilink"). Marcel Verhoef will
+    [SourceForge](5/Overture_Sourceforge "wikilink"). Marcel Verhoef will
     be assisting all teams. In case a group cannot complete this task at
     least a migration plan will be made for the remaining tasks.
 -   20:00 Workshop dinner at [Centurium
