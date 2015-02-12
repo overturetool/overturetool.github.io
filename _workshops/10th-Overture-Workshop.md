@@ -50,7 +50,7 @@ number of paper presentations. These included:
 
 -   "The Co-Simulation of a Cardiac Pacemaker using VDM and 20-sim"
     (Carl Gamble, Martin Mansfield, and John Fitzgerald)
-    [Slides](10/FM-20120-Pacemaker.pdf‎ "wikilink")
+    [Slides](10/FM-20120-Pacemaker.pdf "wikilink")
 -   "Supporting the Partitioning Process in Hardware/Software Co-design
     with VDM-RT" (José Antonio Esparza Isasa, Peter Gorm Larsen and Kim
     Bjerge) [Slides](10/Jaei_OvertureWorkshop.pdf‎ "wikilink")
