@@ -53,7 +53,7 @@ number of paper presentations. These included:
     [Slides](10/FM-20120-Pacemaker.pdf "wikilink")
 -   "Supporting the Partitioning Process in Hardware/Software Co-design
     with VDM-RT" (José Antonio Esparza Isasa, Peter Gorm Larsen and Kim
-    Bjerge) [Slides](10/Jaei_OvertureWorkshop.pdf‎ "wikilink")
+    Bjerge) [Slides](10/Jaei_OvertureWorkshop.pdf "wikilink")
 -   "Evolution of the Overture Tool Platform" (Joey Coleman, Anders
     Kaels Malmos, Claus Ballegaard Nielsen and Peter Gorm Larsen)
     [Slides](10/evo.pdf‎ "wikilink")
