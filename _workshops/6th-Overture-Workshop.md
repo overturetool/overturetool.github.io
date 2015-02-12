@@ -13,7 +13,7 @@ to exercise different aspects of developing software for the Overture
 open source platform on top of Eclipse. In order to compile the Overture
 executables different steps need to be taken to produce subprojects
 [without the Eclipse
-interface](6/Overture Maven_Core_Components_Guide.pdf "wikilink") or [with
+interface](6/Overture_Maven_Core_Components_Guide.pdf "wikilink") or [with
 the Eclipse
 interface](6/Overture_Maven_Eclipse_plugin_Guide.pdf "wikilink"). The
 aspects that will be covered included:
