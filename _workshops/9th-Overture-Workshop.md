@@ -69,7 +69,7 @@ development: an industrial case](9/WS9Nielsen.pdf "wikilink"),
 Ballegaard Nielsen
 
 14:30 - 15:00 [Formal Modelling and Safety Analysis of an Embedded
-Control System for Construction Equipment](WS9Mori.pdf "wikilink"),
+Control System for Construction Equipment](9/WS9Mori.pdf "wikilink"),
 ([Presentation](9/WS9_TakayukiMoriPresentation.pdf "wikilink")), Takayuki
 Mori
 
