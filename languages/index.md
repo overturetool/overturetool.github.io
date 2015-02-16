@@ -222,7 +222,7 @@ In VDM-SL, functions are defined over the data types defined in a model. Support
 
 ~~~
 SQRT(x:nat) r:real 
-	post r*r = x
+post r*r = x
 ~~~
 
 Here the postcondition does not define a method for calculating the result `r` but states what properties can be assumed to hold of it. Note that this defines a function that returns a valid square root; there is no requirement that it should be the positive or negative root. The specification above would be satisfied, for example, by a function that returned the negative root of 4 but the positive root of all other valid inputs. Note that functions in VDM-SL are required to be *deterministic* so that a function satisfying the example specification above must always return the same result for the same input.
@@ -231,15 +231,15 @@ A more constrained function specification is arrived at by strengthening the pos
 
 ~~~
 SQRT(x:nat) r:real 
-	post r*r = x and r >= 0
+post r*r = x and r >= 0
 ~~~
 
 All function specifications may be restricted by *preconditions* which are logical predicates over the input variables only and which describe constraints that are assumed to be satisfied when the function is executed. For example, a square root calculating function that works only on positive real numbers might be specified as follows:
 
 ~~~
 SQRTP(x:real) r:real 
-	pre x >=0 
-	post r*r = x and r >= 0
+pre x >=0 
+post r*r = x and r >= 0
 ~~~
 
 The precondition and postcondition together form a *contract* that to be satisfied by any program claiming to implement the function. The precondition records the assumptions under which the function guarantees to return a result satisfying the postcondition. If a function is called on inputs that do not satisfy its precondition, the outcome is undefined (indeed, termination is not even guaranteed).
@@ -249,17 +249,16 @@ VDM-SL also supports the definition of executable functions in the manner of a f
 ~~~
 SqList: seq of nat -> seq of nat 
 SqList(s) == 
-	if s = [] 
-	then [] 
-	else [(hd s)**2] ^ SqList(tl s)
+  if s = [] 
+  then [] 
+  else [(hd s)**2] ^ SqList(tl s)
 ~~~
 
 This recursive definition consists of a function signature giving the types of the input and result and a function body. An implicit definition of the same function might take the following form:
 
 ~~~
 SqListImp(s:seq of nat)r:seq of nat 
-	post len r = len s and 
-		 forall i in set inds s & r(i) = s(i)**2
+post len r = len s and forall i in set inds s & r(i) = s(i)**2
 ~~~
 
 The explicit definition is in a simple sense an implementation of the implicitly specified function. The correctness of an explicit function definition with respect to an implicit specification may be defined as follows.
@@ -268,8 +267,8 @@ Given an implicit specification:
 
 ~~~
 f(p:T_p) r:T_r 
-	pre pre-f(p) 
-	post post-f(p, r)
+pre pre-f(p) 
+post post-f(p, r)
 ~~~
 
 and an explicit function:
@@ -281,8 +280,7 @@ f:T_p -> T_r
 we say it satisfies the specification iff:
 
 ~~~
-forall p in set T_p & pre-f(p) => 
-	f(p):T_r and post-f(p, f(p))
+forall p in set T_p & pre-f(p) => f(p):T_r and post-f(p, f(p))
 ~~~
 
 So, "`f` is a correct implementation" should be interpreted as "`f` satisfies the specification".
@@ -295,7 +293,7 @@ For example, if we have a state consisting of a single variable `someStateRegist
 
 ~~~
 state Register of 
-	someStateRegister : nat 
+  someStateRegister : nat 
 end 
 ~~~
 
