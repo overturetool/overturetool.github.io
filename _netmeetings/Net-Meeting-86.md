@@ -43,13 +43,6 @@ some description
 details about it
 
 
-##  Release Planning
-
-#### topic 1
-
-some description
-
-
 ##  Community Development
 
 #### Overture Traffic
