@@ -16,7 +16,7 @@ date:  2015-01-28 13:00 CET
 
 A github guide for creating pages is avaliable from here: https://help.github.com/articles/creating-new-files/
 
-Template starts below this line:
+Template starts below this line (keep only the content between the triple-tildes, if you are copying the file):
 
 --------------------------------------- Template Begin ----------------------------------------------------------
 
