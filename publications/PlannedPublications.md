@@ -19,6 +19,7 @@ title: Overture Publications
 
 -   Concurrency Code Generation, George Kanakis, Peter Tran-Jørgensen
     and Peter Gorm Larsen
+-   Extending Code Generator towards Isabelle Syntax (working title), Luis Diogo Couto and Peter Tran-Jørgensen
 -   VDM-RT Distribution Code generation, Miran Hasanagic, Peter
     Tran-Jørgensen and Peter Gorm Larsen
 -   Towards code generation of traces, Peter Tran-Jørgensen
@@ -44,7 +45,7 @@ title: Overture Publications
     on modelling and simulation)
 -   Migrating to an Extensible Architecture for Abstract Syntax Trees
     (Luis Diogo Couto, Peter W. V. Jorgensen, Joey W. Coleman, Kenneth
-    Lausdahl for WICSA 2015)
+    Lausdahl for WICSA 2015 -- accepted)
 
 ## In press
 
