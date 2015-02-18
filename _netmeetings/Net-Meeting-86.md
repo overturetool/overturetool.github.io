@@ -38,10 +38,25 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
+Some bug fixes this period:
 
+2015-01-31 Fix for combinatorial trace stemming
+2015-01-29 Correction for dev, rem and mod by zero
+2015-01-26 Correction to static data initialization
+2015-01-21 Fix to type check of set ranges
+2015-01-19 Fix to type check of object field designators
+
+Currently, VDMJ uses 64-bit longs and doubles to hold whole number types and real types internally. These are fast and efficient, and for most purposes they are large and accurate enough. But strictly speaking, the VDM language does not
+have limitations on the size or precision of numbers.
+
+I've prepared patches for VDMJ and VDMJUnit which replace the internal long/double values with BigInteger and BigDecimal values. This should be regarded as experimental, but the system does pass all the language tests that I
+have. The change makes the full test suite about 3% slower.
+
+The two new jars are called vdmj-3.0.1-P.jar and vdmjunit-1.0.0-P.jar.
+
+Usage is the same as before, except for a new -precision option to set the number of decimal places that are significant. The default is 100. This can also be adjusted from the command line with a new "precision" command that displays or adjusts the current scale.
 
 ##  Community Development
 
