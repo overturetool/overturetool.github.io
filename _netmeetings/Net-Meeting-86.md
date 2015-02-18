@@ -42,11 +42,11 @@ some description
 
 Some bug fixes this period:
 
-2015-01-31 Fix for combinatorial trace stemming
-2015-01-29 Correction for dev, rem and mod by zero
-2015-01-26 Correction to static data initialization
-2015-01-21 Fix to type check of set ranges
-2015-01-19 Fix to type check of object field designators
+* 2015-01-31 Fix for combinatorial trace stemming
+* 2015-01-29 Correction for dev, rem and mod by zero
+* 2015-01-26 Correction to static data initialization
+* 2015-01-21 Fix to type check of set ranges
+* 2015-01-19 Fix to type check of object field designators
 
 Currently, VDMJ uses 64-bit longs and doubles to hold whole number types and real types internally. These are fast and efficient, and for most purposes they are large and accurate enough. But strictly speaking, the VDM language does not
 have limitations on the size or precision of numbers.
