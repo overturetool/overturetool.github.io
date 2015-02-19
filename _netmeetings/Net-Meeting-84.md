@@ -130,7 +130,7 @@ Interesting Overture projects:
 -   At Kyushu University they have developed a “pre-formal” support that
     they will port over to become a part of Overture
 
-<a name="Separate"></a>
+
 Separate Git repository for the Overture documents
 --------------------------------------------------
 
@@ -149,7 +149,7 @@ During the meeting it was decided to use the LB tracker solely for RMs
 and not for the LRM. The content of the LB repository moves to a new
 documentation repository instead. The Overture repository and the
 associated issues tracker will remain unchanged. An action on Joey has
-been created - see [Net-Meeting 84](Net-Meeting-84.html#Separate)
+been created - see [Net-Meeting 84](actions.html#Separate)
 
 Publications Status and Plans
 -----------------------------
