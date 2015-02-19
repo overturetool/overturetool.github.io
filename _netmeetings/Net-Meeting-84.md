@@ -130,6 +130,7 @@ Interesting Overture projects:
 -   At Kyushu University they have developed a “pre-formal” support that
     they will port over to become a part of Overture
 
+<a name="Separate"></a>
 Separate Git repository for the Overture documents
 --------------------------------------------------
 
@@ -148,8 +149,7 @@ During the meeting it was decided to use the LB tracker solely for RMs
 and not for the LRM. The content of the LB repository moves to a new
 documentation repository instead. The Overture repository and the
 associated issues tracker will remain unchanged. An action on Joey has
-been created - see
-<http://wiki.overturetool.org/index.php/Net_Meeting_Actions#84-1:_Joey_to_move_the_LB_repository_content_to_a_new_documentation_repository>
+been created - see [Net-Meeting 84](Net-Meeting-84.html#Separate)
 
 Publications Status and Plans
 -----------------------------
@@ -159,7 +159,7 @@ See [Planned Publications](Planned Publications "wikilink").
 The next Overture workshop
 --------------------------
 
-The draft call is available at:
+The draft call is available at: 
 <http://wiki.overturetool.org/index.php/13th_Overture_Workshop>
 
 Input on the draft slidecast video using VDM for requirements
