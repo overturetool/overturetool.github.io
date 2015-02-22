@@ -67,12 +67,12 @@ Usage is the same as before, except for a new -precision option to set the numbe
 #### Overture generic
 
 Reported by PJ:
-- Fix to the SmokerPP example
-- Java code not updated to ASTv2
-- I did a few bug fixes for traces
-- Fixes for the Java CG (mostly relatd to generation of pattern matching)
-- Enhancement: The Java code now outputs the generated code as an Eclipse project together with the runtime library and another jar with the runtime sources attached
-- Some early work on auto completion of things like quotes and types
+Fix to the SmokerPP example
+* Java code not updated to ASTv2
+* I did a few bug fixes for traces
+* Fixes for the Java CG (mostly relatd to generation of pattern matching)
+* Enhancement: The Java code now outputs the generated code as an Eclipse project together with the runtime library and another jar with the runtime sources attached
+* Some early work on auto completion of things like quotes and types
 
 #### Combinatorial Testing
 
