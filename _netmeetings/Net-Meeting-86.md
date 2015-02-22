@@ -86,5 +86,6 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 
 ##  The next Overture workshop
 
+The next [Overture workshop](http://overturetool.org/workshops/13th-Overture-Workshop) is planned to take place in connection with the [FM'15 conference](http://fm2015.ifi.uio.no/). We hope that we will get a lot of submissions.
 
 ##  Any Other Business
