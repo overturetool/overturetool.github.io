@@ -22,7 +22,6 @@ title: Overture Publications
 -   Extending Code Generator towards Isabelle Syntax (working title), Luis Diogo Couto and Peter Tran-Jørgensen
 -   VDM-RT Distribution Code generation, Miran Hasanagic, Peter
     Tran-Jørgensen and Peter Gorm Larsen
--   Towards code generation of traces, Peter Tran-Jørgensen
 -   VDM Animation for a Wider Range of Stakeholders, Tomohiro Oda, Kenjiro Araki and Peter Gorm Larsen
 
 ## In preparation
