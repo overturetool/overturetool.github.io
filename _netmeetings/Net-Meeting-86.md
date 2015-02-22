@@ -19,11 +19,11 @@ date: 22 February 2015, 1300 CET
 
 ## Review Status of the Action List
 
-See [Net Meeting Actions](actions.html)
+See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
 ##  41-1: Video on Deploying VDM
 
-__Created__: 6 February 2010 (see [[Net Meeting 41]]) <br />
+__Created__: 6 February 2010 (see [Net Meeting 41](Net-Meeting-41.html)  <br />
 __Owner__: Peter Gorm Larsen
 
 Prepare new materials on how VDM fits into industrial development practice. This is to be aimed at a lay "manager" readership. Contributors: MV, JSF, NB and PGL. Now closed.
@@ -34,7 +34,7 @@ No progress reported.
 
 ##  82-1: To create landing page for language board
 
-__Created__: 21 September 2014 (see [[Net Meeting 82]]) <br />
+__Created__: 21 September 2014 (see [Net Meeting 82](Net-Meeting-82.html)) <br />
 __Owner__: Ken Pierce
 
 Now Closed.
