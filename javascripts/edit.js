@@ -1,11 +1,14 @@
 function setEditButonNm() {
  $(document).ready(function () {
 
+ var style = document.createElement("style");
+ style.src="/css/releases.css";
+ 	document.head.appendChild(style);
 
         var node = document.getElementById("edit_page_div");
        	var n =location.pathname.split("/").slice(-1)+"";
 		var link ="https://github.com/overturetool/overturetool.github.io/edit/master/_netmeetings/"+n.substring(0,n.lastIndexOf("."))+".md";
-    node.innerHTML  = "<a href=\""+ link+"\">Edit</a>" ;
+    node.innerHTML  = "<a class=\"button primary\" href=\""+ link+"\">Edit</a>" ;
     });
 	
 	
