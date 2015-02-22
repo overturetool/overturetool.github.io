@@ -3,7 +3,7 @@ layout: default
 title: Net Meeting 15
 date: 4 February 2007, 1200 CET
 ---
-
+<script src="edit_netmeetings.js"></script>
 
 # Net Meeting 15
 
@@ -149,3 +149,6 @@ Next Meeting
 ------------
 
 4 March 2007 1200 CET
+
+   <div id="edit_page_div"></div>
+  
