@@ -3,6 +3,9 @@ layout: default
 title: Net Meeting 15
 date: 4 February 2007, 1200 CET
 ---
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
 <script src="/netmeetings/edit_netmeetings.js"></script>
 <script>setEditButon();</script>
 
