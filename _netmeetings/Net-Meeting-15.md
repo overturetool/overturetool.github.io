@@ -6,8 +6,8 @@ date: 4 February 2007, 1200 CET
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
-<script src="/netmeetings/edit_netmeetings.js"></script>
-<script>setEditButon();</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 15
 
