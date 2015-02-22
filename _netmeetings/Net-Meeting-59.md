@@ -4,6 +4,10 @@ title: Net Meeting 59
 date: 22 January 2012, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 59
 
@@ -179,3 +183,5 @@ Next Meeting
 
 [Net Meeting 60](Net Meeting 60 "wikilink"): February 26th 2012, 1300
 CET.
+
+   <div id="edit_page_div"></div>

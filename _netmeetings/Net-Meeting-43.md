@@ -4,6 +4,10 @@ title: Net Meeting 43
 date: 14 March 2010, 1400 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 43
 
@@ -142,3 +146,5 @@ Next Meeting
 ------------
 
 To be doodled.
+
+   <div id="edit_page_div"></div>

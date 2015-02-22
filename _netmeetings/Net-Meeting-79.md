@@ -4,6 +4,10 @@ title: Net Meeting 79
 date: June 1st 2014
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 79
 
@@ -190,3 +194,5 @@ Updates made to [Planned Publications](Planned Publications "wikilink").
 
 Any Other Business
 ------------------
+
+   <div id="edit_page_div"></div>

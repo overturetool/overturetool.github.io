@@ -4,6 +4,10 @@ title: Net Meeting 57
 date: 27 November 2011, 13h00 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 57
 
@@ -103,3 +107,5 @@ Next Meeting
 ------------
 
 18 December 2011, 13h00 CET.
+
+   <div id="edit_page_div"></div>

@@ -4,6 +4,10 @@ title: Net Meeting 70
 date: 28th April 2013, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 70
 
@@ -156,3 +160,5 @@ Next Meeting
 ------------
 
 26th May 2013, 1300 CEST
+
+   <div id="edit_page_div"></div>

@@ -4,6 +4,10 @@ title: Net Meeting 46
 date: 22 August 2010, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 46
 
@@ -71,3 +75,5 @@ Next Meeting
 ------------
 
 Next meeting is due on Sunday 26 September, 13h00 CET.
+
+   <div id="edit_page_div"></div>

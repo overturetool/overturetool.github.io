@@ -4,6 +4,11 @@ title: Net Meeting 26
 date: 20 June 2008, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
+
 # Net Meeting 26
 
 Date estimated!
@@ -161,4 +166,4 @@ Next Meeting
 
 20 July 2008, 1300 CET
 
-<Category:NetMeetings>
+   <div id="edit_page_div"></div>

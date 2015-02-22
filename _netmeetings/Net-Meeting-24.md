@@ -4,6 +4,10 @@ title: Net Meeting 24
 date: 16 March 2008, 1400 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 24
 
@@ -169,3 +173,5 @@ Next Meeting
 ------------
 
 20 April 2008, 1300 CET
+
+   <div id="edit_page_div"></div>

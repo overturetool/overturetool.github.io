@@ -4,6 +4,10 @@ title: Net Meeting 73
 date: Sunday the 29th of September at 13:00 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 73
 
@@ -152,3 +156,5 @@ FM2014. We need to make sure this is not forgotten about.
 
 Next Meeting
 ------------
+
+   <div id="edit_page_div"></div>

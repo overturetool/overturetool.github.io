@@ -4,6 +4,10 @@ title: Net Meeting 54
 date: 14 August 2011, 1030 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 54
 
@@ -108,3 +112,5 @@ Next Meeting
 ------------
 
 Next meeting is due on September 18th 2011, 1300 CET
+
+   <div id="edit_page_div"></div>

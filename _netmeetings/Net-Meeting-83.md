@@ -4,6 +4,10 @@ title: Net Meeting 83
 date: 2nd November 2014.
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 83
 
@@ -127,3 +131,5 @@ Publications Status and Plans
 Individuals will make updates to the wiki. We hope to see the 12th
 Workshop proceedings out next week. See [Planned
 Publications](Planned Publications "wikilink").
+
+   <div id="edit_page_div"></div>

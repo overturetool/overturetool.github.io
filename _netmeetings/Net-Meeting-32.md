@@ -4,6 +4,10 @@ title: Net Meeting 32
 date: 8 February 2009, 1400 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 32
 
@@ -154,3 +158,5 @@ Next Meeting
 ------------
 
 March 8th 2009, 1300 CET
+
+   <div id="edit_page_div"></div>

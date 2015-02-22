@@ -4,6 +4,10 @@ title: Net Meeting 17
 date: 14 April 2007, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 17
 
@@ -137,3 +141,5 @@ Next Meeting
 ------------
 
 20 May 1300 CET
+
+   <div id="edit_page_div"></div>

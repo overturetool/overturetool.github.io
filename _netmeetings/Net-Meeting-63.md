@@ -4,6 +4,10 @@ title: Net Meeting 63
 date: 10 June 2012, 1300 CEST
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 63
 
@@ -148,3 +152,5 @@ Next Meeting
 ------------
 
 2 September 2012
+
+   <div id="edit_page_div"></div>

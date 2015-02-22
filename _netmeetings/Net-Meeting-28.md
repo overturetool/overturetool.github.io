@@ -4,6 +4,10 @@ title: Net Meeting 28
 date: 07 September 2008, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 28
 
@@ -171,3 +175,5 @@ Next Meeting
 ------------
 
 October 5th, 2008 - 13:00 CE
+
+   <div id="edit_page_div"></div>

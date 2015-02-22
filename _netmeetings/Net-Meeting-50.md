@@ -4,6 +4,10 @@ title: Net Meeting 50
 date: 30 January 2011, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 50
 
@@ -76,3 +80,5 @@ Next Meeting
 ------------
 
 Next meeting is due on February 27th 2011, 1300 CET
+
+   <div id="edit_page_div"></div>

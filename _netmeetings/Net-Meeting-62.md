@@ -4,6 +4,10 @@ title: Net Meeting 62
 date: 6th May 2012, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 62
 
@@ -197,3 +201,5 @@ changes in the plan for the day.
 
 Next Meeting
 ------------
+
+   <div id="edit_page_div"></div>

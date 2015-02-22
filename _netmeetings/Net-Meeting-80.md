@@ -4,6 +4,11 @@ title: Net Meeting 80
 date: 6 July 2014, 13:00 CEST
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
+
 
 # Net Meeting 80
 
@@ -138,3 +143,5 @@ Eco-System Development at the Eclipse Foundation. I thought at first he
 wanted the software, but he wants the COMPASS (and I think by extension
 Overture) tools community to get involved in one of his things". JF will
 send email to introduce Gael to the Overture team.
+
+   <div id="edit_page_div"></div>

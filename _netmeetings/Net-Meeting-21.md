@@ -4,6 +4,10 @@ title: Net Meeting 21
 date: 14 October 2007, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 21
 
@@ -153,3 +157,5 @@ Next Meeting
 ------------
 
 18 November 2007, 1300 CET
+
+   <div id="edit_page_div"></div>

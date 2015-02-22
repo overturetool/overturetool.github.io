@@ -4,6 +4,10 @@ title: Net Meeting 41
 date: 6 February 2010, 1500 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 41
 
@@ -143,3 +147,5 @@ Next Meeting
 ------------
 
 14 March 2010, 14:00 CET
+
+   <div id="edit_page_div"></div>

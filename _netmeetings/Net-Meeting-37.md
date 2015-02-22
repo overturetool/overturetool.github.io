@@ -4,6 +4,10 @@ title: Net Meeting 37
 date: 6 September 2009, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 37
 
@@ -181,3 +185,5 @@ Next Meeting
 October 11th 2009, 1300 CET
 
 Note: next NM should address the problem of 13:00 CET = 20:00 JST.
+
+   <div id="edit_page_div"></div>

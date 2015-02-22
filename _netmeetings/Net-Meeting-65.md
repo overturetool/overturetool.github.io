@@ -4,6 +4,10 @@ title: Net Meeting 65
 date: 11th November 2012, 1300 CEST
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 65
 
@@ -100,3 +104,5 @@ Next Meeting
 ------------
 
 Next meeting scheduled for 16th December.
+
+   <div id="edit_page_div"></div>

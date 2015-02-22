@@ -4,6 +4,10 @@ title: Net Meeting 75
 date: 13/12/01
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 75
 
@@ -184,3 +188,5 @@ and LB trackers.
 
 JWC, MV and KP will meet and make a plan to harmonise the Overture
 infrastructure.
+
+   <div id="edit_page_div"></div>

@@ -4,6 +4,10 @@ title: Net Meeting 45
 date: 25 July 2010, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 45
 
@@ -73,3 +77,5 @@ Next Meeting
 ------------
 
 Next meeting is due on Sunday 22 August, 13h00 CET.
+
+   <div id="edit_page_div"></div>

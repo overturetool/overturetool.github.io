@@ -4,6 +4,10 @@ title: Net Meeting 82
 date: 21 September 2014
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 82
 
@@ -108,3 +112,5 @@ tentatively aiming for FM'15 in Oslo.
 The planned publications list was reviewed and is generally up to date.
 The In Preparation list needs cleaning but that will be done as soon as
 the workshop proceedings are published,
+
+   <div id="edit_page_div"></div>

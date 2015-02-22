@@ -4,6 +4,10 @@ title: Net Meeting 85
 date: 18 January 2015, 13:00 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 85
 
@@ -122,3 +126,5 @@ Any Other Business
 
 MV updated us with his new contact details, as his previous Chess
 details are about to expire.
+
+   <div id="edit_page_div"></div>

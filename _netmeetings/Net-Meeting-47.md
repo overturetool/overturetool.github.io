@@ -4,6 +4,10 @@ title: Net Meeting 47
 date: 26 September 2010, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 47
 
@@ -72,3 +76,5 @@ Next Meeting
 ------------
 
 Next meeting is due on Sunday October 17th 2010, 13h00 CET.
+
+   <div id="edit_page_div"></div>

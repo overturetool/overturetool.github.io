@@ -4,6 +4,10 @@ title: Net Meeting 67
 date: January 26th 2013
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 67
 
@@ -120,3 +124,5 @@ Next Meeting
 ------------
 
 February 24th 2012 13:00 CET
+
+   <div id="edit_page_div"></div>

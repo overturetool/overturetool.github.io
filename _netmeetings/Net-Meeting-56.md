@@ -4,6 +4,10 @@ title: Net Meeting 56
 date: 23 Oktober 2011, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 56
 
@@ -78,3 +82,5 @@ Next Meeting
 ------------
 
 November 27th 2011, 1300 CET
+
+   <div id="edit_page_div"></div>

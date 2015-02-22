@@ -4,6 +4,10 @@ title: Net Meeting 64
 date: 7th October 2012, 1300 CEST
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 64
 
@@ -148,3 +152,5 @@ Next Meeting
 The next meeting for the 11th November will be cancelled. Peter and Joey
 cannot make it, and many folk will have met up in Aarhus the weekend
 before in any case.
+
+   <div id="edit_page_div"></div>

@@ -4,6 +4,10 @@ title: Net Meeting 52
 date: 17 April 2011, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 52
 
@@ -105,3 +109,5 @@ Next Meeting
 ------------
 
 Next meeting is due on May 29th 2011, 1030 CET
+
+   <div id="edit_page_div"></div>

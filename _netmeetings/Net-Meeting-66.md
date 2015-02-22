@@ -4,6 +4,10 @@ title: Net Meeting 66
 date: 16th December 2012, 1300 CEST
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 66
 
@@ -125,3 +129,5 @@ Next Meeting
 ------------
 
 The meeting schedule for 2013 has yet to be agreed.
+
+   <div id="edit_page_div"></div>

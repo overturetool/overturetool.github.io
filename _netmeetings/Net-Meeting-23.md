@@ -4,6 +4,10 @@ title: Net Meeting 23
 date: 20 January 2008, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 23
 
@@ -180,3 +184,5 @@ Next Meeting
 ------------
 
 2 March 2008, 1300 CET
+
+   <div id="edit_page_div"></div>

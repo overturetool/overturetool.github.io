@@ -4,6 +4,10 @@ title: Net Meeting 74
 date: Sunday the 27th of October 2013 at 13:00 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 74
 
@@ -313,3 +317,5 @@ general. I think suggestions are welcome.
 
 Next Meeting
 ------------
+
+   <div id="edit_page_div"></div>

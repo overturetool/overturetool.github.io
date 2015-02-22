@@ -4,6 +4,10 @@ title: Net Meeting 72
 date: 30th June 2013
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 72
 
@@ -301,3 +305,5 @@ must coordinate with the organizers of the Overture workshop.
 
 Next Meeting
 ------------
+
+   <div id="edit_page_div"></div>

@@ -4,6 +4,10 @@ title: Net Meeting 58
 date: 18 December 2011, 13h00 CET.
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 58
 
@@ -160,3 +164,5 @@ Next Meeting
 ------------
 
 [ January 22nd 2012, 1300 CET](Net Meeting 59 "wikilink").
+
+   <div id="edit_page_div"></div>

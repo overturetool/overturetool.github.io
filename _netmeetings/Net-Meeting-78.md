@@ -4,6 +4,10 @@ title: Net Meeting 78
 date: 27th April 2014
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 78
 
@@ -104,3 +108,5 @@ Any Other Business
 
 PGL and JF gave a quick update on recent grant applications and student
 funding, all involving VDM or CML/VDM.
+
+   <div id="edit_page_div"></div>

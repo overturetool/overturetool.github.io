@@ -4,6 +4,10 @@ title: Net Meeting 48
 date: 28 November 2010, 1300 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 48
 
@@ -65,3 +69,5 @@ Next Meeting
 ------------
 
 Next meeting is due on December 19th 2010, 1300 CET
+
+   <div id="edit_page_div"></div>

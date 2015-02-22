@@ -4,6 +4,10 @@ title: Net Meeting 76
 date: 26th of January at 13:00 CEST
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 76
 
@@ -134,3 +138,5 @@ Any Other Business
 ------------------
 
 Nothing for this agenda item.
+
+   <div id="edit_page_div"></div>

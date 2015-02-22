@@ -4,6 +4,10 @@ title: Net Meeting 68
 date: 24 February 2013, 13h00 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 68
 
@@ -216,3 +220,5 @@ Next Meeting
 ------------
 
 24 March 2013, 1300 CET.
+
+   <div id="edit_page_div"></div>

@@ -4,6 +4,10 @@ title: Net Meeting 81
 date: 10 August 2014, 13:00 CEST. Meeting ended at 13:38.
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
 
 # Net Meeting 81
 
@@ -135,3 +139,5 @@ mailing list when they enter the discussion phase. There was a small
 discussion concerning this approach, and people generally agree that it
 would be a good idea to move the discussion to Github instead and use
 the new LB tracker.
+
+   <div id="edit_page_div"></div>
