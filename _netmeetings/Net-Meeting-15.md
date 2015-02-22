@@ -4,6 +4,7 @@ title: Net Meeting 15
 date: 4 February 2007, 1200 CET
 ---
 <script src="/netmeetings/edit_netmeetings.js"></script>
+<script>setEditButon();</script>
 
 # Net Meeting 15
 
