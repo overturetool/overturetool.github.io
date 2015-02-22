@@ -27,6 +27,11 @@ title: Net Meeting XX
 date: 4 February 2007, 1200 CET
 ---
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
+
 # {{ page.title }}
 
 |||
@@ -108,4 +113,8 @@ Also see [[Planned Publications]].
 
 ##  Any Other Business
 
+<div id="edit_page_div"></div>
+
 ~~~
+
+
