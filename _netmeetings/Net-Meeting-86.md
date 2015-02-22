@@ -9,32 +9,38 @@ date: 22 February 2015, 1300 CET
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | Nick Battle, Peter Gorm Larsen (chair), John Fitzgerald, Peter Jorgensen, Ken Pierce, Tomohiro Oda, Shin Sahara. Minutes by Marcel Verhoef. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](actions.html)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+##  41-1: Video on Deploying VDM
 
+__Created__: 6 February 2010 (see [[Net Meeting 41]]) <br />
+__Owner__: Peter Gorm Larsen
+
+Prepare new materials on how VDM fits into industrial development practice. This is to be aimed at a lay "manager" readership. Contributors: MV, JSF, NB and PGL. Now closed.
+
+##  80-1: Strategic research agenda
+
+No progress reported.
+
+##  82-1: To create landing page for language board
+
+__Created__: 21 September 2014 (see [[Net Meeting 82]]) <br />
+__Owner__: Ken Pierce
+
+Now Closed.
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
-
+No specific issues to report. The discussion on object invariants is still pending, no comments were received after publication of the summary.
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
-
+VDMTools is stable+ no changes since last report.
 
 ##  Status of the Overture Components
 
@@ -58,34 +64,35 @@ The two new jars are called vdmj-3.0.1-P.jar and vdmjunit-1.0.0-P.jar.
 
 Usage is the same as before, except for a new -precision option to set the number of decimal places that are significant. The default is 100. This can also be adjusted from the command line with a new "precision" command that displays or adjusts the current scale.
 
+#### Overture generic
+
+Reported by PJ:
+- Fix to the SmokerPP example
+- Java code not updated to ASTv2
+- I did a few bug fixes for traces
+- Fixes for the Java CG (mostly relatd to generation of pattern matching)
+- Enhancement: The Java code now outputs the generated code as an Eclipse project together with the runtime library and another jar with the runtime sources attached
+- Some early work on auto completion of things like quotes and types
+
+#### Combinatorial Testing
+
+Serious bug discovered in the latest release, CT only works with trivial examples and crashes when invariants are used. Under investigations at the moment. PJ needs to sync with Kenneth. Peter needs this solved as his VDM course is starting soon. 
+
 ##  Community Development
 
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
-
 ##  Publications Status and Plans
 
 Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+From now on, this agenda point will be PM. Participants should update the list prior to the NM.
 
 ##  The next Overture workshop
 
-The next [Overture workshop](http://overturetool.org/workshops/13th-Overture-Workshop) is planned to take place in connection with the [FM'15 conference](http://fm2015.ifi.uio.no/). We hope that we will get a lot of submissions.
+The next [Overture workshop](http://overturetool.org/workshops/13th-Overture-Workshop) is planned to take place in connection with the [FM'15 conference](http://fm2015.ifi.uio.no/). Number of submission is still low at the moment, we need to encourage everyone to submit work in progress.
 
 ##  Any Other Business
+
+None.
