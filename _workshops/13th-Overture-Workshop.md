@@ -53,4 +53,4 @@ The organising committee can be reached via the following e-mail address:  <mail
 * JN Oliveira, Minho University, Portugal
 * N Plat, West Consulting, Netherlands
 * V Stolz, Oslo University, Norway
-* M Verhoef, CHESS WISE, Netherlands
+* M Verhoef, European Space Agency, Netherlands
