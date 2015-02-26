@@ -19,6 +19,67 @@ code automatically generated using VDMTools.
 |Language Version:| classic|
 
 
+### vector.vdmpp
+
+{% raw %}
+~~~
+class Vector 
+ 
+  values
+    public NullVector : vector = mk_vector (mk_(0,0),mk_(0,0))
+ 
+  types
+    public
+    vector :: head: Position
+              tail: Position;
+ 
+    public
+    Position = Coordinate * Coordinate;
+ 
+    public
+    Coordinate = nat
+ 
+  functions
+    public
+    inproduct: vector * vector -> real
+    inproduct (v1, v2) ==
+      let mk_vector (mk_(hd1x, hd1y), mk_(tl1x, tl1y)) = v1,
+          mk_vector (mk_(hd2x, hd2y), mk_(tl2x, tl2y)) = v2 in
+        (tl1x - hd1x) * (tl2x - hd2x) + (tl1y - hd1y) * (tl2y - hd2y);
+ 
+    public
+    length: vector -> real
+    length (v) ==
+      let mk_vector (mk_(hdx, hdy), mk_(tlx, tly)) = v in
+        let math = new MATH ()
+        in
+          math.sqrt ((tlx - hdx)**2 + (tly - hdy)**2);              
+ 
+    public
+    add: vector * vector -> vector
+    add (v1, v2) ==
+      let mk_vector (hd1, mk_(tl1x, tl1y)) = v1,
+          mk_vector (mk_(hd2x, hd2y), mk_(tl2x, tl2y)) = v2 in
+        mk_vector(hd1, mk_(tl1x + (tl2x - hd2x), tl1y + (tl2y - hd2y)))
+ 
+end Vector
+
+~~~
+{% endraw %}
+
+### rhombus.vdmpp
+
+{% raw %}
+~~~
+class Rhombus is subclass of Parallelogram
+ 
+  instance variables
+  inv length (v1) = length (v2)
+ 
+end Rhombus
+~~~
+{% endraw %}
+
 ### math.vdmpp
 
 {% raw %}
@@ -142,174 +203,6 @@ end MATH
 ~~~
 {% endraw %}
 
-### mathematics.vdmpp
-
-{% raw %}
-~~~
-class Mathematics
- 
-  values
-    pi: real = 3.14
- 
-  types
-    Angle = real
-    inv a == a >= 0 and a <= 2*pi
- 
-  functions
-    acos (x: real) res: Angle
-    post inv_Angle (res);
- 
-    sqrt (r: real) res: real
-    post res**2 = r
-
-end Mathematics
-~~~
-{% endraw %}
-
-### parallelogram.vdmpp
-
-{% raw %}
-~~~
-class Parallelogram is subclass of Quadrilateral
- 
-   instance variables
-      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
- 
-   operations
-      public
-      GetAngle: () ==> real
-      GetAngle() ==
-        let math = new MATH() 
-        in
-        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
- 
-end Parallelogram
-
-~~~
-{% endraw %}
-
-### quadrilateral.vdmpp
-
-{% raw %}
-~~~
-class Quadrilateral is subclass of Vector
- 
-  instance variables
-    position: vector := NullVector;
-    protected v1 : vector := NullVector;
-    protected v2 : vector := NullVector;
-    protected v3 : vector := NullVector;
-    protected v4 : vector := NullVector;
-    inv add (add (v1, v2), add (v3, v4)) = NullVector;
- 
-  operations
-    public
-    Move: Position * Position ==> ()
-    Move(p1, p2) ==
-      position := add(position, mk_vector(p1, p2));
-
-    public
-    SetShape: Position * Position * Position * Position ==> ()
-    SetShape(p1, p2, p3, p4) ==
-    ( atomic (
-      v1 := mk_vector(p1, p2);
-      v2 := mk_vector(p2, p3);
-      v3 := mk_vector(p3, p4);
-      v4 := mk_vector(p4, p1) ));
-
-    public
-    Display: () ==> ()
-    Display() == is not yet specified
- 
-end Quadrilateral
-
-~~~
-{% endraw %}
-
-### rectangle.vdmpp
-
-{% raw %}
-~~~
-class Rectangle is subclass of Parallelogram
- 
-  instance variables
-  inv inproduct (v1 , v2) = 0 
- 
-end Rectangle
-~~~
-{% endraw %}
-
-### rhombus.vdmpp
-
-{% raw %}
-~~~
-class Rhombus is subclass of Parallelogram
- 
-  instance variables
-  inv length (v1) = length (v2)
- 
-end Rhombus
-~~~
-{% endraw %}
-
-### square.vdmpp
-
-{% raw %}
-~~~
-class Square is subclass of Rhombus, Rectangle
- 
-end Square
-~~~
-{% endraw %}
-
-### vector.vdmpp
-
-{% raw %}
-~~~
-class Vector 
- 
-  values
-    public NullVector : vector = mk_vector (mk_(0,0),mk_(0,0))
- 
-  types
-    public
-    vector :: head: Position
-              tail: Position;
- 
-    public
-    Position = Coordinate * Coordinate;
- 
-    public
-    Coordinate = nat
- 
-  functions
-    public
-    inproduct: vector * vector -> real
-    inproduct (v1, v2) ==
-      let mk_vector (mk_(hd1x, hd1y), mk_(tl1x, tl1y)) = v1,
-          mk_vector (mk_(hd2x, hd2y), mk_(tl2x, tl2y)) = v2 in
-        (tl1x - hd1x) * (tl2x - hd2x) + (tl1y - hd1y) * (tl2y - hd2y);
- 
-    public
-    length: vector -> real
-    length (v) ==
-      let mk_vector (mk_(hdx, hdy), mk_(tlx, tly)) = v in
-        let math = new MATH ()
-        in
-          math.sqrt ((tlx - hdx)**2 + (tly - hdy)**2);              
- 
-    public
-    add: vector * vector -> vector
-    add (v1, v2) ==
-      let mk_vector (hd1, mk_(tl1x, tl1y)) = v1,
-          mk_vector (mk_(hd2x, hd2y), mk_(tl2x, tl2y)) = v2 in
-        mk_vector(hd1, mk_(tl1x + (tl2x - hd2x), tl1y + (tl2y - hd2y)))
- 
-end Vector
-
-~~~
-{% endraw %}
-
 ### workspace.vdmpp
 
 {% raw %}
@@ -357,6 +250,113 @@ class WorkSpace is subclass of Vector
     pre qid in set dom screen
   
 end WorkSpace
+
+~~~
+{% endraw %}
+
+### parallelogram.vdmpp
+
+{% raw %}
+~~~
+class Parallelogram is subclass of Quadrilateral
+ 
+   instance variables
+      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
+ 
+   operations
+      public
+      GetAngle: () ==> real
+      GetAngle() ==
+        let math = new MATH() 
+        in
+        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
+ 
+end Parallelogram
+
+~~~
+{% endraw %}
+
+### square.vdmpp
+
+{% raw %}
+~~~
+class Square is subclass of Rhombus, Rectangle
+ 
+end Square
+~~~
+{% endraw %}
+
+### mathematics.vdmpp
+
+{% raw %}
+~~~
+class Mathematics
+ 
+  values
+    pi: real = 3.14
+ 
+  types
+    Angle = real
+    inv a == a >= 0 and a <= 2*pi
+ 
+  functions
+    acos (x: real) res: Angle
+    post inv_Angle (res);
+ 
+    sqrt (r: real) res: real
+    post res**2 = r
+
+end Mathematics
+~~~
+{% endraw %}
+
+### rectangle.vdmpp
+
+{% raw %}
+~~~
+class Rectangle is subclass of Parallelogram
+ 
+  instance variables
+  inv inproduct (v1 , v2) = 0 
+ 
+end Rectangle
+~~~
+{% endraw %}
+
+### quadrilateral.vdmpp
+
+{% raw %}
+~~~
+class Quadrilateral is subclass of Vector
+ 
+  instance variables
+    position: vector := NullVector;
+    protected v1 : vector := NullVector;
+    protected v2 : vector := NullVector;
+    protected v3 : vector := NullVector;
+    protected v4 : vector := NullVector;
+    inv add (add (v1, v2), add (v3, v4)) = NullVector;
+ 
+  operations
+    public
+    Move: Position * Position ==> ()
+    Move(p1, p2) ==
+      position := add(position, mk_vector(p1, p2));
+
+    public
+    SetShape: Position * Position * Position * Position ==> ()
+    SetShape(p1, p2, p3, p4) ==
+    ( atomic (
+      v1 := mk_vector(p1, p2);
+      v2 := mk_vector(p2, p3);
+      v3 := mk_vector(p3, p4);
+      v4 := mk_vector(p4, p1) ));
+
+    public
+    Display: () ==> ()
+    Display() == is not yet specified
+ 
+end Quadrilateral
 
 ~~~
 {% endraw %}

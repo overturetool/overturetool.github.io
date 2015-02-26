@@ -26,313 +26,6 @@ the Report.pdf file included in the zip file with the source files.
 |Entry point     :| new Enviroment().Run()|
 
 
-### Brake.vdmpp
-
-{% raw %}
-~~~
-class Brake
- instance variables
- mLowLimit : MainShaftController`RPMType;
- mHighLimit : MainShaftController`RPMType;
- 
- operations
- public Brake : MainShaftController`RPMType * MainShaftController`RPMType ==> Brake
- Brake(low, high) ==
- (
-  mLowLimit := low;
-  mHighLimit := high
- )
- pre low < high;
-
- public GetLow : () ==> MainShaftController`RPMType
- GetLow() ==
-  return mLowLimit;
-
- public GetHigh : () ==> MainShaftController`RPMType
- GetHigh() ==
-  return mHighLimit;
-
- public IsEqual : Brake ==> bool
- IsEqual(brake) ==
-  return GetLow() = brake.GetLow() and GetHigh() = brake.GetHigh();
-
- public ApplyBrake : MainShaftController`RPMType ==> 
-                     MainShaftController`RPMType
- ApplyBrake(rpm) ==
-  return if InRange(rpm) 
-         then mLowLimit
-         else rpm;
-
- public InterSect : Brake ==> bool
- InterSect(brake) ==
-  return brake.InRange(mLowLimit) or brake.InRange(mHighLimit);
- 
- public InRange : (MainShaftController`RPMType) ==> bool
- InRange(rpm) ==
-  return rpm >= mLowLimit and rpm <= mHighLimit;
-
-end Brake
-~~~
-{% endraw %}
-
-### Enviroment.vdmpp
-
-{% raw %}
-~~~
-class Enviroment
-
- types
- public TestData ::
-     Wind : WindMeasurementController`WindSpeedType
-     Cmds : OperatingPanel`CmdType
-     EStop : bool
-
- functions
- static CreateTestSeq : WindMeasurementController`WindSpeedType * bool -> 
-                        seq of TestData
- CreateTestSeq(wind, eStop) ==
-  [if x mod 10 = 1 
-   then mk_TestData(wind,<E>,false)
-   elseif x mod 10 = 5 
-   then mk_TestData(wind,<L>,false)
-   else mk_TestData(wind,<N>,x mod 10 = 6 and eStop) 
-  | x in set {1,...,10}];
-
- operations
- public static Run : () ==> ()
- Run() ==
-  let TestSeq = CreateTestSeq(14, false) ^ 
-                CreateTestSeq(15, true) ^ 
-                CreateTestSeq(15, false) ^ 
-                CreateTestSeq(16, false),
-       WindTurbine = new WindTurbine(TestSeq)
-  in
-   WindTurbine.Run()
-
-end Enviroment
-~~~
-{% endraw %}
-
-### Hub.vdmpp
-
-{% raw %}
-~~~
-class Hub
- instance variables
- mSpeaker : Speaker;
- mIsLocked : bool := true;
- mIsEStopPressed: bool := false;
-
- operations
- public Hub : () ==> Hub
- Hub() ==
-  mSpeaker := new Speaker();
-
- public Open : () ==> ()
- Open() ==
- (
-  mIsLocked := false;
-  mSpeaker.StopAlarm()
- )
- pre not IsOpen();
-
- public Close : () ==> ()
- Close() ==
- (
-  mIsLocked := true;
-  mSpeaker.StartAlarm()
- )
- pre IsOpen();
-
- public IsOpen : () ==> bool
- IsOpen() ==
-  return not mIsLocked;
-
- public IsAlarmActive : () ==> bool
- IsAlarmActive() ==
-  return mSpeaker.IsActive();
-
- public PressEStop : () ==> ()
- PressEStop() ==
-  mIsEStopPressed := true;
-
- public ReleaseEStop : () ==> ()
- ReleaseEStop() ==
-  mIsEStopPressed := false;
- 
- public IsEStopPressed : () ==> bool
- IsEStopPressed() ==
-  return mIsEStopPressed;
- 
- public Run : () ==> ()
- Run() ==
-  mSpeaker.Run();
-
-end Hub
-~~~
-{% endraw %}
-
-### HubController.vdmpp
-
-{% raw %}
-~~~
-class HubController
- instance variables
- mHub : Hub;
- mMainShaftController : MainShaftController;
- mMode : Mode;
- inv Mode`HubInSafeModeInv(mMode, mMainShaftController.GetRPM(), 
-                           mMainShaftController.IsLocked(), mHub.IsOpen());
- mEStopSeq : seq of bool := []; 
-
- operations
- public HubController : seq of bool * MainShaftController ==> HubController
- HubController(eStopSeq, mainShaftController) ==
- (
-  mHub := new Hub();
-  mEStopSeq := eStopSeq;
-  mMainShaftController := mainShaftController;
-  mMode := new ModeOperational();
-  Mode`SetHubController(self);
- );
-
- public GetHub : () ==> Hub
- GetHub() ==
-  return mHub;
-
- public GetMainShaftController : () ==> MainShaftController
- GetMainShaftController() ==
-  return mMainShaftController;
-
- public SetMode : Mode ==> ()
- SetMode(mode) ==
-  mMode := mode
- pre Mode`StateChangeInv(mMode, mode) and 
-     Mode`HubInSafeModeInv(mode, mMainShaftController.GetRPM(), 
-                           mMainShaftController.IsLocked(), mHub.IsOpen());
- 
- public GetMode : () ==> Mode
- GetMode() ==
-  return mMode;
-
- public Run : () ==> ()
- Run() ==
- (if len mEStopSeq >= 1 
-  then let eStop = hd mEStopSeq
-       in
-        (mEStopSeq := tl mEStopSeq;
-
-         if eStop 
-         then mHub.PressEStop()
-         else mHub.ReleaseEStop()
-        );
-
-  mHub.Run();
-  mMode.Run();
- );
-
-end HubController
-~~~
-{% endraw %}
-
-### MainShaftController.vdmpp
-
-{% raw %}
-~~~
-class MainShaftController
- values
- public static LOCK_LIMIT : RPMType = 1;
- public static MAX_RPM : RPMType = WindMeasurementController`MAX_WIND * 10;
-
- types
- public RPMType = nat
- inv rpm == rpm <= WindMeasurementController`MAX_WIND * 10;
-
- instance variables
- mIsLocked : bool := false;
- mBrakeSeq :seq of Brake := [];
- inv BrakeSeqInv(mBrakeSeq);
- mRPM : RPMType := 0;
- mIsBrakeApplied : bool := false;
-
- functions
- static BrakeSeqInv : seq of Brake -> bool
- BrakeSeqInv(brakeSeq) ==
-  forall i in set inds brakeSeq & 
-     i>1 => brakeSeq(i-1).GetLow() = brakeSeq(i).GetHigh();
-
- operations
- public MainShaftController : () ==> MainShaftController
- MainShaftController() ==
- (--Blade Pitch
-  AddBrake(new Brake(100,MAX_RPM));
-  --Generator
-  AddBrake(new Brake(50,100));
-  --Disc Brake
-  AddBrake(new Brake(LOCK_LIMIT,50));
-  --Lock
-  AddBrake(new Brake(0, LOCK_LIMIT));
- );
-
- public CloseLock : () ==> ()
- CloseLock() == 
-  mIsLocked := true
- pre not IsLocked() and GetRPM() = 0 and IsBrakeApplied();
-
- public OpenLock : () ==> ()
- OpenLock() == 
-  mIsLocked := false
- pre IsLocked() and GetRPM() = 0 and IsBrakeApplied();
-
- public IsLocked : () ==> bool
- IsLocked() == 
-  return mIsLocked;
-
- AddBrake : Brake ==> ()
- AddBrake(brake) ==
-  mBrakeSeq := mBrakeSeq ^ [brake]
- pre BrakeSeqInv(mBrakeSeq ^ [brake]);
-
- RemoveBrake : Brake ==> ()
- RemoveBrake(brake) ==
-  mBrakeSeq := [mBrakeSeq(i)|i in set inds mBrakeSeq & not mBrakeSeq(i).IsEqual(brake)]
- pre (exists i in set inds mBrakeSeq & mBrakeSeq(i).IsEqual(brake)) and
-   BrakeSeqInv([mBrakeSeq(i)|i in set inds mBrakeSeq & not mBrakeSeq(i).IsEqual(brake)]);
-
- public ApplyBrake : () ==> ()
- ApplyBrake() ==
-  mIsBrakeApplied := true
- pre len mBrakeSeq <> 0;
-
- public ReleaseBrake : () ==> ()
- ReleaseBrake() ==
-  mIsBrakeApplied := false
- pre len mBrakeSeq <> 0;
-
- public IsBrakeApplied : () ==> bool
- IsBrakeApplied() == 
-  return mIsBrakeApplied
- pre len mBrakeSeq <> 0;
-
- -- return current rotational speed of main shaft in RPM.
- public GetRPM : () ==> RPMType
- GetRPM() ==
-  return mRPM;
-
- public Run : () ==> ()
- Run() ==
- (if mIsBrakeApplied 
-  then for all i in set inds mBrakeSeq do
-         mRPM := mBrakeSeq(i).ApplyBrake(mRPM)
-  else mRPM := WindMeasurementController`GetInstance().GetWindSpeed() * 10; 
- )
- pre len mBrakeSeq <> 0
- post mRPM <= MAX_RPM;
-
-end MainShaftController
-~~~
-{% endraw %}
-
 ### Mode.vdmpp
 
 {% raw %}
@@ -483,6 +176,199 @@ end ModeOperational
 ~~~
 {% endraw %}
 
+### Enviroment.vdmpp
+
+{% raw %}
+~~~
+class Enviroment
+
+ types
+ public TestData ::
+     Wind : WindMeasurementController`WindSpeedType
+     Cmds : OperatingPanel`CmdType
+     EStop : bool
+
+ functions
+ static CreateTestSeq : WindMeasurementController`WindSpeedType * bool -> 
+                        seq of TestData
+ CreateTestSeq(wind, eStop) ==
+  [if x mod 10 = 1 
+   then mk_TestData(wind,<E>,false)
+   elseif x mod 10 = 5 
+   then mk_TestData(wind,<L>,false)
+   else mk_TestData(wind,<N>,x mod 10 = 6 and eStop) 
+  | x in set {1,...,10}];
+
+ operations
+ public static Run : () ==> ()
+ Run() ==
+  let TestSeq = CreateTestSeq(14, false) ^ 
+                CreateTestSeq(15, true) ^ 
+                CreateTestSeq(15, false) ^ 
+                CreateTestSeq(16, false),
+       WindTurbine = new WindTurbine(TestSeq)
+  in
+   WindTurbine.Run()
+
+end Enviroment
+~~~
+{% endraw %}
+
+### Hub.vdmpp
+
+{% raw %}
+~~~
+class Hub
+ instance variables
+ mSpeaker : Speaker;
+ mIsLocked : bool := true;
+ mIsEStopPressed: bool := false;
+
+ operations
+ public Hub : () ==> Hub
+ Hub() ==
+  mSpeaker := new Speaker();
+
+ public Open : () ==> ()
+ Open() ==
+ (
+  mIsLocked := false;
+  mSpeaker.StopAlarm()
+ )
+ pre not IsOpen();
+
+ public Close : () ==> ()
+ Close() ==
+ (
+  mIsLocked := true;
+  mSpeaker.StartAlarm()
+ )
+ pre IsOpen();
+
+ public IsOpen : () ==> bool
+ IsOpen() ==
+  return not mIsLocked;
+
+ public IsAlarmActive : () ==> bool
+ IsAlarmActive() ==
+  return mSpeaker.IsActive();
+
+ public PressEStop : () ==> ()
+ PressEStop() ==
+  mIsEStopPressed := true;
+
+ public ReleaseEStop : () ==> ()
+ ReleaseEStop() ==
+  mIsEStopPressed := false;
+ 
+ public IsEStopPressed : () ==> bool
+ IsEStopPressed() ==
+  return mIsEStopPressed;
+ 
+ public Run : () ==> ()
+ Run() ==
+  mSpeaker.Run();
+
+end Hub
+~~~
+{% endraw %}
+
+### Speaker.vdmpp
+
+{% raw %}
+~~~
+class Speaker
+ instance variables
+ mAlarm : nat := 0;
+
+ operations
+ public StartAlarm : () ==> ()
+ --Start alarm for max duration of one minute
+ StartAlarm() ==
+  mAlarm := 3;
+
+ --Stop alarm. If alarm already stopped this has no effect.
+ public StopAlarm : () ==> ()
+ StopAlarm() ==
+  mAlarm := 0;
+
+ --return true if alarm is currently active, false otherwise.
+ public IsActive : () ==> bool
+ IsActive() ==
+  return mAlarm <> 0;
+
+ public Run : () ==> ()
+ Run() ==
+  if (mAlarm > 0) 
+  then mAlarm := mAlarm - 1
+
+end Speaker
+~~~
+{% endraw %}
+
+### HubController.vdmpp
+
+{% raw %}
+~~~
+class HubController
+ instance variables
+ mHub : Hub;
+ mMainShaftController : MainShaftController;
+ mMode : Mode;
+ inv Mode`HubInSafeModeInv(mMode, mMainShaftController.GetRPM(), 
+                           mMainShaftController.IsLocked(), mHub.IsOpen());
+ mEStopSeq : seq of bool := []; 
+
+ operations
+ public HubController : seq of bool * MainShaftController ==> HubController
+ HubController(eStopSeq, mainShaftController) ==
+ (
+  mHub := new Hub();
+  mEStopSeq := eStopSeq;
+  mMainShaftController := mainShaftController;
+  mMode := new ModeOperational();
+  Mode`SetHubController(self);
+ );
+
+ public GetHub : () ==> Hub
+ GetHub() ==
+  return mHub;
+
+ public GetMainShaftController : () ==> MainShaftController
+ GetMainShaftController() ==
+  return mMainShaftController;
+
+ public SetMode : Mode ==> ()
+ SetMode(mode) ==
+  mMode := mode
+ pre Mode`StateChangeInv(mMode, mode) and 
+     Mode`HubInSafeModeInv(mode, mMainShaftController.GetRPM(), 
+                           mMainShaftController.IsLocked(), mHub.IsOpen());
+ 
+ public GetMode : () ==> Mode
+ GetMode() ==
+  return mMode;
+
+ public Run : () ==> ()
+ Run() ==
+ (if len mEStopSeq >= 1 
+  then let eStop = hd mEStopSeq
+       in
+        (mEStopSeq := tl mEStopSeq;
+
+         if eStop 
+         then mHub.PressEStop()
+         else mHub.ReleaseEStop()
+        );
+
+  mHub.Run();
+  mMode.Run();
+ );
+
+end HubController
+~~~
+{% endraw %}
+
 ### OperatingPanel.vdmpp
 
 {% raw %}
@@ -559,39 +445,6 @@ class OperatingPanel
    Print(mTime, "Operational")
  ); 
 end OperatingPanel
-~~~
-{% endraw %}
-
-### Speaker.vdmpp
-
-{% raw %}
-~~~
-class Speaker
- instance variables
- mAlarm : nat := 0;
-
- operations
- public StartAlarm : () ==> ()
- --Start alarm for max duration of one minute
- StartAlarm() ==
-  mAlarm := 3;
-
- --Stop alarm. If alarm already stopped this has no effect.
- public StopAlarm : () ==> ()
- StopAlarm() ==
-  mAlarm := 0;
-
- --return true if alarm is currently active, false otherwise.
- public IsActive : () ==> bool
- IsActive() ==
-  return mAlarm <> 0;
-
- public Run : () ==> ()
- Run() ==
-  if (mAlarm > 0) 
-  then mAlarm := mAlarm - 1
-
-end Speaker
 ~~~
 {% endraw %}
 
@@ -682,6 +535,153 @@ class WindTurbine
   )
 
 end WindTurbine
+~~~
+{% endraw %}
+
+### MainShaftController.vdmpp
+
+{% raw %}
+~~~
+class MainShaftController
+ values
+ public static LOCK_LIMIT : RPMType = 1;
+ public static MAX_RPM : RPMType = WindMeasurementController`MAX_WIND * 10;
+
+ types
+ public RPMType = nat
+ inv rpm == rpm <= WindMeasurementController`MAX_WIND * 10;
+
+ instance variables
+ mIsLocked : bool := false;
+ mBrakeSeq :seq of Brake := [];
+ inv BrakeSeqInv(mBrakeSeq);
+ mRPM : RPMType := 0;
+ mIsBrakeApplied : bool := false;
+
+ functions
+ static BrakeSeqInv : seq of Brake -> bool
+ BrakeSeqInv(brakeSeq) ==
+  forall i in set inds brakeSeq & 
+     i>1 => brakeSeq(i-1).GetLow() = brakeSeq(i).GetHigh();
+
+ operations
+ public MainShaftController : () ==> MainShaftController
+ MainShaftController() ==
+ (--Blade Pitch
+  AddBrake(new Brake(100,MAX_RPM));
+  --Generator
+  AddBrake(new Brake(50,100));
+  --Disc Brake
+  AddBrake(new Brake(LOCK_LIMIT,50));
+  --Lock
+  AddBrake(new Brake(0, LOCK_LIMIT));
+ );
+
+ public CloseLock : () ==> ()
+ CloseLock() == 
+  mIsLocked := true
+ pre not IsLocked() and GetRPM() = 0 and IsBrakeApplied();
+
+ public OpenLock : () ==> ()
+ OpenLock() == 
+  mIsLocked := false
+ pre IsLocked() and GetRPM() = 0 and IsBrakeApplied();
+
+ public IsLocked : () ==> bool
+ IsLocked() == 
+  return mIsLocked;
+
+ AddBrake : Brake ==> ()
+ AddBrake(brake) ==
+  mBrakeSeq := mBrakeSeq ^ [brake]
+ pre BrakeSeqInv(mBrakeSeq ^ [brake]);
+
+ RemoveBrake : Brake ==> ()
+ RemoveBrake(brake) ==
+  mBrakeSeq := [mBrakeSeq(i)|i in set inds mBrakeSeq & not mBrakeSeq(i).IsEqual(brake)]
+ pre (exists i in set inds mBrakeSeq & mBrakeSeq(i).IsEqual(brake)) and
+   BrakeSeqInv([mBrakeSeq(i)|i in set inds mBrakeSeq & not mBrakeSeq(i).IsEqual(brake)]);
+
+ public ApplyBrake : () ==> ()
+ ApplyBrake() ==
+  mIsBrakeApplied := true
+ pre len mBrakeSeq <> 0;
+
+ public ReleaseBrake : () ==> ()
+ ReleaseBrake() ==
+  mIsBrakeApplied := false
+ pre len mBrakeSeq <> 0;
+
+ public IsBrakeApplied : () ==> bool
+ IsBrakeApplied() == 
+  return mIsBrakeApplied
+ pre len mBrakeSeq <> 0;
+
+ -- return current rotational speed of main shaft in RPM.
+ public GetRPM : () ==> RPMType
+ GetRPM() ==
+  return mRPM;
+
+ public Run : () ==> ()
+ Run() ==
+ (if mIsBrakeApplied 
+  then for all i in set inds mBrakeSeq do
+         mRPM := mBrakeSeq(i).ApplyBrake(mRPM)
+  else mRPM := WindMeasurementController`GetInstance().GetWindSpeed() * 10; 
+ )
+ pre len mBrakeSeq <> 0
+ post mRPM <= MAX_RPM;
+
+end MainShaftController
+~~~
+{% endraw %}
+
+### Brake.vdmpp
+
+{% raw %}
+~~~
+class Brake
+ instance variables
+ mLowLimit : MainShaftController`RPMType;
+ mHighLimit : MainShaftController`RPMType;
+ 
+ operations
+ public Brake : MainShaftController`RPMType * MainShaftController`RPMType ==> Brake
+ Brake(low, high) ==
+ (
+  mLowLimit := low;
+  mHighLimit := high
+ )
+ pre low < high;
+
+ public GetLow : () ==> MainShaftController`RPMType
+ GetLow() ==
+  return mLowLimit;
+
+ public GetHigh : () ==> MainShaftController`RPMType
+ GetHigh() ==
+  return mHighLimit;
+
+ public IsEqual : Brake ==> bool
+ IsEqual(brake) ==
+  return GetLow() = brake.GetLow() and GetHigh() = brake.GetHigh();
+
+ public ApplyBrake : MainShaftController`RPMType ==> 
+                     MainShaftController`RPMType
+ ApplyBrake(rpm) ==
+  return if InRange(rpm) 
+         then mLowLimit
+         else rpm;
+
+ public InterSect : Brake ==> bool
+ InterSect(brake) ==
+  return brake.InRange(mLowLimit) or brake.InRange(mHighLimit);
+ 
+ public InRange : (MainShaftController`RPMType) ==> bool
+ InRange(rpm) ==
+  return rpm >= mLowLimit and rpm <= mHighLimit;
+
+end Brake
 ~~~
 {% endraw %}
 

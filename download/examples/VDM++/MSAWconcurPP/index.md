@@ -20,325 +20,26 @@ This project is currently not running with the Overture interpreter.
 |Entry point     :| new World().Run()|
 
 
-### AirSpace.vdmpp
+### MSAW.vdmpp
 
 {% raw %}
 ~~~
-class AirSpace is subclass of GLOBAL
+class MSAW is subclass of GLOBAL
 
-instance variables
+instance variables 
 
-airspace : map FOId to FO := {|->};
-
-inv forall foid1, foid2 in set dom airspace & 
-      foid1 <> foid2 => airspace(foid1).getId() <> airspace(foid2).getId()
+public static atc : AirTrafficController := new AirTrafficController(1, true);
   
-operations
 
-public addFO : FO ==> ()
-addFO(fo) ==
- (airspace := airspace munion {fo.getId() |-> fo};
-  MSAW`atc.UpdatesPresent())
-pre fo.getId() not in set dom airspace;
+public static airspace : AirSpace := new AirSpace();
 
-public removeFO : FOId ==> ()
-removeFO(id) ==
-  (airspace := {id} <-: airspace;
-   MSAW`atc.UpdatesPresent());
-    
-public getFO : FOId ==> FO
-getFO(id) ==
-  return airspace(id)
-pre id in set dom airspace;
+public static militaryZone : Obstacle := 
+  new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
 
-public getAirspace : () ==> set of FO
-getAirspace() ==
-  return rng airspace;
+public static radar1 : Radar := new Radar(6,11,20, 1, true);
+public static radar2 : Radar := new Radar (30,30,5, 1, true);  
 
-public updateFO : FOId * Coordinates * Altitude ==> ()
-updateFO(id,coord,alt) ==
- (if (id in set dom airspace)
-  then 
-    let fo = airspace(id)
-    in 
-     (fo.setCoordinates(coord);
-      fo.setAltitude(alt))
-     -- fo.registerPosition())
-  else
-    (let newfo = new FO(id,coord,alt)
-     in airspace := airspace munion {id |-> newfo}
-    );
-  MSAW`atc.UpdatesPresent())
-
-end AirSpace
-~~~
-{% endraw %}
-
-### atc.vdmpp
-
-{% raw %}
-~~~
-class AirTrafficController is subclass of GLOBAL, BaseThread
-
-instance variables  
-  
-busy      : bool            := false;
-radars    : set of Radar    := {};  
-obstacles : set of Obstacle := {};
-history   : map FOId to (seq of Position) := {|->}; 
-
-operations
-
-public AirTrafficController: nat1 * bool ==> AirTrafficController
-AirTrafficController(p, isP) ==
- (period := p;
- isPeriodic := isP;
- );
- 
-OverviewAllRadars: () ==> map FOId to FO
-OverviewAllRadars() ==
-  return merge {r.getDetectedMap() | r in set radars};
-
-private getDirectionVectors : FOId ==> seq of Vector
-getDirectionVectors(id) ==
-  let hist = history(id),
-      p1 = hist(3),
-      p2 = hist(2),
-      p3 = hist(1)
-  in
-    return [mk_Vector(p1.coord.X - p2.coord.X,
-                      p1.coord.Y - p2.coord.Y),                   
-            mk_Vector(p2.coord.X - p3.coord.X,
-                      p2.coord.Y - p3.coord.Y)]
-pre id in set dom history and len history(id) = 3;
-
-public getAltitudeHistory : FOId ==> seq of nat
-getAltitudeHistory(id) ==
-  let hist = history(id),
-      lastHist = hist(1,...,2)
-  in 
-    return [lastHist(i).altitude | i in set inds lastHist]
-pre id in set dom history and len history(id) = 3;
-
-
-public updateHistory : () ==> ()
-updateHistory() ==
- (
-   cleanUpHistory();
-   for all r in set radars
-   do
-    (for all fo in set r.getDetected()
-     do
-      registerHistory(fo);
-    )
- );
-
-private registerHistory : FO ==> ()
-registerHistory(fo) ==
- (let id = fo.getId()
-  in 
-    if id in set dom history 
-    then history := history ++ {id |-> addHistory(history(id),fo.getCoordinates(),fo.getAltitude())}
-    else history := history munion {id |-> addHistory([],fo.getCoordinates(),fo.getAltitude())}
- );
-
-private cleanUpHistory : () ==> ()
-cleanUpHistory() == 
- (let alldetected = dunion {r.getDetected() | r in set radars},
-      allids = { fo.getId() | fo in set alldetected }
-  in 
-    history := allids <: history 
- );
-
-functions
-private addHistory : History * Coordinates * Altitude  -> History
-addHistory(hist,coord,alt) ==
-  if len hist > 0 
-  then 
-    let lastValue = last(hist)
-    in
-     if lastValue = mk_Position(coord,alt)
-      then hist
-      else
-        if(len hist < 3)
-        then hist ^ [mk_Position(coord,alt)]
-        else tl hist ^ [mk_Position(coord,alt)]
-  else hist ^ [mk_Position(coord,alt)];
-     
-private last : History -> Position
-last(hist) ==
-  hist(len hist)
-pre len hist > 0;
-
-operations
-
-public addRadar : Radar ==> ()
-addRadar(r) == 
- radars := {r} union radars;
- 
-    
-public addObstacle : Obstacle ==> ()
-addObstacle(ob) ==
-  obstacles := {ob} union obstacles;
-
-public findThreats : () ==> ()
-findThreats() ==
-  let allFOs = dunion { r.getDetected() | r in set radars }
-  in 
-   (for all fo in set allFOs
-    do 
-      for all ob in set obstacles
-      do
-        if not isFOSafe(ob,fo.getPosition())
-        then writeObjectWarning(ob,fo)
-        else 
-          if len history(fo.getId()) = 3 
-          then willFObeSafe(ob,fo);       
-    for all r in set radars
-    do 
-      if r.saturatedRadar()
-      then writeRadarWarning(r)
-   );
-
-public UpdatesPresent:() ==> ()
-UpdatesPresent() ==
-  busy := true;
-
-operations
-
-public detectedByTwoRadars : set of Radar ==> set of FO
-detectedByTwoRadars(radars) == 
-  return dunion {a.getDetected() inter b.getDetected() 
-         | a,b in set radars & a <> b};
-    
-public detectedByAllRadars : set of Radar ==> set of FO
-detectedByAllRadars(radars) ==
-  return dinter {r.getDetected() | r in set radars};    
-
-isFOSafe : Obstacle * Position ==> bool
-isFOSafe(obs,pos) ==
-  let obsloc      = obs.getCoordinates(),
-      secureRange = obs.getSecureRange(),
-      foloc       = pos.coord
-  in
-    return isPointInRange(obsloc,secureRange,foloc) => 
-           isFOatSafeAltitude(obs.getMSA(),pos);
-    
-       
-isFOatSafeAltitude : MinimumSafetyAltitude * Position ==> bool
-isFOatSafeAltitude(msa,pos) == 
-  return msa <> <NotAllowed> and msa < pos.altitude;
- 
-willFObeSafe : Obstacle * FO ==> ()
-willFObeSafe(obs,fo) ==
-  let pred = isPredictPossible(fo)
-  in 
-    for all p in set pred
-    do
-      if not isFOSafe(obs,p)
-      then 
-        let id   = fo.getId(),
-            cs   = fo.getCoordinates(),
-            alt  = fo.getAltitude(),
-            type = <EstimationWarning>,
-            msa  = obs.getMSA(),
-            t    = World`timerRef.GetTime()
-        in 
-         (World`env.handleFOWarningEvent(id, cs, alt, type, msa, t);
-          return
-         )
-pre fo.getId() in set dom history and  len history(fo.getId()) = 3;  
-  
-   
-private writeObjectWarning : Obstacle * FO ==> ()  
-writeObjectWarning(obs,fo) == 
-  let id   = fo.getId(),
-      cs   = fo.getCoordinates(),
-      alt  = fo.getAltitude(),
-      type = obs.getType(),
-      msa  = obs.getMSA(),
-      t    = World`timerRef.GetTime()
-  in
-    World`env.handleFOWarningEvent(id, cs, alt, type, msa, t);
-
-private writeRadarWarning : Radar ==> ()
-writeRadarWarning(r) ==
-  let coord   = r.getLocation(),
-      range   = r.getRange(),
-      radWarn = <Saturated>,
-      num     = card r.getDetected(),
-      t       = World`timerRef.GetTime()
-  in
-    World`env.handleRadarWarningEvent(coord,range,radWarn,num,t);
-         
-private isPredictPossible : FO ==> [set of Position]
-isPredictPossible(fo)==
-  let hist = history(fo.getId())
-  in
-    if len hist < 3
-    then return nil
-    else return predictPosition(fo)
-pre fo.getId() in set dom history ;
- 
-     
-private predictPosition : FO ==> set of Position
-predictPosition(fo) ==
-  let foid   = fo.getId(),
-      vs     = getDirectionVectors(foid),
-      estVec = vectorRotate(vs(1),signedVectorAngle(vs(2),vs(1))),
-      estAlt = predictAltitude(getAltitudeHistory(foid)),
-      estCoo = addVectorToPoint(estVec,history(foid)(3)),
-      estPos = mk_Position(estCoo,estAlt)
-      
-  in
-    return calculateNeighborhood(estPos)
-pre fo.getId() in set dom history and len history(fo.getId()) = 3; 
-
-functions
-private calculateNeighborhood : Position -> set of Position
-calculateNeighborhood(pos) ==
- {pos,
-  mk_Position(addVectorToPoint(mk_Vector(2,0),pos),pos.altitude),
-  mk_Position(addVectorToPoint(mk_Vector(-2,0),pos),pos.altitude),
-  mk_Position(addVectorToPoint(mk_Vector(0,2),pos),pos.altitude),
-  mk_Position(addVectorToPoint(mk_Vector(0,-2),pos),pos.altitude)
- };
-
-private predictAltitude : seq of nat -> nat
-predictAltitude(alts) ==
-  alts(1) + (alts(1) - alts(2)) 
-pre len alts = 2;  
- 
- 
-operations  
-public isFinished : () ==> ()
-isFinished() ==
-  for all r in set radars do
-    r.isFinished(); 
- 
-public Step : () ==> ()
-Step() == 
-( for all r in set radars 
-  do 
-    r.Scan(MSAW`airspace);
-  updateHistory();
-  findThreats();
-  busy := false
-);   
- 
---thread
---  (for all r in set radars do
---     start(r);
---   while true do
---    Step();    
---  )
-
-sync 
-per isFinished => not busy;
---per Step => busy  
-mutex(Step);
- 
-end AirTrafficController
+end MSAW
 ~~~
 {% endraw %}
 
@@ -381,6 +82,54 @@ thread
  );
 
 end BaseThread
+~~~
+{% endraw %}
+
+### obstacle.vdmpp
+
+{% raw %}
+~~~
+class Obstacle is subclass of GLOBAL
+
+instance variables
+ 
+  MSA            : MinimumSafetyAltitude ;
+  location       : Coordinates;
+  radius         : nat1;
+  securityRadius : nat;
+  type           : ObstacleType;
+  
+operations 
+ 
+public Obstacle : MinimumSafetyAltitude * Coordinates * nat * nat * 
+                  ObstacleType ==> Obstacle
+Obstacle(msa,loc,ra,secRa,tp) ==
+ (MSA := msa;
+  location := loc;
+  radius := ra;
+  securityRadius := secRa;
+  type := tp;
+ ); 
+
+public getType : () ==> ObstacleType 
+getType() == 
+  return type;
+ 
+public getCoordinates : () ==> Coordinates
+getCoordinates() ==
+  return location;
+
+public getSecureRange : () ==> nat1
+getSecureRange() ==
+  return radius + securityRadius;
+  
+public getMSA : () ==> MinimumSafetyAltitude
+getMSA() == 
+  return MSA;
+ 
+
+
+end Obstacle 
 ~~~
 {% endraw %}
 
@@ -688,74 +437,102 @@ end GLOBAL
 ~~~
 {% endraw %}
 
-### MSAW.vdmpp
+### world.vdmpp
 
 {% raw %}
 ~~~
-class MSAW is subclass of GLOBAL
-
-instance variables 
-
-public static atc : AirTrafficController := new AirTrafficController(1, true);
+class World
   
+instance variables  
+  
+public static
+  env : [Environment] := nil;
 
-public static airspace : AirSpace := new AirSpace();
+public static 
+  timerRef : TimeStamp := new TimeStamp(); --2    
 
-public static militaryZone : Obstacle := 
-  new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
+  
+   
+operations
 
-public static radar1 : Radar := new Radar(6,11,20, 1, true);
-public static radar2 : Radar := new Radar (30,30,5, 1, true);  
-
-end MSAW
+public 
+  World : () ==> World
+  World() ==
+    ( env := new Environment("scenario.txt", 1, true);
+      env.setAirSpace(MSAW`airspace);
+      MSAW`atc.addObstacle(MSAW`militaryZone);
+      MSAW`atc.addRadar(MSAW`radar1);
+      MSAW`atc.addRadar(MSAW`radar2);
+      
+      timerRef.DoneInitialising();
+    );
+  
+public Run : () ==> ()
+Run() ==
+ (
+  --start(env);
+  --start(MSAW`atc);
+  env.isFinished();
+  MSAW`atc.isFinished();
+  
+  env.showResult()
+ )
+ 
+end World
 ~~~
 {% endraw %}
 
-### obstacle.vdmpp
+### AirSpace.vdmpp
 
 {% raw %}
 ~~~
-class Obstacle is subclass of GLOBAL
+class AirSpace is subclass of GLOBAL
 
 instance variables
- 
-  MSA            : MinimumSafetyAltitude ;
-  location       : Coordinates;
-  radius         : nat1;
-  securityRadius : nat;
-  type           : ObstacleType;
+
+airspace : map FOId to FO := {|->};
+
+inv forall foid1, foid2 in set dom airspace & 
+      foid1 <> foid2 => airspace(foid1).getId() <> airspace(foid2).getId()
   
-operations 
- 
-public Obstacle : MinimumSafetyAltitude * Coordinates * nat * nat * 
-                  ObstacleType ==> Obstacle
-Obstacle(msa,loc,ra,secRa,tp) ==
- (MSA := msa;
-  location := loc;
-  radius := ra;
-  securityRadius := secRa;
-  type := tp;
- ); 
+operations
 
-public getType : () ==> ObstacleType 
-getType() == 
-  return type;
- 
-public getCoordinates : () ==> Coordinates
-getCoordinates() ==
-  return location;
+public addFO : FO ==> ()
+addFO(fo) ==
+ (airspace := airspace munion {fo.getId() |-> fo};
+  MSAW`atc.UpdatesPresent())
+pre fo.getId() not in set dom airspace;
 
-public getSecureRange : () ==> nat1
-getSecureRange() ==
-  return radius + securityRadius;
-  
-public getMSA : () ==> MinimumSafetyAltitude
-getMSA() == 
-  return MSA;
- 
+public removeFO : FOId ==> ()
+removeFO(id) ==
+  (airspace := {id} <-: airspace;
+   MSAW`atc.UpdatesPresent());
+    
+public getFO : FOId ==> FO
+getFO(id) ==
+  return airspace(id)
+pre id in set dom airspace;
 
+public getAirspace : () ==> set of FO
+getAirspace() ==
+  return rng airspace;
 
-end Obstacle 
+public updateFO : FOId * Coordinates * Altitude ==> ()
+updateFO(id,coord,alt) ==
+ (if (id in set dom airspace)
+  then 
+    let fo = airspace(id)
+    in 
+     (fo.setCoordinates(coord);
+      fo.setAltitude(alt))
+     -- fo.registerPosition())
+  else
+    (let newfo = new FO(id,coord,alt)
+     in airspace := airspace munion {id |-> newfo}
+    );
+  MSAW`atc.UpdatesPresent())
+
+end AirSpace
 ~~~
 {% endraw %}
 
@@ -1015,48 +792,271 @@ end TimeStamp
 ~~~
 {% endraw %}
 
-### world.vdmpp
+### atc.vdmpp
 
 {% raw %}
 ~~~
-class World
-  
+class AirTrafficController is subclass of GLOBAL, BaseThread
+
 instance variables  
   
-public static
-  env : [Environment] := nil;
+busy      : bool            := false;
+radars    : set of Radar    := {};  
+obstacles : set of Obstacle := {};
+history   : map FOId to (seq of Position) := {|->}; 
 
-public static 
-  timerRef : TimeStamp := new TimeStamp(); --2    
-
-  
-   
 operations
 
-public 
-  World : () ==> World
-  World() ==
-    ( env := new Environment("scenario.txt", 1, true);
-      env.setAirSpace(MSAW`airspace);
-      MSAW`atc.addObstacle(MSAW`militaryZone);
-      MSAW`atc.addRadar(MSAW`radar1);
-      MSAW`atc.addRadar(MSAW`radar2);
-      
-      timerRef.DoneInitialising();
-    );
-  
-public Run : () ==> ()
-Run() ==
- (
-  --start(env);
-  --start(MSAW`atc);
-  env.isFinished();
-  MSAW`atc.isFinished();
-  
-  env.showResult()
- )
+public AirTrafficController: nat1 * bool ==> AirTrafficController
+AirTrafficController(p, isP) ==
+ (period := p;
+ isPeriodic := isP;
+ );
  
-end World
+OverviewAllRadars: () ==> map FOId to FO
+OverviewAllRadars() ==
+  return merge {r.getDetectedMap() | r in set radars};
+
+private getDirectionVectors : FOId ==> seq of Vector
+getDirectionVectors(id) ==
+  let hist = history(id),
+      p1 = hist(3),
+      p2 = hist(2),
+      p3 = hist(1)
+  in
+    return [mk_Vector(p1.coord.X - p2.coord.X,
+                      p1.coord.Y - p2.coord.Y),                   
+            mk_Vector(p2.coord.X - p3.coord.X,
+                      p2.coord.Y - p3.coord.Y)]
+pre id in set dom history and len history(id) = 3;
+
+public getAltitudeHistory : FOId ==> seq of nat
+getAltitudeHistory(id) ==
+  let hist = history(id),
+      lastHist = hist(1,...,2)
+  in 
+    return [lastHist(i).altitude | i in set inds lastHist]
+pre id in set dom history and len history(id) = 3;
+
+
+public updateHistory : () ==> ()
+updateHistory() ==
+ (
+   cleanUpHistory();
+   for all r in set radars
+   do
+    (for all fo in set r.getDetected()
+     do
+      registerHistory(fo);
+    )
+ );
+
+private registerHistory : FO ==> ()
+registerHistory(fo) ==
+ (let id = fo.getId()
+  in 
+    if id in set dom history 
+    then history := history ++ {id |-> addHistory(history(id),fo.getCoordinates(),fo.getAltitude())}
+    else history := history munion {id |-> addHistory([],fo.getCoordinates(),fo.getAltitude())}
+ );
+
+private cleanUpHistory : () ==> ()
+cleanUpHistory() == 
+ (let alldetected = dunion {r.getDetected() | r in set radars},
+      allids = { fo.getId() | fo in set alldetected }
+  in 
+    history := allids <: history 
+ );
+
+functions
+private addHistory : History * Coordinates * Altitude  -> History
+addHistory(hist,coord,alt) ==
+  if len hist > 0 
+  then 
+    let lastValue = last(hist)
+    in
+     if lastValue = mk_Position(coord,alt)
+      then hist
+      else
+        if(len hist < 3)
+        then hist ^ [mk_Position(coord,alt)]
+        else tl hist ^ [mk_Position(coord,alt)]
+  else hist ^ [mk_Position(coord,alt)];
+     
+private last : History -> Position
+last(hist) ==
+  hist(len hist)
+pre len hist > 0;
+
+operations
+
+public addRadar : Radar ==> ()
+addRadar(r) == 
+ radars := {r} union radars;
+ 
+    
+public addObstacle : Obstacle ==> ()
+addObstacle(ob) ==
+  obstacles := {ob} union obstacles;
+
+public findThreats : () ==> ()
+findThreats() ==
+  let allFOs = dunion { r.getDetected() | r in set radars }
+  in 
+   (for all fo in set allFOs
+    do 
+      for all ob in set obstacles
+      do
+        if not isFOSafe(ob,fo.getPosition())
+        then writeObjectWarning(ob,fo)
+        else 
+          if len history(fo.getId()) = 3 
+          then willFObeSafe(ob,fo);       
+    for all r in set radars
+    do 
+      if r.saturatedRadar()
+      then writeRadarWarning(r)
+   );
+
+public UpdatesPresent:() ==> ()
+UpdatesPresent() ==
+  busy := true;
+
+operations
+
+public detectedByTwoRadars : set of Radar ==> set of FO
+detectedByTwoRadars(radars) == 
+  return dunion {a.getDetected() inter b.getDetected() 
+         | a,b in set radars & a <> b};
+    
+public detectedByAllRadars : set of Radar ==> set of FO
+detectedByAllRadars(radars) ==
+  return dinter {r.getDetected() | r in set radars};    
+
+isFOSafe : Obstacle * Position ==> bool
+isFOSafe(obs,pos) ==
+  let obsloc      = obs.getCoordinates(),
+      secureRange = obs.getSecureRange(),
+      foloc       = pos.coord
+  in
+    return isPointInRange(obsloc,secureRange,foloc) => 
+           isFOatSafeAltitude(obs.getMSA(),pos);
+    
+       
+isFOatSafeAltitude : MinimumSafetyAltitude * Position ==> bool
+isFOatSafeAltitude(msa,pos) == 
+  return msa <> <NotAllowed> and msa < pos.altitude;
+ 
+willFObeSafe : Obstacle * FO ==> ()
+willFObeSafe(obs,fo) ==
+  let pred = isPredictPossible(fo)
+  in 
+    for all p in set pred
+    do
+      if not isFOSafe(obs,p)
+      then 
+        let id   = fo.getId(),
+            cs   = fo.getCoordinates(),
+            alt  = fo.getAltitude(),
+            type = <EstimationWarning>,
+            msa  = obs.getMSA(),
+            t    = World`timerRef.GetTime()
+        in 
+         (World`env.handleFOWarningEvent(id, cs, alt, type, msa, t);
+          return
+         )
+pre fo.getId() in set dom history and  len history(fo.getId()) = 3;  
+  
+   
+private writeObjectWarning : Obstacle * FO ==> ()  
+writeObjectWarning(obs,fo) == 
+  let id   = fo.getId(),
+      cs   = fo.getCoordinates(),
+      alt  = fo.getAltitude(),
+      type = obs.getType(),
+      msa  = obs.getMSA(),
+      t    = World`timerRef.GetTime()
+  in
+    World`env.handleFOWarningEvent(id, cs, alt, type, msa, t);
+
+private writeRadarWarning : Radar ==> ()
+writeRadarWarning(r) ==
+  let coord   = r.getLocation(),
+      range   = r.getRange(),
+      radWarn = <Saturated>,
+      num     = card r.getDetected(),
+      t       = World`timerRef.GetTime()
+  in
+    World`env.handleRadarWarningEvent(coord,range,radWarn,num,t);
+         
+private isPredictPossible : FO ==> [set of Position]
+isPredictPossible(fo)==
+  let hist = history(fo.getId())
+  in
+    if len hist < 3
+    then return nil
+    else return predictPosition(fo)
+pre fo.getId() in set dom history ;
+ 
+     
+private predictPosition : FO ==> set of Position
+predictPosition(fo) ==
+  let foid   = fo.getId(),
+      vs     = getDirectionVectors(foid),
+      estVec = vectorRotate(vs(1),signedVectorAngle(vs(2),vs(1))),
+      estAlt = predictAltitude(getAltitudeHistory(foid)),
+      estCoo = addVectorToPoint(estVec,history(foid)(3)),
+      estPos = mk_Position(estCoo,estAlt)
+      
+  in
+    return calculateNeighborhood(estPos)
+pre fo.getId() in set dom history and len history(fo.getId()) = 3; 
+
+functions
+private calculateNeighborhood : Position -> set of Position
+calculateNeighborhood(pos) ==
+ {pos,
+  mk_Position(addVectorToPoint(mk_Vector(2,0),pos),pos.altitude),
+  mk_Position(addVectorToPoint(mk_Vector(-2,0),pos),pos.altitude),
+  mk_Position(addVectorToPoint(mk_Vector(0,2),pos),pos.altitude),
+  mk_Position(addVectorToPoint(mk_Vector(0,-2),pos),pos.altitude)
+ };
+
+private predictAltitude : seq of nat -> nat
+predictAltitude(alts) ==
+  alts(1) + (alts(1) - alts(2)) 
+pre len alts = 2;  
+ 
+ 
+operations  
+public isFinished : () ==> ()
+isFinished() ==
+  for all r in set radars do
+    r.isFinished(); 
+ 
+public Step : () ==> ()
+Step() == 
+( for all r in set radars 
+  do 
+    r.Scan(MSAW`airspace);
+  updateHistory();
+  findThreats();
+  busy := false
+);   
+ 
+--thread
+--  (for all r in set radars do
+--     start(r);
+--   while true do
+--    Step();    
+--  )
+
+sync 
+per isFinished => not busy;
+--per Step => busy  
+mutex(Step);
+ 
+end AirTrafficController
 ~~~
 {% endraw %}
 

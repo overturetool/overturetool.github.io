@@ -26,47 +26,84 @@ Kaisa Sere, May 2008.
 |Language Version:| classic|
 
 
-### PacemakerAAI.vdmsl
+### PacemakerAOO.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-module PacemakerAAI
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+module PacemakerAOO
 
 definitions 
 
 values 
 LRL     : nat = 60;
-ARP     : nat = 250;
-                                                                                               
+                                                                                                                                                 
 types 
-SenseTimeline = seq of Sense;
+SenseTimeline = map Time to Sense;
 
 Sense = <NONE> | <PULSE>;
 
-                                                                                                                                                                               
-ReactionTimeline = seq of Reaction; 
+Time = nat1;
+                                                                                                                                                          
+ReactionTimeline = map Time to Reaction; 
 
 Reaction = <NONE> | <PULSE>;
    
 functions
-                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 Pacemaker (inp : SenseTimeline) r : ReactionTimeline
-post let m = {i | i in set inds r & r(i) = <PULSE>}
-     in len r = len inp 
+post let m = {i | i in set dom r & r(i) = <PULSE>}
+     in card dom r = card dom inp 
         and
-        r(1) = <PULSE> 
+        card dom inp > 1 => r(1) = <PULSE> 
         and
         forall x in set m & (
            (exists y in set m & y > x) => 
-                 (exists z in set m &  z >= x and z - x <= 60000/LRL)
-                 or
-                 (exists z in set inds inp &  z >= x and z - x > ARP and inp(z) = <PULSE>)
-           );
+                 (exists y in set m & abs(x - y) <= 60000/LRL and x <> y));
 
+end PacemakerAOO
+                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+~~~
+{% endraw %}
 
-end PacemakerAAI
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+### PacemakerDOO.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+module PacemakerDOO
+
+definitions 
+
+types 
+
+Time = nat;
+
+SensedTimeline = set of (Chamber * Time);
+
+Chamber = <ATRIA> | <VENTRICLE>;
+                                                                                                        
+ReactionTimeline = set of (Chamber * Time);
+
+                                                                                
+values
+   LRL     : nat = 60;
+   URL     : nat = 120;
+   FixedAV : nat = 150;
+                                                                                                                                                                                                                                                                                                
+functions
+
+Pacemaker (mk_(inp,n) : SensedTimeline * nat1) r : ReactionTimeline
+post let nPulsesAtria = card {i | i in set r & i.#1 = <ATRIA>}, 
+         nPulsesVentricle = card {i | i in set r & i.#1 = <VENTRICLE>}
+     in  nPulsesAtria / n >= (LRL / 60) / 1000
+         and
+         nPulsesVentricle / n <= (URL / 60) / 1000
+         and
+         forall mk_(<ATRIA>,ta) in set r & (exists mk_(<VENTRICLE>,tv) in set r & tv = ta + FixedAV) ;
+	                             
+end PacemakerDOO
+                                                                                                                                                                      
 ~~~
 {% endraw %}
 
@@ -111,43 +148,47 @@ end PacemakerAAT
 ~~~
 {% endraw %}
 
-### PacemakerAOO.vdmsl
+### PacemakerAAI.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-module PacemakerAOO
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+module PacemakerAAI
 
 definitions 
 
 values 
 LRL     : nat = 60;
-                                                                                                                                                 
+ARP     : nat = 250;
+                                                                                               
 types 
-SenseTimeline = map Time to Sense;
+SenseTimeline = seq of Sense;
 
 Sense = <NONE> | <PULSE>;
 
-Time = nat1;
-                                                                                                                                                          
-ReactionTimeline = map Time to Reaction; 
+                                                                                                                                                                               
+ReactionTimeline = seq of Reaction; 
 
 Reaction = <NONE> | <PULSE>;
    
 functions
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                              
 Pacemaker (inp : SenseTimeline) r : ReactionTimeline
-post let m = {i | i in set dom r & r(i) = <PULSE>}
-     in card dom r = card dom inp 
+post let m = {i | i in set inds r & r(i) = <PULSE>}
+     in len r = len inp 
         and
-        card dom inp > 1 => r(1) = <PULSE> 
+        r(1) = <PULSE> 
         and
         forall x in set m & (
            (exists y in set m & y > x) => 
-                 (exists y in set m & abs(x - y) <= 60000/LRL and x <> y));
+                 (exists z in set m &  z >= x and z - x <= 60000/LRL)
+                 or
+                 (exists z in set inds inp &  z >= x and z - x > ARP and inp(z) = <PULSE>)
+           );
 
-end PacemakerAOO
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+end PacemakerAAI
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 ~~~
 {% endraw %}
 
@@ -249,6 +290,61 @@ end PacemakerAOOR
 ~~~
 {% endraw %}
 
+### RateController.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+module RateController
+
+definitions 
+
+types 
+
+Input = map Time to ActivityData;
+                                                                                                                                                                                                                                                      
+Time = nat1;
+
+ActivityData = nat1
+inv a == a <= 7;
+
+                                                                                       
+RF = nat1
+inv rf == rf <= 16;
+                                                                                                                                   
+
+Output = map Time to PPM; 
+
+PPM = nat1
+inv ppm == ppm >= 30 and ppm <= 175;
+
+                                                                                 
+values
+   LRL           : PPM = 60;
+   MSR           : PPM = 120;
+   Threshold     : ActivityData = 6;
+   ReactionTime  : Time = 150;
+   ResponseFactor: RF = 8; -- Not understood
+   RecoveryTime  : Time = 5;
+                                                                                                                                                                                                                                                                                        
+functions
+
+Simulate(inp : Input)  out : Output
+pre 0 not in set dom inp
+post forall t in set dom inp &
+            (out(t) = MSR =>  inp(t-ReactionTime) > Threshold or out(t-1) = MSR)
+     and
+     forall t in set dom inp \ {1} & 
+            (out(t) = LRL =>  inp(t-RecoveryTime) < Threshold or out(t-1) = LRL);
+
+
+
+
+end RateController
+                                                                                                                                                                                                                                                                                                               
+~~~
+{% endraw %}
+
 ### PacemakerDDD.vdmsl
 
 {% raw %}
@@ -334,102 +430,6 @@ c (i,t,s,mk_(r,a,v,la,lv)) == mk_(i,t,s,r,a,v,la,lv);
 
 end PacemakerDDD
              
-~~~
-{% endraw %}
-
-### PacemakerDOO.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-module PacemakerDOO
-
-definitions 
-
-types 
-
-Time = nat;
-
-SensedTimeline = set of (Chamber * Time);
-
-Chamber = <ATRIA> | <VENTRICLE>;
-                                                                                                        
-ReactionTimeline = set of (Chamber * Time);
-
-                                                                                
-values
-   LRL     : nat = 60;
-   URL     : nat = 120;
-   FixedAV : nat = 150;
-                                                                                                                                                                                                                                                                                                
-functions
-
-Pacemaker (mk_(inp,n) : SensedTimeline * nat1) r : ReactionTimeline
-post let nPulsesAtria = card {i | i in set r & i.#1 = <ATRIA>}, 
-         nPulsesVentricle = card {i | i in set r & i.#1 = <VENTRICLE>}
-     in  nPulsesAtria / n >= (LRL / 60) / 1000
-         and
-         nPulsesVentricle / n <= (URL / 60) / 1000
-         and
-         forall mk_(<ATRIA>,ta) in set r & (exists mk_(<VENTRICLE>,tv) in set r & tv = ta + FixedAV) ;
-	                             
-end PacemakerDOO
-                                                                                                                                                                      
-~~~
-{% endraw %}
-
-### RateController.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-module RateController
-
-definitions 
-
-types 
-
-Input = map Time to ActivityData;
-                                                                                                                                                                                                                                                      
-Time = nat1;
-
-ActivityData = nat1
-inv a == a <= 7;
-
-                                                                                       
-RF = nat1
-inv rf == rf <= 16;
-                                                                                                                                   
-
-Output = map Time to PPM; 
-
-PPM = nat1
-inv ppm == ppm >= 30 and ppm <= 175;
-
-                                                                                 
-values
-   LRL           : PPM = 60;
-   MSR           : PPM = 120;
-   Threshold     : ActivityData = 6;
-   ReactionTime  : Time = 150;
-   ResponseFactor: RF = 8; -- Not understood
-   RecoveryTime  : Time = 5;
-                                                                                                                                                                                                                                                                                        
-functions
-
-Simulate(inp : Input)  out : Output
-pre 0 not in set dom inp
-post forall t in set dom inp &
-            (out(t) = MSR =>  inp(t-ReactionTime) > Threshold or out(t-1) = MSR)
-     and
-     forall t in set dom inp \ {1} & 
-            (out(t) = LRL =>  inp(t-RecoveryTime) < Threshold or out(t-1) = LRL);
-
-
-
-
-end RateController
-                                                                                                                                                                                                                                                                                                               
 ~~~
 {% endraw %}
 

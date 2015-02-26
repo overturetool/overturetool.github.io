@@ -19,218 +19,191 @@ distributed real time version of this example.
 |Entry point     :| new World().Run()|
 
 
-### BaseRTThread.vdmrt
+### TestSuite.vdmrt
 
 {% raw %}
 ~~~
-class BaseRTThread
+              
+class TestSuite
+  is subclass of Test
 
-types
+instance variables
+  tests : seq of Test := [];
+                           
+operations
+  public Run: () ==> ()
+  Run () ==
+    (dcl ntr : TestResult := new TestResult();
+     Run(ntr);
+     ntr.Show());
+                           
+  public Run: TestResult ==> ()
+  Run (result) ==
+    for test in tests do
+      test.Run(result);
 
-public static ThreadDef ::
-  p : nat1
-  isP : bool
-  j : nat
-  d : nat
-  o : nat;
-	
+  public AddTest: Test ==> ()
+  AddTest(test) ==
+    tests := tests ^ [test];
+
+end TestSuite
+             
+~~~
+{% endraw %}
+
+### Test.vdmrt
+
+{% raw %}
+~~~
+               
+class Test
+
+operations
+  public Run: TestResult ==> ()
+  Run (-) == is subclass responsibility
+
+end Test
+             
+~~~
+{% endraw %}
+
+### RTTimeStamp.vdmrt
+
+{% raw %}
+~~~
+class RTTimeStamp
+
 instance variables
 
-protected period : nat1 := 1000E6;
-protected isPeriodic : bool := true;
-protected jitter : nat := 0;
-protected delay : nat := 0;
-protected offset : nat := 0;
-
-protected registeredSelf : BaseRTThread;
-protected timeStamp : RTTimeStamp := RTTimeStamp`GetInstance();
+registeredThreads : set of BaseRTThread := {};
+isInitialising : bool := true;
+-- singleton instance of class
+private static rtTimeStamp : RTTimeStamp := new RTTimeStamp();
 
 operations
 
-protected BaseRTThread : BaseRTThread ==> BaseRTThread
-BaseRTThread(t) ==
- (registeredSelf := t;
-  timeStamp.RegisterThread(registeredSelf);
-  if(not timeStamp.IsInitialising())
-  then start(registeredSelf);   
+-- private constructor (singleton pattern)
+private RTTimeStamp : () ==> RTTimeStamp
+RTTimeStamp() ==
+  skip;
+
+-- public operation to get the singleton instance
+public static GetInstance: () ==> RTTimeStamp
+GetInstance() ==
+  return rtTimeStamp;
+
+public RegisterThread : BaseRTThread ==> ()
+RegisterThread(t) ==
+ (registeredThreads := registeredThreads union {t};  
  );
+ 
+public UnRegisterThread : BaseRTThread ==> ()
+UnRegisterThread(t) ==
+ (registeredThreads := registeredThreads \ {t};
+ );
+ 
+public IsInitialising: () ==> bool
+IsInitialising() ==
+  return isInitialising;
+ 
+public DoneInitialising: () ==> ()
+DoneInitialising() ==
+ (if isInitialising
+  then (isInitialising := false;
+        for all t in set registeredThreads 
+        do
+          start(t);
+       );
+ );
+ 
+sync 
 
-protected Step : () ==> ()
-Step() ==
-  is subclass responsibility;
+mutex (RegisterThread);
+mutex (UnRegisterThread);
+mutex (RegisterThread, UnRegisterThread);
+mutex (IsInitialising);
+mutex (DoneInitialising);
 
-thread
-
-periodic(period, jitter, delay, offset)(Step);
-
-end BaseRTThread
+end RTTimeStamp
 ~~~
 {% endraw %}
 
-### CMTest.vdmrt
+### TestCase.vdmrt
 
 {% raw %}
 ~~~
-              
-class CMTest
-operations
-  public Execute: () ==> ()
-  Execute () ==
-    (dcl ts : TestSuite := new TestSuite();
-     ts.AddTest(new CMTestCase2("Busy"));
-     ts.Run())
+               
+class TestCase
+  is subclass of Test
 
-end CMTest
-                                                                            
-~~~
-{% endraw %}
-
-### CMTestCase2.vdmrt
-
-{% raw %}
-~~~
-              
-class CMTestCase2 is subclass of TestCase
+instance variables
+  protected name : seq of char
 
 operations
-  public CMTestCase2: seq of char ==> CMTestCase2
-  CMTestCase2(nm) == name := nm;
+  public TestCase: seq of char ==> TestCase
+  TestCase(nm) == name := nm;
 
+  public GetName: () ==> seq of char
+  GetName () == return name;
+                           
+  protected AssertTrue: bool ==> ()
+  AssertTrue (pb) == if not pb then exit <FAILURE>;
+
+  protected AssertFalse: bool ==> ()
+  AssertFalse (pb) == if pb then exit <FAILURE>;
+                            
+  public Run: TestResult ==> ()
+  Run (ptr) ==
+    trap <FAILURE>
+      with 
+        ptr.AddFailure(self)
+      in
+        (SetUp();
+	 RunTest();
+	 TearDown());
+                            
   protected SetUp: () ==> ()
-  SetUp () == skip;
+  SetUp () == is subclass responsibility;
 
   protected RunTest: () ==> ()
-  RunTest () == 
-    (dcl inlines : seq of Environment`inline :=
-       [ mk_ (1,<MissileA>,45,10000), mk_ (2,<MissileB>,270,11000),
-         mk_ (3,<MissileA>,276,12000),mk_ (4,<MissileC>,266,14000) ];
-    def - = new IO().fwriteval[seq of Environment`inline]
-            ("scenario.txt",inlines,<start>) in 
-    let world = new World() in
-      (world.Run();
-       let reaction = world.env.GetAndPurgeOutlines()
-       in 
-         for all i in set inds inlines do
-           AssertTrue(exists j in set inds reaction &
-                         reaction(j).#1 = i and
-                         reaction(j).#4 + 1000 > reaction(j).#5)));
+  RunTest () == is subclass responsibility;
 
   protected TearDown: () ==> ()
-  TearDown () == skip
+  TearDown () == is subclass responsibility
 
-end CMTestCase2
-                                                                                    
+end TestCase
+             
 ~~~
 {% endraw %}
 
-### environment.vdmrt
+### TestResult.vdmrt
 
 {% raw %}
 ~~~
-              
-class Environment is subclass of GLOBAL, BaseRTThread
-
-types
-
-public inline  = EventId * MissileType * Angle * Time;
-public outline = EventId * FlareType * Angle * nat * Time
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+class TestResult
 
 instance variables
-
--- access to the VDMTools stdio
-io : IO := new IO();
-
--- the input file to process
-inlines : seq of inline := [];
-
--- the output file to print
-outlines : seq of outline := [];
-
--- maintain a link to all sensors
-ranges : map nat to (Angle * Angle) := {|->};
-sensors : map nat to Sensor := {|->};
-inv dom ranges = dom sensors;
-
-busy : bool := true;
-
+  failures : seq of TestCase := []
+  
 operations
+  public AddFailure: TestCase ==> ()
+  AddFailure (ptst) == failures := failures ^ [ptst];
 
- public getAperture: () ==> Angle * Angle
-  getAperture () == is not yet specified;
-
-public Environment: seq of char * [ThreadDef] ==> Environment
-Environment (fname, tDef) ==
- (def mk_ (-,input) = io.freadval[seq of inline](fname) in
-    inlines := input;
-   
-  if tDef <> nil
-  then (period := tDef.p;
-        jitter := tDef.j;
-        delay := tDef.d;
-        offset := tDef.o;
-       ); 
-   BaseRTThread(self);
- );
-
-public addSensor: Sensor ==> ()
-addSensor (psens) ==
-  duration (0)
-  (dcl id : nat := card dom ranges + 1;
-   atomic (
-    ranges := ranges munion {id |-> psens.getAperture()};
-    sensors := sensors munion {id |-> psens} 
-   )
-  );
-
-private createSignal: () ==> ()
-createSignal () ==
-  duration (0) 
-  (if len inlines > 0
-   then (dcl curtime : Time := time, done : bool := false;
-         while not done do
-           def mk_ (eventid, pmt, pa, pt) = hd inlines in
-             if pt <= curtime
-             then (for all id in set dom ranges do
-                     def mk_(papplhs,pappsize) = ranges(id) in
-                       if canObserve(pa,papplhs,pappsize)
-                       then sensors(id).trip(eventid,pmt,pa);
-                   inlines := tl inlines;
-                   done := len inlines = 0)
-             else done := true)
-   else busy := false);
-
-public handleEvent: EventId * FlareType * Angle * Time * Time ==> ()
-handleEvent (evid,pfltp,angle,pt1,pt2) ==
-  duration (0) 
-  (outlines := outlines ^ [mk_ (evid,pfltp,angle,pt1,pt2)] );
-
-public showResult: () ==> ()
-showResult () ==
-  def - = io.writeval[seq of outline](outlines) in skip;
-
-public isFinished : () ==> ()
-isFinished () == skip;
-
-public GetAndPurgeOutlines: () ==> seq of outline
-GetAndPurgeOutlines() ==
-  let res = outlines
-  in
-    (outlines := [];
-     return res);
-
-public Step : () ==> ()
-Step() ==
- (createSignal();
- );
-
-sync
-
-mutex (handleEvent);
-mutex (createSignal);
-per isFinished => not busy;
-
-end Environment
-                                                                                                 
+  public Print: seq of char ==> ()
+  Print (pstr) ==
+    def - = new IO().echo(pstr ^ "\n") in skip;
+    
+  public Show: () ==> ()
+  Show () ==
+    if failures = [] then
+      Print ("No failures detected")
+    else
+      for failure in failures do
+        Print (failure.GetName() ^ " failed")
+  
+end TestResult
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 ~~~
 {% endraw %}
 
@@ -449,6 +422,358 @@ end FlareController
 ~~~
 {% endraw %}
 
+### global.vdmrt
+
+{% raw %}
+~~~
+              
+class GLOBAL
+
+values
+  public SENSOR_APERTURE = 90;
+  public FLARE_APERTURE = 120;
+  public DISPENSER_APERTURE = 30
+
+types
+  -- there are three different types of missiles
+  public MissileType = <MissileA> | <MissileB> | <MissileC>;
+
+  -- there are nine different flare types, three per missile
+  public FlareType =
+    <FlareOneA> | <FlareTwoA> | <DoNothingA> | 
+    <FlareOneB> | <FlareTwoB> | <DoNothingB> | 
+    <FlareOneC> | <FlareTwoC> | <DoNothingC>;
+
+  -- the angle at which the missile is incoming
+  public Angle = nat
+  inv num == num < 360;
+
+public EventId = nat;
+
+public Time = nat
+
+operations
+  public canObserve: Angle * Angle * Angle ==> bool
+  canObserve (pangle, pleft, psize) ==
+    def pright = (pleft + psize) mod 360 in
+      if pright < pleft
+      -- check between [0,pright> and [pleft,360>
+      then return (pangle < pright or pangle >= pleft)
+      -- check between [pleft, pright>
+      else return (pangle >= pleft and pangle < pright);
+       
+  public getAperture: () ==> Angle * Angle
+  getAperture () == is subclass responsibility;
+
+end GLOBAL
+                                                                              
+~~~
+{% endraw %}
+
+### sensor.vdmrt
+
+{% raw %}
+~~~
+              
+class Sensor is subclass of GLOBAL
+
+instance variables
+
+-- the missile detector this sensor is connected to
+private detector : MissileDetector;
+
+-- the left hand-side of the viewing angle of the sensor
+private aperture : Angle;
+
+operations
+
+public Sensor: MissileDetector * Angle ==> Sensor
+Sensor (pmd, psa) == ( detector := pmd; aperture := psa);
+
+-- get the left hand-side start point and opening angle
+public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
+getAperture () == return mk_ (aperture, SENSOR_APERTURE);
+
+-- trip is called asynchronously from the environment to
+-- signal an event. the sensor triggers if the event is
+-- in the field of view. the event is stored in the
+-- missile detector for further processing
+async public trip: EventId * MissileType * Angle ==> ()
+trip (evid, pmt, pa) ==
+  -- log and time stamp the observed threat
+  detector.addThreat(evid,pmt,pa,time)
+pre canObserve(pa, aperture, SENSOR_APERTURE)
+
+end Sensor
+                                                                           
+~~~
+{% endraw %}
+
+### CMTestCase2.vdmrt
+
+{% raw %}
+~~~
+              
+class CMTestCase2 is subclass of TestCase
+
+operations
+  public CMTestCase2: seq of char ==> CMTestCase2
+  CMTestCase2(nm) == name := nm;
+
+  protected SetUp: () ==> ()
+  SetUp () == skip;
+
+  protected RunTest: () ==> ()
+  RunTest () == 
+    (dcl inlines : seq of Environment`inline :=
+       [ mk_ (1,<MissileA>,45,10000), mk_ (2,<MissileB>,270,11000),
+         mk_ (3,<MissileA>,276,12000),mk_ (4,<MissileC>,266,14000) ];
+    def - = new IO().fwriteval[seq of Environment`inline]
+            ("scenario.txt",inlines,<start>) in 
+    let world = new World() in
+      (world.Run();
+       let reaction = world.env.GetAndPurgeOutlines()
+       in 
+         for all i in set inds inlines do
+           AssertTrue(exists j in set inds reaction &
+                         reaction(j).#1 = i and
+                         reaction(j).#4 + 1000 > reaction(j).#5)));
+
+  protected TearDown: () ==> ()
+  TearDown () == skip
+
+end CMTestCase2
+                                                                                    
+~~~
+{% endraw %}
+
+### BaseRTThread.vdmrt
+
+{% raw %}
+~~~
+class BaseRTThread
+
+types
+
+public static ThreadDef ::
+  p : nat1
+  isP : bool
+  j : nat
+  d : nat
+  o : nat;
+	
+instance variables
+
+protected period : nat1 := 1000E6;
+protected isPeriodic : bool := true;
+protected jitter : nat := 0;
+protected delay : nat := 0;
+protected offset : nat := 0;
+
+protected registeredSelf : BaseRTThread;
+protected timeStamp : RTTimeStamp := RTTimeStamp`GetInstance();
+
+operations
+
+protected BaseRTThread : BaseRTThread ==> BaseRTThread
+BaseRTThread(t) ==
+ (registeredSelf := t;
+  timeStamp.RegisterThread(registeredSelf);
+  if(not timeStamp.IsInitialising())
+  then start(registeredSelf);   
+ );
+
+protected Step : () ==> ()
+Step() ==
+  is subclass responsibility;
+
+thread
+
+periodic(period, jitter, delay, offset)(Step);
+
+end BaseRTThread
+~~~
+{% endraw %}
+
+### CMTest.vdmrt
+
+{% raw %}
+~~~
+              
+class CMTest
+operations
+  public Execute: () ==> ()
+  Execute () ==
+    (dcl ts : TestSuite := new TestSuite();
+     ts.AddTest(new CMTestCase2("Busy"));
+     ts.Run())
+
+end CMTest
+                                                                            
+~~~
+{% endraw %}
+
+### world.vdmrt
+
+{% raw %}
+~~~
+              
+class World
+
+instance variables
+
+-- maintain a link to the environment
+public static timerRef : RTTimeStamp := RTTimeStamp`GetInstance();
+public static env : [Environment] := nil;
+
+operations
+
+public World: () ==> World
+World () ==
+  (-- set-up the sensors
+   env := new Environment("scenario.txt", mk_BaseRTThread`ThreadDef(1000E6,true,10,900,0));
+   env.addSensor(CM`sensor0);
+   env.addSensor(CM`sensor1);
+   env.addSensor(CM`sensor2);
+   env.addSensor(CM`sensor3);
+
+   -- add the first controller with four dispensers
+   CM`controller0.addDispenser(CM`dispenser0);
+   CM`controller0.addDispenser(CM`dispenser1);
+   CM`controller0.addDispenser(CM`dispenser2);
+   CM`controller0.addDispenser(CM`dispenser3);
+   CM`detector.addController(CM`controller0);
+
+   -- add the second controller with four dispensers
+   CM`controller1.addDispenser(CM`dispenser4);
+   CM`controller1.addDispenser(CM`dispenser5);
+   CM`controller1.addDispenser(CM`dispenser6);
+   CM`controller1.addDispenser(CM`dispenser7);
+   CM`detector.addController(CM`controller1);
+ 
+   -- add the third controller with four dispensers
+   CM`controller2.addDispenser(CM`dispenser8);
+   CM`controller2.addDispenser(CM`dispenser9);
+   CM`controller2.addDispenser(CM`dispenser10);
+   CM`controller2.addDispenser(CM`dispenser11);
+   CM`detector.addController(CM`controller2);
+   );
+
+-- the run function blocks the user-interface thread
+-- until all missiles in the file have been processed
+public Run: () ==> ()
+Run () == 
+  (-- start the environment 
+   timerRef.DoneInitialising();
+   -- wait for the environment to handle all input
+   env.isFinished();
+   -- wait for the missile detector to finish
+   CM`detector.isFinished();
+   -- print the result
+   env.showResult())
+
+end World
+                                                                       
+~~~
+{% endraw %}
+
+### missiledetector.vdmrt
+
+{% raw %}
+~~~
+              
+class MissileDetector is subclass of GLOBAL, BaseRTThread
+
+-- the primary task of the MissileDetector is to
+-- collect all sensor data and dispatch each event
+-- to the appropriate FlareController
+
+instance variables
+
+-- maintain a link to each controller
+ranges : map nat to (Angle * Angle) := {|->};
+controllers : map nat to FlareController := {|->};
+inv dom ranges = dom controllers;
+
+-- collects the observations from all attached sensors
+threats : seq of (EventId * MissileType * Angle * Time) := [];
+
+-- status of the missile detector
+busy : bool := false
+
+operations
+
+public MissileDetector: [ThreadDef] ==> MissileDetector
+MissileDetector(tDef)==
+ (if tDef <> nil
+  then (period := tDef.p;
+        jitter := tDef.j;
+        delay := tDef.d;
+        offset := tDef.o;
+       ); 
+  BaseRTThread(self);
+ );
+
+-- addController is only used to instantiate the model
+public addController: FlareController ==> ()
+addController (pctrl) ==
+  (dcl nid : nat := card dom ranges + 1;
+   atomic 
+    (ranges := ranges munion {nid |-> pctrl.getAperture()};
+     controllers := controllers munion {nid |-> pctrl}
+    );
+   );
+
+-- addThreat is a helper operation to modify the event
+-- list. currently events are stored first come first served.
+-- one could imagine using a different ordering instead.
+async public addThreat: EventId * MissileType * Angle * Time ==> ()
+addThreat (evid,pmt,pa,pt) == 
+  (threats := threats ^ [mk_ (evid,pmt,pa,pt)];
+   busy := true );
+
+-- getThreat is a local helper operation to modify the event list
+private getThreat: () ==> EventId * MissileType * Angle * Time
+getThreat () ==
+  (dcl res : EventId * MissileType * Angle * Time := hd threats;
+   threats := tl threats;
+   return res );
+
+public isFinished: () ==> ()
+isFinished () ==
+  for all id in set dom controllers do
+    controllers(id).isFinished();
+
+protected Step: () ==> ()
+Step() ==
+ (if threats <> []
+  then (def mk_ (evid,pmt, pa, pt) = getThreat() in
+          for all id in set dom ranges do
+            def mk_(papplhs, pappsize) = ranges(id) in
+              if canObserve(pa, papplhs, pappsize)
+              then controllers(id).addThreat(evid,pmt,pa,pt);
+        busy := len threats > 0);
+ );
+
+  public getAperture: () ==> Angle * Angle
+  getAperture () == is not yet specified;
+
+sync
+
+-- addThreat and getThreat modify the same instance variables
+-- therefore they need to be declared mutual exclusive
+mutex (addThreat,getThreat);
+
+-- getThreat is used as a 'blocking read' from the main
+-- thread of control of the missile detector
+per getThreat => len threats > 0;
+per isFinished => not busy
+
+end MissileDetector
+                                                                                                   
+~~~
+{% endraw %}
+
 ### flaredispenser.vdmrt
 
 {% raw %}
@@ -566,439 +891,114 @@ end FlareDispenser
 ~~~
 {% endraw %}
 
-### global.vdmrt
+### environment.vdmrt
 
 {% raw %}
 ~~~
               
-class GLOBAL
-
-values
-  public SENSOR_APERTURE = 90;
-  public FLARE_APERTURE = 120;
-  public DISPENSER_APERTURE = 30
+class Environment is subclass of GLOBAL, BaseRTThread
 
 types
-  -- there are three different types of missiles
-  public MissileType = <MissileA> | <MissileB> | <MissileC>;
 
-  -- there are nine different flare types, three per missile
-  public FlareType =
-    <FlareOneA> | <FlareTwoA> | <DoNothingA> | 
-    <FlareOneB> | <FlareTwoB> | <DoNothingB> | 
-    <FlareOneC> | <FlareTwoC> | <DoNothingC>;
-
-  -- the angle at which the missile is incoming
-  public Angle = nat
-  inv num == num < 360;
-
-public EventId = nat;
-
-public Time = nat
-
-operations
-  public canObserve: Angle * Angle * Angle ==> bool
-  canObserve (pangle, pleft, psize) ==
-    def pright = (pleft + psize) mod 360 in
-      if pright < pleft
-      -- check between [0,pright> and [pleft,360>
-      then return (pangle < pright or pangle >= pleft)
-      -- check between [pleft, pright>
-      else return (pangle >= pleft and pangle < pright);
-       
-  public getAperture: () ==> Angle * Angle
-  getAperture () == is subclass responsibility;
-
-end GLOBAL
-                                                                              
-~~~
-{% endraw %}
-
-### missiledetector.vdmrt
-
-{% raw %}
-~~~
-              
-class MissileDetector is subclass of GLOBAL, BaseRTThread
-
--- the primary task of the MissileDetector is to
--- collect all sensor data and dispatch each event
--- to the appropriate FlareController
+public inline  = EventId * MissileType * Angle * Time;
+public outline = EventId * FlareType * Angle * nat * Time
 
 instance variables
 
--- maintain a link to each controller
+-- access to the VDMTools stdio
+io : IO := new IO();
+
+-- the input file to process
+inlines : seq of inline := [];
+
+-- the output file to print
+outlines : seq of outline := [];
+
+-- maintain a link to all sensors
 ranges : map nat to (Angle * Angle) := {|->};
-controllers : map nat to FlareController := {|->};
-inv dom ranges = dom controllers;
+sensors : map nat to Sensor := {|->};
+inv dom ranges = dom sensors;
 
--- collects the observations from all attached sensors
-threats : seq of (EventId * MissileType * Angle * Time) := [];
-
--- status of the missile detector
-busy : bool := false
+busy : bool := true;
 
 operations
 
-public MissileDetector: [ThreadDef] ==> MissileDetector
-MissileDetector(tDef)==
- (if tDef <> nil
+ public getAperture: () ==> Angle * Angle
+  getAperture () == is not yet specified;
+
+public Environment: seq of char * [ThreadDef] ==> Environment
+Environment (fname, tDef) ==
+ (def mk_ (-,input) = io.freadval[seq of inline](fname) in
+    inlines := input;
+   
+  if tDef <> nil
   then (period := tDef.p;
         jitter := tDef.j;
         delay := tDef.d;
         offset := tDef.o;
        ); 
-  BaseRTThread(self);
+   BaseRTThread(self);
  );
 
--- addController is only used to instantiate the model
-public addController: FlareController ==> ()
-addController (pctrl) ==
-  (dcl nid : nat := card dom ranges + 1;
-   atomic 
-    (ranges := ranges munion {nid |-> pctrl.getAperture()};
-     controllers := controllers munion {nid |-> pctrl}
-    );
-   );
+public addSensor: Sensor ==> ()
+addSensor (psens) ==
+  duration (0)
+  (dcl id : nat := card dom ranges + 1;
+   atomic (
+    ranges := ranges munion {id |-> psens.getAperture()};
+    sensors := sensors munion {id |-> psens} 
+   )
+  );
 
--- addThreat is a helper operation to modify the event
--- list. currently events are stored first come first served.
--- one could imagine using a different ordering instead.
-async public addThreat: EventId * MissileType * Angle * Time ==> ()
-addThreat (evid,pmt,pa,pt) == 
-  (threats := threats ^ [mk_ (evid,pmt,pa,pt)];
-   busy := true );
+private createSignal: () ==> ()
+createSignal () ==
+  duration (0) 
+  (if len inlines > 0
+   then (dcl curtime : Time := time, done : bool := false;
+         while not done do
+           def mk_ (eventid, pmt, pa, pt) = hd inlines in
+             if pt <= curtime
+             then (for all id in set dom ranges do
+                     def mk_(papplhs,pappsize) = ranges(id) in
+                       if canObserve(pa,papplhs,pappsize)
+                       then sensors(id).trip(eventid,pmt,pa);
+                   inlines := tl inlines;
+                   done := len inlines = 0)
+             else done := true)
+   else busy := false);
 
--- getThreat is a local helper operation to modify the event list
-private getThreat: () ==> EventId * MissileType * Angle * Time
-getThreat () ==
-  (dcl res : EventId * MissileType * Angle * Time := hd threats;
-   threats := tl threats;
-   return res );
+public handleEvent: EventId * FlareType * Angle * Time * Time ==> ()
+handleEvent (evid,pfltp,angle,pt1,pt2) ==
+  duration (0) 
+  (outlines := outlines ^ [mk_ (evid,pfltp,angle,pt1,pt2)] );
 
-public isFinished: () ==> ()
-isFinished () ==
-  for all id in set dom controllers do
-    controllers(id).isFinished();
+public showResult: () ==> ()
+showResult () ==
+  def - = io.writeval[seq of outline](outlines) in skip;
 
-protected Step: () ==> ()
+public isFinished : () ==> ()
+isFinished () == skip;
+
+public GetAndPurgeOutlines: () ==> seq of outline
+GetAndPurgeOutlines() ==
+  let res = outlines
+  in
+    (outlines := [];
+     return res);
+
+public Step : () ==> ()
 Step() ==
- (if threats <> []
-  then (def mk_ (evid,pmt, pa, pt) = getThreat() in
-          for all id in set dom ranges do
-            def mk_(papplhs, pappsize) = ranges(id) in
-              if canObserve(pa, papplhs, pappsize)
-              then controllers(id).addThreat(evid,pmt,pa,pt);
-        busy := len threats > 0);
+ (createSignal();
  );
-
-  public getAperture: () ==> Angle * Angle
-  getAperture () == is not yet specified;
 
 sync
 
--- addThreat and getThreat modify the same instance variables
--- therefore they need to be declared mutual exclusive
-mutex (addThreat,getThreat);
+mutex (handleEvent);
+mutex (createSignal);
+per isFinished => not busy;
 
--- getThreat is used as a 'blocking read' from the main
--- thread of control of the missile detector
-per getThreat => len threats > 0;
-per isFinished => not busy
-
-end MissileDetector
-                                                                                                   
-~~~
-{% endraw %}
-
-### RTTimeStamp.vdmrt
-
-{% raw %}
-~~~
-class RTTimeStamp
-
-instance variables
-
-registeredThreads : set of BaseRTThread := {};
-isInitialising : bool := true;
--- singleton instance of class
-private static rtTimeStamp : RTTimeStamp := new RTTimeStamp();
-
-operations
-
--- private constructor (singleton pattern)
-private RTTimeStamp : () ==> RTTimeStamp
-RTTimeStamp() ==
-  skip;
-
--- public operation to get the singleton instance
-public static GetInstance: () ==> RTTimeStamp
-GetInstance() ==
-  return rtTimeStamp;
-
-public RegisterThread : BaseRTThread ==> ()
-RegisterThread(t) ==
- (registeredThreads := registeredThreads union {t};  
- );
- 
-public UnRegisterThread : BaseRTThread ==> ()
-UnRegisterThread(t) ==
- (registeredThreads := registeredThreads \ {t};
- );
- 
-public IsInitialising: () ==> bool
-IsInitialising() ==
-  return isInitialising;
- 
-public DoneInitialising: () ==> ()
-DoneInitialising() ==
- (if isInitialising
-  then (isInitialising := false;
-        for all t in set registeredThreads 
-        do
-          start(t);
-       );
- );
- 
-sync 
-
-mutex (RegisterThread);
-mutex (UnRegisterThread);
-mutex (RegisterThread, UnRegisterThread);
-mutex (IsInitialising);
-mutex (DoneInitialising);
-
-end RTTimeStamp
-~~~
-{% endraw %}
-
-### sensor.vdmrt
-
-{% raw %}
-~~~
-              
-class Sensor is subclass of GLOBAL
-
-instance variables
-
--- the missile detector this sensor is connected to
-private detector : MissileDetector;
-
--- the left hand-side of the viewing angle of the sensor
-private aperture : Angle;
-
-operations
-
-public Sensor: MissileDetector * Angle ==> Sensor
-Sensor (pmd, psa) == ( detector := pmd; aperture := psa);
-
--- get the left hand-side start point and opening angle
-public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
-getAperture () == return mk_ (aperture, SENSOR_APERTURE);
-
--- trip is called asynchronously from the environment to
--- signal an event. the sensor triggers if the event is
--- in the field of view. the event is stored in the
--- missile detector for further processing
-async public trip: EventId * MissileType * Angle ==> ()
-trip (evid, pmt, pa) ==
-  -- log and time stamp the observed threat
-  detector.addThreat(evid,pmt,pa,time)
-pre canObserve(pa, aperture, SENSOR_APERTURE)
-
-end Sensor
-                                                                           
-~~~
-{% endraw %}
-
-### Test.vdmrt
-
-{% raw %}
-~~~
-               
-class Test
-
-operations
-  public Run: TestResult ==> ()
-  Run (-) == is subclass responsibility
-
-end Test
-             
-~~~
-{% endraw %}
-
-### TestCase.vdmrt
-
-{% raw %}
-~~~
-               
-class TestCase
-  is subclass of Test
-
-instance variables
-  protected name : seq of char
-
-operations
-  public TestCase: seq of char ==> TestCase
-  TestCase(nm) == name := nm;
-
-  public GetName: () ==> seq of char
-  GetName () == return name;
-                           
-  protected AssertTrue: bool ==> ()
-  AssertTrue (pb) == if not pb then exit <FAILURE>;
-
-  protected AssertFalse: bool ==> ()
-  AssertFalse (pb) == if pb then exit <FAILURE>;
-                            
-  public Run: TestResult ==> ()
-  Run (ptr) ==
-    trap <FAILURE>
-      with 
-        ptr.AddFailure(self)
-      in
-        (SetUp();
-	 RunTest();
-	 TearDown());
-                            
-  protected SetUp: () ==> ()
-  SetUp () == is subclass responsibility;
-
-  protected RunTest: () ==> ()
-  RunTest () == is subclass responsibility;
-
-  protected TearDown: () ==> ()
-  TearDown () == is subclass responsibility
-
-end TestCase
-             
-~~~
-{% endraw %}
-
-### TestResult.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-class TestResult
-
-instance variables
-  failures : seq of TestCase := []
-  
-operations
-  public AddFailure: TestCase ==> ()
-  AddFailure (ptst) == failures := failures ^ [ptst];
-
-  public Print: seq of char ==> ()
-  Print (pstr) ==
-    def - = new IO().echo(pstr ^ "\n") in skip;
-    
-  public Show: () ==> ()
-  Show () ==
-    if failures = [] then
-      Print ("No failures detected")
-    else
-      for failure in failures do
-        Print (failure.GetName() ^ " failed")
-  
-end TestResult
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-~~~
-{% endraw %}
-
-### TestSuite.vdmrt
-
-{% raw %}
-~~~
-              
-class TestSuite
-  is subclass of Test
-
-instance variables
-  tests : seq of Test := [];
-                           
-operations
-  public Run: () ==> ()
-  Run () ==
-    (dcl ntr : TestResult := new TestResult();
-     Run(ntr);
-     ntr.Show());
-                           
-  public Run: TestResult ==> ()
-  Run (result) ==
-    for test in tests do
-      test.Run(result);
-
-  public AddTest: Test ==> ()
-  AddTest(test) ==
-    tests := tests ^ [test];
-
-end TestSuite
-             
-~~~
-{% endraw %}
-
-### world.vdmrt
-
-{% raw %}
-~~~
-              
-class World
-
-instance variables
-
--- maintain a link to the environment
-public static timerRef : RTTimeStamp := RTTimeStamp`GetInstance();
-public static env : [Environment] := nil;
-
-operations
-
-public World: () ==> World
-World () ==
-  (-- set-up the sensors
-   env := new Environment("scenario.txt", mk_BaseRTThread`ThreadDef(1000E6,true,10,900,0));
-   env.addSensor(CM`sensor0);
-   env.addSensor(CM`sensor1);
-   env.addSensor(CM`sensor2);
-   env.addSensor(CM`sensor3);
-
-   -- add the first controller with four dispensers
-   CM`controller0.addDispenser(CM`dispenser0);
-   CM`controller0.addDispenser(CM`dispenser1);
-   CM`controller0.addDispenser(CM`dispenser2);
-   CM`controller0.addDispenser(CM`dispenser3);
-   CM`detector.addController(CM`controller0);
-
-   -- add the second controller with four dispensers
-   CM`controller1.addDispenser(CM`dispenser4);
-   CM`controller1.addDispenser(CM`dispenser5);
-   CM`controller1.addDispenser(CM`dispenser6);
-   CM`controller1.addDispenser(CM`dispenser7);
-   CM`detector.addController(CM`controller1);
- 
-   -- add the third controller with four dispensers
-   CM`controller2.addDispenser(CM`dispenser8);
-   CM`controller2.addDispenser(CM`dispenser9);
-   CM`controller2.addDispenser(CM`dispenser10);
-   CM`controller2.addDispenser(CM`dispenser11);
-   CM`detector.addController(CM`controller2);
-   );
-
--- the run function blocks the user-interface thread
--- until all missiles in the file have been processed
-public Run: () ==> ()
-Run () == 
-  (-- start the environment 
-   timerRef.DoneInitialising();
-   -- wait for the environment to handle all input
-   env.isFinished();
-   -- wait for the missile detector to finish
-   CM`detector.isFinished();
-   -- print the result
-   env.showResult())
-
-end World
-                                                                       
+end Environment
+                                                                                                 
 ~~~
 {% endraw %}
 

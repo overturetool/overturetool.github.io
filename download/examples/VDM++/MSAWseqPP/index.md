@@ -27,6 +27,511 @@ display.
 |Entry point     :| new World().Run()|
 
 
+### MSAW.vdmpp
+
+{% raw %}
+~~~
+class MSAW is subclass of GLOBAL
+
+instance variables 
+
+public static atc : AirTrafficController := new AirTrafficController();
+  
+
+public static radar1 : Radar := new Radar(6,11,20);
+  
+
+public static radar2 : Radar := new Radar (30,30,5);  
+
+public static airspace : AirSpace := new AirSpace();
+
+public static militaryZone : Obstacle := 
+  new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
+
+
+end MSAW
+~~~
+{% endraw %}
+
+### obstacle.vdmpp
+
+{% raw %}
+~~~
+class Obstacle is subclass of GLOBAL
+
+instance variables
+ 
+  MSA            : MinimumSafetyAltitude ;
+  location       : Coordinates;
+  radius         : nat1;
+  securityRadius : nat;
+  type           : ObstacleType;
+  
+operations 
+ 
+public Obstacle : MinimumSafetyAltitude * Coordinates * nat * nat * 
+                  ObstacleType ==> Obstacle
+Obstacle(msa,loc,ra,secRa,tp) ==
+ (MSA := msa;
+  location := loc;
+  radius := ra;
+  securityRadius := secRa;
+  type := tp;
+ ); 
+
+public getType : () ==> ObstacleType 
+getType() == 
+  return type;
+ 
+public getCoordinates : () ==> Coordinates
+getCoordinates() ==
+  return location;
+
+public getSecureRange : () ==> nat1
+getSecureRange() ==
+  return radius + securityRadius;
+  
+public getMSA : () ==> MinimumSafetyAltitude
+getMSA() == 
+  return MSA;
+ 
+
+
+end Obstacle 
+~~~
+{% endraw %}
+
+### environment.vdmpp
+
+{% raw %}
+~~~
+class Environment is subclass of GLOBAL
+
+types 
+
+inline  = FOId * int * int * Altitude * Time;
+  
+protected FOOut = FOId * Coordinates * Altitude * FOWarning * 
+        MinimumSafetyAltitude * Time;
+protected RadarOut = Coordinates * nat1 * RadarWarning * nat *  Time;
+  
+  
+protected outline = FOOut | RadarOut; 
+
+instance variables 
+
+  io : IO := new IO();
+  inlines  : seq of inline  := [];
+  outlines : seq of outline := [];
+
+  airspace : [AirSpace] := nil;
+  busy : bool := true;
+  
+operations
+  
+public Environment : String ==> Environment
+Environment(fname) == 
+  def mk_(-,input) = io.freadval[seq of inline](fname) 
+  in
+    inlines := input;
+    
+      
+public setAirSpace : AirSpace ==> ()
+setAirSpace(as) ==
+  airspace := as;
+      
+public handleFOWarningEvent : FOId * Coordinates * Altitude * FOWarning * 
+                              MinimumSafetyAltitude * Time ==> ()
+handleFOWarningEvent(id,coord,alt,warn,msa,time) ==
+  outlines := outlines ^ [mk_(id,coord,alt,warn,msa,time)];
+ 
+public handleRadarWarningEvent : Coordinates * nat1 * 
+                                 RadarWarning * nat *  Time ==> ()
+handleRadarWarningEvent(coord,range,radWarn,num,pt) ==
+  outlines := outlines ^ [mk_(coord,range,radWarn,num,pt)];
+ 
+
+public showResult : () ==> ()
+showResult() ==
+  def - = io.writeval[seq of outline](outlines) in skip;
+ 
+
+
+public Run : () ==> ()
+Run() ==
+ (while not isFinished()
+  do 
+   (updateFOs();
+    MSAW`atc.Step();
+    World`timerRef.StepTime();
+   );  
+  showResult()
+ );
+  
+private updateFOs : () ==> ()
+updateFOs() ==
+ (if len inlines > 0 
+  then (dcl curtime : Time := World`timerRef.GetTime(),
+        done : bool := false;
+        while not done do
+          def mk_(id,x,y, altitude,pt) = hd inlines
+          in 
+            if pt <= curtime 
+            then (airspace.updateFO(id,mk_Coordinates(x,y),altitude);
+                  inlines := tl inlines; 
+                  done := len inlines = 0 )
+            else done := true
+       )
+  else busy := false
+ );
+     
+
+public isFinished : () ==> bool 
+isFinished() == 
+  return inlines = [];
+
+end Environment
+~~~
+{% endraw %}
+
+### FO.vdmpp
+
+{% raw %}
+~~~
+class FO is subclass of GLOBAL
+
+instance variables 
+  id    : FOId;
+  coord : Coordinates;
+  alt   : Altitude;  
+  
+ 
+operations
+
+public FO : FOId * Coordinates * Altitude ==> FO
+FO(i,c,a) == 
+ (id := i;
+  coord := c;
+  alt := a;
+ );
+    
+public getId : () ==> FOId
+getId() ==
+  return id;
+
+public getCoordinates : () ==> Coordinates
+getCoordinates() == 
+  return coord;
+
+public setCoordinates : Coordinates ==> ()
+setCoordinates(c) ==
+  coord := c;
+  
+public getAltitude : () ==> Altitude
+getAltitude() ==
+  return alt;
+    
+public setAltitude : Altitude ==> ()
+setAltitude(a) ==
+  alt := a;
+ 
+public getPosition : () ==> Position
+getPosition() == 
+  return mk_Position(coord,alt); 
+  
+
+end FO
+~~~
+{% endraw %}
+
+### UseATC.vdmpp
+
+{% raw %}
+~~~
+class UseATC
+
+values
+
+  id : token = mk_token(1);
+  fo : FO = new FO(id,mk_GLOBAL`Coordinates(1,-1),50);
+  c1: GLOBAL`Coordinates = mk_GLOBAL`Coordinates(2,-2);
+  c2: GLOBAL`Coordinates = mk_GLOBAL`Coordinates(3,-3);
+  
+instance variables
+
+  atc: AirTrafficController := new AirTrafficController()
+
+traces
+ 
+TestATC: let r = new Radar(-8,-9,42)
+         in
+         let c in set {c1,c2}
+         in
+          ((atc.updateHistory() |
+            atc.cleanUpHistory() |
+            atc.addRadar(r) |
+            atc.findThreats() |
+            fo.setCoordinates(c)){2,4};
+           atc.getDirectionVectors(id))
+
+end UseATC
+~~~
+{% endraw %}
+
+### GLOBAL.vdmpp
+
+{% raw %}
+~~~
+class GLOBAL
+
+types
+
+public Altitude = real
+inv a == a >= 0;
+
+public FOId = token;
+public RadarId = token;
+
+public
+Coordinates :: 
+  X : real
+  Y : real;
+
+public Time = nat;
+
+public String = seq of char;
+
+public ObstacleType = <Natural> | <Artificial> | <Airport>  | <Military_Area>;
+  
+public FOWarning = ObstacleType | <EstimationWarning>;   
+
+public RadarWarning = <Saturated>;
+
+public MinimumSafetyAltitude = nat | <NotAllowed>;
+
+public Position ::
+  coord    : Coordinates
+  altitude : Altitude; 
+
+public History = seq of Position;
+
+public Vector ::
+  X : real
+  Y : real;
+
+functions
+
+protected isPointInRange : Coordinates * nat1 * Coordinates -> bool
+isPointInRange(center,range,point) ==
+  (center.X - point.X)**2 + (center.Y - point.Y)**2 <= range**2;
+  
+protected vectorSum : Vector * Vector -> Vector
+vectorSum(v1,v2) ==
+  mk_Vector(v1.X + v2.X,v1.Y + v2.Y);
+  
+protected vectorDiv : Vector * int -> Vector 
+vectorDiv(v,n) ==
+  mk_Vector(v.X/n,v.Y/n)
+pre n <> 0;
+
+protected addVectorToPoint : Vector * Position -> Coordinates
+addVectorToPoint(v,p) ==
+  mk_Coordinates(p.coord.X + v.X, p.coord.Y + v.Y);
+
+protected vectorLength : Vector -> real 
+vectorLength(v) ==
+  MATH`sqrt(v.X**2 + v.Y**2);
+
+protected unitVector : Vector -> Vector
+unitVector(v) ==
+  let l = vectorLength(v)
+  in 
+    mk_Vector(v.X/l,v.Y/l); 
+
+protected dotProduct : Vector * Vector -> real
+dotProduct(v1,v2) ==
+  v1.X * v2.X + v1.Y * v2.Y;
+  
+protected angleBetweenVectors : Vector * Vector -> real
+angleBetweenVectors(v1,v2) ==
+  let uv1 = unitVector(v1),
+      uv2 = unitVector(v2),
+      dvs = dotProduct(uv1,uv2),
+      angle = MATH`acos(dvs)  
+  in
+    radians2degree(angle);
+
+protected radians2degree : real -> real
+radians2degree(r) ==
+  r * (180/MATH`pi);
+
+protected atan2 : real * real -> real
+atan2(y,x) == 
+  2 * MATH`atan(y/(MATH`sqrt(x**2+y**2)+x))
+pre not (x = 0 and y = 0);
+
+protected signedVectorAngle : Vector * Vector -> real
+signedVectorAngle(v1,v2) ==
+  atan2(v2.Y,v2.X) - atan2(v1.Y,v1.X);
+
+protected vectorAngle : Vector -> real * real
+vectorAngle(v) ==
+   mk_( radians2degree (MATH`acos(v.X / MATH`sqrt(v.X**2 + v.Y**2))), 
+        radians2degree( MATH`asin(v.Y / MATH`sqrt(v.X**2 + v.Y**2))));
+
+protected vectorRotate : Vector * real -> Vector
+vectorRotate(v,a) ==
+  let x' = MATH`cos(a)*v.X - MATH`sin(a)*v.Y,
+      y' = MATH`cos(a)*v.Y + MATH`sin(a)*v.X
+  in
+    mk_Vector(round(x'),round(y'));
+
+protected round : real -> real
+round(r) == 
+  let fr  = floor(r),
+      dif = abs(r - fr)
+  in 
+    if(dif < 10**-10)
+    then fr
+    else r;
+
+operations
+
+public test : real * real * real * real ==> Vector * Vector * 
+              real * real * Vector * real * real
+test(x1,y1,x2,y2) == 
+  let v1 = mk_Vector(x1,y1),
+      v2 = mk_Vector(x2,y2)
+  in 
+    return mk_(unitVector(v1),
+               unitVector(v2),
+               dotProduct(unitVector(v1),unitVector(v2)),
+               atan2(0.000001,0.0000000),
+               vectorRotate(v2,signedVectorAngle(v1,v2)),
+               radians2degree(signedVectorAngle(v1,v2)),
+               angleBetweenVectors(v1,v2)
+              );
+
+end GLOBAL
+
+~~~
+{% endraw %}
+
+### world.vdmpp
+
+{% raw %}
+~~~
+class World
+  
+instance variables  
+  
+public static
+  env : [Environment] := nil;
+
+public static 
+  timerRef : Timer := new Timer();    
+
+  
+   
+operations
+
+public 
+  World : () ==> World
+  World() ==
+    ( env := new Environment("scenario.txt");
+      env.setAirSpace(MSAW`airspace);
+      MSAW`atc.addRadar(MSAW`radar1);
+      MSAW`atc.addRadar(MSAW`radar2);
+      MSAW`atc.addObstacle(MSAW`militaryZone);
+    );
+  
+public 
+  Run : () ==> ()
+  Run() ==
+    env.Run();
+
+end World
+~~~
+{% endraw %}
+
+### dk_au_eng_Radar.vdmpp
+
+{% raw %}
+~~~
+class dk_au_eng_Radar
+--
+-- External Java implementation of radar screen
+--
+--
+	operations
+
+        
+		-- Add a FO to the radar to track
+		public AddFlyingObject: int * int * int * seq of char ==> ()
+		AddFlyingObject(longtitude, latitude, altitude, transpondercode) == is not yet specified;
+
+		-- Remove a FO from the radar
+		public RemFlyingObject: seq of char ==> ()
+		RemFlyingObject(transpondercode) == is not yet specified;
+
+		-- Make the scan line progress one step
+		public StepRadar: () ==> ()
+		StepRadar() == is not yet specified;
+
+        -- Update the position of a flying object given its transponder code 
+        public UpdateFlyingObject: seq of char * int * int ==> ()
+        UpdateFlyingObject(transponder,long,lat) == is not yet specified;
+
+        -- Set the step size, that is the angle by which the scan line is progressed when
+        -- stepping
+        public SetStepSize: int ==> ()
+        SetStepSize(size) == is not yet specified;
+
+        -- Set the width of the scan cone
+        public SetScanWidth: int ==> ()
+        SetScanWidth(width) == is not yet specified;
+
+        -- Set the time a scan takes
+        public SetScanTime: int ==> ()
+        SetScanTime(time) == is not yet specified;
+
+        -- Set the position of the Radar window (a nice model with two radars would want to 
+        -- position the radars next to each other).
+        public SetWindowPosition: int * int ==> ()
+        SetWindowPosition(x,y) == is not yet specified;
+
+        -- Set the title of the Radar Window
+        public SetTitle: seq of char ==> ()
+        SetTitle(title) == is not yet specified;
+
+        -- Force the Scan Angle to be angle
+        public SetScanAngle: int ==> ()
+        SetScanAngle(angle) == is not yet specified;
+
+		-- Run operation that makes 400 steps with two planes one of which is moving across.
+		public static TestRadar: () ==> int
+		TestRadar() == (
+            let
+                rad1:dk_au_eng_Radar = new dk_au_eng_Radar(),
+                rad2:dk_au_eng_Radar = new dk_au_eng_Radar()
+            in (
+                rad2.SetWindowPosition(300,300);
+                rad1.SetScanWidth(60);
+                rad1.SetScanTime(80);
+                rad1.AddFlyingObject(120, 120, 0, "LAN256");
+                rad1.AddFlyingObject(0, 80, 0, "BA512");
+                rad1.SetStepSize(6);
+                for all x in set { -200,...,200 } do
+                    (rad2.StepRadar();rad1.UpdateFlyingObject("BA512",x,80);rad1.SetWindowPosition(x+250, 100);rad1.StepRadar());
+                
+            return 0);
+        );
+
+
+end dk_au_eng_Radar
+~~~
+{% endraw %}
+
 ### AirSpace.vdmpp
 
 {% raw %}
@@ -78,6 +583,137 @@ updateFO(id,coord,alt) ==
 
 
 end AirSpace
+~~~
+{% endraw %}
+
+### Radar.vdmpp
+
+{% raw %}
+~~~
+class Radar is subclass of GLOBAL
+
+types 
+    
+ 
+instance variables
+
+  location : Coordinates;
+  range : nat1;
+  detected : map FOId to FO;
+  priority : seq of FO := [];
+  radarDisplay: dk_au_eng_Radar;
+  static rc:int := 0;   
+  
+operations
+
+public Radar : int * int * nat1 ==> Radar
+Radar(x,y,r) ==
+ (location := mk_Coordinates(x,y);
+  range := r;
+  detected := {|->};
+  radarDisplay := new dk_au_eng_Radar();
+  setupRadar(radarDisplay);
+ );
+
+public Scan : AirSpace ==> ()
+Scan(as) ==
+ (detected := { x.getId() |-> x | x in set as.getAirspace() & InRange(x) };
+  UpdatePriorityList();
+  DisplayScan();
+ );
+    
+private InRange : FO ==> bool
+InRange(fo) ==
+  let foLocation = fo.getCoordinates()
+  in 
+    return isPointInRange(location,range,foLocation); 
+   
+public getDetected : () ==> set of FO
+getDetected() == 
+  return rng detected;
+
+public getDetectedMap : () ==> map FOId to FO
+getDetectedMap() ==
+  return detected;
+
+public saturatedRadar : () ==> bool
+saturatedRadar() == 
+  return card dom detected > range / 4;
+  
+public getSaturatingFOs : () ==> set of FOId
+getSaturatingFOs() ==
+  return {priority(i).getId() | i in set inds priority & i > floor(range/4)};
+
+public getLocation : () ==> Coordinates
+getLocation() == 
+  return location;
+
+public getRange : () ==> nat1
+getRange() ==
+  return range;
+  
+private UpdatePriorityList : () ==> ()
+UpdatePriorityList() == 
+  let notDetect = elems priority \ rng detected,
+      newlyDet  = rng detected \ elems priority
+  in 
+    ( 
+      for all fobj in set notDetect do
+        let
+            id: seq of char = VDMUtil`val2seq_of_char[FOId](fobj.getId())
+        in
+            radarDisplay.RemFlyingObject(id);
+      for all fobj in set newlyDet do
+        let
+            mk_Coordinates(X,Y) = fobj.getCoordinates(),
+            token2seq_of_char = VDMUtil`val2seq_of_char[token]
+         in 
+            radarDisplay.AddFlyingObject(X,Y,0,token2seq_of_char(fobj.getId()));
+      removeNotDetected(notDetect);
+      addNewlyDetected(newlyDet);
+    );
+
+private removeNotDetected : set of FO ==> ()
+removeNotDetected(fos) == 
+  priority := [priority(i) | i in set inds priority 
+                           & priority(i) in set fos];    
+  
+private addNewlyDetected : set of FO ==> ()
+addNewlyDetected(newlyDetect) == 
+  priority := priority ^ set2seqFO(newlyDetect);    
+
+private setupRadar: dk_au_eng_Radar ==> ()
+setupRadar(r) == (r.SetWindowPosition(450*rc+50,100);
+                  r.SetStepSize(5);
+                  r.SetScanTime(60);
+                  r.SetScanWidth(350);
+                  let
+                    int2seq_of_char = VDMUtil`val2seq_of_char[int],
+                    mk_Coordinates(x,y) = location
+                  in
+                    r.SetTitle("MSAW Radar: (" ^ int2seq_of_char(x) ^ "," ^ int2seq_of_char(y) ^ ")");
+                  rc:=rc+1;);
+
+private DisplayScan: () ==> ()
+DisplayScan() == for all x in set {1,...,360/5} do radarDisplay.StepRadar();
+
+functions
+set2seqFO : set of FO -> seq of FO
+set2seqFO(fos) ==
+  if fos = {}
+  then []
+  else 
+    let fo in set fos
+    in
+      [fo] ^ set2seqFO(fos\{fo})
+measure set2seqFOm;  
+
+      
+set2seqFOm : set of FO -> nat
+set2seqFOm(fos) == card fos;
+
+
+end Radar
 ~~~
 {% endraw %}
 
@@ -308,571 +944,6 @@ end AirTrafficController
 ~~~
 {% endraw %}
 
-### dk_au_eng_Radar.vdmpp
-
-{% raw %}
-~~~
-class dk_au_eng_Radar
---
--- External Java implementation of radar screen
---
---
-	operations
-
-        
-		-- Add a FO to the radar to track
-		public AddFlyingObject: int * int * int * seq of char ==> ()
-		AddFlyingObject(longtitude, latitude, altitude, transpondercode) == is not yet specified;
-
-		-- Remove a FO from the radar
-		public RemFlyingObject: seq of char ==> ()
-		RemFlyingObject(transpondercode) == is not yet specified;
-
-		-- Make the scan line progress one step
-		public StepRadar: () ==> ()
-		StepRadar() == is not yet specified;
-
-        -- Update the position of a flying object given its transponder code 
-        public UpdateFlyingObject: seq of char * int * int ==> ()
-        UpdateFlyingObject(transponder,long,lat) == is not yet specified;
-
-        -- Set the step size, that is the angle by which the scan line is progressed when
-        -- stepping
-        public SetStepSize: int ==> ()
-        SetStepSize(size) == is not yet specified;
-
-        -- Set the width of the scan cone
-        public SetScanWidth: int ==> ()
-        SetScanWidth(width) == is not yet specified;
-
-        -- Set the time a scan takes
-        public SetScanTime: int ==> ()
-        SetScanTime(time) == is not yet specified;
-
-        -- Set the position of the Radar window (a nice model with two radars would want to 
-        -- position the radars next to each other).
-        public SetWindowPosition: int * int ==> ()
-        SetWindowPosition(x,y) == is not yet specified;
-
-        -- Set the title of the Radar Window
-        public SetTitle: seq of char ==> ()
-        SetTitle(title) == is not yet specified;
-
-        -- Force the Scan Angle to be angle
-        public SetScanAngle: int ==> ()
-        SetScanAngle(angle) == is not yet specified;
-
-		-- Run operation that makes 400 steps with two planes one of which is moving across.
-		public static TestRadar: () ==> int
-		TestRadar() == (
-            let
-                rad1:dk_au_eng_Radar = new dk_au_eng_Radar(),
-                rad2:dk_au_eng_Radar = new dk_au_eng_Radar()
-            in (
-                rad2.SetWindowPosition(300,300);
-                rad1.SetScanWidth(60);
-                rad1.SetScanTime(80);
-                rad1.AddFlyingObject(120, 120, 0, "LAN256");
-                rad1.AddFlyingObject(0, 80, 0, "BA512");
-                rad1.SetStepSize(6);
-                for all x in set { -200,...,200 } do
-                    (rad2.StepRadar();rad1.UpdateFlyingObject("BA512",x,80);rad1.SetWindowPosition(x+250, 100);rad1.StepRadar());
-                
-            return 0);
-        );
-
-
-end dk_au_eng_Radar
-~~~
-{% endraw %}
-
-### environment.vdmpp
-
-{% raw %}
-~~~
-class Environment is subclass of GLOBAL
-
-types 
-
-inline  = FOId * int * int * Altitude * Time;
-  
-protected FOOut = FOId * Coordinates * Altitude * FOWarning * 
-        MinimumSafetyAltitude * Time;
-protected RadarOut = Coordinates * nat1 * RadarWarning * nat *  Time;
-  
-  
-protected outline = FOOut | RadarOut; 
-
-instance variables 
-
-  io : IO := new IO();
-  inlines  : seq of inline  := [];
-  outlines : seq of outline := [];
-
-  airspace : [AirSpace] := nil;
-  busy : bool := true;
-  
-operations
-  
-public Environment : String ==> Environment
-Environment(fname) == 
-  def mk_(-,input) = io.freadval[seq of inline](fname) 
-  in
-    inlines := input;
-    
-      
-public setAirSpace : AirSpace ==> ()
-setAirSpace(as) ==
-  airspace := as;
-      
-public handleFOWarningEvent : FOId * Coordinates * Altitude * FOWarning * 
-                              MinimumSafetyAltitude * Time ==> ()
-handleFOWarningEvent(id,coord,alt,warn,msa,time) ==
-  outlines := outlines ^ [mk_(id,coord,alt,warn,msa,time)];
- 
-public handleRadarWarningEvent : Coordinates * nat1 * 
-                                 RadarWarning * nat *  Time ==> ()
-handleRadarWarningEvent(coord,range,radWarn,num,pt) ==
-  outlines := outlines ^ [mk_(coord,range,radWarn,num,pt)];
- 
-
-public showResult : () ==> ()
-showResult() ==
-  def - = io.writeval[seq of outline](outlines) in skip;
- 
-
-
-public Run : () ==> ()
-Run() ==
- (while not isFinished()
-  do 
-   (updateFOs();
-    MSAW`atc.Step();
-    World`timerRef.StepTime();
-   );  
-  showResult()
- );
-  
-private updateFOs : () ==> ()
-updateFOs() ==
- (if len inlines > 0 
-  then (dcl curtime : Time := World`timerRef.GetTime(),
-        done : bool := false;
-        while not done do
-          def mk_(id,x,y, altitude,pt) = hd inlines
-          in 
-            if pt <= curtime 
-            then (airspace.updateFO(id,mk_Coordinates(x,y),altitude);
-                  inlines := tl inlines; 
-                  done := len inlines = 0 )
-            else done := true
-       )
-  else busy := false
- );
-     
-
-public isFinished : () ==> bool 
-isFinished() == 
-  return inlines = [];
-
-end Environment
-~~~
-{% endraw %}
-
-### FO.vdmpp
-
-{% raw %}
-~~~
-class FO is subclass of GLOBAL
-
-instance variables 
-  id    : FOId;
-  coord : Coordinates;
-  alt   : Altitude;  
-  
- 
-operations
-
-public FO : FOId * Coordinates * Altitude ==> FO
-FO(i,c,a) == 
- (id := i;
-  coord := c;
-  alt := a;
- );
-    
-public getId : () ==> FOId
-getId() ==
-  return id;
-
-public getCoordinates : () ==> Coordinates
-getCoordinates() == 
-  return coord;
-
-public setCoordinates : Coordinates ==> ()
-setCoordinates(c) ==
-  coord := c;
-  
-public getAltitude : () ==> Altitude
-getAltitude() ==
-  return alt;
-    
-public setAltitude : Altitude ==> ()
-setAltitude(a) ==
-  alt := a;
- 
-public getPosition : () ==> Position
-getPosition() == 
-  return mk_Position(coord,alt); 
-  
-
-end FO
-~~~
-{% endraw %}
-
-### GLOBAL.vdmpp
-
-{% raw %}
-~~~
-class GLOBAL
-
-types
-
-public Altitude = real
-inv a == a >= 0;
-
-public FOId = token;
-public RadarId = token;
-
-public
-Coordinates :: 
-  X : real
-  Y : real;
-
-public Time = nat;
-
-public String = seq of char;
-
-public ObstacleType = <Natural> | <Artificial> | <Airport>  | <Military_Area>;
-  
-public FOWarning = ObstacleType | <EstimationWarning>;   
-
-public RadarWarning = <Saturated>;
-
-public MinimumSafetyAltitude = nat | <NotAllowed>;
-
-public Position ::
-  coord    : Coordinates
-  altitude : Altitude; 
-
-public History = seq of Position;
-
-public Vector ::
-  X : real
-  Y : real;
-
-functions
-
-protected isPointInRange : Coordinates * nat1 * Coordinates -> bool
-isPointInRange(center,range,point) ==
-  (center.X - point.X)**2 + (center.Y - point.Y)**2 <= range**2;
-  
-protected vectorSum : Vector * Vector -> Vector
-vectorSum(v1,v2) ==
-  mk_Vector(v1.X + v2.X,v1.Y + v2.Y);
-  
-protected vectorDiv : Vector * int -> Vector 
-vectorDiv(v,n) ==
-  mk_Vector(v.X/n,v.Y/n)
-pre n <> 0;
-
-protected addVectorToPoint : Vector * Position -> Coordinates
-addVectorToPoint(v,p) ==
-  mk_Coordinates(p.coord.X + v.X, p.coord.Y + v.Y);
-
-protected vectorLength : Vector -> real 
-vectorLength(v) ==
-  MATH`sqrt(v.X**2 + v.Y**2);
-
-protected unitVector : Vector -> Vector
-unitVector(v) ==
-  let l = vectorLength(v)
-  in 
-    mk_Vector(v.X/l,v.Y/l); 
-
-protected dotProduct : Vector * Vector -> real
-dotProduct(v1,v2) ==
-  v1.X * v2.X + v1.Y * v2.Y;
-  
-protected angleBetweenVectors : Vector * Vector -> real
-angleBetweenVectors(v1,v2) ==
-  let uv1 = unitVector(v1),
-      uv2 = unitVector(v2),
-      dvs = dotProduct(uv1,uv2),
-      angle = MATH`acos(dvs)  
-  in
-    radians2degree(angle);
-
-protected radians2degree : real -> real
-radians2degree(r) ==
-  r * (180/MATH`pi);
-
-protected atan2 : real * real -> real
-atan2(y,x) == 
-  2 * MATH`atan(y/(MATH`sqrt(x**2+y**2)+x))
-pre not (x = 0 and y = 0);
-
-protected signedVectorAngle : Vector * Vector -> real
-signedVectorAngle(v1,v2) ==
-  atan2(v2.Y,v2.X) - atan2(v1.Y,v1.X);
-
-protected vectorAngle : Vector -> real * real
-vectorAngle(v) ==
-   mk_( radians2degree (MATH`acos(v.X / MATH`sqrt(v.X**2 + v.Y**2))), 
-        radians2degree( MATH`asin(v.Y / MATH`sqrt(v.X**2 + v.Y**2))));
-
-protected vectorRotate : Vector * real -> Vector
-vectorRotate(v,a) ==
-  let x' = MATH`cos(a)*v.X - MATH`sin(a)*v.Y,
-      y' = MATH`cos(a)*v.Y + MATH`sin(a)*v.X
-  in
-    mk_Vector(round(x'),round(y'));
-
-protected round : real -> real
-round(r) == 
-  let fr  = floor(r),
-      dif = abs(r - fr)
-  in 
-    if(dif < 10**-10)
-    then fr
-    else r;
-
-operations
-
-public test : real * real * real * real ==> Vector * Vector * 
-              real * real * Vector * real * real
-test(x1,y1,x2,y2) == 
-  let v1 = mk_Vector(x1,y1),
-      v2 = mk_Vector(x2,y2)
-  in 
-    return mk_(unitVector(v1),
-               unitVector(v2),
-               dotProduct(unitVector(v1),unitVector(v2)),
-               atan2(0.000001,0.0000000),
-               vectorRotate(v2,signedVectorAngle(v1,v2)),
-               radians2degree(signedVectorAngle(v1,v2)),
-               angleBetweenVectors(v1,v2)
-              );
-
-end GLOBAL
-
-~~~
-{% endraw %}
-
-### MSAW.vdmpp
-
-{% raw %}
-~~~
-class MSAW is subclass of GLOBAL
-
-instance variables 
-
-public static atc : AirTrafficController := new AirTrafficController();
-  
-
-public static radar1 : Radar := new Radar(6,11,20);
-  
-
-public static radar2 : Radar := new Radar (30,30,5);  
-
-public static airspace : AirSpace := new AirSpace();
-
-public static militaryZone : Obstacle := 
-  new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
-
-
-end MSAW
-~~~
-{% endraw %}
-
-### obstacle.vdmpp
-
-{% raw %}
-~~~
-class Obstacle is subclass of GLOBAL
-
-instance variables
- 
-  MSA            : MinimumSafetyAltitude ;
-  location       : Coordinates;
-  radius         : nat1;
-  securityRadius : nat;
-  type           : ObstacleType;
-  
-operations 
- 
-public Obstacle : MinimumSafetyAltitude * Coordinates * nat * nat * 
-                  ObstacleType ==> Obstacle
-Obstacle(msa,loc,ra,secRa,tp) ==
- (MSA := msa;
-  location := loc;
-  radius := ra;
-  securityRadius := secRa;
-  type := tp;
- ); 
-
-public getType : () ==> ObstacleType 
-getType() == 
-  return type;
- 
-public getCoordinates : () ==> Coordinates
-getCoordinates() ==
-  return location;
-
-public getSecureRange : () ==> nat1
-getSecureRange() ==
-  return radius + securityRadius;
-  
-public getMSA : () ==> MinimumSafetyAltitude
-getMSA() == 
-  return MSA;
- 
-
-
-end Obstacle 
-~~~
-{% endraw %}
-
-### Radar.vdmpp
-
-{% raw %}
-~~~
-class Radar is subclass of GLOBAL
-
-types 
-    
- 
-instance variables
-
-  location : Coordinates;
-  range : nat1;
-  detected : map FOId to FO;
-  priority : seq of FO := [];
-  radarDisplay: dk_au_eng_Radar;
-  static rc:int := 0;   
-  
-operations
-
-public Radar : int * int * nat1 ==> Radar
-Radar(x,y,r) ==
- (location := mk_Coordinates(x,y);
-  range := r;
-  detected := {|->};
-  radarDisplay := new dk_au_eng_Radar();
-  setupRadar(radarDisplay);
- );
-
-public Scan : AirSpace ==> ()
-Scan(as) ==
- (detected := { x.getId() |-> x | x in set as.getAirspace() & InRange(x) };
-  UpdatePriorityList();
-  DisplayScan();
- );
-    
-private InRange : FO ==> bool
-InRange(fo) ==
-  let foLocation = fo.getCoordinates()
-  in 
-    return isPointInRange(location,range,foLocation); 
-   
-public getDetected : () ==> set of FO
-getDetected() == 
-  return rng detected;
-
-public getDetectedMap : () ==> map FOId to FO
-getDetectedMap() ==
-  return detected;
-
-public saturatedRadar : () ==> bool
-saturatedRadar() == 
-  return card dom detected > range / 4;
-  
-public getSaturatingFOs : () ==> set of FOId
-getSaturatingFOs() ==
-  return {priority(i).getId() | i in set inds priority & i > floor(range/4)};
-
-public getLocation : () ==> Coordinates
-getLocation() == 
-  return location;
-
-public getRange : () ==> nat1
-getRange() ==
-  return range;
-  
-private UpdatePriorityList : () ==> ()
-UpdatePriorityList() == 
-  let notDetect = elems priority \ rng detected,
-      newlyDet  = rng detected \ elems priority
-  in 
-    ( 
-      for all fobj in set notDetect do
-        let
-            id: seq of char = VDMUtil`val2seq_of_char[FOId](fobj.getId())
-        in
-            radarDisplay.RemFlyingObject(id);
-      for all fobj in set newlyDet do
-        let
-            mk_Coordinates(X,Y) = fobj.getCoordinates(),
-            token2seq_of_char = VDMUtil`val2seq_of_char[token]
-         in 
-            radarDisplay.AddFlyingObject(X,Y,0,token2seq_of_char(fobj.getId()));
-      removeNotDetected(notDetect);
-      addNewlyDetected(newlyDet);
-    );
-
-private removeNotDetected : set of FO ==> ()
-removeNotDetected(fos) == 
-  priority := [priority(i) | i in set inds priority 
-                           & priority(i) in set fos];    
-  
-private addNewlyDetected : set of FO ==> ()
-addNewlyDetected(newlyDetect) == 
-  priority := priority ^ set2seqFO(newlyDetect);    
-
-private setupRadar: dk_au_eng_Radar ==> ()
-setupRadar(r) == (r.SetWindowPosition(450*rc+50,100);
-                  r.SetStepSize(5);
-                  r.SetScanTime(60);
-                  r.SetScanWidth(350);
-                  let
-                    int2seq_of_char = VDMUtil`val2seq_of_char[int],
-                    mk_Coordinates(x,y) = location
-                  in
-                    r.SetTitle("MSAW Radar: (" ^ int2seq_of_char(x) ^ "," ^ int2seq_of_char(y) ^ ")");
-                  rc:=rc+1;);
-
-private DisplayScan: () ==> ()
-DisplayScan() == for all x in set {1,...,360/5} do radarDisplay.StepRadar();
-
-functions
-set2seqFO : set of FO -> seq of FO
-set2seqFO(fos) ==
-  if fos = {}
-  then []
-  else 
-    let fo in set fos
-    in
-      [fo] ^ set2seqFO(fos\{fo})
-measure set2seqFOm;  
-
-      
-set2seqFOm : set of FO -> nat
-set2seqFOm(fos) == card fos;
-
-
-end Radar
-~~~
-{% endraw %}
-
 ### timer.vdmpp
 
 {% raw %}
@@ -899,77 +970,6 @@ public
   GetTime() == return currentTime;
 
 end Timer
-~~~
-{% endraw %}
-
-### UseATC.vdmpp
-
-{% raw %}
-~~~
-class UseATC
-
-values
-
-  id : token = mk_token(1);
-  fo : FO = new FO(id,mk_GLOBAL`Coordinates(1,-1),50);
-  c1: GLOBAL`Coordinates = mk_GLOBAL`Coordinates(2,-2);
-  c2: GLOBAL`Coordinates = mk_GLOBAL`Coordinates(3,-3);
-  
-instance variables
-
-  atc: AirTrafficController := new AirTrafficController()
-
-traces
- 
-TestATC: let r = new Radar(-8,-9,42)
-         in
-         let c in set {c1,c2}
-         in
-          ((atc.updateHistory() |
-            atc.cleanUpHistory() |
-            atc.addRadar(r) |
-            atc.findThreats() |
-            fo.setCoordinates(c)){2,4};
-           atc.getDirectionVectors(id))
-
-end UseATC
-~~~
-{% endraw %}
-
-### world.vdmpp
-
-{% raw %}
-~~~
-class World
-  
-instance variables  
-  
-public static
-  env : [Environment] := nil;
-
-public static 
-  timerRef : Timer := new Timer();    
-
-  
-   
-operations
-
-public 
-  World : () ==> World
-  World() ==
-    ( env := new Environment("scenario.txt");
-      env.setAirSpace(MSAW`airspace);
-      MSAW`atc.addRadar(MSAW`radar1);
-      MSAW`atc.addRadar(MSAW`radar2);
-      MSAW`atc.addObstacle(MSAW`militaryZone);
-    );
-  
-public 
-  Run : () ==> ()
-  Run() ==
-    env.Run();
-
-end World
 ~~~
 {% endraw %}
 

@@ -25,6 +25,34 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 |Language Version:| classic|
 
 
+### expert.vdmpp
+
+{% raw %}
+~~~
+class Expert
+
+instance variables
+
+quali : set of Qualification;
+
+types
+ 
+public Qualification = <Mech> <Chem> | <Bio> | <Elec>;
+
+operations
+
+public Expert: set of Qualification ==> Expert
+Expert(qs) ==
+  quali := qs;
+
+public GetQuali: () ==> set of Qualification
+GetQuali() ==
+  return quali;
+  
+end Expert
+~~~
+{% endraw %}
+
 ### alarm.vdmpp
 
 {% raw %}
@@ -57,31 +85,40 @@ end Alarm
 ~~~
 {% endraw %}
 
-### expert.vdmpp
+### test1.vdmpp
 
 {% raw %}
 ~~~
-class Expert
+class Test1
 
 instance variables
 
-quali : set of Qualification;
+a1   : Alarm  := new Alarm(<Mech>,"Mechanical fault");
+a2   : Alarm  := new Alarm(<Chem>,"Tank overflow");
+ex1  : Expert := new Expert({<Mech>,<Bio>});
+ex2  : Expert := new Expert({<Elec>});
+ex3  : Expert := new Expert({<Chem>,<Bio>,<Mech>});
+ex4  : Expert := new Expert({<Elec>,<Chem>});
+plant: Plant  := new Plant({a1},{p1 |-> {ex1,ex4},
+                                 p2 |-> {ex2,ex3}});
 
-types
- 
-public Qualification = <Mech> <Chem> | <Bio> | <Elec>;
+values
+
+p1: Plant`Period = mk_token("Monday day");
+p2: Plant`Period = mk_token("Monday night");
+p3: Plant`Period = mk_token("Tuesday day");
+p4: Plant`Period = mk_token("Tuesday night");
 
 operations
 
-public Expert: set of Qualification ==> Expert
-Expert(qs) ==
-  quali := qs;
+public Run: () ==> set of Plant`Period * Expert
+Run() == 
+  let periods = plant.ExpertIsOnDuty(ex1),
+      expert  = plant.ExpertToPage(a1,p1)
+  in 
+    return mk_(periods,expert);
 
-public GetQuali: () ==> set of Qualification
-GetQuali() ==
-  return quali;
-  
-end Expert
+end Test1
 ~~~
 {% endraw %}
 
@@ -146,43 +183,6 @@ Plant(als,sch) ==
 pre PlantInv(als,sch);
 
 end Plant
-~~~
-{% endraw %}
-
-### test1.vdmpp
-
-{% raw %}
-~~~
-class Test1
-
-instance variables
-
-a1   : Alarm  := new Alarm(<Mech>,"Mechanical fault");
-a2   : Alarm  := new Alarm(<Chem>,"Tank overflow");
-ex1  : Expert := new Expert({<Mech>,<Bio>});
-ex2  : Expert := new Expert({<Elec>});
-ex3  : Expert := new Expert({<Chem>,<Bio>,<Mech>});
-ex4  : Expert := new Expert({<Elec>,<Chem>});
-plant: Plant  := new Plant({a1},{p1 |-> {ex1,ex4},
-                                 p2 |-> {ex2,ex3}});
-
-values
-
-p1: Plant`Period = mk_token("Monday day");
-p2: Plant`Period = mk_token("Monday night");
-p3: Plant`Period = mk_token("Tuesday day");
-p4: Plant`Period = mk_token("Tuesday night");
-
-operations
-
-public Run: () ==> set of Plant`Period * Expert
-Run() == 
-  let periods = plant.ExpertIsOnDuty(ex1),
-      expert  = plant.ExpertToPage(a1,p1)
-  in 
-    return mk_(periods,expert);
-
-end Test1
 ~~~
 {% endraw %}
 

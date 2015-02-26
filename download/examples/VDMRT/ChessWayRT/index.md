@@ -23,6 +23,479 @@ through the first author.
 |Entry point     :| new World().RunVdmRt()|
 
 
+### DTControl.vdmrt
+
+{% raw %}
+~~~
+class DTControl is subclass of DTObject
+
+operations
+
+-- calculates output, based on the error
+public Output: real ==> real
+Output(err) == 
+	is subclass responsibility
+
+end DTControl
+~~~
+{% endraw %}
+
+### HallSensor.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+class HallSensor
+
+instance variables
+  -- the logical name of the wheel
+  mName : seq of char;
+
+  -- link to the environment
+  mEnvironment : Environment;
+
+  -- link to the motor
+  mWheel : Wheel
+
+functions
+  private convert: real -> nat
+  convert (prad) ==
+    -- convert radians into degrees modulo 360
+    let degrees = floor (prad * MATH`pi / 180) in degrees mod 360
+
+operations
+  public HallSensor: seq of char * Environment * Wheel
+    ==> HallSensor
+  HallSensor (pName, pEnvironment, pWheel) ==
+    ( mName := pName;
+      mEnvironment := pEnvironment;
+      mWheel := pWheel );
+
+  private setSensor: seq of char * bool ==> ()
+  setSensor (pSensor, pValue) ==
+    if pValue
+    then mEnvironment.setValue(pSensor, 1.0)
+    else mEnvironment.setValue(pSensor, 0.0);
+
+  public setSensors: bool * bool * bool ==> ()
+  setSensors (ph1, ph2, ph3) ==
+    ( setSensor(mName^"_HALL1", ph1);
+      setSensor(mName^"_HALL2", ph2);
+      setSensor(mName^"_HALL3", ph3) );
+
+  public evaluate: () ==> ()
+  evaluate () ==
+    -- retrieve and convert the current wheel position
+    def position = convert(mWheel.position) in
+      cases (position div 60):
+        0 -> setSensors(true,  false, true),
+        1 -> setSensors(true,  false, false),
+        2 -> setSensors(true,  true,  false),
+        3 -> setSensors(false, true,  false),
+        4 -> setSensors(false, true,  true),
+        5 -> setSensors(false, false, true),
+        others -> error
+      end
+
+end HallSensor
+                                                                                                                                                                                                                                                                                                                              
+~~~
+{% endraw %}
+
+### Wheel.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                 
+class Wheel
+
+values
+  -- maximum angular acceleration is 20 pi rad/sec^2
+  MAX_ACC : real = 62.8318531
+
+instance variables
+  -- the logical name of the wheel
+  mName : seq of char;
+
+  -- link to the environment
+  mEnvironment : Environment;
+
+  -- last evaluated at time step
+  last : nat := 0;
+
+  -- current angular acceleration
+  public acc : real := 0.0;
+
+  -- current angular speed
+  public speed : real := 0.0;
+
+  -- current angular position
+  public position : real := 0.0
+
+operations
+  -- constructor for the wheel class
+  public Wheel: seq of char * Environment ==> Wheel
+  Wheel (pname, penv) == ( mName := pname; mEnvironment := penv);
+
+  private isActuated: () ==> bool
+  isActuated () ==
+    return mEnvironment.getValue(mName^"_ACTUATED") = 1;
+
+  private getPWM: () ==> real
+  getPWM () ==
+    return mEnvironment.getValue(mName^"_PWM");
+
+  public evaluate: () ==> ()
+  evaluate () ==
+    ( dcl pwm       : real := if isActuated()
+                              then getPWM()
+                              else 0.0,
+          old_acc   : real := acc,
+          old_speed : real := speed,
+          now       : nat  := time;
+      -- compute the amount of time passed
+      def dt = (now - last) / World`SIM_RESOLUTION in
+        ( -- update the current wheel acceleration
+          acc := MAX_ACC * pwm;
+          -- update the wheel angular speed (Euler)
+          speed := speed + 0.5 * dt * (old_acc + acc);
+          -- update the wheel angular positiom (Euler)
+          position := position + 0.5 * dt * (old_speed + speed);
+          -- remember when we where executed
+          last := now )  )
+
+end Wheel
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+~~~
+{% endraw %}
+
+### SetpointProfileCSV.vdmrt
+
+{% raw %}
+~~~
+class SetpointProfileCSV
+
+instance variables
+
+-- file to read and the number of lines it contains
+filename: seq of char;
+lines: int;
+line: int;
+
+-- current and next setpoint
+setpoint: real;
+next_setpoint: [(real * real)]
+
+operations
+
+-- constructor for SetpointProfileCSV
+public SetpointProfileCSV: real * seq of char ==> SetpointProfileCSV
+SetpointProfileCSV(init, file) ==
+(
+	-- count lines in file
+	filename := file;
+	line := 1;
+	let mk_(success,l) = CSV`flinecount(file) in
+	(
+		if not success then quit("Failed to read input file '%s': %s.", [file, new CSV().ferror()]);
+		lines := l
+	);	
+	setpoint := init;
+	next_setpoint := nil
+);
+
+-- constructor for SetpointProfileCSV
+public SetpointProfileCSV: seq of char ==> SetpointProfileCSV
+SetpointProfileCSV(file) ==
+	SetpointProfileCSV(0.0, file);
+
+-- read the next setpoint from the file
+private ReadNextSetpoint: () ==> ()
+ReadNextSetpoint() ==
+(
+	let mk_(-,vals) = CSV`freadval[seq of real](filename,line) in 
+	(
+		if len vals <> 2 then quit("Incorrect number of values in %s line %s (expected: 2, actual: %s)\n", [filename,line,len vals])
+		else 
+		(
+			next_setpoint := mk_(vals(1),vals(2));
+			line := line + 1;
+		)
+	)
+)
+pre line <= lines and next_setpoint = nil;
+
+-- return the value of the current setpoint
+public GetSetpoint: () ==> real
+GetSetpoint() ==
+( dcl curtime : real := time / 1.0E9;
+	-- no more setpoints
+	if line = lines then return setpoint;	
+
+	-- read from file if we need to
+	if next_setpoint = nil then ReadNextSetpoint();
+
+	-- update setpoint if necessary
+	let mk_(t,sp) = next_setpoint in
+		if curtime >= t then 
+		(
+			setpoint := sp;
+			next_setpoint := nil
+		);
+
+    -- show the computed setpoint
+    IO`printf("setpoint (%s) = %s\n", [curtime, setpoint]);
+
+	-- return current setpoint
+	return setpoint
+);
+
+-- quit with given error (printf version)
+private quit: seq of char * seq of ? ==> ()
+quit(m,s) ==
+(
+	IO`printf(m ^ "\n",s);
+	exit
+);
+
+-- quit with given error (println version)
+private quit: seq of char ==> ()
+quit(m) ==
+(
+	IO`println(m);
+	exit
+)
+
+end SetpointProfileCSV
+~~~
+{% endraw %}
+
+### SafetySwitch.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                          
+class SafetySwitch
+
+instance variables
+  -- link back to the controller managing this resource
+  private mController : Controller;
+
+operations
+  public SafetySwitch: Controller ==> SafetySwitch
+  SafetySwitch (pController) == mController := pController;
+
+  public getStatus: () ==> bool
+  getStatus () == 
+    duration (0)
+      return mController.getValue("SAFETY") > 0;
+
+end SafetySwitch
+            
+~~~
+{% endraw %}
+
+### OnOffSwitch.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                            
+class OnOffSwitch
+
+instance variables
+  -- link back to the controller managing this resource
+  private mController : Controller;
+
+operations
+  public OnOffSwitch: Controller ==> OnOffSwitch
+  OnOffSwitch (pController) == mController := pController;
+
+  public getStatus: () ==> bool
+  getStatus () == 
+    duration (0)
+      return mController.getValue("ONOFF") > 0;
+
+end OnOffSwitch
+            
+~~~
+{% endraw %}
+
+### ISensorReal.vdmrt
+
+{% raw %}
+~~~
+class ISensorReal
+
+operations
+
+-- set actuator value
+public GetValue: () ==> real
+GetValue() ==
+	is subclass responsibility;
+
+end ISensorReal
+~~~
+{% endraw %}
+
+### DTObject.vdmrt
+
+{% raw %}
+~~~
+class DTObject
+
+instance variables
+
+protected sampletime: real := 1.0E-9;
+
+operations
+
+public SetSampleTime: real ==> ()
+SetSampleTime(s) ==
+	sampletime := s
+pre s >= 0
+
+end DTObject
+~~~
+{% endraw %}
+
+### World.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+class World
+
+values
+  -- in this model use nanosecond resolution
+  public SIM_RESOLUTION = 1E9;
+
+  -- maximum simulation time is 10 seconds
+  public MAX_SIM_TIME = 20 * SIM_RESOLUTION
+
+instance variables
+  -- are we running a co-simulation or not
+  public static cosim : bool := false
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+operations
+  -- top-level access function for ChessWay co-simulation
+  public run : () ==> ()
+  run () == 
+    ( -- set the co-simulation indicator
+      cosim := true;
+      -- execute the same model
+      RunScenario("steeringsignal1.csv") );
+
+  -- top-level access function for ChessWay DE only simulation
+  public RunVdmRt : () ==> ()
+  RunVdmRt () == RunScenario("scenario1.txt");
+
+  -- top-level access function to run a particular scenario
+  public RunScenario: seq1 of char ==> ()
+  RunScenario (fname) ==
+    ( -- create an instance of the Environment model
+      dcl env : Environment :=
+        new Environment(self, MAX_SIM_TIME);
+
+      -- load a simulation scenario
+      if cosim
+      then env.loadCsvFile("USER", fname)
+      else env.loadScenario(fname);
+
+      -- link the environment to the system controllers
+      ChessWay`lctrl.setEnvironment(env);
+      ChessWay`rctrl.setEnvironment(env);
+
+      -- cross link the two system controller models
+      ChessWay`lctrl.setRightController(ChessWay`rctrl);
+      ChessWay`rctrl.setLeftController(ChessWay`lctrl);
+
+      -- announce start of simulation run
+      IO`print("Starting ChessWay DE simulation\n");
+
+	  -- initialize the system tasks
+      ChessWay`lctrl.PowerUp();
+      ChessWay`rctrl.PowerUp();
+
+      -- start the environment and periodic loopcontroller tasks
+      startlist({env, ChessWay`lctrl, ChessWay`rctrl});
+
+      -- wait for simulation run end (lock main DESTECS GUI thread)
+      waitForSimulationEnd();
+
+      -- announce end of simulation run
+      IO`print("ChessWay DE simulation completed at ");
+      IO`print(time / SIM_RESOLUTION);
+      IO`print(" sec\n") )
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+instance variables
+  -- boolean to indicate when simulation run is complete
+  public finish : bool := false
+
+operations
+  -- auxiliary operation to wait for simulation run to finish
+  private waitForSimulationEnd: () ==> ()
+  waitForSimulationEnd () ==
+    -- print conditional diagnostics
+    if ChessWay`debug
+    then ( ChessWay`lctrl.printDiagnostics();
+           ChessWay`rctrl.printDiagnostics() );
+
+  public signal: () ==> () 
+  signal () == 
+    ( finish := true;
+      IO`println("Environment requests end of simulation") );
+
+sync
+  -- the environment task has to unlock the main thread
+  per waitForSimulationEnd => finish
+
+end World
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+~~~
+{% endraw %}
+
+### P.vdmrt
+
+{% raw %}
+~~~
+class P is subclass of DTControl
+
+instance variables
+
+-- design parameters
+protected k: real;
+
+operations
+
+-- constructor for PD
+public P: real ==> P
+P(k_) ==
+(
+    k := k_;
+);
+    
+-- default constructor for PD
+public P: () ==> P
+P() ==
+    P(DEF_K);
+
+-- calculates output, based on the error
+public Output: real ==> real
+Output(err) == 
+(
+	return k * err
+);
+
+values
+
+-- defaults
+DEF_K: real = 0.2;
+
+end P
+~~~
+{% endraw %}
+
 ### Accelerometer.vdmrt
 
 {% raw %}
@@ -51,254 +524,149 @@ end Accelerometer
 ~~~
 {% endraw %}
 
-### Actuator.vdmrt
+### RightController.vdmrt
 
 {% raw %}
 ~~~
-class Actuator is subclass of IActuatorReal
-
-instance variables
-
--- actuator value
-value: real;
-
-operations
-
--- constructor for PWM
-public Actuator : real ==> Actuator 
-Actuator(v) ==
-	value := v;
-
--- default constructor for PWM
-public Actuator: () ==> Actuator
-Actuator() ==
-	Actuator(0.0);
-
--- set actuator value
-public SetValue: real ==> ()
-SetValue(v) ==
-  ( IO`printf("SetValue = %s\n", [v]);
-	value := v );
-
-end Actuator
-~~~
-{% endraw %}
-
-### ChessWay.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-system ChessWay
-
-instance variables
-  -- architecture definition (two CPUs at 10 MIPS)
-  fpga1 : CPU := new CPU(<FP>, 10E6);
-  fpga2 : CPU := new CPU(<FP>, 10E6);
-
-  -- communication infrastructure (one BUS at 100 kpbs)
-  bus : BUS := new BUS(<FCFS>, 100E3, {fpga1, fpga2});
-                            
-instance variables
-  -- sensors (co-simulation variables)
-  public static acc_in: [ISensorReal] := nil;
-  public static vel_in: [ISensorReal] := nil;
-
-  -- actuators (co-simulation variables)
-  public static acc_out: [IActuatorReal] := nil;
-  public static vel_out: [IActuatorReal] := nil
-                            
-instance variables
-  -- deployable objects (two controllers)
-  static public lctrl : LeftController := new LeftController();
-  static public rctrl : RightController := new RightController();
-
-  -- flag to enable debugging logging in system classes
-  static public debug : bool := true
-                                                                                                                                                                                                                                    
-operations
-  -- construct the system class
-  public ChessWay : () ==> ChessWay
-  ChessWay () == 
-    ( -- deploy the controllers on the CPUs
-      fpga1.deploy(lctrl,"LeftCtrl");
-      fpga2.deploy(rctrl,"RightCtrl") );
- 
-end ChessWay
-             
-~~~
-{% endraw %}
-
-### Controller.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                    
-class Controller
+                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+class RightController
+  is subclass of Controller
 
 values
-  -- control loop sample time (1 ms)
-  public SAMPLETIME = 0.001
+  -- values for P controller (velocity)
+  KP2   : real = 20;
+  KI2   : real = 78.431372549;
+  KD2   : real = 0.0031875;
+  BETA2 : real = 0.1
 
 instance variables
-  -- identify the controller by name
-  public mName : seq of char;
+   -- controller
+  public ctrl : DTControl;
 
-  -- the motor that is controlled
-  public mMotorActuator : MotorActuator;
-  public mMotorSensor : MotorSensor;
+  -- sensors connected to the right controller
+  public mSafetySwitch    : SafetySwitch;
+  public mOnOffSwitch     : OnOffSwitch;
+  public mDirectionSwitch : DirectionSwitch;
 
 operations
-  -- constructor
-  public Controller: seq of char ==> Controller
-  Controller (pName) ==
-    ( -- initialise the name of the controller
-      mName := pName;
-      -- initialise the motor actuator and sensor
-      mMotorActuator := new MotorActuator(self);
-      mMotorSensor := new MotorSensor(self) )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+  -- constructor for the left motor controller
+  public RightController: () ==> RightController
+  RightController () == 
+    ( -- create the co-sim shared variables
+      ChessWay`vel_in := new Sensor();
+      ChessWay`vel_out := new Actuator();
+      -- create the controller
+      ctrl := new P(KP2);
+	  ctrl.SetSampleTime(SAMPLETIME);
+      -- create the sensors
+      mSafetySwitch := new SafetySwitch(self);
+      mOnOffSwitch := new OnOffSwitch(self);
+      mDirectionSwitch := new DirectionSwitch(self);
+      -- call the controller base constructor
+      Controller ("RIGHT") );
+
 instance variables
-  -- link back to the environment
-  protected mEnvironment : [Environment] := nil;
+  -- maintain a link to the other controller
+  private mLeft : [LeftController] := nil
 
 operations
-  -- establish a link to the environment model
-  public setEnvironment: Environment ==> ()
-  setEnvironment (pEnvironment) == mEnvironment := pEnvironment;
+  -- auxiliary operation to hook controller models together
+  public setLeftController: LeftController ==> ()
+  setLeftController (pLeft) == mLeft := pLeft
+  pre mLeft = nil
+                                                                                                                                                                                                                                                                                                 
+instance variables
+  -- loop count variable
+  private mLoopCnt : nat := 0;
 
-  -- push a value to the environment
-  public setValue: seq of char * real ==> ()
-  setValue (pName, pValue) ==
-    mEnvironment.setValue(mName^"_"^pName, pValue)
-  pre mEnvironment <> nil;
+  -- time at control loop entry
+  private mTimeEntry : nat := 0;
 
-  -- get a value from the environment
-  public getValue: seq of char ==> real
-  getValue (pName) ==
-    return mEnvironment.getValue(mName^"_"^pName)
-  pre mEnvironment <> nil
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-values
-  protected DEBUGCTRLLOOP = 2
+  -- enable debug logging
+  private mDebug : nat := 0
+   
+                                                                                                                                                                                                                                                                   
+operations
+  public CtrlLoopEntry: () ==> ()
+  CtrlLoopEntry () ==
+    duration (0)
+      ( -- first increase the loop counter
+        mLoopCnt := mLoopCnt + 1;
+        -- capture the current time
+        mTimeEntry := time;
+        -- diagnostics
+        if mDebug >= DEBUGCTRLLOOP then
+          IO`printf("RightController.mainLoop (S) = %s (%s)\n",
+            [mTimeEntry / 1E9, mLoopCnt]) );
+
+  public CtrlLoopBody: () ==> ()
+  CtrlLoopBody () ==
+    duration (0)
+      ( --dcl hall  : bool * bool * bool :=
+        --      mMotorSensor.getHallSensorData(),
+        --    safe  : bool := mSafetySwitch.getStatus(),
+        --    onoff : bool := mOnOffSwitch.getStatus(),
+        --    dir : DirectionSwitch`tDirectionStatus :=
+        --      mDirectionSwitch.getStatus();
+        -- execute the control loop
+--        mMotorActuator.SetValue(ctrl.Output(mMotorSensor.GetValue())); 
+        ChessWay`vel_out.SetValue(ctrl.Output(ChessWay`vel_in.GetValue())); 
+--        -- execute the controller
+--        let pwm = computeResponse(hall, safe, onoff, dir) in
+--          mMotorActuator.setPWM(pwm);
+--        -- local diagnostics
+--        duration (0)
+--          if ChessWay`debug then
+--            ( -- IO`print("R-HAL   = ");
+--              -- IO`print(hall); IO`print("\n");
+--              -- IO`print("R-SAFE  = ");
+--              -- IO`print(safe); IO`print("\n");
+--              -- IO`print("R-ONOFF = ");
+--              -- IO`print(onoff); IO`print("\n");
+--              -- IO`print("R-DIR   = ");
+--              -- IO`print(dir); IO`print("\n");
+        skip );
+
+  public CtrlLoopExit: () ==> ()
+  CtrlLoopExit () ==
+    duration (0)
+      ( dcl mTimeExit : nat := time;
+        -- diagnostics
+        if mDebug >= DEBUGCTRLLOOP then
+          IO`printf("RightController.mainLoop (F) = %s (%s)\n",
+            [mTimeExit / 1E9, mLoopCnt]);
+        if mDebug > DEBUGCTRLLOOP then
+          IO`printf("RightController execution time was %s\n",
+            [(mTimeExit - mTimeEntry) / 1E9]) )
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+operations
+  public PowerUp: () ==> ()
+  PowerUp () ==
+    duration (100)
+      ( mMotorActuator.initActuator();
+        mMotorActuator.printDiagnostics() )
+  pre mLeft <> nil
  
 operations
   -- prototype used for simulation diagnostics
-  protected printDiagnostics: nat ==> ()
-  printDiagnostics (pLoopCnt) ==
+  public printDiagnostics: () ==> ()
+  printDiagnostics () ==
     duration (0)
-      ( -- generic diagnostics announcement
-        IO`printf(mName ^ " controller at %s on %s\n",
-          [pLoopCnt, time / 1E9]);
-        -- print the actuator internal state
-        mMotorActuator.printDiagnostics() )
-
+      Controller`printDiagnostics(mLoopCnt)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 operations
-  -- prototype for the device power-up
-  public PowerUp: () ==> ()
-  PowerUp () == is subclass responsibility
+  public computeResponse: (bool * bool * bool) * bool *
+    bool * DirectionSwitch`tDirectionStatus ==> real
+  computeResponse (-, -, onoff, -) == 
+    ( if onoff
+      then ( mMotorActuator.setActuated();
+             mLeft.mMotorActuator.setActuated() )
+      else ( mMotorActuator.setFreeRunning();
+             mLeft.mMotorActuator.setFreeRunning() );
+      return 0.1 )
 
-operations
-  -- prototype of the main control loop
-  async private CtrlLoop: () ==> ()
-  CtrlLoop () == 
-    ( -- use standard GoF behavior pattern
-      duration (0) CtrlLoopEntry();
-      CtrlLoopBody();
-      duration (0) CtrlLoopExit() );
-
-  -- auxiliary operation are used for diagnostics
-  -- always executes with zero duration
-  public CtrlLoopEntry: () ==> ()
-  CtrlLoopEntry () == skip;
-
-  public CtrlLoopBody: () ==> ()
-  CtrlLoopBody () == is subclass responsibility;
-
-  -- auxiliary operation are used for diagnostics
-  -- always executes with zero duration
-  public CtrlLoopExit: () ==> ()
-  CtrlLoopExit () == skip;
-
-thread
-  -- the control loop runs at 1kHz with a 750 msec initial offset
-  periodic (1, 0, 0, 0) (CtrlLoop)
-
-end Controller
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-~~~
-{% endraw %}
-
-### DirectionSwitch.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                            
-class DirectionSwitch
-
-instance variables
-  -- link back to the controller managing this resource
-  private mController : Controller;
-
-operations
-  public DirectionSwitch: Controller ==> DirectionSwitch
-  DirectionSwitch (pController) == mController := pController
-
-types
-  public tDirectionStatus = <LEFT> | <NEUTRAL> | <RIGHT>
-
-operations
-  public getStatus: () ==> tDirectionStatus
-  getStatus () == 
-    duration (0)
-      ( dcl dir : real := mController.getValue("DIRECTION");
-        -- negative value indicates left turn
-        if dir < 0.0 then return <LEFT>;
-        -- positive value indicates right turn
-        if dir > 0.0 then return <RIGHT>;
-        -- zero indicates no turn - move straight
-        return <NEUTRAL> )
-
-end DirectionSwitch
+end RightController
             
-~~~
-{% endraw %}
-
-### DTControl.vdmrt
-
-{% raw %}
-~~~
-class DTControl is subclass of DTObject
-
-operations
-
--- calculates output, based on the error
-public Output: real ==> real
-Output(err) == 
-	is subclass responsibility
-
-end DTControl
-~~~
-{% endraw %}
-
-### DTObject.vdmrt
-
-{% raw %}
-~~~
-class DTObject
-
-instance variables
-
-protected sampletime: real := 1.0E-9;
-
-operations
-
-public SetSampleTime: real ==> ()
-SetSampleTime(s) ==
-	sampletime := s
-pre s >= 0
-
-end DTObject
 ~~~
 {% endraw %}
 
@@ -623,123 +991,105 @@ end Environment
 ~~~
 {% endraw %}
 
-### Gyroscope.vdmrt
+### User.vdmrt
 
 {% raw %}
 ~~~
-                                                                                                                                                                                     
-class Gyroscope
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+class User
+
+values
+  gravity : real = 9.80665
 
 instance variables
-  -- link back to the controller managing this resource
-  private mController : Controller;
-
-operations
-  public Gyroscope: Controller ==> Gyroscope
-  Gyroscope (pController) == mController := pController;
-
-  public getYawRateData: () ==> real
-  getYawRateData () ==
-    duration (0) return mController.getValue("YAW_RATE")
-
-end Gyroscope
-            
-~~~
-{% endraw %}
-
-### HallSensor.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-class HallSensor
-
-instance variables
-  -- the logical name of the wheel
-  mName : seq of char;
-
   -- link to the environment
   mEnvironment : Environment;
 
-  -- link to the motor
-  mWheel : Wheel
+  -- link to both wheels
+  mLeftWheel : Wheel;
+  mRightWheel : Wheel;
 
-functions
-  private convert: real -> nat
-  convert (prad) ==
-    -- convert radians into degrees modulo 360
-    let degrees = floor (prad * MATH`pi / 180) in degrees mod 360
+  -- last evaluated at time step
+  last : nat := 0;
+
+  -- current deviation from upright
+  angle : real := 0.0
 
 operations
-  public HallSensor: seq of char * Environment * Wheel
-    ==> HallSensor
-  HallSensor (pName, pEnvironment, pWheel) ==
-    ( mName := pName;
-      mEnvironment := pEnvironment;
-      mWheel := pWheel );
-
-  private setSensor: seq of char * bool ==> ()
-  setSensor (pSensor, pValue) ==
-    if pValue
-    then mEnvironment.setValue(pSensor, 1.0)
-    else mEnvironment.setValue(pSensor, 0.0);
-
-  public setSensors: bool * bool * bool ==> ()
-  setSensors (ph1, ph2, ph3) ==
-    ( setSensor(mName^"_HALL1", ph1);
-      setSensor(mName^"_HALL2", ph2);
-      setSensor(mName^"_HALL3", ph3) );
+  public User: Environment * Wheel * Wheel ==> User
+  User (pEnvironment, pLeftWheel, pRightWheel) ==
+    ( mEnvironment := pEnvironment;
+      mLeftWheel := pLeftWheel;
+      mRightWheel := pRightWheel );
 
   public evaluate: () ==> ()
-  evaluate () ==
-    -- retrieve and convert the current wheel position
-    def position = convert(mWheel.position) in
-      cases (position div 60):
-        0 -> setSensors(true,  false, true),
-        1 -> setSensors(true,  false, false),
-        2 -> setSensors(true,  true,  false),
-        3 -> setSensors(false, true,  false),
-        4 -> setSensors(false, true,  true),
-        5 -> setSensors(false, false, true),
-        others -> error
-      end
+  evaluate () == 
+    ( dcl user : real := mEnvironment.getValue("USER"),
+          now : nat := time;
+      -- compute and update the yaw rate
+      def dt = (now - last) / World`SIM_RESOLUTION in
+      def rate = if dt = 0 then 0 else (angle - user) / dt in
+        mEnvironment.setValue("LEFT_YAW_RATE", rate);
+      -- compute and update the acceleration
+      def dx = MATH`cos(user) * gravity in
+        mEnvironment.setValue("LEFT_ACC_X", dx);
+      def dy = MATH`sin(user) * gravity in
+        mEnvironment.setValue("LEFT_ACC_Y", dy);
+      -- delta between the left and right wheel acceleration
+      def dz = mLeftWheel.acc - mRightWheel.acc in
+        mEnvironment.setValue("LEFT_ACC_Z", dz);
+      -- update the angle
+      angle := user;
+      -- remember when we where executed
+      last := now )
 
-end HallSensor
-                                                                                                                                                                                                                                                                                                                              
+end User
+                                                                                                                                                                                                                                                                                                                                                                                         
 ~~~
 {% endraw %}
 
-### IActuatorReal.vdmrt
+### ChessWay.vdmrt
 
 {% raw %}
 ~~~
-class IActuatorReal
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+system ChessWay
 
+instance variables
+  -- architecture definition (two CPUs at 10 MIPS)
+  fpga1 : CPU := new CPU(<FP>, 10E6);
+  fpga2 : CPU := new CPU(<FP>, 10E6);
+
+  -- communication infrastructure (one BUS at 100 kpbs)
+  bus : BUS := new BUS(<FCFS>, 100E3, {fpga1, fpga2});
+                            
+instance variables
+  -- sensors (co-simulation variables)
+  public static acc_in: [ISensorReal] := nil;
+  public static vel_in: [ISensorReal] := nil;
+
+  -- actuators (co-simulation variables)
+  public static acc_out: [IActuatorReal] := nil;
+  public static vel_out: [IActuatorReal] := nil
+                            
+instance variables
+  -- deployable objects (two controllers)
+  static public lctrl : LeftController := new LeftController();
+  static public rctrl : RightController := new RightController();
+
+  -- flag to enable debugging logging in system classes
+  static public debug : bool := true
+                                                                                                                                                                                                                                    
 operations
-
--- set actuator value
-public SetValue: real ==> ()
-SetValue(v) ==
-	is subclass responsibility;
-
-end IActuatorReal
-~~~
-{% endraw %}
-
-### ISensorReal.vdmrt
-
-{% raw %}
-~~~
-class ISensorReal
-
-operations
-
--- set actuator value
-public GetValue: () ==> real
-GetValue() ==
-	is subclass responsibility;
-
-end ISensorReal
+  -- construct the system class
+  public ChessWay : () ==> ChessWay
+  ChessWay () == 
+    ( -- deploy the controllers on the CPUs
+      fpga1.deploy(lctrl,"LeftCtrl");
+      fpga2.deploy(rctrl,"RightCtrl") );
+ 
+end ChessWay
+             
 ~~~
 {% endraw %}
 
@@ -879,6 +1229,475 @@ end LeftController
 ~~~
 {% endraw %}
 
+### DirectionSwitch.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                            
+class DirectionSwitch
+
+instance variables
+  -- link back to the controller managing this resource
+  private mController : Controller;
+
+operations
+  public DirectionSwitch: Controller ==> DirectionSwitch
+  DirectionSwitch (pController) == mController := pController
+
+types
+  public tDirectionStatus = <LEFT> | <NEUTRAL> | <RIGHT>
+
+operations
+  public getStatus: () ==> tDirectionStatus
+  getStatus () == 
+    duration (0)
+      ( dcl dir : real := mController.getValue("DIRECTION");
+        -- negative value indicates left turn
+        if dir < 0.0 then return <LEFT>;
+        -- positive value indicates right turn
+        if dir > 0.0 then return <RIGHT>;
+        -- zero indicates no turn - move straight
+        return <NEUTRAL> )
+
+end DirectionSwitch
+            
+~~~
+{% endraw %}
+
+### Sensor.vdmrt
+
+{% raw %}
+~~~
+class Sensor is subclass of ISensorReal
+
+instance variables
+
+-- sensor value
+value: real;
+
+operations
+
+-- constructor for Sensor
+public Sensor: real ==> Sensor
+Sensor(v) ==
+	value := v;
+
+-- default constructor for Sensor
+public Sensor: () ==> Sensor
+Sensor() ==
+	Sensor(0.0);
+
+-- get sensor value
+public GetValue: () ==> real
+GetValue() ==
+  ( IO`printf("GetValue = %s\n", [value]);
+	return value );
+
+end Sensor
+~~~
+{% endraw %}
+
+### Controller.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                    
+class Controller
+
+values
+  -- control loop sample time (1 ms)
+  public SAMPLETIME = 0.001
+
+instance variables
+  -- identify the controller by name
+  public mName : seq of char;
+
+  -- the motor that is controlled
+  public mMotorActuator : MotorActuator;
+  public mMotorSensor : MotorSensor;
+
+operations
+  -- constructor
+  public Controller: seq of char ==> Controller
+  Controller (pName) ==
+    ( -- initialise the name of the controller
+      mName := pName;
+      -- initialise the motor actuator and sensor
+      mMotorActuator := new MotorActuator(self);
+      mMotorSensor := new MotorSensor(self) )
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+instance variables
+  -- link back to the environment
+  protected mEnvironment : [Environment] := nil;
+
+operations
+  -- establish a link to the environment model
+  public setEnvironment: Environment ==> ()
+  setEnvironment (pEnvironment) == mEnvironment := pEnvironment;
+
+  -- push a value to the environment
+  public setValue: seq of char * real ==> ()
+  setValue (pName, pValue) ==
+    mEnvironment.setValue(mName^"_"^pName, pValue)
+  pre mEnvironment <> nil;
+
+  -- get a value from the environment
+  public getValue: seq of char ==> real
+  getValue (pName) ==
+    return mEnvironment.getValue(mName^"_"^pName)
+  pre mEnvironment <> nil
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+values
+  protected DEBUGCTRLLOOP = 2
+ 
+operations
+  -- prototype used for simulation diagnostics
+  protected printDiagnostics: nat ==> ()
+  printDiagnostics (pLoopCnt) ==
+    duration (0)
+      ( -- generic diagnostics announcement
+        IO`printf(mName ^ " controller at %s on %s\n",
+          [pLoopCnt, time / 1E9]);
+        -- print the actuator internal state
+        mMotorActuator.printDiagnostics() )
+
+operations
+  -- prototype for the device power-up
+  public PowerUp: () ==> ()
+  PowerUp () == is subclass responsibility
+
+operations
+  -- prototype of the main control loop
+  async private CtrlLoop: () ==> ()
+  CtrlLoop () == 
+    ( -- use standard GoF behavior pattern
+      duration (0) CtrlLoopEntry();
+      CtrlLoopBody();
+      duration (0) CtrlLoopExit() );
+
+  -- auxiliary operation are used for diagnostics
+  -- always executes with zero duration
+  public CtrlLoopEntry: () ==> ()
+  CtrlLoopEntry () == skip;
+
+  public CtrlLoopBody: () ==> ()
+  CtrlLoopBody () == is subclass responsibility;
+
+  -- auxiliary operation are used for diagnostics
+  -- always executes with zero duration
+  public CtrlLoopExit: () ==> ()
+  CtrlLoopExit () == skip;
+
+thread
+  -- the control loop runs at 1kHz with a 750 msec initial offset
+  periodic (1, 0, 0, 0) (CtrlLoop)
+
+end Controller
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+~~~
+{% endraw %}
+
+### PI.vdmrt
+
+{% raw %}
+~~~
+class PI is subclass of DTControl
+
+instance variables
+
+-- design parameters
+protected k: real;
+protected tauI: real;
+
+-- variables
+protected uP: real;
+protected uI: real;
+
+operations
+
+-- constructor for PI
+public PI: real * real ==> PI
+PI(k_, tauI_) ==
+(
+    k := k_;
+	tauI := tauI_;
+	-- initial values
+	uP := 0;
+    uI := 0
+);
+
+-- default constructor for PI
+public PI: () ==> PI
+PI() ==
+    PI(DEF_K, DEF_TAUI);
+
+-- calculates output, based on the error
+public Output: real ==> real
+Output(err) == 
+(
+	dcl bi: real := k * sampletime / tauI;
+	uP := k * err;
+	uI := uI + bi* err;
+	return uP + uI;
+);
+
+values
+
+-- defaults
+DEF_K: real = 1;
+DEF_TAUI: real = 0.5;
+
+end PI
+~~~
+{% endraw %}
+
+### MotorSensor.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                            
+class MotorSensor
+  is subclass of ISensorReal
+
+instance variables
+
+  -- link back to the controller managing this resource
+  private mController : Controller;
+
+operations
+  public MotorSensor: Controller ==> MotorSensor
+  MotorSensor (pController) == mController := pController;
+
+  public GetValue: () ==> real
+  GetValue() == 
+    if mController.mName = "LEFT"
+    then mController.getValue("ACC")
+    else mController.getValue("VEL");
+
+  public getHallSensorData: () ==> bool * bool * bool
+  getHallSensorData () == 
+    duration (0)
+      ( -- retrieve the values from the environment
+        dcl h1 : real := mController.getValue("HALL1"), 
+            h2 : real := mController.getValue("HALL2"),
+            h3 : real := mController.getValue("HALL3");
+        -- map to Boolean values
+        return mk_ (h1 > 0, h2 > 0, h3 > 0) )
+
+end MotorSensor
+            
+~~~
+{% endraw %}
+
+### PD.vdmrt
+
+{% raw %}
+~~~
+class PD is subclass of DTControl
+
+instance variables
+
+-- design parameters
+protected k: real;
+protected tauD: real;
+protected beta: real;
+
+-- variables
+protected uD: real;
+protected prev_err: real
+
+operations
+
+-- constructor for PD
+public PD: real * real * real ==> PD
+PD(k_, tauD_, beta_) ==
+(
+    k := k_;
+	tauD := tauD_;
+	beta := beta_;
+	-- initial values
+    uD := 0.0;
+	prev_err := 0.0	
+);
+
+-- constructor for PD
+public PD: real * real ==> PD
+PD(k_, tauD_) ==
+	PD(k_, tauD_, DEF_BETA);
+    
+-- default constructor for PD
+public PD: () ==> PD
+PD() ==
+    PD(DEF_K, DEF_TAUD, DEF_BETA);
+
+-- calculates output, based on the error
+public Output: real ==> real
+Output(err) == 
+(
+	dcl factor: real :=  1 / (sampletime + tauD * beta);
+	uD := factor * (tauD * uD * beta + tauD * k * (err - prev_err) + sampletime * k * err);
+	prev_err := err;
+	return uD
+);
+
+values
+
+-- defaults
+DEF_K: real = 0.2;
+DEF_TAUD: real = 1.0;
+DEF_BETA: real = 0.1;
+
+end PD
+~~~
+{% endraw %}
+
+### IActuatorReal.vdmrt
+
+{% raw %}
+~~~
+class IActuatorReal
+
+operations
+
+-- set actuator value
+public SetValue: real ==> ()
+SetValue(v) ==
+	is subclass responsibility;
+
+end IActuatorReal
+~~~
+{% endraw %}
+
+### PID.vdmrt
+
+{% raw %}
+~~~
+class PID is subclass of DTControl
+
+instance variables
+
+-- design parameters
+protected k: real;
+protected tauI: real;
+protected tauD: real; 
+protected beta: real;
+
+-- variables
+protected uP: real;
+protected uD: real;
+protected uI: real;
+protected prev_err: real
+
+operations
+
+-- constructor for PID
+public PID: real * real * real * real ==> PID
+PID(k_, tauI_, tauD_, beta_) ==
+(
+	k := k_;
+	tauI := tauI_;
+    tauD := tauD_;
+    beta := beta_;
+	-- initial values
+	uP := 0;
+    uD := 0;
+    uI := 0;
+	prev_err := 0
+)
+pre tauI_ <> 0 and tauD_ <> 0 and
+    beta_ > 0 and beta_ <= 1;
+
+-- constructor for PID
+public PID: real * real * real ==> PID
+PID(k_, tauI_, tauD_) ==
+	PID(k_, tauI_, tauD_, DEF_BETA)
+pre tauI_ <> 0 and tauD_ <> 0;
+
+-- default constructor for PID
+public PID: () ==> PID
+PID() ==
+	PID(DEF_K, DEF_TAUI, DEF_TAUD, DEF_BETA);
+
+-- calculates output, based on the error
+public Output: real ==> real
+Output(err) == 
+(
+	dcl factor: real :=  1 / (sampletime + tauD * beta);
+	uD := factor * (tauD *  uD  * beta + tauD * k * (err - prev_err) + sampletime * k * err);
+	uI := uI + sampletime * tauD / tauI;
+	prev_err := err;
+	return uI + uD
+);
+
+values
+
+-- defaults
+DEF_K: real = 0.2;
+DEF_TAUI: real = 0.5;
+DEF_TAUD: real = 1.0;
+DEF_BETA: real = 0.1;
+
+end PID
+~~~
+{% endraw %}
+
+### Actuator.vdmrt
+
+{% raw %}
+~~~
+class Actuator is subclass of IActuatorReal
+
+instance variables
+
+-- actuator value
+value: real;
+
+operations
+
+-- constructor for PWM
+public Actuator : real ==> Actuator 
+Actuator(v) ==
+	value := v;
+
+-- default constructor for PWM
+public Actuator: () ==> Actuator
+Actuator() ==
+	Actuator(0.0);
+
+-- set actuator value
+public SetValue: real ==> ()
+SetValue(v) ==
+  ( IO`printf("SetValue = %s\n", [v]);
+	value := v );
+
+end Actuator
+~~~
+{% endraw %}
+
+### Gyroscope.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                     
+class Gyroscope
+
+instance variables
+  -- link back to the controller managing this resource
+  private mController : Controller;
+
+operations
+  public Gyroscope: Controller ==> Gyroscope
+  Gyroscope (pController) == mController := pController;
+
+  public getYawRateData: () ==> real
+  getYawRateData () ==
+    duration (0) return mController.getValue("YAW_RATE")
+
+end Gyroscope
+            
+~~~
+{% endraw %}
+
 ### MotorActuator.vdmrt
 
 {% raw %}
@@ -960,825 +1779,6 @@ operations
 
 end MotorActuator
             
-~~~
-{% endraw %}
-
-### MotorSensor.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                            
-class MotorSensor
-  is subclass of ISensorReal
-
-instance variables
-
-  -- link back to the controller managing this resource
-  private mController : Controller;
-
-operations
-  public MotorSensor: Controller ==> MotorSensor
-  MotorSensor (pController) == mController := pController;
-
-  public GetValue: () ==> real
-  GetValue() == 
-    if mController.mName = "LEFT"
-    then mController.getValue("ACC")
-    else mController.getValue("VEL");
-
-  public getHallSensorData: () ==> bool * bool * bool
-  getHallSensorData () == 
-    duration (0)
-      ( -- retrieve the values from the environment
-        dcl h1 : real := mController.getValue("HALL1"), 
-            h2 : real := mController.getValue("HALL2"),
-            h3 : real := mController.getValue("HALL3");
-        -- map to Boolean values
-        return mk_ (h1 > 0, h2 > 0, h3 > 0) )
-
-end MotorSensor
-            
-~~~
-{% endraw %}
-
-### OnOffSwitch.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                            
-class OnOffSwitch
-
-instance variables
-  -- link back to the controller managing this resource
-  private mController : Controller;
-
-operations
-  public OnOffSwitch: Controller ==> OnOffSwitch
-  OnOffSwitch (pController) == mController := pController;
-
-  public getStatus: () ==> bool
-  getStatus () == 
-    duration (0)
-      return mController.getValue("ONOFF") > 0;
-
-end OnOffSwitch
-            
-~~~
-{% endraw %}
-
-### P.vdmrt
-
-{% raw %}
-~~~
-class P is subclass of DTControl
-
-instance variables
-
--- design parameters
-protected k: real;
-
-operations
-
--- constructor for PD
-public P: real ==> P
-P(k_) ==
-(
-    k := k_;
-);
-    
--- default constructor for PD
-public P: () ==> P
-P() ==
-    P(DEF_K);
-
--- calculates output, based on the error
-public Output: real ==> real
-Output(err) == 
-(
-	return k * err
-);
-
-values
-
--- defaults
-DEF_K: real = 0.2;
-
-end P
-~~~
-{% endraw %}
-
-### PD.vdmrt
-
-{% raw %}
-~~~
-class PD is subclass of DTControl
-
-instance variables
-
--- design parameters
-protected k: real;
-protected tauD: real;
-protected beta: real;
-
--- variables
-protected uD: real;
-protected prev_err: real
-
-operations
-
--- constructor for PD
-public PD: real * real * real ==> PD
-PD(k_, tauD_, beta_) ==
-(
-    k := k_;
-	tauD := tauD_;
-	beta := beta_;
-	-- initial values
-    uD := 0.0;
-	prev_err := 0.0	
-);
-
--- constructor for PD
-public PD: real * real ==> PD
-PD(k_, tauD_) ==
-	PD(k_, tauD_, DEF_BETA);
-    
--- default constructor for PD
-public PD: () ==> PD
-PD() ==
-    PD(DEF_K, DEF_TAUD, DEF_BETA);
-
--- calculates output, based on the error
-public Output: real ==> real
-Output(err) == 
-(
-	dcl factor: real :=  1 / (sampletime + tauD * beta);
-	uD := factor * (tauD * uD * beta + tauD * k * (err - prev_err) + sampletime * k * err);
-	prev_err := err;
-	return uD
-);
-
-values
-
--- defaults
-DEF_K: real = 0.2;
-DEF_TAUD: real = 1.0;
-DEF_BETA: real = 0.1;
-
-end PD
-~~~
-{% endraw %}
-
-### PI.vdmrt
-
-{% raw %}
-~~~
-class PI is subclass of DTControl
-
-instance variables
-
--- design parameters
-protected k: real;
-protected tauI: real;
-
--- variables
-protected uP: real;
-protected uI: real;
-
-operations
-
--- constructor for PI
-public PI: real * real ==> PI
-PI(k_, tauI_) ==
-(
-    k := k_;
-	tauI := tauI_;
-	-- initial values
-	uP := 0;
-    uI := 0
-);
-
--- default constructor for PI
-public PI: () ==> PI
-PI() ==
-    PI(DEF_K, DEF_TAUI);
-
--- calculates output, based on the error
-public Output: real ==> real
-Output(err) == 
-(
-	dcl bi: real := k * sampletime / tauI;
-	uP := k * err;
-	uI := uI + bi* err;
-	return uP + uI;
-);
-
-values
-
--- defaults
-DEF_K: real = 1;
-DEF_TAUI: real = 0.5;
-
-end PI
-~~~
-{% endraw %}
-
-### PID.vdmrt
-
-{% raw %}
-~~~
-class PID is subclass of DTControl
-
-instance variables
-
--- design parameters
-protected k: real;
-protected tauI: real;
-protected tauD: real; 
-protected beta: real;
-
--- variables
-protected uP: real;
-protected uD: real;
-protected uI: real;
-protected prev_err: real
-
-operations
-
--- constructor for PID
-public PID: real * real * real * real ==> PID
-PID(k_, tauI_, tauD_, beta_) ==
-(
-	k := k_;
-	tauI := tauI_;
-    tauD := tauD_;
-    beta := beta_;
-	-- initial values
-	uP := 0;
-    uD := 0;
-    uI := 0;
-	prev_err := 0
-)
-pre tauI_ <> 0 and tauD_ <> 0 and
-    beta_ > 0 and beta_ <= 1;
-
--- constructor for PID
-public PID: real * real * real ==> PID
-PID(k_, tauI_, tauD_) ==
-	PID(k_, tauI_, tauD_, DEF_BETA)
-pre tauI_ <> 0 and tauD_ <> 0;
-
--- default constructor for PID
-public PID: () ==> PID
-PID() ==
-	PID(DEF_K, DEF_TAUI, DEF_TAUD, DEF_BETA);
-
--- calculates output, based on the error
-public Output: real ==> real
-Output(err) == 
-(
-	dcl factor: real :=  1 / (sampletime + tauD * beta);
-	uD := factor * (tauD *  uD  * beta + tauD * k * (err - prev_err) + sampletime * k * err);
-	uI := uI + sampletime * tauD / tauI;
-	prev_err := err;
-	return uI + uD
-);
-
-values
-
--- defaults
-DEF_K: real = 0.2;
-DEF_TAUI: real = 0.5;
-DEF_TAUD: real = 1.0;
-DEF_BETA: real = 0.1;
-
-end PID
-~~~
-{% endraw %}
-
-### RightController.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-class RightController
-  is subclass of Controller
-
-values
-  -- values for P controller (velocity)
-  KP2   : real = 20;
-  KI2   : real = 78.431372549;
-  KD2   : real = 0.0031875;
-  BETA2 : real = 0.1
-
-instance variables
-   -- controller
-  public ctrl : DTControl;
-
-  -- sensors connected to the right controller
-  public mSafetySwitch    : SafetySwitch;
-  public mOnOffSwitch     : OnOffSwitch;
-  public mDirectionSwitch : DirectionSwitch;
-
-operations
-  -- constructor for the left motor controller
-  public RightController: () ==> RightController
-  RightController () == 
-    ( -- create the co-sim shared variables
-      ChessWay`vel_in := new Sensor();
-      ChessWay`vel_out := new Actuator();
-      -- create the controller
-      ctrl := new P(KP2);
-	  ctrl.SetSampleTime(SAMPLETIME);
-      -- create the sensors
-      mSafetySwitch := new SafetySwitch(self);
-      mOnOffSwitch := new OnOffSwitch(self);
-      mDirectionSwitch := new DirectionSwitch(self);
-      -- call the controller base constructor
-      Controller ("RIGHT") );
-
-instance variables
-  -- maintain a link to the other controller
-  private mLeft : [LeftController] := nil
-
-operations
-  -- auxiliary operation to hook controller models together
-  public setLeftController: LeftController ==> ()
-  setLeftController (pLeft) == mLeft := pLeft
-  pre mLeft = nil
-                                                                                                                                                                                                                                                                                                 
-instance variables
-  -- loop count variable
-  private mLoopCnt : nat := 0;
-
-  -- time at control loop entry
-  private mTimeEntry : nat := 0;
-
-  -- enable debug logging
-  private mDebug : nat := 0
-   
-                                                                                                                                                                                                                                                                   
-operations
-  public CtrlLoopEntry: () ==> ()
-  CtrlLoopEntry () ==
-    duration (0)
-      ( -- first increase the loop counter
-        mLoopCnt := mLoopCnt + 1;
-        -- capture the current time
-        mTimeEntry := time;
-        -- diagnostics
-        if mDebug >= DEBUGCTRLLOOP then
-          IO`printf("RightController.mainLoop (S) = %s (%s)\n",
-            [mTimeEntry / 1E9, mLoopCnt]) );
-
-  public CtrlLoopBody: () ==> ()
-  CtrlLoopBody () ==
-    duration (0)
-      ( --dcl hall  : bool * bool * bool :=
-        --      mMotorSensor.getHallSensorData(),
-        --    safe  : bool := mSafetySwitch.getStatus(),
-        --    onoff : bool := mOnOffSwitch.getStatus(),
-        --    dir : DirectionSwitch`tDirectionStatus :=
-        --      mDirectionSwitch.getStatus();
-        -- execute the control loop
---        mMotorActuator.SetValue(ctrl.Output(mMotorSensor.GetValue())); 
-        ChessWay`vel_out.SetValue(ctrl.Output(ChessWay`vel_in.GetValue())); 
---        -- execute the controller
---        let pwm = computeResponse(hall, safe, onoff, dir) in
---          mMotorActuator.setPWM(pwm);
---        -- local diagnostics
---        duration (0)
---          if ChessWay`debug then
---            ( -- IO`print("R-HAL   = ");
---              -- IO`print(hall); IO`print("\n");
---              -- IO`print("R-SAFE  = ");
---              -- IO`print(safe); IO`print("\n");
---              -- IO`print("R-ONOFF = ");
---              -- IO`print(onoff); IO`print("\n");
---              -- IO`print("R-DIR   = ");
---              -- IO`print(dir); IO`print("\n");
-        skip );
-
-  public CtrlLoopExit: () ==> ()
-  CtrlLoopExit () ==
-    duration (0)
-      ( dcl mTimeExit : nat := time;
-        -- diagnostics
-        if mDebug >= DEBUGCTRLLOOP then
-          IO`printf("RightController.mainLoop (F) = %s (%s)\n",
-            [mTimeExit / 1E9, mLoopCnt]);
-        if mDebug > DEBUGCTRLLOOP then
-          IO`printf("RightController execution time was %s\n",
-            [(mTimeExit - mTimeEntry) / 1E9]) )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-operations
-  public PowerUp: () ==> ()
-  PowerUp () ==
-    duration (100)
-      ( mMotorActuator.initActuator();
-        mMotorActuator.printDiagnostics() )
-  pre mLeft <> nil
- 
-operations
-  -- prototype used for simulation diagnostics
-  public printDiagnostics: () ==> ()
-  printDiagnostics () ==
-    duration (0)
-      Controller`printDiagnostics(mLoopCnt)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-operations
-  public computeResponse: (bool * bool * bool) * bool *
-    bool * DirectionSwitch`tDirectionStatus ==> real
-  computeResponse (-, -, onoff, -) == 
-    ( if onoff
-      then ( mMotorActuator.setActuated();
-             mLeft.mMotorActuator.setActuated() )
-      else ( mMotorActuator.setFreeRunning();
-             mLeft.mMotorActuator.setFreeRunning() );
-      return 0.1 )
-
-end RightController
-            
-~~~
-{% endraw %}
-
-### SafetySwitch.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                          
-class SafetySwitch
-
-instance variables
-  -- link back to the controller managing this resource
-  private mController : Controller;
-
-operations
-  public SafetySwitch: Controller ==> SafetySwitch
-  SafetySwitch (pController) == mController := pController;
-
-  public getStatus: () ==> bool
-  getStatus () == 
-    duration (0)
-      return mController.getValue("SAFETY") > 0;
-
-end SafetySwitch
-            
-~~~
-{% endraw %}
-
-### Sensor.vdmrt
-
-{% raw %}
-~~~
-class Sensor is subclass of ISensorReal
-
-instance variables
-
--- sensor value
-value: real;
-
-operations
-
--- constructor for Sensor
-public Sensor: real ==> Sensor
-Sensor(v) ==
-	value := v;
-
--- default constructor for Sensor
-public Sensor: () ==> Sensor
-Sensor() ==
-	Sensor(0.0);
-
--- get sensor value
-public GetValue: () ==> real
-GetValue() ==
-  ( IO`printf("GetValue = %s\n", [value]);
-	return value );
-
-end Sensor
-~~~
-{% endraw %}
-
-### SetpointProfileCSV.vdmrt
-
-{% raw %}
-~~~
-class SetpointProfileCSV
-
-instance variables
-
--- file to read and the number of lines it contains
-filename: seq of char;
-lines: int;
-line: int;
-
--- current and next setpoint
-setpoint: real;
-next_setpoint: [(real * real)]
-
-operations
-
--- constructor for SetpointProfileCSV
-public SetpointProfileCSV: real * seq of char ==> SetpointProfileCSV
-SetpointProfileCSV(init, file) ==
-(
-	-- count lines in file
-	filename := file;
-	line := 1;
-	let mk_(success,l) = CSV`flinecount(file) in
-	(
-		if not success then quit("Failed to read input file '%s': %s.", [file, new CSV().ferror()]);
-		lines := l
-	);	
-	setpoint := init;
-	next_setpoint := nil
-);
-
--- constructor for SetpointProfileCSV
-public SetpointProfileCSV: seq of char ==> SetpointProfileCSV
-SetpointProfileCSV(file) ==
-	SetpointProfileCSV(0.0, file);
-
--- read the next setpoint from the file
-private ReadNextSetpoint: () ==> ()
-ReadNextSetpoint() ==
-(
-	let mk_(-,vals) = CSV`freadval[seq of real](filename,line) in 
-	(
-		if len vals <> 2 then quit("Incorrect number of values in %s line %s (expected: 2, actual: %s)\n", [filename,line,len vals])
-		else 
-		(
-			next_setpoint := mk_(vals(1),vals(2));
-			line := line + 1;
-		)
-	)
-)
-pre line <= lines and next_setpoint = nil;
-
--- return the value of the current setpoint
-public GetSetpoint: () ==> real
-GetSetpoint() ==
-( dcl curtime : real := time / 1.0E9;
-	-- no more setpoints
-	if line = lines then return setpoint;	
-
-	-- read from file if we need to
-	if next_setpoint = nil then ReadNextSetpoint();
-
-	-- update setpoint if necessary
-	let mk_(t,sp) = next_setpoint in
-		if curtime >= t then 
-		(
-			setpoint := sp;
-			next_setpoint := nil
-		);
-
-    -- show the computed setpoint
-    IO`printf("setpoint (%s) = %s\n", [curtime, setpoint]);
-
-	-- return current setpoint
-	return setpoint
-);
-
--- quit with given error (printf version)
-private quit: seq of char * seq of ? ==> ()
-quit(m,s) ==
-(
-	IO`printf(m ^ "\n",s);
-	exit
-);
-
--- quit with given error (println version)
-private quit: seq of char ==> ()
-quit(m) ==
-(
-	IO`println(m);
-	exit
-)
-
-end SetpointProfileCSV
-~~~
-{% endraw %}
-
-### User.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-class User
-
-values
-  gravity : real = 9.80665
-
-instance variables
-  -- link to the environment
-  mEnvironment : Environment;
-
-  -- link to both wheels
-  mLeftWheel : Wheel;
-  mRightWheel : Wheel;
-
-  -- last evaluated at time step
-  last : nat := 0;
-
-  -- current deviation from upright
-  angle : real := 0.0
-
-operations
-  public User: Environment * Wheel * Wheel ==> User
-  User (pEnvironment, pLeftWheel, pRightWheel) ==
-    ( mEnvironment := pEnvironment;
-      mLeftWheel := pLeftWheel;
-      mRightWheel := pRightWheel );
-
-  public evaluate: () ==> ()
-  evaluate () == 
-    ( dcl user : real := mEnvironment.getValue("USER"),
-          now : nat := time;
-      -- compute and update the yaw rate
-      def dt = (now - last) / World`SIM_RESOLUTION in
-      def rate = if dt = 0 then 0 else (angle - user) / dt in
-        mEnvironment.setValue("LEFT_YAW_RATE", rate);
-      -- compute and update the acceleration
-      def dx = MATH`cos(user) * gravity in
-        mEnvironment.setValue("LEFT_ACC_X", dx);
-      def dy = MATH`sin(user) * gravity in
-        mEnvironment.setValue("LEFT_ACC_Y", dy);
-      -- delta between the left and right wheel acceleration
-      def dz = mLeftWheel.acc - mRightWheel.acc in
-        mEnvironment.setValue("LEFT_ACC_Z", dz);
-      -- update the angle
-      angle := user;
-      -- remember when we where executed
-      last := now )
-
-end User
-                                                                                                                                                                                                                                                                                                                                                                                         
-~~~
-{% endraw %}
-
-### Wheel.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                 
-class Wheel
-
-values
-  -- maximum angular acceleration is 20 pi rad/sec^2
-  MAX_ACC : real = 62.8318531
-
-instance variables
-  -- the logical name of the wheel
-  mName : seq of char;
-
-  -- link to the environment
-  mEnvironment : Environment;
-
-  -- last evaluated at time step
-  last : nat := 0;
-
-  -- current angular acceleration
-  public acc : real := 0.0;
-
-  -- current angular speed
-  public speed : real := 0.0;
-
-  -- current angular position
-  public position : real := 0.0
-
-operations
-  -- constructor for the wheel class
-  public Wheel: seq of char * Environment ==> Wheel
-  Wheel (pname, penv) == ( mName := pname; mEnvironment := penv);
-
-  private isActuated: () ==> bool
-  isActuated () ==
-    return mEnvironment.getValue(mName^"_ACTUATED") = 1;
-
-  private getPWM: () ==> real
-  getPWM () ==
-    return mEnvironment.getValue(mName^"_PWM");
-
-  public evaluate: () ==> ()
-  evaluate () ==
-    ( dcl pwm       : real := if isActuated()
-                              then getPWM()
-                              else 0.0,
-          old_acc   : real := acc,
-          old_speed : real := speed,
-          now       : nat  := time;
-      -- compute the amount of time passed
-      def dt = (now - last) / World`SIM_RESOLUTION in
-        ( -- update the current wheel acceleration
-          acc := MAX_ACC * pwm;
-          -- update the wheel angular speed (Euler)
-          speed := speed + 0.5 * dt * (old_acc + acc);
-          -- update the wheel angular positiom (Euler)
-          position := position + 0.5 * dt * (old_speed + speed);
-          -- remember when we where executed
-          last := now )  )
-
-end Wheel
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-~~~
-{% endraw %}
-
-### World.vdmrt
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-class World
-
-values
-  -- in this model use nanosecond resolution
-  public SIM_RESOLUTION = 1E9;
-
-  -- maximum simulation time is 10 seconds
-  public MAX_SIM_TIME = 20 * SIM_RESOLUTION
-
-instance variables
-  -- are we running a co-simulation or not
-  public static cosim : bool := false
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-operations
-  -- top-level access function for ChessWay co-simulation
-  public run : () ==> ()
-  run () == 
-    ( -- set the co-simulation indicator
-      cosim := true;
-      -- execute the same model
-      RunScenario("steeringsignal1.csv") );
-
-  -- top-level access function for ChessWay DE only simulation
-  public RunVdmRt : () ==> ()
-  RunVdmRt () == RunScenario("scenario1.txt");
-
-  -- top-level access function to run a particular scenario
-  public RunScenario: seq1 of char ==> ()
-  RunScenario (fname) ==
-    ( -- create an instance of the Environment model
-      dcl env : Environment :=
-        new Environment(self, MAX_SIM_TIME);
-
-      -- load a simulation scenario
-      if cosim
-      then env.loadCsvFile("USER", fname)
-      else env.loadScenario(fname);
-
-      -- link the environment to the system controllers
-      ChessWay`lctrl.setEnvironment(env);
-      ChessWay`rctrl.setEnvironment(env);
-
-      -- cross link the two system controller models
-      ChessWay`lctrl.setRightController(ChessWay`rctrl);
-      ChessWay`rctrl.setLeftController(ChessWay`lctrl);
-
-      -- announce start of simulation run
-      IO`print("Starting ChessWay DE simulation\n");
-
-	  -- initialize the system tasks
-      ChessWay`lctrl.PowerUp();
-      ChessWay`rctrl.PowerUp();
-
-      -- start the environment and periodic loopcontroller tasks
-      startlist({env, ChessWay`lctrl, ChessWay`rctrl});
-
-      -- wait for simulation run end (lock main DESTECS GUI thread)
-      waitForSimulationEnd();
-
-      -- announce end of simulation run
-      IO`print("ChessWay DE simulation completed at ");
-      IO`print(time / SIM_RESOLUTION);
-      IO`print(" sec\n") )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-instance variables
-  -- boolean to indicate when simulation run is complete
-  public finish : bool := false
-
-operations
-  -- auxiliary operation to wait for simulation run to finish
-  private waitForSimulationEnd: () ==> ()
-  waitForSimulationEnd () ==
-    -- print conditional diagnostics
-    if ChessWay`debug
-    then ( ChessWay`lctrl.printDiagnostics();
-           ChessWay`rctrl.printDiagnostics() );
-
-  public signal: () ==> () 
-  signal () == 
-    ( finish := true;
-      IO`println("Environment requests end of simulation") );
-
-sync
-  -- the environment task has to unlock the main thread
-  per waitForSimulationEnd => finish
-
-end World
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 ~~~
 {% endraw %}
 

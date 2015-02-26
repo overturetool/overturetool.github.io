@@ -26,6 +26,75 @@ Springer Verlag, October 1994.
 |Entry point     :| DEFAULT`LooseEvalExpr(expr)|
 
 
+### auxil.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                    
+
+operations
+
+SeqOfSetOf2SetOfSeqOf : seq of set of (VAL | BlkEnv) ==> 
+                        set of seq of (VAL | BlkEnv)
+SeqOfSetOf2SetOfSeqOf(seq_ls) ==
+( dcl res_s : set of seq of (VAL | BlkEnv) := { [] } ,
+      tmpres_s : set of seq of (VAL | BlkEnv) ;
+  for tmp_s in seq_ls do 
+  ( tmpres_s := {} ;
+    for all tmp_l in set res_s do
+      for all e in set tmp_s do
+        tmpres_s := tmpres_s union { tmp_l ^ [ e ] } ;
+    res_s := tmpres_s 
+  );
+  return res_s
+)
+                                                                                                         
+functions
+
+  Consistent: LVAL * Model -> LVAL
+  Consistent(lval,bind) ==
+    {mk_(val,b munion bind)
+    | mk_(val,b) in set lval &
+      forall id in set (dom b inter dom bind) &
+             b(id) = bind(id)};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  SetToSeq: set of VAL +> seq of VAL
+  SetToSeq(s) ==
+    if s = {}
+    then []
+    else let e in set s
+         in
+           [e] ^ SetToSeq(s\{e})
+ post s = elems RESULT;
+                                                                                                                    
+
+  Permute: seq of VAL -> set of seq of VAL
+  Permute(l) ==
+    cases l:
+      [],
+      [-]    -> { l },
+      others -> dunion { { [ l(i) ] ^ j | j in set Permute(RestSeq(l, i))} | 
+                           i in set inds l }
+    end;
+    
+  RestSeq: seq of VAL * nat1 -> seq of VAL
+  RestSeq(l,i) ==
+    [ l(j) | j in set (inds l \ { i }) ];
+                                                                                                                                        
+  PatternIds: Pattern +> set of UniqueId
+  PatternIds(pat) ==
+    cases pat:
+      mk_PatternName(mk_(nm,pos)) -> {mk_(nm,pos,FnInfo())},
+      mk_MatchVal(-)              -> {},
+      mk_SetEnumPattern(els)      -> dunion {PatternIds(elem)
+                                            |elem in set elems els},
+      mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union
+                                     PatternIds(rp)
+    end
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+~~~
+{% endraw %}
+
 ### as.vdmsl
 
 {% raw %}
@@ -160,261 +229,6 @@ values
  expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
 
              
-~~~
-{% endraw %}
-
-### auxil.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                    
-
-operations
-
-SeqOfSetOf2SetOfSeqOf : seq of set of (VAL | BlkEnv) ==> 
-                        set of seq of (VAL | BlkEnv)
-SeqOfSetOf2SetOfSeqOf(seq_ls) ==
-( dcl res_s : set of seq of (VAL | BlkEnv) := { [] } ,
-      tmpres_s : set of seq of (VAL | BlkEnv) ;
-  for tmp_s in seq_ls do 
-  ( tmpres_s := {} ;
-    for all tmp_l in set res_s do
-      for all e in set tmp_s do
-        tmpres_s := tmpres_s union { tmp_l ^ [ e ] } ;
-    res_s := tmpres_s 
-  );
-  return res_s
-)
-                                                                                                         
-functions
-
-  Consistent: LVAL * Model -> LVAL
-  Consistent(lval,bind) ==
-    {mk_(val,b munion bind)
-    | mk_(val,b) in set lval &
-      forall id in set (dom b inter dom bind) &
-             b(id) = bind(id)};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-  SetToSeq: set of VAL +> seq of VAL
-  SetToSeq(s) ==
-    if s = {}
-    then []
-    else let e in set s
-         in
-           [e] ^ SetToSeq(s\{e})
- post s = elems RESULT;
-                                                                                                                    
-
-  Permute: seq of VAL -> set of seq of VAL
-  Permute(l) ==
-    cases l:
-      [],
-      [-]    -> { l },
-      others -> dunion { { [ l(i) ] ^ j | j in set Permute(RestSeq(l, i))} | 
-                           i in set inds l }
-    end;
-    
-  RestSeq: seq of VAL * nat1 -> seq of VAL
-  RestSeq(l,i) ==
-    [ l(j) | j in set (inds l \ { i }) ];
-                                                                                                                                        
-  PatternIds: Pattern +> set of UniqueId
-  PatternIds(pat) ==
-    cases pat:
-      mk_PatternName(mk_(nm,pos)) -> {mk_(nm,pos,FnInfo())},
-      mk_MatchVal(-)              -> {},
-      mk_SetEnumPattern(els)      -> dunion {PatternIds(elem)
-                                            |elem in set elems els},
-      mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union
-                                     PatternIds(rp)
-    end
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-~~~
-{% endraw %}
-
-### env.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-types
-
-  ENVL = seq of ENV;
-                                                                                                                                                                                                                                                                                                                              
-  ENV = seq of BlkEnv;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-  BlkEnv = seq of NameVal;
-                                                                                                                                                                                                                                                                                                                                                   
-  NameVal = UniqueId * VAL;
-
-  UniqueId = (Name * Position * ([Name * VAL]));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-  LVAL = set of (VAL * Model);
-                                                                                                                                                                                                                                                                                                                                                                                                                                
-  Model = map UniqueId to VAL;
-                                                                                                                                                                                                                                              
-  VAL = NUM | BOOL | SET;
-
-  NUM :: v : int;
-
-  BOOL :: v : bool;
-
-  SET :: v : set of VAL
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-state Sigma of
-  env_l: ENVL
-  val_m: map UniqueId to LVAL
-  fn_m: map Name to (Pattern * Expr)
-  curfn: seq of (Name * VAL)
-  fnparms: set of UniqueId
-init s ==
-  s = mk_Sigma([[]],
-               {|->},
-               {|->},
-               [],
-	       {})
-end
-
-                                                                                                                                                                                                                                                                                                  
-operations
-
-  CreateContext: Definitions ==> ()
-  CreateContext(mk_Definitions(valuem,fnm)) ==
-    (InstallValueDefs(valuem);
-     InstallFnDefs(fnm));
-                                                                                                                                                                                                                                                                                                           
-  InstallValueDefs: seq of ValueDef ==> ()
-  InstallValueDefs(val_l) ==
-    for mk_ValueDef(pat,expr) in val_l do
-      let lval = LooseEvalExpr(expr)
-      in
-        for all mk_(val,model) in set lval do
-	  let env_s = PatternMatch(pat,val)
-	  in
-	    val_m := Extend(val_m,
-	             {id |-> {mk_(Look(env,id),model)|env in set env_s}
-		     | id in set dinter {SelDom(env)| env in set env_s}});
-
-                                                                                                                                                                                             
-
-  InstallFnDefs: map Name to ExplFnDef ==> ()
-  InstallFnDefs(fn_marg) ==
-    fn_m := {nm |-> mk_(fn_marg(nm).pat,fn_marg(nm).body)
-            | nm in set dom fn_marg};
-
-  InstallCurFn: Name * VAL * set of UniqueId ==> ()
-  InstallCurFn(nm,val,patids) ==
-   (curfn := [mk_(nm,val)] ^ curfn;
-    fnparms := fnparms union patids);
-
-  LeaveCurFn: () ==> ()
-  LeaveCurFn() ==
-    curfn := tl curfn
-  pre curfn <> []
-
-                                                                                                                                                                                                                                                                                                                                                         
-operations
-
-  PopEnvL: () ==> ()
-  PopEnvL() ==
-    env_l := tl env_l;
-
-  TopEnvL : () ==> ENV
-  TopEnvL () ==
-    return hd env_l;
-
-  PushEmptyEnv : () ==> ()
-  PushEmptyEnv () ==
-    env_l := [ [] ] ^ env_l;
-
-  PopBlkEnv : () ==> ()
-  PopBlkEnv () ==
-    env_l := [ tl hd env_l ] ^ tl env_l;
-
-  PushBlkEnv : BlkEnv ==> ()
-  PushBlkEnv (benv) ==
-    env_l := [ [ benv ] ^ hd env_l ] ^ tl env_l;
-
-  MkEmptyBlkEnv: () ==> BlkEnv
-  MkEmptyBlkEnv() ==
-    return [];
-
-  CombineBlkEnv : BlkEnv * BlkEnv ==> BlkEnv
-  CombineBlkEnv ( env1,env2) ==
-    return env1 ^ env2;
-    
-  MkBlkEnv : (Name * Position) * VAL ==> BlkEnv
-  MkBlkEnv (mk_(nm,pos), val_v ) ==
-    let fninfo = FnInfo()
-    in
-      return [ mk_(mk_(nm, pos, fninfo), val_v)];
-
-  FnInfo: () ==> [Name * VAL]
-  FnInfo() ==
-    if len curfn = 0
-    then return nil
-    else return hd curfn;
-	   
-  LooseLookUp: Name ==> LVAL
-  LooseLookUp(nm) ==
-  (let topenv = TopEnvL()
-   in
-     for env in topenv do
-       for mk_(id,val) in env do
-         if SelName(id) = nm 
-	 then return {mk_(val, if id in set fnparms
-	                       then {|->}
-			       else {id |-> val})}
-	 else skip;
-   LookUpValueDefs(nm));
-
-  LookUpValueDefs: Name ==> LVAL
-  LookUpValueDefs(nm) ==
-    (for all id in set dom val_m do
-      if SelName(id) = nm
-      then return {mk_(v,m munion {id |-> v}) | mk_(v,m) in set val_m(id)};
-     error); 
-
-  LookUpFn: Name ==> Pattern * Expr
-  LookUpFn(nm) ==
-    return fn_m(nm)
-  pre nm in set dom fn_m
-
-functions
-
-  SelName: UniqueId +> Name
-  SelName(mk_(nm,-,-)) ==
-    nm;
-    
-  SelNameAndPos: UniqueId +> Name * Position
-  SelNameAndPos(mk_(nm,pos,-)) ==
-    mk_(nm,pos);
-
-  SelDom: BlkEnv +> set of UniqueId
-  SelDom(blkenv) ==
-    {id| mk_(id,-) in set elems blkenv};
-
-  Look: BlkEnv * UniqueId +> VAL
-  Look(env,id) ==
-    if env = []
-    then undefined
-    else let mk_(nm,val) = hd env
-         in
-	   if nm = id
-	   then val
-	   else Look(tl env, id)
-  pre exists mk_(nm,-) in set elems env & nm = id;
-
-  Extend: (map UniqueId to LVAL) * (map UniqueId to LVAL) +>
-          (map UniqueId to LVAL)
-  Extend(val_m,upd_m) ==
-    val_m ++ {id |-> if id in set dom val_m
-                     then val_m(id) union upd_m(id)
-		     else upd_m(id)
-	     | id in set dom upd_m}
-    
-            
 ~~~
 {% endraw %}
 
@@ -726,6 +540,192 @@ EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
     return env_s)
 )
                                                                                                                                  
+~~~
+{% endraw %}
+
+### env.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+types
+
+  ENVL = seq of ENV;
+                                                                                                                                                                                                                                                                                                                              
+  ENV = seq of BlkEnv;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+  BlkEnv = seq of NameVal;
+                                                                                                                                                                                                                                                                                                                                                   
+  NameVal = UniqueId * VAL;
+
+  UniqueId = (Name * Position * ([Name * VAL]));
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+  LVAL = set of (VAL * Model);
+                                                                                                                                                                                                                                                                                                                                                                                                                                
+  Model = map UniqueId to VAL;
+                                                                                                                                                                                                                                              
+  VAL = NUM | BOOL | SET;
+
+  NUM :: v : int;
+
+  BOOL :: v : bool;
+
+  SET :: v : set of VAL
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+state Sigma of
+  env_l: ENVL
+  val_m: map UniqueId to LVAL
+  fn_m: map Name to (Pattern * Expr)
+  curfn: seq of (Name * VAL)
+  fnparms: set of UniqueId
+init s ==
+  s = mk_Sigma([[]],
+               {|->},
+               {|->},
+               [],
+	       {})
+end
+
+                                                                                                                                                                                                                                                                                                  
+operations
+
+  CreateContext: Definitions ==> ()
+  CreateContext(mk_Definitions(valuem,fnm)) ==
+    (InstallValueDefs(valuem);
+     InstallFnDefs(fnm));
+                                                                                                                                                                                                                                                                                                           
+  InstallValueDefs: seq of ValueDef ==> ()
+  InstallValueDefs(val_l) ==
+    for mk_ValueDef(pat,expr) in val_l do
+      let lval = LooseEvalExpr(expr)
+      in
+        for all mk_(val,model) in set lval do
+	  let env_s = PatternMatch(pat,val)
+	  in
+	    val_m := Extend(val_m,
+	             {id |-> {mk_(Look(env,id),model)|env in set env_s}
+		     | id in set dinter {SelDom(env)| env in set env_s}});
+
+                                                                                                                                                                                             
+
+  InstallFnDefs: map Name to ExplFnDef ==> ()
+  InstallFnDefs(fn_marg) ==
+    fn_m := {nm |-> mk_(fn_marg(nm).pat,fn_marg(nm).body)
+            | nm in set dom fn_marg};
+
+  InstallCurFn: Name * VAL * set of UniqueId ==> ()
+  InstallCurFn(nm,val,patids) ==
+   (curfn := [mk_(nm,val)] ^ curfn;
+    fnparms := fnparms union patids);
+
+  LeaveCurFn: () ==> ()
+  LeaveCurFn() ==
+    curfn := tl curfn
+  pre curfn <> []
+
+                                                                                                                                                                                                                                                                                                                                                         
+operations
+
+  PopEnvL: () ==> ()
+  PopEnvL() ==
+    env_l := tl env_l;
+
+  TopEnvL : () ==> ENV
+  TopEnvL () ==
+    return hd env_l;
+
+  PushEmptyEnv : () ==> ()
+  PushEmptyEnv () ==
+    env_l := [ [] ] ^ env_l;
+
+  PopBlkEnv : () ==> ()
+  PopBlkEnv () ==
+    env_l := [ tl hd env_l ] ^ tl env_l;
+
+  PushBlkEnv : BlkEnv ==> ()
+  PushBlkEnv (benv) ==
+    env_l := [ [ benv ] ^ hd env_l ] ^ tl env_l;
+
+  MkEmptyBlkEnv: () ==> BlkEnv
+  MkEmptyBlkEnv() ==
+    return [];
+
+  CombineBlkEnv : BlkEnv * BlkEnv ==> BlkEnv
+  CombineBlkEnv ( env1,env2) ==
+    return env1 ^ env2;
+    
+  MkBlkEnv : (Name * Position) * VAL ==> BlkEnv
+  MkBlkEnv (mk_(nm,pos), val_v ) ==
+    let fninfo = FnInfo()
+    in
+      return [ mk_(mk_(nm, pos, fninfo), val_v)];
+
+  FnInfo: () ==> [Name * VAL]
+  FnInfo() ==
+    if len curfn = 0
+    then return nil
+    else return hd curfn;
+	   
+  LooseLookUp: Name ==> LVAL
+  LooseLookUp(nm) ==
+  (let topenv = TopEnvL()
+   in
+     for env in topenv do
+       for mk_(id,val) in env do
+         if SelName(id) = nm 
+	 then return {mk_(val, if id in set fnparms
+	                       then {|->}
+			       else {id |-> val})}
+	 else skip;
+   LookUpValueDefs(nm));
+
+  LookUpValueDefs: Name ==> LVAL
+  LookUpValueDefs(nm) ==
+    (for all id in set dom val_m do
+      if SelName(id) = nm
+      then return {mk_(v,m munion {id |-> v}) | mk_(v,m) in set val_m(id)};
+     error); 
+
+  LookUpFn: Name ==> Pattern * Expr
+  LookUpFn(nm) ==
+    return fn_m(nm)
+  pre nm in set dom fn_m
+
+functions
+
+  SelName: UniqueId +> Name
+  SelName(mk_(nm,-,-)) ==
+    nm;
+    
+  SelNameAndPos: UniqueId +> Name * Position
+  SelNameAndPos(mk_(nm,pos,-)) ==
+    mk_(nm,pos);
+
+  SelDom: BlkEnv +> set of UniqueId
+  SelDom(blkenv) ==
+    {id| mk_(id,-) in set elems blkenv};
+
+  Look: BlkEnv * UniqueId +> VAL
+  Look(env,id) ==
+    if env = []
+    then undefined
+    else let mk_(nm,val) = hd env
+         in
+	   if nm = id
+	   then val
+	   else Look(tl env, id)
+  pre exists mk_(nm,-) in set elems env & nm = id;
+
+  Extend: (map UniqueId to LVAL) * (map UniqueId to LVAL) +>
+          (map UniqueId to LVAL)
+  Extend(val_m,upd_m) ==
+    val_m ++ {id |-> if id in set dom val_m
+                     then val_m(id) union upd_m(id)
+		     else upd_m(id)
+	     | id in set dom upd_m}
+    
+            
 ~~~
 {% endraw %}
 

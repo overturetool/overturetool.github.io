@@ -19,47 +19,6 @@ distributed real time version of this example.
 |Entry point     :| new World().Run()|
 
 
-### CM.vdmpp
-
-{% raw %}
-~~~
-              
-class CM
-
-instance variables
-
--- maintain a link to the detector
-public static detector : MissileDetector := new MissileDetector();
-
-public static sensor0 : Sensor := new Sensor(detector,0);
-public static sensor1 : Sensor := new Sensor(detector,90);
-public static sensor2 : Sensor := new Sensor(detector,180);
-public static sensor3 : Sensor := new Sensor(detector,270);
-
-public static controller0 : FlareController := new FlareController(0);
-public static controller1 : FlareController := new FlareController(120);
-public static controller2 : FlareController := new FlareController(240);
-
-public static dispenser0 : FlareDispenser := new FlareDispenser(0);
-public static dispenser1 : FlareDispenser := new FlareDispenser(30);
-public static dispenser2 : FlareDispenser := new FlareDispenser(60);
-public static dispenser3 : FlareDispenser := new FlareDispenser(90);
-
-public static dispenser4 : FlareDispenser := new FlareDispenser(0);
-public static dispenser5 : FlareDispenser := new FlareDispenser(30);
-public static dispenser6 : FlareDispenser := new FlareDispenser(60);
-public static dispenser7 : FlareDispenser := new FlareDispenser(90);
-
-public static dispenser8 : FlareDispenser := new FlareDispenser(0);
-public static dispenser9 : FlareDispenser := new FlareDispenser(30);
-public static dispenser10 : FlareDispenser := new FlareDispenser(60);
-public static dispenser11 : FlareDispenser := new FlareDispenser(90);
-
-end CM
-             
-~~~
-{% endraw %}
-
 ### environment.vdmpp
 
 {% raw %}
@@ -156,6 +115,86 @@ getAperture () == return mk_(0,0);
 
 end Environment
                                                                                            
+~~~
+{% endraw %}
+
+### CM.vdmpp
+
+{% raw %}
+~~~
+              
+class CM
+
+instance variables
+
+-- maintain a link to the detector
+public static detector : MissileDetector := new MissileDetector();
+
+public static sensor0 : Sensor := new Sensor(detector,0);
+public static sensor1 : Sensor := new Sensor(detector,90);
+public static sensor2 : Sensor := new Sensor(detector,180);
+public static sensor3 : Sensor := new Sensor(detector,270);
+
+public static controller0 : FlareController := new FlareController(0);
+public static controller1 : FlareController := new FlareController(120);
+public static controller2 : FlareController := new FlareController(240);
+
+public static dispenser0 : FlareDispenser := new FlareDispenser(0);
+public static dispenser1 : FlareDispenser := new FlareDispenser(30);
+public static dispenser2 : FlareDispenser := new FlareDispenser(60);
+public static dispenser3 : FlareDispenser := new FlareDispenser(90);
+
+public static dispenser4 : FlareDispenser := new FlareDispenser(0);
+public static dispenser5 : FlareDispenser := new FlareDispenser(30);
+public static dispenser6 : FlareDispenser := new FlareDispenser(60);
+public static dispenser7 : FlareDispenser := new FlareDispenser(90);
+
+public static dispenser8 : FlareDispenser := new FlareDispenser(0);
+public static dispenser9 : FlareDispenser := new FlareDispenser(30);
+public static dispenser10 : FlareDispenser := new FlareDispenser(60);
+public static dispenser11 : FlareDispenser := new FlareDispenser(90);
+
+end CM
+             
+~~~
+{% endraw %}
+
+### sensor.vdmpp
+
+{% raw %}
+~~~
+              
+class Sensor is subclass of GLOBAL
+
+instance variables
+
+-- the missile detector this sensor is connected to
+private detector : MissileDetector;
+
+-- the left hand-side of the viewing angle of the sensor
+private aperture : Angle;
+
+operations
+
+public Sensor: MissileDetector * Angle ==> Sensor
+Sensor (pmd, psa) == ( detector := pmd; aperture := psa);
+
+-- get the left hand-side start point and opening angle
+public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
+getAperture () == return mk_ (aperture, SENSOR_APERTURE);
+
+-- trip is called asynchronously from the environment to
+-- signal an event. the sensor triggers if the event is
+-- in the field of view. the event is stored in the
+-- missile detector for further processing
+public trip: EventId * MissileType * Angle ==> ()
+trip (evid, pmt, pa) ==
+  -- log and time stamp the observed threat
+  detector.addThreat(evid, pmt,pa,World`timerRef.GetTime())
+pre canObserve(pa, aperture, SENSOR_APERTURE)
+
+end Sensor
+                                                                               
 ~~~
 {% endraw %}
 
@@ -342,6 +381,63 @@ end FlareDispenser
 ~~~
 {% endraw %}
 
+### world.vdmpp
+
+{% raw %}
+~~~
+              
+class World
+
+instance variables
+  
+-- maintain a link to the environment
+public static env : [Environment] := nil;
+public static timerRef : Timer := Timer`GetInstance();
+
+operations
+
+public World: () ==> World
+World () ==
+  (-- set-up the sensors
+   env := new Environment("scenario.txt");
+   env.addSensor(CM`sensor0);
+   env.addSensor(CM`sensor1);
+   env.addSensor(CM`sensor2);
+   env.addSensor(CM`sensor3);
+
+   -- add the first controller with four dispensers
+   CM`controller0.addDispenser(CM`dispenser0);
+   CM`controller0.addDispenser(CM`dispenser1);
+   CM`controller0.addDispenser(CM`dispenser2);
+   CM`controller0.addDispenser(CM`dispenser3);
+   CM`detector.addController(CM`controller0);
+
+   -- add the second controller with four dispensers
+   CM`controller1.addDispenser(CM`dispenser4);
+   CM`controller1.addDispenser(CM`dispenser5);
+   CM`controller1.addDispenser(CM`dispenser6);
+   CM`controller1.addDispenser(CM`dispenser7);
+   CM`detector.addController(CM`controller1);
+ 
+   -- add the third controller with four dispensers
+   CM`controller2.addDispenser(CM`dispenser8);
+   CM`controller2.addDispenser(CM`dispenser9);
+   CM`controller2.addDispenser(CM`dispenser10);
+   CM`controller2.addDispenser(CM`dispenser11);
+   CM`detector.addController(CM`controller2);
+  );
+
+-- the run function blocks the user-interface thread
+-- until all missiles in the file have been processed
+public Run: () ==> ()
+Run () == 
+  env.Run()
+
+end World
+                                                                       
+~~~
+{% endraw %}
+
 ### global.vdmpp
 
 {% raw %}
@@ -470,45 +566,6 @@ end MissileDetector
 ~~~
 {% endraw %}
 
-### sensor.vdmpp
-
-{% raw %}
-~~~
-              
-class Sensor is subclass of GLOBAL
-
-instance variables
-
--- the missile detector this sensor is connected to
-private detector : MissileDetector;
-
--- the left hand-side of the viewing angle of the sensor
-private aperture : Angle;
-
-operations
-
-public Sensor: MissileDetector * Angle ==> Sensor
-Sensor (pmd, psa) == ( detector := pmd; aperture := psa);
-
--- get the left hand-side start point and opening angle
-public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
-getAperture () == return mk_ (aperture, SENSOR_APERTURE);
-
--- trip is called asynchronously from the environment to
--- signal an event. the sensor triggers if the event is
--- in the field of view. the event is stored in the
--- missile detector for further processing
-public trip: EventId * MissileType * Angle ==> ()
-trip (evid, pmt, pa) ==
-  -- log and time stamp the observed threat
-  detector.addThreat(evid, pmt,pa,World`timerRef.GetTime())
-pre canObserve(pa, aperture, SENSOR_APERTURE)
-
-end Sensor
-                                                                               
-~~~
-{% endraw %}
-
 ### timer.vdmpp
 
 {% raw %}
@@ -545,63 +602,6 @@ GetTime() ==
 
 end Timer
                                                                          
-~~~
-{% endraw %}
-
-### world.vdmpp
-
-{% raw %}
-~~~
-              
-class World
-
-instance variables
-  
--- maintain a link to the environment
-public static env : [Environment] := nil;
-public static timerRef : Timer := Timer`GetInstance();
-
-operations
-
-public World: () ==> World
-World () ==
-  (-- set-up the sensors
-   env := new Environment("scenario.txt");
-   env.addSensor(CM`sensor0);
-   env.addSensor(CM`sensor1);
-   env.addSensor(CM`sensor2);
-   env.addSensor(CM`sensor3);
-
-   -- add the first controller with four dispensers
-   CM`controller0.addDispenser(CM`dispenser0);
-   CM`controller0.addDispenser(CM`dispenser1);
-   CM`controller0.addDispenser(CM`dispenser2);
-   CM`controller0.addDispenser(CM`dispenser3);
-   CM`detector.addController(CM`controller0);
-
-   -- add the second controller with four dispensers
-   CM`controller1.addDispenser(CM`dispenser4);
-   CM`controller1.addDispenser(CM`dispenser5);
-   CM`controller1.addDispenser(CM`dispenser6);
-   CM`controller1.addDispenser(CM`dispenser7);
-   CM`detector.addController(CM`controller1);
- 
-   -- add the third controller with four dispensers
-   CM`controller2.addDispenser(CM`dispenser8);
-   CM`controller2.addDispenser(CM`dispenser9);
-   CM`controller2.addDispenser(CM`dispenser10);
-   CM`controller2.addDispenser(CM`dispenser11);
-   CM`detector.addController(CM`controller2);
-  );
-
--- the run function blocks the user-interface thread
--- until all missiles in the file have been processed
-public Run: () ==> ()
-Run () == 
-  env.Run()
-
-end World
-                                                                       
 ~~~
 {% endraw %}
 

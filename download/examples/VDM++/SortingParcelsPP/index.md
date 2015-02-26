@@ -20,46 +20,6 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 |Entry point     :| new Test().Run()|
 
 
-### Colli.vdmpp
-
-{% raw %}
-~~~
-
-class Colli
-
-functions
-
-instance variables
-
-ID : int := 0;
-destination : int := 0;
-
-operations
-
-public Colli: int * int ==> Colli
-Colli(id, dest) ==
-(
-ID := id;
-destination := dest;
-);
-
-public getDestination : () ==> int
-getDestination() ==
-  return destination;
-
-public getID : () ==> int
-getID() == return ID;
-
-public setID : int ==> ()
-setID(id) == ID := id;
-
-public setDestination : int ==> ()
-setDestination(dest) == destination := dest;
-
-end Colli
-~~~
-{% endraw %}
-
 ### Conveyor.vdmpp
 
 {% raw %}
@@ -173,6 +133,46 @@ for all x in set goods do (
 );
 
 end Slide
+~~~
+{% endraw %}
+
+### Colli.vdmpp
+
+{% raw %}
+~~~
+
+class Colli
+
+functions
+
+instance variables
+
+ID : int := 0;
+destination : int := 0;
+
+operations
+
+public Colli: int * int ==> Colli
+Colli(id, dest) ==
+(
+ID := id;
+destination := dest;
+);
+
+public getDestination : () ==> int
+getDestination() ==
+  return destination;
+
+public getID : () ==> int
+getID() == return ID;
+
+public setID : int ==> ()
+setID(id) == ID := id;
+
+public setDestination : int ==> ()
+setDestination(dest) == destination := dest;
+
+end Colli
 ~~~
 {% endraw %}
 

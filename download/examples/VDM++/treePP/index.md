@@ -18,103 +18,6 @@ and traversing over abstract threes and queues.
 |Entry point     :| new UseTree().insertion_BST()|
 
 
-### avl.vdmpp
-
-{% raw %}
-~~~
-class AVLTree is subclass of Tree
-
-  functions
-
-  tree_isAVLTree : tree -> bool
-  tree_isAVLTree(t) == true
-
-end AVLTree
-~~~
-{% endraw %}
-
-### bst.vdmpp
-
-{% raw %}
-~~~
-class BinarySearchTree is subclass of Tree
-
-
-  functions
-
-    public
-    isBst : Tree`tree -> bool
-    isBst (t) ==
-      cases t:
-        <Empty> -> true,
-        mk_node(lt,v,rt) -> 
-           (forall n in set lt.nodes() & n.nval <= v) and
-           (forall n in set rt.nodes() & v <= n.nval) and
-           isBst(lt.gettree()) and isBst(rt.gettree())
-      end
- 
-  operations
-
-    BinarySearchTree_inv : () ==> bool
-    BinarySearchTree_inv () ==
-      return(isBst(root));
-
-    public
-    Insert : int ==> ()
-    Insert (x) ==
-      (dcl curr_node : Tree := self;
-
-       while not curr_node.isEmpty() do
-         if curr_node.rootval() < x
-         then curr_node := curr_node.rightBranch()
-         else curr_node := curr_node.leftBranch();
-       curr_node.addRoot(x);
-       )
-
-end BinarySearchTree
-class BalancedBST is subclass of BinarySearchTree
-
-  values
-
-  v = 1
-
-end BalancedBST
-~~~
-{% endraw %}
-
-### queue.vdmpp
-
-{% raw %}
-~~~
-class Queue
-
-  instance variables
-    vals : seq of Tree`node := [];
-
-  operations
-
-    public
-    Enqueue : Tree`node ==> ()
-    Enqueue (x) ==
-      vals := vals ^ [x];
-
-    public
-    Dequeue : () ==> Tree`node
-    Dequeue () ==
-      def x = hd vals
-      in ( vals := tl vals;
-           return x)
-    pre not isEmpty();
-
-    public
-    isEmpty : () ==> bool
-    isEmpty () == 
-      return(vals = [])
-
-end Queue
-~~~
-{% endraw %}
-
 ### tree.vdmpp
 
 {% raw %}
@@ -225,6 +128,54 @@ end Tree
 ~~~
 {% endraw %}
 
+### queue.vdmpp
+
+{% raw %}
+~~~
+class Queue
+
+  instance variables
+    vals : seq of Tree`node := [];
+
+  operations
+
+    public
+    Enqueue : Tree`node ==> ()
+    Enqueue (x) ==
+      vals := vals ^ [x];
+
+    public
+    Dequeue : () ==> Tree`node
+    Dequeue () ==
+      def x = hd vals
+      in ( vals := tl vals;
+           return x)
+    pre not isEmpty();
+
+    public
+    isEmpty : () ==> bool
+    isEmpty () == 
+      return(vals = [])
+
+end Queue
+~~~
+{% endraw %}
+
+### avl.vdmpp
+
+{% raw %}
+~~~
+class AVLTree is subclass of Tree
+
+  functions
+
+  tree_isAVLTree : tree -> bool
+  tree_isAVLTree(t) == true
+
+end AVLTree
+~~~
+{% endraw %}
+
 ### usetree.vdmpp
 
 {% raw %}
@@ -248,6 +199,55 @@ traces
            )
 
 end UseTree
+~~~
+{% endraw %}
+
+### bst.vdmpp
+
+{% raw %}
+~~~
+class BinarySearchTree is subclass of Tree
+
+
+  functions
+
+    public
+    isBst : Tree`tree -> bool
+    isBst (t) ==
+      cases t:
+        <Empty> -> true,
+        mk_node(lt,v,rt) -> 
+           (forall n in set lt.nodes() & n.nval <= v) and
+           (forall n in set rt.nodes() & v <= n.nval) and
+           isBst(lt.gettree()) and isBst(rt.gettree())
+      end
+ 
+  operations
+
+    BinarySearchTree_inv : () ==> bool
+    BinarySearchTree_inv () ==
+      return(isBst(root));
+
+    public
+    Insert : int ==> ()
+    Insert (x) ==
+      (dcl curr_node : Tree := self;
+
+       while not curr_node.isEmpty() do
+         if curr_node.rootval() < x
+         then curr_node := curr_node.rightBranch()
+         else curr_node := curr_node.leftBranch();
+       curr_node.addRoot(x);
+       )
+
+end BinarySearchTree
+class BalancedBST is subclass of BinarySearchTree
+
+  values
+
+  v = 1
+
+end BalancedBST
 ~~~
 {% endraw %}
 

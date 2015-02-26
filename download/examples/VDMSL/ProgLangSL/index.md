@@ -20,12 +20,14 @@ of the software technology course at the Technical University Graz, Austria.
 |Entry point     :| Test`RunEval()|
 
 
-### ast.vdmsl
+### statsem.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                             
-module AST
+                                                                                                                                                                      
+module STATSEM
+
+imports from AST all
 
 exports all
 
@@ -33,53 +35,110 @@ definitions
 
 types
 
-  Program :: decls : seq of Declaration
-             stmt  : Stmt;
-                                                                                                                                   
-  Declaration :: id  : Identifier
-                 tp  : Type
-                 val : [Value];
-                                                                                                                                                                                                                                                   
-  Identifier = seq1 of char;
+  StatEnv = map AST`Identifier to AST`Type;
+                                                                                                                                                                                                                  
+functions
 
-  Type = <BoolType> | <IntType> ;
+  wf_Program : AST`Program -> bool
+  wf_Program(mk_AST`Program(decls, stmt)) ==
+    wf_Declarations(decls) and wf_Stmt(stmt, get_Declarations(decls));
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+wf_Declarations : seq of AST`Declaration -> bool
+wf_Declarations(decls) ==
+  (forall i1, i2 in set inds decls & 
+    i1 <> i2 => decls(i1).id <> decls(i2).id) and
+  (forall i in set inds decls & 
+    decls(i).val <> nil => 
+    ((is_AST`BoolVal(decls(i).val) and decls(i).tp = <BoolType>) or 
+     (is_AST`IntVal(decls(i).val) and decls(i).tp = <IntType>)));
 
-  Value = BoolVal | IntVal;
+get_Declarations : seq of AST`Declaration -> StatEnv
+get_Declarations(decls) ==
+  {id |-> tp | mk_AST`Declaration(id, tp, -) in set elems decls};
+                                                                                                                          
+wf_Stmt : AST`Stmt * StatEnv -> bool
+wf_Stmt(stmt, senv) ==
+  cases true :
+    (is_AST`BlockStmt(stmt))  -> wf_BlockStmt(stmt, senv),
+    (is_AST`AssignStmt(stmt)) -> let mk_(wf_ass, -) = 
+                                     wf_AssignStmt(stmt, senv)
+                                 in wf_ass,
+    (is_AST`CondStmt(stmt))   -> wf_CondStmt(stmt, senv),
+    (is_AST`ForStmt(stmt))    -> wf_ForStmt(stmt, senv),
+    (is_AST`RepeatStmt(stmt)) -> wf_RepeatStmt(stmt, senv),
+    others                -> false
+  end;
 
-  BoolVal :: val : bool;
+wf_BlockStmt : AST`BlockStmt * StatEnv -> bool
+wf_BlockStmt(mk_AST`BlockStmt(decls, stmts), senv) ==
+  wf_Declarations(decls) and 
+  wf_Stmts(stmts, senv ++ get_Declarations(decls));
 
-  IntVal :: val : int;
-                                                                                                                                                                                                                                                                                                                                                                   
-  Stmt = BlockStmt | AssignStmt | CondStmt | ForStmt | RepeatStmt;
-                                                                                                                                
-  BlockStmt :: decls : seq of Declaration
-               stmts : seq1 of Stmt;
-                                                                                                                                                                 
-  AssignStmt :: lhs : Variable
-                rhs : Expr;
+wf_Stmts : seq of AST`Stmt * StatEnv -> bool
+wf_Stmts(stmts, senv) ==
+  forall stmt in set elems stmts & wf_Stmt(stmt, senv);
+                                                                                                                                                                                                                   
+wf_AssignStmt : AST`AssignStmt * StatEnv -> bool * [AST`Type]
+wf_AssignStmt(mk_AST`AssignStmt(lhs, rhs), senv) ==
+  let mk_(wf_var, tp_var) = wf_Variable(lhs, senv),
+      mk_(wf_ex, tp_ex) = wf_Expr(rhs, senv)
+  in mk_(wf_ex and wf_var and tp_var = tp_ex, tp_var);
+                                                                                                              
+wf_CondStmt : AST`CondStmt * StatEnv -> bool
+wf_CondStmt(mk_AST`CondStmt(guard, thenst, elsest), senv) ==
+  let mk_(wf_ex, tp_ex) = wf_Expr(guard, senv)
+  in wf_ex and tp_ex = <BoolType> and 
+     wf_Stmt(thenst, senv) and wf_Stmt(elsest, senv);
 
-  Variable :: id : Identifier;
-                                                                                                                                                                                                
-  Expr = BinaryExpr | Value | Variable;
+wf_RepeatStmt : AST`RepeatStmt * StatEnv -> bool
+wf_RepeatStmt(mk_AST`RepeatStmt(repeat, until), senv) ==
+  let mk_(wf_ex, tp_ex) = wf_Expr(until, senv)
+  in wf_ex and tp_ex = <BoolType> and wf_Stmt(repeat, senv);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+wf_ForStmt : AST`ForStmt * StatEnv -> bool
+wf_ForStmt(mk_AST`ForStmt(start, stop, stmt), senv) ==
+  let mk_(wf_ass, tp_ass) = wf_AssignStmt(start, senv),
+      mk_(wf_ex, tp_ex) = wf_Expr(stop, senv)
+  in wf_ass and wf_ex and tp_ass = <IntType> and tp_ex = <IntType> and 
+     wf_Stmt(stmt, senv);
+                                                                                                                                                 
+wf_Expr : AST`Expr * StatEnv -> bool * [AST`Type]
+wf_Expr(ex, senv) ==
+  cases true :
+    (is_AST`BoolVal(ex))    -> mk_(true, <BoolType>),
+    (is_AST`IntVal(ex))     -> mk_(true, <IntType>),
+    (is_AST`Variable(ex))   -> wf_Variable(ex, senv),
+    (is_AST`BinaryExpr(ex)) -> wf_BinaryExpr(ex, senv),
+    others                  -> mk_(false, <IntType>)
+  end;
 
-  BinaryExpr :: lhs : Expr
-                op  : Operator
-                rhs : Expr;
-                                                                                                                                                                                                                                        
-  Operator = <Add> | <Sub> | <Div> | <Mul> | <Lt> | <Gt> | <Eq> | <And> | <Or>;
-                                                                                                                   
-  CondStmt :: guard  : Expr
-              thenst : Stmt
-              elsest : Stmt;
-                                                                                                                                                                                                                                                                                            
-  ForStmt :: start : AssignStmt
-             stop  : Expr
-             stmt  : Stmt;
-                                                                                                                       
-  RepeatStmt :: repeat : Stmt
-                until  : Expr;
-                
-end AST
+wf_Variable : AST`Variable * StatEnv -> bool * [AST`Type]
+wf_Variable(mk_AST`Variable(id), senv) ==
+  if id in set dom senv 
+  then mk_(true, senv(id))
+  else mk_(false, nil);
+                                                                                                                                                                                                       
+wf_BinaryExpr : AST`BinaryExpr * StatEnv -> bool * [AST`Type]
+wf_BinaryExpr(mk_AST`BinaryExpr(lhs, op, rhs), senv) ==
+  let mk_(wf_lhs, tp_lhs) = wf_Expr(lhs, senv), 
+      mk_(wf_rhs, tp_rhs) = wf_Expr(rhs, senv)
+  in cases op :
+     <Add>, <Sub>, <Div>, <Mul> -> 
+       mk_(wf_lhs and wf_rhs and 
+       tp_lhs = <IntType> and tp_rhs = <IntType>,
+           <IntType>),
+     <Lt>, <Gt>, <Eq> ->
+       mk_(wf_lhs and wf_rhs and 
+       tp_lhs = <IntType> and tp_rhs = <IntType>,
+           <BoolType>),
+     <And>, <Or> ->
+       mk_(wf_lhs and wf_rhs and 
+       tp_lhs = <BoolType> and tp_rhs = <BoolType>,
+           <BoolType>),
+     others -> mk_(false, nil)
+     end;
+      
+end STATSEM
              
 ~~~
 {% endraw %}
@@ -234,14 +293,12 @@ end DYNSEM
 ~~~
 {% endraw %}
 
-### statsem.vdmsl
+### ast.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                      
-module STATSEM
-
-imports from AST all
+                                                                                                                                                                                                                                                                             
+module AST
 
 exports all
 
@@ -249,110 +306,53 @@ definitions
 
 types
 
-  StatEnv = map AST`Identifier to AST`Type;
-                                                                                                                                                                                                                  
-functions
+  Program :: decls : seq of Declaration
+             stmt  : Stmt;
+                                                                                                                                   
+  Declaration :: id  : Identifier
+                 tp  : Type
+                 val : [Value];
+                                                                                                                                                                                                                                                   
+  Identifier = seq1 of char;
 
-  wf_Program : AST`Program -> bool
-  wf_Program(mk_AST`Program(decls, stmt)) ==
-    wf_Declarations(decls) and wf_Stmt(stmt, get_Declarations(decls));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-wf_Declarations : seq of AST`Declaration -> bool
-wf_Declarations(decls) ==
-  (forall i1, i2 in set inds decls & 
-    i1 <> i2 => decls(i1).id <> decls(i2).id) and
-  (forall i in set inds decls & 
-    decls(i).val <> nil => 
-    ((is_AST`BoolVal(decls(i).val) and decls(i).tp = <BoolType>) or 
-     (is_AST`IntVal(decls(i).val) and decls(i).tp = <IntType>)));
+  Type = <BoolType> | <IntType> ;
 
-get_Declarations : seq of AST`Declaration -> StatEnv
-get_Declarations(decls) ==
-  {id |-> tp | mk_AST`Declaration(id, tp, -) in set elems decls};
-                                                                                                                          
-wf_Stmt : AST`Stmt * StatEnv -> bool
-wf_Stmt(stmt, senv) ==
-  cases true :
-    (is_AST`BlockStmt(stmt))  -> wf_BlockStmt(stmt, senv),
-    (is_AST`AssignStmt(stmt)) -> let mk_(wf_ass, -) = 
-                                     wf_AssignStmt(stmt, senv)
-                                 in wf_ass,
-    (is_AST`CondStmt(stmt))   -> wf_CondStmt(stmt, senv),
-    (is_AST`ForStmt(stmt))    -> wf_ForStmt(stmt, senv),
-    (is_AST`RepeatStmt(stmt)) -> wf_RepeatStmt(stmt, senv),
-    others                -> false
-  end;
+  Value = BoolVal | IntVal;
 
-wf_BlockStmt : AST`BlockStmt * StatEnv -> bool
-wf_BlockStmt(mk_AST`BlockStmt(decls, stmts), senv) ==
-  wf_Declarations(decls) and 
-  wf_Stmts(stmts, senv ++ get_Declarations(decls));
+  BoolVal :: val : bool;
 
-wf_Stmts : seq of AST`Stmt * StatEnv -> bool
-wf_Stmts(stmts, senv) ==
-  forall stmt in set elems stmts & wf_Stmt(stmt, senv);
-                                                                                                                                                                                                                   
-wf_AssignStmt : AST`AssignStmt * StatEnv -> bool * [AST`Type]
-wf_AssignStmt(mk_AST`AssignStmt(lhs, rhs), senv) ==
-  let mk_(wf_var, tp_var) = wf_Variable(lhs, senv),
-      mk_(wf_ex, tp_ex) = wf_Expr(rhs, senv)
-  in mk_(wf_ex and wf_var and tp_var = tp_ex, tp_var);
-                                                                                                              
-wf_CondStmt : AST`CondStmt * StatEnv -> bool
-wf_CondStmt(mk_AST`CondStmt(guard, thenst, elsest), senv) ==
-  let mk_(wf_ex, tp_ex) = wf_Expr(guard, senv)
-  in wf_ex and tp_ex = <BoolType> and 
-     wf_Stmt(thenst, senv) and wf_Stmt(elsest, senv);
+  IntVal :: val : int;
+                                                                                                                                                                                                                                                                                                                                                                   
+  Stmt = BlockStmt | AssignStmt | CondStmt | ForStmt | RepeatStmt;
+                                                                                                                                
+  BlockStmt :: decls : seq of Declaration
+               stmts : seq1 of Stmt;
+                                                                                                                                                                 
+  AssignStmt :: lhs : Variable
+                rhs : Expr;
 
-wf_RepeatStmt : AST`RepeatStmt * StatEnv -> bool
-wf_RepeatStmt(mk_AST`RepeatStmt(repeat, until), senv) ==
-  let mk_(wf_ex, tp_ex) = wf_Expr(until, senv)
-  in wf_ex and tp_ex = <BoolType> and wf_Stmt(repeat, senv);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-wf_ForStmt : AST`ForStmt * StatEnv -> bool
-wf_ForStmt(mk_AST`ForStmt(start, stop, stmt), senv) ==
-  let mk_(wf_ass, tp_ass) = wf_AssignStmt(start, senv),
-      mk_(wf_ex, tp_ex) = wf_Expr(stop, senv)
-  in wf_ass and wf_ex and tp_ass = <IntType> and tp_ex = <IntType> and 
-     wf_Stmt(stmt, senv);
-                                                                                                                                                 
-wf_Expr : AST`Expr * StatEnv -> bool * [AST`Type]
-wf_Expr(ex, senv) ==
-  cases true :
-    (is_AST`BoolVal(ex))    -> mk_(true, <BoolType>),
-    (is_AST`IntVal(ex))     -> mk_(true, <IntType>),
-    (is_AST`Variable(ex))   -> wf_Variable(ex, senv),
-    (is_AST`BinaryExpr(ex)) -> wf_BinaryExpr(ex, senv),
-    others                  -> mk_(false, <IntType>)
-  end;
+  Variable :: id : Identifier;
+                                                                                                                                                                                                
+  Expr = BinaryExpr | Value | Variable;
 
-wf_Variable : AST`Variable * StatEnv -> bool * [AST`Type]
-wf_Variable(mk_AST`Variable(id), senv) ==
-  if id in set dom senv 
-  then mk_(true, senv(id))
-  else mk_(false, nil);
-                                                                                                                                                                                                       
-wf_BinaryExpr : AST`BinaryExpr * StatEnv -> bool * [AST`Type]
-wf_BinaryExpr(mk_AST`BinaryExpr(lhs, op, rhs), senv) ==
-  let mk_(wf_lhs, tp_lhs) = wf_Expr(lhs, senv), 
-      mk_(wf_rhs, tp_rhs) = wf_Expr(rhs, senv)
-  in cases op :
-     <Add>, <Sub>, <Div>, <Mul> -> 
-       mk_(wf_lhs and wf_rhs and 
-       tp_lhs = <IntType> and tp_rhs = <IntType>,
-           <IntType>),
-     <Lt>, <Gt>, <Eq> ->
-       mk_(wf_lhs and wf_rhs and 
-       tp_lhs = <IntType> and tp_rhs = <IntType>,
-           <BoolType>),
-     <And>, <Or> ->
-       mk_(wf_lhs and wf_rhs and 
-       tp_lhs = <BoolType> and tp_rhs = <BoolType>,
-           <BoolType>),
-     others -> mk_(false, nil)
-     end;
-      
-end STATSEM
+  BinaryExpr :: lhs : Expr
+                op  : Operator
+                rhs : Expr;
+                                                                                                                                                                                                                                        
+  Operator = <Add> | <Sub> | <Div> | <Mul> | <Lt> | <Gt> | <Eq> | <And> | <Or>;
+                                                                                                                   
+  CondStmt :: guard  : Expr
+              thenst : Stmt
+              elsest : Stmt;
+                                                                                                                                                                                                                                                                                            
+  ForStmt :: start : AssignStmt
+             stop  : Expr
+             stmt  : Stmt;
+                                                                                                                       
+  RepeatStmt :: repeat : Stmt
+                until  : Expr;
+                
+end AST
              
 ~~~
 {% endraw %}
