@@ -9,6 +9,7 @@ title: Overview
 <script src="javascripts/moment-with-langs.js"></script>
 <script src="javascripts/github-releases.js"></script>
 <script>updateFrontPage();</script>
+<script src="https://platform.twitter.com/widgets.js"></script>
 
 
 # Overview
@@ -28,12 +29,12 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 |----|
 | The current stable version is <strong id="current-release-version">2.0.8</strong> <i id="current-release-data"> (May 2014) </i> which you can [download here]({{ site.url }}/download/).|
 
-<div id="current-release"><div>
+<div id="current-release"></div>
 
 <a class="twitter-timeline" href="https://twitter.com/overturetool" data-widget-id="572304129142575104">Tweets by @overturetool</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
-<div-id="tweets"><div>
+<div id="tweets"></div>
 
 #### Extensions:
 <table>
