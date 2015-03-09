@@ -23,6 +23,7 @@ title: Overture Publications
 -   VDM-RT Distribution Code generation, Miran Hasanagic, Peter
     Tran-Jørgensen and Peter Gorm Larsen
 -   VDM Animation for a Wider Range of Stakeholders, Tomohiro Oda, Kenjiro Araki and Peter Gorm Larsen
+-   Improving Time Estimates in VDM-RT Models, Morten Larsen, Peter Tran-Jørgensen and Peter Gorm Larsen
 
 ## In preparation
 
