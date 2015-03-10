@@ -18,7 +18,7 @@ There is a long tradition for having these workshops co-located with the FM symp
 
 ### Call for Papers
 
-Our workshop aims to provide a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed and real-time systems. We strongly welcome contributions on the development of tools for VDM as well as developments in foundations and reports of practical experience.
+Our workshop aims to provide a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed and real-time systems. We strongly welcome contributions on the development of tools for VDM as well as developments in foundations and reports of practical experience. The page limit is 15 pages. 
 
 The scope of the workshop includes, but is not restricted to: 
 
