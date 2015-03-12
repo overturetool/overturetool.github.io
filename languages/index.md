@@ -21,7 +21,7 @@ title: The VDM languages
   systems. Draft content below.
       -->
 
-The complete VDM-10 Language Manual can be downloaded [here.]({{ site.url }}/files/VDM10_lang_man.pdf)	  
+The complete VDM-10 Language Manual can be downloaded from [here.]({{ site.url }}/documentation/manuals.html)	  
   
 
 VDM Features
