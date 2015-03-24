@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Net Meeting XX
+title: Net Meeting 87
 date: 29 March 2015, 1300 CET
 ---
 
