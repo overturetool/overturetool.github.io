@@ -45,6 +45,7 @@ some description
 
 #### New Projects
 Students at the University of Minho have started two projects on Overture (ldc supervising): 
+
 * using Alloy to discharge POs in VDM-SL
 * building a new coverage plug-in
 
