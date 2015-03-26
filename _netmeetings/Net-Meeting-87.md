@@ -43,6 +43,15 @@ some description
 
 ##  Status of the Overture Components
 
+#### VDMJ
+
+Some small bug fixes:
+
+* 2015-03-24 Fix to typecheck of forward references
+* 2015-03-18 Fix to typecheck of map/seq override operator
+* 2015-03-14 Fix to typecheck of subset and psubset
+* 2015-03-03 Correction for is_ handling of function types
+
 #### New Projects
 Students at the University of Minho have started two projects on Overture (ldc supervising): 
 
