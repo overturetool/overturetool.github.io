@@ -36,9 +36,9 @@ some description
 
 ## Status of VDMTools Development
 
-#### topic 1
+#### v.9.0.6
 
-some description
+SCSK has a plan to release v9.0.6 in this month.
 
 
 ##  Status of the Overture Components
