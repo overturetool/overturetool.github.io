@@ -65,7 +65,7 @@ It will be some time until either of these is in the tool (if they ever are) but
 
 #### Overture 2.2.4
 
-The next version of Overture is coming out very soon. By the time of this NM, the RC should have been sent out to interested parties. Assuming all goes well, the release will be built and published Monday, March 30.
+The next version of Overture is coming out very soon. The internal RC has been sent out for testing (interested parties can grab it at http://overture.au.dk/overture/development/Build-206_2015-03-27_13-21/). Assuming all goes well, the release will be built and published Monday, March 30.
 
 The release will consist of bugfixes and some usability improvements as well as some updates to the user manual. It is being done in part to support upcoming VDM courses.
 
