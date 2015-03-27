@@ -31,7 +31,7 @@ The scope of the workshop includes, but is not restricted to:
 
 ### Important Dates
 
-* 1st April 2015: Submission deadline for workshop papers (submit at https://easychair.org/conferences/?conf=overture13)
+* <strike>1st April</strike> Extended to 7th April 2015: Submission deadline for workshop papers (submit at https://easychair.org/conferences/?conf=overture13)
 * 1st May 2015: Notification to workshop paper authors
 * 1st June 2015: Final version of workshop papers due
 
