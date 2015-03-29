@@ -80,14 +80,6 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 The Overture twitter handle (https://twitter.com/overturetool) is now under direct administration of the Overture project. We have a tool in place to do group tweeting so multiple people can tweet from the handle without sharing a password. It would be really nice if we could make the acount more lively. Interested parties should contact ldc/kl. Also, we are considering embedding the timeline on the main overturetool.org website. Input is welcome on this.
 
 
-
-
-
-##  Strategic Research Agenda
-
-The Strategic [[Research]] Agenda is reviewed every other NetMeeting.
-
-
 ##  Publications Status and Plans
 
 Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
