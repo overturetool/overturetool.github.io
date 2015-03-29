@@ -16,20 +16,24 @@ date: 29 March 2015, 1300 CET
 | Date | 2015-01-28 13:00 CET |
 | Participants | AA, BB, ..., CC.  Minutes by DD. |
 
+NB, PGL, PJ. Minutes by PJ.
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](actions.html)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 80-1 Status remains unchanged. Action is still open.
 
 
 ## Overture Language Board Status
 
-#### topic 1
+#### A proposal to extend the standard libraries
+
+See https://github.com/overturetool/language/issues/31
+
+#### Pure operations
+
+Remains unchanged.
 
 some description
 
@@ -60,6 +64,11 @@ Students at the University of Minho have started two projects on Overture (ldc s
 
 It will be some time until either of these is in the tool (if they ever are) but we are particularly interested in how the students get along. These are probably the first fully remote Overture contributions by new developers.
 
+* Most recent work on the Java code generator
+
+Now you can choose output package of the generated code. Do a launch configuration based code generation and have the Java code generator generating the corresponding main class. Finally, the generated code is output as an Eclipse project. In addition to the user generated code, it also has a copy of the code generation runtime. (One with the binaries only, and one with the sources attached).
+Launch config based CG
+Runtime is output
 
 ##  Release Planning
 
