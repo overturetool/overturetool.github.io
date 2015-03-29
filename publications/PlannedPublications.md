@@ -24,6 +24,7 @@ title: Overture Publications
     Tran-Jørgensen and Peter Gorm Larsen
 -   VDM Animation for a Wider Range of Stakeholders, Tomohiro Oda, Kenjiro Araki and Peter Gorm Larsen
 -   Improving Time Estimates in VDM-RT Models, Morten Larsen, Peter Tran-Jørgensen and Peter Gorm Larsen
+-   Integrating the PVSio-web modelling and prototyping environment with Overture, Paolo Masci, Luis Diogo Couto, Peter Gorm Larsen and Paul Curzon
 
 ## In preparation
 
