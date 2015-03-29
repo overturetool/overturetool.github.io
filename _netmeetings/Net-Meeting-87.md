@@ -14,9 +14,7 @@ date: 29 March 2015, 1300 CET
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | Nick Battle, Peter Gorm Larsen (chair),  Tomohiro Oda, Shin Sahara. Minutes by Marcel Verhoef. |
-
-NB, PGL, PJ. Minutes by PJ.
+| Participants | Nick Battle, Nico Plat,  Peter Gorm Larsen (chair),  Tomohiro Oda, Peter Tran-Jørgensen. Minutes by Peter Tran-Jørgensen. |
 
 ## Review Status of the Action List
 
@@ -24,19 +22,21 @@ See [Net Meeting Actions](actions.html)
 
 * 80-1 Status remains unchanged. Action is still open.
 
-
 ## Overture Language Board Status
 
-#### A proposal to extend the standard libraries
+#### Add a VDM-Util function for getting current system time
+
+There has been a proposal to extend the standard libraries with support for measuring the time it takes to execute a functional description.
 
 See https://github.com/overturetool/language/issues/31
 
 #### Pure operations
 
-Remains unchanged.
+Status of this request for modification remains unchanged.
+
+See https://github.com/overturetool/language/issues/27 
 
 some description
-
 
 ## Status of VDMTools Development
 
@@ -64,11 +64,13 @@ Students at the University of Minho have started two projects on Overture (ldc s
 
 It will be some time until either of these is in the tool (if they ever are) but we are particularly interested in how the students get along. These are probably the first fully remote Overture contributions by new developers.
 
-* Most recent work on the Java code generator
+Most recent work on the Java code generator
 
-Now you can choose output package of the generated code. Do a launch configuration based code generation and have the Java code generator generating the corresponding main class. Finally, the generated code is output as an Eclipse project. In addition to the user generated code, it also has a copy of the code generation runtime. (One with the binaries only, and one with the sources attached).
-Launch config based CG
-Runtime is output
+New functionality added to the Java code generator:
+
+* Choosing output package of the generated code
+* Do a launch configuration based code generation and have the Java code generator generating the corresponding main class.
+* Output as an Eclipse project. In addition to the user generated code, it also has a copy of the code generation runtime. (One with the binaries only, and one with the sources attached).
 
 ##  Release Planning
 
@@ -95,5 +97,7 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 
 
 ##  Any Other Business
+
+PVJ is going ot the US (University of Central Florida) for a two month period (April, May). He will be working on translating VDM into JML and use this in relation to his work on code generation of traces.
 
 <div id="edit_page_div"></div>
