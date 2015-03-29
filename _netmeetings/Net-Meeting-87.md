@@ -9,12 +9,12 @@ date: 29 March 2015, 1300 CET
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>
 
-# NetMeeting Default Template
+# {{ page.title }}
 
 |||
 |---|---|
-| Date | 2015-01-28 13:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Date | {{ page.date }} |
+| Participants | Nick Battle, Peter Gorm Larsen (chair),  Tomohiro Oda, Shin Sahara. Minutes by Marcel Verhoef. |
 
 NB, PGL, PJ. Minutes by PJ.
 
@@ -92,19 +92,6 @@ The Overture twitter handle (https://twitter.com/overturetool) is now under dire
 ##  Publications Status and Plans
 
 Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
 
 
 ##  Any Other Business
