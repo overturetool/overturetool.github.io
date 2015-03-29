@@ -36,8 +36,6 @@ Status of this request for modification remains unchanged.
 
 See https://github.com/overturetool/language/issues/27 
 
-some description
-
 ## Status of VDMTools Development
 
 #### v.9.0.6
@@ -64,13 +62,12 @@ Students at the University of Minho have started two projects on Overture (ldc s
 
 It will be some time until either of these is in the tool (if they ever are) but we are particularly interested in how the students get along. These are probably the first fully remote Overture contributions by new developers.
 
-Most recent work on the Java code generator
 
 New functionality added to the Java code generator:
 
 * Choosing output package of the generated code
 * Do a launch configuration based code generation and have the Java code generator generating the corresponding main class.
-* Output as an Eclipse project. In addition to the user generated code, it also has a copy of the code generation runtime. (One with the binaries only, and one with the sources attached).
+* Output the generated code as an Eclipse project. In addition to the user generated code, the Java code generator also outputs two copies of the code generation runtime. (One with the binaries only, and one with the sources attached).
 
 ##  Release Planning
 
@@ -98,6 +95,6 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 
 ##  Any Other Business
 
-PVJ is going ot the US (University of Central Florida) for a two month period (April, May). He will be working on translating VDM into JML and use this in relation to his work on code generation of traces.
+PVJ is going ot the US (University of Central Florida) for a two month period (April, May). He will be working on translating VDM into JML and use this in his work on code generation of traces.
 
 <div id="edit_page_div"></div>
