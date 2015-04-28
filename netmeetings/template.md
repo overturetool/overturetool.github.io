@@ -42,7 +42,7 @@ date: 4 February 2007, 1200 CET
 
 ## Review Status of the Action List
 
-See [Net Meeting Actions](actions.html)
+See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
 * 10-1 some progress...
 * 11-4 no progress...
