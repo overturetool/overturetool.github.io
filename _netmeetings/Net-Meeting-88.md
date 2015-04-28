@@ -9,7 +9,7 @@ date: 3 May 2015, 1300 CEST
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>
 
-# NetMeeting Default Template
+# NetMeeting 88
 
 |||
 |---|---|
