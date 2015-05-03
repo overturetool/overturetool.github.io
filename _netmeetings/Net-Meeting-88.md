@@ -13,8 +13,8 @@ date: 3 May 2015, 1300 CEST
 
 |||
 |---|---|
-| Date | 2015-01-28 13:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Date | 2015-05-3 13:00 CET |
+| Participants | Marcel Verhoef, Nick Battle, Peter Gorm Larsen (chair), Shin Sahara, Tomohiro Oda, Peter Tran-Jørgensen. Minutes by Peter Tran-Jørgensen. |
 
 
 ## Review Status of the Action List
@@ -56,7 +56,7 @@ One small bug fix this time, to prevent the use of "RESULT" in parameter/variabl
 
 #### VDMPad
 
-Recently Tomohiro Oda has developed a python code to animate VDM specs using VDMPad as animation engine. For more information on the project see https://github.com/tomooda/pyVDMC 
+Recently Tomohiro Oda has developed python code to animate VDM models using VDMPad as animation engine. For more information on the project see https://github.com/tomooda/pyVDMC 
 
 ##  Release Planning
 
