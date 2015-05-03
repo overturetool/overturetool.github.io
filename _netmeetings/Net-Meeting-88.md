@@ -47,6 +47,10 @@ some description
 
 ##  Status of the Overture Components
 
+#### Java code generation
+
+PVJ has done some work on code generation of VDMSL. Its not yet totally complete as it does not take imports/exports and renaming into account. In addition to that PVJ is also working on generating JML from pre/post/invariants focusing only on SL for now.
+
 #### VDMJ
 
 One small bug fix this time, to prevent the use of "RESULT" in parameter/variable definitions.
