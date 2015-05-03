@@ -22,7 +22,7 @@ date: 3 May 2015, 1300 CEST
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
 
-* 80-1 Status remains unchanged. TBD.
+* 80-1 Status remains unchanged. Status of this action remains unchanged.
 
 
 ## Overture Language Board Status
@@ -60,9 +60,7 @@ Recently Tomohiro Oda has developed a python code to animate VDM specs using VDM
 
 ##  Release Planning
 
-#### topic 1
-
-some description
+Nothing to report.
 
 
 ##  Community Development
@@ -70,9 +68,6 @@ some description
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
-
-#### topic 1
-...
 
 
 ##  Strategic Research Agenda
