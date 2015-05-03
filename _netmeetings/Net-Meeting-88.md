@@ -19,7 +19,7 @@ date: 3 May 2015, 1300 CEST
 
 ## Review Status of the Action List
 
-See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aaction+net-meeting)
+See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
 
 * 80-1 Status remains unchanged. TBD.
