@@ -27,9 +27,15 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
+#### Add a VDM-Util function for getting current system time
 
-some description
+There has been a proposal to extend the standard libraries with support for measuring the time it takes to execute a functional description. The LB will soon be ready to vote on this RM.
+
+See https://github.com/overturetool/language/issues/31
+
+#### Pure operations
+
+Status of this request for modification remains unchanged.
 
 
 ## Status of VDMTools Development
