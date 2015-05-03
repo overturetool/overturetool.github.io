@@ -40,10 +40,9 @@ Status of this request for modification remains unchanged.
 
 ## Status of VDMTools Development
 
-#### topic 1
+#### v.9.0.6
 
-some description
-
+There have been no comments from the public on the v9.0.6 release.
 
 ##  Status of the Overture Components
 
