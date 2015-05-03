@@ -44,9 +44,9 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
+One small bug fix this time, to prevent the use of "RESULT" in parameter/variable definitions.
 
 
 ##  Release Planning
