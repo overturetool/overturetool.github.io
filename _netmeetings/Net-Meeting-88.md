@@ -22,10 +22,7 @@ date: 3 May 2015, 1300 CEST
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aaction+net-meeting)
 
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 80-1 Status remains unchanged. TBD.
 
 
 ## Overture Language Board Status
