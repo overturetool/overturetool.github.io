@@ -57,7 +57,7 @@ One small bug fix this time, to prevent the use of "RESULT" in parameter/variabl
 
 #### VDMPad
 
-Recently Tomohiro Oda has developed a python code to animate VDM specs using VDMPad as animation engine.
+Recently Tomohiro Oda has developed a python code to animate VDM specs using VDMPad as animation engine. For more information on the project see https://github.com/tomooda/pyVDMC 
 
 ##  Release Planning
 
