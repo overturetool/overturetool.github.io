@@ -14,7 +14,7 @@ date: 3 May 2015, 1300 CEST
 |||
 |---|---|
 | Date | 2015-05-3 13:00 CET |
-| Participants | Marcel Verhoef, Nick Battle, Peter Gorm Larsen (chair), Shin Sahara, Tomohiro Oda, Peter Tran-Jørgensen. Minutes by Peter Tran-Jørgensen. |
+| Participants | Marcel Verhoef, Nick Battle, Peter Gorm Larsen (chair), Peter Tran-Jørgensen, Shin Sahara, Tomohiro Oda. Minutes by Peter Tran-Jørgensen. |
 
 
 ## Review Status of the Action List
