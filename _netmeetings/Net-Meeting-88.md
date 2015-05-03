@@ -55,6 +55,9 @@ PVJ has done some work on code generation of VDMSL. Its not yet totally complete
 
 One small bug fix this time, to prevent the use of "RESULT" in parameter/variable definitions.
 
+#### VDMPad
+
+Recently Tomohiro Oda has developed a python code to animate VDM specs using VDMPad as animation engine.
 
 ##  Release Planning
 
