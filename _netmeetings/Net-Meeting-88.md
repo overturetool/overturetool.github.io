@@ -73,20 +73,7 @@ The Strategic [[Research]] Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [[Planned Publications]].
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
