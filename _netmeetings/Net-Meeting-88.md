@@ -69,7 +69,7 @@ Nothing to report.
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-Google Analytics
+Google Analytics - see [google analytics](https://www.google.com/analytics/web/?hl=en#report/content-pages/a52650880w85189256p88323676/)
 
 Top 6 Apr 3 - May 3: Contry - views
 
