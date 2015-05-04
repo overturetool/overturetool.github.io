@@ -69,6 +69,18 @@ Nothing to report.
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
+Google Analytics
+
+Top 6 Apr 3 - May 3: Contry - views
+
+- United Kingdom 114(25.91%)
+- Netherlands 68(15.45%)
+- Denmark 57(12.95%)
+- Japan 46(10.45%)
+- United States 40(9.09%)
+- Ukraine 16(3.64%)
+
+
 
 ##  Strategic Research Agenda
 
