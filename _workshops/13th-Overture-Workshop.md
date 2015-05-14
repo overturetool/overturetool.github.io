@@ -6,6 +6,33 @@ location: Oslo, Norway
 ---
 
 # {{ page.title }}
+## Programme
+9:00-9:15 Opening
+9:15:10:00 Invited Talk: Sony Felica
+
+10:00-10:30 Break
+
+10:30-12:30
+* JODTool on the Overture Tool to manage formal requirement dictionaries
+* VDM Animation for a Wider Range of Stakeholders Integrating the
+* PVSio-web modelling and prototyping environment with Overture
+* Extending the Overture code generator towards Isabelle syntax
+
+12:30-14:00 Lunch
+
+14:00-15:30
+* Code Generation of VDM++ Concurrency
+* Generating Java RMI code for the distributed aspects of VDM-RT models
+* Improving Time Estimates in VDM-RT Models
+
+15:30-16:00 Break
+
+16:00-17:30
+* Case Studies on Combination of VDM and Test-Driven Approaches: Application, Model Finding and Refinement
+* Pacemaker Parameter Tuning using Crescendo 
+* TASTE for Overture to keep SLIM
+17:30-17:45
+Closing
 
 ## CALL FOR PAPERS
 
