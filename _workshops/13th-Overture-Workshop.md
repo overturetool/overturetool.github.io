@@ -9,7 +9,7 @@ location: Oslo, Norway
 ## Programme
 9:00-9:15 Opening
 
-9:15:10:00 Invited Talk: Sony Felica
+9:15:10:00 Invited Talk: Kurita, Sony Felica
 
 10:00-10:30 Break
 
