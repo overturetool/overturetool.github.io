@@ -7,34 +7,34 @@ location: Oslo, Norway
 
 # {{ page.title }}
 ## Programme
-9:00-9:15 Opening
+9:00-9:15 Opening, Peter Gorm Larsen and Fuyuki Ishikawa
 
-9:15:10:00 Invited Talk: Kurita, Sony Felica
+9:15:10:00 Invited Talk: Taro Kurita, Sony Felica
 
 10:00-10:30 Break
 
 10:30-12:30
 
-* JODTool on the Overture Tool to manage formal requirement dictionaries
-* VDM Animation for a Wider Range of Stakeholders Integrating the
-* PVSio-web modelling and prototyping environment with Overture
-* Extending the Overture code generator towards Isabelle syntax
+* JODTool on the Overture Tool to manage formal requirement dictionaries, Yoichi Omori, Keijiro Araki and Peter Gorm Larsen
+* VDM Animation for a Wider Range of Stakeholders, Tomohiro Oda, Yasuhiro Yamamoto, Kumiyo Nakakoji, Keijiro Araki and Peter Gorm Larsen 
+* Integrating the PVSio-web modelling and prototyping environment with Overture, Paolo Masci, Luis Diogo Couto, Peter Gorm Larsen and Paul Curzon
+* Extending the Overture code generator towards Isabelle syntax, Luís Diogo Couto and Peter W. V. Tran-Jørgensen
 
 12:30-14:00 Lunch
 
 14:00-15:30
 
-* Code Generation of VDM++ Concurrency
-* Generating Java RMI code for the distributed aspects of VDM-RT models
-* Improving Time Estimates in VDM-RT Models
+* Code Generation of VDM++ Concurrency, Georgios Kanakis, Peter Gorm Larsen and Peter W. V. Tran-Jørgensen
+* Generating Java RMI code for the distributed aspects of VDM-RT models, Miran Hasanagic, Peter Gorm Larsen and Peter W. V. Tran-Jørgensen
+* Improving Time Estimates in VDM-RT Models, Morten Larsen, Peter Würtz Vinter Tran-Jørgensen and Peter Gorm Larsen
 
 15:30-16:00 Break
 
 16:00-17:30
 
-* Case Studies on Combination of VDM and Test-Driven Approaches: Application, Model Finding and Refinement
-* Pacemaker Parameter Tuning using Crescendo 
-* TASTE for Overture to keep SLIM
+* Case Studies on Combination of VDM and Test-Driven Approaches: Application, Model Finding and Refinement, Fuyuki Ishikawa
+* Pacemaker Parameter Tuning using Crescendo, Carl Gamble, Martin Mansfield, John Fitzgerald and Peter Gorm Larsen
+* TASTE for Overture to keep SLIM, Marcel Verhoef and Maxime Perrotin
 
 17:30-17:45 Closing
 
