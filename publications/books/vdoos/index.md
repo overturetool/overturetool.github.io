@@ -149,6 +149,8 @@ instance variables
 
 end CongestionSensor
 ~~~
+#### page 218 -- 232
+The names of some of the operations in the VDMUnit framework/standard library have changed since the book was published.
 
 #### page 292
 Figure 12.3 should be changed to the following figure:
