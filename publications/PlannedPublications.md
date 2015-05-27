@@ -15,17 +15,6 @@ title: Overture Publications
 -   Co-modelling and Co-simulation for an Artificial Cardiac pacemaker
     (John, John Komp, Carl, Martin, Peter, for a workshop?)
 
-#### Overture Workshop
-
--   Concurrency Code Generation, George Kanakis, Peter Tran-Jørgensen
-    and Peter Gorm Larsen
--   Extending Code Generator towards Isabelle Syntax, Luis Diogo Couto and Peter Tran-Jørgensen
--   VDM-RT Distribution Code generation, Miran Hasanagic, Peter
-    Tran-Jørgensen and Peter Gorm Larsen
--   VDM Animation for a Wider Range of Stakeholders, Tomohiro Oda, Kenjiro Araki and Peter Gorm Larsen
--   Improving Time Estimates in VDM-RT Models, Morten Larsen, Peter Tran-Jørgensen and Peter Gorm Larsen
--   Integrating the PVSio-web modelling and prototyping environment with Overture, Paolo Masci, Luis Diogo Couto, Peter Gorm Larsen and Paul Curzon
-
 ## In preparation
 
 -   Methodological Guidelines for Collaborative Modelling - Managing
@@ -44,9 +33,6 @@ title: Overture Publications
 -   Using Executable VDM++ Models in an Industrial Application (Sune
     Wolff and Peter Gorm Larsen, submitted to defence journal focussing
     on modelling and simulation)
--   Migrating to an Extensible Architecture for Abstract Syntax Trees
-    (Luis Diogo Couto, Peter W. V. Jorgensen, Joey W. Coleman, Kenneth
-    Lausdahl for WICSA 2015 -- accepted)
 
 ## In press
 
@@ -58,3 +44,6 @@ title: Overture Publications
     Care Device. In preparation for the 6th FHIES/SEHC. June 2014
 -   John Fitzgerald and Nick Battle, Proceedings of the 12th Overture
     VDM workshop, Newcastle University, June 2014
+-   Migrating to an Extensible Architecture for Abstract Syntax Trees
+    (Luis Diogo Couto, Peter W. V. Jorgensen, Joey W. Coleman, Kenneth
+    Lausdahl for WICSA 2015)
