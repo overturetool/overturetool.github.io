@@ -29,10 +29,10 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
+#### VDMJ
 
-some description
-
+* 2015-05-21 Correction to type check of let constants
+* 2015-05-19 Correction to type invariants on char/bool/token
 
 ## Status of VDMTools Development
 
