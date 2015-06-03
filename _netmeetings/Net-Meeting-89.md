@@ -43,10 +43,17 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### Isabelle Integration 
 
-details about it
+v0 of the Isabelle VDM embedding has been completed. At the moment, it's just the CML embedding minus the reactive definitions and with syntax that's closer to VDM. The embedding can be found at https://github.com/isabelle-utp/.
 
+The Codegen-based VDM to Isabelle translator has been updated to generate syntax for the new embedding. Also, it is now available as an IDE plugin. It is still too experimental to release (in fact, it depends on an unreleased version of ASTCreator so it cannot even be built by the build server at the moment).
+
+#### UMinho Student Projects
+
+The Alloy translation is now capable of translating (and slicing) VDM-SL models with types and values. It's also possible to discharge type invariant satisfiability POs via Alloy. Work is proceeding on translating functions at the moment. See https://github.com/EduardoPessoa/PI_MFES for more.
+
+The MC/DC Code Coverage plugin is now integrated in the interpreter via the DBGPv2 protocol. Any model can be intereted and MC/DC data (in the form of an .xml file) will be generated and placed alongside the exiting .covtl files. There is no way to visualize this data at the moment, though that is ongoing work. See https://github.com/jmcPereira/overture for more.
 
 ##  Release Planning
 
