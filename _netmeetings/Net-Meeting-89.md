@@ -71,9 +71,6 @@ Anders Telkelsen has been hired as release manager by AU for the INTO-CPS projec
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
-
 ##  Publications Status and Plans
 
 Also see [[Planned Publications]].
