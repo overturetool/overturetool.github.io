@@ -73,7 +73,7 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 ##  Publications Status and Plans
 
-Also see [[Planned Publications]].
+Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ## Removal of old stuff from SourceForge?
 
