@@ -21,20 +21,12 @@ date: 7 June 2015, 1300 CEST
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
-
+* 80-1 No progress. Action remains open.
+* 88-1 No progress. Action remains open.
 
 ## Overture Language Board Status
 
 ## Status of VDMTools Development
-
-#### topic 1
-
-some description
-
 
 ##  Status of the Overture Components
 #### VDMJ
