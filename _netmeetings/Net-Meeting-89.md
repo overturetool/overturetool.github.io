@@ -9,12 +9,12 @@ date: 7 June 2015, 1300 CEST
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>
 
-# {{ page.title }}
+# NetMeeting 89
 
 |||
 |---|---|
-| Date | {{ page.date }} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Date | 2015-07-06 13:00 CET |
+| Participants | Marcel Verhoef, Nick Battle, Peter Gorm Larsen (chair), Ken Pierce, Shin Sahara, Tomohiro Oda, Hiroshi Sako, Peter Tran-Jørgensen, Shin Sahara, Tomohiro Oda. Minutes by Peter Tran-Jørgensen. |
 
 
 ## Review Status of the Action List
