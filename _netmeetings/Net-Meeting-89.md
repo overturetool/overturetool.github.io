@@ -26,7 +26,17 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
+The request for clarification on constructors declared static has been agreed and the LRM will be updated soon.
+
+Regarding RM #27 the LB has discussed a solution to simply allow operation calls in pre-post and generate run-time errors if the state is modified.
+
+In addition Nick has made a "hack" version as a short term solution to the problem, but perhaps we can discuss this in the Overture status (e.g. how to release it, how to branch it)
+
+(in other LB news I'm updating the OCP to mention Requests for Clarificaiton explicitly)
+
 ## Status of VDMTools Development
+
+* 2015-03-31 VDMTools 9.0.6 was released.
 
 ##  Status of the Overture Components
 #### VDMJ
