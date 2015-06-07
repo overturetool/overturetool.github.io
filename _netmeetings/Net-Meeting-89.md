@@ -57,7 +57,7 @@ The MC/DC Code Coverage plugin is now integrated in the interpreter via the DBGP
 
 #### VDM-SL to JML generation
 
-PJ has developed a first version of the VDM-SL to JML generator that generates JML annotations corresponding to the pre/post conditions, state invariants and named type invariants in a VDM-SL model. Just like the VDM-SL to Java generator, the JML generator can currently only be invoked via the command-line although the plan is to also make it accessible from the Overture IDE.
+PJ has developed a first version of the VDM-SL to JML generator that generates JML annotations corresponding to the pre/post conditions, state invariants and named type invariants in a VDM-SL model. Just like the VDM-SL to Java generator, the JML generator can currently only be invoked via the command-line although the plan is to also make it accessible via the Overture IDE.
 
 ##  Release Planning
 
