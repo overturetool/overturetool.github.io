@@ -26,9 +26,9 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-The request for clarification on constructors being declared static has been agreed and the LRM will be updated soon.
+The request for clarification on constructors being declared static has been agreed and the LRM will be updated soon. [RM #32](See https://github.com/overturetool/language/issues/32)
 
-Regarding RM #27 the LB has discussed a solution to simply allow operation calls in pre-post and generate run-time errors if the state is modified.
+Regarding [RM #27](https://github.com/overturetool/language/issues/27) the LB has discussed a solution to simply allow operation calls in pre-post and generate run-time errors if the state is modified.
 
 In addition Nick has made a "hack" version as a short term solution to the problem. Nick will push his work to a branch and we'll then set up a build job for it.
 
