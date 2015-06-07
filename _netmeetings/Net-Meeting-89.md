@@ -26,13 +26,13 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-The request for clarification on constructors declared static has been agreed and the LRM will be updated soon.
+The request for clarification on constructors being declared static has been agreed and the LRM will be updated soon.
 
 Regarding RM #27 the LB has discussed a solution to simply allow operation calls in pre-post and generate run-time errors if the state is modified.
 
-In addition Nick has made a "hack" version as a short term solution to the problem, but perhaps we can discuss this in the Overture status (e.g. how to release it, how to branch it)
+In addition Nick has made a "hack" version as a short term solution to the problem. Nick will push his work to a branch and we'll then set up a build job for it.
 
-(in other LB news I'm updating the OCP to mention Requests for Clarificaiton explicitly)
+Finally KP is updating the community process to mention Requests for Clarificaiton explicitly so we have a workflow for these.
 
 ## Status of VDMTools Development
 
@@ -74,19 +74,6 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 ##  Publications Status and Plans
 
 Also see [[Planned Publications]].
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
 
 ## Removal of old stuff from SourceForge?
 
