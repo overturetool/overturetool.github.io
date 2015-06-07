@@ -29,12 +29,6 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### VDMJ
-
-* 2015-05-21 Correction to type check of let constants
-* 2015-05-19 Correction to type invariants on char/bool/token
-* 2015-06-04 Prevent static constructors and limit constructor calling
-
 ## Status of VDMTools Development
 
 #### topic 1
@@ -43,6 +37,11 @@ some description
 
 
 ##  Status of the Overture Components
+#### VDMJ
+
+* 2015-05-21 Correction to type check of let constants
+* 2015-05-19 Correction to type invariants on char/bool/token
+* 2015-06-04 Prevent static constructors and limit constructor calling
 
 #### Isabelle Integration 
 
