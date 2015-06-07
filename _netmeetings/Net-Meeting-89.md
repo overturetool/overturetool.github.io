@@ -61,10 +61,7 @@ PJ has developed a first version of the VDM-SL to JML generator that generates J
 
 ##  Release Planning
 
-#### topic 1
-
-some description
-
+Anders Telkelsen has been hired as release manager by AU for the INTO-CPS project spending a day a week on this. He will also make releases of the Overture tools in the future. It is expected that a next release will be made after the LB issue 27 have been resolved.
 
 ##  Community Development
 
