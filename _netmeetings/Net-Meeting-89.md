@@ -77,7 +77,7 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 
 ## Removal of old stuff from SourceForge?
 
-MV will try to remove the remaining stuff we have from SourceForge.
+MV will try to remove the stuff we have left on SourceForge.
 
 ##  Any Other Business
 
