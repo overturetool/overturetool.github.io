@@ -77,7 +77,10 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 
 ## Removal of old stuff from SourceForge?
 
+TBD.
 
 ##  Any Other Business
+
+None.
 
 <div id="edit_page_div"></div>
