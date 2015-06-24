@@ -86,3 +86,8 @@ The organising committee can be reached via the following e-mail address:  <mail
 * N Plat, West Consulting, Netherlands
 * V Stolz, Oslo University, Norway
 * M Verhoef, European Space Agency, Netherlands
+
+
+### Participants
+
+![Front row: ...](13/DSC_5269.JPG)
