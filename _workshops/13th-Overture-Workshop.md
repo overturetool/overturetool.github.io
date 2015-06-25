@@ -36,7 +36,7 @@ The proceedings for this workshop can be found at http://grace-center.jp/wp-cont
 16:00-17:30
 
 * [Case Studies on Combination of VDM and Test-Driven Approaches: Application, Model Finding and Refinement](13/ishikawa.pdf), Fuyuki Ishikawa
-* Pacemaker Parameter Tuning using Crescendo, Carl Gamble, Martin Mansfield, John Fitzgerald and Peter Gorm Larsen
+* [Pacemaker Parameter Tuning using Crescendo](13/Mansfield.pdf), Carl Gamble, Martin Mansfield, John Fitzgerald and Peter Gorm Larsen
 * [TASTE for Overture to keep SLIM](13/MarcelVerhoef.pdf), Marcel Verhoef and Maxime Perrotin
 
 17:30-17:45 [Closing including discussions about future](13/DiscussionSessions.pdf)
