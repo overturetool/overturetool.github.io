@@ -19,7 +19,7 @@ The proceedings for this workshop can be found at http://grace-center.jp/wp-cont
 10:30-12:30
 
 * JODTool on the Overture Tool to manage formal requirement dictionaries, Yoichi Omori, Keijiro Araki and Peter Gorm Larsen
-* VDM Animation for a Wider Range of Stakeholders, Tomohiro Oda, Yasuhiro Yamamoto, Kumiyo Nakakoji, Keijiro Araki and Peter Gorm Larsen 
+* [VDM Animation for a Wider Range of Stakeholders](13/TomoOda.pdf), Tomohiro Oda, Yasuhiro Yamamoto, Kumiyo Nakakoji, Keijiro Araki and Peter Gorm Larsen 
 * Integrating the PVSio-web modelling and prototyping environment with Overture, Paolo Masci, Luis Diogo Couto, Peter Gorm Larsen and Paul Curzon
 * Extending the Overture code generator towards Isabelle syntax, Luís Diogo Couto and Peter W. V. Tran-Jørgensen
 
