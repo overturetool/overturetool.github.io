@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Net Meeting XX
+title: Net Meeting 90
 date: 16 August 2015, 1300 CEST
 ---
 
