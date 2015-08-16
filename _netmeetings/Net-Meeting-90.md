@@ -45,7 +45,7 @@ some description
 
 #### VDMJ
 
-I've updated VDMJ to support the "pure operation" feature described by RM#27. This is only enabled in "vdm10" mode (not classic). I need people to test the feature before I try to make the corresponding changes to Overture. Note also that VDMJ has moved from SourceForge to GitHub (as SF was down for a couple of weeks!). See https://github.com/nickbattle/vdmj.
+I've updated VDMJ and Overture to support the "pure operation" feature described by RM#27. This is only enabled in "vdm10" mode (not classic). I need people to test the feature before we merge the change into the main branch. The Overture changes are currently on a separate "ncb/pureoperations" branch. Note also that VDMJ has moved from SourceForge to GitHub (as SF was down for a couple of weeks!). See https://github.com/nickbattle/vdmj.
 
 
 ##  Release Planning
