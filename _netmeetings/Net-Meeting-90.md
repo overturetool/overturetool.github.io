@@ -47,6 +47,9 @@ some description
 
 I've updated VDMJ and Overture to support the "pure operation" feature described by RM#27. This is only enabled in "vdm10" mode (not classic). I need people to test the feature before we merge the change into the main branch. The Overture changes are currently on a separate "ncb/pureoperations" branch. Note also that VDMJ has moved from SourceForge to GitHub (as SF was down for a couple of weeks!). See https://github.com/nickbattle/vdmj.
 
+#### VDM-SL to JML annotated Java
+
+I (PJ) found some flaws in the way that the JML generator handles atomic execution and state invariants that I have fixed. A new release of the JML generator will ship with the next release of Overture.
 
 ##  Release Planning
 
