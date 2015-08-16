@@ -26,16 +26,14 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
+#### RM 27
 
-some description
+Nick has implemented a first version of pure operations in both VDMJ and Overture. There has been some initial testing and a few issues have been reported. PGL will take care of updating the LRM when we get to that.
 
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
+Shin reported VDMTools to be stable. Other than that there's nothing new.
 
 
 ##  Status of the Overture Components
