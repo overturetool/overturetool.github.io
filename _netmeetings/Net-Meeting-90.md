@@ -14,7 +14,7 @@ date: 16 August 2015, 1300 CEST
 |||
 |---|---|
 | Date | 2015-08-16 13:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | KP, PGL, NB, PJ, TO.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
