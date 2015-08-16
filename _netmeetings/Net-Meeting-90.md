@@ -14,7 +14,7 @@ date: 16 August 2015, 1300 CEST
 |||
 |---|---|
 | Date | 2015-08-16 13:00 CET |
-| Participants | KP, PGL, NB, PJ, TO.  Minutes by PJ. |
+| Participants | HS, KP, PGL, NB, PJ, TO.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -58,15 +58,9 @@ Nothing new reported.
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-
-##  Strategic Research Agenda
-
-The Strategic [[Research]] Agenda is reviewed every other NetMeeting.
-
-
 ##  Publications Status and Plans
 
-See [[Planned Publications]].
+Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
