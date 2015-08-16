@@ -13,7 +13,7 @@ date: 16 August 2015, 1300 CEST
 
 |||
 |---|---|
-| Date | 2015-01-28 13:00 CET |
+| Date | 2015-08-16 13:00 CET |
 | Participants | AA, BB, ..., CC.  Minutes by DD. |
 
 
@@ -21,11 +21,8 @@ date: 16 August 2015, 1300 CEST
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
-
+* 80-1: Revise Strategic Goals for 2020. No progress.
+* 88-1: Consider input for video on VDM. No progress.
 
 ## Overture Language Board Status
 
