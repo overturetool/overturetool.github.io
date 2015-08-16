@@ -9,7 +9,7 @@ date: 16 August 2015, 1300 CEST
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>
 
-# NetMeeting Default Template
+# Net Meeting 90
 
 |||
 |---|---|
