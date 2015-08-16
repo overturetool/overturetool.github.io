@@ -48,19 +48,15 @@ I (PJ) found some flaws in the way that the JML generator handles atomic executi
 
 ##  Release Planning
 
-#### topic 1
-
-some description
-
+When the pure operation implementation is considered stable Overture 2.3 will be released. Peter will talk to Anders (the release manager) about this.
 
 ##  Community Development
+
+Nothing new reported.
 
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
-
-#### topic 1
-...
 
 
 ##  Strategic Research Agenda
@@ -70,21 +66,7 @@ The Strategic [[Research]] Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [[Planned Publications]].
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
+See [[Planned Publications]].
 
 ##  Any Other Business
 
