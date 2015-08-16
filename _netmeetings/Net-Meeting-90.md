@@ -1,9 +1,3 @@
----
-layout: default
-title: Net Meeting 90
-date: 16 August 2015, 1300 CEST
----
-
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/edit.js"></script>
