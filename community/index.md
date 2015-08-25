@@ -56,8 +56,8 @@ Process (LBP) description.
 | Aarhus University | Denmark | Peter Gorm Larsen |
 | Bang & Olufsen | Denmark | Klaus Kristensen |
 | Boston University | USA | Zhiqiang Ren |
-| Chess | The Netherlands | Marcel Verhoef |
 | Designers' Den Corp | Japan | Sako Hiroshi |
+| ESA/ESTEC | The Netherlands | Marcel Verhoef |
 | Fujitsu Services | England | Nick Battle |
 | Hosei University | Japan | Shin Sahara |
 | Insiel S.p.A. | Italy | Enrico Fracasso |
@@ -84,6 +84,7 @@ Process (LBP) description.
 | University of Oslo | Norway | Einar Broch Johnsen |
 | University of Porto | Portugal | Ana Paiva |
 | University of Salford | England | Sunil Vadera |
+| University of Twente | The Netherlands | Val Jones |
 | University of York | England | Jim Woodcock |
 | University of Wuppertal | Germany | Hans-Jürgen Buhl |
 | Verheart | Belgium | Yoni De Witte |

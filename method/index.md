@@ -34,30 +34,6 @@ assist in this process, there is extensive tool support for building models in c
 modeling tools, to execute and test models, to carry out different forms of static analysis and to generate
 executable code in a high-level programming language.
 
-### History
-The origins of VDM lie in work done in the IBM Laboratory at Vienna in the 1970s, where a formal
-specification language (Meta-IV) was developed in order to define the programming language PL/I.
-Meta-IV was subsequently used to define minimal BASIC, parts of FORTRAN and APL, ALGOL 60,
-Ada and Pascal. The first description of this form of VDM, based on Meta-IV, was published in 1978 [1].
-Dines Bjørner and colleagues at the Dansk Datamatik Center developed the language definition
-capabilities of VDM which delivered the first European Ada compiler to achieve validation. Their
-modeling style, emphasizing explicit definition of functions, came to be known as the Danish School of
-VDM. Cliff Jones and colleagues, working at IBM Hursley, Oxford and Manchester Universities
-subsequently developed the parts of VDM that were not specifically aimed at programming language
-definition into a more general modeling framework [2]; their style, which emphasizes abstract modeling,
-and validation by proof, became known as the English School of VDM. An account of the scientific
-decisions embodied in VDM can be found in Jones' summary [3].
-
-The standardization of VDM-SL by the British Standards Institution and the International Organization
-for Standardization (ISO) sought to define a language that could accommodate the Danish and English
-Schools. It also provided an impetus for the development of tools to support the analysis of models
-written in the newly standardized language. At the same time, there was discussion of the possibility of a
-"lightweight" application of formal modeling technology, stressing the carefully targeted application of
-formal modeling, with strong industry-standard tool support. In spite of the "Method" in its name, the use
-of VDM does not prescribe a particular development process or methodology. Instead, the components of
-the method may be used as developers see fit. This pragmatic approach [4] led to substantial advances in
-the application of VDM and later extended to the VDM++ language [5].
-
 ## SYSTEM MODELING IN VDM
 The use of VDM involves the development and analysis of models to help understand systems and predict
 their properties. Good models exhibit abstraction and rigor. Abstraction is the suppression of detail that is
