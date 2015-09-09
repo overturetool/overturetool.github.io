@@ -24,7 +24,7 @@ title: Overture Publications
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
--   Principles for Reuse in Formal Language Tools, L(uis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, to be submitted for SAC)
+-   Principles for Reuse in Formal Language Tools, (Luis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, to be submitted for SAC)
 
 ## In review
 
@@ -41,6 +41,7 @@ title: Overture Publications
     in Software Developments (Tomohiro Oda, Keijiro Araki, Yasuhiro
     Yamamoto, Kumiyo Nakakoji and Peter Gorm Larsen, submitted to
     Formal Approach Special Issue, IEICE Transactions)
+-   Historical Overview of VDM-based tools from the 1990s to 2015, (Peter Gorm Larsen and John Fitzgerald, submitted to Journal of Logical and Algebraic Methods in Programming in connection with the Festscrift for José Nuno Oliveira)
 
 ## In press
 
