@@ -24,6 +24,7 @@ title: Overture Publications
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
+-   Principles for Reuse in Formal Language Tools, L(uis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, to be submitted for SAC)
 
 ## In review
 
