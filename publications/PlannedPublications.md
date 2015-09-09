@@ -25,6 +25,7 @@ title: Overture Publications
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
 -   Principles for Reuse in Formal Language Tools, (Luis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, to be submitted for SAC)
+-   Automated translation of VDM to JML annotated Java, (Peter Tran-Jørgensen, Peter Gorm Larsen and Gary Leavens, to be submitted for STTT)
 
 ## In review
 
