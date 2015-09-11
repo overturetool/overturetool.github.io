@@ -30,11 +30,6 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 
 <div id="current-release"></div>
 
-<!-- Not working yet...
-<a class="twitter-timeline" href="https://twitter.com/overturetool" data-widget-id="572304129142575104">Tweets by @overturetool</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
--->
-
 #### Extensions:
 <table>
         <thead>
