@@ -35,9 +35,6 @@ title: Overture Publications
 -   Using Executable VDM++ Models in an Industrial Application (Sune
     Wolff and Peter Gorm Larsen, submitted to defence journal focussing
     on modelling and simulation)
--   Exploratory Formal Specification and its Support Tool (Tomohiro Oda, 
-    Keijiro Araki and Peter Gorm Larsen, submitted to Formal Approach
-    Special Issue, IEICE Transactions)
 -   VDM Animation Tools to Communicate With a Wider Range of Stakeholders
     in Software Developments (Tomohiro Oda, Keijiro Araki, Yasuhiro
     Yamamoto, Kumiyo Nakakoji and Peter Gorm Larsen, submitted to
