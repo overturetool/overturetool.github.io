@@ -43,9 +43,9 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
+Various small changes and corrections in support of the "pure operations" change.
 
 
 ##  Release Planning
