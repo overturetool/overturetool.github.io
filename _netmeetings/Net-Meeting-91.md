@@ -57,6 +57,10 @@ some description
 
 ##  Community Development
 
+On the 1st of October a new project called "TMS Experiment with Mobility in the Physical world using Overture" (TEMPO) will be started as a 12 months experiement supported by the CPSE Labs project. The project partners are West Consulting (with Nico Plat as the coordinator) and Aarhus University (with Peter Gorm Larsen as the principal investigator) and they will be assisted by Newcastle University (with John Fitzgerald as the principal investigator) from the CPSE Labs consortium. This project aim to extend Overture with better support for 2D and 3D animation of VDM models possibly in the form of libraries. At the kick-off meeting in October there will be a 2 day VDM course that will be open to other Dutch industrial parties.
+
+In addition new MSc thesis projects in Aarhus will carry out different extensions to Overture. This includes a project on code generation towards the Rust programming language as well as a project performing a WebIDE for Overture.
+
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
