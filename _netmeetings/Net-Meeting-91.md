@@ -70,6 +70,6 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 
 ##  Any Other Business
 
-TO is currently working on integrating VDMPad and other animation prototyping environments into a library named ViennaTalk. The documentation is available at https://github.com/tomooda/ViennaTalk-doc/ and the source code is available at http://smalltalkhub.com/#!/%7Etomooda/ViennaTalk  . Among several things, Vienna Talk includes a simple Smalltalk-styled browser for VDM-SL and an environemnt for prototyping UIs.
+TO is currently working on integrating VDMPad and other animation prototyping environments into a library named ViennaTalk. The documentation is available at https://github.com/tomooda/ViennaTalk-doc/ and the source code is available at http://smalltalkhub.com/#!/%7Etomooda/ViennaTalk  . Among several things, Vienna Talk includes a simple Smalltalk-styled browser for VDM-SL and an environment for prototyping UIs.
 
 <div id="edit_page_div"></div>
