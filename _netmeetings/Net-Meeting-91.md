@@ -14,7 +14,7 @@ date: 20 September 2015, 1300 CEST
 |||
 |---|---|
 | Date | 2015-09-20 13:00 CET |
-| Participants | A,B,C.  Minutes by PJ. |
+| Participants | NB,SS,PGL,KP,PJ,TO.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -33,7 +33,7 @@ This RM will officially be completed when Overture 2.3.0 is released. The featur
 
 ## Status of VDMTools Development
 
-SCSK is planning to 'sell' VDMTools to Kyushu University. They (SCSK and Kyushu University) are going to have a meeting about the negotiation in the first week of October. If the university takes over VDMTools, then it might become open-source.
+VDMTools is stable.
 
 ##  Status of the Overture Components
 
