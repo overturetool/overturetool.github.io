@@ -9,23 +9,20 @@ date: 20 September 2015, 1300 CEST
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>
 
-# NetMeeting Default Template
+# Net Meeting 91
 
 |||
 |---|---|
-| Date | 2015-01-28 13:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Date | 2015-09-20 13:00 CET |
+| Participants | A,B,C.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
-
+* 80-1: Revise Strategic Goals for 2020. TBD.
+* 88-1: Consider input for video on VDM. TBD.
 
 ## Overture Language Board Status
 
