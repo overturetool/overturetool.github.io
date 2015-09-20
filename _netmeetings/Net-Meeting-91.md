@@ -74,25 +74,12 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 #### topic 1
 ...
 
-
 ##  Publications Status and Plans
 
-Also see [[Planned Publications]].
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
+Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
+
+TBD.
 
 <div id="edit_page_div"></div>
