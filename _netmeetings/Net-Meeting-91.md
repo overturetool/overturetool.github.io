@@ -14,7 +14,7 @@ date: 20 September 2015, 1300 CEST
 |||
 |---|---|
 | Date | 2015-09-20 13:00 CET |
-| Participants | NB,SS,PGL,KP,PJ,TO.  Minutes by PJ. |
+| Participants | NB, SS, PGL, KP, PJ, TO.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -53,10 +53,6 @@ The release candidate was made available on Thurday and so far the only issues r
 
 All VDM examples and manuals have been updated for the forthcoming 2.3.0 release by PGL. Review comments are welcome.
 
-#### topic 1
-
-some description
-
 
 ##  Community Development
 
@@ -68,15 +64,12 @@ In addition new MSc thesis projects in Aarhus will carry out different extension
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
-
 ##  Publications Status and Plans
 
 Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
-TBD.
+TO is currently working on integrating VDMPad and other animation prototyping environments into a library named ViennaTalk. The documentation is available at https://github.com/tomooda/ViennaTalk-doc/ and the source code is available at http://smalltalkhub.com/#!/%7Etomooda/ViennaTalk  . Among several things, Vienna Talk includes a simple Smalltalk-styled browser for VDM-SL and an environemnt for prototyping UIs.
 
 <div id="edit_page_div"></div>
