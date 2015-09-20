@@ -26,17 +26,14 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
+#### RM 27 (Pure operations)
 
-some description
+This RM will officially be completed when Overture 2.3.0 is released. The feature is implemented (and available in the release candiate) and the LRM update has been made as well.
 
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
-
+SCSK is planning to 'sell' VDMTools to Kyushu University. They (SCSK and Kyushu University) are going to have a meeting about the negotiation in the first week of October. If the university takes over VDMTools, then it might become open-source.
 
 ##  Status of the Overture Components
 
@@ -51,10 +48,6 @@ Work since the previous meeting includes a bug fix in the Java code generator re
 We are in the process of preparing the next release of Overture, version 2.3.0, which among many things includes the new pure operations feature and updated standard examples. The release candidate is available from http://overture.au.dk/overture/test/Build-217_2015-09-17_18-34/
 
 The release candidate was made available on Thurday and so far the only issues reported were already present in the current release (version 2.2.6). See issues https://github.com/overturetool/overture/issues/273 and https://github.com/overturetool/overture/issues/471 
-
-#### VDMTools
-
-SCSK is planning to 'sell' VDMTools to Kyushu University. They (SCSK and Kyushu University) are going to have a meeting about the negotiation in the first week of October. If the university takes over VDMTools, then it might become open-source.
 
 ##  Release Planning
 
