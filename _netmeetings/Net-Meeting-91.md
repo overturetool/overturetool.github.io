@@ -50,6 +50,8 @@ Various small changes and corrections in support of the "pure operations" change
 
 ##  Release Planning
 
+All VDM examples and manuals have been updated for the forthcoming 2.3.0 release by PGL. Review comments are welcome.
+
 #### topic 1
 
 some description
