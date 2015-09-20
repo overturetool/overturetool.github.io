@@ -47,6 +47,13 @@ some description
 
 Various small changes and corrections in support of the "pure operations" change.
 
+#### Overture
+
+Work since the previous meeting includes a bug fix in the Java code generator related to map overrides, small tweaks to the testing framework and general code base cleanup. Other than that the work on the pure operations feature has made it into the test branch.
+
+We are in the process of preparing the next release of Overture, version 2.3.0, which among many things includes the new pure operations feature and updated standard examples. The release candidate is available from http://overture.au.dk/overture/test/Build-217_2015-09-17_18-34/
+
+The release candidate was made available on Thurday and so far the only issues reported were already present in the current release (version 2.2.6). See issues https://github.com/overturetool/overture/issues/273 and https://github.com/overturetool/overture/issues/471 
 
 ##  Release Planning
 
