@@ -19,7 +19,7 @@ using the traces primitives used for test automation.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### worldcup.vdmpp

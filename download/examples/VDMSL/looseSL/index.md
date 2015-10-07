@@ -95,140 +95,112 @@ functions
 ~~~
 {% endraw %}
 
-### as.vdmsl
+### pat.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                       
+operations
 
+  PatternMatch : Pattern * VAL ==> set of BlkEnv
+  PatternMatch (pat_p, val_v) ==
+    cases true:
+     (is_PatternName(pat_p))     -> let mk_PatternName(id) = pat_p in
+                                       return { MkBlkEnv(id, val_v) },
+     (is_MatchVal(pat_p))        -> let lval = LooseEvalExpr(pat_p.val)
+                                    in
+				      (for all mk_(v,m) in set lval do
+				        if v = val_v
+					then return { MkEmptyBlkEnv()};
+			               return {}),
+     (is_SetEnumPattern(pat_p))  -> MatchSetEnumPattern(pat_p, val_v),
+     (is_SetUnionPattern(pat_p)) -> MatchSetUnionPattern(pat_p, val_v),
+     others -> error
+    end;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
------------------------------------------------------------------------
-------------------- Abstract Syntax Definitions -----------------------
------------------------------------------------------------------------
-
-types
-
-
------------------------------------------------------------------------
--------------------------- Definitions --------------------------------
------------------------------------------------------------------------
-
-Definitions :: valuem : seq of ValueDef
-               fnm : map Name to ExplFnDef;
-
-                                                                                                                                                                
-
------------------------------------------------------------------------
--------------------------- Value Definitions --------------------------
------------------------------------------------------------------------
-
-ValueDef :: pat : Pattern                                     
-            val : Expr;
-                                                                                                                                                                                                                                                                                                                            
------------------------------------------------------------------------
--------------------------- Functions Definitions ----------------------
------------------------------------------------------------------------
-
-ExplFnDef :: nm      : Name
-             pat     : Pattern
-             body    : Expr;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
------------------------------------------------------------------------
--------------------------- Expressions --------------------------------
------------------------------------------------------------------------
-
-Expr = LetExpr | LetBeSTExpr| IfExpr | CasesExpr |
-       UnaryExpr | BinaryExpr | SetEnumerationExpr |
-       ApplyExpr | Literal | Name | BracketedExpr ;            
-
-
-BracketedExpr :: expr : Expr;
-
-LetExpr :: lhs   : Pattern
-           rhs   : Expr
-           body  : Expr;
-
-LetBeSTExpr :: lhs : Bind                                     
-               St  : Expr
-               In  : Expr;
-
-IfExpr :: test   : Expr                                          
-          cons   : Expr
-          altn   : Expr;
-
-CasesExpr :: sel    : Expr
-             altns  : seq of CaseAltn 
-             Others : [Expr];
-
-CaseAltn :: match : Pattern
-            body  : Expr;
-
-UnaryExpr  :: opr : UnaryOp
-              arg : Expr;
-
-UnaryOp = <NUMMINUS>;
-
-BinaryExpr :: left  : Expr
-              opr   : BinaryOp
-              right : Expr;
-
-BinaryOp = <EQ> | <NUMPLUS> | <NUMMINUS> | <NUMMULT> | <SETMINUS> ;
-
-SetEnumerationExpr :: els : seq of Expr;
-
-ApplyExpr :: fct : Name
-             arg : Expr;
-
-Name :: ids : seq of Id;
-
-Id = seq of char;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
------------------------------------------------------------------------
--------------------- Patterns and Bindings ----------------------------
------------------------------------------------------------------------
-
-Pattern = PatternName | MatchVal | SetPattern;
-
-PatternName :: nm : [(Name * Position)];
-
-MatchVal :: val : Expr;
-
-SetPattern = SetEnumPattern | SetUnionPattern;
-
-SetEnumPattern :: Elems : seq of Pattern;
-
-SetUnionPattern :: lp : Pattern
-                   rp : Pattern;
-
-Position = nat * nat;
-
-Bind = SetBind;
-
-SetBind :: pat : Pattern
-           Set : Expr;
-                                                                                                                                                                 
------------------------------------------------------------------------
--------------------- Literals -----------------------------------------
------------------------------------------------------------------------
-
-Literal = BoolLit | NumLit;
-
-BoolLit:: val : bool;
-
-NumLit :: val : int
-
-values
-
- pat : Pattern = mk_PatternName(mk_(mk_Name(["x"]),mk_(1,1)));
- 
- sexpr : Expr = mk_SetEnumerationExpr([mk_NumLit(1),mk_NumLit(2)]);
- expr : Expr = mk_LetBeSTExpr(mk_SetBind(pat,sexpr), 
-                              mk_BoolLit(true), 
-                              mk_Name(["x"]));
-                              
- expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
-
-             
+MatchSetEnumPattern : SetEnumPattern * VAL ==> set of BlkEnv
+MatchSetEnumPattern ( mk_SetEnumPattern(elems_lp), val_v) ==
+if is_SET(val_v)
+then let mk_SET(val_sv) = val_v in
+       if card val_sv = card elems elems_lp
+       then let perm_slv = Permute(SetToSeq(val_sv)) in
+              return dunion { MatchLists(elems_lp, tmp_lv) | 
+                              tmp_lv in set perm_slv }
+       else return {}
+else return {};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+MatchSetUnionPattern : SetUnionPattern * VAL ==> set of BlkEnv
+MatchSetUnionPattern ( mk_SetUnionPattern(lp_p, rp_p), val_v) ==
+( dcl envres_sl : set of BlkEnv := {};
+  if is_SET(val_v)
+  then let mk_SET(val_sv) = val_v in
+       ( for all mk_(setl_sv, setr_sv) in set 
+               { mk_(setl_sv,setr_sv) |
+                 setl_sv ,setr_sv in set power val_sv &
+                   (setl_sv union setr_sv = val_sv ) and 
+                   (setl_sv inter setr_sv = {}) } do 
+           let envl_s = PatternMatch(lp_p, mk_SET(setl_sv)),
+               envr_s = PatternMatch(rp_p, mk_SET(setr_sv)) in
+             if envl_s <> {} and envr_s <> {}
+             then let tmpenv = { CombineBlkEnv(tmp1, tmp2) |
+                                 tmp1 in set envl_s, tmp2 in set envr_s } 
+                  in
+                    envres_sl := envres_sl union UnionMatch(tmpenv);
+         return envres_sl
+       )
+  else return {}
+);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+MatchLists : seq of Pattern * seq of VAL ==> set of BlkEnv
+MatchLists (els_lp, val_lv) ==
+ let tmp_ls = [ PatternMatch(els_lp(i), val_lv(i)) |
+                i in set inds els_lp ] in
+   if {} not in set elems tmp_ls
+   then let perm_s = SeqOfSetOf2SetOfSeqOf(tmp_ls) in
+          UnionMatch({ conc l | l in set perm_s })
+   else return {};
+                                                                                                                                                                                                                                                                                                                                          
+UnionMatch : set of BlkEnv ==> set of BlkEnv
+UnionMatch (blk_sl) ==
+return { StripDoubles(blk_l) |
+         blk_l in set blk_sl &
+           forall mk_(id1,v1_v) in set elems blk_l,
+                  mk_(id2,v2_v) in set elems blk_l & 
+                  SelName(id1) = SelName(id2) => (v1_v = v2_v)};
+                                                                                          
+StripDoubles : BlkEnv ==> BlkEnv
+StripDoubles (blk_l) ==
+( dcl tmpblk_l : BlkEnv := blk_l,
+      res_l : BlkEnv := [];
+  while tmpblk_l <> [] do 
+    let mk_(id,val_v) = hd tmpblk_l in
+    ( if not exists mk_(id1 ,-) in set elems tl tmpblk_l & id1 = id
+      then res_l := CombineBlkEnv(res_l, MkBlkEnv(SelNameAndPos(id), val_v));
+      tmpblk_l := tl tmpblk_l
+    );
+  return res_l
+);
+                                                                                                                            
+EvalBind : Bind ==> set of (BlkEnv * Model)
+EvalBind (bind) ==
+EvalSetBind(bind);
+                                                                           
+EvalSetBind : SetBind ==> set of (BlkEnv * Model)
+EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
+( dcl env_s : set of (BlkEnv * Model) := {};
+  let set_lv = LooseEvalExpr(set_e) in
+   (for all mk_(set_v,m) in set set_lv do
+     (if is_SET(set_v)
+      then let mk_SET(set_sv) = set_v in
+           ( for all elm_v in set set_sv do 
+               (let new_envs = PatternMatch(pat_p, elm_v) in
+                env_s := env_s union {mk_(env,m) | env in set new_envs})
+           )
+      else error);
+    return env_s)
+)
+                                                                                                                                 
 ~~~
 {% endraw %}
 
@@ -434,112 +406,140 @@ operations
 ~~~
 {% endraw %}
 
-### pat.vdmsl
+### as.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                       
-operations
+                                                                                                                                                                                                                                                                                                               
 
-  PatternMatch : Pattern * VAL ==> set of BlkEnv
-  PatternMatch (pat_p, val_v) ==
-    cases true:
-     (is_PatternName(pat_p))     -> let mk_PatternName(id) = pat_p in
-                                       return { MkBlkEnv(id, val_v) },
-     (is_MatchVal(pat_p))        -> let lval = LooseEvalExpr(pat_p.val)
-                                    in
-				      (for all mk_(v,m) in set lval do
-				        if v = val_v
-					then return { MkEmptyBlkEnv()};
-			               return {}),
-     (is_SetEnumPattern(pat_p))  -> MatchSetEnumPattern(pat_p, val_v),
-     (is_SetUnionPattern(pat_p)) -> MatchSetUnionPattern(pat_p, val_v),
-     others -> error
-    end;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
-MatchSetEnumPattern : SetEnumPattern * VAL ==> set of BlkEnv
-MatchSetEnumPattern ( mk_SetEnumPattern(elems_lp), val_v) ==
-if is_SET(val_v)
-then let mk_SET(val_sv) = val_v in
-       if card val_sv = card elems elems_lp
-       then let perm_slv = Permute(SetToSeq(val_sv)) in
-              return dunion { MatchLists(elems_lp, tmp_lv) | 
-                              tmp_lv in set perm_slv }
-       else return {}
-else return {};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-MatchSetUnionPattern : SetUnionPattern * VAL ==> set of BlkEnv
-MatchSetUnionPattern ( mk_SetUnionPattern(lp_p, rp_p), val_v) ==
-( dcl envres_sl : set of BlkEnv := {};
-  if is_SET(val_v)
-  then let mk_SET(val_sv) = val_v in
-       ( for all mk_(setl_sv, setr_sv) in set 
-               { mk_(setl_sv,setr_sv) |
-                 setl_sv ,setr_sv in set power val_sv &
-                   (setl_sv union setr_sv = val_sv ) and 
-                   (setl_sv inter setr_sv = {}) } do 
-           let envl_s = PatternMatch(lp_p, mk_SET(setl_sv)),
-               envr_s = PatternMatch(rp_p, mk_SET(setr_sv)) in
-             if envl_s <> {} and envr_s <> {}
-             then let tmpenv = { CombineBlkEnv(tmp1, tmp2) |
-                                 tmp1 in set envl_s, tmp2 in set envr_s } 
-                  in
-                    envres_sl := envres_sl union UnionMatch(tmpenv);
-         return envres_sl
-       )
-  else return {}
-);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-MatchLists : seq of Pattern * seq of VAL ==> set of BlkEnv
-MatchLists (els_lp, val_lv) ==
- let tmp_ls = [ PatternMatch(els_lp(i), val_lv(i)) |
-                i in set inds els_lp ] in
-   if {} not in set elems tmp_ls
-   then let perm_s = SeqOfSetOf2SetOfSeqOf(tmp_ls) in
-          UnionMatch({ conc l | l in set perm_s })
-   else return {};
-                                                                                                                                                                                                                                                                                                                                          
-UnionMatch : set of BlkEnv ==> set of BlkEnv
-UnionMatch (blk_sl) ==
-return { StripDoubles(blk_l) |
-         blk_l in set blk_sl &
-           forall mk_(id1,v1_v) in set elems blk_l,
-                  mk_(id2,v2_v) in set elems blk_l & 
-                  SelName(id1) = SelName(id2) => (v1_v = v2_v)};
-                                                                                          
-StripDoubles : BlkEnv ==> BlkEnv
-StripDoubles (blk_l) ==
-( dcl tmpblk_l : BlkEnv := blk_l,
-      res_l : BlkEnv := [];
-  while tmpblk_l <> [] do 
-    let mk_(id,val_v) = hd tmpblk_l in
-    ( if not exists mk_(id1 ,-) in set elems tl tmpblk_l & id1 = id
-      then res_l := CombineBlkEnv(res_l, MkBlkEnv(SelNameAndPos(id), val_v));
-      tmpblk_l := tl tmpblk_l
-    );
-  return res_l
-);
-                                                                                                                            
-EvalBind : Bind ==> set of (BlkEnv * Model)
-EvalBind (bind) ==
-EvalSetBind(bind);
-                                                                           
-EvalSetBind : SetBind ==> set of (BlkEnv * Model)
-EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
-( dcl env_s : set of (BlkEnv * Model) := {};
-  let set_lv = LooseEvalExpr(set_e) in
-   (for all mk_(set_v,m) in set set_lv do
-     (if is_SET(set_v)
-      then let mk_SET(set_sv) = set_v in
-           ( for all elm_v in set set_sv do 
-               (let new_envs = PatternMatch(pat_p, elm_v) in
-                env_s := env_s union {mk_(env,m) | env in set new_envs})
-           )
-      else error);
-    return env_s)
-)
-                                                                                                                                 
+-----------------------------------------------------------------------
+------------------- Abstract Syntax Definitions -----------------------
+-----------------------------------------------------------------------
+
+types
+
+
+-----------------------------------------------------------------------
+-------------------------- Definitions --------------------------------
+-----------------------------------------------------------------------
+
+Definitions :: valuem : seq of ValueDef
+               fnm : map Name to ExplFnDef;
+
+                                                                                                                                                                
+
+-----------------------------------------------------------------------
+-------------------------- Value Definitions --------------------------
+-----------------------------------------------------------------------
+
+ValueDef :: pat : Pattern                                     
+            val : Expr;
+                                                                                                                                                                                                                                                                                                                            
+-----------------------------------------------------------------------
+-------------------------- Functions Definitions ----------------------
+-----------------------------------------------------------------------
+
+ExplFnDef :: nm      : Name
+             pat     : Pattern
+             body    : Expr;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+-----------------------------------------------------------------------
+-------------------------- Expressions --------------------------------
+-----------------------------------------------------------------------
+
+Expr = LetExpr | LetBeSTExpr| IfExpr | CasesExpr |
+       UnaryExpr | BinaryExpr | SetEnumerationExpr |
+       ApplyExpr | Literal | Name | BracketedExpr ;            
+
+
+BracketedExpr :: expr : Expr;
+
+LetExpr :: lhs   : Pattern
+           rhs   : Expr
+           body  : Expr;
+
+LetBeSTExpr :: lhs : Bind                                     
+               St  : Expr
+               In  : Expr;
+
+IfExpr :: test   : Expr                                          
+          cons   : Expr
+          altn   : Expr;
+
+CasesExpr :: sel    : Expr
+             altns  : seq of CaseAltn 
+             Others : [Expr];
+
+CaseAltn :: match : Pattern
+            body  : Expr;
+
+UnaryExpr  :: opr : UnaryOp
+              arg : Expr;
+
+UnaryOp = <NUMMINUS>;
+
+BinaryExpr :: left  : Expr
+              opr   : BinaryOp
+              right : Expr;
+
+BinaryOp = <EQ> | <NUMPLUS> | <NUMMINUS> | <NUMMULT> | <SETMINUS> ;
+
+SetEnumerationExpr :: els : seq of Expr;
+
+ApplyExpr :: fct : Name
+             arg : Expr;
+
+Name :: ids : seq of Id;
+
+Id = seq of char;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+-----------------------------------------------------------------------
+-------------------- Patterns and Bindings ----------------------------
+-----------------------------------------------------------------------
+
+Pattern = PatternName | MatchVal | SetPattern;
+
+PatternName :: nm : [(Name * Position)];
+
+MatchVal :: val : Expr;
+
+SetPattern = SetEnumPattern | SetUnionPattern;
+
+SetEnumPattern :: Elems : seq of Pattern;
+
+SetUnionPattern :: lp : Pattern
+                   rp : Pattern;
+
+Position = nat * nat;
+
+Bind = SetBind;
+
+SetBind :: pat : Pattern
+           Set : Expr;
+                                                                                                                                                                 
+-----------------------------------------------------------------------
+-------------------- Literals -----------------------------------------
+-----------------------------------------------------------------------
+
+Literal = BoolLit | NumLit;
+
+BoolLit:: val : bool;
+
+NumLit :: val : int
+
+values
+
+ pat : Pattern = mk_PatternName(mk_(mk_Name(["x"]),mk_(1,1)));
+ 
+ sexpr : Expr = mk_SetEnumerationExpr([mk_NumLit(1),mk_NumLit(2)]);
+ expr : Expr = mk_LetBeSTExpr(mk_SetBind(pat,sexpr), 
+                              mk_BoolLit(true), 
+                              mk_Name(["x"]));
+                              
+ expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
+
+             
 ~~~
 {% endraw %}
 

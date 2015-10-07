@@ -25,7 +25,7 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new World("tests/scenarioGoodHeart.arg",<DOO>).Run()|
 |Entry point     :| new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()|
 |Entry point     :| new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()|
@@ -44,179 +44,303 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 |Entry point     :| new World("tests/scenarioSometimesHeart.arg",<DDD>).Run()|
 
 
-### Pacemaker.vdmrt
+### testDoubleHeartAAI.vdmrt
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                
-system Pacemaker 
-
- instance variables
-
- public static 
- atriaLead       : Lead       := new Lead(<ATRIA>);
-
- public static 
- ventricleLead   : Lead       := new Lead(<VENTRICLE>);
-
-                                                                                
-instance variables
-
- public static 
- accelerometer       : Accelerometer   := new Accelerometer();
-
- public static 
- rateController      : RateController  := new RateController();
-
-                            
- instance variables
-
- public static 
- heartController : HeartController := new HeartController();
-                                                                        
-instance variables
-
- cpu1 : CPU := new CPU(<FCFS>,1E3); 
- cpu2 : CPU := new CPU(<FCFS>,1E3); 
- cpu3 : CPU := new CPU(<FCFS>,1E3); 
- cpu4 : CPU := new CPU(<FP>,1E3); 
-
- -- Lead (artia) <-> HeartController
- bus1 : BUS := new BUS(<FCFS>,1E6,{cpu1,cpu4});
-
- -- Lead (ventricle) <-> HeartController
- bus2 : BUS := new BUS(<FCFS>,1E6,{cpu2,cpu4});
-
- -- Accelerometer <-> RateController
- bus3 : BUS := new BUS(<FCFS>,1E6,{cpu3,cpu4});
-
-                                                 
+class Test9
 
 operations
- 
- public Pacemaker: () ==> Pacemaker
- Pacemaker () == 
-   ( 
-    cpu1.deploy(atriaLead);
-    cpu2.deploy(ventricleLead);
-    cpu3.deploy(accelerometer);
-    cpu4.deploy(rateController);
-    cpu4.deploy(heartController);
- --   cpu4.setPriority(HeartController`pace,3);
- --   cpu4.setPriority(RateController`increaseRate,1);
- --   cpu4.setPriority(RateController`decreaseRate,1);
-   );
-   
-end Pacemaker
-             
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioDoubleHeart.arg",<AAI>).Run()
+;
+end Test9
 ~~~
 {% endraw %}
 
-### GLOBAL.vdmrt
+### testGoodHeartDOO.vdmrt
 
 {% raw %}
 ~~~
-                                                                                                                                                                           
-class GLOBAL
+class Test14
 
-types 
+operations
 
-                                                                                                                                        
--- Sensed activity
-public
-Sense = <NONE> | <PULSE>;
-                                                                                                                                                            
--- Heart chamber identifier
-public 
-Chamber = <ATRIA> | <VENTRICLE>;
-                                                                                                                                                                                                                                                           
-
--- Accelerometer output
-public 
-ActivityData = nat1
-inv a == a <= 7;
-
-                                                                                                                                                                                                                                                                                   
--- Paced actvity
-public
-Pulse = <PULSE> | <TRI_PULSE>;
-                                                                                                                                  
--- Operation mode
-public 
-Mode = <OFF> | <AOO> | <AAI> | <AOOR> | <AAT> | <DOO> | <DDD>;
-
-                                                                      
--- PPM
-public 
-PPM = nat1
-inv ppm == ppm >= 30 and ppm <= 175;
-
-                                                                                               
--- Time
-public 
-Time = nat;
-    
-end GLOBAL
-                
+public Test : () ==> ()
+Test () == new World("tests/scenarioGoodHeart.arg",<DOO>).Run()
+;
+end Test14
 ~~~
 {% endraw %}
 
-### World.vdmrt
+### testSometimesHeartDOO.vdmrt
 
 {% raw %}
 ~~~
-                                                                                                                                                         
-class World is subclass of GLOBAL 
+class Test19
 
-types
-
-instance variables
-
-public static env : [Environment] := nil;
-                                                                                                            
 operations
 
-public World: seq of char * GLOBAL`Mode ==> World
-World(filename,mode) == 
-  (  -- create an environment
-     env := new Environment(filename);
+public Test : () ==> ()
+Test () == new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()
+;
+end Test19
+~~~
+{% endraw %}
 
-     -- bind leads to the environment
-     env.addLeadSensor(Pacemaker`atriaLead);
-     env.addLeadSensor(Pacemaker`ventricleLead);
-   
-     -- bind accelerometer to the environment
-     env.addAccelerometer(Pacemaker`accelerometer);
-    
-     -- bind leads to the controler
-        -- bind leads to the controler
-     Pacemaker`heartController.addLeadPacer(Pacemaker`atriaLead);
-     Pacemaker`heartController.addLeadPacer(Pacemaker`ventricleLead);
-     
-     -- set up mode
-     Pacemaker`heartController.setMode(mode);        
+### testDoubleHeartDOO.vdmrt
 
-     start(Pacemaker`heartController);
-     start(Pacemaker`rateController);
-     start(Pacemaker`atriaLead);
-     start(Pacemaker`ventricleLead);
-     
-     
-  );
-                                                                                   
+{% raw %}
+~~~
+class Test8
 
-public Run: () ==> ()
-Run () == 
-  ( 
-   start(env); 
-   env.isFinished();
-   Pacemaker`heartController.isFinished();
-   env.showResult()
-  );
-  
+operations
 
-end World
-             
+public Test : () ==> ()
+Test () == new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()
+;
+end Test8
+~~~
+{% endraw %}
+
+### testSometimesHeartAOO.vdmrt
+
+{% raw %}
+~~~
+class Test17
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioSometimesHeart.arg",<AOO>).Run()
+;
+end Test17
+~~~
+{% endraw %}
+
+### testGoodHeartDDD.vdmrt
+
+{% raw %}
+~~~
+class Test13
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioGoodHeart.arg",<DDD>).Run()
+;
+end Test13
+~~~
+{% endraw %}
+
+### testSometimesHeartAAT.vdmrt
+
+{% raw %}
+~~~
+class Test21
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioSometimesHeart.arg",<AAT>).Run()
+;
+end Test21
+~~~
+{% endraw %}
+
+### testSometimesHeartDDD.vdmrt
+
+{% raw %}
+~~~
+class Test18
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioSometimesHeart.arg",<DDD>).Run()
+;
+end Test18
+~~~
+{% endraw %}
+
+### testDoubleHeartAAT.vdmrt
+
+{% raw %}
+~~~
+class Test10
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioDoubleHeart.arg",<AAT>).Run()
+;
+end Test10
+~~~
+{% endraw %}
+
+### testBrokenHeartDOO.vdmrt
+
+{% raw %}
+~~~
+class Test3
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()
+;
+end Test3
+~~~
+{% endraw %}
+
+### testBrokenHeartDDD.vdmrt
+
+{% raw %}
+~~~
+class Test2
+
+operations
+
+public Test : () ==> ()
+Test() == new World ("tests/scenarioBrokenHeart.arg",<DDD>).Run()
+;
+end Test2
+~~~
+{% endraw %}
+
+### testSometimesHeartAAI.vdmrt
+
+{% raw %}
+~~~
+class Test20
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioSometimesHeart.arg",<AAI>).Run()
+;
+end Test20
+~~~
+{% endraw %}
+
+### testGoodHeartAOO.vdmrt
+
+{% raw %}
+~~~
+class Test11
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioGoodHeart.arg",<AOO>).Run()
+;
+end Test11
+~~~
+{% endraw %}
+
+### testBrokenHeartAAT.vdmrt
+
+{% raw %}
+~~~
+class Test5
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioBrokenHeart.arg",<AAT>).Run()
+;
+end Test5
+~~~
+{% endraw %}
+
+### testDoubleHeartAOO.vdmrt
+
+{% raw %}
+~~~
+class Test6
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioDoubleHeart.arg",<AOO>).Run()
+;
+end Test6
+~~~
+{% endraw %}
+
+### testBrokenHeartAOO.vdmrt
+
+{% raw %}
+~~~
+class Test1
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioBrokenHeart.arg",<AOO>).Run()
+;
+end Test1
+~~~
+{% endraw %}
+
+### testBrokenHeartAAI.vdmrt
+
+{% raw %}
+~~~
+class Test4
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioBrokenHeart.arg",<AAI>).Run()
+;
+end Test4
+~~~
+{% endraw %}
+
+### testGoodHeartAAT.vdmrt
+
+{% raw %}
+~~~
+class Test16
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioGoodHeart.arg",<AAT>).Run()
+;
+end Test16
+~~~
+{% endraw %}
+
+### testGoodHeartAAI.vdmrt
+
+{% raw %}
+~~~
+class Test15
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioGoodHeart.arg",<AAI>).Run()
+;
+end Test15
+~~~
+{% endraw %}
+
+### testDoubleHeartDDD.vdmrt
+
+{% raw %}
+~~~
+class Test7
+
+operations
+
+public Test : () ==> ()
+Test () == new World("tests/scenarioDoubleHeart.arg",<DDD>).Run()
+;
+end Test7
 ~~~
 {% endraw %}
 
@@ -340,6 +464,24 @@ MED : ActivityData = 4;
 --V-HIGH 6
 
 end RateController
+              
+~~~
+{% endraw %}
+
+### Accelerometer.vdmrt
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                  
+class Accelerometer is subclass of GLOBAL
+
+operations
+
+ public 
+ stimulate : ActivityData ==> ()
+ stimulate (a) == Pacemaker`rateController.stimulate(a);
+
+end Accelerometer
               
 ~~~
 {% endraw %}
@@ -481,21 +623,52 @@ end HeartController
 ~~~
 {% endraw %}
 
-### Accelerometer.vdmrt
+### GLOBAL.vdmrt
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                  
-class Accelerometer is subclass of GLOBAL
+                                                                                                                                                                           
+class GLOBAL
 
-operations
+types 
 
- public 
- stimulate : ActivityData ==> ()
- stimulate (a) == Pacemaker`rateController.stimulate(a);
+                                                                                                                                        
+-- Sensed activity
+public
+Sense = <NONE> | <PULSE>;
+                                                                                                                                                            
+-- Heart chamber identifier
+public 
+Chamber = <ATRIA> | <VENTRICLE>;
+                                                                                                                                                                                                                                                           
 
-end Accelerometer
-              
+-- Accelerometer output
+public 
+ActivityData = nat1
+inv a == a <= 7;
+
+                                                                                                                                                                                                                                                                                   
+-- Paced actvity
+public
+Pulse = <PULSE> | <TRI_PULSE>;
+                                                                                                                                  
+-- Operation mode
+public 
+Mode = <OFF> | <AOO> | <AAI> | <AOOR> | <AAT> | <DOO> | <DDD>;
+
+                                                                      
+-- PPM
+public 
+PPM = nat1
+inv ppm == ppm >= 30 and ppm <= 175;
+
+                                                                                               
+-- Time
+public 
+Time = nat;
+    
+end GLOBAL
+                
 ~~~
 {% endraw %}
 
@@ -625,303 +798,130 @@ end Environment
 ~~~
 {% endraw %}
 
-### testDoubleHeartAOO.vdmrt
+### Pacemaker.vdmrt
 
 {% raw %}
 ~~~
-class Test6
+                                                                                                                                                                                                                                                
+system Pacemaker 
+
+ instance variables
+
+ public static 
+ atriaLead       : Lead       := new Lead(<ATRIA>);
+
+ public static 
+ ventricleLead   : Lead       := new Lead(<VENTRICLE>);
+
+                                                                                
+instance variables
+
+ public static 
+ accelerometer       : Accelerometer   := new Accelerometer();
+
+ public static 
+ rateController      : RateController  := new RateController();
+
+                            
+ instance variables
+
+ public static 
+ heartController : HeartController := new HeartController();
+                                                                        
+instance variables
+
+ cpu1 : CPU := new CPU(<FCFS>,1E3); 
+ cpu2 : CPU := new CPU(<FCFS>,1E3); 
+ cpu3 : CPU := new CPU(<FCFS>,1E3); 
+ cpu4 : CPU := new CPU(<FP>,1E3); 
+
+ -- Lead (artia) <-> HeartController
+ bus1 : BUS := new BUS(<FCFS>,1E6,{cpu1,cpu4});
+
+ -- Lead (ventricle) <-> HeartController
+ bus2 : BUS := new BUS(<FCFS>,1E6,{cpu2,cpu4});
+
+ -- Accelerometer <-> RateController
+ bus3 : BUS := new BUS(<FCFS>,1E6,{cpu3,cpu4});
+
+                                                 
 
 operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioDoubleHeart.arg",<AOO>).Run()
-;
-end Test6
+ 
+ public Pacemaker: () ==> Pacemaker
+ Pacemaker () == 
+   ( 
+    cpu1.deploy(atriaLead);
+    cpu2.deploy(ventricleLead);
+    cpu3.deploy(accelerometer);
+    cpu4.deploy(rateController);
+    cpu4.deploy(heartController);
+ --   cpu4.setPriority(HeartController`pace,3);
+ --   cpu4.setPriority(RateController`increaseRate,1);
+ --   cpu4.setPriority(RateController`decreaseRate,1);
+   );
+   
+end Pacemaker
+             
 ~~~
 {% endraw %}
 
-### testGoodHeartAAT.vdmrt
+### World.vdmrt
 
 {% raw %}
 ~~~
-class Test16
+                                                                                                                                                         
+class World is subclass of GLOBAL 
 
+types
+
+instance variables
+
+public static env : [Environment] := nil;
+                                                                                                            
 operations
 
-public Test : () ==> ()
-Test () == new World("tests/scenarioGoodHeart.arg",<AAT>).Run()
-;
-end Test16
-~~~
-{% endraw %}
-
-### testSometimesHeartAAI.vdmrt
-
-{% raw %}
-~~~
-class Test20
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioSometimesHeart.arg",<AAI>).Run()
-;
-end Test20
-~~~
-{% endraw %}
-
-### testBrokenHeartAAT.vdmrt
-
-{% raw %}
-~~~
-class Test5
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioBrokenHeart.arg",<AAT>).Run()
-;
-end Test5
-~~~
-{% endraw %}
-
-### testSometimesHeartAAT.vdmrt
-
-{% raw %}
-~~~
-class Test21
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioSometimesHeart.arg",<AAT>).Run()
-;
-end Test21
-~~~
-{% endraw %}
-
-### testBrokenHeartAOO.vdmrt
-
-{% raw %}
-~~~
-class Test1
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioBrokenHeart.arg",<AOO>).Run()
-;
-end Test1
-~~~
-{% endraw %}
-
-### testGoodHeartDDD.vdmrt
-
-{% raw %}
-~~~
-class Test13
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioGoodHeart.arg",<DDD>).Run()
-;
-end Test13
-~~~
-{% endraw %}
-
-### testGoodHeartDOO.vdmrt
-
-{% raw %}
-~~~
-class Test14
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioGoodHeart.arg",<DOO>).Run()
-;
-end Test14
-~~~
-{% endraw %}
-
-### testSometimesHeartDOO.vdmrt
-
-{% raw %}
-~~~
-class Test19
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()
-;
-end Test19
-~~~
-{% endraw %}
-
-### testGoodHeartAAI.vdmrt
-
-{% raw %}
-~~~
-class Test15
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioGoodHeart.arg",<AAI>).Run()
-;
-end Test15
-~~~
-{% endraw %}
-
-### testDoubleHeartDDD.vdmrt
-
-{% raw %}
-~~~
-class Test7
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioDoubleHeart.arg",<DDD>).Run()
-;
-end Test7
-~~~
-{% endraw %}
-
-### testGoodHeartAOO.vdmrt
-
-{% raw %}
-~~~
-class Test11
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioGoodHeart.arg",<AOO>).Run()
-;
-end Test11
-~~~
-{% endraw %}
-
-### testDoubleHeartAAI.vdmrt
-
-{% raw %}
-~~~
-class Test9
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioDoubleHeart.arg",<AAI>).Run()
-;
-end Test9
-~~~
-{% endraw %}
-
-### testDoubleHeartDOO.vdmrt
-
-{% raw %}
-~~~
-class Test8
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioDoubleHeart.arg",<DOO>).Run()
-;
-end Test8
-~~~
-{% endraw %}
-
-### testSometimesHeartAOO.vdmrt
-
-{% raw %}
-~~~
-class Test17
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioSometimesHeart.arg",<AOO>).Run()
-;
-end Test17
-~~~
-{% endraw %}
-
-### testSometimesHeartDDD.vdmrt
-
-{% raw %}
-~~~
-class Test18
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioSometimesHeart.arg",<DDD>).Run()
-;
-end Test18
-~~~
-{% endraw %}
-
-### testBrokenHeartDDD.vdmrt
-
-{% raw %}
-~~~
-class Test2
-
-operations
-
-public Test : () ==> ()
-Test() == new World ("tests/scenarioBrokenHeart.arg",<DDD>).Run()
-;
-end Test2
-~~~
-{% endraw %}
-
-### testDoubleHeartAAT.vdmrt
-
-{% raw %}
-~~~
-class Test10
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioDoubleHeart.arg",<AAT>).Run()
-;
-end Test10
-~~~
-{% endraw %}
-
-### testBrokenHeartDOO.vdmrt
-
-{% raw %}
-~~~
-class Test3
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioBrokenHeart.arg",<DOO>).Run()
-;
-end Test3
-~~~
-{% endraw %}
-
-### testBrokenHeartAAI.vdmrt
-
-{% raw %}
-~~~
-class Test4
-
-operations
-
-public Test : () ==> ()
-Test () == new World("tests/scenarioBrokenHeart.arg",<AAI>).Run()
-;
-end Test4
+public World: seq of char * GLOBAL`Mode ==> World
+World(filename,mode) == 
+  (  -- create an environment
+     env := new Environment(filename);
+
+     -- bind leads to the environment
+     env.addLeadSensor(Pacemaker`atriaLead);
+     env.addLeadSensor(Pacemaker`ventricleLead);
+   
+     -- bind accelerometer to the environment
+     env.addAccelerometer(Pacemaker`accelerometer);
+    
+     -- bind leads to the controler
+        -- bind leads to the controler
+     Pacemaker`heartController.addLeadPacer(Pacemaker`atriaLead);
+     Pacemaker`heartController.addLeadPacer(Pacemaker`ventricleLead);
+     
+     -- set up mode
+     Pacemaker`heartController.setMode(mode);        
+
+     start(Pacemaker`heartController);
+     start(Pacemaker`rateController);
+     start(Pacemaker`atriaLead);
+     start(Pacemaker`ventricleLead);
+     
+     
+  );
+                                                                                   
+
+public Run: () ==> ()
+Run () == 
+  ( 
+   start(env); 
+   env.isFinished();
+   Pacemaker`heartController.isFinished();
+   env.showResult()
+  );
+  
+
+end World
+             
 ~~~
 {% endraw %}
 

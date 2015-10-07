@@ -16,118 +16,9 @@ coherent application in a distributed application.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new Testing().Test()|
 
-
-### RadNavSys.vdmrt
-
-{% raw %}
-~~~
-system RadNavSys
-instance variables
-  -- create application tasks
-  static public mmi : MMI := new MMI();
-  static public radio : Radio := new Radio();
-  static public navigation : Navigation := new Navigation();
-  
-  -- create CPUs (policy, capacity)
-  CPU1 : CPU := new CPU (<FP>, 22E6);
-  CPU2 : CPU := new CPU (<FP>, 11E6);
-  CPU3 : CPU := new CPU (<FP>, 113E6);
-
-  -- create a bus (policy, capacity, topology)
-  BUS1 : BUS := new BUS (<CSMACD>, 72E3, {CPU1, CPU2, CPU3})
-
-operations
-  public RadNavSys: () ==> RadNavSys
-  RadNavSys () ==
-    ( -- deploy mmi on CPU1
-      CPU1.deploy(mmi,"MMIT");
-      CPU1.setPriority(MMI`HandleKeyPress,100);
-      CPU1.setPriority(MMI`UpdateScreen,90);
-      -- deploy radio on CPU2
-      CPU2.deploy(radio,"RadioT");
-      CPU2.setPriority(Radio`AdjustVolumeUp,100);
-      CPU2.setPriority(Radio`AdjustVolumeDown,100);
-      CPU2.setPriority(Radio`HandleTMC,90);
-      -- deploy navigation on CPU3
-      CPU3.deploy(navigation,"NavT");
-      CPU3.setPriority(Navigation`DatabaseLookup, 100);
-      CPU3.setPriority(Navigation`DecodeTMC, 90)
-      -- starting the CPUs and BUS is implicit
-    );
-    
-/* timing invariants
-separate(#fin(MMI`UpdateScreen), #fin(MMI`UpdateScreen), 500 ms);
-*/
-
-end RadNavSys
-~~~
-{% endraw %}
-
-### Test.vdmrt
-
-{% raw %}
-~~~
-class Testing
-
-operations
-  public Test: () ==> ()
-  Test () ==
-  (
-    new World().RunScenario1();
-		start(self);
-    block();
-  );
-
-
-  private block : () ==> ()
-  block () == skip;
-
-  private op : () ==> ()
-  op () == skip;
-
-sync
-
-per block => time > 5000000
-
-
-thread
-
-  periodic(1000E6,0,0,0)(op)
-
-end Testing
-
-~~~
-{% endraw %}
-
-### World.vdmrt
-
-{% raw %}
-~~~
-class World
- 
-types
-  public perfdata = nat * nat * real
-
-instance variables
- 
-
-operations
-  	
-  public RunScenario1 : () ==> ()
-  RunScenario1 () ==
-    ( RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-    );
-
- 
-
-end World
-~~~
-{% endraw %}
 
 ### Navigation.vdmrt
 
@@ -187,6 +78,42 @@ end MMI
 ~~~
 {% endraw %}
 
+### Test.vdmrt
+
+{% raw %}
+~~~
+class Testing
+
+operations
+  public Test: () ==> ()
+  Test () ==
+  (
+    new World().RunScenario1();
+		start(self);
+    block();
+  );
+
+
+  private block : () ==> ()
+  block () == skip;
+
+  private op : () ==> ()
+  op () == skip;
+
+sync
+
+per block => time > 5000000
+
+
+thread
+
+  periodic(1000E6,0,0,0)(op)
+
+end Testing
+
+~~~
+{% endraw %}
+
 ### Radio.vdmrt
 
 {% raw %}
@@ -224,6 +151,79 @@ operations
     );
 
 end Radio
+~~~
+{% endraw %}
+
+### World.vdmrt
+
+{% raw %}
+~~~
+class World
+ 
+types
+  public perfdata = nat * nat * real
+
+instance variables
+ 
+
+operations
+  	
+  public RunScenario1 : () ==> ()
+  RunScenario1 () ==
+    ( RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+    );
+
+ 
+
+end World
+~~~
+{% endraw %}
+
+### RadNavSys.vdmrt
+
+{% raw %}
+~~~
+system RadNavSys
+instance variables
+  -- create application tasks
+  static public mmi : MMI := new MMI();
+  static public radio : Radio := new Radio();
+  static public navigation : Navigation := new Navigation();
+  
+  -- create CPUs (policy, capacity)
+  CPU1 : CPU := new CPU (<FP>, 22E6);
+  CPU2 : CPU := new CPU (<FP>, 11E6);
+  CPU3 : CPU := new CPU (<FP>, 113E6);
+
+  -- create a bus (policy, capacity, topology)
+  BUS1 : BUS := new BUS (<CSMACD>, 72E3, {CPU1, CPU2, CPU3})
+
+operations
+  public RadNavSys: () ==> RadNavSys
+  RadNavSys () ==
+    ( -- deploy mmi on CPU1
+      CPU1.deploy(mmi,"MMIT");
+      CPU1.setPriority(MMI`HandleKeyPress,100);
+      CPU1.setPriority(MMI`UpdateScreen,90);
+      -- deploy radio on CPU2
+      CPU2.deploy(radio,"RadioT");
+      CPU2.setPriority(Radio`AdjustVolumeUp,100);
+      CPU2.setPriority(Radio`AdjustVolumeDown,100);
+      CPU2.setPriority(Radio`HandleTMC,90);
+      -- deploy navigation on CPU3
+      CPU3.deploy(navigation,"NavT");
+      CPU3.setPriority(Navigation`DatabaseLookup, 100);
+      CPU3.setPriority(Navigation`DecodeTMC, 90)
+      -- starting the CPUs and BUS is implicit
+    );
+    
+/* timing invariants
+separate(#fin(MMI`UpdateScreen), #fin(MMI`UpdateScreen), 500 ms);
+*/
+
+end RadNavSys
 ~~~
 {% endraw %}
 

@@ -19,52 +19,9 @@ Ferreira
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new UseFileSystemLayerAlg().dummy()|
 
-
-### UseFileSystemLayerAlg.vdmpp
-
-{% raw %}
-~~~
-class UseFileSystemLayerAlg
-
-instance variables
-public sys : FileSystemLayerAlg := new FileSystemLayerAlg();
-
-values
-
-  file : FileSystemLayerAlg`File = mk_FileSystemLayerAlg`File(
-                                    mk_FileSystemLayerAlg`Attributes(
-                                     <RegularFile>),
-                                    "hello world");
-  file2: FileSystemLayerAlg`File = mk_FileSystemLayerAlg`File(
-                                    mk_FileSystemLayerAlg`Attributes(
-                                     <Directory>),
-                                    nil);
- ofd : FileSystemLayerAlg`OpenFileDescriptor = 
-       mk_FileSystemLayerAlg`OpenFileDescriptor(["whoami"]);
- s : FileSystemLayerAlg`System = 
-     mk_FileSystemLayerAlg`System({42 |-> ofd},
-                                  {<Root> |-> file2,
-                                   ["whoami"] |-> file});
-
-operations
-
-public dummy: () ==> ()
-dummy() == skip;
-
-traces
-
-  T : sys.FS_Init_Main() ; (sys.dirName(<Root>) | 
-                            sys.isDirectory(file) | 
-                            sys.FS_DeleteFileDir_Main(s,["Dummy"]) ){3}
-                            
-  
-end UseFileSystemLayerAlg
-
-~~~
-{% endraw %}
 
 ### FileSystemLayerAlg.vdmpp
 
@@ -213,6 +170,49 @@ public FFS_Status =
                   | <FS_ErrorTooManyOpenFiles>;
 
 end FileSystemLayerAlg
+
+~~~
+{% endraw %}
+
+### UseFileSystemLayerAlg.vdmpp
+
+{% raw %}
+~~~
+class UseFileSystemLayerAlg
+
+instance variables
+public sys : FileSystemLayerAlg := new FileSystemLayerAlg();
+
+values
+
+  file : FileSystemLayerAlg`File = mk_FileSystemLayerAlg`File(
+                                    mk_FileSystemLayerAlg`Attributes(
+                                     <RegularFile>),
+                                    "hello world");
+  file2: FileSystemLayerAlg`File = mk_FileSystemLayerAlg`File(
+                                    mk_FileSystemLayerAlg`Attributes(
+                                     <Directory>),
+                                    nil);
+ ofd : FileSystemLayerAlg`OpenFileDescriptor = 
+       mk_FileSystemLayerAlg`OpenFileDescriptor(["whoami"]);
+ s : FileSystemLayerAlg`System = 
+     mk_FileSystemLayerAlg`System({42 |-> ofd},
+                                  {<Root> |-> file2,
+                                   ["whoami"] |-> file});
+
+operations
+
+public dummy: () ==> ()
+dummy() == skip;
+
+traces
+
+  T : sys.FS_Init_Main() ; (sys.dirName(<Root>) | 
+                            sys.isDirectory(file) | 
+                            sys.FS_DeleteFileDir_Main(s,["Dummy"]) ){3}
+                            
+  
+end UseFileSystemLayerAlg
 
 ~~~
 {% endraw %}

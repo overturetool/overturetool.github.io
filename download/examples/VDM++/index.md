@@ -19,7 +19,7 @@ Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinbur
 | | |
 |------|-------|
 |Author:|Jeremy Bryans and John Fitzgerald|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](access-controlPP/Access-control.zip)  / [show specification](access-controlPP/index.html)|
 
 
@@ -40,7 +40,7 @@ out of experts to deal with alarms.
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](Alarm++proofPP/Alarm++proof.zip)  / [show specification](Alarm++proofPP/index.html)|
 
 
@@ -59,7 +59,7 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](Alarm++tracesPP/Alarm++traces.zip)  / [show specification](Alarm++tracesPP/index.html)|
 
 
@@ -79,7 +79,7 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](AlarmErrPP/AlarmErr.zip)  / [show specification](AlarmErrPP/index.html)|
 
 
@@ -97,7 +97,7 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](AlarmPP/Alarm.zip)  / [show specification](AlarmPP/index.html)|
 
 
@@ -119,7 +119,7 @@ the ProjectReport.pdf file included in the zip file with the source files.
 | | |
 |------|-------|
 |Author:|Anders Kaels Malmos|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](AutomatedStockBrokerPP/AutomatedStockBroker.zip)  / [show specification](AutomatedStockBrokerPP/index.html)|
 
 
@@ -168,7 +168,7 @@ variables.
 | | |
 |------|-------|
 |Author:|Claus Ballegaard Nielsen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](BuslinesPP/Buslines.zip)  / [show specification](BuslinesPP/index.html)|
 
 
@@ -189,7 +189,7 @@ This version connects to a database containing maps and busroutes.
 | | |
 |------|-------|
 |Author:|Claus Ballegaard Nielsen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](BuslinesWithDBPP/BuslinesWithDB.zip)  / [show specification](BuslinesWithDBPP/index.html)|
 
 
@@ -204,7 +204,7 @@ Peter Gorm Larsen and Kim Sunesen in 1999 in connection with FM'99.
 | | |
 |------|-------|
 |Author:|Sten Agerholm, Peter Gorm Larsen and Kim Sunesen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](CashDispenserConcPP/CashDispenserConc.zip)  / [show specification](CashDispenserConcPP/index.html)|
 
 
@@ -219,7 +219,7 @@ in 1999 in connection with FM'99.
 | | |
 |------|-------|
 |Author:|Sten Agerholm, Peter Gorm Larsen and Kim Sunesen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](CashDispenserPP/CashDispenser.zip)  / [show specification](CashDispenserPP/index.html)|
 
 
@@ -234,7 +234,7 @@ distributed real time version of this example.
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen and Marcel Verhoef|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](CMConcPP/CMConc.zip)  / [show specification](CMConcPP/index.html)|
 
 
@@ -249,7 +249,7 @@ distributed real time version of this example.
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen and Marcel Verhoef|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](CMSeqPP/CMSeq.zip)  / [show specification](CMSeqPP/index.html)|
 
 
@@ -320,7 +320,7 @@ community for formal verification.
 | | |
 |------|-------|
 |Author:|Steve Riddle|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](ElectronicPursePP/ElectronicPurse.zip)  / [show specification](ElectronicPursePP/index.html)|
 
 
@@ -339,7 +339,7 @@ where the VDMUnit testing approach was introduced.
 | | |
 |------|-------|
 |Author:|Marvel Verhoef|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](EnigmaPP/Enigma.zip)  / [show specification](EnigmaPP/index.html)|
 
 
@@ -371,27 +371,6 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 |Details...|[model (zip)](HomeautomationSeqPP/HomeautomationSeq.zip)  / [show specification](HomeautomationSeqPP/index.html)|
 
 
-### HubInSafeMode
-The purpose of the hub in safe mode is to allow a service technician
-to physically enter the hub of the wind turbine to carry out
-maintenance. For the service technician to do so without risking his
-life, it must be guaranteed that the main shaft connected to the rotor
-of the wind turbine, is at a complete stand still and securely
-locked. This model is made by Klaus Petersen as a small mini-project in a
-course on "Modelling of Mission Critical Systems" (see
-https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems). 
-
-More information about the model and the purpose of it can be found in
-the Report.pdf file included in the zip file with the source files.
-
-
-| | |
-|------|-------|
-|Author:|Klaus Petersen|
-|Version:|VDM_PP - classic|
-|Details...|[model (zip)](HubInSafeModePP/HubInSafeMode.zip)  / [show specification](HubInSafeModePP/index.html)|
-
-
 ### KLV
 This example describes a VDM++ specification of a KLV system. The
 purpose of the KLV system is to provide a continuous monitoring of the
@@ -413,7 +392,7 @@ to extend the model with.
 | | |
 |------|-------|
 |Author:|Niels Kirkegaard|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](KLVPP/KLV.zip)  / [show specification](KLVPP/index.html)|
 
 
@@ -426,6 +405,17 @@ to extend the model with.
 |Author:||
 |Version:|VDM_PP - classic|
 |Details...|[model (zip)](memoryproofPP/Memoryproof.zip)  / [show specification](memoryproofPP/index.html)|
+
+
+### MetroInterlocking
+This example is produced by a student as a part of a VDM course given at the Department of Engineering at the University of Aarhus. This model describes a small interlocking system for a metro.
+
+
+| | |
+|------|-------|
+|Author:|Steffen Diswal|
+|Version:|VDM_PP - vdm10|
+|Details...|[model (zip)](MetroInterlockingPP/MetroInterlocking.zip)  / [show specification](MetroInterlockingPP/index.html)|
 
 
 ### Mondex
@@ -450,7 +440,7 @@ This project is currently not running with the Overture interpreter.
 | | |
 |------|-------|
 |Author:|Augusto Ribeiro|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](MSAWconcurPP/MSAWconcur.zip)  / [show specification](MSAWconcurPP/index.html)|
 
 
@@ -472,7 +462,7 @@ display.
 | | |
 |------|-------|
 |Author:|Augusto Ribeiro|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](MSAWseqPP/MSAWseq.zip)  / [show specification](MSAWseqPP/index.html)|
 
 
@@ -561,7 +551,7 @@ lients to fetch email messages from the email server.
 | | |
 |------|-------|
 |Author:|Naoyasu Ubayashi, Shin Nakajima and Masayuki Hirayama|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](ProductLinePP/ProductLine.zip)  / [show specification](ProductLinePP/index.html)|
 
 
@@ -576,7 +566,7 @@ code automatically generated using VDMTools.
 | | |
 |------|-------|
 |Author:|Stephen Goldsack|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](QuadilateralPP/Quadilateral.zip)  / [show specification](QuadilateralPP/index.html)|
 
 
@@ -587,7 +577,7 @@ code automatically generated using VDMTools.
 | | |
 |------|-------|
 |Author:||
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](ReaderWriterPP/ReaderWriter.zip)  / [show specification](ReaderWriterPP/index.html)|
 
 
@@ -628,7 +618,7 @@ More explanation about this work can be found in the papers:
 | | |
 |------|-------|
 |Author:|Sten Agerholm and Peter Gorm Larsen|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](SAFERPP/SAFER.zip)  / [show specification](SAFERPP/index.html)|
 
 
@@ -639,7 +629,7 @@ More explanation about this work can be found in the papers:
 | | |
 |------|-------|
 |Author:|Sten Agerholm|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](SAFERProofPP/SAFERProof.zip)  / [show specification](SAFERProofPP/index.html)|
 
 
@@ -649,14 +639,14 @@ More explanation about this work can be found in the papers:
 
 | | |
 |------|-------|
-|Author:||
-|Version:|VDM_PP - classic|
+|Author:|Claus Ballegaard Nielsen|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](SmokingPP/Smoking.zip)  / [show specification](SmokingPP/index.html)|
 
 
 ### SortingParcels
-﻿The purpose of this VDM++ model is to analyse the rules governing for
-distrubuting parcels with different kinds of goods is a
+The purpose of this VDM++ model is to analyse the rules governing for
+distributing parcels with different kinds of goods is a
 warehouse. This model is made by Bjarke Møholt as a small mini-project
 in a course on "Modelling of Mission Critical Systems" (see
 https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).
@@ -665,7 +655,7 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 | | |
 |------|-------|
 |Author:|Bjarke Møholt|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](SortingParcelsPP/SortingParcels.zip)  / [show specification](SortingParcelsPP/index.html)|
 
 
@@ -701,7 +691,7 @@ test approach.
 | | |
 |------|-------|
 |Author:||
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](stackPP/Stack.zip)  / [show specification](stackPP/index.html)|
 
 
@@ -721,7 +711,7 @@ care of processing such waste material.
 
 
 ### Trayallocation
-﻿This VDM++ model is made by two students of a sortation system
+This VDM++ model is made by two students of a sortation system
 able to sort parcels into different trays for example for an
 airport sorting suitcases for different flights. The model here
 focus on the algorithm for prioritising between different feeders
@@ -731,7 +721,7 @@ to the conveyer belt
 | | |
 |------|-------|
 |Author:|Kim Bjerge and José Antonio Esparza Jaesparza|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](trayallocationPP/Trayallocation.zip)  / [show specification](trayallocationPP/index.html)|
 
 
@@ -743,7 +733,7 @@ and traversing over abstract threes and queues.
 | | |
 |------|-------|
 |Author:||
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](treePP/Tree.zip)  / [show specification](treePP/index.html)|
 
 
@@ -762,7 +752,7 @@ Ferreira
 | | |
 |------|-------|
 |Author:|Miguel Ferreira|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](VFSPP/VFS.zip)  / [show specification](VFSPP/index.html)|
 
 
@@ -774,7 +764,7 @@ server.
 | | |
 |------|-------|
 |Author:||
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](webserverPP/Webserver.zip)  / [show specification](webserverPP/index.html)|
 
 
@@ -791,6 +781,6 @@ using the traces primitives used for test automation.
 | | |
 |------|-------|
 |Author:|Yves Ledru|
-|Version:|VDM_PP - classic|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](worldcupPP/Worldcup.zip)  / [show specification](worldcupPP/index.html)|
 

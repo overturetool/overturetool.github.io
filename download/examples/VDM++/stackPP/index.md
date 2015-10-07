@@ -11,26 +11,9 @@ Author:
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| n|
 
-
-### usestack.vdmpp
-
-{% raw %}
-~~~
-class UseStack
-instance variables
-  stack : Stack := new Stack();
-traces
-  TracesStack :
-    stack.Reset() ;
-    let x in set {2,8} in stack.Push(x){1,4};
-    (stack.Push(9) | stack.Pop())
-
-end UseStack
-~~~
-{% endraw %}
 
 ### stack.vdmpp
 
@@ -67,6 +50,23 @@ class Stack
       return (hd stack);
 
 end Stack
+~~~
+{% endraw %}
+
+### usestack.vdmpp
+
+{% raw %}
+~~~
+class UseStack
+instance variables
+  stack : Stack := new Stack();
+traces
+  TracesStack :
+    stack.Reset() ;
+    let x in set {2,8} in stack.Push(x){1,4};
+    (stack.Push(9) | stack.Pop())
+
+end UseStack
 ~~~
 {% endraw %}
 

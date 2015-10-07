@@ -19,7 +19,7 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new Test1().Run()|
 
 
@@ -44,45 +44,11 @@ public Expert: set of Qualification ==> Expert
 Expert(qs) ==
   quali := qs;
                               
-public GetQuali: () ==> set of Qualification
+pure public GetQuali: () ==> set of Qualification
 GetQuali() ==
   return quali;
   
 end Expert
-             
-~~~
-{% endraw %}
-
-### alarm.vdmpp
-
-{% raw %}
-~~~
-              
-class Alarm
-types
-                            
-types
-
-public String = seq of char;
-
-instance variables 
-
-descr    : String;
-reqQuali : Expert`Qualification;
-                            
-operations
-
-public Alarm: Expert`Qualification * String ==> Alarm
-Alarm(quali,str) ==
-( descr := str;
-  reqQuali := quali
-);
-                               
-public GetReqQuali: () ==> Expert`Qualification
-GetReqQuali() ==
-  return reqQuali;
-  
-end Alarm
              
 ~~~
 {% endraw %}
@@ -136,16 +102,14 @@ class Plant
 instance variables
 
 alarms   : set of Alarm;
-st1 : nat := 1;
 schedule : map Period to set of Expert;
 inv PlantInv(alarms,schedule);
 
-operations
+functions
 
-PlantInv: set of Alarm * map Period to set of Expert ==> 
+PlantInv: set of Alarm * map Period to set of Expert -> 
           bool
 PlantInv(as,sch) ==
-  return
   (forall p in set dom sch & sch(p) <> {}) and
   (forall a in set as &
      forall p in set dom sch &
@@ -190,6 +154,40 @@ Plant(als,sch) ==
 pre PlantInv(als,sch);
 
 end Plant
+             
+~~~
+{% endraw %}
+
+### alarm.vdmpp
+
+{% raw %}
+~~~
+              
+class Alarm
+types
+                            
+types
+
+public String = seq of char;
+
+instance variables 
+
+descr    : String;
+reqQuali : Expert`Qualification;
+                            
+operations
+
+public Alarm: Expert`Qualification * String ==> Alarm
+Alarm(quali,str) ==
+( descr := str;
+  reqQuali := quali
+);
+                               
+pure public GetReqQuali: () ==> Expert`Qualification
+GetReqQuali() ==
+  return reqQuali;
+  
+end Alarm
              
 ~~~
 {% endraw %}

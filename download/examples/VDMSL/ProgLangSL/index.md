@@ -293,6 +293,42 @@ end DYNSEM
 ~~~
 {% endraw %}
 
+### Test.vdmsl
+
+{% raw %}
+~~~
+                                         
+module Test
+
+imports 
+from AST all,
+from STATSEM all,
+from DYNSEM all
+ 
+exports all
+definitions 
+
+values 
+
+  binexpr: AST`Expr = 
+           mk_AST`BinaryExpr(mk_AST`IntVal(4),
+                             <Add>,
+                             mk_AST`IntVal(5))
+functions
+
+RunTypeCheck: () -> bool * [AST`Type]
+RunTypeCheck() ==
+  STATSEM`wf_Expr(binexpr,{|->});
+  
+RunEval: () -> AST`Value
+RunEval() ==
+  DYNSEM`EvalExpr(binexpr,{|->})
+  
+end Test
+            
+~~~
+{% endraw %}
+
 ### ast.vdmsl
 
 {% raw %}
@@ -354,42 +390,6 @@ types
                 
 end AST
              
-~~~
-{% endraw %}
-
-### Test.vdmsl
-
-{% raw %}
-~~~
-                                         
-module Test
-
-imports 
-from AST all,
-from STATSEM all,
-from DYNSEM all
- 
-exports all
-definitions 
-
-values 
-
-  binexpr: AST`Expr = 
-           mk_AST`BinaryExpr(mk_AST`IntVal(4),
-                             <Add>,
-                             mk_AST`IntVal(5))
-functions
-
-RunTypeCheck: () -> bool * [AST`Type]
-RunTypeCheck() ==
-  STATSEM`wf_Expr(binexpr,{|->});
-  
-RunEval: () -> AST`Value
-RunEval() ==
-  DYNSEM`EvalExpr(binexpr,{|->})
-  
-end Test
-            
 ~~~
 {% endraw %}
 

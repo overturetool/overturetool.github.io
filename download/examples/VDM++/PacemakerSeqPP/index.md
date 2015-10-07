@@ -32,205 +32,6 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 |Entry point     :| new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()|
 
 
-### Pacemaker.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                        
-class Pacemaker 
-
- instance variables
-
- public static 
- atriaLead     : Lead      := new Lead(<ATRIA>);
-
- public static 
- ventricleLead : Lead      := new Lead(<VENTRICLE>);
-                                                                                
-
- instance variables
-
- public static 
- accelerometer       : Accelerometer   := new Accelerometer();
-
- public static 
- rateController      : RateController  := new RateController();
-                                                                                     
- instance variables
- 
- public static 
- heartController     : HeartController := new HeartController();
-
-end Pacemaker
-              
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                        
-class World is subclass of GLOBAL
-
-types
-
-instance variables
-
-public static env      : [Environment] := nil;
-public static timerRef : Timer := new Timer();
-                                                                                                                                                               
-operations
-
-public World: seq of char * Mode ==> World
-World(filename,mode) == 
-  (  -- create an environment
-     env := new Environment(filename);
-
-     -- bind leads to the environment
-     env.addLeadSensor(Pacemaker`atriaLead);
-     env.addLeadSensor(Pacemaker`ventricleLead);
-   
-     -- bind accelerometer to the environment
-     env.addAccelerometer(Pacemaker`accelerometer);
-    
-     -- bind leads to the controler
-     Pacemaker`heartController.addLeadPacer(Pacemaker`atriaLead);
-     Pacemaker`heartController.addLeadPacer(Pacemaker`ventricleLead);
-    
-     -- set up mode
-     Pacemaker`heartController.setMode(mode);
-  );
-                                                                                   
-public Run: () ==> ()
-Run () == (env.Run(); env.showResult());
-  
-
-end World
-                                                                                        
-~~~
-{% endraw %}
-
-### RateController.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                   
-class RateController is subclass of GLOBAL
-
-instance variables
- sensed   : [ActivityData];
- interval : Time;
- finished : bool; 
-                                                                                                                                                                                    
-instance variables
- LRL       : PPM;
- MSR       : PPM;
- threshold : nat1;
- reactionT : Time;
- recoveryT : Time;
- responseF : nat1;
-inv threshold < 8
-    and
-    reactionT in set {10,...,50}
-    and
-    recoveryT in set {2,...,16}
-    and 
-    responseF <= 16;
-                                                                                                                                            
-operations
-  
- public 
- RateController: () ==> RateController
- RateController() ==
-   (LRL       := 60;
-    MSR       := 120;
-    threshold := MED;
-    reactionT := 10; -- 10 s
-    recoveryT := 2; -- 2 minutes;
-    responseF := 8;
-    sensed    := nil; 
-    interval  := 1/((LRL/60)/1000);
-    finished  := false;
-
-   );
-                                                                                                                                                                                                                      
-public
-getInterval : () ==> Time
-getInterval () == return interval;
-                                                                                                                                      
-
- public 
- Step : () ==> ()
- Step () == if sensed <> nil then controlRate();
-
-                                                                                     
- private
- controlRate : () ==> ()
- controlRate () == 
-    (
-    if sensed > threshold
-    then increaseRate()
-    elseif sensed < threshold
-    then decreaseRate()
-    else skip;
-    sensed := nil;
-    );
-                                                                                                        
- public 
- stimulate : ActivityData ==> ()
- stimulate (ad) == sensed := ad;
-                                                                                                                                                                  
- private
- increaseRate : () ==> ()
- increaseRate () == 
-   (
-    interval := 1 / ((MSR / 60) / 1000);
-    Pacemaker`heartController.setInterval(interval)
-   );
-
-                                                                          
- private
- decreaseRate : () ==> ()
- decreaseRate () == 
-   (
-    interval := 1 / ((LRL / 60) / 1000);
-    Pacemaker`heartController.setInterval(interval)
-   );
-                                                                                                                    
-values
-
-V_LOW : ActivityData = 1;
-LOW : ActivityData = 2;
-MED_LOW : ActivityData = 3;
-MED : ActivityData = 4;
-MED_HIGH : ActivityData = 5;
-HIGH : ActivityData = 6;
-V_HIGH : ActivityData = 7;
-
-end RateController
-                                                                                                  
-~~~
-{% endraw %}
-
-### Accelerometer.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                
-class Accelerometer is subclass of GLOBAL
-
-operations
-
- public 
- stimulate : ActivityData ==> ()
- stimulate (a) == Pacemaker`rateController.stimulate(a);
-
-end Accelerometer
-                                                                                                
-~~~
-{% endraw %}
-
 ### Lead.vdmpp
 
 {% raw %}
@@ -304,52 +105,135 @@ end Lead
 ~~~
 {% endraw %}
 
-### GLOBAL.vdmpp
+### Environment.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                          
-class GLOBAL
+                                                                                                                                                                                                                                                                                                                                                                                                      
+class Environment is subclass of GLOBAL
 
-types 
+types
 
-                                                                                                                                      
--- Sensed activity
-public
-Sense = <NONE> | <PULSE>;
-                                                                                                                                                           
--- Heart chamber identifier
+public InputTP   = (Time * seq of Inpline)
+inv inp == forall line in set elems inp.#2 & inp.#1 >= line.#4;
+
+public Inpline = (Sense * Chamber * ActivityData * Time);
+
+public Outline = (Pulse * Chamber * Time);  
+                                                                                                                                                               
+ instance variables
+
+-- Input/Output 
+io : IO := new IO();
+
+inplines : seq of Inpline := [];
+outlines : seq of Outline := [];
+                                                                                                                                                                                                                   
+instance variables
+-- Environment  
+
+busy : bool := true;
+
+-- Amount of time we want to simulate
+simtime : Time;
+                                                                                                                                                             
+ instance variables
+-- Sensors
+
+-- Leads
+
+leads : map Chamber to Lead := {|->};
+
+-- Accelerometer
+accelerometer : Accelerometer;
+
+                                                                                                                                                                                                                    
+ operations
+
+-- Constructor
 public 
-Chamber = <ATRIA> | <VENTRICLE>;
-                                                                                                                                                                                                                                                          
+Environment : seq of char ==> Environment
+Environment (fname) ==
+  def mk_(-,mk_(timeval,input)) = io.freadval[InputTP](fname) 
+  in (inplines := input;
+      simtime  := timeval
+     );
 
--- Accelerometer output
+                                                                                        
 public 
-ActivityData = nat1
-inv a == a <= 7;
+addLeadSensor : Lead ==> ()
+addLeadSensor(lsens) == 
+   leads := leads ++ {lsens.getChamber() |-> lsens};
 
-                                                                                                                                                                                                                                                                                
--- Paced actvity
-public
-Pulse = <PULSE> | <TRI_PULSE>;
-                                                                                                                                  
--- Operation mode
 public 
-Mode = <AOO> | <AOOR> | <AAT> | <DOO> | <OFF>;
+addAccelerometer : Accelerometer ==> ()
+addAccelerometer(acc) == 
+   accelerometer := acc;
 
-                                                                      
--- PPM
+                                                                                                                                                                                                 
+
 public 
-PPM = nat1
-inv ppm == ppm >= 30 and ppm <= 175;
+Run: () ==> ()
+Run () ==
+   (
+    while not (isFinished() 
+               and 
+               Pacemaker`heartController.isFinished()
+               and 
+               World`timerRef.GetTime() > simtime)
+    do 
+      (
+       createSignal();
+       Pacemaker`rateController.Step();
+       Pacemaker`heartController.Step();        
+       World`timerRef.StepTime();
+      );
+    );
+
+                                                                                                                                                                                            
+
+private 
+createSignal : () ==> ()
+createSignal () == 
+   ( 
+    if len inplines > 0 
+    then (dcl curtime : Time := World`timerRef.GetTime(),
+              done : bool := false;
+          while not done do
+             let mk_(sensed,chamber,accinfo,stime) = hd inplines 
+             in if stime <= curtime
+                then
+                (
+                 leads(chamber).stimulate(sensed);
+                 accelerometer.stimulate(accinfo);
+                 inplines := tl inplines;
+                 done := len inplines = 0
+                )
+                else done := true
+           );
+     if len inplines = 0 then busy := false;
+    );
+
+                                                                                                                                                                            
+
+public 
+handleEvent : Pulse * Chamber * Time ==> ()
+handleEvent(p,c,t) == outlines := outlines ^ [mk_(p,c,t)]; 
 
                                                                                                
--- Time
+public
+showResult : () ==> ()
+showResult () ==
+   def - = io.writeval[seq of Outline](outlines) in skip;
+
+                                                                                                                                                                      
 public 
-Time = nat;
-    
-end GLOBAL
-                
+isFinished: () ==> bool
+isFinished () == return inplines = [] and not busy;
+
+end Environment
+
+                                                                                              
 ~~~
 {% endraw %}
 
@@ -486,135 +370,86 @@ end HeartController
 ~~~
 {% endraw %}
 
-### Environment.vdmpp
+### Pacemaker.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                      
-class Environment is subclass of GLOBAL
+                                                                                                                                                                                                                                                        
+class Pacemaker 
 
-types
-
-public InputTP   = (Time * seq of Inpline)
-inv inp == forall line in set elems inp.#2 & inp.#1 >= line.#4;
-
-public Inpline = (Sense * Chamber * ActivityData * Time);
-
-public Outline = (Pulse * Chamber * Time);  
-                                                                                                                                                               
  instance variables
 
--- Input/Output 
-io : IO := new IO();
+ public static 
+ atriaLead     : Lead      := new Lead(<ATRIA>);
 
-inplines : seq of Inpline := [];
-outlines : seq of Outline := [];
-                                                                                                                                                                                                                   
-instance variables
--- Environment  
+ public static 
+ ventricleLead : Lead      := new Lead(<VENTRICLE>);
+                                                                                
 
-busy : bool := true;
-
--- Amount of time we want to simulate
-simtime : Time;
-                                                                                                                                                             
  instance variables
--- Sensors
 
--- Leads
+ public static 
+ accelerometer       : Accelerometer   := new Accelerometer();
 
-leads : map Chamber to Lead := {|->};
+ public static 
+ rateController      : RateController  := new RateController();
+                                                                                     
+ instance variables
+ 
+ public static 
+ heartController     : HeartController := new HeartController();
 
--- Accelerometer
-accelerometer : Accelerometer;
+end Pacemaker
+              
+~~~
+{% endraw %}
 
-                                                                                                                                                                                                                    
- operations
+### GLOBAL.vdmpp
 
--- Constructor
+{% raw %}
+~~~
+                                                                                                                                                                          
+class GLOBAL
+
+types 
+
+                                                                                                                                      
+-- Sensed activity
+public
+Sense = <NONE> | <PULSE>;
+                                                                                                                                                           
+-- Heart chamber identifier
 public 
-Environment : seq of char ==> Environment
-Environment (fname) ==
-  def mk_(-,mk_(timeval,input)) = io.freadval[InputTP](fname) 
-  in (inplines := input;
-      simtime  := timeval
-     );
+Chamber = <ATRIA> | <VENTRICLE>;
+                                                                                                                                                                                                                                                          
 
-                                                                                        
+-- Accelerometer output
 public 
-addLeadSensor : Lead ==> ()
-addLeadSensor(lsens) == 
-   leads := leads ++ {lsens.getChamber() |-> lsens};
+ActivityData = nat1
+inv a == a <= 7;
 
+                                                                                                                                                                                                                                                                                
+-- Paced actvity
+public
+Pulse = <PULSE> | <TRI_PULSE>;
+                                                                                                                                  
+-- Operation mode
 public 
-addAccelerometer : Accelerometer ==> ()
-addAccelerometer(acc) == 
-   accelerometer := acc;
+Mode = <AOO> | <AOOR> | <AAT> | <DOO> | <OFF>;
 
-                                                                                                                                                                                                 
-
+                                                                      
+-- PPM
 public 
-Run: () ==> ()
-Run () ==
-   (
-    while not (isFinished() 
-               and 
-               Pacemaker`heartController.isFinished()
-               and 
-               World`timerRef.GetTime() > simtime)
-    do 
-      (
-       createSignal();
-       Pacemaker`rateController.Step();
-       Pacemaker`heartController.Step();        
-       World`timerRef.StepTime();
-      );
-    );
-
-                                                                                                                                                                                            
-
-private 
-createSignal : () ==> ()
-createSignal () == 
-   ( 
-    if len inplines > 0 
-    then (dcl curtime : Time := World`timerRef.GetTime(),
-              done : bool := false;
-          while not done do
-             let mk_(sensed,chamber,accinfo,stime) = hd inplines 
-             in if stime <= curtime
-                then
-                (
-                 leads(chamber).stimulate(sensed);
-                 accelerometer.stimulate(accinfo);
-                 inplines := tl inplines;
-                 done := len inplines = 0
-                )
-                else done := true
-           );
-     if len inplines = 0 then busy := false;
-    );
-
-                                                                                                                                                                            
-
-public 
-handleEvent : Pulse * Chamber * Time ==> ()
-handleEvent(p,c,t) == outlines := outlines ^ [mk_(p,c,t)]; 
+PPM = nat1
+inv ppm == ppm >= 30 and ppm <= 175;
 
                                                                                                
-public
-showResult : () ==> ()
-showResult () ==
-   def - = io.writeval[seq of Outline](outlines) in skip;
-
-                                                                                                                                                                      
+-- Time
 public 
-isFinished: () ==> bool
-isFinished () == return inplines = [] and not busy;
-
-end Environment
-
-                                                                                              
+Time = nat;
+    
+end GLOBAL
+                
 ~~~
 {% endraw %}
 
@@ -649,6 +484,171 @@ GetTime () == return currentTime;
 
 end Timer
                                                                                         
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                        
+class World is subclass of GLOBAL
+
+types
+
+instance variables
+
+public static env      : [Environment] := nil;
+public static timerRef : Timer := new Timer();
+                                                                                                                                                               
+operations
+
+public World: seq of char * Mode ==> World
+World(filename,mode) == 
+  (  -- create an environment
+     env := new Environment(filename);
+
+     -- bind leads to the environment
+     env.addLeadSensor(Pacemaker`atriaLead);
+     env.addLeadSensor(Pacemaker`ventricleLead);
+   
+     -- bind accelerometer to the environment
+     env.addAccelerometer(Pacemaker`accelerometer);
+    
+     -- bind leads to the controler
+     Pacemaker`heartController.addLeadPacer(Pacemaker`atriaLead);
+     Pacemaker`heartController.addLeadPacer(Pacemaker`ventricleLead);
+    
+     -- set up mode
+     Pacemaker`heartController.setMode(mode);
+  );
+                                                                                   
+public Run: () ==> ()
+Run () == (env.Run(); env.showResult());
+  
+
+end World
+                                                                                        
+~~~
+{% endraw %}
+
+### Accelerometer.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                
+class Accelerometer is subclass of GLOBAL
+
+operations
+
+ public 
+ stimulate : ActivityData ==> ()
+ stimulate (a) == Pacemaker`rateController.stimulate(a);
+
+end Accelerometer
+                                                                                                
+~~~
+{% endraw %}
+
+### RateController.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                   
+class RateController is subclass of GLOBAL
+
+instance variables
+ sensed   : [ActivityData];
+ interval : Time;
+ finished : bool; 
+                                                                                                                                                                                    
+instance variables
+ LRL       : PPM;
+ MSR       : PPM;
+ threshold : nat1;
+ reactionT : Time;
+ recoveryT : Time;
+ responseF : nat1;
+inv threshold < 8
+    and
+    reactionT in set {10,...,50}
+    and
+    recoveryT in set {2,...,16}
+    and 
+    responseF <= 16;
+                                                                                                                                            
+operations
+  
+ public 
+ RateController: () ==> RateController
+ RateController() ==
+   (LRL       := 60;
+    MSR       := 120;
+    threshold := MED;
+    reactionT := 10; -- 10 s
+    recoveryT := 2; -- 2 minutes;
+    responseF := 8;
+    sensed    := nil; 
+    interval  := 1/((LRL/60)/1000);
+    finished  := false;
+
+   );
+                                                                                                                                                                                                                      
+public
+getInterval : () ==> Time
+getInterval () == return interval;
+                                                                                                                                      
+
+ public 
+ Step : () ==> ()
+ Step () == if sensed <> nil then controlRate();
+
+                                                                                     
+ private
+ controlRate : () ==> ()
+ controlRate () == 
+    (
+    if sensed > threshold
+    then increaseRate()
+    elseif sensed < threshold
+    then decreaseRate()
+    else skip;
+    sensed := nil;
+    );
+                                                                                                        
+ public 
+ stimulate : ActivityData ==> ()
+ stimulate (ad) == sensed := ad;
+                                                                                                                                                                  
+ private
+ increaseRate : () ==> ()
+ increaseRate () == 
+   (
+    interval := 1 / ((MSR / 60) / 1000);
+    Pacemaker`heartController.setInterval(interval)
+   );
+
+                                                                          
+ private
+ decreaseRate : () ==> ()
+ decreaseRate () == 
+   (
+    interval := 1 / ((LRL / 60) / 1000);
+    Pacemaker`heartController.setInterval(interval)
+   );
+                                                                                                                    
+values
+
+V_LOW : ActivityData = 1;
+LOW : ActivityData = 2;
+MED_LOW : ActivityData = 3;
+MED : ActivityData = 4;
+MED_HIGH : ActivityData = 5;
+HIGH : ActivityData = 6;
+V_HIGH : ActivityData = 7;
+
+end RateController
+                                                                                                  
 ~~~
 {% endraw %}
 

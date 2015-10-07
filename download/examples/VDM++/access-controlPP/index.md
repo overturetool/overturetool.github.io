@@ -23,7 +23,7 @@ Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinbur
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new Test().Run()|
 
 
@@ -170,277 +170,6 @@ end Evaluator
 ~~~
 {% endraw %}
 
-### Request.vdmpp
-
-{% raw %}
-~~~
-class Request
-
-instance variables
-  
--- Request targets must have a single subject AND a single resource.   
-
-subject  : PDP`Subject;
-resource : PDP`Resource;
-actions  : set of PDP`Action;
-
-types
-
-Inst :: map token to FExp`Id;
-
- operations
-
-public Request: PDP`Subject * PDP`Resource * set of PDP`Action ==> Request
-Request(s,r,aset) ==
- (subject  := s;
-  resource := r;
-  actions  := aset;
-); 
-
-public GetSubject: () ==> PDP`Subject
-GetSubject() == 
-  return subject;
-
-public GetResource: () ==> PDP`Resource
-GetResource() == 
-  return resource;
-
-public GetActions: () ==> set of PDP`Action
-GetActions() == 
-  return actions;
-
-end Request
-~~~
-{% endraw %}
-
-### Test.vdmpp
-
-{% raw %}
-~~~
-class Test
-	values
-
-requester : FExp`UnId = mk_FExp`UnId(<requester>);
-resource  : FExp`UnId = mk_FExp`UnId(<resource>);
-
-Anne : FExp`Id = (mk_token("Anne"));
-Bob : FExp`Id = (mk_token("Bob"));
-Charlie : FExp`Id = (mk_token("Charlie"));
-Dave : FExp`Id = (mk_token("Dave"));
-Eric : FExp`Id = (mk_token("Eric"));
-Fred : FExp`Id = (mk_token("Fred"));
-
-write : FExp`Id = (mk_token("write"));
-read : FExp`Id = (mk_token("read"));
-create : FExp`Id = (mk_token("create"));
-signoff : FExp`Id = (mk_token("signoff"));
-
-lab_results_signed : FExp`Id =
-  (mk_token("lab_results_signed"));
-
-results_analysis_signed : FExp`Id =
-  (mk_token("results_analysis_signed"));
-
-Project1 : set of PDP`Subject = {Anne,Bob}; 
-Project2 : set of PDP`Subject = {Bob,Charlie,Dave};
-lab_technician : set of PDP`Subject = {Anne,Dave};
-lab_manager  : set of PDP`Subject = {Bob,Charlie};
-
-Company2 : set of PDP`Subject = {Eric, Fred}; 
-Assessor : set of PDP`Subject = {Fred};
-
-lab_results : FExp`Id = (mk_token("lab_results"));
-results_analysis : FExp`Id = (mk_token("results_analysis"));
-sc_assess : FExp`Id = (mk_token("sc_assess"));
-
-doc1 : FExp`Id = (mk_token("doc1"));
-doc2 : FExp`Id = (mk_token("doc2"));
-
-signed : FExp`Id = (mk_token("signed"));
-
-con_nt : FExp = new FExp(mk_FExp`Unary(<NOT>,mk_FExp`boolLiteral(<TRUE>)));
-con_nf : FExp = new FExp(mk_FExp`Unary(<NOT>,mk_FExp`boolLiteral(<FALSE>)));
-con_no : FExp = new FExp(mk_FExp`Unary(<NOT>,mk_FExp`intLiteral(<ONE>)));
-
--- on Project One, lab results can be created only by a lab
--- technician, and can be read by anybody on the project.  These are
--- project-wide.
-
-project1_rule_nf : PDP`Rule = 
-   mk_PDP`Rule(mk_PDP`Target(lab_technician,{lab_results},{create}),
-           <Permit>, con_nf);
-
-project1_rule_nt : PDP`Rule = 
-   mk_PDP`Rule(mk_PDP`Target(lab_technician,{lab_results},{create}),
-           <Permit>, con_nt);
-
-project1_rule_no : PDP`Rule = 
-   mk_PDP`Rule(mk_PDP`Target(lab_technician,{lab_results},{create}),
-           <Permit>, con_no);
-
-project1_rule2 : PDP`Rule = 
-   mk_PDP`Rule(mk_PDP`Target(Project1,{lab_results},{read}),
-           <Permit>, nil);
-
-
--- The project policy for the lab_results document is the combination
--- of these.
--- one policy for each exzpression that we test 
-
-lab_results_project_policy_no : PDP`Policy = 
-   mk_PDP`Policy(mk_PDP`Target(Project1,{lab_results},{}),
-         {project1_rule_no, project1_rule2}, <denyOverrides>);
- 
-
-lab_results_project_policy_nt : PDP`Policy = 
-   mk_PDP`Policy(mk_PDP`Target(Project1,{lab_results},{}),
-         {project1_rule_nt, project1_rule2}, <denyOverrides>);
- 
-
-lab_results_project_policy_nf : PDP`Policy = 
-   mk_PDP`Policy(mk_PDP`Target(Project1,{lab_results},{}),
-         {project1_rule_nf, project1_rule2}, <denyOverrides>);
- 
--- New policy 
--- Only a lab manager can sign these results off.   
-
-lab_results_rule1 : PDP`Rule =
-   mk_PDP`Rule(mk_PDP`Target(lab_manager,{lab_results},{signoff}),
-           <Permit>, nil);
-
--- Also, after signoff, no one can write to the lab_results file. 
-
-lab_results_rule2 : PDP`Rule =
-    mk_PDP`Rule(mk_PDP`Target(Project1,{lab_results},{write}),
-            <Deny>, new FExp(mk_FExp`ArrayLookup(signed,resource)));
-
-lab_results_creator_policy : PDP`Policy = 
-   mk_PDP`Policy(mk_PDP`Target(Project1,{lab_results},{}),
-         {lab_results_rule1, lab_results_rule2}, <denyOverrides>);
-
--- New policy
--- From company 2, assessor_role writes the scale assessment.
-
-scale_assess_write : PDP`Rule = 
-    mk_PDP`Rule(mk_PDP`Target(Assessor,{sc_assess},{write}),
-            <Permit>, nil);
-
--- From company 2, anyone can read the scale assessment.
-
-scale_assess_read : PDP`Rule = 
-    mk_PDP`Rule(mk_PDP`Target(Company2,{sc_assess},{read}),
-            <Permit>, nil);
-
-scale_assess_policy : PDP`Policy = 
-   mk_PDP`Policy(mk_PDP`Target(Company2,{sc_assess},{}),
-         {scale_assess_read, scale_assess_write}, <denyOverrides>);
-
-gold_policy_no : PDP = 
-    new PDP({lab_results_project_policy_no,lab_results_creator_policy,scale_assess_policy},
-            <permitOverrides>);
-
-gold_policy_nt : PDP = 
-    new PDP({lab_results_project_policy_nt,lab_results_creator_policy,scale_assess_policy},
-            <permitOverrides>);
-
-gold_policy_nf : PDP = 
-    new PDP({lab_results_project_policy_nf,lab_results_creator_policy,scale_assess_policy},
-             <permitOverrides>);
-
-gold_policy_project_results : PDP = 
-    new PDP({lab_results_project_policy_nf,lab_results_creator_policy}, <permitOverrides>);
-
-gold_policy_results_scale : PDP = 
-    new PDP({lab_results_creator_policy,scale_assess_policy}, <permitOverrides>);
-
-
-
-
-	operations
-
-  public Run: () ==> PDP`Effect
-  Run () ==
---  ( dcl pdp : PDP := gold_policy_no;
---  ( dcl pdp : PDP := gold_policy_nt;
---  ( dcl pdp : PDP := gold_policy_nf;
---  ( dcl pdp : PDP := gold_policy_project_results;
-  ( dcl pdp : PDP := gold_policy_results_scale;
-    dcl s : FExp := new FExp(mk_token("signed"));
-    dcl lr : FExp := new FExp(mk_token("lab_results"));
-    dcl req : Request := new Request(Anne,lab_results,{create});
-    dcl env : Env := new Env({s.GetExp() |-> {lr.GetExp() |-> <B>}},
-                             {s.GetExp() |-> {lr.GetExp() |-> true}}); 
-    dcl eval : Evaluator := new Evaluator(req,pdp,env);
-    return eval.evaluate()
-  );
-
-end Test
-~~~
-{% endraw %}
-
-### PDP.vdmpp
-
-{% raw %}
-~~~
-class PDP 
-
-instance variables 
-
-policies : set of Policy;
-policyCombAlg : CombAlg; 
-
-operations
-
-public PDP: set of Policy * CombAlg  ==> PDP
-PDP(ps,pca) == 
- (policies := ps;
-  policyCombAlg := pca
- );
-
-types
-
-public Permit = token;
-public Deny = token;
-public Null = token;
- 
-public CombAlg = <denyOverrides> | <permitOverrides>;
- 
-public Policy :: target : [Target]
-                  rules : set of Rule
-            ruleCombAlg : CombAlg;
- 
-public Rule :: target : [Target]  
-               effect : Effect
-                 cond : [FExp];
-
-public Effect = <Permit> | <Deny> | <Indeterminate> | <NotApplicable>;   
-              
-public Target :: subjects : set of Subject
-                resources : set of Resource
-                  actions : set of Action;
-
-public Action = FExp`Id;
-public Subject = FExp`Id;
-public Resource = FExp`Id;
-
-operations
-
-public GetpolicyCombAlg: () ==> CombAlg
-GetpolicyCombAlg() ==
-  return policyCombAlg;
-
-public Getpolicies: () ==> set of Policy
-Getpolicies() ==
-  return policies;
-
-public GetEffect: Rule ==> Effect
-GetEffect(r) ==
-  return r.effect;
-
-end PDP
-~~~
-{% endraw %}
-
 ### FExp.vdmpp
 
 {% raw %}
@@ -551,7 +280,7 @@ Evaluate(expr,env) ==
     others                    -> MId(expr,env)
   end;
 
-private MId : Id * Env ==> Val
+pure private MId : Id * Env ==> Val
 MId(Id,env) == 
 	return env.GetVal(Id); 
 
@@ -754,7 +483,7 @@ public GetDenv: () ==> map FExp`Id to FExp`Val
 GetDenv() ==
   return denv;
 
-public GetVal: FExp`Id ==> FExp`Val
+pure public GetVal: FExp`Id ==> FExp`Val
 GetVal(id) ==
   return denv(id)
 pre id in set dom denv;
@@ -781,6 +510,277 @@ pre id in set dom denv and index in set dom denv(id);
 
 end Env
   
+~~~
+{% endraw %}
+
+### PDP.vdmpp
+
+{% raw %}
+~~~
+class PDP 
+
+instance variables 
+
+policies : set of Policy;
+policyCombAlg : CombAlg; 
+
+operations
+
+public PDP: set of Policy * CombAlg  ==> PDP
+PDP(ps,pca) == 
+ (policies := ps;
+  policyCombAlg := pca
+ );
+
+types
+
+public Permit = token;
+public Deny = token;
+public Null = token;
+ 
+public CombAlg = <denyOverrides> | <permitOverrides>;
+ 
+public Policy :: target : [Target]
+                  rules : set of Rule
+            ruleCombAlg : CombAlg;
+ 
+public Rule :: target : [Target]  
+               effect : Effect
+                 cond : [FExp];
+
+public Effect = <Permit> | <Deny> | <Indeterminate> | <NotApplicable>;   
+              
+public Target :: subjects : set of Subject
+                resources : set of Resource
+                  actions : set of Action;
+
+public Action = FExp`Id;
+public Subject = FExp`Id;
+public Resource = FExp`Id;
+
+operations
+
+public GetpolicyCombAlg: () ==> CombAlg
+GetpolicyCombAlg() ==
+  return policyCombAlg;
+
+public Getpolicies: () ==> set of Policy
+Getpolicies() ==
+  return policies;
+
+public GetEffect: Rule ==> Effect
+GetEffect(r) ==
+  return r.effect;
+
+end PDP
+~~~
+{% endraw %}
+
+### Test.vdmpp
+
+{% raw %}
+~~~
+class Test
+	values
+
+requester : FExp`UnId = mk_FExp`UnId(<requester>);
+resource  : FExp`UnId = mk_FExp`UnId(<resource>);
+
+Anne : FExp`Id = (mk_token("Anne"));
+Bob : FExp`Id = (mk_token("Bob"));
+Charlie : FExp`Id = (mk_token("Charlie"));
+Dave : FExp`Id = (mk_token("Dave"));
+Eric : FExp`Id = (mk_token("Eric"));
+Fred : FExp`Id = (mk_token("Fred"));
+
+write : FExp`Id = (mk_token("write"));
+read : FExp`Id = (mk_token("read"));
+create : FExp`Id = (mk_token("create"));
+signoff : FExp`Id = (mk_token("signoff"));
+
+lab_results_signed : FExp`Id =
+  (mk_token("lab_results_signed"));
+
+results_analysis_signed : FExp`Id =
+  (mk_token("results_analysis_signed"));
+
+Project1 : set of PDP`Subject = {Anne,Bob}; 
+Project2 : set of PDP`Subject = {Bob,Charlie,Dave};
+lab_technician : set of PDP`Subject = {Anne,Dave};
+lab_manager  : set of PDP`Subject = {Bob,Charlie};
+
+Company2 : set of PDP`Subject = {Eric, Fred}; 
+Assessor : set of PDP`Subject = {Fred};
+
+lab_results : FExp`Id = (mk_token("lab_results"));
+results_analysis : FExp`Id = (mk_token("results_analysis"));
+sc_assess : FExp`Id = (mk_token("sc_assess"));
+
+doc1 : FExp`Id = (mk_token("doc1"));
+doc2 : FExp`Id = (mk_token("doc2"));
+
+signed : FExp`Id = (mk_token("signed"));
+
+con_nt : FExp = new FExp(mk_FExp`Unary(<NOT>,mk_FExp`boolLiteral(<TRUE>)));
+con_nf : FExp = new FExp(mk_FExp`Unary(<NOT>,mk_FExp`boolLiteral(<FALSE>)));
+con_no : FExp = new FExp(mk_FExp`Unary(<NOT>,mk_FExp`intLiteral(<ONE>)));
+
+-- on Project One, lab results can be created only by a lab
+-- technician, and can be read by anybody on the project.  These are
+-- project-wide.
+
+project1_rule_nf : PDP`Rule = 
+   mk_PDP`Rule(mk_PDP`Target(lab_technician,{lab_results},{create}),
+           <Permit>, con_nf);
+
+project1_rule_nt : PDP`Rule = 
+   mk_PDP`Rule(mk_PDP`Target(lab_technician,{lab_results},{create}),
+           <Permit>, con_nt);
+
+project1_rule_no : PDP`Rule = 
+   mk_PDP`Rule(mk_PDP`Target(lab_technician,{lab_results},{create}),
+           <Permit>, con_no);
+
+project1_rule2 : PDP`Rule = 
+   mk_PDP`Rule(mk_PDP`Target(Project1,{lab_results},{read}),
+           <Permit>, nil);
+
+
+-- The project policy for the lab_results document is the combination
+-- of these.
+-- one policy for each exzpression that we test 
+
+lab_results_project_policy_no : PDP`Policy = 
+   mk_PDP`Policy(mk_PDP`Target(Project1,{lab_results},{}),
+         {project1_rule_no, project1_rule2}, <denyOverrides>);
+ 
+
+lab_results_project_policy_nt : PDP`Policy = 
+   mk_PDP`Policy(mk_PDP`Target(Project1,{lab_results},{}),
+         {project1_rule_nt, project1_rule2}, <denyOverrides>);
+ 
+
+lab_results_project_policy_nf : PDP`Policy = 
+   mk_PDP`Policy(mk_PDP`Target(Project1,{lab_results},{}),
+         {project1_rule_nf, project1_rule2}, <denyOverrides>);
+ 
+-- New policy 
+-- Only a lab manager can sign these results off.   
+
+lab_results_rule1 : PDP`Rule =
+   mk_PDP`Rule(mk_PDP`Target(lab_manager,{lab_results},{signoff}),
+           <Permit>, nil);
+
+-- Also, after signoff, no one can write to the lab_results file. 
+
+lab_results_rule2 : PDP`Rule =
+    mk_PDP`Rule(mk_PDP`Target(Project1,{lab_results},{write}),
+            <Deny>, new FExp(mk_FExp`ArrayLookup(signed,resource)));
+
+lab_results_creator_policy : PDP`Policy = 
+   mk_PDP`Policy(mk_PDP`Target(Project1,{lab_results},{}),
+         {lab_results_rule1, lab_results_rule2}, <denyOverrides>);
+
+-- New policy
+-- From company 2, assessor_role writes the scale assessment.
+
+scale_assess_write : PDP`Rule = 
+    mk_PDP`Rule(mk_PDP`Target(Assessor,{sc_assess},{write}),
+            <Permit>, nil);
+
+-- From company 2, anyone can read the scale assessment.
+
+scale_assess_read : PDP`Rule = 
+    mk_PDP`Rule(mk_PDP`Target(Company2,{sc_assess},{read}),
+            <Permit>, nil);
+
+scale_assess_policy : PDP`Policy = 
+   mk_PDP`Policy(mk_PDP`Target(Company2,{sc_assess},{}),
+         {scale_assess_read, scale_assess_write}, <denyOverrides>);
+
+gold_policy_no : PDP = 
+    new PDP({lab_results_project_policy_no,lab_results_creator_policy,scale_assess_policy},
+            <permitOverrides>);
+
+gold_policy_nt : PDP = 
+    new PDP({lab_results_project_policy_nt,lab_results_creator_policy,scale_assess_policy},
+            <permitOverrides>);
+
+gold_policy_nf : PDP = 
+    new PDP({lab_results_project_policy_nf,lab_results_creator_policy,scale_assess_policy},
+             <permitOverrides>);
+
+gold_policy_project_results : PDP = 
+    new PDP({lab_results_project_policy_nf,lab_results_creator_policy}, <permitOverrides>);
+
+gold_policy_results_scale : PDP = 
+    new PDP({lab_results_creator_policy,scale_assess_policy}, <permitOverrides>);
+
+
+
+
+	operations
+
+  public Run: () ==> PDP`Effect
+  Run () ==
+--  ( dcl pdp : PDP := gold_policy_no;
+--  ( dcl pdp : PDP := gold_policy_nt;
+--  ( dcl pdp : PDP := gold_policy_nf;
+--  ( dcl pdp : PDP := gold_policy_project_results;
+  ( dcl pdp : PDP := gold_policy_results_scale;
+    dcl s : FExp := new FExp(mk_token("signed"));
+    dcl lr : FExp := new FExp(mk_token("lab_results"));
+    dcl req : Request := new Request(Anne,lab_results,{create});
+    dcl env : Env := new Env({s.GetExp() |-> {lr.GetExp() |-> <B>}},
+                             {s.GetExp() |-> {lr.GetExp() |-> true}}); 
+    dcl eval : Evaluator := new Evaluator(req,pdp,env);
+    return eval.evaluate()
+  );
+
+end Test
+~~~
+{% endraw %}
+
+### Request.vdmpp
+
+{% raw %}
+~~~
+class Request
+
+instance variables
+  
+-- Request targets must have a single subject AND a single resource.   
+
+subject  : PDP`Subject;
+resource : PDP`Resource;
+actions  : set of PDP`Action;
+
+types
+
+Inst :: map token to FExp`Id;
+
+ operations
+
+public Request: PDP`Subject * PDP`Resource * set of PDP`Action ==> Request
+Request(s,r,aset) ==
+ (subject  := s;
+  resource := r;
+  actions  := aset;
+); 
+
+public GetSubject: () ==> PDP`Subject
+GetSubject() == 
+  return subject;
+
+public GetResource: () ==> PDP`Resource
+GetResource() == 
+  return resource;
+
+public GetActions: () ==> set of PDP`Action
+GetActions() == 
+  return actions;
+
+end Request
 ~~~
 {% endraw %}
 

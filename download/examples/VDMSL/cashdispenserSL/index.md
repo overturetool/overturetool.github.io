@@ -4,20 +4,17 @@ title: cashdispenserSL
 ---
 
 ## cashdispenserSL
-Author: Sten Agerholm, Peter Gorm Larsen and Kim Sunesen
+Author: Peter Gorm Larsen
 
 
-This model is described in VDM-SL as a short, flat specification. 
-This enables abstraction from design considerations and ensures 
-maximum focus on high-level, precise and systematic analysis. This
-was developed by Sten Agerholm, Peter Gorm Larsen and Kim Sunesen 
-in 1999 in connection with FM'99.
-
+This model is described in VDM-SL as a very abstract specification
+of how a pacemaker can pace a heart that is not having periodic 
+stroken in the two heart chambers. 
 
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| vdm10|
-|Entry point     :| DEFAULT`TestCash()|
+|Entry point     :| DEFAULT`Sum([1,2,3,4,5,6,7,8,9])|
 
 
 ### cashdispenser.vdmsl

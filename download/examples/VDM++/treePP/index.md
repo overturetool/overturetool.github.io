@@ -14,8 +14,7 @@ and traversing over abstract threes and queues.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
-|Entry point     :| new UseTree().insertion_BST()|
+|Language Version:| vdm10|
 
 
 ### tree.vdmpp
@@ -42,7 +41,7 @@ class Tree
 
   operations
 
-    protected
+    pure protected
     nodes : () ==> set of node
     nodes () ==
       cases root:
@@ -56,13 +55,12 @@ class Tree
     addRoot (x) ==
       root := mk_node(new Tree(),x,new Tree());
 
-
     protected
     rootval : () ==> int
     rootval () == return root.nval
     pre root <> <Empty>;
 
-    protected
+    pure protected
     gettree : () ==> tree
     gettree () == return root;
 
@@ -76,7 +74,7 @@ class Tree
     rightBranch () == return root.rt
     pre not isEmpty();
 
-    public
+    pure public
     isEmpty : () ==> bool
     isEmpty () == return (root = <Empty>);
 
@@ -128,6 +126,47 @@ end Tree
 ~~~
 {% endraw %}
 
+### usetree.vdmpp
+
+{% raw %}
+~~~
+class UseTree
+
+instance variables
+
+  t1 : BinarySearchTree := new BinarySearchTree();
+  t2 : Tree := new BinarySearchTree()
+
+traces
+
+  insertion_BST : 
+    (let n in set {1,...,5} in
+       t1.Insert(n)
+    ){2};  (t1.breadth_first_search() | 
+            t1.depth_first_search() |
+            t1.inorder () |
+            t1.isEmpty()
+           )
+
+end UseTree
+~~~
+{% endraw %}
+
+### avl.vdmpp
+
+{% raw %}
+~~~
+class AVLTree is subclass of Tree
+
+  functions
+
+  tree_isAVLTree : tree -> bool
+  tree_isAVLTree(t) == true
+
+end AVLTree
+~~~
+{% endraw %}
+
 ### queue.vdmpp
 
 {% raw %}
@@ -152,53 +191,12 @@ class Queue
            return x)
     pre not isEmpty();
 
-    public
+    pure public
     isEmpty : () ==> bool
     isEmpty () == 
       return(vals = [])
 
 end Queue
-~~~
-{% endraw %}
-
-### avl.vdmpp
-
-{% raw %}
-~~~
-class AVLTree is subclass of Tree
-
-  functions
-
-  tree_isAVLTree : tree -> bool
-  tree_isAVLTree(t) == true
-
-end AVLTree
-~~~
-{% endraw %}
-
-### usetree.vdmpp
-
-{% raw %}
-~~~
-class UseTree
-
-instance variables
-
-  t1 : BinarySearchTree := new BinarySearchTree();
-  t2 : Tree := new BinarySearchTree()
-
-traces
-
-  insertion_BST : 
-    (let n in set {1,...,5} in
-       t1.Insert(n)
-    ){2};  (t1.breadth_first_search() | 
-            t1.depth_first_search() |
-            t1.inorder () |
-            t1.isEmpty()
-           )
-
-end UseTree
 ~~~
 {% endraw %}
 

@@ -7,7 +7,7 @@ title: CyberRailRT
 Author: Jasper Nygaard and Rasmus Sørensen
 
 
-﻿This VDM-RT model was produced as a part of an MSn thesis investigating and analyzing
+This VDM-RT model was produced as a part of an MSn thesis investigating and analyzing
 the possibility of obtaining early stage validation of potential candidate system 
 architectures, by means of formal modelling and validation. The goal was to analyze 
 recent research extensions of VDM++ for describing and analyzing such distributed 
@@ -21,7 +21,7 @@ on 2 different architectures.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new World("test1_10.txt").run()|
 |Entry point     :| new World("test2.txt").run()|
 
@@ -84,6 +84,379 @@ per isFinished => not busy;
 end Company
 
              
+~~~
+{% endraw %}
+
+### TransportPlan.vdmrt
+
+{% raw %}
+~~~
+                                             
+
+
+class TransportPlan
+
+instance variables
+  private id_token : nat;
+  private totalFee : real;
+  private totalDuration : nat;
+  private choice : CyberRail`Choice;
+  public routeList : seq of Route := [];
+  private routesTravled : seq of Route := [];
+
+inv len routeList > 0 => forall i in set inds routeList 
+  & i < len routeList => 
+  routeList(i).arrivalLocation = routeList(i+1).departureLocation;
+
+
+types
+
+public Route ::
+departureLocation : CyberRail`String
+arrivalLocation : CyberRail`String
+fee : real
+platform : CyberRail`String
+dur : nat
+id_route : nat
+inv r == len r.platform > 0 and
+			len r.arrivalLocation > 0 and
+			len r.departureLocation > 0 and
+			r.fee >= 0 ;
+
+public DTO ::
+	id_token : nat
+	routeList : seq of Route
+	choice : CyberRail`Choice
+
+
+
+operations
+
+--Constructor
+public TransportPlan : seq of Route * CyberRail`Choice * nat ==> TransportPlan
+TransportPlan(routes, pChoice, id_tok) ==
+(
+	id_token := id_tok;
+	choice := pChoice;
+	routeList := routes;
+);
+
+public getNextRoute : () ==> TransportPlan`Route
+getNextRoute () == (
+	return hd routeList;
+)
+pre len routeList > 0;
+
+public containsRoute: nat ==> bool
+containsRoute(id_route) == 
+return exists r in set elems routeList & r.id_route = id_route
+pre len routeList > 0;
+
+public addRoute: Route ==> ()
+addRoute(route) ==(
+ routeList := routeList^[route];
+ totalFee:= totalFee + route.fee
+)
+pre routeList(len routeList).arrivalLocation = route.departureLocation;
+
+public routeTraveled: () ==> ()
+routeTraveled () == (
+	routesTravled := routesTravled ^ [hd routeList];
+	routeList := tl routeList;
+)
+pre len routeList > 0;
+
+pure public routesRemaining : () ==> nat
+routesRemaining() == ( return len routeList;);
+
+public getByValue : () ==> DTO
+getByValue()== return mk_TransportPlan`DTO(id_token, routeList, choice);
+
+
+public getPlanAsNaviInput: () ==> CyberRail`NavigationInput
+getPlanAsNaviInput() ==(
+return mk_CyberRail`NavigationInput((hd routeList).departureLocation,
+(routeList(len routeList)).arrivalLocation, 	choice, id_token )
+)
+pre len routeList > 0;
+
+public getTokenId: () ==> nat
+getTokenId() == return id_token;
+
+--debug
+public getRouteList: () ==> seq of Route
+getRouteList()==
+	return routeList;
+
+sync
+	mutex(routeTraveled);
+	
+end TransportPlan
+             
+~~~
+{% endraw %}
+
+### Logger.vdmrt
+
+{% raw %}
+~~~
+                                      
+
+class Logger
+
+types
+	public logType =  (CyberRail`String | TransportPlan | TP | Fnc | 
+	                   TransportPlan`DTO | seq of TransportPlan`Route | 
+	                   MessageTypes`MessageT | seq of TransportPlan | 
+	                   TokenDevice | seq of MessageTypes`MessageT | 
+	                   set of TransportPlan | nat | CyberRail`NavigationInput);
+
+	public TP::
+				depa:CyberRail`String
+				arri:CyberRail`String
+				route: seq of nat
+				tokenId: nat;
+
+	public Fnc::
+				methodName: CyberRail`String
+
+instance variables 
+	public static log : seq of logType := [];
+
+operations
+	public static writeTransportPlan : TransportPlan ==> ()
+	writeTransportPlan(o) ==
+	(
+		dcl list : seq of nat := [];
+		if len o.getRouteList() = 0 then
+			log := log ^ [mk_TP("NA","NA", [], o.getTokenId())] ^ ["\n"]
+		else
+		(
+ 			for r in o.getRouteList() do
+				list := list ^ [r.id_route];
+		log := log ^ [mk_TP( o.getRouteList()(1).departureLocation, 
+		                   (o.getRouteList())(len o.getRouteList()).
+		                       arrivalLocation, 
+		                   list, o.getTokenId())] ^ ["\n"];
+		) ;  
+	);
+
+	public static writeFnc : CyberRail`String ==> ()
+	writeFnc(fnc) ==
+	(
+		log := log ^ [mk_Fnc(fnc)]^  ["\n"];
+	);
+	
+	public static write : logType ==> () 
+	write(o)== 	( 
+		duration(0)(	
+		log := log ^ [o] ^ ["\n"];
+		Logger`flush();
+		);
+);
+
+	public static flush : () ==> ()
+	flush()== (
+	dcl io: IO := new IO();
+	 def - = io.fwriteval[seq of logType]("logger.log",log,<start>) in skip;
+	);
+
+	public static printLog : () ==> seq of logType	
+printLog() == return log;
+
+sync
+mutex(write);
+
+end Logger
+
+             
+~~~
+{% endraw %}
+
+### types.vdmrt
+
+{% raw %}
+~~~
+                                
+
+class MessageTypes
+
+types
+
+--Message Types
+public REQUESTPLAN :: 
+		navi : CyberRail`NavigationInput 
+		tokdev : TokenDevice;
+public RETURNPLAN :: 
+		plan : TransportPlan`DTO 
+		tokdev : TokenDevice;
+public CALCPLAN :: 
+		navi : CyberRail`NavigationInput 
+		tokdev : TokenDevice;
+public INACTIVEROUTE :: 
+		routeid : nat;
+public ACTIVEROUTE :: 
+		routeid : nat;
+public ADDROUTE :: 
+		route : TransportPlan`Route;	 
+public REMOVEROUTE :: 
+		route : TransportPlan`Route;	 
+public STRATEGYINIT :: ;
+public STRATEGYEND :: ;
+public STRATEGYNOTIFY ::
+		routeid : nat;
+
+public MessageT = REQUESTPLAN | RETURNPLAN | CALCPLAN | 
+			INACTIVEROUTE | ACTIVEROUTE | ADDROUTE | REMOVEROUTE |
+			STRATEGYINIT | STRATEGYEND | STRATEGYNOTIFY;
+
+
+
+
+operations
+
+--public test : MessageT ==> seq of char
+--test (cmd) ==
+--(
+--	cases cmd:
+--		mk_MessageTypes`INACTIVEROUTE(-) -> return "inactiveroute",
+--		mk_MessageTypes`REQUESTPLAN(-) -> return "request"
+--	end;
+--	return "fail";
+--)
+
+	
+
+end MessageTypes
+
+
+             
+~~~
+{% endraw %}
+
+### RailwayGrid.vdmrt
+
+{% raw %}
+~~~
+                                        
+
+class RailwayGrid
+
+instance variables
+
+private routeList : set of TransportPlan`Route; 
+private grid : Grid := {};
+private inactiveGrid : Grid := {};
+private inactiveRouteID : set of (TransportPlan`Route | nat) := {};
+private io : IO := new IO();
+
+types
+
+public String = seq of char;
+public Plan = seq of TransportPlan`Route;
+public Grid = set of Plan;
+
+
+operations
+
+--Constructor	
+public RailwayGrid : () ==> RailwayGrid	
+RailwayGrid()==
+(	
+--duration(0)(
+dcl R1 : TransportPlan`Route 
+       := mk_TransportPlan`Route("A", "B", 42, "P1",200, 1), 
+	R2 : TransportPlan`Route 
+	   := mk_TransportPlan`Route("A", "C", 42, "P1", 200, 2),
+	R3 : TransportPlan`Route 
+	   := mk_TransportPlan`Route("B", "C", 99, "P1", 200, 3),	
+	R4 : TransportPlan`Route 
+	   := mk_TransportPlan`Route("B", "D", 42, "P1", 200,4),
+	R5 : TransportPlan`Route 
+	   := mk_TransportPlan`Route("B", "A", 42, "P1", 200,5),	
+	R6 : TransportPlan`Route 
+	   := mk_TransportPlan`Route("C", "D", 42, "P1", 200,6),
+	R7 : TransportPlan`Route 
+	   := mk_TransportPlan`Route("C", "A", 42, "P1", 200,7),
+	R8 : TransportPlan`Route 
+	   := mk_TransportPlan`Route("D", "B", 42, "P1", 200,8),	
+	R9 : TransportPlan`Route 
+	   := mk_TransportPlan`Route("D", "C", 42, "P1", 200,9),
+	R10 : TransportPlan`Route 
+	    := mk_TransportPlan`Route("C", "B", 99, "P1", 200,10);
+	
+	routeList := {R1,R2,R3,R4,R5,R6,R7,R8,R9,R10}; 
+
+	grid := recAlgo({},[], "A") union 
+	        recAlgo({},[], "B") union 
+	        recAlgo({},[], "C") union 
+	        recAlgo({},[], "D");	
+	writef (grid);
+--	);
+--	return self;
+);
+
+private recAlgo : Grid * Plan * String ==> Grid
+recAlgo(grid, plan, station) ==
+(
+	dcl grid_temp : Grid := grid;
+	for all r in set routeList  do
+	(
+		if( r.departureLocation = station and 
+				not (exists p in set elems plan & 
+				r.arrivalLocation = p.arrivalLocation or
+				r.arrivalLocation = p.departureLocation) )
+		then (
+					dcl temp : Plan :=  plan ^ [r];
+					grid_temp := grid_temp union {temp};
+			 		grid_temp := recAlgo( grid_temp, temp, 
+			 		                      r.arrivalLocation);
+			  );
+	);
+ 	return grid_temp;
+);
+
+pure public getGrid: () ==> Grid
+getGrid()==
+(
+	return grid;
+);
+
+public setInactiveRoute : nat ==> ()
+setInactiveRoute(id)==
+(
+	duration(0) (
+	inactiveRouteID := inactiveRouteID union {id};
+	inactiveGrid := inactiveGrid union  
+	                {tp | tp in set grid
+	                    & exists x in set elems tp & x.id_route = id};
+	grid := {x | x in set grid 
+	           & id not in set {route.id_route | route in set elems x}}; 
+	);
+)
+pre exists x in set routeList & x.id_route = id;
+
+
+
+
+---------------------------------------------------------------------------------------------------------------
+public test : () ==> ()
+test()== 
+(
+	writef (recAlgo({},[], "A") union 
+	        recAlgo({},[], "B") union 
+	        recAlgo({},[], "C") union 
+	        recAlgo({},[], "D") );
+);
+
+private writef : Grid ==> ()
+	writef(grid)==
+	(
+		def - = io.fwriteval[Grid]("railway.txt",grid,<append>) in skip;
+	);
+
+end RailwayGrid
+               
 ~~~
 {% endraw %}
 
@@ -446,6 +819,361 @@ end CyberRail
 ~~~
 {% endraw %}
 
+### MessageQueue.vdmrt
+
+{% raw %}
+~~~
+                                      
+class MessageQueue
+
+instance variables
+
+queue : seq of Message := [];
+size : nat := 0;
+
+
+types
+public String = seq of char;
+public FunctionType = <setInactive> | <setActive>; 
+public ParamType = nat | String;
+
+public Message::
+	funct : FunctionType
+	params : seq of ParamType
+
+operations
+
+--Constructor
+public MessageQueue : nat ==> MessageQueue
+MessageQueue(psize) ==
+	size := psize;
+
+
+public push: Message ==> ()
+push(message) ==
+	queue := queue ^ [message];
+
+public pop: () ==> Message
+pop() == (
+	let rtn_data = hd queue
+	in
+	(
+		queue := tl queue;
+		return rtn_data;
+	)
+);
+
+sync
+per push => #fin(push) - #fin(pop) < size; 	
+--ensure that there's space in the queue
+per pop => #fin(push) - #fin(pop) > 0;			
+--ensure that there's data in the queue
+mutex(pop,push);		
+--Only a single activation of pop at a time.
+--Have not testet if this sync is enough.	
+
+end MessageQueue
+             
+~~~
+{% endraw %}
+
+### TokenDevice.vdmrt
+
+{% raw %}
+~~~
+                                           
+
+class TokenDevice
+
+instance variables
+
+  private id_token : nat := 1;
+  private transportPlan : [TransportPlan] := nil;
+  private q_Env_out : Environment;
+  private q_APM_out : ActivePlanManager;
+
+
+operations
+ 
+ public TokenDevice : nat ==> TokenDevice
+ TokenDevice(id) == 
+    id_token := id;
+
+
+ public notifyPassenger : TransportPlan ==> ()
+ notifyPassenger(TransPlan) ==
+(
+	transportPlan := TransPlan;
+	q_Env_out.respons( transportPlan, nil,time);
+	Logger`write("Notify "); Logger`write(id_token); Logger`write(time);	
+);
+    
+
+  public requestTransportPlan : CyberRail`NavigationInput ==> ()
+  requestTransportPlan(NavInput) ==
+( 
+	Logger`write("RequestTP"); Logger`write(id_token); Logger`write(time);
+  	q_APM_out.addToClientQueue( mk_MessageTypes`REQUESTPLAN(NavInput, self));
+);
+
+public getTokenId : () ==> nat
+  getTokenId() == return id_token;
+
+public routeTraveled : () ==> ()
+  routeTraveled() == (transportPlan.routeTraveled();
+)
+pre transportPlan.routesRemaining() > 0;
+
+public setTransportPlan : TransportPlan ==> ()
+setTransportPlan(tp) ==	
+(
+	transportPlan := tp;
+);
+
+public travel : () ==> ()
+travel () == (
+		onTheRoad();
+		if( transportPlan <> nil and transportPlan.routesRemaining() > 0 ) 
+		then(
+		--dcl t : TransportPlan`Route := (transportPlan.getNextRoute());
+	transportPlan.routeTraveled(); 
+	)
+);
+
+public onTheRoad : () ==> ()
+onTheRoad () == skip;
+
+public isFinished : () ==> ()
+isFinished() == skip;
+
+
+		
+
+
+--Setup handles----------------------------------
+
+ 
+public setQ_Env_out : Environment ==> ()
+setQ_Env_out(env)== ( q_Env_out := env; );
+
+public setQ_APM_out : ActivePlanManager ==> ()
+setQ_APM_out(apm)== ( q_APM_out := apm; );
+
+
+thread
+periodic(2000E6,100,2900,200000)(travel);
+
+sync
+
+per onTheRoad => (transportPlan <> nil) and (len transportPlan.routeList > 0);
+
+per isFinished => (transportPlan = nil) or (len transportPlan.routeList = 0);
+
+mutex(requestTransportPlan);
+mutex(travel);
+
+end TokenDevice
+
+               
+~~~
+{% endraw %}
+
+### CRSystem.vdmrt
+
+{% raw %}
+~~~
+                                  
+system CRSystem
+
+instance variables
+
+-- cpu for CyberRail
+cpu1 : CPU := new CPU (<FCFS>,1E6);
+ 
+-- cpu for TokenDevice
+cpu3 : CPU := new CPU (<FCFS>,1E6);
+cpu4 : CPU := new CPU (<FCFS>,1E6);
+cpu5 : CPU := new CPU (<FCFS>,1E6);
+cpu6 : CPU := new CPU (<FCFS>,1E6);
+cpu7 : CPU := new CPU (<FCFS>,1E6);
+cpu8 : CPU := new CPU (<FCFS>,1E6);
+cpu9 : CPU := new CPU (<FCFS>,1E6);
+cpu10 : CPU := new CPU (<FCFS>,1E6);
+cpu11 : CPU := new CPU (<FCFS>,1E6);
+cpu12 : CPU := new CPU (<FCFS>,1E6);
+--cpu13 : CPU := new CPU (<FCFS>,1E6);
+--cpu14 : CPU := new CPU (<FCFS>,1E6);
+--cpu15 : CPU := new CPU (<FCFS>,1E6);
+
+-- cpu for APM
+cpu2 : CPU := new CPU (<FCFS>,1E6);
+
+-- bus to connect CyberRail and APM
+bus1 : BUS := new BUS (<FCFS>,1E3,{cpu1,cpu2});
+
+-- bus to connect TokenDevice to APM
+bus2 : BUS := new BUS (<FCFS>,5,{cpu3,cpu2});
+bus3 : BUS := new BUS (<FCFS>,5,{cpu4,cpu2});
+bus4 : BUS := new BUS (<FCFS>,5,{cpu5,cpu2});
+bus5 : BUS := new BUS (<FCFS>,5,{cpu6,cpu2});
+bus6 : BUS := new BUS (<FCFS>,5,{cpu7,cpu2});
+bus7 : BUS := new BUS (<FCFS>,5,{cpu8,cpu2});
+bus8 : BUS := new BUS (<FCFS>,5,{cpu9,cpu2});
+bus9 : BUS := new BUS (<FCFS>,5,{cpu10,cpu2});
+bus10 : BUS := new BUS (<FCFS>,5,{cpu11,cpu2});
+bus12 : BUS := new BUS (<FCFS>,5,{cpu12,cpu2});
+--bus13 : BUS := new BUS (<FCFS>,5,{cpu13,cpu2});
+--bus14 : BUS := new BUS (<FCFS>,5,{cpu14,cpu2});
+--bus15 : BUS := new BUS (<FCFS>,5,{cpu15,cpu2});
+  
+--bus to connect cb token device
+--bus3 : BUS := new BUS (<FCFS>,1E6,{cpu1, cpu3});
+
+public static tok1 : TokenDevice := new TokenDevice(1);
+public static tok2 : TokenDevice := new TokenDevice(2);
+public static tok3 : TokenDevice := new TokenDevice(3);
+public static tok4 : TokenDevice := new TokenDevice(4);
+public static tok5 : TokenDevice := new TokenDevice(5);
+public static tok6 : TokenDevice := new TokenDevice(6);
+public static tok7 : TokenDevice := new TokenDevice(7);
+public static tok8 : TokenDevice := new TokenDevice(8);
+public static tok9 : TokenDevice := new TokenDevice(9);
+public static tok10 : TokenDevice := new TokenDevice(10);
+--public static tok11: TokenDevice := new TokenDevice(11);
+--public static tok12: TokenDevice := new TokenDevice(12);
+--public static tok13 : TokenDevice := new TokenDevice(13);
+public static cb : CyberRail := new CyberRail();
+public static apm : ActivePlanManager := new ActivePlanManager();
+public static grid :  RailwayGrid := new RailwayGrid();
+
+operations
+
+CRSystem : () ==> CRSystem
+CRSystem()==
+(
+	cpu1.deploy(cb);
+	cpu2.deploy(apm);
+	cpu1.deploy(grid);
+	cpu3.deploy(tok1);
+	cpu4.deploy(tok2);
+	cpu5.deploy(tok3);
+	cpu6.deploy(tok4);
+	cpu7.deploy(tok5);
+	cpu8.deploy(tok6);
+	cpu9.deploy(tok7);
+	cpu10.deploy(tok8);
+	cpu11.deploy(tok9);
+	cpu12.deploy(tok10);
+	--cpu13.deploy(tok11);
+	--cpu14.deploy(tok12);
+	--cpu15.deploy(tok13);
+
+)
+
+end CRSystem
+             
+~~~
+{% endraw %}
+
+### Environment.vdmrt
+
+{% raw %}
+~~~
+                                     
+class Environment
+
+types 
+
+public outline = [TransportPlan] * [nat] * nat;
+public inline = [CyberRail`NavigationInput] * [nat] * [nat] * nat;
+
+instance variables
+  protected io : IO := new IO();
+  protected outfileName : seq of char := "";
+  protected  outlines : seq of outline := [];
+  protected  inlines : seq of inline := [];
+  protected  busy : bool := true;
+
+operations
+
+  public stimulate : () ==> ()
+  stimulate() ==
+    is subclass responsibility;
+
+  public isFinished : () ==> ()
+  isFinished() ==
+    is subclass responsibility;
+
+  public respons : [TransportPlan] * [TransportPlan`Route] * nat ==> ()
+  respons(plan, route, t) ==
+  	(outlines := outlines ^ [mk_(plan,route,t)]);
+
+  public showResults : () ==> ()
+  showResults() ==
+  def - = io.fwriteval[seq of outline](outfileName,outlines,<start>) in skip;
+
+  public Environment : seq of char ==> Environment
+  Environment(fname) ==(
+     def mk_ (-,input) = io.freadval[seq of inline](fname) in
+   inlines := input;
+	outfileName := "Results for " ^ fname;
+)
+
+sync
+	mutex(respons);
+	mutex(showResults);
+
+thread
+(
+	while true do
+	(
+		showResults();
+	)
+)
+
+end Environment
+
+             
+~~~
+{% endraw %}
+
+### strategy.vdmrt
+
+{% raw %}
+~~~
+                                       
+
+class Strategy
+
+types
+
+
+operations
+
+protected strategyInit : () ==> ()
+strategyInit() == 
+is subclass responsibility;
+
+protected strategyNotify : () ==> ()
+strategyNotify() == 
+is subclass responsibility;
+
+protected strategyEnd : () ==> ()
+strategyEnd() == 
+is subclass responsibility;
+
+protected handleEvents : () ==> ()
+handleEvents() == 
+is subclass responsibility;
+
+
+
+end Strategy
+
+             
+~~~
+{% endraw %}
+
 ### World.vdmrt
 
 {% raw %}
@@ -575,417 +1303,6 @@ operations
 	
 end World
              
-~~~
-{% endraw %}
-
-### strategy.vdmrt
-
-{% raw %}
-~~~
-                                       
-
-class Strategy
-
-types
-
-
-operations
-
-protected strategyInit : () ==> ()
-strategyInit() == 
-is subclass responsibility;
-
-protected strategyNotify : () ==> ()
-strategyNotify() == 
-is subclass responsibility;
-
-protected strategyEnd : () ==> ()
-strategyEnd() == 
-is subclass responsibility;
-
-protected handleEvents : () ==> ()
-handleEvents() == 
-is subclass responsibility;
-
-
-
-end Strategy
-
-             
-~~~
-{% endraw %}
-
-### TransportPlan.vdmrt
-
-{% raw %}
-~~~
-                                             
-
-
-class TransportPlan
-
-instance variables
-  private id_token : nat;
-  private totalFee : real;
-  private totalDuration : nat;
-  private choice : CyberRail`Choice;
-  public routeList : seq of Route := [];
-  private routesTravled : seq of Route := [];
-
-inv len routeList > 0 => forall i in set inds routeList 
-  & i < len routeList => 
-  routeList(i).arrivalLocation = routeList(i+1).departureLocation;
-
-
-types
-
-public Route ::
-departureLocation : CyberRail`String
-arrivalLocation : CyberRail`String
-fee : real
-platform : CyberRail`String
-dur : nat
-id_route : nat
-inv r == len r.platform > 0 and
-			len r.arrivalLocation > 0 and
-			len r.departureLocation > 0 and
-			r.fee >= 0 ;
-
-public DTO ::
-	id_token : nat
-	routeList : seq of Route
-	choice : CyberRail`Choice
-
-
-
-operations
-
---Constructor
-public TransportPlan : seq of Route * CyberRail`Choice * nat ==> TransportPlan
-TransportPlan(routes, pChoice, id_tok) ==
-(
-	id_token := id_tok;
-	choice := pChoice;
-	routeList := routes;
-);
-
-public getNextRoute : () ==> TransportPlan`Route
-getNextRoute () == (
-	return hd routeList;
-)
-pre len routeList > 0;
-
-public containsRoute: nat ==> bool
-containsRoute(id_route) == 
-return exists r in set elems routeList & r.id_route = id_route
-pre len routeList > 0;
-
-public addRoute: Route ==> ()
-addRoute(route) ==(
- routeList := routeList^[route];
- totalFee:= totalFee + route.fee
-)
-pre routeList(len routeList).arrivalLocation = route.departureLocation;
-
-public routeTraveled: () ==> ()
-routeTraveled () == (
-	routesTravled := routesTravled ^ [hd routeList];
-	routeList := tl routeList;
-)
-pre len routeList > 0;
-
-public routesRemaining : () ==> nat
-routesRemaining() == ( return len routeList;);
-
-public getByValue : () ==> DTO
-getByValue()== return mk_TransportPlan`DTO(id_token, routeList, choice);
-
-
-public getPlanAsNaviInput: () ==> CyberRail`NavigationInput
-getPlanAsNaviInput() ==(
-return mk_CyberRail`NavigationInput((hd routeList).departureLocation,
-(routeList(len routeList)).arrivalLocation, 	choice, id_token )
-)
-pre len routeList > 0;
-
-public getTokenId: () ==> nat
-getTokenId() == return id_token;
-
---debug
-public getRouteList: () ==> seq of Route
-getRouteList()==
-	return routeList;
-
-sync
-	mutex(routeTraveled);
-	
-end TransportPlan
-             
-~~~
-{% endraw %}
-
-### Logger.vdmrt
-
-{% raw %}
-~~~
-                                      
-
-class Logger
-
-types
-	public logType =  (CyberRail`String | TransportPlan | TP | Fnc | 
-	                   TransportPlan`DTO | seq of TransportPlan`Route | 
-	                   MessageTypes`MessageT | seq of TransportPlan | 
-	                   TokenDevice | seq of MessageTypes`MessageT | 
-	                   set of TransportPlan | nat | CyberRail`NavigationInput);
-
-	public TP::
-				depa:CyberRail`String
-				arri:CyberRail`String
-				route: seq of nat
-				tokenId: nat;
-
-	public Fnc::
-				methodName: CyberRail`String
-
-instance variables 
-	public static log : seq of logType := [];
-
-operations
-	public static writeTransportPlan : TransportPlan ==> ()
-	writeTransportPlan(o) ==
-	(
-		dcl list : seq of nat := [];
-		if len o.getRouteList() = 0 then
-			log := log ^ [mk_TP("NA","NA", [], o.getTokenId())] ^ ["\n"]
-		else
-		(
- 			for r in o.getRouteList() do
-				list := list ^ [r.id_route];
-		log := log ^ [mk_TP( o.getRouteList()(1).departureLocation, 
-		                   (o.getRouteList())(len o.getRouteList()).
-		                       arrivalLocation, 
-		                   list, o.getTokenId())] ^ ["\n"];
-		) ;  
-	);
-
-	public static writeFnc : CyberRail`String ==> ()
-	writeFnc(fnc) ==
-	(
-		log := log ^ [mk_Fnc(fnc)]^  ["\n"];
-	);
-	
-	public static write : logType ==> () 
-	write(o)== 	( 
-		duration(0)(	
-		log := log ^ [o] ^ ["\n"];
-		Logger`flush();
-		);
-);
-
-	public static flush : () ==> ()
-	flush()== (
-	dcl io: IO := new IO();
-	 def - = io.fwriteval[seq of logType]("logger.log",log,<start>) in skip;
-	);
-
-	public static printLog : () ==> seq of logType	
-printLog() == return log;
-
-sync
-mutex(write);
-
-end Logger
-
-             
-~~~
-{% endraw %}
-
-### Environment.vdmrt
-
-{% raw %}
-~~~
-                                     
-class Environment
-
-types 
-
-public outline = [TransportPlan] * [nat] * nat;
-public inline = [CyberRail`NavigationInput] * [nat] * [nat] * nat;
-
-instance variables
-  protected io : IO := new IO();
-  protected outfileName : seq of char := "";
-  protected  outlines : seq of outline := [];
-  protected  inlines : seq of inline := [];
-  protected  busy : bool := true;
-
-operations
-
-  public stimulate : () ==> ()
-  stimulate() ==
-    is subclass responsibility;
-
-  public isFinished : () ==> ()
-  isFinished() ==
-    is subclass responsibility;
-
-  public respons : [TransportPlan] * [TransportPlan`Route] * nat ==> ()
-  respons(plan, route, t) ==
-  	(outlines := outlines ^ [mk_(plan,route,t)]);
-
-  public showResults : () ==> ()
-  showResults() ==
-  def - = io.fwriteval[seq of outline](outfileName,outlines,<start>) in skip;
-
-  public Environment : seq of char ==> Environment
-  Environment(fname) ==(
-     def mk_ (-,input) = io.freadval[seq of inline](fname) in
-   inlines := input;
-	outfileName := "Results for " ^ fname;
-)
-
-sync
-	mutex(respons);
-	mutex(showResults);
-
-thread
-(
-	while true do
-	(
-		showResults();
-	)
-)
-
-end Environment
-
-             
-~~~
-{% endraw %}
-
-### RailwayGrid.vdmrt
-
-{% raw %}
-~~~
-                                        
-
-class RailwayGrid
-
-instance variables
-
-private routeList : set of TransportPlan`Route; 
-private grid : Grid := {};
-private inactiveGrid : Grid := {};
-private inactiveRouteID : set of (TransportPlan`Route | nat) := {};
-private io : IO := new IO();
-
-types
-
-public String = seq of char;
-public Plan = seq of TransportPlan`Route;
-public Grid = set of Plan;
-
-
-operations
-
---Constructor	
-public RailwayGrid : () ==> RailwayGrid	
-RailwayGrid()==
-(	
---duration(0)(
-dcl R1 : TransportPlan`Route 
-       := mk_TransportPlan`Route("A", "B", 42, "P1",200, 1), 
-	R2 : TransportPlan`Route 
-	   := mk_TransportPlan`Route("A", "C", 42, "P1", 200, 2),
-	R3 : TransportPlan`Route 
-	   := mk_TransportPlan`Route("B", "C", 99, "P1", 200, 3),	
-	R4 : TransportPlan`Route 
-	   := mk_TransportPlan`Route("B", "D", 42, "P1", 200,4),
-	R5 : TransportPlan`Route 
-	   := mk_TransportPlan`Route("B", "A", 42, "P1", 200,5),	
-	R6 : TransportPlan`Route 
-	   := mk_TransportPlan`Route("C", "D", 42, "P1", 200,6),
-	R7 : TransportPlan`Route 
-	   := mk_TransportPlan`Route("C", "A", 42, "P1", 200,7),
-	R8 : TransportPlan`Route 
-	   := mk_TransportPlan`Route("D", "B", 42, "P1", 200,8),	
-	R9 : TransportPlan`Route 
-	   := mk_TransportPlan`Route("D", "C", 42, "P1", 200,9),
-	R10 : TransportPlan`Route 
-	    := mk_TransportPlan`Route("C", "B", 99, "P1", 200,10);
-	
-	routeList := {R1,R2,R3,R4,R5,R6,R7,R8,R9,R10}; 
-
-	grid := recAlgo({},[], "A") union 
-	        recAlgo({},[], "B") union 
-	        recAlgo({},[], "C") union 
-	        recAlgo({},[], "D");	
-	writef (grid);
---	);
---	return self;
-);
-
-private recAlgo : Grid * Plan * String ==> Grid
-recAlgo(grid, plan, station) ==
-(
-	dcl grid_temp : Grid := grid;
-	for all r in set routeList  do
-	(
-		if( r.departureLocation = station and 
-				not (exists p in set elems plan & 
-				r.arrivalLocation = p.arrivalLocation or
-				r.arrivalLocation = p.departureLocation) )
-		then (
-					dcl temp : Plan :=  plan ^ [r];
-					grid_temp := grid_temp union {temp};
-			 		grid_temp := recAlgo( grid_temp, temp, 
-			 		                      r.arrivalLocation);
-			  );
-	);
- 	return grid_temp;
-);
-
-public getGrid: () ==> Grid
-getGrid()==
-(
-	return grid;
-);
-
-public setInactiveRoute : nat ==> ()
-setInactiveRoute(id)==
-(
-	duration(0) (
-	inactiveRouteID := inactiveRouteID union {id};
-	inactiveGrid := inactiveGrid union  
-	                {tp | tp in set grid
-	                    & exists x in set elems tp & x.id_route = id};
-	grid := {x | x in set grid 
-	           & id not in set {route.id_route | route in set elems x}}; 
-	);
-)
-pre exists x in set routeList & x.id_route = id;
-
-
-
-
----------------------------------------------------------------------------------------------------------------
-public test : () ==> ()
-test()== 
-(
-	writef (recAlgo({},[], "A") union 
-	        recAlgo({},[], "B") union 
-	        recAlgo({},[], "C") union 
-	        recAlgo({},[], "D") );
-);
-
-private writef : Grid ==> ()
-	writef(grid)==
-	(
-		def - = io.fwriteval[Grid]("railway.txt",grid,<append>) in skip;
-	);
-
-end RailwayGrid
-               
 ~~~
 {% endraw %}
 
@@ -1296,323 +1613,6 @@ handleEvents(apm) == is subclass responsibility;
 
 
 end SNW
-
-             
-~~~
-{% endraw %}
-
-### TokenDevice.vdmrt
-
-{% raw %}
-~~~
-                                           
-
-class TokenDevice
-
-instance variables
-
-  private id_token : nat := 1;
-  private transportPlan : [TransportPlan] := nil;
-  private q_Env_out : Environment;
-  private q_APM_out : ActivePlanManager;
-
-
-operations
- 
- public TokenDevice : nat ==> TokenDevice
- TokenDevice(id) == 
-    id_token := id;
-
-
- public notifyPassenger : TransportPlan ==> ()
- notifyPassenger(TransPlan) ==
-(
-	transportPlan := TransPlan;
-	q_Env_out.respons( transportPlan, nil,time);
-	Logger`write("Notify "); Logger`write(id_token); Logger`write(time);	
-);
-    
-
-  public requestTransportPlan : CyberRail`NavigationInput ==> ()
-  requestTransportPlan(NavInput) ==
-( 
-	Logger`write("RequestTP"); Logger`write(id_token); Logger`write(time);
-  	q_APM_out.addToClientQueue( mk_MessageTypes`REQUESTPLAN(NavInput, self));
-);
-
-public getTokenId : () ==> nat
-  getTokenId() == return id_token;
-
-public routeTraveled : () ==> ()
-  routeTraveled() == (transportPlan.routeTraveled();
-)
-pre transportPlan.routesRemaining() > 0;
-
-public setTransportPlan : TransportPlan ==> ()
-setTransportPlan(tp) ==	
-(
-	transportPlan := tp;
-);
-
-public travel : () ==> ()
-travel () == (
-		onTheRoad();
-		if( transportPlan <> nil and transportPlan.routesRemaining() > 0 ) 
-		then(
-		--dcl t : TransportPlan`Route := (transportPlan.getNextRoute());
-	transportPlan.routeTraveled(); 
-	)
-);
-
-public onTheRoad : () ==> ()
-onTheRoad () == skip;
-
-public isFinished : () ==> ()
-isFinished() == skip;
-
-
-		
-
-
---Setup handles----------------------------------
-
- 
-public setQ_Env_out : Environment ==> ()
-setQ_Env_out(env)== ( q_Env_out := env; );
-
-public setQ_APM_out : ActivePlanManager ==> ()
-setQ_APM_out(apm)== ( q_APM_out := apm; );
-
-
-thread
-periodic(2000E6,100,2900,200000)(travel);
-
-sync
-
-per onTheRoad => (transportPlan <> nil) and (len transportPlan.routeList > 0);
-
-per isFinished => (transportPlan = nil) or (len transportPlan.routeList = 0);
-
-mutex(requestTransportPlan);
-mutex(travel);
-
-end TokenDevice
-
-               
-~~~
-{% endraw %}
-
-### MessageQueue.vdmrt
-
-{% raw %}
-~~~
-                                      
-class MessageQueue
-
-instance variables
-
-queue : seq of Message := [];
-size : nat := 0;
-
-
-types
-public String = seq of char;
-public FunctionType = <setInactive> | <setActive>; 
-public ParamType = nat | String;
-
-public Message::
-	funct : FunctionType
-	params : seq of ParamType
-
-operations
-
---Constructor
-public MessageQueue : nat ==> MessageQueue
-MessageQueue(psize) ==
-	size := psize;
-
-
-public push: Message ==> ()
-push(message) ==
-	queue := queue ^ [message];
-
-public pop: () ==> Message
-pop() == (
-	let rtn_data = hd queue
-	in
-	(
-		queue := tl queue;
-		return rtn_data;
-	)
-);
-
-sync
-per push => #fin(push) - #fin(pop) < size; 	
---ensure that there's space in the queue
-per pop => #fin(push) - #fin(pop) > 0;			
---ensure that there's data in the queue
-mutex(pop,push);		
---Only a single activation of pop at a time.
---Have not testet if this sync is enough.	
-
-end MessageQueue
-             
-~~~
-{% endraw %}
-
-### CRSystem.vdmrt
-
-{% raw %}
-~~~
-                                  
-system CRSystem
-
-instance variables
-
--- cpu for CyberRail
-cpu1 : CPU := new CPU (<FCFS>,1E6);
- 
--- cpu for TokenDevice
-cpu3 : CPU := new CPU (<FCFS>,1E6);
-cpu4 : CPU := new CPU (<FCFS>,1E6);
-cpu5 : CPU := new CPU (<FCFS>,1E6);
-cpu6 : CPU := new CPU (<FCFS>,1E6);
-cpu7 : CPU := new CPU (<FCFS>,1E6);
-cpu8 : CPU := new CPU (<FCFS>,1E6);
-cpu9 : CPU := new CPU (<FCFS>,1E6);
-cpu10 : CPU := new CPU (<FCFS>,1E6);
-cpu11 : CPU := new CPU (<FCFS>,1E6);
-cpu12 : CPU := new CPU (<FCFS>,1E6);
---cpu13 : CPU := new CPU (<FCFS>,1E6);
---cpu14 : CPU := new CPU (<FCFS>,1E6);
---cpu15 : CPU := new CPU (<FCFS>,1E6);
-
--- cpu for APM
-cpu2 : CPU := new CPU (<FCFS>,1E6);
-
--- bus to connect CyberRail and APM
-bus1 : BUS := new BUS (<FCFS>,1E3,{cpu1,cpu2});
-
--- bus to connect TokenDevice to APM
-bus2 : BUS := new BUS (<FCFS>,5,{cpu3,cpu2});
-bus3 : BUS := new BUS (<FCFS>,5,{cpu4,cpu2});
-bus4 : BUS := new BUS (<FCFS>,5,{cpu5,cpu2});
-bus5 : BUS := new BUS (<FCFS>,5,{cpu6,cpu2});
-bus6 : BUS := new BUS (<FCFS>,5,{cpu7,cpu2});
-bus7 : BUS := new BUS (<FCFS>,5,{cpu8,cpu2});
-bus8 : BUS := new BUS (<FCFS>,5,{cpu9,cpu2});
-bus9 : BUS := new BUS (<FCFS>,5,{cpu10,cpu2});
-bus10 : BUS := new BUS (<FCFS>,5,{cpu11,cpu2});
-bus12 : BUS := new BUS (<FCFS>,5,{cpu12,cpu2});
---bus13 : BUS := new BUS (<FCFS>,5,{cpu13,cpu2});
---bus14 : BUS := new BUS (<FCFS>,5,{cpu14,cpu2});
---bus15 : BUS := new BUS (<FCFS>,5,{cpu15,cpu2});
-  
---bus to connect cb token device
---bus3 : BUS := new BUS (<FCFS>,1E6,{cpu1, cpu3});
-
-public static tok1 : TokenDevice := new TokenDevice(1);
-public static tok2 : TokenDevice := new TokenDevice(2);
-public static tok3 : TokenDevice := new TokenDevice(3);
-public static tok4 : TokenDevice := new TokenDevice(4);
-public static tok5 : TokenDevice := new TokenDevice(5);
-public static tok6 : TokenDevice := new TokenDevice(6);
-public static tok7 : TokenDevice := new TokenDevice(7);
-public static tok8 : TokenDevice := new TokenDevice(8);
-public static tok9 : TokenDevice := new TokenDevice(9);
-public static tok10 : TokenDevice := new TokenDevice(10);
---public static tok11: TokenDevice := new TokenDevice(11);
---public static tok12: TokenDevice := new TokenDevice(12);
---public static tok13 : TokenDevice := new TokenDevice(13);
-public static cb : CyberRail := new CyberRail();
-public static apm : ActivePlanManager := new ActivePlanManager();
-public static grid :  RailwayGrid := new RailwayGrid();
-
-operations
-
-CRSystem : () ==> CRSystem
-CRSystem()==
-(
-	cpu1.deploy(cb);
-	cpu2.deploy(apm);
-	cpu1.deploy(grid);
-	cpu3.deploy(tok1);
-	cpu4.deploy(tok2);
-	cpu5.deploy(tok3);
-	cpu6.deploy(tok4);
-	cpu7.deploy(tok5);
-	cpu8.deploy(tok6);
-	cpu9.deploy(tok7);
-	cpu10.deploy(tok8);
-	cpu11.deploy(tok9);
-	cpu12.deploy(tok10);
-	--cpu13.deploy(tok11);
-	--cpu14.deploy(tok12);
-	--cpu15.deploy(tok13);
-
-)
-
-end CRSystem
-             
-~~~
-{% endraw %}
-
-### types.vdmrt
-
-{% raw %}
-~~~
-                                
-
-class MessageTypes
-
-types
-
---Message Types
-public REQUESTPLAN :: 
-		navi : CyberRail`NavigationInput 
-		tokdev : TokenDevice;
-public RETURNPLAN :: 
-		plan : TransportPlan`DTO 
-		tokdev : TokenDevice;
-public CALCPLAN :: 
-		navi : CyberRail`NavigationInput 
-		tokdev : TokenDevice;
-public INACTIVEROUTE :: 
-		routeid : nat;
-public ACTIVEROUTE :: 
-		routeid : nat;
-public ADDROUTE :: 
-		route : TransportPlan`Route;	 
-public REMOVEROUTE :: 
-		route : TransportPlan`Route;	 
-public STRATEGYINIT :: ;
-public STRATEGYEND :: ;
-public STRATEGYNOTIFY ::
-		routeid : nat;
-
-public MessageT = REQUESTPLAN | RETURNPLAN | CALCPLAN | 
-			INACTIVEROUTE | ACTIVEROUTE | ADDROUTE | REMOVEROUTE |
-			STRATEGYINIT | STRATEGYEND | STRATEGYNOTIFY;
-
-
-
-
-operations
-
---public test : MessageT ==> seq of char
---test (cmd) ==
---(
---	cases cmd:
---		mk_MessageTypes`INACTIVEROUTE(-) -> return "inactiveroute",
---		mk_MessageTypes`REQUESTPLAN(-) -> return "request"
---	end;
---	return "fail";
---)
-
-	
-
-end MessageTypes
-
 
              
 ~~~

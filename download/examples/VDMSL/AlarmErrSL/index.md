@@ -8,7 +8,7 @@ Author: John Fitzgerald and Peter Gorm Larsen
 
 
 
-This is an erronerous version of the alarm example from the VDM-SL
+This is an erroneous version of the alarm example from the VDM-SL
 book, John Fitzgerald and Peter Gorm Larsen, Modelling Systems --
 Practical Tools and Techniques in Software Development}, Cambridge
 University Press, 2nd edition 2009. This version of the example is
@@ -23,7 +23,7 @@ alarms. A comparable model of this example also exists in VDM++.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### alarmerr.vdmsl

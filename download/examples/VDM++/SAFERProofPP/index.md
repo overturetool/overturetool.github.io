@@ -11,7 +11,7 @@ Author: Sten Agerholm
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new SAFERSys().BigTest()|
 |Entry point     :| new SAFERSys().HugeTest()|
 

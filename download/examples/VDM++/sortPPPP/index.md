@@ -63,94 +63,6 @@ end DoSort
 ~~~
 {% endraw %}
 
-### implsort.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                    
-class ImplSort is subclass of Sorter
-
-operations
-
-  public Sort: seq of int ==> seq of int
-  Sort(l) ==
-    return ImplSorter(l);
-
-functions
-
-  public ImplSorter(l: seq of int) r: seq of int
-  post IsPermutation(r,l) and IsOrdered(r);
-
-  IsPermutation: seq of int * seq of int -> bool
-  IsPermutation(l1,l2) ==    
-    forall e in set (elems l1 union elems l2) &
-      card {i | i in set inds l1 & l1(i) = e} =
-      card {i | i in set inds l2 & l2(i) = e};
-
-  IsOrdered: seq of int -> bool
-  IsOrdered(l) ==
-    forall i,j in set inds l & i > j => l(i) >= l(j)
-
-end ImplSort
-             
-~~~
-{% endraw %}
-
-### mergesort.vdmpp
-
-{% raw %}
-~~~
-                                    
-class MergeSort is subclass of Sorter
-
-operations
-
-  public Sort: seq of int ==> seq of int
-  Sort(l) ==
-    return MergeSorter(l)
-
-functions
-
-  MergeSorter: seq of real -> seq of real
-  MergeSorter(l) ==
-    cases l:
-      []      -> l,
-      [e]     -> l,
-      others  -> let l1^l2 in set {l} be st abs (len l1 - len l2) < 2
-                 in
-                   let l_l = MergeSorter(l1),
-                       l_r = MergeSorter(l2) in
-                    Merge(l_l, l_r)
-    end
-  measure Len;
-
-  Len: seq of real -> nat
-  Len(list) ==
-    len list;
-                                                                                                                                                                                                                                                                                                                       
-  Merge: seq of int * seq of int -> seq of int
-  Merge(l1,l2) ==
-    cases mk_(l1,l2):
-      mk_([],l),mk_(l,[]) -> l,
-      others              -> if hd l1 <= hd l2 then 
-                               [hd l1] ^ Merge(tl l1, l2)
-                             else
-                               [hd l2] ^ Merge(l1, tl l2)
-    end
-  pre forall i in set inds l1 & l1(i) >= 0 and
-      forall i in set inds l2 & l2(i) >= 0
-  measure Len;
-
-  Len: seq of int * seq of int -> nat
-  Len(list1,list2) ==
-    len list1 + len list2;
-
-end MergeSort
-
-             
-~~~
-{% endraw %}
-
 ### explsort.vdmpp
 
 {% raw %}
@@ -213,6 +125,94 @@ operations
 
 end Sorter
                
+~~~
+{% endraw %}
+
+### mergesort.vdmpp
+
+{% raw %}
+~~~
+                                    
+class MergeSort is subclass of Sorter
+
+operations
+
+  public Sort: seq of int ==> seq of int
+  Sort(l) ==
+    return MergeSorter(l)
+
+functions
+
+  MergeSorter: seq of real -> seq of real
+  MergeSorter(l) ==
+    cases l:
+      []      -> l,
+      [e]     -> l,
+      others  -> let l1^l2 in set {l} be st abs (len l1 - len l2) < 2
+                 in
+                   let l_l = MergeSorter(l1),
+                       l_r = MergeSorter(l2) in
+                    Merge(l_l, l_r)
+    end
+  measure Len;
+
+  Len: seq of real -> nat
+  Len(list) ==
+    len list;
+                                                                                                                                                                                                                                                                                                                       
+  Merge: seq of int * seq of int -> seq of int
+  Merge(l1,l2) ==
+    cases mk_(l1,l2):
+      mk_([],l),mk_(l,[]) -> l,
+      others              -> if hd l1 <= hd l2 then 
+                               [hd l1] ^ Merge(tl l1, l2)
+                             else
+                               [hd l2] ^ Merge(l1, tl l2)
+    end
+  pre forall i in set inds l1 & l1(i) >= 0 and
+      forall i in set inds l2 & l2(i) >= 0
+  measure Len;
+
+  Len: seq of int * seq of int -> nat
+  Len(list1,list2) ==
+    len list1 + len list2;
+
+end MergeSort
+
+             
+~~~
+{% endraw %}
+
+### implsort.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                    
+class ImplSort is subclass of Sorter
+
+operations
+
+  public Sort: seq of int ==> seq of int
+  Sort(l) ==
+    return ImplSorter(l);
+
+functions
+
+  public ImplSorter(l: seq of int) r: seq of int
+  post IsPermutation(r,l) and IsOrdered(r);
+
+  IsPermutation: seq of int * seq of int -> bool
+  IsPermutation(l1,l2) ==    
+    forall e in set (elems l1 union elems l2) &
+      card {i | i in set inds l1 & l1(i) = e} =
+      card {i | i in set inds l2 & l2(i) = e};
+
+  IsOrdered: seq of int -> bool
+  IsOrdered(l) ==
+    forall i,j in set inds l & i > j => l(i) >= l(j)
+
+end ImplSort
+             
 ~~~
 {% endraw %}
 

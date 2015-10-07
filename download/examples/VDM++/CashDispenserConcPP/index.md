@@ -16,9 +16,79 @@ Peter Gorm Larsen and Kim Sunesen in 1999 in connection with FM'99.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new Main().Run()|
 
+
+### Card.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                      
+class Card
+
+types
+  public CardId = nat;
+  public Code = nat;
+  public PinCode = nat;
+
+instance variables
+  code : Code;
+  cardId : CardId;
+  accountId : Account`AccountId;
+
+operations
+  public Card : Code * CardId * Account`AccountId ==> Card
+  Card(c,cid,a) ==
+    (code := c;
+     cardId := cid;
+     accountId := a);
+
+  public GetCode : () ==> Code
+  GetCode() ==
+    return code;
+
+  public GetAccountId : () ==> Account`AccountId
+  GetAccountId() ==
+    return accountId;
+
+  public GetCardId : () ==> CardId
+  GetCardId() ==
+    return cardId;
+
+end Card
+               
+~~~
+{% endraw %}
+
+### Letter.vdmpp
+
+{% raw %}
+~~~
+                                                                                                      
+class Letter
+
+instance variables
+  name : Cardholder`Name;
+  address : Cardholder`Address;
+  date : Clock`Date;
+  transactions : seq of Account`Transaction;
+  balance : nat
+
+operations
+  public Letter: Cardholder`Name * Cardholder`Address * Clock`Date * 
+          seq of Account`Transaction * nat ==> Letter
+  Letter(nm,addr,d,ts,b) ==
+    (name := nm;
+     address := addr;
+     date := d;
+     transactions := ts;
+     balance:= b)
+     
+end Letter
+              
+~~~
+{% endraw %}
 
 ### LocalTill.vdmpp
 
@@ -93,88 +163,197 @@ end LocalTill
 ~~~
 {% endraw %}
 
-### Account.vdmpp
+### Letterbox.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                               
-class Account
+                                                                                                         
+class Letterbox
 
 instance variables
-  cards : map Card`CardId to Cardholder;
-  balance : nat;
-  transactions : seq of Transaction := [];
-  
-  inv TransactionsInvariant(transactions);
-                                                                                                                                                                                                                                   
-values
-  dailyLimit : nat = 2000;
+  statements : seq of Letter := [];
 
-types
-  public AccountId = nat;
-  public Transaction :: date : Clock`Date
-                 cardId : Card`CardId
-                 amount : nat;
-                                                                                                                                                                                                                                                                                                                                                                                       
 operations
-  public Account : map Card`CardId to Cardholder * nat ==> Account
-  Account(cs,b) ==
-    (cards := cs;
-     balance := b);
+  public PostStatement : Letter ==> ()
+  PostStatement(letter) == 
+    statements := statements ^ [letter];
 
-  public GetBalance : () ==> nat
-  GetBalance() ==
-    return balance;
-                                                                                                                     
-  public Withdrawal : Card`CardId * nat * Clock`Date ==> bool
-  Withdrawal(cardId,amount,date) ==
-    let transaction = mk_Transaction(date,cardId,amount)
-    in
-      if balance - amount >= 0 and 
-         DateTotal(date,transactions^[transaction]) <= dailyLimit 
-      then
-       (balance := balance - amount;
-        transactions := transactions ^ [transaction];
-        return true)
-      else 
-        return false
-  pre cardId in set dom cards;
+  GetLastStatement : () ==> Letter
+  GetLastStatement() == 
+    return statements(len statements)
+  pre statements <> [];
 
-  public MakeStatement : Card`CardId * Clock`Date ==> Letter
-  MakeStatement(cardId,date) ==
-    let nm = cards(cardId).GetName(),
-        addr = cards(cardId).GetAddress()
-    in 
-      return new Letter(nm,addr,date,transactions,balance)
-  pre cardId in set dom cards;
-                                                                                                               
-  public GetCardIds: () ==> set of Card`CardId
-  GetCardIds() == 
-    return dom cards;
-                                                                                                                      
-  AddCard : Card`CardId * Cardholder ==> ()
-  AddCard(cId,ch) ==
-    cards := cards munion {cId |-> ch}
-  pre cId not in set dom cards;
-
-functions
-  TransactionsInvariant: seq of Transaction +> bool
-  TransactionsInvariant(ts) ==
-    forall date in set {ts(i).date | i in set inds ts} &
-      DateTotal(date,ts) <= dailyLimit;
-                                                                                                                                                                                                   
-  DateTotal : Clock`Date * seq of Transaction +> nat
-  DateTotal(date,ts) ==
-    Sum([ts(i).amount | i in set inds ts & ts(i).date = date]);
-
-  Sum: seq of real +> real
-  Sum(rs) ==
-    if rs = [] then 0
-    else
-      hd rs + Sum(tl rs);
-
-end Account
+end Letterbox
             
+~~~
+{% endraw %}
+
+### LocalResource.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                            
+class LocalResource
+                                                                                                       
+instance variables
+  c : Channel := new Channel();
+
+operations
+                                                                                     
+  public LocalResource : Channel ==> LocalResource
+  LocalResource(nc) ==
+    c := nc;
+                                                                                                                                                                                                                                                                                                              
+  public GetBalance : Account`AccountId ==> [nat]| <Fail>
+  GetBalance(accountId) ==
+    let req = mk_Channel`Request(<GetBalance>,
+                                 {mk_Channel`AccountId(accountId)}) in
+    (c.SendRequest(req);
+     Wait(<GetBalance>));
+                                                                                                                                                                                                                                                                                             
+  Wait : Channel`Command ==> Channel`RespData | <Fail>
+  Wait(comm) ==
+    (c.Wait();
+     let resp = c.ReceiveResponse() in
+     if resp = nil
+     then return <Fail>
+     elseif resp.command <> comm
+     then return <Fail>
+     else return resp.data);
+                                                                                                                                              
+  public Withdrawal : Account`AccountId * Card`CardId * nat ==> bool | <Fail>
+  Withdrawal(accountId,cardId,amount) ==
+    let req = mk_Channel`Request(<Withdrawal>,
+                                 {mk_Channel`AccountId(accountId),
+                                  mk_Channel`CardId(cardId),
+                                  mk_Channel`Amount(amount)}) in
+    (c.SendRequest(req);
+     Wait(<Withdrawal>));
+
+  public PostStatement : Account`AccountId * Card`CardId ==> bool | <Fail>
+  PostStatement(accountId,cardId) ==
+    let req = mk_Channel`Request(<PostStmt>,
+                                 {mk_Channel`AccountId(accountId),
+                                  mk_Channel`CardId(cardId)}) in
+    (c.SendRequest(req);
+     Wait(<PostStmt>));
+
+  public IsLegalCard : Account`AccountId * Card`CardId ==> bool | <Fail>
+  IsLegalCard(accountId,cardId) ==
+    let req = mk_Channel`Request(<IsLegalCard>,
+                                 {mk_Channel`AccountId(accountId),
+                                  mk_Channel`CardId(cardId)}) in    
+    (c.SendRequest(req);
+     Wait(<IsLegalCard>));
+
+  public NumberOfTriesExceeded : Card`CardId ==> bool | <Fail>
+  NumberOfTriesExceeded(cardId) == 
+    let req = mk_Channel`Request(<TriesExceeded>,
+                                 {mk_Channel`CardId(cardId)}) in
+    (c.SendRequest(req);
+     Wait(<TriesExceeded>));
+
+  public ResetNumberOfTries : Card`CardId ==> [<Fail>]
+  ResetNumberOfTries(cardId) ==
+    let req = mk_Channel`Request(<ResetTries>,
+                                 {mk_Channel`CardId(cardId)}) in
+    (c.SendRequest(req);
+     Wait(<ResetTries>));
+
+  public IncrNumberOfTries : Card`CardId ==> [<Fail>]
+  IncrNumberOfTries(cardId) ==
+    let req = mk_Channel`Request(<IncTries>,
+                                 {mk_Channel`CardId(cardId)}) in
+    (c.SendRequest(req);
+     Wait(<IncTries>));
+
+end LocalResource
+              
+~~~
+{% endraw %}
+
+### CentralResource.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                  
+class CentralResource
+
+instance variables
+  accounts      : map Account`AccountId to Account := {|->};
+  numberOfTries : map Card`CardId to nat := {|->};
+  illegalCards  : set of Card`CardId := {};
+  letterbox     : Letterbox;
+  clock         : Clock;
+                                                                                     
+  inv forall acc1,acc2 in set rng accounts &
+          acc1 <> acc2 => 
+          acc1.GetCardIds() inter acc2.GetCardIds() = {};
+
+values
+  maxNumberOfTries : nat = 3;
+
+operations
+  public CentralResource : Clock * Letterbox ==> CentralResource
+  CentralResource(c,l) ==
+    (clock := c;
+     letterbox := l);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+  public GetBalance : Account`AccountId ==> [nat]
+  GetBalance(accountId) ==
+    if accountId in set dom accounts then
+      accounts(accountId).GetBalance()
+    else 
+      return nil;
+
+  public Withdrawal : Account`AccountId * Card`CardId * nat ==> bool
+  Withdrawal(accountId,cardId,amount) ==
+    if IsLegalCard(accountId,cardId) then
+      accounts(accountId).Withdrawal(cardId,amount,clock.GetDate())
+    else 
+      return false;
+
+  public PostStatement : Account`AccountId * Card`CardId ==> bool
+  PostStatement(accountId,cardId) ==
+    if IsLegalCard(accountId,cardId) then
+      (letterbox.PostStatement
+        (accounts(accountId).MakeStatement(cardId,clock.GetDate()));
+       return true)
+    else 
+      return false;
+                                                                                                                                                   
+  public IsLegalCard : Account`AccountId * Card`CardId ==> bool
+  IsLegalCard(accountId,cardId) ==
+    return 
+      cardId not in set illegalCards and 
+      accountId in set dom accounts and
+      cardId in set accounts(accountId).GetCardIds();
+
+  public NumberOfTriesExceeded : Card`CardId ==> bool
+  NumberOfTriesExceeded(cardId) == 
+    return numberOfTries(cardId) >= maxNumberOfTries;
+
+  public ResetNumberOfTries : Card`CardId ==> ()
+  ResetNumberOfTries(cardId) ==
+    numberOfTries(cardId) := 0;
+
+  public IncrNumberOfTries : Card`CardId ==> ()
+  IncrNumberOfTries(cardId) ==
+    numberOfTries(cardId) := numberOfTries(cardId) + 1;
+                                                                                                
+  public AddAccount : Account`AccountId * Account ==> ()
+  AddAccount(accId,acc) ==
+    (numberOfTries := numberOfTries ++ 
+                      {cId |-> 0 | cId in set acc.GetCardIds()};
+     accounts := accounts ++ {accId |-> acc})
+  pre accId not in set dom accounts;
+
+  public AddIllegalCard : Card`CardId ==> ()
+  AddIllegalCard(cId) ==
+    illegalCards := illegalCards union {cId};
+
+end CentralResource
+             
 ~~~
 {% endraw %}
 
@@ -270,11 +449,11 @@ operations
       resource.IsLegalCard(curCard.GetAccountId(),curCard.GetCardId())
   pre CardInside();
 
-  public CardValidated: () ==> bool
+  pure public CardValidated: () ==> bool
   CardValidated() ==
     return curCard <> nil and cardOk;
 
-  public CardInside: () ==> bool
+  pure public CardInside: () ==> bool
   CardInside() ==
    return curCard <> nil;
 
@@ -289,280 +468,188 @@ end Till
 ~~~
 {% endraw %}
 
-### LocalResource.vdmpp
+### Clock.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                            
-class LocalResource
-                                                                                                       
-instance variables
-  c : Channel := new Channel();
-
-operations
-                                                                                     
-  public LocalResource : Channel ==> LocalResource
-  LocalResource(nc) ==
-    c := nc;
-                                                                                                                                                                                                                                                                                                              
-  public GetBalance : Account`AccountId ==> [nat]| <Fail>
-  GetBalance(accountId) ==
-    let req = mk_Channel`Request(<GetBalance>,
-                                 {mk_Channel`AccountId(accountId)}) in
-    (c.SendRequest(req);
-     Wait(<GetBalance>));
-                                                                                                                                                                                                                                                                                             
-  Wait : Channel`Command ==> Channel`RespData | <Fail>
-  Wait(comm) ==
-    (c.Wait();
-     let resp = c.ReceiveResponse() in
-     if resp = nil
-     then return <Fail>
-     elseif resp.command <> comm
-     then return <Fail>
-     else return resp.data);
-                                                                                                                                              
-  public Withdrawal : Account`AccountId * Card`CardId * nat ==> bool | <Fail>
-  Withdrawal(accountId,cardId,amount) ==
-    let req = mk_Channel`Request(<Withdrawal>,
-                                 {mk_Channel`AccountId(accountId),
-                                  mk_Channel`CardId(cardId),
-                                  mk_Channel`Amount(amount)}) in
-    (c.SendRequest(req);
-     Wait(<Withdrawal>));
-
-  public PostStatement : Account`AccountId * Card`CardId ==> bool | <Fail>
-  PostStatement(accountId,cardId) ==
-    let req = mk_Channel`Request(<PostStmt>,
-                                 {mk_Channel`AccountId(accountId),
-                                  mk_Channel`CardId(cardId)}) in
-    (c.SendRequest(req);
-     Wait(<PostStmt>));
-
-  public IsLegalCard : Account`AccountId * Card`CardId ==> bool | <Fail>
-  IsLegalCard(accountId,cardId) ==
-    let req = mk_Channel`Request(<IsLegalCard>,
-                                 {mk_Channel`AccountId(accountId),
-                                  mk_Channel`CardId(cardId)}) in    
-    (c.SendRequest(req);
-     Wait(<IsLegalCard>));
-
-  public NumberOfTriesExceeded : Card`CardId ==> bool | <Fail>
-  NumberOfTriesExceeded(cardId) == 
-    let req = mk_Channel`Request(<TriesExceeded>,
-                                 {mk_Channel`CardId(cardId)}) in
-    (c.SendRequest(req);
-     Wait(<TriesExceeded>));
-
-  public ResetNumberOfTries : Card`CardId ==> [<Fail>]
-  ResetNumberOfTries(cardId) ==
-    let req = mk_Channel`Request(<ResetTries>,
-                                 {mk_Channel`CardId(cardId)}) in
-    (c.SendRequest(req);
-     Wait(<ResetTries>));
-
-  public IncrNumberOfTries : Card`CardId ==> [<Fail>]
-  IncrNumberOfTries(cardId) ==
-    let req = mk_Channel`Request(<IncTries>,
-                                 {mk_Channel`CardId(cardId)}) in
-    (c.SendRequest(req);
-     Wait(<IncTries>));
-
-end LocalResource
-              
-~~~
-{% endraw %}
-
-### Card.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                      
-class Card
+                                                                                             
+class Clock
 
 types
-  public CardId = nat;
-  public Code = nat;
-  public PinCode = nat;
+  public Date = seq of char;
 
 instance variables
-  code : Code;
-  cardId : CardId;
-  accountId : Account`AccountId;
+  date : Date := [];
 
 operations
-  public Card : Code * CardId * Account`AccountId ==> Card
-  Card(c,cid,a) ==
-    (code := c;
-     cardId := cid;
-     accountId := a);
+  public SetDate : Date ==> ()
+  SetDate(d) ==
+    date := d;
 
-  public GetCode : () ==> Code
-  GetCode() ==
-    return code;
+  public GetDate : () ==> Date
+  GetDate() ==
+    return date;
 
-  public GetAccountId : () ==> Account`AccountId
-  GetAccountId() ==
-    return accountId;
-
-  public GetCardId : () ==> CardId
-  GetCardId() ==
-    return cardId;
-
-end Card
-               
-~~~
-{% endraw %}
-
-### Letter.vdmpp
-
-{% raw %}
-~~~
-                                                                                                      
-class Letter
-
-instance variables
-  name : Cardholder`Name;
-  address : Cardholder`Address;
-  date : Clock`Date;
-  transactions : seq of Account`Transaction;
-  balance : nat
-
-operations
-  public Letter: Cardholder`Name * Cardholder`Address * Clock`Date * 
-          seq of Account`Transaction * nat ==> Letter
-  Letter(nm,addr,d,ts,b) ==
-    (name := nm;
-     address := addr;
-     date := d;
-     transactions := ts;
-     balance:= b)
-     
-end Letter
-              
-~~~
-{% endraw %}
-
-### Channel.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-class Channel
-                                                                                                                                                                                                                                                                                                                                             
-instance variables
-  req : [Request] := nil;
-  resp :[Response] := nil;
-  timer : Timer := new Timer();
-  curTime : nat := 0;
-                                                                                                                                                                                                          
-values
-  timeout = 1500;
-                                                                                                                                              
-types
-                                                                                                                                       
-  public Request :: command : Command
-                    data : set of ReqData;
-                                                                                                                                           
-  public Command = <TriesExceeded> | <ResetTries> | <IncTries> | 
-                   <GetBalance> | <Withdrawal> | <PostStmt> | 
-                  <IsLegalCard>;
-                                                                                                                       
-  public ReqData = CardId | AccountId | Amount;
-  public CardId :: val : Card`CardId;
-  public AccountId :: val : Account`AccountId;
-  public Amount :: val : nat;
-                                                                                                                                                                      
-  public Response :: command : Command
-              data : RespData;
-  public RespData = [nat] | bool;
-                                                                                                                                                                       
-operations
-                                                                                                                                                                                                                                                                                                                                                                                            
-  public SendRequest : Request ==> ()
-  SendRequest(r) ==
-    (req := r;
-     timer.Start())
-  pre req = nil;
-                                                                                                                                                                                                  
-  public ReceiveRequest : () ==> Request
-  ReceiveRequest() ==
-    let r = req in
-    (req := nil;
-     return r);
-                                                                                                                                                                                                                                                                                                                                                                          
-  public SendResponse : Response ==> ()
-  SendResponse(r) ==
-    (resp := r;
-     timer.Stop())
-  pre resp = nil;
-                                                                                                                                                                                     
-  public ReceiveResponse : () ==> [Response]
-  ReceiveResponse() ==
-    let r = resp in
-    (resp := nil;
-     return r);
-                                                                                                                                                                      
-  public Wait: () ==> ()
-  Wait() == 
-    skip;
-                                                                                                                                                             
-  CheckTime: () ==> ()
-  CheckTime() ==
-    curTime := timer.GetTime()
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-functions
-
-  AllReceived : nat * nat * nat * nat -> bool
-  AllReceived(act_send, fin_send, act_rec, fin_rec) ==
-    act_send = fin_send and
-    act_rec = fin_rec and
-    (act_send + fin_send) = (act_send + fin_send);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-sync
-  per SendResponse => 
-        AllReceived(#act(SendRequest), #fin(SendRequest),
-                    #act(ReceiveRequest), #fin(ReceiveRequest)) and
-        AllReceived(#act(SendResponse), #fin(SendResponse),
-                    #act(ReceiveResponse), #fin(ReceiveResponse)) and
-        #act(SendRequest) - #fin(SendResponse) = 1;
-                                                                                                                                                                                
-  per ReceiveRequest => req <> nil;
-                                                                                                                                                                                                                                                                                                               
-  per Wait => curTime > timeout or resp <> nil;
-                                                                                                                                                         
--- FIXME: Example used RT constructs must be rewritten using threads
---thread
---  periodic(1000)(CheckTime)
-
-
-end Channel
+end Clock
              
 ~~~
 {% endraw %}
 
-### Letterbox.vdmpp
+### Account.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                         
-class Letterbox
+                                                                                                                                                                                                               
+class Account
 
 instance variables
-  statements : seq of Letter := [];
+  cards : map Card`CardId to Cardholder;
+  balance : nat;
+  transactions : seq of Transaction := [];
+  
+  inv TransactionsInvariant(transactions);
+                                                                                                                                                                                                                                   
+values
+  dailyLimit : nat = 2000;
+
+types
+  public AccountId = nat;
+  public Transaction :: date : Clock`Date
+                 cardId : Card`CardId
+                 amount : nat;
+                                                                                                                                                                                                                                                                                                                                                                                       
+operations
+  public Account : map Card`CardId to Cardholder * nat ==> Account
+  Account(cs,b) ==
+    (cards := cs;
+     balance := b);
+
+  public GetBalance : () ==> nat
+  GetBalance() ==
+    return balance;
+                                                                                                                     
+  public Withdrawal : Card`CardId * nat * Clock`Date ==> bool
+  Withdrawal(cardId,amount,date) ==
+    let transaction = mk_Transaction(date,cardId,amount)
+    in
+      if balance - amount >= 0 and 
+         DateTotal(date,transactions^[transaction]) <= dailyLimit 
+      then
+       (balance := balance - amount;
+        transactions := transactions ^ [transaction];
+        return true)
+      else 
+        return false
+  pre cardId in set dom cards;
+
+  public MakeStatement : Card`CardId * Clock`Date ==> Letter
+  MakeStatement(cardId,date) ==
+    let nm = cards(cardId).GetName(),
+        addr = cards(cardId).GetAddress()
+    in 
+      return new Letter(nm,addr,date,transactions,balance)
+  pre cardId in set dom cards;
+                                                                                                               
+  pure public GetCardIds: () ==> set of Card`CardId
+  GetCardIds() == 
+    return dom cards;
+                                                                                                                      
+  AddCard : Card`CardId * Cardholder ==> ()
+  AddCard(cId,ch) ==
+    cards := cards munion {cId |-> ch}
+  pre cId not in set dom cards;
+
+functions
+  TransactionsInvariant: seq of Transaction +> bool
+  TransactionsInvariant(ts) ==
+    forall date in set {ts(i).date | i in set inds ts} &
+      DateTotal(date,ts) <= dailyLimit;
+                                                                                                                                                                                                   
+  DateTotal : Clock`Date * seq of Transaction +> nat
+  DateTotal(date,ts) ==
+    Sum([ts(i).amount | i in set inds ts & ts(i).date = date]);
+
+  Sum: seq of real +> real
+  Sum(rs) ==
+    if rs = [] then 0
+    else
+      hd rs + Sum(tl rs);
+
+end Account
+            
+~~~
+{% endraw %}
+
+### Timer.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                       
+class Timer
+                                                                                                                                                                                                             
+instance variables
+  curTime : nat := 0;
+  active : bool := false;
+                                                                                                              
+operations
+  public Start : () ==> ()
+  Start() ==
+    (active := true;
+     curTime := 0);
+
+  public Stop : () ==> () 
+  Stop() ==
+    active := false;
+
+  public GetTime : () ==> nat
+  GetTime() ==
+    return curTime;
+
+  IncTime: () ==> ()
+  IncTime() ==
+    if active
+    then curTime := curTime + 100;
+                                                                                                                                                                          
+-- FIXME: Example used RT constructs must be rewritten using threads
+--thread
+--  periodic(1000)(IncTime)
+
+end Timer
+             
+~~~
+{% endraw %}
+
+### CardHolder.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                             
+class Cardholder
+
+types
+  public Address = seq of char;
+  public Name = seq of char;
+
+instance variables
+  name : Name;
+  address : Address;
 
 operations
-  public PostStatement : Letter ==> ()
-  PostStatement(letter) == 
-    statements := statements ^ [letter];
+  public Cardholder : Name * Address ==> Cardholder
+  Cardholder(nm,addr) ==
+    (name := nm;
+     address := addr);
 
-  GetLastStatement : () ==> Letter
-  GetLastStatement() == 
-    return statements(len statements)
-  pre statements <> [];
+  public GetName : () ==> Name 
+  GetName () ==
+    return name;
 
-end Letterbox
-            
+  public GetAddress : () ==> Address 
+  GetAddress() ==
+    return address;
+
+end Cardholder
+              
 ~~~
 {% endraw %}
 
@@ -805,187 +892,100 @@ end User
 ~~~
 {% endraw %}
 
-### CentralResource.vdmpp
+### Channel.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                  
-class CentralResource
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+class Channel
+                                                                                                                                                                                                                                                                                                                                             
 instance variables
-  accounts      : map Account`AccountId to Account := {|->};
-  numberOfTries : map Card`CardId to nat := {|->};
-  illegalCards  : set of Card`CardId := {};
-  letterbox     : Letterbox;
-  clock         : Clock;
-                                                                                     
-  inv forall acc1,acc2 in set rng accounts &
-          acc1 <> acc2 => 
-          acc1.GetCardIds() inter acc2.GetCardIds() = {};
-
-values
-  maxNumberOfTries : nat = 3;
-
-operations
-  public CentralResource : Clock * Letterbox ==> CentralResource
-  CentralResource(c,l) ==
-    (clock := c;
-     letterbox := l);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-  public GetBalance : Account`AccountId ==> [nat]
-  GetBalance(accountId) ==
-    if accountId in set dom accounts then
-      accounts(accountId).GetBalance()
-    else 
-      return nil;
-
-  public Withdrawal : Account`AccountId * Card`CardId * nat ==> bool
-  Withdrawal(accountId,cardId,amount) ==
-    if IsLegalCard(accountId,cardId) then
-      accounts(accountId).Withdrawal(cardId,amount,clock.GetDate())
-    else 
-      return false;
-
-  public PostStatement : Account`AccountId * Card`CardId ==> bool
-  PostStatement(accountId,cardId) ==
-    if IsLegalCard(accountId,cardId) then
-      (letterbox.PostStatement
-        (accounts(accountId).MakeStatement(cardId,clock.GetDate()));
-       return true)
-    else 
-      return false;
-                                                                                                                                                   
-  public IsLegalCard : Account`AccountId * Card`CardId ==> bool
-  IsLegalCard(accountId,cardId) ==
-    return 
-      cardId not in set illegalCards and 
-      accountId in set dom accounts and
-      cardId in set accounts(accountId).GetCardIds();
-
-  public NumberOfTriesExceeded : Card`CardId ==> bool
-  NumberOfTriesExceeded(cardId) == 
-    return numberOfTries(cardId) >= maxNumberOfTries;
-
-  public ResetNumberOfTries : Card`CardId ==> ()
-  ResetNumberOfTries(cardId) ==
-    numberOfTries(cardId) := 0;
-
-  public IncrNumberOfTries : Card`CardId ==> ()
-  IncrNumberOfTries(cardId) ==
-    numberOfTries(cardId) := numberOfTries(cardId) + 1;
-                                                                                                
-  public AddAccount : Account`AccountId * Account ==> ()
-  AddAccount(accId,acc) ==
-    (numberOfTries := numberOfTries ++ 
-                      {cId |-> 0 | cId in set acc.GetCardIds()};
-     accounts := accounts ++ {accId |-> acc})
-  pre accId not in set dom accounts;
-
-  public AddIllegalCard : Card`CardId ==> ()
-  AddIllegalCard(cId) ==
-    illegalCards := illegalCards union {cId};
-
-end CentralResource
-             
-~~~
-{% endraw %}
-
-### Clock.vdmpp
-
-{% raw %}
-~~~
-                                                                                             
-class Clock
-
-types
-  public Date = seq of char;
-
-instance variables
-  date : Date := [];
-
-operations
-  public SetDate : Date ==> ()
-  SetDate(d) ==
-    date := d;
-
-  public GetDate : () ==> Date
-  GetDate() ==
-    return date;
-
-end Clock
-             
-~~~
-{% endraw %}
-
-### CardHolder.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                             
-class Cardholder
-
-types
-  public Address = seq of char;
-  public Name = seq of char;
-
-instance variables
-  name : Name;
-  address : Address;
-
-operations
-  public Cardholder : Name * Address ==> Cardholder
-  Cardholder(nm,addr) ==
-    (name := nm;
-     address := addr);
-
-  public GetName : () ==> Name 
-  GetName () ==
-    return name;
-
-  public GetAddress : () ==> Address 
-  GetAddress() ==
-    return address;
-
-end Cardholder
-              
-~~~
-{% endraw %}
-
-### Timer.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                       
-class Timer
-                                                                                                                                                                                                             
-instance variables
+  req : [Request] := nil;
+  resp :[Response] := nil;
+  timer : Timer := new Timer();
   curTime : nat := 0;
-  active : bool := false;
-                                                                                                              
+                                                                                                                                                                                                          
+values
+  timeout = 1500;
+                                                                                                                                              
+types
+                                                                                                                                       
+  public Request :: command : Command
+                    data : set of ReqData;
+                                                                                                                                           
+  public Command = <TriesExceeded> | <ResetTries> | <IncTries> | 
+                   <GetBalance> | <Withdrawal> | <PostStmt> | 
+                  <IsLegalCard>;
+                                                                                                                       
+  public ReqData = CardId | AccountId | Amount;
+  public CardId :: val : Card`CardId;
+  public AccountId :: val : Account`AccountId;
+  public Amount :: val : nat;
+                                                                                                                                                                      
+  public Response :: command : Command
+              data : RespData;
+  public RespData = [nat] | bool;
+                                                                                                                                                                       
 operations
-  public Start : () ==> ()
-  Start() ==
-    (active := true;
-     curTime := 0);
+                                                                                                                                                                                                                                                                                                                                                                                            
+  public SendRequest : Request ==> ()
+  SendRequest(r) ==
+    (req := r;
+     timer.Start())
+  pre req = nil;
+                                                                                                                                                                                                  
+  public ReceiveRequest : () ==> Request
+  ReceiveRequest() ==
+    let r = req in
+    (req := nil;
+     return r);
+                                                                                                                                                                                                                                                                                                                                                                          
+  public SendResponse : Response ==> ()
+  SendResponse(r) ==
+    (resp := r;
+     timer.Stop())
+  pre resp = nil;
+                                                                                                                                                                                     
+  public ReceiveResponse : () ==> [Response]
+  ReceiveResponse() ==
+    let r = resp in
+    (resp := nil;
+     return r);
+                                                                                                                                                                      
+  public Wait: () ==> ()
+  Wait() == 
+    skip;
+                                                                                                                                                             
+  CheckTime: () ==> ()
+  CheckTime() ==
+    curTime := timer.GetTime()
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+functions
 
-  public Stop : () ==> () 
-  Stop() ==
-    active := false;
-
-  public GetTime : () ==> nat
-  GetTime() ==
-    return curTime;
-
-  IncTime: () ==> ()
-  IncTime() ==
-    if active
-    then curTime := curTime + 100;
-                                                                                                                                                                          
+  AllReceived : nat * nat * nat * nat -> bool
+  AllReceived(act_send, fin_send, act_rec, fin_rec) ==
+    act_send = fin_send and
+    act_rec = fin_rec and
+    (act_send + fin_send) = (act_send + fin_send);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+sync
+  per SendResponse => 
+        AllReceived(#act(SendRequest), #fin(SendRequest),
+                    #act(ReceiveRequest), #fin(ReceiveRequest)) and
+        AllReceived(#act(SendResponse), #fin(SendResponse),
+                    #act(ReceiveResponse), #fin(ReceiveResponse)) and
+        #act(SendRequest) - #fin(SendResponse) = 1;
+                                                                                                                                                                                
+  per ReceiveRequest => req <> nil;
+                                                                                                                                                                                                                                                                                                               
+  per Wait => curTime > timeout or resp <> nil;
+                                                                                                                                                         
 -- FIXME: Example used RT constructs must be rewritten using threads
 --thread
---  periodic(1000)(IncTime)
+--  periodic(1000)(CheckTime)
 
-end Timer
+
+end Channel
              
 ~~~
 {% endraw %}

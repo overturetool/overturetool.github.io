@@ -22,7 +22,7 @@ out of experts to deal with alarms.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new alarm().RunTest()|
 
 

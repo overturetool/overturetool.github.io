@@ -7,8 +7,8 @@ title: SortingParcelsPP
 Author: Bjarke Møholt
 
 
-﻿The purpose of this VDM++ model is to analyse the rules governing for
-distrubuting parcels with different kinds of goods is a
+The purpose of this VDM++ model is to analyse the rules governing for
+distributing parcels with different kinds of goods is a
 warehouse. This model is made by Bjarke Møholt as a small mini-project
 in a course on "Modelling of Mission Critical Systems" (see
 https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Critical+Systems).
@@ -16,7 +16,7 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| new Test().Run()|
 
 
@@ -97,45 +97,6 @@ end Conveyor
 ~~~
 {% endraw %}
 
-### Slide.vdmpp
-
-{% raw %}
-~~~
-class Slide
-
-functions
-
-instance variables
- goods: set of Colli := {};
- ID : int := 0;
-
-operations
-
-public Slide : int ==> Slide
-Slide(id) == ID := id;
-
-public getID : () ==> int
-getID() ==
- return ID;
-
-public addGoods : Colli ==> ()
-addGoods(elem) ==
-goods := goods union {elem};
-
-public setID : int ==> ()
-setID(id) == ID := id;
-
-public printColli : () ==> ()
-printColli()==
-for all x in set goods do (
- IO`print("\t");
- IO`print(x.getID() );
-);
-
-end Slide
-~~~
-{% endraw %}
-
 ### Colli.vdmpp
 
 {% raw %}
@@ -173,6 +134,45 @@ public setDestination : int ==> ()
 setDestination(dest) == destination := dest;
 
 end Colli
+~~~
+{% endraw %}
+
+### Slide.vdmpp
+
+{% raw %}
+~~~
+class Slide
+
+functions
+
+instance variables
+ goods: set of Colli := {};
+ ID : int := 0;
+
+operations
+
+public Slide : int ==> Slide
+Slide(id) == ID := id;
+
+pure public getID : () ==> int
+getID() ==
+ return ID;
+
+public addGoods : Colli ==> ()
+addGoods(elem) ==
+goods := goods union {elem};
+
+public setID : int ==> ()
+setID(id) == ID := id;
+
+public printColli : () ==> ()
+printColli()==
+for all x in set goods do (
+ IO`print("\t");
+ IO`print(x.getID() );
+);
+
+end Slide
 ~~~
 {% endraw %}
 

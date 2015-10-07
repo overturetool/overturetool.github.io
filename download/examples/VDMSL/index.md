@@ -70,7 +70,7 @@ Spring Semester, 1997.
 
 
 ### AlarmErr
-This is an erronerous version of the alarm example from the VDM-SL
+This is an erroneous version of the alarm example from the VDM-SL
 book, John Fitzgerald and Peter Gorm Larsen, Modelling Systems --
 Practical Tools and Techniques in Software Development}, Cambridge
 University Press, 2nd edition 2009. This version of the example is
@@ -85,7 +85,7 @@ alarms. A comparable model of this example also exists in VDM++.
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](AlarmErrSL/AlarmErr.zip)  / [show specification](AlarmErrSL/index.html)|
 
 
@@ -167,16 +167,14 @@ standard example making use of an Directed Acyclic Graph (DAG) structure.
 
 
 ### Cashdispenser
-This model is described in VDM-SL as a short, flat specification. 
-This enables abstraction from design considerations and ensures 
-maximum focus on high-level, precise and systematic analysis. This
-was developed by Sten Agerholm, Peter Gorm Larsen and Kim Sunesen 
-in 1999 in connection with FM'99.
+This model is described in VDM-SL as a very abstract specification
+of how a pacemaker can pace a heart that is not having periodic 
+stroken in the two heart chambers.
 
 
 | | |
 |------|-------|
-|Author:|Sten Agerholm, Peter Gorm Larsen and Kim Sunesen|
+|Author:|Peter Gorm Larsen|
 |Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](cashdispenserSL/Cashdispenser.zip)  / [show specification](cashdispenserSL/index.html)|
 

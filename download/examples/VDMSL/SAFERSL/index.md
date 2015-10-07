@@ -23,117 +23,139 @@ NASA Conference, Publication 3356, September 1997.
 |Entry point     :| TEST`HugeTest()|
 
 
-### safer.vdmsl
+### gui.vdmsl
 
 {% raw %}
 ~~~
               
+dlmodule GUI
 
+  exports
+    operations
+      GetCommand : () ==> seq of seq of char;
+      GUI_Init_Tcl : () ==>()
 
-module SAFER
+  uselib
+    "my_gui.so"
 
-imports from AUX all,
-        from HCM all,
-        from TS all,
-        from AAH all
-
-
-exports all
-
-definitions
-
-state SAFER of
-  clock      : nat
-init s == 
-  s = mk_SAFER(0)
-end
-
-operations
-
-  ControlCycle: HCM`SwitchPositions * HCM`HandGripPosition * AUX`RotCommand ==> 
-                TS`ThrusterSet
-  ControlCycle(mk_HCM`SwitchPositions(mode,aah),raw_grip,aah_cmd) ==
-    let grip_cmd  = HCM`GripCommand(raw_grip,mode),
-        thrusters = TS`SelectedThrusters(grip_cmd,aah_cmd,AAH`ActiveAxes(),
-                                         AAH`IgnoreHcm())
-    in
-       (AAH`Transition(aah,grip_cmd,clock);
-        clock := clock + 1;
-        return thrusters)
-  post card RESULT <= 4 and 
-       ThrusterConsistency(RESULT)
-
-functions
-
-  ThrusterConsistency: set of TS`ThrusterName +> bool
-  ThrusterConsistency(thrusters) ==
-    not ({<B1>,<F1>} subset thrusters) and 
-    not ({<B2>,<F2>} subset thrusters) and 
-    not ({<B3>,<F3>} subset thrusters) and 
-    not ({<B4>,<F4>} subset thrusters) and 
-    not (thrusters inter {<L1R>,<L1F>} <> {} and 
-    thrusters inter {<R2R>,<R2F>} <> {}) and
-    not (thrusters inter {<L3R>,<L3F>} <> {} and 
-    thrusters inter {<R4R>,<R4F>} <> {}) and
-    not (thrusters inter {<D1R>,<D1F>} <> {} and 
-    thrusters inter {<U3R>,<U3F>} <> {}) and
-    not (thrusters inter {<D2R>,<D2F>} <> {} and 
-    thrusters inter {<U4R>,<U4F>} <> {}) 
-
-
-end SAFER
-
-             
+end GUI
+              
 ~~~
 {% endraw %}
 
-### auxilary.vdmsl
+### geom.vdmsl
+
+{% raw %}
+~~~
+dlmodule GEOM
+
+exports
+  
+  operations
+    InitGeom : () ==> ();
+    ShowThrust : seq of seq of char ==> ();
+  
+  
+  uselib
+    "geom_lib.so"
+
+end GEOM
+~~~
+{% endraw %}
+
+### aah.vdmsl
 
 {% raw %}
 ~~~
               
-module AUX 
+
+
+module AAH
+
+imports from AUX all,
+        from HCM all
 
 exports all
 
 definitions
 
-values
-
-  arbitrary_value = mk_token(1001);
-
-  axis_command_set : set of AxisCommand = {<Neg>,<Zero>,<Pos>};
-
-  tran_axis_set : set of TranAxis = {<X>,<Y>,<Z>};
-
-  rot_axis_set : set of RotAxis = {<Roll>,<Pitch>,<Yaw>};
-
-  null_tran_command : TranCommand = {a |-> <Zero> | a in set tran_axis_set};
-
-  null_rot_command : RotCommand = {a |-> <Zero> | a in set rot_axis_set};
-
-  null_six_dof : SixDofCommand 
-               = mk_SixDofCommand(null_tran_command,null_rot_command)
-
+state AAH of 
+      active_axes : set of AUX`RotAxis
+      ignore_hcm  : set of AUX`RotAxis
+      toggle      : EngageState
+      timeout     : nat
+init s ==
+  s = mk_AAH({},{},<AAH_off>,0)
+end      
+         
 types
- 
-  AxisCommand = <Neg> | <Zero> | <Pos>;
 
-  TranAxis = <X> | <Y> | <Z>;
+  EngageState = <AAH_off> | <AAH_started> | <AAH_on> | <pressed_once> |
+                <AAH_closing> | <pressed_twice>;
 
-  RotAxis = <Roll> | <Pitch> | <Yaw>;
+values
+  
+  click_timeout: nat = 10 -- was 100, changed for test purposes
 
-  TranCommand = map TranAxis to AxisCommand
-  inv cmd == dom cmd = tran_axis_set;
+operations
 
-  RotCommand = map RotAxis to AxisCommand
-  inv cmd == dom cmd = rot_axis_set;
+  Transition: HCM`ControlButton * AUX`SixDofCommand * nat ==> ()
+  Transition(button_pos,hcm_cmd,clock) ==
+    let 
+      engage = ButtonTransition(toggle,button_pos,active_axes,clock,timeout),
+      starting = (toggle = <AAH_off>) and (engage = <AAH_started>)
+    in
+      (active_axes:= {a | a in set AUX`rot_axis_set & 
+                          starting or 
+                          (engage <> <AAH_off> and a in set active_axes and
+                           (hcm_cmd.rot(a) = <Zero> or a in set ignore_hcm))};
+       ignore_hcm:= {a | a in set AUX`rot_axis_set & 
+                         (starting and hcm_cmd.rot(a) <> <Zero>) or 
+                         (not starting and a in set ignore_hcm)};
+       timeout:= if toggle = <AAH_on> and engage = <pressed_once>
+                 then clock + click_timeout
+                 else timeout;
+       toggle:= engage);
 
-  SixDofCommand ::
-    tran : TranCommand
-    rot  : RotCommand
+  ActiveAxes: () ==> set of AUX`RotAxis
+  ActiveAxes() == return active_axes;
 
-end AUX
+  IgnoreHcm: () ==> set of AUX`RotAxis
+  IgnoreHcm() == return ignore_hcm;
+
+  Toggle: () ==> EngageState
+  Toggle() == return toggle
+
+functions
+
+  AllAxesOff: set of AUX`RotAxis +> bool
+  AllAxesOff(active) == active = {};
+
+  ButtonTransition: EngageState * HCM`ControlButton * set of AUX`RotAxis * 
+                    nat * nat +> EngageState
+  ButtonTransition(estate,button,active,clock,timeout) ==
+    cases mk_(estate,button) :
+      mk_(<AAH_off>,<Up>)         -> <AAH_off>,
+      mk_(<AAH_off>,<Down>)       -> <AAH_started>,
+      mk_(<AAH_started>,<Up>)     -> <AAH_on>,
+      mk_(<AAH_started>,<Down>)   -> <AAH_started>,
+      mk_(<AAH_on>,<Up>)          -> if AllAxesOff(active)
+                                     then <AAH_off>
+                                     else <AAH_on>,
+      mk_(<AAH_on>,<Down>)        -> <pressed_once>,
+      mk_(<pressed_once>,<Up>)    -> <AAH_closing>,
+      mk_(<pressed_once>,<Down>)  -> <pressed_once>,
+      mk_(<AAH_closing>,<Up>)     -> if AllAxesOff(active)
+                                     then <AAH_off>
+                                     elseif clock > timeout
+                                     then <AAH_on>
+                                     else <AAH_closing>,
+      mk_(<AAH_closing>,<Down>)   -> <pressed_twice>,
+      mk_(<pressed_twice>,<Up>)   -> <AAH_off>,
+      mk_(<pressed_twice>,<Down>) -> <pressed_twice>
+    end;
+
+end AAH
 
              
 ~~~
@@ -410,43 +432,169 @@ end TS
 ~~~
 {% endraw %}
 
-### gui.vdmsl
+### safer.vdmsl
 
 {% raw %}
 ~~~
               
-dlmodule GUI
 
-  exports
-    operations
-      GetCommand : () ==> seq of seq of char;
-      GUI_Init_Tcl : () ==>()
 
-  uselib
-    "my_gui.so"
+module SAFER
 
-end GUI
-              
+imports from AUX all,
+        from HCM all,
+        from TS all,
+        from AAH all
+
+
+exports all
+
+definitions
+
+state SAFER of
+  clock      : nat
+init s == 
+  s = mk_SAFER(0)
+end
+
+operations
+
+  ControlCycle: HCM`SwitchPositions * HCM`HandGripPosition * AUX`RotCommand ==> 
+                TS`ThrusterSet
+  ControlCycle(mk_HCM`SwitchPositions(mode,aah),raw_grip,aah_cmd) ==
+    let grip_cmd  = HCM`GripCommand(raw_grip,mode),
+        thrusters = TS`SelectedThrusters(grip_cmd,aah_cmd,AAH`ActiveAxes(),
+                                         AAH`IgnoreHcm())
+    in
+       (AAH`Transition(aah,grip_cmd,clock);
+        clock := clock + 1;
+        return thrusters)
+  post card RESULT <= 4 and 
+       ThrusterConsistency(RESULT)
+
+functions
+
+  ThrusterConsistency: set of TS`ThrusterName +> bool
+  ThrusterConsistency(thrusters) ==
+    not ({<B1>,<F1>} subset thrusters) and 
+    not ({<B2>,<F2>} subset thrusters) and 
+    not ({<B3>,<F3>} subset thrusters) and 
+    not ({<B4>,<F4>} subset thrusters) and 
+    not (thrusters inter {<L1R>,<L1F>} <> {} and 
+    thrusters inter {<R2R>,<R2F>} <> {}) and
+    not (thrusters inter {<L3R>,<L3F>} <> {} and 
+    thrusters inter {<R4R>,<R4F>} <> {}) and
+    not (thrusters inter {<D1R>,<D1F>} <> {} and 
+    thrusters inter {<U3R>,<U3F>} <> {}) and
+    not (thrusters inter {<D2R>,<D2F>} <> {} and 
+    thrusters inter {<U4R>,<U4F>} <> {}) 
+
+
+end SAFER
+
+             
 ~~~
 {% endraw %}
 
-### geom.vdmsl
+### auxilary.vdmsl
 
 {% raw %}
 ~~~
-dlmodule GEOM
+              
+module AUX 
 
-exports
-  
-  operations
-    InitGeom : () ==> ();
-    ShowThrust : seq of seq of char ==> ();
-  
-  
-  uselib
-    "geom_lib.so"
+exports all
 
-end GEOM
+definitions
+
+values
+
+  arbitrary_value = mk_token(1001);
+
+  axis_command_set : set of AxisCommand = {<Neg>,<Zero>,<Pos>};
+
+  tran_axis_set : set of TranAxis = {<X>,<Y>,<Z>};
+
+  rot_axis_set : set of RotAxis = {<Roll>,<Pitch>,<Yaw>};
+
+  null_tran_command : TranCommand = {a |-> <Zero> | a in set tran_axis_set};
+
+  null_rot_command : RotCommand = {a |-> <Zero> | a in set rot_axis_set};
+
+  null_six_dof : SixDofCommand 
+               = mk_SixDofCommand(null_tran_command,null_rot_command)
+
+types
+ 
+  AxisCommand = <Neg> | <Zero> | <Pos>;
+
+  TranAxis = <X> | <Y> | <Z>;
+
+  RotAxis = <Roll> | <Pitch> | <Yaw>;
+
+  TranCommand = map TranAxis to AxisCommand
+  inv cmd == dom cmd = tran_axis_set;
+
+  RotCommand = map RotAxis to AxisCommand
+  inv cmd == dom cmd = rot_axis_set;
+
+  SixDofCommand ::
+    tran : TranCommand
+    rot  : RotCommand
+
+end AUX
+
+             
+~~~
+{% endraw %}
+
+### hcm.vdmsl
+
+{% raw %}
+~~~
+               
+
+module HCM
+
+imports from AUX all
+
+exports all
+
+definitions
+
+types
+
+  SwitchPositions ::
+    mode: ControlModeSwitch
+    aah : ControlButton;
+
+  ControlModeSwitch = <Rot> | <Tran>;
+
+  ControlButton = <Up> | <Down>;
+  
+  HandGripPosition:: vert  : AUX`AxisCommand
+                     horiz : AUX`AxisCommand
+                     trans : AUX`AxisCommand
+                     twist : AUX`AxisCommand
+
+-- add inv to exclude impossible combinations???
+
+functions
+
+  GripCommand: HandGripPosition * ControlModeSwitch +> AUX`SixDofCommand
+  GripCommand(mk_HandGripPosition(vert,horiz,trans,twist),mode) ==
+    let tran = {<X>    |-> horiz,
+                <Y>    |-> if mode = <Tran> then trans else <Zero>,
+                <Z>    |-> if mode = <Tran> then vert else <Zero>},
+        rot  = {<Roll> |-> if mode = <Rot> then vert else <Zero>,
+                <Pitch>|-> twist,
+                <Yaw>  |->  if mode = <Rot> then trans else <Zero>}
+    in
+      mk_AUX`SixDofCommand(tran,rot)
+
+end HCM
+
+             
 ~~~
 {% endraw %}
 
@@ -626,154 +774,6 @@ operations
 end TEST
 
                                                                                                      
-~~~
-{% endraw %}
-
-### hcm.vdmsl
-
-{% raw %}
-~~~
-               
-
-module HCM
-
-imports from AUX all
-
-exports all
-
-definitions
-
-types
-
-  SwitchPositions ::
-    mode: ControlModeSwitch
-    aah : ControlButton;
-
-  ControlModeSwitch = <Rot> | <Tran>;
-
-  ControlButton = <Up> | <Down>;
-  
-  HandGripPosition:: vert  : AUX`AxisCommand
-                     horiz : AUX`AxisCommand
-                     trans : AUX`AxisCommand
-                     twist : AUX`AxisCommand
-
--- add inv to exclude impossible combinations???
-
-functions
-
-  GripCommand: HandGripPosition * ControlModeSwitch +> AUX`SixDofCommand
-  GripCommand(mk_HandGripPosition(vert,horiz,trans,twist),mode) ==
-    let tran = {<X>    |-> horiz,
-                <Y>    |-> if mode = <Tran> then trans else <Zero>,
-                <Z>    |-> if mode = <Tran> then vert else <Zero>},
-        rot  = {<Roll> |-> if mode = <Rot> then vert else <Zero>,
-                <Pitch>|-> twist,
-                <Yaw>  |->  if mode = <Rot> then trans else <Zero>}
-    in
-      mk_AUX`SixDofCommand(tran,rot)
-
-end HCM
-
-             
-~~~
-{% endraw %}
-
-### aah.vdmsl
-
-{% raw %}
-~~~
-              
-
-
-module AAH
-
-imports from AUX all,
-        from HCM all
-
-exports all
-
-definitions
-
-state AAH of 
-      active_axes : set of AUX`RotAxis
-      ignore_hcm  : set of AUX`RotAxis
-      toggle      : EngageState
-      timeout     : nat
-init s ==
-  s = mk_AAH({},{},<AAH_off>,0)
-end      
-         
-types
-
-  EngageState = <AAH_off> | <AAH_started> | <AAH_on> | <pressed_once> |
-                <AAH_closing> | <pressed_twice>;
-
-values
-  
-  click_timeout: nat = 10 -- was 100, changed for test purposes
-
-operations
-
-  Transition: HCM`ControlButton * AUX`SixDofCommand * nat ==> ()
-  Transition(button_pos,hcm_cmd,clock) ==
-    let 
-      engage = ButtonTransition(toggle,button_pos,active_axes,clock,timeout),
-      starting = (toggle = <AAH_off>) and (engage = <AAH_started>)
-    in
-      (active_axes:= {a | a in set AUX`rot_axis_set & 
-                          starting or 
-                          (engage <> <AAH_off> and a in set active_axes and
-                           (hcm_cmd.rot(a) = <Zero> or a in set ignore_hcm))};
-       ignore_hcm:= {a | a in set AUX`rot_axis_set & 
-                         (starting and hcm_cmd.rot(a) <> <Zero>) or 
-                         (not starting and a in set ignore_hcm)};
-       timeout:= if toggle = <AAH_on> and engage = <pressed_once>
-                 then clock + click_timeout
-                 else timeout;
-       toggle:= engage);
-
-  ActiveAxes: () ==> set of AUX`RotAxis
-  ActiveAxes() == return active_axes;
-
-  IgnoreHcm: () ==> set of AUX`RotAxis
-  IgnoreHcm() == return ignore_hcm;
-
-  Toggle: () ==> EngageState
-  Toggle() == return toggle
-
-functions
-
-  AllAxesOff: set of AUX`RotAxis +> bool
-  AllAxesOff(active) == active = {};
-
-  ButtonTransition: EngageState * HCM`ControlButton * set of AUX`RotAxis * 
-                    nat * nat +> EngageState
-  ButtonTransition(estate,button,active,clock,timeout) ==
-    cases mk_(estate,button) :
-      mk_(<AAH_off>,<Up>)         -> <AAH_off>,
-      mk_(<AAH_off>,<Down>)       -> <AAH_started>,
-      mk_(<AAH_started>,<Up>)     -> <AAH_on>,
-      mk_(<AAH_started>,<Down>)   -> <AAH_started>,
-      mk_(<AAH_on>,<Up>)          -> if AllAxesOff(active)
-                                     then <AAH_off>
-                                     else <AAH_on>,
-      mk_(<AAH_on>,<Down>)        -> <pressed_once>,
-      mk_(<pressed_once>,<Up>)    -> <AAH_closing>,
-      mk_(<pressed_once>,<Down>)  -> <pressed_once>,
-      mk_(<AAH_closing>,<Up>)     -> if AllAxesOff(active)
-                                     then <AAH_off>
-                                     elseif clock > timeout
-                                     then <AAH_on>
-                                     else <AAH_closing>,
-      mk_(<AAH_closing>,<Down>)   -> <pressed_twice>,
-      mk_(<pressed_twice>,<Up>)   -> <AAH_off>,
-      mk_(<pressed_twice>,<Down>) -> <pressed_twice>
-    end;
-
-end AAH
-
-             
 ~~~
 {% endraw %}
 

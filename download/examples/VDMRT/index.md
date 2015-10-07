@@ -14,7 +14,7 @@ coherent application in a distributed application.
 | | |
 |------|-------|
 |Author:|Marcel Verhoef|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](CarNaviRadioRT/CarNaviRadio.zip)  / [show specification](CarNaviRadioRT/index.html)|
 
 
@@ -28,7 +28,7 @@ coherent application in a distributed application.
 | | |
 |------|-------|
 |Author:|Marcel Verhoef|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](CarNaviRadioValConjRT/CarNaviRadioValConj.zip)  / [show specification](CarNaviRadioValConjRT/index.html)|
 
 
@@ -47,7 +47,7 @@ through the first author.
 | | |
 |------|-------|
 |Author:|Marcel Verhoef and Bert Bos and Ken Pierce|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](ChessWayRT/ChessWay.zip)  / [show specification](ChessWayRT/index.html)|
 
 
@@ -62,12 +62,12 @@ distributed real time version of this example.
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen and Marcel Verhoef|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](CMRT/CM.zip)  / [show specification](CMRT/index.html)|
 
 
 ### CyberRail
-﻿This VDM-RT model was produced as a part of an MSn thesis investigating and analyzing
+This VDM-RT model was produced as a part of an MSn thesis investigating and analyzing
 the possibility of obtaining early stage validation of potential candidate system 
 architectures, by means of formal modelling and validation. The goal was to analyze 
 recent research extensions of VDM++ for describing and analyzing such distributed 
@@ -83,7 +83,7 @@ on 2 different architectures.
 | | |
 |------|-------|
 |Author:|Jasper Nygaard and Rasmus Sørensen|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](CyberRailRT/CyberRail.zip)  / [show specification](CyberRailRT/index.html)|
 
 
@@ -100,7 +100,7 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 | | |
 |------|-------|
 |Author:|Sune Wolff|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](HomeAutomationRT/HomeAutomation.zip)  / [show specification](HomeAutomationRT/index.html)|
 
 
@@ -114,7 +114,7 @@ in a stable.
 | | |
 |------|-------|
 |Author:|Christian Thillemann and Bardur Joensen|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](iiossRT/Iioss.zip)  / [show specification](iiossRT/index.html)|
 
 
@@ -127,7 +127,7 @@ that thus this model is not in a state where it makes sense to execute it.
 | | |
 |------|-------|
 |Author:|Augusto Ribeiro|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](MSAWRT/MSAW.zip)  / [show specification](MSAWRT/index.html)|
 
 
@@ -142,7 +142,7 @@ multiple CPUs connected with BUSses.
 | | |
 |------|-------|
 |Author:|Marcel Verhoef|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](oldcarradioRT/Oldcarradio.zip)  / [show specification](oldcarradioRT/index.html)|
 
 
@@ -166,7 +166,7 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 | | |
 |------|-------|
 |Author:|Hugo Macedo|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](PacemakerRT/Pacemaker.zip)  / [show specification](PacemakerRT/index.html)|
 
 
@@ -179,7 +179,7 @@ a cave aiming at avioding different obstacles on its path.
 | | |
 |------|-------|
 |Author:|Lasse Lorentzen and Kenneth Lausdahl|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](RobotRT/Robot.zip)  / [show specification](RobotRT/index.html)|
 
 
@@ -190,12 +190,12 @@ a cave aiming at avioding different obstacles on its path.
 | | |
 |------|-------|
 |Author:|Claus Nielsen|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](VDMRT/VDM.zip)  / [show specification](VDMRT/index.html)|
 
 
 ### VeMo
-﻿This example was used in the MSc thesis for Claus Ballegaard
+This example was used in the MSc thesis for Claus Ballegaard
 Nielsen in order to illustrate how dynamic deployment with advantage 
 could be added to VDM-RT.
 
@@ -207,6 +207,6 @@ Master's thesis, Aarhus University (December 2010).
 | | |
 |------|-------|
 |Author:|Claus Ballegaard Nielsen|
-|Version:|VDM_RT - classic|
+|Version:|VDM_RT - vdm10|
 |Details...|[model (zip)](VeMoRT/VeMo.zip)  / [show specification](VeMoRT/index.html)|
 

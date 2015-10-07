@@ -28,59 +28,104 @@ www.stadtools.com.
 |Entry point     :| relations`IsTransitive(A7)|
 
 
-### digraph.vdmsl
+### flowgraphtypes.vdmsl
 
 {% raw %}
 ~~~
 ------------------------------------------------------------------
--- Module   digraph. Used in SAMS (Software Analysis and Modeling System)
+-- Module  flowgraph_types
 -- Author:  Janusz Laski
--- Purpose: Define functions for manipulating graphs 
--- Version 2.0.0  (January 10,2010)
-
--- This model is only an illustration of the problems germane to automatic 
--- software anlaysis. To get a better understanding of the scope of the 
--- analysis consult the text "Software Verification and Analysis, An 
--- Integrated, Hands-on -- Approach," by Janusz Laski w/William Stanley, 
--- Springer 2009. A brief online introduction is offered on the Website
--- www.stadtools.com.
+-- Purpose: Exports types needed in flowgraph analysis
+-- Version 2.0  (January 10, 2010)
 -----------------------------------------------------------------
+module flowgraph_types
 
+imports from relations
+  all
 
-
-module digraph 
-
-imports
-
-  from flowgraph_types all,
-  from relations all
-
-exports all
+exports
+  all
 
 definitions
 
-types 
+types
 
-Node =  flowgraph_types`Node;
+Node = nat1;
 
-Flowgraph = flowgraph_types`FlowGraph;
+Nodes = set of Node; -- any subset of Node
+GraphNodes = set of Node
+inv N == 
+  card N >0 and 
+  N = {1,..., card N}; -- sets of consecutive natural   numbers
 
-functions
+Arc = Node * Node; 
+BinRel = relations`BinRel; --  family of Arc-sets
 
-succ: Flowgraph * Node  -> set of Node
-succ(G,n) == 
-  {k| k in set G.N & mk_(n,k) in set G.A};
+Variable = token;
+Vars = set of Variable;
+Varmap = seq of Vars;
 
-pred: Flowgraph * Node  -> set of Node
-pred(G,n) == 
-  {k| k in set G.N & mk_(k,n) in set G.A};
+Path = seq of Node;
+     Paths = set of Path;
 
-existspath: Flowgraph * Node * Node -> bool
-existspath(MFG,n1,n2) == 
-  mk_(n1,n2) in set relations`Warshall(MFG.A);
+FlowGraph::
+  N: Nodes
+  A: BinRel
+  S: Node
+  E: Node
+  inv G == (relations`field(G.A) subset G.N)
+            -- arcs in A come from N * N
+    and (G.S in set G.N) and (G.E in set G.N); 
+            -- Start and Exit nodes come from N
+
+ExtendedFlowGraph :: 
+     G: FlowGraph
+     U: Varmap -- U(i) = list of variables used in node i
+     D: Varmap -- D(i) = list of variables defined in i
+     inv mk_ExtendedFlowGraph(G,U,D) == 
+          (len U = card G.N) and (len D = card G.N);
 
 
-end digraph
+values
+
+     N1: Nodes={1,...,4};
+     N2: Nodes={1,...,10};
+     N3: Nodes={1};  
+
+-- special  relations
+     A0: BinRel = {}; -- empty relation
+     A1: BinRel={mk_(1,2)}; -- singleton relation
+     A2: BinRel={mk_(1,2), mk_(2,3), mk_(3,4)}; -- linear relation 
+     A3: BinRel=A1 union {mk_(4,5), mk_(4, 1), mk_(5, 6), mk_(6, 7), 
+                          mk_(7, 8), mk_(8, 9), mk_(9, 10)}; 
+                          -- binary tree rooted at 4
+     A4: BinRel={mk_(1,2), mk_(2,3), mk_(2,4), mk_(3,5), mk_(4,5), 
+                 mk_(5,6)}; -- acyclic relation
+     A5: BinRel={mk_(1,2), mk_(2,3), mk_(2,4), mk_(3,5), mk_(4,6), 
+                 mk_(6,5), mk_(5,7)}; -- acyclic relation
+     A6: BinRel={mk_(1,1), mk_(2,2), mk_(3,3), mk_(4,4), mk_(5,5)}; 
+                 --sling relation
+     A7: BinRel={mk_(1,2), mk_(2,3), mk_(2,4), mk_(3,5), mk_(4,6), 
+                 mk_(6,5), mk_(5,7), mk_(5,2)}; -- cyclic relation
+     A8: BinRel=A7 union {mk_(6,1)}; -- nested cycle
+-- Flowgraphs
+  
+     G1: FlowGraph= mk_FlowGraph(N1, A1,1,4); -- isolated nodes
+     G2: FlowGraph= mk_FlowGraph(N1, A2,1,4); -- linear graph
+     G3: FlowGraph= mk_FlowGraph(N2, A3,1,6);
+--     G4: FlowGraph= mk_FlowGraph(N3, A1,1,6); -- invalid 
+     G5: FlowGraph= mk_FlowGraph(N2, A5,1,7);
+     G6: FlowGraph= mk_FlowGraph(N2, A6,1,5);  
+
+ -- STATE DEFINITION
+
+state ST of -- two isolated nodes, no arcs
+  G: FlowGraph
+init x == 
+  x = mk_ST(mk_FlowGraph({1,2},{},1,2)) 
+end
+
+end flowgraph_types
 ~~~
 {% endraw %}
 
@@ -316,104 +361,59 @@ end relations
 ~~~
 {% endraw %}
 
-### flowgraphtypes.vdmsl
+### digraph.vdmsl
 
 {% raw %}
 ~~~
 ------------------------------------------------------------------
--- Module  flowgraph_types
+-- Module   digraph. Used in SAMS (Software Analysis and Modeling System)
 -- Author:  Janusz Laski
--- Purpose: Exports types needed in flowgraph analysis
--- Version 2.0  (January 10, 2010)
+-- Purpose: Define functions for manipulating graphs 
+-- Version 2.0.0  (January 10,2010)
+
+-- This model is only an illustration of the problems germane to automatic 
+-- software anlaysis. To get a better understanding of the scope of the 
+-- analysis consult the text "Software Verification and Analysis, An 
+-- Integrated, Hands-on -- Approach," by Janusz Laski w/William Stanley, 
+-- Springer 2009. A brief online introduction is offered on the Website
+-- www.stadtools.com.
 -----------------------------------------------------------------
-module flowgraph_types
 
-imports from relations
-  all
 
-exports
-  all
+
+module digraph 
+
+imports
+
+  from flowgraph_types all,
+  from relations all
+
+exports all
 
 definitions
 
-types
+types 
 
-Node = nat1;
+Node =  flowgraph_types`Node;
 
-Nodes = set of Node; -- any subset of Node
-GraphNodes = set of Node
-inv N == 
-  card N >0 and 
-  N = {1,..., card N}; -- sets of consecutive natural   numbers
+Flowgraph = flowgraph_types`FlowGraph;
 
-Arc = Node * Node; 
-BinRel = relations`BinRel; --  family of Arc-sets
+functions
 
-Variable = token;
-Vars = set of Variable;
-Varmap = seq of Vars;
+succ: Flowgraph * Node  -> set of Node
+succ(G,n) == 
+  {k| k in set G.N & mk_(n,k) in set G.A};
 
-Path = seq of Node;
-     Paths = set of Path;
+pred: Flowgraph * Node  -> set of Node
+pred(G,n) == 
+  {k| k in set G.N & mk_(k,n) in set G.A};
 
-FlowGraph::
-  N: Nodes
-  A: BinRel
-  S: Node
-  E: Node
-  inv G == (relations`field(G.A) subset G.N)
-            -- arcs in A come from N * N
-    and (G.S in set G.N) and (G.E in set G.N); 
-            -- Start and Exit nodes come from N
-
-ExtendedFlowGraph :: 
-     G: FlowGraph
-     U: Varmap -- U(i) = list of variables used in node i
-     D: Varmap -- D(i) = list of variables defined in i
-     inv mk_ExtendedFlowGraph(G,U,D) == 
-          (len U = card G.N) and (len D = card G.N);
+existspath: Flowgraph * Node * Node -> bool
+existspath(MFG,n1,n2) == 
+  mk_(n1,n2) in set relations`Warshall(MFG.A);
 
 
-values
-
-     N1: Nodes={1,...,4};
-     N2: Nodes={1,...,10};
-     N3: Nodes={1};  
-
--- special  relations
-     A0: BinRel = {}; -- empty relation
-     A1: BinRel={mk_(1,2)}; -- singleton relation
-     A2: BinRel={mk_(1,2), mk_(2,3), mk_(3,4)}; -- linear relation 
-     A3: BinRel=A1 union {mk_(4,5), mk_(4, 1), mk_(5, 6), mk_(6, 7), 
-                          mk_(7, 8), mk_(8, 9), mk_(9, 10)}; 
-                          -- binary tree rooted at 4
-     A4: BinRel={mk_(1,2), mk_(2,3), mk_(2,4), mk_(3,5), mk_(4,5), 
-                 mk_(5,6)}; -- acyclic relation
-     A5: BinRel={mk_(1,2), mk_(2,3), mk_(2,4), mk_(3,5), mk_(4,6), 
-                 mk_(6,5), mk_(5,7)}; -- acyclic relation
-     A6: BinRel={mk_(1,1), mk_(2,2), mk_(3,3), mk_(4,4), mk_(5,5)}; 
-                 --sling relation
-     A7: BinRel={mk_(1,2), mk_(2,3), mk_(2,4), mk_(3,5), mk_(4,6), 
-                 mk_(6,5), mk_(5,7), mk_(5,2)}; -- cyclic relation
-     A8: BinRel=A7 union {mk_(6,1)}; -- nested cycle
--- Flowgraphs
-  
-     G1: FlowGraph= mk_FlowGraph(N1, A1,1,4); -- isolated nodes
-     G2: FlowGraph= mk_FlowGraph(N1, A2,1,4); -- linear graph
-     G3: FlowGraph= mk_FlowGraph(N2, A3,1,6);
---     G4: FlowGraph= mk_FlowGraph(N3, A1,1,6); -- invalid 
-     G5: FlowGraph= mk_FlowGraph(N2, A5,1,7);
-     G6: FlowGraph= mk_FlowGraph(N2, A6,1,5);  
-
- -- STATE DEFINITION
-
-state ST of -- two isolated nodes, no arcs
-  G: FlowGraph
-init x == 
-  x = mk_ST(mk_FlowGraph({1,2},{},1,2)) 
-end
-
-end flowgraph_types
+end digraph
 ~~~
 {% endraw %}
 

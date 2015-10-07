@@ -22,7 +22,7 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### expert.vdmpp
@@ -45,43 +45,11 @@ public Expert: set of Qualification ==> Expert
 Expert(qs) ==
   quali := qs;
 
-public GetQuali: () ==> set of Qualification
+pure public GetQuali: () ==> set of Qualification
 GetQuali() ==
   return quali;
   
 end Expert
-~~~
-{% endraw %}
-
-### alarm.vdmpp
-
-{% raw %}
-~~~
-class Alarm
-
-types
-
-public String = seq of char;
-
-instance variables 
-
-descr    : String;
-reqQuali : Expert`Qualification;
-
-operations
-
-public Alarm: Expert`Qualification * String ==> Alarm
-Alarm(quali,str) ==
-( descr := str;
-  reqQuali := quali;
-  return 7
-);
-
-public GetReqQuali: () ==> Expert`Qualification
-GetReqQuali() ==
-  return reqQuali;
-  
-end Alarm
 ~~~
 {% endraw %}
 
@@ -183,6 +151,38 @@ Plant(als,sch) ==
 pre PlantInv(als,sch);
 
 end Plant
+~~~
+{% endraw %}
+
+### alarm.vdmpp
+
+{% raw %}
+~~~
+class Alarm
+
+types
+
+public String = seq of char;
+
+instance variables 
+
+descr    : String;
+reqQuali : Expert`Qualification;
+
+operations
+
+public Alarm: Expert`Qualification * String ==> Alarm
+Alarm(quali,str) ==
+( descr := str;
+  reqQuali := quali;
+  return 7
+);
+
+pure public GetReqQuali: () ==> Expert`Qualification
+GetReqQuali() ==
+  return reqQuali;
+  
+end Alarm
 ~~~
 {% endraw %}
 
