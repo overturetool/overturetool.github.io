@@ -17,7 +17,7 @@ title: Downloads
 
 <small>
 **Hint:**
-You will need a Java runtime environment (JRE) to use Overture (Java SE 7 or greater is recommended). All downloads are provided under the terms and conditions of the Eclipse Foundation Software User Agreement unless otherwise specified.
+You will need a Java runtime environment (JRE) to use Overture (Java SE 7 or greater is required). All downloads are provided under the terms and conditions of the Eclipse Foundation Software User Agreement unless otherwise specified.
 </small>
 
 ### Release History
