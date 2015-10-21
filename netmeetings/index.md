@@ -5,7 +5,7 @@ title: Overture Core NetMeetings
 
 # {{ page.title }}
 
-The Overture core group net meetings.
+The Overture core group net meetings. 
 
 ## Upcoming meetings:
 
