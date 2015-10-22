@@ -36,9 +36,11 @@ some description
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
+#### VDMJ
+A few bug fixes to VDMJ, not all of which are in Overture yet:
+* 2015-10-19 Remove "unused" warning for traces in SL modules
+* 2015-10-06 Recognise \subsubsection in LaTeX files
+* 2015-10-01 Check for non-static history operations in static sync clauses
 
 
 ##  Status of the Overture Components
