@@ -45,7 +45,7 @@ some description
 
 #### Java/JML generator
 
-The coverage of the VDM-SL to Java/JML generator has been extended to cover checking of all the types supported by the Java code generator. This means that it covers checking of basic types, record types, union types, sequences (seq and seq1), sets, maps (map and inmap) and named type definitions constrained by invariants.
+The coverage of the VDM-SL to Java/JML generator has been extended to cover checking of all the types supported by the Java code generator. This means that it covers checking of basic types, record types, union types, sequences (seq and seq1), sets, maps (map and inmap), optional and named type definitions constrained by invariants.
 
 The generated JML annotations use a small runtime with utility functionality to check if a value respects its type(s). When the code generator plugin is invoked it generates an Eclipse project containing the generated Java/JML and the VDM-to-JML runtime.
 
