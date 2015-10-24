@@ -36,7 +36,7 @@ title: Overture Publications
     on modelling and simulation) (rejected unfortunately)
 -   Principles for Reuse in Formal Language Tools, (Luis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, submitted for SAC)
 -   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, submitted for DATE 2016, October 2015
-
+-   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, submitted for ICCPS at CPS Week in April 2016 in Vienna 
 
 ## In press
 
