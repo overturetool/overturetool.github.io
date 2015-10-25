@@ -16,7 +16,7 @@ date: 25 October 2015, 1300 CEST
 | Date | 2015-10-25 13:00 CET |
 | Participants | PGL, TO, NB, PJ, VB, SS, JF, HS, MV, LF.  Minutes by PJ. |
 
-Two new attendees: Victor Bandur (VB) (new member of the Aarhus University software engineering group) and Leo Freitas (LF) from the University of Newcastle (UNEW).
+Welcome to the two new attendees: Victor Bandur (VB) who is a new member of the Aarhus University software engineering group and Leo Freitas (LF) from the University of Newcastle (UNEW).
 
 ## Review Status of the Action List
 
@@ -35,7 +35,7 @@ The next LB meeting is the last meeting of 2015 and every member will step down 
 ## Status of VDMTools Development
 
 VDMTools is stable.
-But, Dr. Kei Sato is trying to append pure operation.
+Dr. Kei Sato is trying to add the pure operations feature.
 
 ##  Status of the Overture Components
 
@@ -75,4 +75,7 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 ##  Any Other Business
 
 In the INTO-CPS project there is an intent of making an open source licensing policy inspired by the one from OpenModelica (see https://openmodelica.org/home/consortium). This allows companies who are members at the right level and who are actively supporting the further development and maintenance have an opportunity for making use of the open source code inside their own commercial extensions. Peter Gorm Larsen feels that it would be beneficial for the future commercial use of Overture to change its license to also be a part of this. It would be convenient to have a first initial discussion about that.
+
+Hansen Salim has started on his PhD with us at UNEW. Hopefully he will be contributing to the AADL+ASN.1+VDM agenda. Right now he is working on learning some AADL and ASN.1 right now.
+ 
 <div id="edit_page_div"></div>
