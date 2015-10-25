@@ -13,7 +13,7 @@ date: 25 October 2015, 1300 CEST
 
 |||
 |---|---|
-| Date | {{ page.date }} |
+| Date | 2015-10-25 13:00 CET |
 | Participants | PGL, TO, NB, PJ, VB, SS, JF, HS, MV, LF.  Minutes by PJ. |
 
 Two new attendees: Victor Bandur (VB) (new member of the Aarhus University software engineering group) and Leo Freitas (LF) from the University of Newcastle (UNEW).
@@ -55,9 +55,7 @@ This work is available on the pvj/main branch and it will be included in the nex
 
 ##  Release Planning
 
-#### topic 1
-
-some description
+Nothing to report.
 
 
 ##  Community Development
@@ -70,19 +68,6 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 ##  Publications Status and Plans
 
 Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
 
 
 ##  Any Other Business
