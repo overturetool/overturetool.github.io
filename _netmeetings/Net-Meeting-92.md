@@ -36,9 +36,8 @@ some description
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
+VDMTools is stable.
+But, Dr. Kei Sato is trying to append pure operation.
 
 ##  Status of the Overture Components
 
