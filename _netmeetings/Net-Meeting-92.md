@@ -21,8 +21,8 @@ date: 25 October 2015, 1300 CEST
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 80-1: Revise Strategic Goals for 2020. No progress.
-* 88-1: Consider input for video on VDM. No progress.
+* 80-1: Revise Strategic Goals for 2020. TBD.
+* 88-1: Consider input for video on VDM. TBD.
 
 ## Overture Language Board Status
 
