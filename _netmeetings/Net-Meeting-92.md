@@ -16,6 +16,7 @@ date: 25 October 2015, 1300 CEST
 | Date | {{ page.date }} |
 | Participants | PGL, TO, NB, PJ, VB, SS, JF, HS, MV, LF.  Minutes by PJ. |
 
+Two new attendees: Victor Bandur (VB) (new member of the Aarhus University software engineering group) and Leo Freitas (LF) from the University of Newcastle (UNEW).
 
 ## Review Status of the Action List
 
@@ -26,7 +27,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-The pure operation RM (RM 27) is now completed. Other than that there has been some interest in the UTP model of the VDM semantics. The next LB NM is the last meeting of 2015 and every member will step down and there will be a new election round.
+The pure operation RM (RM 27) is now completed. Other than that there has been some interest in the UTP model of the VDM semantics. The next LB NM is the last meeting of 2015 and every member will step down and there will be a new election round. This will all be announced via the core mailing list.
 
 
 ## Status of VDMTools Development
@@ -64,9 +65,6 @@ some description
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
-
-#### topic 1
-...
 
 
 ##  Publications Status and Plans
