@@ -14,21 +14,19 @@ date: 25 October 2015, 1300 CEST
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, TO, NB, PJ, VB, SS, JF, HS, MV, LF.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 80-1: Revise Strategic Goals for 2020. TBD.
-* 88-1: Consider input for video on VDM. TBD.
+* 80-1: Revise Strategic Goals for 2020. No progress.
+* 88-1: Consider input for video on VDM. No progress.
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
+The pure operation RM (RM 27) is now completed. Other than that there has been some interest in the UTP model of the VDM semantics. The next LB NM is the last meeting of 2015 and every member will step down and there will be a new election round.
 
 
 ## Status of VDMTools Development
