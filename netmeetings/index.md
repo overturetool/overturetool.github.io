@@ -9,7 +9,6 @@ The Overture core group net meetings.
 
 ## Upcoming meetings:
 
-* Net Meeting 92: 25th October 2015, 1300 CET
 * Net Meeting 93: 6th December 2015, 1300 CET
 
 And we have a [meeting template](template.html)
