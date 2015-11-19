@@ -20,7 +20,7 @@ development process (TR-006).
 ## Additional materials
 
 Note that there is a large collection of
-[examples]({{site.url}}/examples/) on-line available, and it is worth
+[examples]({{site.url}}/download/examples/) on-line available, and it is worth
 checking them out!  Additional publications can be found on our
 development wiki
 [Publication page]({{ site.url }}/publications/).
