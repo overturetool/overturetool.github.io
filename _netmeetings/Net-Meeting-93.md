@@ -84,17 +84,14 @@ contracts for C++.
 
 ##  Publications Status and Plans
 
-* Minor updates to list by PGL.
+* Minor updates to [Planned Publications](http://overturetool.org/publications/PlannedPublications.html) by PGL.
 * MV got a paper accepted to ERTS. Will add to list. 
 * New venues need to be found for TO's 2 papers
 
-See [[Planned Publications]].
-
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
 
 We expect to go for a new Overture workshop in connection with FM’16.
-
-<div id="edit_page_div"></div>
 
