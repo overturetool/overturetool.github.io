@@ -36,9 +36,9 @@ some description
 
 ## Status of VDMTools Development
 
-#### topic 1
+#### VDMJ
 
-some description
+2015-11-24 Fix a problem with set pattern matching, raised by Tomo.
 
 
 ##  Status of the Overture Components
