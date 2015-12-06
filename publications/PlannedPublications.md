@@ -35,7 +35,6 @@ title: Overture Publications
 -   Using Executable VDM++ Models in an Industrial Application (Sune
     Wolff and Peter Gorm Larsen, submitted to defence journal focussing
     on modelling and simulation) (rejected unfortunately)
--   Principles for Reuse in Formal Language Tools, (Luis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, submitted for SAC)
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, submitted for ICCPS at CPS Week in April 2016 in Vienna 
 
 ## In press
@@ -52,3 +51,4 @@ title: Overture Publications
     (Luis Diogo Couto, Peter W. V. Jorgensen, Joey W. Coleman, Kenneth
     Lausdahl for WICSA 2015)
 -   The Evolution of VDM Tools from the 1990s to 2015 and the Influence of CAMILA, (Peter Gorm Larsen and John Fitzgerald, published by the Journal of Logical and Algebraic Methods in Programming in connection with the Festscrift for José Nuno Oliveira) See http://www.sciencedirect.com/science/article/pii/S2352220815000954.
+-   Principles for Reuse in Formal Language Tools, (Luis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, accepted for publication at SAC)
