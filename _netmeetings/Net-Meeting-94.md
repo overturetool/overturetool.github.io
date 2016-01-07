@@ -43,7 +43,7 @@ some description
 
 #### VDMJ
 
-Some updates committed to the VDMJ (command line) GitHub repo to enable combinatorial test expansion to be done iteratively, which enables far greater numbers of tests to be expanded and executed.
+Some updates committed to the VDMJ (command line) GitHub repo to enable combinatorial test expansion to be done iteratively, which enables far greater numbers of tests to be expanded and executed. Bug #490 fixed.
 
 
 ##  Release Planning
