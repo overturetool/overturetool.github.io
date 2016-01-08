@@ -45,6 +45,9 @@ some description
 
 Some updates committed to the VDMJ (command line) GitHub repo to enable combinatorial test expansion to be done iteratively, which enables far greater numbers of tests to be expanded and executed. Bug #490 fixed.
 
+#### Overture code generation
+
+More work has been done on code generating VDM-SL traces. By generating, or annotating, the generated Java code with JML annotations it is now possible to give verdicts to the code generated trace tests. The new version of the JML generator is work in progress and it still needs more testing and development work. This new feature is useful for testing the generated code more exhaustively, but it also is useful for executing trace tests much faster.
 
 ##  Release Planning
 
