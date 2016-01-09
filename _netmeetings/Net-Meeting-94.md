@@ -47,7 +47,9 @@ Some updates committed to the VDMJ (command line) GitHub repo to enable combinat
 
 #### Overture code generation
 
-More work has been done on code generating VDM-SL traces. By generating, or annotating, the generated Java code with JML annotations it is now possible to give verdicts to the code generated trace tests. The new version of the JML generator is work in progress and it still needs more testing and development work. This new feature is useful for testing the generated code more exhaustively, but it also is useful for executing trace tests much faster.
+More work has been done on code generating VDM-SL traces. By generating, or annotating, the generated Java code with JML annotations it is now possible to give verdicts to the code generated trace tests. This new feature is useful for testing the generated code more exhaustively, but it also is useful for executing trace tests much faster. Unfortunaly I don't have any good permance metrics for the code generated traces yet, but I hope to have some soon.
+
+For the past few days I've been working on updating the expansion of code generated traces to also take trace variables into account. This should make it possible to derive trace sterms similar to those used internally by the VDM trace interpreter. These stems can be used for filtering large collections of tests statistically based on the "shapes" of the tests. This part does, however, need more development work and testing.
 
 ##  Release Planning
 
