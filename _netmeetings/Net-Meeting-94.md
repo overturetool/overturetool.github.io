@@ -59,6 +59,11 @@ For the past few days I've been working on updating the code generated traces to
 
 A new project has been started on code generating VDM-RT to C. See https://github.com/overturetool/vdm2c  
 
+#### VDMPad
+
+VDMPad is now a part of ViennaTalk, distributed at https://github.com/tomooda/ViennaTalk-doc/releases.
+Documentations are https://github.com/tomooda/ViennaTalk-doc/blob/master/README.md
+
 ##  Release Planning
 
 No release plans yet.
@@ -71,9 +76,6 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 We're up to 739 for 2.3.0, which makes it the most downloaded version of Overture!
 
-#### topic 1
-...
-
 
 ##  The next Overture Workshop
 
@@ -81,22 +83,11 @@ A draft application for this is attached to the email announcing this Overture C
 
 ##  Publications Status and Plans
 
-Also see [[Planned Publications]].
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+See see http://overturetool.org/publications/PlannedPublications.html 
 
 
 ##  Any Other Business
+
+None.
 
 <div id="edit_page_div"></div>
