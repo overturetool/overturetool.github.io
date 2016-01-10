@@ -35,7 +35,7 @@ It was unanimously agreed to extend the number of voting members to nine. The fi
 ## Status of VDMTools Development
 
 
-SCSK and Sony are still negotiating about this.
+SCSK and Sony are still negotiating this.
 
 
 ##  Status of the Overture Components
