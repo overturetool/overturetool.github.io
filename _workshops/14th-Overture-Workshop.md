@@ -42,6 +42,7 @@ The organising committee can be reached via the following e-mail address:  <mail
 ### Program Committee
 
 * K Araki, Kyushu University, Japan
+* V Bandur, Aarhus University, Denmark
 * N Battle, Fujitsu, UK
 * J S Fitzgerald, Newcastle University, UK
 * F Ishikawa, NII, Japan
