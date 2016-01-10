@@ -22,25 +22,20 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 * 80-1 is carried forward.
 * 88-1 is carried forward.
 * 93-1 can be closed.
-* 93-2 should be carried forward. I forgot about that
-* 93-3 can be closed
+* 93-2 is carried forward.
+* 93-3 can be closed.
 
 
 
 ## Overture Language Board Status
 
-#### topic 1
-
-It was unanimously agreed to extend the number of voting members to nine. The first LB meeting this year will be on Jan 31.
+It was unanimously agreed to extend the number of voting members to nine. The first LB meeting this year will be on Jan 31, 11:00 CEST.
 
 
 ## Status of VDMTools Development
 
-#### topic 1
 
-some description
-
-SCSK and Sony are still negotiating about the VDMTools rights.
+SCSK and Sony are still negotiating about this.
 
 
 ##  Status of the Overture Components
@@ -74,7 +69,7 @@ No release plans yet.
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-We're up to 739 for 2.3.0, which makes it the most downloaded version of Overture!
+We're up to 739 for 2.3.0, which makes this the most downloaded version of Overture!
 
 
 ##  The next Overture Workshop
