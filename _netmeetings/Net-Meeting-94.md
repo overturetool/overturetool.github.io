@@ -70,12 +70,14 @@ No release plans yet.
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-We're up to 739 for 2.3.0, which makes this the most downloaded version of Overture!
+We're up to 739 downloads, which makes Overture 2.3.0 the most downloaded version of Overture!
 
 
 ##  The next Overture Workshop
 
 A draft application for this is attached to the email announcing this Overture Core NM
+
+The workshop page is available at http://overturetool.org/workshops/14th-Overture-Workshop.html 
 
 ##  Publications Status and Plans
 
