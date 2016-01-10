@@ -26,7 +26,7 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 
 ||
 |----|
-| The current stable version is <strong id="current-release-version">2.0.8</strong> <i id="current-release-data"> (May 2014) </i> which you can [download here]({{ site.url }}/download/).|
+| The current stable version is <strong id="current-release-version">2.3.0</strong> <i id="current-release-data"> (May 2014) </i> which you can [download here]({{ site.url }}/download/).|
 
 <div id="current-release"></div>
 
