@@ -19,17 +19,19 @@ date: 10 January 2016, 1300 CET
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 80-1 is carried forward.
+* 88-1 is carried forward.
+* 93-1 can be closed.
+* 93-2 should be carried forward. I forgot about that
+* 93-3 can be closed
+
 
 
 ## Overture Language Board Status
 
 #### topic 1
 
-some description
+It was unanimously agreed to extend the number of voting members to nine. The first LB meeting this year will be on Jan 31.
 
 
 ## Status of VDMTools Development
@@ -37,6 +39,8 @@ some description
 #### topic 1
 
 some description
+
+SCSK and Sony are still negotiating about the VDMTools rights.
 
 
 ##  Status of the Overture Components
@@ -51,18 +55,21 @@ Recently I (PJ) have been doing more work on code generating VDM-SL traces. By g
 
 For the past few days I've been working on updating the code generated traces to also include detailed information about trace variables. This should make it possible to derive test stems similar to those used internally by the VDM trace interpreter. These stems can be used for filtering large collections of tests statistically based on the "shapes" of the tests. This part does, however, need more development work and testing.
 
+#### RT to C to generation
+
+A new project has been started on code generating VDM-RT to C. See https://github.com/overturetool/vdm2c  
+
 ##  Release Planning
 
-#### topic 1
-
-some description
-
+No release plans yet.
 
 ##  Community Development
 
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
+
+We're up to 739 for 2.3.0, which makes it the most downloaded version of Overture!
 
 #### topic 1
 ...
