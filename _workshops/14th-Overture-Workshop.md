@@ -49,6 +49,7 @@ The organising committee can be reached via the following e-mail address:  <mail
 * T Oda,  Software Research Associates, Inc., Japan
 * JN Oliveira, Minho University, Portugal
 * M Verhoef, European Space Agency, Netherlands
+* S Wolff, Terma, Denmark
 
 
 ### Participants
