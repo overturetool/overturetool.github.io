@@ -32,7 +32,7 @@ The proceedings of the workshop is available as a technical
 report[1](http://www.cs.ncl.ac.uk/publications/trs/papers/1224.pdf) from
 Newcastle University.
 
-![|700px](8/700px-8thgroup.jpg "|700px")
+![|700px](8/8thgroup.jpg "|700px")
 
 Sponsors
 --------
@@ -156,21 +156,29 @@ Organizers
 Pictures
 --------
 
-Image:Pic21.JPG|The Ouverture Workshop will be held in Wilkes Room 2
-Image:Pic25.JPG|Nico Plat opens the workshop Image:Pic1.JPG|Participants
-in the morning Image:Pic2.JPG|Nick Battle with the first talk of the day
-Image:Pic3.JPG|Nick again, enthusiastic about the subject
-Image:Pic4.JPG|Peter Gorm Larsen explaining invariants
-Image:Pic22.JPG|Football and formal methods mixed up?
-Image:Pic5.JPG|Erik Ernst Image:Pic6.JPG|The group listening to Erik
-Image:Pic7.JPG|Erik explaining diamond inheritance Image:Pic8.JPG|The
-group again Image:Pic9.JPG|Erik listening and thinking
-Image:Pic24.JPG|Peter Gorm Larsen proudly presents the Japanese
-translation of VDFOS Image:Pic10.JPG|Matthew Lovert
-Image:Pic11.JPG|Claus Nielsen Image:Pic12.JPG|Kenneth Lausdahl
-Image:Pic13.JPG|Shin Sahara taking a picture Image:Pic14.JPG|Marcel
-Verhoef Image:Pic15.JPG|Subgroup \#1 disccussing RT and co-sim issues
-Image:Pic16.JPG|Subgroup \#2 disccussing RT and co-sim issues
-Image:Pic17.JPG|Subgroup \#3 disccussing RT and co-sim issues
-Image:Pic18.JPG|Ken Pierce Image:Pic19.JPG|Sune Wolff and Peter Gorm
-Larsen Image:Pic20.JPG|Marcel Verhoef
+![The Ouverture Workshop will be held in Wilkes Room 2](8/Pic21.JPG)
+![ Nico Plat opens the workshop](8/Pic25.JPG )
+![ Participants in the morning ](8/Pic1.JPG)
+![Nick Battle with the first talk of the day ](8/Pic2.JPG)
+![Nick again, enthusiastic about the subject ](8/Pic3.JPG )
+![Peter Gorm Larsen explaining invariants ](8/Pic4.JPG )
+![Football and formal methods mixed up? ](8/Pic22.JPG )
+![Erik Ernst  ](8/Pic5.JPG )
+![The group listening to Erik ](8/Pic6.JPG )
+![ Erik explaining diamond inheritance ](8/Pic7.JPG )
+![ The group again](8/Pic8.JPG )
+![Erik listening and thinking ](8/Pic9.JPG )
+![ Peter Gorm Larsen proudly presents the Japanese translation of VDFOS](8/Pic24.JPG )
+![Matthew Lovert ](8/Pic10.JPG )
+![Claus Nielsen  ](8/Pic11.JPG)
+![Kenneth Lausdahl ](8/Pic12.JPG )
+![Shin Sahara taking a picture  ](8/Pic13.JPG)
+![Marcel Verhoef  ](8/Pic14.JPG )
+![Subgroup \#1 disccussing RT and co-sim issues ](8/Pic15.JPG )
+![Subgroup \#2 disccussing RT and co-sim issues ](8/Pic16.JPG )
+![Subgroup \#3 disccussing RT and co-sim issues ](8/Pic17.JPG )
+![Ken Pierce  ](8/Pic18.JPG )
+![Sune Wolff and Peter Gorm Larsen  ](8/Pic19.JPG )
+![Marcel Verhoef ](8/Pic20.JPG )
+
+
