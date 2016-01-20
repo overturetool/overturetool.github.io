@@ -32,7 +32,7 @@ The proceedings of the workshop is available as a technical
 report[1](http://www.cs.ncl.ac.uk/publications/trs/papers/1224.pdf) from
 Newcastle University.
 
-![|700px](700px-8thgroup.jpg "|700px")
+![|700px](8/700px-8thgroup.jpg "|700px")
 
 Sponsors
 --------
