@@ -24,7 +24,6 @@ title: Overture Publications
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
--   Automated translation of VDM to JML annotated Java, (Peter Tran-Jørgensen, Peter Gorm Larsen and Gary Leavens, to be submitted for STTT)
 -   Semantics for Generic Co-simulation of Heterogeneous Models (Kenneth
     Lausdahl, Joey Coleman and Peter Gorm Larsen, was rejected from Formal
     Aspects of Computing journal) new version in preparation with Jim Woodcock and Simon Foster
@@ -35,7 +34,8 @@ title: Overture Publications
 -   Using Executable VDM++ Models in an Industrial Application (Sune
     Wolff and Peter Gorm Larsen, submitted to defence journal focussing
     on modelling and simulation) (rejected unfortunately)
--   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, submitted for ICCPS at CPS Week in April 2016 in Vienna 
+-   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, submitted for ICCPS at CPS Week in April 2016 in Vienna
+-   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for STTT)
 
 ## In press
 
