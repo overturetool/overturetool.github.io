@@ -19,8 +19,6 @@ title: Overture Publications
 
 -   Methodological Guidelines for Collaborative Modelling - Managing
     Heterogeneous System Complexity (Sune Wolff, need to find new venue)
--   Five Views of a Collaborative Model, (Peter Würtz Vinther Jørgensen
-    and Sune Wolff, new venue to be found)
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
