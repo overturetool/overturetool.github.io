@@ -43,9 +43,14 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
+A few bug fixes applied. Build numbers below are VDMJ's, relevant fixes also applied to 2.3.1-SNAPSHOT
 
-details about it
+* 3.1.1 Build 160112, fixed static instance variable type checks, bug #7
+* 3.1.1 Build 160120, fixed problem with inheritance and overloading, bug #8
+* 3.1.1 Build 160122, fixed problem with abstract class detection, bug #9
+* 3.1.1 Build 160126, fixed problem with class union type checking, bug #10
+* 3.1.1 Build 160201, fixed problem with union pattern matching, bug #11
 
 
 ##  Release Planning
