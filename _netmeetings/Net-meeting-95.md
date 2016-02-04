@@ -52,7 +52,18 @@ A few bug fixes applied. Build numbers below are VDMJ's, relevant fixes also app
 * 3.1.1 Build 160126, fixed problem with class union type checking, bug #10
 * 3.1.1 Build 160201, fixed problem with union pattern matching, bug #11
 
+#### New GUI Support in Overture (part of the TEMPO project)
 
+Luis to write + the two students working on this.
+
+#### On-going AU Overture-related student projects
+
+* Magnus Louvmand and Peter Mathiesen: Work on a small project for improving the auto-completion functionality in Overture. The plan is that this will be followed up with a thesis project after summer 2016.
+* Kasper Saaby and Rasmus Reimer: Thesis work on a WebIDE for the Overture Platform for example making use of the VDMPad editor but already now capable of support for multiple projects, multiple panes in the editor, navigatable outline, syntax highlighting, error reporting on specific lines and initial support for proof obligation generation. This will be demonstrated to the Software Engineering group on the 10th of February. Project will be completed May 2016.
+* Milos Chabada: Thesis work on a GUI Test Automation Environment which is planned to use Overture as a case study.
+* Nikolas Bram and Peter Holst: Thesis work with Code Generation Extensions for Overture/VDM towards Typescript/Javascript. Project will be completed by June 2016.
+* Steffen Diswal: Thesis work on Code Generation Towards a .NET code contracts and C# Platform. Project will be completed by June 2016.
+* 
 ##  Release Planning
 
 #### topic 1
