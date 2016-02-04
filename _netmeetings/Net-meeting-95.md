@@ -54,7 +54,10 @@ A few bug fixes applied. Build numbers below are VDMJ's, relevant fixes also app
 
 #### New GUI Support in Overture (part of the TEMPO project)
 
-Luis to write + the two students working on this.
+A new framework for developing UIs for VDM models with DukeScript has been developed (see https://github.com/overturetool/tempo-ui).
+
+Two student workers will use this framework to develop a UI for a Traffic Management System model, developed as part of the Tempo project.
+
 
 #### On-going AU Overture-related student projects
 
@@ -83,7 +86,7 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 ##  Publications Status and Plans
 
-Also see [[Planned Publications]].
+Also see [Planned Publications].
 
 #### In preparation:
 
