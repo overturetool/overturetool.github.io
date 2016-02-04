@@ -50,9 +50,21 @@ Recently I (PJ) have been doing more work on code generating VDM-SL traces. By g
 
 For the past few days I've been working on updating the code generated traces to also include detailed information about trace variables. This should make it possible to derive test stems similar to those used internally by the VDM trace interpreter. These stems can be used for filtering large collections of tests statistically based on the "shapes" of the tests. This part does, however, need more development work and testing.
 
-#### RT to C to generation
+#### RT to C to generation (part of the INTO-CPS project)
 
 A new project has been started on code generating VDM-RT to C. See https://github.com/overturetool/vdm2c  
+
+#### New GUI Support in Overture (part of the TEMPO project)
+
+Luis to write + the two students working on this.
+
+#### On-going AU Overture-related student projects
+
+* Magnus Louvmand and Peter Mathiesen: Work on a small project for improving the auto-completion functionality in Overture. The plan is that this will be followed up with a thesis project after summer 2016.
+* Kasper Saaby and Rasmus Reimer: Thesis work on a WebIDE for the Overture Platform for example making use of the VDMPad editor but already now capable of support for multiple projects, multiple panes in the editor, navigatable outline, syntax highlighting, error reporting on specific lines and initial support for proof obligation generation. This will be demonstrated to the Software Engineering group on the 10th of February. Project will be completed May 2016.
+* Milos Chabada: Thesis work on a GUI Test Automation Environment which is planned to use Overture as a case study.
+* Nikolas Bram and Peter Holst: Thesis work with Code Generation Extensions for Overture/VDM towards Typescript/Javascript. Project will be completed by June 2016.
+* Steffen Diswal: Thesis work on Code Generation Towards a .NET code contracts and C# Platform. Project will be completed by June 2016.
 
 #### VDMPad
 
