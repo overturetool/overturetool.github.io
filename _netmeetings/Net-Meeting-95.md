@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 95
-date: 7 February 2016, 1300 CET
+date: 5 February 2016, 1300 CET
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
@@ -11,7 +11,7 @@ date: 7 February 2016, 1300 CET
 
 |||
 |---|---|
-| Date | 2016-01-10 13:00 CET |
+| Date | 2016-02-07 13:00 CET |
 | Participants | AA, BB, ..., CC.  Minutes by DD. |
 
 
