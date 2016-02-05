@@ -58,7 +58,7 @@ Two student workers will use this framework to develop a UI for a Traffic Manage
 
 #### Removal of Components from the main build
 
-We have begun removing certain components from the Overture build. These components are not maintained by anyone and provide features that nobody uses. They also slow the build down. They are being migrated into stand-alone repositories in the overturetool GitHub org. So far, we have removed the ProB integration and the old GUI Builder (no relation to TempoUI). More may come.
+We have begun removing certain components from the Overture build. These components are not maintained by anyone and provide features that nobody uses. They also slow the build down. They are being migrated into stand-alone repositories in the overturetool GitHub org. So far, we have removed the ProB integration and the old GUI Builder (no relation to TempoUI). More may come (such as the new pretty printer and the test framework).
 
 
 
@@ -91,8 +91,21 @@ some description
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
+#### Website Issues
+
+The http://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub is updating Jekyll and the current rendering engine is being discontinued (May 1st) so we need to migrate. The new website looks mostly fine with the new but there are minor issues. The individual example pages (like http://overturetool.org/download/examples/VDMSL/AbstractPacemakerSL/index.html) don't render correctly and the example code is highlighted per line instead of whole as shown below. We need a decision and someone to drive this but there is some time.
+
+````
+code in
+the old engine
+```
+
+`code in`
+
+`the new engine`
+
+
+
 
 
 ##  Publications Status and Plans
