@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 95
-date: 7 February 2016, 1300 CET
+date: 7 February 2016, 13:00 CET
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
@@ -55,6 +55,11 @@ A few bug fixes applied. Build numbers below are VDMJ's, relevant fixes also app
 A new framework for developing UIs for VDM models with DukeScript has been developed (see <https://github.com/overturetool/tempo-ui>). A very rough proof of concept demo video is available at <https://dl.dropboxusercontent.com/u/1587375/uidemo.avi>
 
 Two student workers will use this framework to develop a UI for a Traffic Management System model, developed as part of the Tempo project.
+
+#### Removal of Components from the main build
+
+We have begun removing certain components from the Overture build. These components are not maintained by anyone and provide features that nobody uses. They also slow the build down. They are being migrated into stand-alone repositories in the overturetool GitHub org. So far, we have removed the ProB integration and the old GUI Builder (no relation to TempoUI). More may come.
+
 
 
 #### On-going AU Overture-related student projects
