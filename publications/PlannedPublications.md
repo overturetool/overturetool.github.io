@@ -12,29 +12,22 @@ title: Overture Publications
 
 -   Exploring Alternative Designs using Automated Co-model Analysis
     (Peter, Kenneth, Ken, Carl, and John for a journal)
--   Co-modelling and Co-simulation for an Artificial Cardiac pacemaker
-    (John, John Komp, Carl, Martin, Peter, for a workshop?)
 
 ## In preparation
 
--   Methodological Guidelines for Collaborative Modelling - Managing
-    Heterogeneous System Complexity (Sune Wolff, need to find new venue)
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
 -   Semantics for Generic Co-simulation of Heterogeneous Models (Kenneth
     Lausdahl, Joey Coleman and Peter Gorm Larsen, was rejected from Formal
-    Aspects of Computing journal) new version in preparation with Jim Woodcock and Simon Foster
--   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, new venue to be found
+    Aspects of Computing journal) new version in preparation with Victor Bandur, Jim Woodcock and Simon Foster
 
 ## In review
 
--   Using Executable VDM++ Models in an Industrial Application (Sune
-    Wolff and Peter Gorm Larsen, submitted to defence journal focussing
-    on modelling and simulation) (rejected unfortunately)
--   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, submitted for ICCPS at CPS Week in April 2016 in Vienna
--   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for STTT)
+-   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
+-   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
 -   Luis Diogo Couto and Peter Gorm Larsen, Improving Reuse through Extensibility in Formal Methods Tools, submitted for a special issue of Information Systems Frontiers journal on reuse, January 2016.
+-   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, submitted to the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
 
 ## In press
 
