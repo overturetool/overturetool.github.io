@@ -11,6 +11,9 @@ collections:
   workshops:
     output: true
 
+
+future: true
+
 defaults:
   -
     scope:
