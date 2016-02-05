@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 95
-date: 7 February 2016, 1300 CET
+date: 11 January 2016, 1300 CET
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
@@ -11,7 +11,7 @@ date: 7 February 2016, 1300 CET
 
 |||
 |---|---|
-| Date | 2016-02-07 13:00 CET |
+| Date | 2016-01-10 13:00 CET |
 | Participants | AA, BB, ..., CC.  Minutes by DD. |
 
 
@@ -19,66 +19,50 @@ date: 7 February 2016, 1300 CET
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 80-1 is carried forward.
+* 88-1 is carried forward.
+* 93-1 can be closed.
+* 93-2 is carried forward.
+* 93-3 can be closed.
+
 
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
+It was unanimously agreed to extend the number of voting members to nine. The first LB meeting this year will be on Jan 31, 11:00 CEST.
 
 
 ## Status of VDMTools Development
 
-#### topic 1
 
-some description
+SCSK and Sony are still negotiating this.
 
 
 ##  Status of the Overture Components
 
 #### VDMJ
-A few bug fixes applied. Build numbers below are VDMJ's, relevant fixes also applied to 2.3.1-SNAPSHOT
 
-* 3.1.1 Build 160112, fixed static instance variable type checks, bug #7
-* 3.1.1 Build 160120, fixed problem with inheritance and overloading, bug #8
-* 3.1.1 Build 160122, fixed problem with abstract class detection, bug #9
-* 3.1.1 Build 160126, fixed problem with class union type checking, bug #10
-* 3.1.1 Build 160201, fixed problem with union pattern matching, bug #11
-
-#### New GUI Support in Overture (part of the TEMPO project)
-
-A new framework for developing UIs for VDM models with DukeScript has been developed (see https://github.com/overturetool/tempo-ui). A very rough proof of concept demo video is available at https://dl.dropboxusercontent.com/u/1587375/uidemo.avi
-
-Two student workers will use this framework to develop a UI for a Traffic Management System model, developed as part of the Tempo project.
-
-
-#### On-going AU Overture-related student projects
-
-* Magnus Louvmand and Peter Mathiesen: Work on a small project for improving the auto-completion functionality in Overture. The plan is that this will be followed up with a thesis project after summer 2016.
-* Kasper Saaby and Rasmus Reimer: Thesis work on a WebIDE for the Overture Platform for example making use of the VDMPad editor but already now capable of support for multiple projects, multiple panes in the editor, navigatable outline, syntax highlighting, error reporting on specific lines and initial support for proof obligation generation. This will be demonstrated to the Software Engineering group on the 10th of February. Project will be completed May 2016.
-* Milos Chabada: Thesis work on a GUI Test Automation Environment which is planned to use Overture as a case study.
-* Nikolas Bram and Peter Holst: Thesis work with Code Generation Extensions for Overture/VDM towards Typescript/Javascript. Project will be completed by June 2016.
-* Steffen Diswal: Thesis work on Code Generation Towards a .NET code contracts and C# Platform. Project will be completed by June 2016.
+Some updates committed to the VDMJ (command line) GitHub repo to enable combinatorial test expansion to be done iteratively, which enables far greater numbers of tests to be expanded and executed. Bug #490 fixed.
 
 #### Overture code generation
 
-Lots of internal fixes and extensibility improvements to the code generation platform. All these improvements are based on feedback from the VDM-to-C code generator and the VDM-RT code generator projects. All the technical details related to this are described at https://github.com/overturetool/overture/issues/491.
+Recently I (PJ) have been doing more work on code generating VDM-SL traces. By generating, or annotating, the generated Java code with JML annotations it is now possible to give verdicts to the code generated trace tests. This new feature is useful for testing the generated code more exhaustively, but it also is useful for executing trace tests much faster. Unfortunaly I don't have any performance metrics for the code generated traces yet, but I hope to have some soon.
 
-In addition to that we have started updating the Isabelle translator to use the newest code generation platform.
+For the past few days I've been working on updating the code generated traces to also include detailed information about trace variables. This should make it possible to derive test stems similar to those used internally by the VDM trace interpreter. These stems can be used for filtering large collections of tests statistically based on the "shapes" of the tests. This part does, however, need more development work and testing.
 
-Other than that just some bug fixes in the Java code generator.
+#### RT to C to generation (part of the INTO-CPS project)
+
+A new project has been started on code generating VDM-RT to C. See https://github.com/overturetool/vdm2c  
+
+#### VDMPad
+
+VDMPad is now a part of ViennaTalk, distributed at https://github.com/tomooda/ViennaTalk-doc/releases.
+
+Documentations are https://github.com/tomooda/ViennaTalk-doc/blob/master/README.md
 
 ##  Release Planning
 
-#### topic 1
-
-some description
-
+No release plans yet.
 
 ##  Community Development
 
@@ -86,28 +70,22 @@ some description
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
+We're up to 739 downloads, which makes Overture 2.3.0 the most downloaded version of Overture!
 
+
+##  The next Overture Workshop
+
+A draft application for this is attached to the email announcing this Overture Core NM
+
+The workshop page is available at http://overturetool.org/workshops/14th-Overture-Workshop.html 
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications].
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+See see http://overturetool.org/publications/PlannedPublications.html 
 
 
 ##  Any Other Business
+
+None.
 
 <div id="edit_page_div"></div>
