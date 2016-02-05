@@ -66,7 +66,15 @@ Two student workers will use this framework to develop a UI for a Traffic Manage
 * Milos Chabada: Thesis work on a GUI Test Automation Environment which is planned to use Overture as a case study.
 * Nikolas Bram and Peter Holst: Thesis work with Code Generation Extensions for Overture/VDM towards Typescript/Javascript. Project will be completed by June 2016.
 * Steffen Diswal: Thesis work on Code Generation Towards a .NET code contracts and C# Platform. Project will be completed by June 2016.
-* 
+
+#### Overture code generation
+
+Lots of internal fixes and extensibility improvements to the code generation platform. All these improvements are based on feedback from the VDM-to-C code generator and the VDM-RT code generator projects. All the technical details related to this are described at https://github.com/overturetool/overture/issues/491.
+
+In addition to that we have started updating the Isabelle translator to use the newest code generation platform.
+
+Other than that just some bug fixes in the Java code generator.
+
 ##  Release Planning
 
 #### topic 1
