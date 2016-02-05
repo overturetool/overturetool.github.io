@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 73
-date: Sunday the 29th of September at 13:00 CET
+date: 29 September 2013, 13:00 CET
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">

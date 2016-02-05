@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 76
-date: 26th of January at 13:00 CEST
+date: 26 January 2013, 13:00 CEST
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 56
-date: 23 Oktober 2011, 1300 CET
+date: 23 October 2011, 1300 CET
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
