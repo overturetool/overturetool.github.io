@@ -78,6 +78,8 @@ In addition to that we have started updating the Isabelle translator to use the 
 
 Other than that just some bug fixes in the Java code generator.
 
+The VDM-RT code generator, using Java RMI for enabling the distributed communication between JVMs, has been updated the use the newest features of the code generation platform. Additionally, it is started to update its interface, in order for it to have the same interface as the Java CG, and have its own templates in the correct directory. Finally, it is investigated how use maven as part of testing distributed JVMs.
+
 ##  Release Planning
 
 #### topic 1
