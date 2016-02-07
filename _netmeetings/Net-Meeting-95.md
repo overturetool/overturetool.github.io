@@ -19,24 +19,19 @@ date: 7 February 2016, 13:00 CET
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 80-1 No progress
+* 88-1 Some progress. NB, MV and PGL has started discussing this on Github. People are encouraged to take part in the discussion.
+* 93-2. No progress. PGL will email the Porto people later today.
 
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
+The LB has suggested moving the core meetings from 13:00 CET to 12:00 such that the core meeting is immediately followed by the LB NM. There were objections so the new schedule for the core meetings was accepted. In the future the core meetings will therefore start at 12:00 CET. PGL will update the meeting schedule accordingly.
 
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
+Nothing new to report.
 
 
 ##  Status of the Overture Components
