@@ -102,6 +102,6 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 TO made ViennaTalk videos - see https://www.youtube.com/watch?v=ZIR3fFPeTz0 and https://www.youtube.com/watch?v=anZoWeA5vd0 . Feedback on these videos are very welcome.
 
-There now is a "Related tools" section on the overturetool website: http://overturetool.org/community/related-tools.html 
+There's now a "Related tools" section on the overturetool website: http://overturetool.org/community/related-tools.html 
 
 <div id="edit_page_div"></div>
