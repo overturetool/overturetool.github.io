@@ -95,7 +95,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications].
+Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 #### In preparation:
 
