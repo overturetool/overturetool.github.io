@@ -20,13 +20,13 @@ date: 7 February 2016, 13:00 CET
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
 * 80-1 No progress
-* 88-1 Some progress. NB, MV and PGL has started discussing this on Github. People are encouraged to take part in the discussion.
-* 93-2. No progress. PGL will email the Porto people later today.
+* 88-1 Some progress. NB, MV and PGL has started discussing this on Github. People are encouraged to take part in the discussion. See https://github.com/overturetool/overturetool.github.io/issues/18 
+* 93-2. No progress. PGL will email the people from Porto later today.
 
 
 ## Overture Language Board Status
 
-The LB has suggested moving the core meetings from 13:00 CET to 12:00 such that the core meeting is immediately followed by the LB NM. There were objections so the new schedule for the core meetings was accepted. In the future the core meetings will therefore start at 12:00 CET. PGL will update the meeting schedule accordingly.
+The LB has suggested moving the core meetings from 13:00 CET to 12:00 CET such that the core meeting is immediately followed by the LB NM. There were objections so the new schedule for the core meetings was accepted. In the future the core meetings will therefore start at 12:00 CET. PGL will update the meeting schedule accordingly.
 
 
 ## Status of VDMTools Development
@@ -60,11 +60,11 @@ We have begun removing certain components from the Overture build. These compone
 
 #### On-going AU Overture-related student projects
 
-* Magnus Louvmand and Peter Mathiesen: Work on a small project for improving the auto-completion functionality in Overture. The plan is that this will be followed up with a thesis project after summer 2016.
-* Kasper Saaby and Rasmus Reimer: Thesis work on a WebIDE for the Overture Platform for example making use of the VDMPad editor but already now capable of support for multiple projects, multiple panes in the editor, navigatable outline, syntax highlighting, error reporting on specific lines and initial support for proof obligation generation. This will be demonstrated to the Software Engineering group on the 10th of February. Project will be completed May 2016.
-* Milos Chabada: Thesis work on a GUI Test Automation Environment which is planned to use Overture as a case study.
-* Nikolas Bram and Peter Holst: Thesis work with Code Generation Extensions for Overture/VDM towards Typescript/Javascript. Project will be completed by June 2016.
-* Steffen Diswal: Thesis work on Code Generation Towards a .NET code contracts and C# Platform. Project will be completed by June 2016.
+* Magnus Louvmand and Peter Mathiesen: Work on a small project on improving the auto-completion functionality of Overture. The plan is that this will be followed up with a thesis project after the summer of 2016.
+* Kasper Saaby and Rasmus Reimer: Thesis work on a WebIDE for the Overture Platform that may make use of the VDMPad editor. This WebIDE is currently capable of supporting multiple projects, multiple panes in the editor, navigatable outline, syntax highlighting, error reporting on specific lines and initial support for proof obligation generation. This will be demonstrated at the Software Engineering group on the 10th of February. The project will be completed by May 2016.
+* Milos Chabada: Thesis work on a GUI Test Automation Environment which will use Overture as a case study.
+* Nikolas Bram and Peter Holst: Thesis work with Code Generation Extensions for Overture/VDM towards Typescript/Javascript. The project will be completed by June 2016.
+* Steffen Diswal: Thesis work on Code Generation Towards a .NET code contracts and C# Platform. The project will be completed by June 2016.
 
 #### Overture code generation
 
@@ -78,10 +78,7 @@ The VDM-RT code generator that uses Java RMI to represent the distributed commun
 
 ##  Release Planning
 
-It is expected that there will be a new release of Overture within the near future. PGL's VDM course will start soon so.
-
-some description
-
+It is expected that there will be a new release of Overture within the near future. PGL's VDM course will start soon.
 
 ##  Community Development
 
@@ -93,12 +90,18 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 The http://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub is updating Jekyll and the current rendering engine is being discontinued (May 1) so we need to migrate. The new version looks mostly fine but we need someone to test it before start using it.
 
+#### The old Overture Wiki
 
+ The old wiki (wiki.overturetool.org) is still on-line. PGL will take an action to follow up and talk to IT about taking it off-line.
 
 ##  Publications Status and Plans
 
 See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
+
+TO made ViennaTalk videos - see https://www.youtube.com/watch?v=ZIR3fFPeTz0 and https://www.youtube.com/watch?v=anZoWeA5vd0 . Feedback on these videos are very welcome.
+
+There now is a "Related tools" section on the overturetool website: http://overturetool.org/community/related-tools.html 
 
 <div id="edit_page_div"></div>
