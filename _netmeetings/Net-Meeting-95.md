@@ -95,18 +95,7 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 #### Website Issues
 
-The http://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub is updating Jekyll and the current rendering engine is being discontinued (May 1st) so we need to migrate. The new website looks mostly fine with the new but there are minor issues. The individual example pages (like http://overturetool.org/download/examples/VDMSL/AbstractPacemakerSL/index.html) don't render correctly and the example code is highlighted per line instead of whole as shown below. We need a decision and someone to drive this but there is some time.
-
-````
-code in
-the old engine
-```
-
-`code in`
-
-`the new engine`
-
-
+The http://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub is updating Jekyll and the current rendering engine is being discontinued (May 1st) so we need to migrate. The new version looks mostly fine but we need someone to test it before changing over. There is still some time to do this.
 
 
 
