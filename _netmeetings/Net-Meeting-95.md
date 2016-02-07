@@ -49,6 +49,7 @@ A few bug fixes applied. Build numbers below are VDMJ's, relevant fixes also app
 * 3.1.1 Build 160122, fixed problem with abstract class detection, bug #9
 * 3.1.1 Build 160126, fixed problem with class union type checking, bug #10
 * 3.1.1 Build 160201, fixed problem with union pattern matching, bug #11
+* 3.1.1 Build 160203, fixed problem with ValueListenerLists growth, bug #12
 
 #### New GUI Support in Overture (part of the TEMPO project)
 
