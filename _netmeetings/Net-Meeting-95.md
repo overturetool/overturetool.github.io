@@ -12,7 +12,7 @@ date: 7 February 2016, 13:00 CET
 |||
 |---|---|
 | Date | 2016-02-07 13:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | LF, LDC, MV, NB, PGL, SS, TO, VB, PJ.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -74,11 +74,11 @@ In addition to that we have started updating the Isabelle translator to use the 
 
 Other than that just some bug fixes in the Java code generator.
 
-The VDM-RT code generator, using Java RMI for enabling the distributed communication between JVMs, has been updated the use the newest features of the code generation platform. Additionally, it is started to update its interface, in order for it to have the same interface as the Java CG, and have its own templates in the correct directory. Finally, it is investigated how use maven as part of testing distributed JVMs.
+The VDM-RT code generator that uses Java RMI to represent the distributed communication between the JVMs, has been updated the use the newest features of the code generation platform. Additionally, work has been started on updating the VDM-RT code generator to use the newest version of the VDM++-to-Java code generator. Finally, it is investigated how to integrate the VDM-RT code generator with the Maven build system.
 
 ##  Release Planning
 
-#### topic 1
+It is expected that there will be a new release of Overture within the near future. PGL's VDM course will start soon so.
 
 some description
 
@@ -91,27 +91,13 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 #### Website Issues
 
-The http://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub is updating Jekyll and the current rendering engine is being discontinued (May 1st) so we need to migrate. The new version looks mostly fine but we need someone to test it before changing over. There is still some time to do this.
+The http://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub is updating Jekyll and the current rendering engine is being discontinued (May 1) so we need to migrate. The new version looks mostly fine but we need someone to test it before start using it.
 
 
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
