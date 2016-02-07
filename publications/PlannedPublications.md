@@ -15,6 +15,7 @@ title: Overture Publications
 
 ## In preparation
 
+* Bridge-Delegate (working title), Luis Diogo Couto and Peter W. V. Tran-Jørgensen for MODELS 2016
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
