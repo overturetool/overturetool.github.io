@@ -101,7 +101,7 @@ The http://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub i
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications].
+Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 #### In preparation:
 
