@@ -1,9 +1,9 @@
 highligher: pygments
-markdown: redcarpet
-redcarpet:
-  extensions: ["tables","smart","no_intra_emphasis","fenced_code_blocks","autolink"]
-encoding: utf-8
-url: http://overturetool.org
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: pygments
 
 collections:
   netmeetings:
