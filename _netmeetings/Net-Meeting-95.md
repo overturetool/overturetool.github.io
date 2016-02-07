@@ -76,6 +76,8 @@ Other than that just some bug fixes in the Java code generator.
 
 The VDM-RT code generator that uses Java RMI to represent the distributed communication between the JVMs, has been updated the use the newest features of the code generation platform. Additionally, work has been started on updating the VDM-RT code generator to use the newest version of the VDM++-to-Java code generator. Finally, it is investigated how to integrate the VDM-RT code generator with the Maven build system.
 
+The VDM to C code generator is progressing well, we are working toward generating one of the INTO-CPS case study models, and are very close (roughly a week).  This VDM model is itself generated from PLC ladder code, so it is very consistent, and moreover contains a simple but important set of language features to target.
+
 ##  Release Planning
 
 It is expected that there will be a new release of Overture within the near future. PGL's VDM course will start soon.
