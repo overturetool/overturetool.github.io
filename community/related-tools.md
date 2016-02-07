@@ -15,7 +15,7 @@ Pre-built packages for MacOSX, Linux and Windows are available at [https://githu
 [![ViennaTalk: Types, Values and Objects](http://img.youtube.com/vi/anZoWeA5vd0/1.jpg)](http://www.youtube.com/watch?v=anZoWeA5vd0)
 
 ## VDMPad
-VDMPad is a lightweight WebIDE for VDM-SL shipped with ViennaTalk.
+[VDMPad](https://github.com/tomooda/ViennaTalk-doc/blob/master/VDMPad.md) is a lightweight WebIDE for VDM-SL shipped with ViennaTalk.
 
 [![VDMPad](http://img.youtube.com/vi/-tY1C-zsNw0/1.jpg)](http://www.youtube.com/watch?v=-tY1C-zsNw0)
 
