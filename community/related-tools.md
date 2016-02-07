@@ -21,4 +21,4 @@ VDMPad is a lightweight WebIDE for VDM-SL shipped with ViennaTalk.
 
 
 [A free VDMPad server](http://vdmpad.csce.kyushu-u.ac.jp) is available by courtesy of Kyushu University, Japan.
-No user registration is required. You can access anonymously.
+No user registration is required.
