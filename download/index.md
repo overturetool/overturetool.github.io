@@ -13,7 +13,7 @@ title: Downloads
 
 # Downloads
 
-<div id="current-release"></div>
+<div id="div-current-release"></div>
 
 <small>
 **Hint:**
@@ -22,7 +22,7 @@ You will need a Java runtime environment (JRE) to use Overture (Java SE 7 or gre
 
 ### Release History
 
-<div id="release-history"></div>
+<div id="div-release-history"></div>
 
 ### Development Builds
 

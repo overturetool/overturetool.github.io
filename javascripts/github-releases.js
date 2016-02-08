@@ -109,7 +109,7 @@ function updateDownloadPage() {
 
                         releaseLink.appendChild(releaseTitle);
 
-                        var currentReleaseDiv = document.getElementById("current-release");
+                        var currentReleaseDiv = document.getElementById("div-current-release");
                         currentReleaseDiv.appendChild(releaseLink);
                         currentReleaseDiv.appendChild(buildAssetList(releaseUrl, assets));
                     } else {
@@ -120,7 +120,7 @@ function updateDownloadPage() {
 
                             var tbl = document.createElement('table');
                             tbl.appendChild(tblBody);
-                            var releaseHistoryDiv = document.getElementById("release-history");
+                            var releaseHistoryDiv = document.getElementById("div-release-history");
                             releaseHistoryDiv.appendChild(tbl);
                         }
                         var tblBody = document.getElementById("release-history-table-body");
