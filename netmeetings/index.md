@@ -29,7 +29,7 @@ The list of open net meeting actions can be found [here](https://github.com/over
 ## Past Meetings
 
 {% for nm in site.netmeetings reversed %}
-* [{{ nm.title }}]({{ site.url }}{{ nm.url }}): {{ nm.date }}{% endfor %}
+* [{{ nm.title }}]({{ site.url }}{{ nm.url }}): {{ nmpage.date | date: '%B %d, %Y' }} {% endfor %}
 {% comment %} The endfor needs to be on the line with the list item {% endcomment %}
 
 
