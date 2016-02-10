@@ -9,16 +9,15 @@ The Overture core group net meetings.
 
 ## Upcoming meetings:
 
-* Net Meeting 95: 7th February 2016, 1300 CET
-* Net Meeting 96: 13th March 2016, 1300 CET
-* Net Meeting 97: 17th April 2016, 1300 CET
-* Net Meeting 98: 22nd May 2016, 1300 CEST
-* Net Meeting 99: 26th June 2016, 1300 CEST
-* Net Meeting 100: 21th August 2016, 1300 CEST
-* Net Meeting 101: 18th September 2016, 1300 CEST
-* Net Meeting 102: 16th October 2016, 1300 CEST
-* Net Meeting 103: 20th November 2016, 1300 CST
-* Net Meeting 104: 18th December 2016, 1300 CST
+* Net Meeting 96: 13th March 2016, 1200 CET
+* Net Meeting 97: 17th April 2016, 1200 CET
+* Net Meeting 98: 22nd May 2016, 1200 CEST
+* Net Meeting 99: 26th June 2016, 1200 CEST
+* Net Meeting 100: 21th August 2016, 1200 CEST
+* Net Meeting 101: 18th September 2016, 1200 CEST
+* Net Meeting 102: 16th October 2016, 1200 CEST
+* Net Meeting 103: 20th November 2016, 1200 CST
+* Net Meeting 104: 18th December 2016, 1200 CST
 
 And we have a [meeting template](template.html)
 
