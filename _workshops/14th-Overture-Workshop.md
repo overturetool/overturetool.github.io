@@ -51,7 +51,3 @@ The organising committee can be reached via the following e-mail address:  <mail
 * M Verhoef, European Space Agency, Netherlands
 * S Wolff, Terma, Denmark
 
-
-### Participants
-
-![Front row: ...](13/DSC_5269.JPG)
