@@ -1,9 +1,8 @@
-highligher: pygments
 markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
-  syntax_highlighter: pygments
+syntax_highlighter: rouge
 
 collections:
   netmeetings:
