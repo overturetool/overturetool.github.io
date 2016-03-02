@@ -107,8 +107,7 @@ TT: let x in set {1,2,3}
        radio.AdjustVolume(x) |
        radio.HandleTMC(x) |
        nav.DatabaseLookup(x) |
-       nav.DecodeTMC(x));
-       EnvironmentTask`IsFinished())
+       nav.DecodeTMC(x)))
  
 end Test
 ~~~
@@ -322,7 +321,7 @@ operations
       return mk_(min, max, diff / card dom s2e) )
 pre card dom s2e > 0;
 
-public static IsFinished: () ==> ()
+public IsFinished: () ==> ()
 IsFinished() == skip;
 
 sync

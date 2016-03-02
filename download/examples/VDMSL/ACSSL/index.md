@@ -256,7 +256,7 @@ sum: set of real -> real
 sum(s) ==
   if s = {} 
   then 0 
-  else let x:real be st x in set s 
+  else let x in set s 
        in
          x + sum(s \ {x})
 measure Card;
