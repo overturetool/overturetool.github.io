@@ -40,6 +40,14 @@ some description
 
 some description
 
+## Status of ViennaTalk Development
+
+#### Smalltalk code generators for VDM-SL
+
+* Live class generation for flat/modular specification, and
+* Script generation for flat specificatio or single module
+
+[![ViennaTalk: Code Generation](http://img.youtube.com/vi/sDXiM5yvTxw/1.jpg)](http://www.youtube.com/watch?v=sDXiM5yvTxw)
 
 ##  Status of the Overture Components
 
