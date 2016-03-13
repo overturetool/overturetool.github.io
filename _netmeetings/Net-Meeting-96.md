@@ -28,16 +28,21 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-Two new RMs were 
+Two new RMs were submitted last night. Both of these have been advanced and briefly discussed at today's LB NM. See https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM%2C-13th-March-2016-2016 for details.
+
+Other than that the LB is having a meeting with Simon torrow about the first deliverable about the VDM UTP semantics.
 
 
 ## Status of VDMTools Development
 
-#### topic 1
+The negotiation between Kyushu Univ and SCSK went forward. They are still in transaction, but the process is moving forward.
 
-some description
 
 ## Status of ViennaTalk Development
+
+#### Overture
+
+We're starting to move towards Java8. Overture 2.3.2 is the last version of Overture that will support Java7.
 
 #### Smalltalk code generators for VDM-SL
 
@@ -70,9 +75,6 @@ some description
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
-
-#### topic 1
-...
 
 
 ##  Strategic Research Agenda
