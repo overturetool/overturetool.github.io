@@ -22,7 +22,7 @@ date: 13 March 2016, 1200 CET
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
 * 93-2 PGL has finished this.
-* 88-1 No progress..
+* 88-1 No progress.
 * 80-1 No progress.
 
 
