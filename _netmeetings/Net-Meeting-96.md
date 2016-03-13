@@ -21,17 +21,14 @@ date: 13 March 2016, 1200 CET
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 93-2 PGL has finished this.
+* 88-1 No progress..
+* 80-1 No progress.
 
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
+Two new RMs were 
 
 
 ## Status of VDMTools Development
