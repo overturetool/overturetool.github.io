@@ -38,6 +38,25 @@ Other than that the LB is having a meeting with Simon torrow about the first del
 The negotiation between Kyushu Univ and SCSK went forward. They are still in transaction, but the process is moving forward.
 
 
+#### Overture webIDE
+
+The pilot study is available at http://overturecloudide.privatedns.org, where only VDM-SL is supported at the moment.
+The features supported are:
+
+- Creation and editing of projects, directories, and files.
+- Import of sample models.
+- Generation of project outline and pog.
+- Linting of models.
+- Very limited code completion.
+- Debugging of models.
+
+There are still issues on the backend concerning integration with the Overture core, where parsing and type checking sometimes produces concurrecy exception, such as ConcurrentModificationException when lists are iterated.
+
+The code for both the frontend and backend is available at https://bitbucket.org.
+
+Frontend: https://bitbucket.org/overturewebide/overture-webide
+Backend: https://bitbucket.org/overturewebide/overture-webide-playapi
+
 ## Status of ViennaTalk Development
 
 #### Overture
