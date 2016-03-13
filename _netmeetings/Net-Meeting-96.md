@@ -77,8 +77,11 @@ There are still issues on the backend concerning integration with the Overture c
 
 The code for both the frontend and backend is available at https://bitbucket.org.
 
-Frontend: https://bitbucket.org/overturewebide/overture-webide
-Backend: https://bitbucket.org/overturewebide/overture-webide-playapi
+ * Frontend: https://bitbucket.org/overturewebide/overture-webide
+ * Backend: https://bitbucket.org/overturewebide/overture-webide-playapi
+
+In the future these sources need to be moved to n open repository such as GitHub.
+
 ##  Release Planning
 
 Overture 2.3.2 is finally out.
