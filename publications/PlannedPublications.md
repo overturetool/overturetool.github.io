@@ -16,7 +16,7 @@ title: Overture Publications
 ## In preparation
 
 - Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. To be submitted to FM 2016.
-* Bridge-Delegate (working title), Luis Diogo Couto and Peter W. V. Tran-Jørgensen for MODELS 2016
+- Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen for MODELS 2016
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
