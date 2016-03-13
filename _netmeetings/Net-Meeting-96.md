@@ -65,6 +65,8 @@ The following bugs have been fixed since the last NM (bug numbers refer to VDMJ'
 
 ##  Release Planning
 
+Overture 2.3.2 is finally out.
+
 #### topic 1
 
 some description
@@ -84,22 +86,11 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
+
+Bibe
 
 <div id="edit_page_div"></div>
