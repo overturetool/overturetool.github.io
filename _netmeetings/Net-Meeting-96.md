@@ -51,10 +51,15 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
+The following bugs have been fixed since the last NM (bug numbers refer to VDMJ's issues). Where applicable, the same bugs have been fixed in Overture.
 
+* 3.1.1 Build 160211, fixed second problem related to bug #9
+* 3.1.1 Build 160221, fixed problem with variable name shaped reduction
+* 3.1.1 Build 160225, fixed problem with POs of record unions, bug #13
+* 3.1.1 Build 160303, fixed problem with type check of records, bug #14
+* 3.1.1 Build 160304, fixed more general problem with multi-type checking, bug #15
 
 ##  Release Planning
 
