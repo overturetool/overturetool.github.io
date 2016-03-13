@@ -86,7 +86,7 @@ The following bugs have been fixed since the last NM (bug numbers refer to VDMJ'
 
 Overture 2.3.2 is finally out.
 
- Wrt release planning PGL has suggested some dates to be targeted for the rest of the year
+Wrt release planning PGL has suggested some dates to be targeted for the rest of the year.
 
 
 ##  Community Development
