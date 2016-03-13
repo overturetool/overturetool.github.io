@@ -14,7 +14,7 @@ date: 13 March 2016, 1200 CET
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | CT, HS, KP, LDC, MV, NB, PGL, SS, TO, VB, PJ.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
