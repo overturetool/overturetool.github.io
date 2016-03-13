@@ -38,6 +38,29 @@ Other than that the LB is having a meeting with Simon torrow about the first del
 The negotiation between Kyushu Univ and SCSK went forward. They are still in transaction, but the process is moving forward.
 
 
+##  Status of the Overture Components
+
+#### VDMJ
+
+The following bugs have been fixed since the last NM (bug numbers refer to VDMJ's issues). Where applicable, the same bugs have been fixed in Overture.
+
+* 3.1.1 Build 160211, fixed second problem related to bug #9
+* 3.1.1 Build 160221, fixed problem with variable name shaped reduction
+* 3.1.1 Build 160225, fixed problem with POs of record unions, bug #13
+* 3.1.1 Build 160303, fixed problem with type check of records, bug #14
+* 3.1.1 Build 160304, fixed more general problem with multi-type checking, bug #15
+
+#### Overture in general
+
+We're starting to move towards Java8. Overture 2.3.2 is the last version of Overture that will support Java7.
+
+#### Status of ViennaTalk Development (Smalltalk code generators for VDM-SL)
+
+* Live class generation for flat/modular specification, and
+* Script generation for flat specificatio or single module
+
+[![ViennaTalk: Code Generation](http://img.youtube.com/vi/sDXiM5yvTxw/1.jpg)](http://www.youtube.com/watch?v=sDXiM5yvTxw)
+
 #### Overture webIDE
 
 The pilot study is available at http://overturecloudide.privatedns.org, where only VDM-SL is supported at the moment.
@@ -56,32 +79,6 @@ The code for both the frontend and backend is available at https://bitbucket.org
 
 Frontend: https://bitbucket.org/overturewebide/overture-webide
 Backend: https://bitbucket.org/overturewebide/overture-webide-playapi
-
-## Status of ViennaTalk Development
-
-#### Overture
-
-We're starting to move towards Java8. Overture 2.3.2 is the last version of Overture that will support Java7.
-
-#### Smalltalk code generators for VDM-SL
-
-* Live class generation for flat/modular specification, and
-* Script generation for flat specificatio or single module
-
-[![ViennaTalk: Code Generation](http://img.youtube.com/vi/sDXiM5yvTxw/1.jpg)](http://www.youtube.com/watch?v=sDXiM5yvTxw)
-
-##  Status of the Overture Components
-
-#### VDMJ
-
-The following bugs have been fixed since the last NM (bug numbers refer to VDMJ's issues). Where applicable, the same bugs have been fixed in Overture.
-
-* 3.1.1 Build 160211, fixed second problem related to bug #9
-* 3.1.1 Build 160221, fixed problem with variable name shaped reduction
-* 3.1.1 Build 160225, fixed problem with POs of record unions, bug #13
-* 3.1.1 Build 160303, fixed problem with type check of records, bug #14
-* 3.1.1 Build 160304, fixed more general problem with multi-type checking, bug #15
-
 ##  Release Planning
 
 Overture 2.3.2 is finally out.
