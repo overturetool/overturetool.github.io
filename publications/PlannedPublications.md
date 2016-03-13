@@ -26,6 +26,7 @@ title: Overture Publications
 
 ## In review
 
+-   Tomohiro Oda and Keijiro Araki, Automated Generation of Smalltalk programs from VDM-SL specifications, submitted for Software Symposium 2016 in Yonago, Japan, June 2016
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
 -   Luis Diogo Couto and Peter Gorm Larsen, Improving Reuse through Extensibility in Formal Methods Tools, submitted for a special issue of Information Systems Frontiers journal on reuse, January 2016.
