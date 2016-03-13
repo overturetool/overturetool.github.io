@@ -108,6 +108,6 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
-None.
+For licensing of Overture PGL has started a discussion in a small subgroup about whether it would make sense to host it (and VDMTools) under an OpenModelica like construction.
 
 <div id="edit_page_div"></div>
