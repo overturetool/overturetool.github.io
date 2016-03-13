@@ -86,9 +86,7 @@ The following bugs have been fixed since the last NM (bug numbers refer to VDMJ'
 
 Overture 2.3.2 is finally out.
 
-#### topic 1
-
-some description
+ Wrt release planning PGL has suggested some dates to be targeted for the rest of the year
 
 
 ##  Community Development
@@ -110,6 +108,6 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
-Bibe
+None.
 
 <div id="edit_page_div"></div>
