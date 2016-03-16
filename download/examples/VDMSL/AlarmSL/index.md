@@ -31,19 +31,6 @@ with alarms. A comparable model of this example also exists in VDM++.
 |Entry point     :| DEFAULT`Run(e8)|
 
 
-### changeexpert.vdmsl
-
-{% raw %}
-~~~
-functions
-
--- this function is NOT correct. Why not?
-ChangeExpert: Plant * Expert * Expert * Period -> Plant
-ChangeExpert(mk_Plant(plan,alarms),ex1,ex2,peri) ==
-  mk_Plant(plan ++ {peri |-> plan(peri)\{ex1} union {ex2}},alarms)
-~~~
-{% endraw %}
-
 ### testalarm.vdmsl
 
 {% raw %}
@@ -111,6 +98,19 @@ traces
          in
            ExpertIsOnDuty(ex,plant1)
  
+~~~
+{% endraw %}
+
+### changeexpert.vdmsl
+
+{% raw %}
+~~~
+functions
+
+-- this function is NOT correct. Why not?
+ChangeExpert: Plant * Expert * Expert * Period -> Plant
+ChangeExpert(mk_Plant(plan,alarms),ex1,ex2,peri) ==
+  mk_Plant(plan ++ {peri |-> plan(peri)\{ex1} union {ex2}},alarms)
 ~~~
 {% endraw %}
 

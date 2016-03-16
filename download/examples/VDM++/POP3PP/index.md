@@ -21,108 +21,6 @@ lients to fetch email messages from the email server.
 |Entry point     :| new POP3Test().Test2()|
 
 
-### messagechannel.vdmpp
-
-{% raw %}
-~~~
-                                                   
-class MessageChannel
-
-instance variables
-                            
-instance variables
-  data : [POP3Types`ClientCommand |
-          POP3Types`ServerResponse]  := nil;
-                            
-instance variables
-
-io : IO := new IO();
-debug : bool := true;
-                            
-operations
-
-Send: POP3Types`ClientCommand | 
-      POP3Types`ServerResponse ==> ()
-Send(msg) ==
-  data := msg;
-
-Listen: () ==> POP3Types`ClientCommand | 
-               POP3Types`ServerResponse
-Listen() ==
-let d = data in
-  ( data := nil; return d
-  );
-                             
-operations
-
-public ServerSend: POP3Types`ServerResponse ==> ()
-ServerSend(p) == 
-( if debug                         
-  then let - = io.echo("***> ServerSend")
-       in skip;                          
-  Send(p);
-  if debug                               
-  then let - = io.echo("***> fin ServerSend")
-       in skip                               
-);                                           
-                            
-public ClientListen: () ==> POP3Types`ServerResponse
-ClientListen() == 
-( if debug
-  then let - = io.echo("***> ClientListen")
-       in skip;
-  let r = Listen(),
-      - = if debug
-          then io.echo("***> fin ClientListen")
-          else false
-  in
-    return r;
-);
-
-public ClientSend: POP3Types`ClientCommand ==> ()
-ClientSend(p) == 
-( if debug
-  then let - = io.echo("***> ClientSend")
-       in skip;
-  Send(p);
-  if debug
-  then let - = io.echo("***> fin ClientSend")
-       in skip;
-);
-
-public ServerListen: () ==> POP3Types`ClientCommand
-ServerListen() == 
-( if debug
-  then let - = io.echo("***> ServerListen")
-       in skip;
-  let c = Listen(),
-      - = if debug
-          then io.echo("***> fin ServerListen")
-          else false
-  in 
-    return c
-);
-                            
-sync 
-  per ServerListen => #fin(ClientSend) - 1 = 
-                      #fin(ServerListen);
-                            
-  per ClientListen => #fin(ServerSend) - 1 = #fin(ClientListen);
-                            
-  per ServerSend => #fin(ClientSend) = #fin(ServerListen) and
-                    #fin(ServerListen) - 1 = #fin(ServerSend);
-                            
-  per ClientSend => #fin(ServerSend) = #fin(ClientListen) 
-                    and 
-                    #fin(ClientSend) = #fin(ServerListen) 
-                    and
-                    #fin(ServerSend) = #fin(ClientSend) ;
-
-end MessageChannel
-             
-~~~
-{% endraw %}
-
 ### pop3test.vdmpp
 
 {% raw %}
@@ -461,6 +359,119 @@ end POP3Message
 ~~~
 {% endraw %}
 
+### pop3types.vdmpp
+
+{% raw %}
+~~~
+                                              
+class POP3Types
+types
+                            
+types
+
+public ClientCommand = StandardClientCommand | 
+                       OptionalClientCommand;
+public StandardClientCommand = QUIT | STAT | LIST | RETR | 
+                               DELE | NOOP | RSET;
+public OptionalClientCommand = TOP | UIDL | USER | PASS | 
+                               APOP;
+
+                            
+public QUIT :: ;
+
+                            
+public STAT :: ;
+
+                            
+public LIST :: messageNumber : [nat];
+
+                            
+public RETR :: messageNumber : nat;
+                            
+public DELE :: messageNumber : nat;
+
+                            
+public NOOP :: ;
+
+                            
+public RSET :: ;
+
+                            
+public TOP :: messageNumber : nat
+              numLines      : nat;
+
+                            
+public UIDL :: messageNumber : [nat];
+
+                            
+public USER :: name : UserName;
+
+                            
+public PASS :: string : seq of char;
+
+                            
+public APOP :: name   : seq of char
+               digest : seq of char;
+
+                            
+public UserName = seq of char;
+public Password = seq of char;
+
+                            
+public ServerResponse = OkResponse | ErrResponse;
+public OkResponse ::  data : seq of char;
+public ErrResponse :: data : seq of char;
+                            
+functions
+
+end POP3Types
+                 
+~~~
+{% endraw %}
+
+### connectionchannel.vdmpp
+
+{% raw %}
+~~~
+                                                      
+class MessageChannelBuffer
+
+instance variables
+                            
+instance variables
+
+data : [MessageChannel] := nil;
+                            
+operations
+
+public Put: MessageChannel ==> ()
+Put(msg) ==
+  data := msg;
+                            
+operations
+
+public Get: () ==> MessageChannel
+Get() ==
+let d = data in
+  ( data := nil;
+    return d
+  )
+                            
+sync
+
+per Get => data <> nil;
+per Put   => data = nil;
+                            
+sync
+  mutex(Put, Get);
+  mutex(Put);
+  mutex(Get);
+
+end MessageChannelBuffer
+             
+~~~
+{% endraw %}
+
 ### pop3server.vdmpp
 
 {% raw %}
@@ -732,76 +743,6 @@ per WaitForServerStart => serverStarted;
                             
 end POP3Server
                                                                     
-~~~
-{% endraw %}
-
-### pop3types.vdmpp
-
-{% raw %}
-~~~
-                                              
-class POP3Types
-types
-                            
-types
-
-public ClientCommand = StandardClientCommand | 
-                       OptionalClientCommand;
-public StandardClientCommand = QUIT | STAT | LIST | RETR | 
-                               DELE | NOOP | RSET;
-public OptionalClientCommand = TOP | UIDL | USER | PASS | 
-                               APOP;
-
-                            
-public QUIT :: ;
-
-                            
-public STAT :: ;
-
-                            
-public LIST :: messageNumber : [nat];
-
-                            
-public RETR :: messageNumber : nat;
-                            
-public DELE :: messageNumber : nat;
-
-                            
-public NOOP :: ;
-
-                            
-public RSET :: ;
-
-                            
-public TOP :: messageNumber : nat
-              numLines      : nat;
-
-                            
-public UIDL :: messageNumber : [nat];
-
-                            
-public USER :: name : UserName;
-
-                            
-public PASS :: string : seq of char;
-
-                            
-public APOP :: name   : seq of char
-               digest : seq of char;
-
-                            
-public UserName = seq of char;
-public Password = seq of char;
-
-                            
-public ServerResponse = OkResponse | ErrResponse;
-public OkResponse ::  data : seq of char;
-public ErrResponse :: data : seq of char;
-                            
-functions
-
-end POP3Types
-                 
 ~~~
 {% endraw %}
 
@@ -1172,45 +1113,104 @@ end POP3ClientHandler
 ~~~
 {% endraw %}
 
-### connectionchannel.vdmpp
+### messagechannel.vdmpp
 
 {% raw %}
 ~~~
-                                                      
-class MessageChannelBuffer
+                                                   
+class MessageChannel
 
 instance variables
                             
 instance variables
+  data : [POP3Types`ClientCommand |
+          POP3Types`ServerResponse]  := nil;
+                            
+instance variables
 
-data : [MessageChannel] := nil;
+io : IO := new IO();
+debug : bool := true;
                             
 operations
 
-public Put: MessageChannel ==> ()
-Put(msg) ==
+Send: POP3Types`ClientCommand | 
+      POP3Types`ServerResponse ==> ()
+Send(msg) ==
   data := msg;
-                            
+
+Listen: () ==> POP3Types`ClientCommand | 
+               POP3Types`ServerResponse
+Listen() ==
+let d = data in
+  ( data := nil; return d
+  );
+                             
 operations
 
-public Get: () ==> MessageChannel
-Get() ==
-let d = data in
-  ( data := nil;
-    return d
-  )
+public ServerSend: POP3Types`ServerResponse ==> ()
+ServerSend(p) == 
+( if debug                         
+  then let - = io.echo("***> ServerSend")
+       in skip;                          
+  Send(p);
+  if debug                               
+  then let - = io.echo("***> fin ServerSend")
+       in skip                               
+);                                           
                             
-sync
+public ClientListen: () ==> POP3Types`ServerResponse
+ClientListen() == 
+( if debug
+  then let - = io.echo("***> ClientListen")
+       in skip;
+  let r = Listen(),
+      - = if debug
+          then io.echo("***> fin ClientListen")
+          else false
+  in
+    return r;
+);
 
-per Get => data <> nil;
-per Put   => data = nil;
+public ClientSend: POP3Types`ClientCommand ==> ()
+ClientSend(p) == 
+( if debug
+  then let - = io.echo("***> ClientSend")
+       in skip;
+  Send(p);
+  if debug
+  then let - = io.echo("***> fin ClientSend")
+       in skip;
+);
+
+public ServerListen: () ==> POP3Types`ClientCommand
+ServerListen() == 
+( if debug
+  then let - = io.echo("***> ServerListen")
+       in skip;
+  let c = Listen(),
+      - = if debug
+          then io.echo("***> fin ServerListen")
+          else false
+  in 
+    return c
+);
                             
-sync
-  mutex(Put, Get);
-  mutex(Put);
-  mutex(Get);
+sync 
+  per ServerListen => #fin(ClientSend) - 1 = 
+                      #fin(ServerListen);
+                            
+  per ClientListen => #fin(ServerSend) - 1 = #fin(ClientListen);
+                            
+  per ServerSend => #fin(ClientSend) = #fin(ServerListen) and
+                    #fin(ServerListen) - 1 = #fin(ServerSend);
+                            
+  per ClientSend => #fin(ServerSend) = #fin(ClientListen) 
+                    and 
+                    #fin(ClientSend) = #fin(ServerListen) 
+                    and
+                    #fin(ServerSend) = #fin(ClientSend) ;
 
-end MessageChannelBuffer
+end MessageChannel
              
 ~~~
 {% endraw %}

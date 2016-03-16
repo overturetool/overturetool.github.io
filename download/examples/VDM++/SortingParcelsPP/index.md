@@ -20,6 +20,118 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 |Entry point     :| new Test().Run()|
 
 
+### test.vdmpp
+
+{% raw %}
+~~~
+class Test
+
+instance variables
+
+goods : set of Colli := {new Colli(0,0),
+                         new Colli(1,1),
+                         new Colli(2,2),
+                         new Colli(3,3), --bad colli
+                         new Colli(4,0),
+                         new Colli(359,14) }; --bad colli
+slides : set of Slide := {new Slide(0),
+                          new Slide(1),
+                          new Slide(2) };
+--test inv and precondition
+conveyor : Conveyor := new Conveyor();
+
+operations
+public Run : () ==> ()
+Run() ==
+(dcl temp : set of Colli := {};
+ for all x in set goods do
+   conveyor.addColli(x);
+
+ for all y in set slides do
+   conveyor.addSlide(y);
+
+ IO`print("\nTest started..");
+
+ IO`print("\ngoods in conveyor:\n");
+ conveyor.printColli();
+ IO`print("\nslides in conveyor:\n");
+ conveyor.printSlides();
+
+ for all s in set elems conveyor.getSlides() do
+ (IO`print("\nSlide ID:\t");
+  IO`print(s.getID() );
+  IO`print(" has goods:");
+  s.printColli();
+ );
+
+ IO`print("\n\n..Distributing goods!\n");
+ conveyor.distributeGoods();
+
+ IO`print("\ngoods in conveyor:\n");
+ conveyor.printColli();
+ IO`print("\nslides in conveyor:\n");
+ conveyor.printSlides();
+
+ for all s in set elems conveyor.getSlides() do
+ (IO`print("\nSlide ID:\t");
+  IO`print(s.getID() );
+  IO`print(" has goods:");
+  s.printColli();
+ );
+
+ temp := conveyor.checkForUndeliverableGoods();
+
+ IO`print("\nundeliverable goods:\t");
+ for all s in set temp do
+ (IO`print(s.getID());
+  IO`print("\t");
+ );
+
+);
+
+end Test
+~~~
+{% endraw %}
+
+### Slide.vdmpp
+
+{% raw %}
+~~~
+class Slide
+
+functions
+
+instance variables
+ goods: set of Colli := {};
+ ID : int := 0;
+
+operations
+
+public Slide : int ==> Slide
+Slide(id) == ID := id;
+
+pure public getID : () ==> int
+getID() ==
+ return ID;
+
+public addGoods : Colli ==> ()
+addGoods(elem) ==
+goods := goods union {elem};
+
+public setID : int ==> ()
+setID(id) == ID := id;
+
+public printColli : () ==> ()
+printColli()==
+for all x in set goods do (
+ IO`print("\t");
+ IO`print(x.getID() );
+);
+
+end Slide
+~~~
+{% endraw %}
+
 ### Conveyor.vdmpp
 
 {% raw %}
@@ -134,118 +246,6 @@ public setDestination : int ==> ()
 setDestination(dest) == destination := dest;
 
 end Colli
-~~~
-{% endraw %}
-
-### Slide.vdmpp
-
-{% raw %}
-~~~
-class Slide
-
-functions
-
-instance variables
- goods: set of Colli := {};
- ID : int := 0;
-
-operations
-
-public Slide : int ==> Slide
-Slide(id) == ID := id;
-
-pure public getID : () ==> int
-getID() ==
- return ID;
-
-public addGoods : Colli ==> ()
-addGoods(elem) ==
-goods := goods union {elem};
-
-public setID : int ==> ()
-setID(id) == ID := id;
-
-public printColli : () ==> ()
-printColli()==
-for all x in set goods do (
- IO`print("\t");
- IO`print(x.getID() );
-);
-
-end Slide
-~~~
-{% endraw %}
-
-### test.vdmpp
-
-{% raw %}
-~~~
-class Test
-
-instance variables
-
-goods : set of Colli := {new Colli(0,0),
-                         new Colli(1,1),
-                         new Colli(2,2),
-                         new Colli(3,3), --bad colli
-                         new Colli(4,0),
-                         new Colli(359,14) }; --bad colli
-slides : set of Slide := {new Slide(0),
-                          new Slide(1),
-                          new Slide(2) };
---test inv and precondition
-conveyor : Conveyor := new Conveyor();
-
-operations
-public Run : () ==> ()
-Run() ==
-(dcl temp : set of Colli := {};
- for all x in set goods do
-   conveyor.addColli(x);
-
- for all y in set slides do
-   conveyor.addSlide(y);
-
- IO`print("\nTest started..");
-
- IO`print("\ngoods in conveyor:\n");
- conveyor.printColli();
- IO`print("\nslides in conveyor:\n");
- conveyor.printSlides();
-
- for all s in set elems conveyor.getSlides() do
- (IO`print("\nSlide ID:\t");
-  IO`print(s.getID() );
-  IO`print(" has goods:");
-  s.printColli();
- );
-
- IO`print("\n\n..Distributing goods!\n");
- conveyor.distributeGoods();
-
- IO`print("\ngoods in conveyor:\n");
- conveyor.printColli();
- IO`print("\nslides in conveyor:\n");
- conveyor.printSlides();
-
- for all s in set elems conveyor.getSlides() do
- (IO`print("\nSlide ID:\t");
-  IO`print(s.getID() );
-  IO`print(" has goods:");
-  s.printColli();
- );
-
- temp := conveyor.checkForUndeliverableGoods();
-
- IO`print("\nundeliverable goods:\t");
- for all s in set temp do
- (IO`print(s.getID());
-  IO`print("\t");
- );
-
-);
-
-end Test
 ~~~
 {% endraw %}
 

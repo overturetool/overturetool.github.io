@@ -78,6 +78,33 @@ end MMI
 ~~~
 {% endraw %}
 
+### World.vdmrt
+
+{% raw %}
+~~~
+class World
+ 
+types
+  public perfdata = nat * nat * real
+
+instance variables
+ 
+
+operations
+  	
+  public RunScenario1 : () ==> ()
+  RunScenario1 () ==
+    ( RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+    );
+
+ 
+
+end World
+~~~
+{% endraw %}
+
 ### Test.vdmrt
 
 {% raw %}
@@ -151,33 +178,6 @@ operations
     );
 
 end Radio
-~~~
-{% endraw %}
-
-### World.vdmrt
-
-{% raw %}
-~~~
-class World
- 
-types
-  public perfdata = nat * nat * real
-
-instance variables
- 
-
-operations
-  	
-  public RunScenario1 : () ==> ()
-  RunScenario1 () ==
-    ( RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-    );
-
- 
-
-end World
 ~~~
 {% endraw %}
 

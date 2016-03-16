@@ -32,6 +32,108 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 |Entry point     :| new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()|
 
 
+### RateController.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                   
+class RateController is subclass of GLOBAL
+
+instance variables
+ sensed   : [ActivityData];
+ interval : Time;
+ finished : bool; 
+                                                                                                                                                                                    
+instance variables
+ LRL       : PPM;
+ MSR       : PPM;
+ threshold : nat1;
+ reactionT : Time;
+ recoveryT : Time;
+ responseF : nat1;
+inv threshold < 8
+    and
+    reactionT in set {10,...,50}
+    and
+    recoveryT in set {2,...,16}
+    and 
+    responseF <= 16;
+                                                                                                                                            
+operations
+  
+ public 
+ RateController: () ==> RateController
+ RateController() ==
+   (LRL       := 60;
+    MSR       := 120;
+    threshold := MED;
+    reactionT := 10; -- 10 s
+    recoveryT := 2; -- 2 minutes;
+    responseF := 8;
+    sensed    := nil; 
+    interval  := 1/((LRL/60)/1000);
+    finished  := false;
+
+   );
+                                                                                                                                                                                                                      
+public
+getInterval : () ==> Time
+getInterval () == return interval;
+                                                                                                                                      
+
+ public 
+ Step : () ==> ()
+ Step () == if sensed <> nil then controlRate();
+
+                                                                                     
+ private
+ controlRate : () ==> ()
+ controlRate () == 
+    (
+    if sensed > threshold
+    then increaseRate()
+    elseif sensed < threshold
+    then decreaseRate()
+    else skip;
+    sensed := nil;
+    );
+                                                                                                        
+ public 
+ stimulate : ActivityData ==> ()
+ stimulate (ad) == sensed := ad;
+                                                                                                                                                                  
+ private
+ increaseRate : () ==> ()
+ increaseRate () == 
+   (
+    interval := 1 / ((MSR / 60) / 1000);
+    Pacemaker`heartController.setInterval(interval)
+   );
+
+                                                                          
+ private
+ decreaseRate : () ==> ()
+ decreaseRate () == 
+   (
+    interval := 1 / ((LRL / 60) / 1000);
+    Pacemaker`heartController.setInterval(interval)
+   );
+                                                                                                                    
+values
+
+V_LOW : ActivityData = 1;
+LOW : ActivityData = 2;
+MED_LOW : ActivityData = 3;
+MED : ActivityData = 4;
+MED_HIGH : ActivityData = 5;
+HIGH : ActivityData = 6;
+V_HIGH : ActivityData = 7;
+
+end RateController
+                                                                                                  
+~~~
+{% endraw %}
+
 ### Lead.vdmpp
 
 {% raw %}
@@ -102,6 +204,92 @@ pre t > World`timerRef.GetTime() => scheduledPulse = nil;
 
 end Lead 
                                                                                        
+~~~
+{% endraw %}
+
+### Pacemaker.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                        
+class Pacemaker 
+
+ instance variables
+
+ public static 
+ atriaLead     : Lead      := new Lead(<ATRIA>);
+
+ public static 
+ ventricleLead : Lead      := new Lead(<VENTRICLE>);
+                                                                                
+
+ instance variables
+
+ public static 
+ accelerometer       : Accelerometer   := new Accelerometer();
+
+ public static 
+ rateController      : RateController  := new RateController();
+                                                                                     
+ instance variables
+ 
+ public static 
+ heartController     : HeartController := new HeartController();
+
+end Pacemaker
+              
+~~~
+{% endraw %}
+
+### Accelerometer.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                
+class Accelerometer is subclass of GLOBAL
+
+operations
+
+ public 
+ stimulate : ActivityData ==> ()
+ stimulate (a) == Pacemaker`rateController.stimulate(a);
+
+end Accelerometer
+                                                                                                
+~~~
+{% endraw %}
+
+### Timer.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                
+class Timer is subclass of GLOBAL
+
+ instance variables
+                                                                                     
+currentTime : Time := 0;
+
+                                                                       
+ values
+
+stepLength : Time = 50;
+
+                                                                      
+ operations
+
+public 
+StepTime : () ==> ()
+StepTime () == currentTime := currentTime + stepLength;
+
+                                                                        
+public 
+GetTime : () ==> Time
+GetTime () == return currentTime;
+
+
+end Timer
+                                                                                        
 ~~~
 {% endraw %}
 
@@ -234,6 +422,51 @@ isFinished () == return inplines = [] and not busy;
 end Environment
 
                                                                                               
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                        
+class World is subclass of GLOBAL
+
+types
+
+instance variables
+
+public static env      : [Environment] := nil;
+public static timerRef : Timer := new Timer();
+                                                                                                                                                               
+operations
+
+public World: seq of char * Mode ==> World
+World(filename,mode) == 
+  (  -- create an environment
+     env := new Environment(filename);
+
+     -- bind leads to the environment
+     env.addLeadSensor(Pacemaker`atriaLead);
+     env.addLeadSensor(Pacemaker`ventricleLead);
+   
+     -- bind accelerometer to the environment
+     env.addAccelerometer(Pacemaker`accelerometer);
+    
+     -- bind leads to the controler
+     Pacemaker`heartController.addLeadPacer(Pacemaker`atriaLead);
+     Pacemaker`heartController.addLeadPacer(Pacemaker`ventricleLead);
+    
+     -- set up mode
+     Pacemaker`heartController.setMode(mode);
+  );
+                                                                                   
+public Run: () ==> ()
+Run () == (env.Run(); env.showResult());
+  
+
+end World
+                                                                                        
 ~~~
 {% endraw %}
 
@@ -370,40 +603,6 @@ end HeartController
 ~~~
 {% endraw %}
 
-### Pacemaker.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                        
-class Pacemaker 
-
- instance variables
-
- public static 
- atriaLead     : Lead      := new Lead(<ATRIA>);
-
- public static 
- ventricleLead : Lead      := new Lead(<VENTRICLE>);
-                                                                                
-
- instance variables
-
- public static 
- accelerometer       : Accelerometer   := new Accelerometer();
-
- public static 
- rateController      : RateController  := new RateController();
-                                                                                     
- instance variables
- 
- public static 
- heartController     : HeartController := new HeartController();
-
-end Pacemaker
-              
-~~~
-{% endraw %}
-
 ### GLOBAL.vdmpp
 
 {% raw %}
@@ -450,205 +649,6 @@ Time = nat;
     
 end GLOBAL
                 
-~~~
-{% endraw %}
-
-### Timer.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                
-class Timer is subclass of GLOBAL
-
- instance variables
-                                                                                     
-currentTime : Time := 0;
-
-                                                                       
- values
-
-stepLength : Time = 50;
-
-                                                                      
- operations
-
-public 
-StepTime : () ==> ()
-StepTime () == currentTime := currentTime + stepLength;
-
-                                                                        
-public 
-GetTime : () ==> Time
-GetTime () == return currentTime;
-
-
-end Timer
-                                                                                        
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                        
-class World is subclass of GLOBAL
-
-types
-
-instance variables
-
-public static env      : [Environment] := nil;
-public static timerRef : Timer := new Timer();
-                                                                                                                                                               
-operations
-
-public World: seq of char * Mode ==> World
-World(filename,mode) == 
-  (  -- create an environment
-     env := new Environment(filename);
-
-     -- bind leads to the environment
-     env.addLeadSensor(Pacemaker`atriaLead);
-     env.addLeadSensor(Pacemaker`ventricleLead);
-   
-     -- bind accelerometer to the environment
-     env.addAccelerometer(Pacemaker`accelerometer);
-    
-     -- bind leads to the controler
-     Pacemaker`heartController.addLeadPacer(Pacemaker`atriaLead);
-     Pacemaker`heartController.addLeadPacer(Pacemaker`ventricleLead);
-    
-     -- set up mode
-     Pacemaker`heartController.setMode(mode);
-  );
-                                                                                   
-public Run: () ==> ()
-Run () == (env.Run(); env.showResult());
-  
-
-end World
-                                                                                        
-~~~
-{% endraw %}
-
-### Accelerometer.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                
-class Accelerometer is subclass of GLOBAL
-
-operations
-
- public 
- stimulate : ActivityData ==> ()
- stimulate (a) == Pacemaker`rateController.stimulate(a);
-
-end Accelerometer
-                                                                                                
-~~~
-{% endraw %}
-
-### RateController.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                   
-class RateController is subclass of GLOBAL
-
-instance variables
- sensed   : [ActivityData];
- interval : Time;
- finished : bool; 
-                                                                                                                                                                                    
-instance variables
- LRL       : PPM;
- MSR       : PPM;
- threshold : nat1;
- reactionT : Time;
- recoveryT : Time;
- responseF : nat1;
-inv threshold < 8
-    and
-    reactionT in set {10,...,50}
-    and
-    recoveryT in set {2,...,16}
-    and 
-    responseF <= 16;
-                                                                                                                                            
-operations
-  
- public 
- RateController: () ==> RateController
- RateController() ==
-   (LRL       := 60;
-    MSR       := 120;
-    threshold := MED;
-    reactionT := 10; -- 10 s
-    recoveryT := 2; -- 2 minutes;
-    responseF := 8;
-    sensed    := nil; 
-    interval  := 1/((LRL/60)/1000);
-    finished  := false;
-
-   );
-                                                                                                                                                                                                                      
-public
-getInterval : () ==> Time
-getInterval () == return interval;
-                                                                                                                                      
-
- public 
- Step : () ==> ()
- Step () == if sensed <> nil then controlRate();
-
-                                                                                     
- private
- controlRate : () ==> ()
- controlRate () == 
-    (
-    if sensed > threshold
-    then increaseRate()
-    elseif sensed < threshold
-    then decreaseRate()
-    else skip;
-    sensed := nil;
-    );
-                                                                                                        
- public 
- stimulate : ActivityData ==> ()
- stimulate (ad) == sensed := ad;
-                                                                                                                                                                  
- private
- increaseRate : () ==> ()
- increaseRate () == 
-   (
-    interval := 1 / ((MSR / 60) / 1000);
-    Pacemaker`heartController.setInterval(interval)
-   );
-
-                                                                          
- private
- decreaseRate : () ==> ()
- decreaseRate () == 
-   (
-    interval := 1 / ((LRL / 60) / 1000);
-    Pacemaker`heartController.setInterval(interval)
-   );
-                                                                                                                    
-values
-
-V_LOW : ActivityData = 1;
-LOW : ActivityData = 2;
-MED_LOW : ActivityData = 3;
-MED : ActivityData = 4;
-MED_HIGH : ActivityData = 5;
-HIGH : ActivityData = 6;
-V_HIGH : ActivityData = 7;
-
-end RateController
-                                                                                                  
 ~~~
 {% endraw %}
 

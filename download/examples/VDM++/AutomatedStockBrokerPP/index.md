@@ -27,35 +27,6 @@ the ProjectReport.pdf file included in the zip file with the source files.
 |Entry point     :| new World().Run()|
 
 
-### timer.vdmpp
-
-{% raw %}
-~~~
-class Timer 
-
-instance variables
-
-  currentTime : nat := 1;
-
-values 
-
-  stepLength : nat = 1;
-
-operations
-
-public 
-  StepTime: () ==> ()
-  StepTime() == 
-    currentTime := currentTime + stepLength;
-
-public
-  GetTime: () ==> nat 
-  GetTime() == return currentTime;
-
-end Timer
-~~~
-{% endraw %}
-
 ### Stock.vdmpp
 
 {% raw %}
@@ -153,6 +124,46 @@ class Stock is subclass of GLOBAL
    else []
 
 end Stock
+~~~
+{% endraw %}
+
+### StockMarket.vdmpp
+
+{% raw %}
+~~~
+class StockMarket is subclass of GLOBAL
+
+ instance variables
+  stocks : map StockIdentifier to Stock := {|->};
+
+ operations
+  public UpdateStocks:() ==> ()
+  UpdateStocks() == 
+   for all stock in set rng stocks do
+    stock.UpdateStock();
+
+  public AddStock:(Stock )==> ()
+  AddStock(stock) == 
+   stocks := {stock.GetName() |-> stock} munion stocks
+  pre stock.GetName() not in set dom stocks
+  post stock.GetName() in set dom stocks; 
+
+  public RemoveStock:(Stock )==> ()
+  RemoveStock(stock) == 
+   stocks := {stock.GetName()} <-: stocks
+  pre stock.GetName() in set dom stocks
+  post stock.GetName() not in set dom stocks;
+
+  pure public GetStock:(StockIdentifier)==> Stock 
+  GetStock(name) == 
+   return stocks(name)
+  pre name in set dom stocks;
+
+  pure public GetStockNames: () ==> set of StockIdentifier 
+  GetStockNames() ==
+   return dom stocks;
+  
+end StockMarket
 ~~~
 {% endraw %}
 
@@ -332,123 +343,6 @@ class StockWatcher is subclass of GLOBAL
       and len s = len tgr)
    
 end StockWatcher
-~~~
-{% endraw %}
-
-### StockMarket.vdmpp
-
-{% raw %}
-~~~
-class StockMarket is subclass of GLOBAL
-
- instance variables
-  stocks : map StockIdentifier to Stock := {|->};
-
- operations
-  public UpdateStocks:() ==> ()
-  UpdateStocks() == 
-   for all stock in set rng stocks do
-    stock.UpdateStock();
-
-  public AddStock:(Stock )==> ()
-  AddStock(stock) == 
-   stocks := {stock.GetName() |-> stock} munion stocks
-  pre stock.GetName() not in set dom stocks
-  post stock.GetName() in set dom stocks; 
-
-  public RemoveStock:(Stock )==> ()
-  RemoveStock(stock) == 
-   stocks := {stock.GetName()} <-: stocks
-  pre stock.GetName() in set dom stocks
-  post stock.GetName() not in set dom stocks;
-
-  pure public GetStock:(StockIdentifier)==> Stock 
-  GetStock(name) == 
-   return stocks(name)
-  pre name in set dom stocks;
-
-  pure public GetStockNames: () ==> set of StockIdentifier 
-  GetStockNames() ==
-   return dom stocks;
-  
-end StockMarket
-~~~
-{% endraw %}
-
-### GLOBAL.vdmpp
-
-{% raw %}
-~~~
-class GLOBAL
-types
-public String = seq of char;
-
-public EventType = <UpperLimit> | <LowerLimit> | <Peak> | <Valley> | 
-<EntersNoActionRegion> | <LeavesNoActionRegion>;
-
-public StockState = <PotentialBuy> | <Bought>;
-
-public Event :: Type : EventType
-TimeStamp : nat
-Value : nat; 
-
-public Region :: UpperValue : StockValue
-  LowerValue : StockValue
-inv mk_Region(p1,p2) == p1 >= p2;
-
-public StockValue = nat;
-public StockIdentifier = token;
-
-public ActionType = <Buy> | <Sell> ;
-
-public ActionTrigger :: Trigger : seq of EventType
-Action : ActionType;
-
-public StockRecord :: Name : StockIdentifier 
-Triggers : map StockState to ActionTrigger 
-NoActionReg : Region
-Cost : StockValue
-State : StockState
-
-inv mk_StockRecord(p1,p2,p3,p4,p5) == p2(<PotentialBuy>).Action = <Buy> 
-and p2(<Bought>).Action = <Sell>;
-
-public ActionEvent :: Type : ActionType
-  Time : nat
-  StockName : StockIdentifier
-  Value : StockValue;
- 
-values
-public static testValues : map StockIdentifier to seq of Event = 
-{mk_token("test") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<LowerLimit>,5,8),
-mk_Event(<UpperLimit>,4,12),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,13),
-mk_Event(<UpperLimit>,1,12),  
-mk_Event(<EntersNoActionRegion>,0,10)
-],
-mk_token("test12") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<LowerLimit>,5,8),
-mk_Event(<UpperLimit>,4,12),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,16),
-mk_Event(<UpperLimit>,1,12),  
-mk_Event(<EntersNoActionRegion>,0,10)
-],
-mk_token("test2") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<UpperLimit>,5,8),
-mk_Event(<LowerLimit>,4,8),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,6),
-mk_Event(<LowerLimit>,1,8),  
-mk_Event(<EntersNoActionRegion>,0,10)
-]};
-
-end GLOBAL
 ~~~
 {% endraw %}
 
@@ -709,6 +603,112 @@ MaxOneOfEachActionTypePerTime(actionLog) ==
      (actionLog(x).Type <> actionLog(y).Type)
 
 end AutomatedStockBroker
+~~~
+{% endraw %}
+
+### timer.vdmpp
+
+{% raw %}
+~~~
+class Timer 
+
+instance variables
+
+  currentTime : nat := 1;
+
+values 
+
+  stepLength : nat = 1;
+
+operations
+
+public 
+  StepTime: () ==> ()
+  StepTime() == 
+    currentTime := currentTime + stepLength;
+
+public
+  GetTime: () ==> nat 
+  GetTime() == return currentTime;
+
+end Timer
+~~~
+{% endraw %}
+
+### GLOBAL.vdmpp
+
+{% raw %}
+~~~
+class GLOBAL
+types
+public String = seq of char;
+
+public EventType = <UpperLimit> | <LowerLimit> | <Peak> | <Valley> | 
+<EntersNoActionRegion> | <LeavesNoActionRegion>;
+
+public StockState = <PotentialBuy> | <Bought>;
+
+public Event :: Type : EventType
+TimeStamp : nat
+Value : nat; 
+
+public Region :: UpperValue : StockValue
+  LowerValue : StockValue
+inv mk_Region(p1,p2) == p1 >= p2;
+
+public StockValue = nat;
+public StockIdentifier = token;
+
+public ActionType = <Buy> | <Sell> ;
+
+public ActionTrigger :: Trigger : seq of EventType
+Action : ActionType;
+
+public StockRecord :: Name : StockIdentifier 
+Triggers : map StockState to ActionTrigger 
+NoActionReg : Region
+Cost : StockValue
+State : StockState
+
+inv mk_StockRecord(p1,p2,p3,p4,p5) == p2(<PotentialBuy>).Action = <Buy> 
+and p2(<Bought>).Action = <Sell>;
+
+public ActionEvent :: Type : ActionType
+  Time : nat
+  StockName : StockIdentifier
+  Value : StockValue;
+ 
+values
+public static testValues : map StockIdentifier to seq of Event = 
+{mk_token("test") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<LowerLimit>,5,8),
+mk_Event(<UpperLimit>,4,12),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,13),
+mk_Event(<UpperLimit>,1,12),  
+mk_Event(<EntersNoActionRegion>,0,10)
+],
+mk_token("test12") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<LowerLimit>,5,8),
+mk_Event(<UpperLimit>,4,12),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,16),
+mk_Event(<UpperLimit>,1,12),  
+mk_Event(<EntersNoActionRegion>,0,10)
+],
+mk_token("test2") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<UpperLimit>,5,8),
+mk_Event(<LowerLimit>,4,8),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,6),
+mk_Event(<LowerLimit>,1,8),  
+mk_Event(<EntersNoActionRegion>,0,10)
+]};
+
+end GLOBAL
 ~~~
 {% endraw %}
 

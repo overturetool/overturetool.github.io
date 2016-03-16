@@ -18,6 +18,42 @@ launcer provided here is sufficient to cover the entire VDM++ model.
 |Entry point     :| new Table(2).LetsEat()|
 
 
+### philosopher.vdmpp
+
+{% raw %}
+~~~
+              
+class Philosopher
+
+instance variables
+  theTable : Table;
+  turns : nat := 2
+
+operations
+  public Philosopher : Table ==> Philosopher
+  Philosopher (pt) == theTable := pt;
+
+  Think: () ==> ()
+  Think () == skip;
+
+  Eat: () ==> ()
+  Eat () == turns := turns - 1;
+
+thread
+  ( while (turns > 0) do
+      ( Think();
+        theTable.takeFork();
+        theTable.takeFork();
+        Eat();
+        theTable.releaseFork();
+        theTable.releaseFork() );
+    theTable.IamDone() )
+
+end Philosopher
+            
+~~~
+{% endraw %}
+
 ### table.vdmpp
 
 {% raw %}
@@ -62,42 +98,6 @@ sync
    mutex(IamDone)
 
 end Table
-            
-~~~
-{% endraw %}
-
-### philosopher.vdmpp
-
-{% raw %}
-~~~
-              
-class Philosopher
-
-instance variables
-  theTable : Table;
-  turns : nat := 2
-
-operations
-  public Philosopher : Table ==> Philosopher
-  Philosopher (pt) == theTable := pt;
-
-  Think: () ==> ()
-  Think () == skip;
-
-  Eat: () ==> ()
-  Eat () == turns := turns - 1;
-
-thread
-  ( while (turns > 0) do
-      ( Think();
-        theTable.takeFork();
-        theTable.takeFork();
-        Eat();
-        theTable.releaseFork();
-        theTable.releaseFork() );
-    theTable.IamDone() )
-
-end Philosopher
             
 ~~~
 {% endraw %}

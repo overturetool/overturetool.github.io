@@ -16,6 +16,226 @@ This example is produced by a student as a part of a VDM course given at the Dep
 |Entry point     :| new UnitTestRunner().Execute()|
 
 
+### UnitTestRunner.vdmpp
+
+{% raw %}
+~~~
+class UnitTestRunner
+
+operations
+    public Execute: () ==> ()
+           Execute() ==
+                def tests: TestSuite = new TestSuite(new UnitTests());
+                    result = new TestResult()
+                in
+                (
+                    tests.run(result);
+                    IO`println(result.toString());
+                );
+
+end UnitTestRunner
+~~~
+{% endraw %}
+
+### MetroUnit.vdmpp
+
+{% raw %}
+~~~
+class MetroUnit
+
+types
+    public MetroUnitId = token;
+    public MetroUnitState = <Running> | <Stopped>;
+    
+instance variables
+    private id: MetroUnitId;
+    private state: MetroUnitState := <Stopped>;
+    private line: [InterlockingSystem`MetroLine] := nil;
+    private trackIndex: nat1 := 1;
+    
+    -- The metro unit must be on the tracks.
+    inv InterlockingSystem`InRangeOfTracks(line, trackIndex);
+    
+    private recentStates: seq of MetroUnit`MetroUnitState := [ ];
+    
+    -- Save states of at most ten time steps.
+    inv len recentStates <= 10;
+    
+operations
+    public MetroUnit: MetroUnitId ==> MetroUnit
+           MetroUnit(newId) ==
+           (
+                id := newId;
+           );
+    
+    pure public GetId: () ==> MetroUnitId
+           GetId() == return id;
+    
+    pure
+    public GetLine: () ==> [InterlockingSystem`MetroLine]
+           GetLine() == return line;
+    
+    pure
+    public GetLocation: () ==> [InterlockingSystem`Track]
+           GetLocation() == return InterlockingSystem`TrackAt(line, trackIndex);
+    
+    pure
+    public GetNextLocation: () ==> [InterlockingSystem`Track]
+           GetNextLocation() == return InterlockingSystem`TrackAt(line, InterlockingSystem`NextTrackIndex(line, trackIndex));
+    
+    pure
+    public GetState: () ==> MetroUnitState
+           GetState() == return state;
+    
+    pure
+    public IsStuck: () ==> bool
+           IsStuck() ==
+                return recentStates <> [] and
+                       not exists s in set elems recentStates &
+                           s = <Running>;
+    
+    public Relocate: [InterlockingSystem`MetroLine] * nat1 ==> ()
+           Relocate(newLine, startingTrackIndex) ==
+                atomic
+                (
+                    line := newLine;
+                    trackIndex := startingTrackIndex;
+                )
+    pre InterlockingSystem`InRangeOfTracks(newLine, startingTrackIndex);
+    
+    public Run: () ==> ()
+           Run() == state := <Running>;
+    
+    public Stop: () ==> ()
+           Stop() == state := <Stopped>;
+    
+    public Tick: () ==> ()
+           Tick() == 
+           (
+                Move();
+                UpdateRecentStates();
+           );
+           
+    private Move: () ==> ()
+            Move() ==
+                if state = <Running> then
+                    trackIndex := InterlockingSystem`NextTrackIndex(line, trackIndex);
+    
+    private UpdateRecentStates: () ==> ()
+            UpdateRecentStates() ==
+                recentStates := (if len recentStates = 10 then
+                                     tl recentStates
+                                 else recentStates) ^ [ state ]
+    post len recentStates <= 10;
+    
+end MetroUnit
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+class World
+
+values
+    private system: InterlockingSystem = new InterlockingSystem();
+
+    private lines: seq of InterlockingSystem`MetroLine =
+    [
+        LinearLine("Central line", [ Track(1, 0, <Underground>, 2) -- 1
+                                   , Track(2, 0, <Underwater>, 1)
+                                   , Track(3, 0, <Underwater>, 1)
+                                   , Track(4, 0, <Underwater>, 1) -- 2
+                                   , Track(5, 0, <Underground>, 2)
+                                   , Track(6, 0, <Underground>, 2)
+                                   , Track(7, 0, <Underground>, 2) -- 3
+                                   , Track(8, 0, <Overground>, 2)
+                                   , Track(9, 0, <Overground>, 2)
+                                   , Track(9, 1, <Elevated>, 1) ]), -- 4
+        
+        CircularLine("Circle line", [ Track(4, 1, <Underground>, 1) -- 5
+                                    , Track(3, 1, <Underground>, 1)
+                                    , Track(2, 1, <Overground>, 1)
+                                    , Track(1, 1, <Overground>, 1) -- 6
+                                    , Track(1, 0, <Underground>, 2)
+                                    , Track(2, 0, <Underwater>, 1)
+                                    , Track(3, 0, <Underwater>, 1)
+                                    , Track(4, 0, <Underwater>, 1)
+                                    , Track(5, 0, <Underground>, 2) -- 7
+                                    , Track(5, 1, <Underground>, 1)
+                                    , Track(4, 1, <Underground>, 1) ])
+    ];
+    
+    private units: seq of MetroUnit = [ new MetroUnit(mk_token(i)) | i in set { 1, ..., 7 } ];
+    
+    private stateCharacters: map MetroUnit`MetroUnitState to char = { <Running> |-> 'R', <Stopped> |-> ' ' };
+    
+functions
+    private static Track: nat * nat * InterlockingSystem`TrackKind * nat1 -> InterlockingSystem`Track
+                   Track(x, y, kind, capacity) == mk_InterlockingSystem`Track(mk_(x, y), kind, capacity);
+    
+    private static CircularLine: InterlockingSystem`MetroLineName * seq of InterlockingSystem`Track -> InterlockingSystem`MetroLine
+                   CircularLine(name, tracks) == InterlockingSystem`CreateCircularLine(name, tracks);
+    
+    private static LinearLine: InterlockingSystem`MetroLineName * seq of InterlockingSystem`Track -> InterlockingSystem`MetroLine
+                   LinearLine(name, tracks) == InterlockingSystem`CreateLinearLine(name, tracks);
+    
+operations
+    public World: () ==> World
+           World() == InitialiseSystem();
+    
+    private InitialiseSystem: () ==> ()
+            InitialiseSystem() ==
+            (
+                for line in lines do system.AddLine(line);
+                for unit in units do system.AddUnit(unit);
+                
+                units(1).Relocate(lines(1), 1);
+                units(2).Relocate(lines(1), 4);
+                units(3).Relocate(lines(1), 7);
+                units(4).Relocate(lines(1), 10);
+                
+                units(5).Relocate(lines(2), 1);
+                units(6).Relocate(lines(2), 4);
+                units(7).Relocate(lines(2), 9);
+            );
+    
+    public Run: nat ==> ()
+           Run(stepLimit) ==
+                for all step in set { 1, ..., stepLimit } do
+                (
+                    TickWorld();
+                    Print(step);
+                );
+    
+    private TickWorld: () ==> ()
+            TickWorld() ==
+            (
+                system.Tick();
+                for unit in units do unit.Tick();
+            );
+    
+    private Pad: seq of char ==> seq of char
+            Pad(chars) ==
+                if len chars = 1 then
+                    return "  " ^ chars
+                else if len chars = 2 then
+                    return " " ^ chars
+                else
+                    return chars;
+                    
+    private Print: nat1 ==> ()
+            Print(step) ==
+                def stepText = Pad(VDMUtil`val2seq_of_char[nat1](step));
+                    states = [ stateCharacters(units(i).GetState()) | i in set inds units ]
+                in 
+                    IO`println(stepText ^ ": " ^ states);
+    
+end World
+~~~
+{% endraw %}
+
 ### InterlockingSystem.vdmpp
 
 {% raw %}
@@ -246,101 +466,6 @@ end InterlockingSystem
 ~~~
 {% endraw %}
 
-### MetroUnit.vdmpp
-
-{% raw %}
-~~~
-class MetroUnit
-
-types
-    public MetroUnitId = token;
-    public MetroUnitState = <Running> | <Stopped>;
-    
-instance variables
-    private id: MetroUnitId;
-    private state: MetroUnitState := <Stopped>;
-    private line: [InterlockingSystem`MetroLine] := nil;
-    private trackIndex: nat1 := 1;
-    
-    -- The metro unit must be on the tracks.
-    inv InterlockingSystem`InRangeOfTracks(line, trackIndex);
-    
-    private recentStates: seq of MetroUnit`MetroUnitState := [ ];
-    
-    -- Save states of at most ten time steps.
-    inv len recentStates <= 10;
-    
-operations
-    public MetroUnit: MetroUnitId ==> MetroUnit
-           MetroUnit(newId) ==
-           (
-                id := newId;
-           );
-    
-    pure public GetId: () ==> MetroUnitId
-           GetId() == return id;
-    
-    pure
-    public GetLine: () ==> [InterlockingSystem`MetroLine]
-           GetLine() == return line;
-    
-    pure
-    public GetLocation: () ==> [InterlockingSystem`Track]
-           GetLocation() == return InterlockingSystem`TrackAt(line, trackIndex);
-    
-    pure
-    public GetNextLocation: () ==> [InterlockingSystem`Track]
-           GetNextLocation() == return InterlockingSystem`TrackAt(line, InterlockingSystem`NextTrackIndex(line, trackIndex));
-    
-    pure
-    public GetState: () ==> MetroUnitState
-           GetState() == return state;
-    
-    pure
-    public IsStuck: () ==> bool
-           IsStuck() ==
-                return recentStates <> [] and
-                       not exists s in set elems recentStates &
-                           s = <Running>;
-    
-    public Relocate: [InterlockingSystem`MetroLine] * nat1 ==> ()
-           Relocate(newLine, startingTrackIndex) ==
-                atomic
-                (
-                    line := newLine;
-                    trackIndex := startingTrackIndex;
-                )
-    pre InterlockingSystem`InRangeOfTracks(newLine, startingTrackIndex);
-    
-    public Run: () ==> ()
-           Run() == state := <Running>;
-    
-    public Stop: () ==> ()
-           Stop() == state := <Stopped>;
-    
-    public Tick: () ==> ()
-           Tick() == 
-           (
-                Move();
-                UpdateRecentStates();
-           );
-           
-    private Move: () ==> ()
-            Move() ==
-                if state = <Running> then
-                    trackIndex := InterlockingSystem`NextTrackIndex(line, trackIndex);
-    
-    private UpdateRecentStates: () ==> ()
-            UpdateRecentStates() ==
-                recentStates := (if len recentStates = 10 then
-                                     tl recentStates
-                                 else recentStates) ^ [ state ]
-    post len recentStates <= 10;
-    
-end MetroUnit
-~~~
-{% endraw %}
-
 ### UnitTests.vdmpp
 
 {% raw %}
@@ -517,131 +642,6 @@ operations
            tearDown() == skip;
     
 end UnitTests
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
-class World
-
-values
-    private system: InterlockingSystem = new InterlockingSystem();
-
-    private lines: seq of InterlockingSystem`MetroLine =
-    [
-        LinearLine("Central line", [ Track(1, 0, <Underground>, 2) -- 1
-                                   , Track(2, 0, <Underwater>, 1)
-                                   , Track(3, 0, <Underwater>, 1)
-                                   , Track(4, 0, <Underwater>, 1) -- 2
-                                   , Track(5, 0, <Underground>, 2)
-                                   , Track(6, 0, <Underground>, 2)
-                                   , Track(7, 0, <Underground>, 2) -- 3
-                                   , Track(8, 0, <Overground>, 2)
-                                   , Track(9, 0, <Overground>, 2)
-                                   , Track(9, 1, <Elevated>, 1) ]), -- 4
-        
-        CircularLine("Circle line", [ Track(4, 1, <Underground>, 1) -- 5
-                                    , Track(3, 1, <Underground>, 1)
-                                    , Track(2, 1, <Overground>, 1)
-                                    , Track(1, 1, <Overground>, 1) -- 6
-                                    , Track(1, 0, <Underground>, 2)
-                                    , Track(2, 0, <Underwater>, 1)
-                                    , Track(3, 0, <Underwater>, 1)
-                                    , Track(4, 0, <Underwater>, 1)
-                                    , Track(5, 0, <Underground>, 2) -- 7
-                                    , Track(5, 1, <Underground>, 1)
-                                    , Track(4, 1, <Underground>, 1) ])
-    ];
-    
-    private units: seq of MetroUnit = [ new MetroUnit(mk_token(i)) | i in set { 1, ..., 7 } ];
-    
-    private stateCharacters: map MetroUnit`MetroUnitState to char = { <Running> |-> 'R', <Stopped> |-> ' ' };
-    
-functions
-    private static Track: nat * nat * InterlockingSystem`TrackKind * nat1 -> InterlockingSystem`Track
-                   Track(x, y, kind, capacity) == mk_InterlockingSystem`Track(mk_(x, y), kind, capacity);
-    
-    private static CircularLine: InterlockingSystem`MetroLineName * seq of InterlockingSystem`Track -> InterlockingSystem`MetroLine
-                   CircularLine(name, tracks) == InterlockingSystem`CreateCircularLine(name, tracks);
-    
-    private static LinearLine: InterlockingSystem`MetroLineName * seq of InterlockingSystem`Track -> InterlockingSystem`MetroLine
-                   LinearLine(name, tracks) == InterlockingSystem`CreateLinearLine(name, tracks);
-    
-operations
-    public World: () ==> World
-           World() == InitialiseSystem();
-    
-    private InitialiseSystem: () ==> ()
-            InitialiseSystem() ==
-            (
-                for line in lines do system.AddLine(line);
-                for unit in units do system.AddUnit(unit);
-                
-                units(1).Relocate(lines(1), 1);
-                units(2).Relocate(lines(1), 4);
-                units(3).Relocate(lines(1), 7);
-                units(4).Relocate(lines(1), 10);
-                
-                units(5).Relocate(lines(2), 1);
-                units(6).Relocate(lines(2), 4);
-                units(7).Relocate(lines(2), 9);
-            );
-    
-    public Run: nat ==> ()
-           Run(stepLimit) ==
-                for all step in set { 1, ..., stepLimit } do
-                (
-                    TickWorld();
-                    Print(step);
-                );
-    
-    private TickWorld: () ==> ()
-            TickWorld() ==
-            (
-                system.Tick();
-                for unit in units do unit.Tick();
-            );
-    
-    private Pad: seq of char ==> seq of char
-            Pad(chars) ==
-                if len chars = 1 then
-                    return "  " ^ chars
-                else if len chars = 2 then
-                    return " " ^ chars
-                else
-                    return chars;
-                    
-    private Print: nat1 ==> ()
-            Print(step) ==
-                def stepText = Pad(VDMUtil`val2seq_of_char[nat1](step));
-                    states = [ stateCharacters(units(i).GetState()) | i in set inds units ]
-                in 
-                    IO`println(stepText ^ ": " ^ states);
-    
-end World
-~~~
-{% endraw %}
-
-### UnitTestRunner.vdmpp
-
-{% raw %}
-~~~
-class UnitTestRunner
-
-operations
-    public Execute: () ==> ()
-           Execute() ==
-                def tests: TestSuite = new TestSuite(new UnitTests());
-                    result = new TestResult()
-                in
-                (
-                    tests.run(result);
-                    IO`println(result.toString());
-                );
-
-end UnitTestRunner
 ~~~
 {% endraw %}
 

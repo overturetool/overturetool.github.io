@@ -17,6 +17,55 @@ and traversing over abstract threes and queues.
 |Language Version:| vdm10|
 
 
+### bst.vdmpp
+
+{% raw %}
+~~~
+class BinarySearchTree is subclass of Tree
+
+
+  functions
+
+    public
+    isBst : Tree`tree -> bool
+    isBst (t) ==
+      cases t:
+        <Empty> -> true,
+        mk_node(lt,v,rt) -> 
+           (forall n in set lt.nodes() & n.nval <= v) and
+           (forall n in set rt.nodes() & v <= n.nval) and
+           isBst(lt.gettree()) and isBst(rt.gettree())
+      end
+ 
+  operations
+
+    BinarySearchTree_inv : () ==> bool
+    BinarySearchTree_inv () ==
+      return(isBst(root));
+
+    public
+    Insert : int ==> ()
+    Insert (x) ==
+      (dcl curr_node : Tree := self;
+
+       while not curr_node.isEmpty() do
+         if curr_node.rootval() < x
+         then curr_node := curr_node.rightBranch()
+         else curr_node := curr_node.leftBranch();
+       curr_node.addRoot(x);
+       )
+
+end BinarySearchTree
+class BalancedBST is subclass of BinarySearchTree
+
+  values
+
+  v = 1
+
+end BalancedBST
+~~~
+{% endraw %}
+
 ### tree.vdmpp
 
 {% raw %}
@@ -126,47 +175,6 @@ end Tree
 ~~~
 {% endraw %}
 
-### usetree.vdmpp
-
-{% raw %}
-~~~
-class UseTree
-
-instance variables
-
-  t1 : BinarySearchTree := new BinarySearchTree();
-  t2 : Tree := new BinarySearchTree()
-
-traces
-
-  insertion_BST : 
-    (let n in set {1,...,5} in
-       t1.Insert(n)
-    ){2};  (t1.breadth_first_search() | 
-            t1.depth_first_search() |
-            t1.inorder () |
-            t1.isEmpty()
-           )
-
-end UseTree
-~~~
-{% endraw %}
-
-### avl.vdmpp
-
-{% raw %}
-~~~
-class AVLTree is subclass of Tree
-
-  functions
-
-  tree_isAVLTree : tree -> bool
-  tree_isAVLTree(t) == true
-
-end AVLTree
-~~~
-{% endraw %}
-
 ### queue.vdmpp
 
 {% raw %}
@@ -200,52 +208,44 @@ end Queue
 ~~~
 {% endraw %}
 
-### bst.vdmpp
+### avl.vdmpp
 
 {% raw %}
 ~~~
-class BinarySearchTree is subclass of Tree
-
+class AVLTree is subclass of Tree
 
   functions
 
-    public
-    isBst : Tree`tree -> bool
-    isBst (t) ==
-      cases t:
-        <Empty> -> true,
-        mk_node(lt,v,rt) -> 
-           (forall n in set lt.nodes() & n.nval <= v) and
-           (forall n in set rt.nodes() & v <= n.nval) and
-           isBst(lt.gettree()) and isBst(rt.gettree())
-      end
- 
-  operations
+  tree_isAVLTree : tree -> bool
+  tree_isAVLTree(t) == true
 
-    BinarySearchTree_inv : () ==> bool
-    BinarySearchTree_inv () ==
-      return(isBst(root));
+end AVLTree
+~~~
+{% endraw %}
 
-    public
-    Insert : int ==> ()
-    Insert (x) ==
-      (dcl curr_node : Tree := self;
+### usetree.vdmpp
 
-       while not curr_node.isEmpty() do
-         if curr_node.rootval() < x
-         then curr_node := curr_node.rightBranch()
-         else curr_node := curr_node.leftBranch();
-       curr_node.addRoot(x);
-       )
+{% raw %}
+~~~
+class UseTree
 
-end BinarySearchTree
-class BalancedBST is subclass of BinarySearchTree
+instance variables
 
-  values
+  t1 : BinarySearchTree := new BinarySearchTree();
+  t2 : Tree := new BinarySearchTree()
 
-  v = 1
+traces
 
-end BalancedBST
+  insertion_BST : 
+    (let n in set {1,...,5} in
+       t1.Insert(n)
+    ){2};  (t1.breadth_first_search() | 
+            t1.depth_first_search() |
+            t1.inorder () |
+            t1.isEmpty()
+           )
+
+end UseTree
 ~~~
 {% endraw %}
 

@@ -18,78 +18,6 @@ in a stable.
 |Entry point     :| new World().Run()|
 
 
-### iiosstypes.vdmrt
-
-{% raw %}
-~~~
-              
-class IIOSSTYPES
-
-types
-	public PigPosition::
-		id: nat1
-		pos: Position;
-
-	public Position::
-		posX: int
-		posY: int;
-	
-	public EventId = nat;
-	public PigId = nat;
-	public PigStyId = nat;
-	public Time = nat;
-
-	public EventType = <SHOW_PIG> | <PIG_MOVED> | <PIG_NEW> | <NEED_MEDIC> | <NONE>;
-	
-
-operations
-	static public DebugPrint: seq of char ==> ()
-	DebugPrint(text) ==
-	(
-		def file = new IO()
-		in
-		def - = file.writeval[seq of char](text) in skip;
-	);
-	
-end IIOSSTYPES
-
-                                                                               
-~~~
-{% endraw %}
-
-### Actuator.vdmrt
-
-{% raw %}
-~~~
-               
-class Actuator is subclass of IIOSSTYPES
-
-instance variables
-	actuatorID : nat;
-operations
-	public Actuator: (nat) ==> Actuator
-	Actuator(actID) ==
-	(
-	  actuatorID := actID;
-	  return self;
-	);
-
-	public SetValues : EventId * PigPosition ==> ()
-	SetValues(eventId, val) == 
-	(
-							-- eventID, eventType, text, eventTime
-		World`env.handleEvent(eventId, <SHOW_PIG>, 
-                              " PigPosition " ^ VDMUtil`val2seq_of_char[PigPosition](val), 
-                              time);
-	);
-sync
-	mutex(SetValues);
-end Actuator
-
-                                                                            
-~~~
-{% endraw %}
-
 ### Server.vdmrt
 
 {% raw %}
@@ -194,103 +122,6 @@ end Server
 ~~~
 {% endraw %}
 
-### IIOSS.vdmrt
-
-{% raw %}
-~~~
-              
-
-system IIOSS
-
-instance variables
-	-- CPUS
-	-- Server
-	cpu1 : CPU := new CPU (<FCFS>,1E6); -- server
-	--stablecontrollers
-	cpu2 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller1
-	cpu3 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller2
-	-- sensors
-	cpu4 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller1Sensor
-	cpu5 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller1Sensor
-	cpu6 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller2Sensor
-	cpu7 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller2Sensor
-	-- Actuators
-	cpu8 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller1
-	cpu9 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller1
-	cpu10 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller2
-	cpu11 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller2	
-	
-	
-	--BUSs
-	-- Server to stablecontroller ?
-	bus1 : BUS := new BUS (<FCFS>,1E6,{cpu1,cpu2});
-	bus2 : BUS := new BUS (<FCFS>,1E6,{cpu1,cpu3});
-	-- stablecontroller1 to sensors
-	bus3 : BUS := new BUS (<FCFS>,1E6,{cpu2,cpu4,cpu5});
-	-- stablecontroller2 to sensors
-	bus4 : BUS := new BUS (<FCFS>,1E6,{cpu3,cpu6,cpu7});
-	-- stablecontroller1 to sensors
-	bus5 : BUS := new BUS (<FCFS>,1E6,{cpu2,cpu8,cpu9});
-	-- stablecontroller2 to sensors
-	bus6 : BUS := new BUS (<FCFS>,1E6,{cpu3,cpu10,cpu11});
-	
-	
-
-
-	-- stable controller
-	public static server : Server := new Server();
-	--public static server : Server := new Server("scenario.txt");
-	-- Stable controller
-	public static StableController1 : StableController := new StableController(server);
-	public static StableController2 : StableController := new StableController(server);
-
-	-- Sensors for stableController1
-	public static sensor1 : Sensor := new Sensor(StableController1);
-	public static sensor2 : Sensor := new Sensor(StableController1);
-	
-	-- Sensors for stableController2
-	public static sensor3 : Sensor := new Sensor(StableController2);
-	public static sensor4 : Sensor := new Sensor(StableController2);
-	public static sensor5 : Sensor := new Sensor(StableController2);
-	
-	-- Actuators for stableController1
-	public static actuator1 : Actuator := new Actuator();
-	public static actuator2 : Actuator := new Actuator();
-	
-	-- Actuators for stableController2
-	public static actuator3 : Actuator := new Actuator();
-	public static actuator4 : Actuator := new Actuator();
-
-operations
-public IIOSS: () ==> IIOSS
-IIOSS () ==
-(
-	cpu1.deploy(server);
-	-- StableController1
-	cpu2.deploy(StableController1);
-	-- StableController2
-	cpu3.deploy(StableController2);
-	-- Sensors
-	cpu4.deploy(sensor1);
-	cpu5.deploy(sensor2);
-	
-	cpu6.deploy(sensor3);
-	cpu7.deploy(sensor4);
-	-- actuators
-	cpu8.deploy(actuator1);
-	cpu9.deploy(actuator2);
-	
-	cpu10.deploy(actuator3);
-	cpu11.deploy(actuator4);
-
-);
-
-end IIOSS
-
-               
-~~~
-{% endraw %}
-
 ### StableController.vdmrt
 
 {% raw %}
@@ -389,6 +220,177 @@ sync
 end StableController
 
                                                                                     
+~~~
+{% endraw %}
+
+### IIOSS.vdmrt
+
+{% raw %}
+~~~
+              
+
+system IIOSS
+
+instance variables
+	-- CPUS
+	-- Server
+	cpu1 : CPU := new CPU (<FCFS>,1E6); -- server
+	--stablecontrollers
+	cpu2 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller1
+	cpu3 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller2
+	-- sensors
+	cpu4 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller1Sensor
+	cpu5 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller1Sensor
+	cpu6 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller2Sensor
+	cpu7 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller2Sensor
+	-- Actuators
+	cpu8 : CPU := new CPU (<FCFS>,1E6);  -- stablecontroller1
+	cpu9 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller1
+	cpu10 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller2
+	cpu11 : CPU := new CPU (<FCFS>,1E6); -- stablecontroller2	
+	
+	
+	--BUSs
+	-- Server to stablecontroller ?
+	bus1 : BUS := new BUS (<FCFS>,1E6,{cpu1,cpu2});
+	bus2 : BUS := new BUS (<FCFS>,1E6,{cpu1,cpu3});
+	-- stablecontroller1 to sensors
+	bus3 : BUS := new BUS (<FCFS>,1E6,{cpu2,cpu4,cpu5});
+	-- stablecontroller2 to sensors
+	bus4 : BUS := new BUS (<FCFS>,1E6,{cpu3,cpu6,cpu7});
+	-- stablecontroller1 to sensors
+	bus5 : BUS := new BUS (<FCFS>,1E6,{cpu2,cpu8,cpu9});
+	-- stablecontroller2 to sensors
+	bus6 : BUS := new BUS (<FCFS>,1E6,{cpu3,cpu10,cpu11});
+	
+	
+
+
+	-- stable controller
+	public static server : Server := new Server();
+	--public static server : Server := new Server("scenario.txt");
+	-- Stable controller
+	public static StableController1 : StableController := new StableController(server);
+	public static StableController2 : StableController := new StableController(server);
+
+	-- Sensors for stableController1
+	public static sensor1 : Sensor := new Sensor(StableController1);
+	public static sensor2 : Sensor := new Sensor(StableController1);
+	
+	-- Sensors for stableController2
+	public static sensor3 : Sensor := new Sensor(StableController2);
+	public static sensor4 : Sensor := new Sensor(StableController2);
+	public static sensor5 : Sensor := new Sensor(StableController2);
+	
+	-- Actuators for stableController1
+	public static actuator1 : Actuator := new Actuator();
+	public static actuator2 : Actuator := new Actuator();
+	
+	-- Actuators for stableController2
+	public static actuator3 : Actuator := new Actuator();
+	public static actuator4 : Actuator := new Actuator();
+
+operations
+public IIOSS: () ==> IIOSS
+IIOSS () ==
+(
+	cpu1.deploy(server);
+	-- StableController1
+	cpu2.deploy(StableController1);
+	-- StableController2
+	cpu3.deploy(StableController2);
+	-- Sensors
+	cpu4.deploy(sensor1);
+	cpu5.deploy(sensor2);
+	
+	cpu6.deploy(sensor3);
+	cpu7.deploy(sensor4);
+	-- actuators
+	cpu8.deploy(actuator1);
+	cpu9.deploy(actuator2);
+	
+	cpu10.deploy(actuator3);
+	cpu11.deploy(actuator4);
+
+);
+
+end IIOSS
+
+               
+~~~
+{% endraw %}
+
+### World.vdmrt
+
+{% raw %}
+~~~
+              
+class World
+
+instance variables
+	
+	-- maintain a link to the environment
+	public static env : [Environment] := nil;
+	
+operations
+	
+	public World: () ==> World
+	World () ==
+	(
+	   -- set-up the sensors
+	   env := new Environment("scenario.txt");
+	   
+		-- add sensors
+	   env.addSensor(IIOSS`sensor1);
+	   env.addSensor(IIOSS`sensor2);
+	   env.addSensor(IIOSS`sensor3);
+	   env.addSensor(IIOSS`sensor4);
+	   
+	   --server
+	   env.addServer(IIOSS`server);
+	
+		-- controller 1
+										--AddSensor(sensor, PigStyId)
+	   IIOSS`StableController1.AddSensor(IIOSS`sensor1,1);
+	   IIOSS`StableController1.AddSensor(IIOSS`sensor2,2); 
+	   
+	   IIOSS`StableController1.AddActuator(IIOSS`actuator1,1);
+	   IIOSS`StableController1.AddActuator(IIOSS`actuator2,2);
+	     
+		
+		-- controller 2
+							--AddSensor(sensor, PigStyId)
+	   IIOSS`StableController2.AddSensor(IIOSS`sensor3,3);
+	   IIOSS`StableController2.AddSensor(IIOSS`sensor4,4);
+	   
+	   IIOSS`StableController2.AddActuator(IIOSS`actuator3,3);
+	   IIOSS`StableController2.AddActuator(IIOSS`actuator4,4);
+	   
+	   --env.isFinished();
+	   	
+		start(IIOSS`server);
+	
+	 );  
+	   
+
+	public Run: () ==> ()
+	Run () == 
+	(
+	   IIOSSTYPES`DebugPrint("************************************************");
+	   IIOSSTYPES`DebugPrint("** World class started ");
+	   IIOSSTYPES`DebugPrint("************************************************");
+	   start (env);
+	   env.isFinished();
+	   IIOSS`server.isFinished();
+	   env.showResult();
+   	   IIOSSTYPES`DebugPrint("************************************************");
+	   IIOSSTYPES`DebugPrint("** World class ended ");
+	   IIOSSTYPES`DebugPrint("************************************************");
+	)
+
+end World
+
+                                                                         
 ~~~
 {% endraw %}
 
@@ -546,116 +548,42 @@ end Environment
 ~~~
 {% endraw %}
 
-### Sensor.vdmrt
-
-{% raw %}
-~~~
-               
-class Sensor is subclass of IIOSSTYPES 
-instance variables
-	private stableController : StableController;
-	private pigs: set of PigId := {}; 
-	
-
-operations
-	public Sensor: StableController ==> Sensor
-	Sensor(controller) == 
-	(	
-		stableController := controller;
-		return self;
-	);
-
-
-	async public trip : EventType * PigId * [Position] ==> ()
-	trip(eventType,pigId, position) == 
-	(
-		if (eventType = <PIG_NEW>) then
-		(
-			stableController.AddPig(pigId, self, position);
-		) 
-		elseif (eventType = <PIG_MOVED>) then
-		(
-			stableController.RemovePig(pigId);
-		);
-	); 
-	 
-end Sensor
-
-                                                                          
-~~~
-{% endraw %}
-
-### World.vdmrt
+### iiosstypes.vdmrt
 
 {% raw %}
 ~~~
               
-class World
+class IIOSSTYPES
 
-instance variables
+types
+	public PigPosition::
+		id: nat1
+		pos: Position;
+
+	public Position::
+		posX: int
+		posY: int;
 	
-	-- maintain a link to the environment
-	public static env : [Environment] := nil;
+	public EventId = nat;
+	public PigId = nat;
+	public PigStyId = nat;
+	public Time = nat;
+
+	public EventType = <SHOW_PIG> | <PIG_MOVED> | <PIG_NEW> | <NEED_MEDIC> | <NONE>;
 	
+
 operations
-	
-	public World: () ==> World
-	World () ==
+	static public DebugPrint: seq of char ==> ()
+	DebugPrint(text) ==
 	(
-	   -- set-up the sensors
-	   env := new Environment("scenario.txt");
-	   
-		-- add sensors
-	   env.addSensor(IIOSS`sensor1);
-	   env.addSensor(IIOSS`sensor2);
-	   env.addSensor(IIOSS`sensor3);
-	   env.addSensor(IIOSS`sensor4);
-	   
-	   --server
-	   env.addServer(IIOSS`server);
+		def file = new IO()
+		in
+		def - = file.writeval[seq of char](text) in skip;
+	);
 	
-		-- controller 1
-										--AddSensor(sensor, PigStyId)
-	   IIOSS`StableController1.AddSensor(IIOSS`sensor1,1);
-	   IIOSS`StableController1.AddSensor(IIOSS`sensor2,2); 
-	   
-	   IIOSS`StableController1.AddActuator(IIOSS`actuator1,1);
-	   IIOSS`StableController1.AddActuator(IIOSS`actuator2,2);
-	     
-		
-		-- controller 2
-							--AddSensor(sensor, PigStyId)
-	   IIOSS`StableController2.AddSensor(IIOSS`sensor3,3);
-	   IIOSS`StableController2.AddSensor(IIOSS`sensor4,4);
-	   
-	   IIOSS`StableController2.AddActuator(IIOSS`actuator3,3);
-	   IIOSS`StableController2.AddActuator(IIOSS`actuator4,4);
-	   
-	   --env.isFinished();
-	   	
-		start(IIOSS`server);
-	
-	 );  
-	   
+end IIOSSTYPES
 
-	public Run: () ==> ()
-	Run () == 
-	(
-	   IIOSSTYPES`DebugPrint("************************************************");
-	   IIOSSTYPES`DebugPrint("** World class started ");
-	   IIOSSTYPES`DebugPrint("************************************************");
-	   start (env);
-	   env.isFinished();
-	   IIOSS`server.isFinished();
-	   env.showResult();
-   	   IIOSSTYPES`DebugPrint("************************************************");
-	   IIOSSTYPES`DebugPrint("** World class ended ");
-	   IIOSSTYPES`DebugPrint("************************************************");
-	)
-
-end World
-
-                                                                         
+                                                                               
 ~~~
 {% endraw %}
 
@@ -754,6 +682,25 @@ end TestCase
 ~~~
 {% endraw %}
 
+### IIOSSTest.vdmrt
+
+{% raw %}
+~~~
+              
+class IIOSSTest
+operations
+	public Execute: () ==> ()
+	Execute () ==
+	    (dcl ts : TestSuite := new TestSuite();
+	     ts.AddTest(new IIOSSTestCase2("Unit test"));
+	     ts.Run()
+		)
+     
+end IIOSSTest
+              
+~~~
+{% endraw %}
+
 ### Test.vdmrt
 
 {% raw %}
@@ -798,25 +745,6 @@ public AddTest: Test ==> ()
     tests := tests ^ [test];
 
 end TestSuite
-              
-~~~
-{% endraw %}
-
-### IIOSSTest.vdmrt
-
-{% raw %}
-~~~
-              
-class IIOSSTest
-operations
-	public Execute: () ==> ()
-	Execute () ==
-	    (dcl ts : TestSuite := new TestSuite();
-	     ts.AddTest(new IIOSSTestCase2("Unit test"));
-	     ts.Run()
-		)
-     
-end IIOSSTest
               
 ~~~
 {% endraw %}
@@ -892,6 +820,78 @@ operations
 
 end IIOSSTestCase2
              
+~~~
+{% endraw %}
+
+### Sensor.vdmrt
+
+{% raw %}
+~~~
+               
+class Sensor is subclass of IIOSSTYPES 
+instance variables
+	private stableController : StableController;
+	private pigs: set of PigId := {}; 
+	
+
+operations
+	public Sensor: StableController ==> Sensor
+	Sensor(controller) == 
+	(	
+		stableController := controller;
+		return self;
+	);
+
+
+	async public trip : EventType * PigId * [Position] ==> ()
+	trip(eventType,pigId, position) == 
+	(
+		if (eventType = <PIG_NEW>) then
+		(
+			stableController.AddPig(pigId, self, position);
+		) 
+		elseif (eventType = <PIG_MOVED>) then
+		(
+			stableController.RemovePig(pigId);
+		);
+	); 
+	 
+end Sensor
+
+                                                                          
+~~~
+{% endraw %}
+
+### Actuator.vdmrt
+
+{% raw %}
+~~~
+               
+class Actuator is subclass of IIOSSTYPES
+
+instance variables
+	actuatorID : nat;
+operations
+	public Actuator: (nat) ==> Actuator
+	Actuator(actID) ==
+	(
+	  actuatorID := actID;
+	  return self;
+	);
+
+	public SetValues : EventId * PigPosition ==> ()
+	SetValues(eventId, val) == 
+	(
+							-- eventID, eventType, text, eventTime
+		World`env.handleEvent(eventId, <SHOW_PIG>, 
+                              " PigPosition " ^ VDMUtil`val2seq_of_char[PigPosition](val), 
+                              time);
+	);
+sync
+	mutex(SetValues);
+end Actuator
+
+                                                                            
 ~~~
 {% endraw %}
 

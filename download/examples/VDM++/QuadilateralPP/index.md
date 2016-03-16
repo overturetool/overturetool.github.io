@@ -19,35 +19,16 @@ code automatically generated using VDMTools.
 |Language Version:| vdm10|
 
 
-### square.vdmpp
+### rhombus.vdmpp
 
 {% raw %}
 ~~~
-class Square is subclass of Rhombus, Rectangle
+class Rhombus is subclass of Parallelogram
  
-end Square
-~~~
-{% endraw %}
-
-### parallelogram.vdmpp
-
-{% raw %}
-~~~
-class Parallelogram is subclass of Quadrilateral
+  instance variables
+  inv length (v1) = length (v2)
  
-   instance variables
-      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
- 
-   operations
-      public
-      GetAngle: () ==> real
-      GetAngle() ==
-        let math = new MATH() 
-        in
-        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
- 
-end Parallelogram
-
+end Rhombus
 ~~~
 {% endraw %}
 
@@ -174,53 +155,13 @@ end MATH
 ~~~
 {% endraw %}
 
-### rectangle.vdmpp
+### square.vdmpp
 
 {% raw %}
 ~~~
-class Rectangle is subclass of Parallelogram
+class Square is subclass of Rhombus, Rectangle
  
-  instance variables
-  inv inproduct (v1 , v2) = 0 
- 
-end Rectangle
-~~~
-{% endraw %}
-
-### rhombus.vdmpp
-
-{% raw %}
-~~~
-class Rhombus is subclass of Parallelogram
- 
-  instance variables
-  inv length (v1) = length (v2)
- 
-end Rhombus
-~~~
-{% endraw %}
-
-### mathematics.vdmpp
-
-{% raw %}
-~~~
-class Mathematics
- 
-  values
-    pi: real = 3.14
- 
-  types
-    Angle = real
-    inv a == a >= 0 and a <= 2*pi
- 
-  functions
-    acos (x: real) res: Angle
-    post inv_Angle (res);
- 
-    sqrt (r: real) res: real
-    post res**2 = r
-
-end Mathematics
+end Square
 ~~~
 {% endraw %}
 
@@ -258,6 +199,28 @@ class Quadrilateral is subclass of Vector
     Display() == is not yet specified
  
 end Quadrilateral
+
+~~~
+{% endraw %}
+
+### parallelogram.vdmpp
+
+{% raw %}
+~~~
+class Parallelogram is subclass of Quadrilateral
+ 
+   instance variables
+      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
+ 
+   operations
+      public
+      GetAngle: () ==> real
+      GetAngle() ==
+        let math = new MATH() 
+        in
+        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
+ 
+end Parallelogram
 
 ~~~
 {% endraw %}
@@ -305,6 +268,19 @@ class Vector
  
 end Vector
 
+~~~
+{% endraw %}
+
+### rectangle.vdmpp
+
+{% raw %}
+~~~
+class Rectangle is subclass of Parallelogram
+ 
+  instance variables
+  inv inproduct (v1 , v2) = 0 
+ 
+end Rectangle
 ~~~
 {% endraw %}
 
@@ -356,6 +332,30 @@ class WorkSpace is subclass of Vector
   
 end WorkSpace
 
+~~~
+{% endraw %}
+
+### mathematics.vdmpp
+
+{% raw %}
+~~~
+class Mathematics
+ 
+  values
+    pi: real = 3.14
+ 
+  types
+    Angle = real
+    inv a == a >= 0 and a <= 2*pi
+ 
+  functions
+    acos (x: real) res: Angle
+    post inv_Angle (res);
+ 
+    sqrt (r: real) res: real
+    post res**2 = r
+
+end Mathematics
 ~~~
 {% endraw %}
 

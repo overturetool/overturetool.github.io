@@ -15,6 +15,152 @@ Author: Claus Ballegaard Nielsen
 |Entry point     :| new World().Run()|
 
 
+### gui_Graphics.vdmpp
+
+{% raw %}
+~~~
+class gui_Graphics
+	operations
+
+    public init : () ==> ()
+	init() == is not yet specified;
+
+	public tobaccoAdded : () ==> ()
+	tobaccoAdded() == is not yet specified; 
+
+	public paperAdded : () ==> ()
+	paperAdded() == is not yet specified; 
+
+	public matchAdded : () ==> ()
+	matchAdded() == is not yet specified; 
+
+	public tableCleared : () ==> ()
+	tableCleared() == is not yet specified;  
+
+	public nowSmoking : nat ==> ()
+	nowSmoking(smokerNumber) == is not yet specified;
+
+	functions
+	public static ElementToNat : Table`Element -> nat
+    ElementToNat(elm) == 
+		cases elm:
+			<Tobacco> -> 1,
+			<Paper> -> 2,
+			<Match> -> 3
+	 	end;
+
+end gui_Graphics
+
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+class World
+
+instance variables
+public static graphics : gui_Graphics:= new gui_Graphics();
+
+table: Table := new Table();
+public agent: Agent := new Agent(table);
+smokers : set of Smoker := {new Smoker("Smoker 1", <Tobacco>, table),
+                            new Smoker("Smoker 2", <Paper>, table),
+                            new Smoker("Smoker 3", <Match>, table)};
+limit : nat;
+finished : bool := false;
+
+operations
+
+public World: nat ==> World
+World(simtime) ==
+(
+  IO`print("World Ctor");
+  limit := simtime;
+  
+);
+
+public Yield: () ==> ()
+Yield() == skip;
+
+Finished: () ==> nat
+Finished() ==
+  agent.GetTime();
+
+public Run: () ==> ()
+Run() ==
+(
+   startlist(smokers);
+    graphics.init();
+ )
+
+thread
+(
+while agent.GetTime() <= limit do
+  skip; 
+  finished := true)
+
+sync
+
+per Finished => finished;
+end World
+~~~
+{% endraw %}
+
+### Smoker.vdmpp
+
+{% raw %}
+~~~
+class Smoker
+
+instance variables
+  smokerName : seq of char; 
+  elements: set of Table`Element;
+  orig_element : Table`Element;
+  cigarettes : nat := 0;
+  --inv cigarettes in set {0,1};
+  table : Table;
+
+operations
+
+public Smoker: seq of char * Table`Element * Table ==> Smoker
+Smoker(name ,element,tab) == (
+  smokerName := name;
+  elements := {element};
+  orig_element := element;
+  table := tab);
+
+Roll: () ==> ()
+Roll() == (
+  World`graphics.nowSmoking(gui_Graphics`ElementToNat(orig_element));
+  IO`print(smokerName ^ " rolling ");  
+  elements := {};
+  cigarettes := cigarettes + 1
+  )
+pre card elements = 3;
+
+Smoke: () ==> ()
+Smoke() ==(
+  IO`print("and smoking \n"); 
+  cigarettes := cigarettes - 1;
+  elements := {orig_element};
+);
+
+thread
+  while true do (
+    elements := elements union table.TakeElements(elements);
+    Roll();
+    Smoke()
+  )
+
+sync
+per Smoke => cigarettes > 0;
+
+end Smoker
+~~~
+{% endraw %}
+
 ### Table.vdmpp
 
 {% raw %}
@@ -85,41 +231,50 @@ end Table
 ~~~
 {% endraw %}
 
-### gui_Graphics.vdmpp
+### VDMUtil.vdmpp
 
 {% raw %}
 ~~~
-class gui_Graphics
-	operations
+class VDMUtil
 
-    public init : () ==> ()
-	init() == is not yet specified;
+-- 	Overture STANDARD LIBRARY: MiscUtils
+--      --------------------------------------------
+-- 
+-- Standard library for the Overture Interpreter. When the interpreter
+-- evaluates the preliminary functions/operations in this file,
+-- corresponding internal functions is called instead of issuing a run
+-- time error. Signatures should not be changed, as well as name of
+-- module (VDM-SL) or class (VDM++). Pre/post conditions is 
+-- fully user customisable. 
+-- Dont care's may NOT be used in the parameter lists.
 
-	public tobaccoAdded : () ==> ()
-	tobaccoAdded() == is not yet specified; 
+functions
+-- Converts a set argument into a sequence in non-deterministic order.
+static public set2seq[@T] : set of @T +> seq of @T
+set2seq(x) == is not yet specified;
 
-	public paperAdded : () ==> ()
-	paperAdded() == is not yet specified; 
+-- Returns a context information tuple which represents
+-- (fine_name * line_num * column_num * class_name * fnop_name) of corresponding source text
+static public get_file_pos : () +> [ seq of char * nat * nat * seq of char * seq of char ]
+get_file_pos() == is not yet specified;
 
-	public matchAdded : () ==> ()
-	matchAdded() == is not yet specified; 
+-- Converts a VDM value into a seq of char.
+static public val2seq_of_char[@T] : @T +> seq of char
+val2seq_of_char(x) == is not yet specified;
 
-	public tableCleared : () ==> ()
-	tableCleared() == is not yet specified;  
+-- converts VDM value in ASCII format into a VDM value
+-- RESULT.#1 = false implies a conversion failure
+static public seq_of_char2val[@p]:seq1 of char -> bool * [@p]
+seq_of_char2val(s) ==
+  is not yet specified
+  post let mk_(b,t) = RESULT in not b => t = nil;
 
-	public nowSmoking : nat ==> ()
-	nowSmoking(smokerNumber) == is not yet specified;
 
-	functions
-	public static ElementToNat : Table`Element -> nat
-    ElementToNat(elm) == 
-		cases elm:
-			<Tobacco> -> 1,
-			<Paper> -> 2,
-			<Match> -> 3
-	 	end;
+static public classname[@T] : @T -> [seq1 of char]
+    classname(s) == is not yet specified;
 
-end gui_Graphics
+end VDMUtil
+
 
 ~~~
 {% endraw %}
@@ -394,161 +549,6 @@ public
 
  
 end MATH
-~~~
-{% endraw %}
-
-### VDMUtil.vdmpp
-
-{% raw %}
-~~~
-class VDMUtil
-
--- 	Overture STANDARD LIBRARY: MiscUtils
---      --------------------------------------------
--- 
--- Standard library for the Overture Interpreter. When the interpreter
--- evaluates the preliminary functions/operations in this file,
--- corresponding internal functions is called instead of issuing a run
--- time error. Signatures should not be changed, as well as name of
--- module (VDM-SL) or class (VDM++). Pre/post conditions is 
--- fully user customisable. 
--- Dont care's may NOT be used in the parameter lists.
-
-functions
--- Converts a set argument into a sequence in non-deterministic order.
-static public set2seq[@T] : set of @T +> seq of @T
-set2seq(x) == is not yet specified;
-
--- Returns a context information tuple which represents
--- (fine_name * line_num * column_num * class_name * fnop_name) of corresponding source text
-static public get_file_pos : () +> [ seq of char * nat * nat * seq of char * seq of char ]
-get_file_pos() == is not yet specified;
-
--- Converts a VDM value into a seq of char.
-static public val2seq_of_char[@T] : @T +> seq of char
-val2seq_of_char(x) == is not yet specified;
-
--- converts VDM value in ASCII format into a VDM value
--- RESULT.#1 = false implies a conversion failure
-static public seq_of_char2val[@p]:seq1 of char -> bool * [@p]
-seq_of_char2val(s) ==
-  is not yet specified
-  post let mk_(b,t) = RESULT in not b => t = nil;
-
-
-static public classname[@T] : @T -> [seq1 of char]
-    classname(s) == is not yet specified;
-
-end VDMUtil
-
-
-~~~
-{% endraw %}
-
-### Smoker.vdmpp
-
-{% raw %}
-~~~
-class Smoker
-
-instance variables
-  smokerName : seq of char; 
-  elements: set of Table`Element;
-  orig_element : Table`Element;
-  cigarettes : nat := 0;
-  --inv cigarettes in set {0,1};
-  table : Table;
-
-operations
-
-public Smoker: seq of char * Table`Element * Table ==> Smoker
-Smoker(name ,element,tab) == (
-  smokerName := name;
-  elements := {element};
-  orig_element := element;
-  table := tab);
-
-Roll: () ==> ()
-Roll() == (
-  World`graphics.nowSmoking(gui_Graphics`ElementToNat(orig_element));
-  IO`print(smokerName ^ " rolling ");  
-  elements := {};
-  cigarettes := cigarettes + 1
-  )
-pre card elements = 3;
-
-Smoke: () ==> ()
-Smoke() ==(
-  IO`print("and smoking \n"); 
-  cigarettes := cigarettes - 1;
-  elements := {orig_element};
-);
-
-thread
-  while true do (
-    elements := elements union table.TakeElements(elements);
-    Roll();
-    Smoke()
-  )
-
-sync
-per Smoke => cigarettes > 0;
-
-end Smoker
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
-class World
-
-instance variables
-public static graphics : gui_Graphics:= new gui_Graphics();
-
-table: Table := new Table();
-public agent: Agent := new Agent(table);
-smokers : set of Smoker := {new Smoker("Smoker 1", <Tobacco>, table),
-                            new Smoker("Smoker 2", <Paper>, table),
-                            new Smoker("Smoker 3", <Match>, table)};
-limit : nat;
-finished : bool := false;
-
-operations
-
-public World: nat ==> World
-World(simtime) ==
-(
-  IO`print("World Ctor");
-  limit := simtime;
-  
-);
-
-public Yield: () ==> ()
-Yield() == skip;
-
-Finished: () ==> nat
-Finished() ==
-  agent.GetTime();
-
-public Run: () ==> ()
-Run() ==
-(
-   startlist(smokers);
-    graphics.init();
- )
-
-thread
-(
-while agent.GetTime() <= limit do
-  skip; 
-  finished := true)
-
-sync
-
-per Finished => finished;
-end World
 ~~~
 {% endraw %}
 

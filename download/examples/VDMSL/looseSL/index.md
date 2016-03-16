@@ -95,6 +95,143 @@ functions
 ~~~
 {% endraw %}
 
+### as.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                               
+
+
+-----------------------------------------------------------------------
+------------------- Abstract Syntax Definitions -----------------------
+-----------------------------------------------------------------------
+
+types
+
+
+-----------------------------------------------------------------------
+-------------------------- Definitions --------------------------------
+-----------------------------------------------------------------------
+
+Definitions :: valuem : seq of ValueDef
+               fnm : map Name to ExplFnDef;
+
+                                                                                                                                                                
+
+-----------------------------------------------------------------------
+-------------------------- Value Definitions --------------------------
+-----------------------------------------------------------------------
+
+ValueDef :: pat : Pattern                                     
+            val : Expr;
+                                                                                                                                                                                                                                                                                                                            
+-----------------------------------------------------------------------
+-------------------------- Functions Definitions ----------------------
+-----------------------------------------------------------------------
+
+ExplFnDef :: nm      : Name
+             pat     : Pattern
+             body    : Expr;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+-----------------------------------------------------------------------
+-------------------------- Expressions --------------------------------
+-----------------------------------------------------------------------
+
+Expr = LetExpr | LetBeSTExpr| IfExpr | CasesExpr |
+       UnaryExpr | BinaryExpr | SetEnumerationExpr |
+       ApplyExpr | Literal | Name | BracketedExpr ;            
+
+
+BracketedExpr :: expr : Expr;
+
+LetExpr :: lhs   : Pattern
+           rhs   : Expr
+           body  : Expr;
+
+LetBeSTExpr :: lhs : Bind                                     
+               St  : Expr
+               In  : Expr;
+
+IfExpr :: test   : Expr                                          
+          cons   : Expr
+          altn   : Expr;
+
+CasesExpr :: sel    : Expr
+             altns  : seq of CaseAltn 
+             Others : [Expr];
+
+CaseAltn :: match : Pattern
+            body  : Expr;
+
+UnaryExpr  :: opr : UnaryOp
+              arg : Expr;
+
+UnaryOp = <NUMMINUS>;
+
+BinaryExpr :: left  : Expr
+              opr   : BinaryOp
+              right : Expr;
+
+BinaryOp = <EQ> | <NUMPLUS> | <NUMMINUS> | <NUMMULT> | <SETMINUS> ;
+
+SetEnumerationExpr :: els : seq of Expr;
+
+ApplyExpr :: fct : Name
+             arg : Expr;
+
+Name :: ids : seq of Id;
+
+Id = seq of char;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+-----------------------------------------------------------------------
+-------------------- Patterns and Bindings ----------------------------
+-----------------------------------------------------------------------
+
+Pattern = PatternName | MatchVal | SetPattern;
+
+PatternName :: nm : [(Name * Position)];
+
+MatchVal :: val : Expr;
+
+SetPattern = SetEnumPattern | SetUnionPattern;
+
+SetEnumPattern :: Elems : seq of Pattern;
+
+SetUnionPattern :: lp : Pattern
+                   rp : Pattern;
+
+Position = nat * nat;
+
+Bind = SetBind;
+
+SetBind :: pat : Pattern
+           Set : Expr;
+                                                                                                                                                                 
+-----------------------------------------------------------------------
+-------------------- Literals -----------------------------------------
+-----------------------------------------------------------------------
+
+Literal = BoolLit | NumLit;
+
+BoolLit:: val : bool;
+
+NumLit :: val : int
+
+values
+
+ pat : Pattern = mk_PatternName(mk_(mk_Name(["x"]),mk_(1,1)));
+ 
+ sexpr : Expr = mk_SetEnumerationExpr([mk_NumLit(1),mk_NumLit(2)]);
+ expr : Expr = mk_LetBeSTExpr(mk_SetBind(pat,sexpr), 
+                              mk_BoolLit(true), 
+                              mk_Name(["x"]));
+                              
+ expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
+
+             
+~~~
+{% endraw %}
+
 ### pat.vdmsl
 
 {% raw %}
@@ -201,6 +338,192 @@ EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
     return env_s)
 )
                                                                                                                                  
+~~~
+{% endraw %}
+
+### env.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+types
+
+  ENVL = seq of ENV;
+                                                                                                                                                                                                                                                                                                                              
+  ENV = seq of BlkEnv;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+  BlkEnv = seq of NameVal;
+                                                                                                                                                                                                                                                                                                                                                   
+  NameVal = UniqueId * VAL;
+
+  UniqueId = (Name * Position * ([Name * VAL]));
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+  LVAL = set of (VAL * Model);
+                                                                                                                                                                                                                                                                                                                                                                                                                                
+  Model = map UniqueId to VAL;
+                                                                                                                                                                                                                                              
+  VAL = NUM | BOOL | SET;
+
+  NUM :: v : int;
+
+  BOOL :: v : bool;
+
+  SET :: v : set of VAL
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+state Sigma of
+  env_l: ENVL
+  val_m: map UniqueId to LVAL
+  fn_m: map Name to (Pattern * Expr)
+  curfn: seq of (Name * VAL)
+  fnparms: set of UniqueId
+init s ==
+  s = mk_Sigma([[]],
+               {|->},
+               {|->},
+               [],
+	       {})
+end
+
+                                                                                                                                                                                                                                                                                                  
+operations
+
+  CreateContext: Definitions ==> ()
+  CreateContext(mk_Definitions(valuem,fnm)) ==
+    (InstallValueDefs(valuem);
+     InstallFnDefs(fnm));
+                                                                                                                                                                                                                                                                                                           
+  InstallValueDefs: seq of ValueDef ==> ()
+  InstallValueDefs(val_l) ==
+    for mk_ValueDef(pat,expr) in val_l do
+      let lval = LooseEvalExpr(expr)
+      in
+        for all mk_(val,model) in set lval do
+	  let env_s = PatternMatch(pat,val)
+	  in
+	    val_m := Extend(val_m,
+	             {id |-> {mk_(Look(env,id),model)|env in set env_s}
+		     | id in set dinter {SelDom(env)| env in set env_s}});
+
+                                                                                                                                                                                             
+
+  InstallFnDefs: map Name to ExplFnDef ==> ()
+  InstallFnDefs(fn_marg) ==
+    fn_m := {nm |-> mk_(fn_marg(nm).pat,fn_marg(nm).body)
+            | nm in set dom fn_marg};
+
+  InstallCurFn: Name * VAL * set of UniqueId ==> ()
+  InstallCurFn(nm,val,patids) ==
+   (curfn := [mk_(nm,val)] ^ curfn;
+    fnparms := fnparms union patids);
+
+  LeaveCurFn: () ==> ()
+  LeaveCurFn() ==
+    curfn := tl curfn
+  pre curfn <> []
+
+                                                                                                                                                                                                                                                                                                                                                         
+operations
+
+  PopEnvL: () ==> ()
+  PopEnvL() ==
+    env_l := tl env_l;
+
+  TopEnvL : () ==> ENV
+  TopEnvL () ==
+    return hd env_l;
+
+  PushEmptyEnv : () ==> ()
+  PushEmptyEnv () ==
+    env_l := [ [] ] ^ env_l;
+
+  PopBlkEnv : () ==> ()
+  PopBlkEnv () ==
+    env_l := [ tl hd env_l ] ^ tl env_l;
+
+  PushBlkEnv : BlkEnv ==> ()
+  PushBlkEnv (benv) ==
+    env_l := [ [ benv ] ^ hd env_l ] ^ tl env_l;
+
+  MkEmptyBlkEnv: () ==> BlkEnv
+  MkEmptyBlkEnv() ==
+    return [];
+
+  CombineBlkEnv : BlkEnv * BlkEnv ==> BlkEnv
+  CombineBlkEnv ( env1,env2) ==
+    return env1 ^ env2;
+    
+  MkBlkEnv : (Name * Position) * VAL ==> BlkEnv
+  MkBlkEnv (mk_(nm,pos), val_v ) ==
+    let fninfo = FnInfo()
+    in
+      return [ mk_(mk_(nm, pos, fninfo), val_v)];
+
+  FnInfo: () ==> [Name * VAL]
+  FnInfo() ==
+    if len curfn = 0
+    then return nil
+    else return hd curfn;
+	   
+  LooseLookUp: Name ==> LVAL
+  LooseLookUp(nm) ==
+  (let topenv = TopEnvL()
+   in
+     for env in topenv do
+       for mk_(id,val) in env do
+         if SelName(id) = nm 
+	 then return {mk_(val, if id in set fnparms
+	                       then {|->}
+			       else {id |-> val})}
+	 else skip;
+   LookUpValueDefs(nm));
+
+  LookUpValueDefs: Name ==> LVAL
+  LookUpValueDefs(nm) ==
+    (for all id in set dom val_m do
+      if SelName(id) = nm
+      then return {mk_(v,m munion {id |-> v}) | mk_(v,m) in set val_m(id)};
+     error); 
+
+  LookUpFn: Name ==> Pattern * Expr
+  LookUpFn(nm) ==
+    return fn_m(nm)
+  pre nm in set dom fn_m
+
+functions
+
+  SelName: UniqueId +> Name
+  SelName(mk_(nm,-,-)) ==
+    nm;
+    
+  SelNameAndPos: UniqueId +> Name * Position
+  SelNameAndPos(mk_(nm,pos,-)) ==
+    mk_(nm,pos);
+
+  SelDom: BlkEnv +> set of UniqueId
+  SelDom(blkenv) ==
+    {id| mk_(id,-) in set elems blkenv};
+
+  Look: BlkEnv * UniqueId +> VAL
+  Look(env,id) ==
+    if env = []
+    then undefined
+    else let mk_(nm,val) = hd env
+         in
+	   if nm = id
+	   then val
+	   else Look(tl env, id)
+  pre exists mk_(nm,-) in set elems env & nm = id;
+
+  Extend: (map UniqueId to LVAL) * (map UniqueId to LVAL) +>
+          (map UniqueId to LVAL)
+  Extend(val_m,upd_m) ==
+    val_m ++ {id |-> if id in set dom val_m
+                     then val_m(id) union upd_m(id)
+		     else upd_m(id)
+	     | id in set dom upd_m}
+    
+            
 ~~~
 {% endraw %}
 
@@ -403,329 +726,6 @@ operations
 
   
                                                                                                                                                                            
-~~~
-{% endraw %}
-
-### as.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                               
-
-
------------------------------------------------------------------------
-------------------- Abstract Syntax Definitions -----------------------
------------------------------------------------------------------------
-
-types
-
-
------------------------------------------------------------------------
--------------------------- Definitions --------------------------------
------------------------------------------------------------------------
-
-Definitions :: valuem : seq of ValueDef
-               fnm : map Name to ExplFnDef;
-
-                                                                                                                                                                
-
------------------------------------------------------------------------
--------------------------- Value Definitions --------------------------
------------------------------------------------------------------------
-
-ValueDef :: pat : Pattern                                     
-            val : Expr;
-                                                                                                                                                                                                                                                                                                                            
------------------------------------------------------------------------
--------------------------- Functions Definitions ----------------------
------------------------------------------------------------------------
-
-ExplFnDef :: nm      : Name
-             pat     : Pattern
-             body    : Expr;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
------------------------------------------------------------------------
--------------------------- Expressions --------------------------------
------------------------------------------------------------------------
-
-Expr = LetExpr | LetBeSTExpr| IfExpr | CasesExpr |
-       UnaryExpr | BinaryExpr | SetEnumerationExpr |
-       ApplyExpr | Literal | Name | BracketedExpr ;            
-
-
-BracketedExpr :: expr : Expr;
-
-LetExpr :: lhs   : Pattern
-           rhs   : Expr
-           body  : Expr;
-
-LetBeSTExpr :: lhs : Bind                                     
-               St  : Expr
-               In  : Expr;
-
-IfExpr :: test   : Expr                                          
-          cons   : Expr
-          altn   : Expr;
-
-CasesExpr :: sel    : Expr
-             altns  : seq of CaseAltn 
-             Others : [Expr];
-
-CaseAltn :: match : Pattern
-            body  : Expr;
-
-UnaryExpr  :: opr : UnaryOp
-              arg : Expr;
-
-UnaryOp = <NUMMINUS>;
-
-BinaryExpr :: left  : Expr
-              opr   : BinaryOp
-              right : Expr;
-
-BinaryOp = <EQ> | <NUMPLUS> | <NUMMINUS> | <NUMMULT> | <SETMINUS> ;
-
-SetEnumerationExpr :: els : seq of Expr;
-
-ApplyExpr :: fct : Name
-             arg : Expr;
-
-Name :: ids : seq of Id;
-
-Id = seq of char;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
------------------------------------------------------------------------
--------------------- Patterns and Bindings ----------------------------
------------------------------------------------------------------------
-
-Pattern = PatternName | MatchVal | SetPattern;
-
-PatternName :: nm : [(Name * Position)];
-
-MatchVal :: val : Expr;
-
-SetPattern = SetEnumPattern | SetUnionPattern;
-
-SetEnumPattern :: Elems : seq of Pattern;
-
-SetUnionPattern :: lp : Pattern
-                   rp : Pattern;
-
-Position = nat * nat;
-
-Bind = SetBind;
-
-SetBind :: pat : Pattern
-           Set : Expr;
-                                                                                                                                                                 
------------------------------------------------------------------------
--------------------- Literals -----------------------------------------
------------------------------------------------------------------------
-
-Literal = BoolLit | NumLit;
-
-BoolLit:: val : bool;
-
-NumLit :: val : int
-
-values
-
- pat : Pattern = mk_PatternName(mk_(mk_Name(["x"]),mk_(1,1)));
- 
- sexpr : Expr = mk_SetEnumerationExpr([mk_NumLit(1),mk_NumLit(2)]);
- expr : Expr = mk_LetBeSTExpr(mk_SetBind(pat,sexpr), 
-                              mk_BoolLit(true), 
-                              mk_Name(["x"]));
-                              
- expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
-
-             
-~~~
-{% endraw %}
-
-### env.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-types
-
-  ENVL = seq of ENV;
-                                                                                                                                                                                                                                                                                                                              
-  ENV = seq of BlkEnv;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-  BlkEnv = seq of NameVal;
-                                                                                                                                                                                                                                                                                                                                                   
-  NameVal = UniqueId * VAL;
-
-  UniqueId = (Name * Position * ([Name * VAL]));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-  LVAL = set of (VAL * Model);
-                                                                                                                                                                                                                                                                                                                                                                                                                                
-  Model = map UniqueId to VAL;
-                                                                                                                                                                                                                                              
-  VAL = NUM | BOOL | SET;
-
-  NUM :: v : int;
-
-  BOOL :: v : bool;
-
-  SET :: v : set of VAL
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-state Sigma of
-  env_l: ENVL
-  val_m: map UniqueId to LVAL
-  fn_m: map Name to (Pattern * Expr)
-  curfn: seq of (Name * VAL)
-  fnparms: set of UniqueId
-init s ==
-  s = mk_Sigma([[]],
-               {|->},
-               {|->},
-               [],
-	       {})
-end
-
-                                                                                                                                                                                                                                                                                                  
-operations
-
-  CreateContext: Definitions ==> ()
-  CreateContext(mk_Definitions(valuem,fnm)) ==
-    (InstallValueDefs(valuem);
-     InstallFnDefs(fnm));
-                                                                                                                                                                                                                                                                                                           
-  InstallValueDefs: seq of ValueDef ==> ()
-  InstallValueDefs(val_l) ==
-    for mk_ValueDef(pat,expr) in val_l do
-      let lval = LooseEvalExpr(expr)
-      in
-        for all mk_(val,model) in set lval do
-	  let env_s = PatternMatch(pat,val)
-	  in
-	    val_m := Extend(val_m,
-	             {id |-> {mk_(Look(env,id),model)|env in set env_s}
-		     | id in set dinter {SelDom(env)| env in set env_s}});
-
-                                                                                                                                                                                             
-
-  InstallFnDefs: map Name to ExplFnDef ==> ()
-  InstallFnDefs(fn_marg) ==
-    fn_m := {nm |-> mk_(fn_marg(nm).pat,fn_marg(nm).body)
-            | nm in set dom fn_marg};
-
-  InstallCurFn: Name * VAL * set of UniqueId ==> ()
-  InstallCurFn(nm,val,patids) ==
-   (curfn := [mk_(nm,val)] ^ curfn;
-    fnparms := fnparms union patids);
-
-  LeaveCurFn: () ==> ()
-  LeaveCurFn() ==
-    curfn := tl curfn
-  pre curfn <> []
-
-                                                                                                                                                                                                                                                                                                                                                         
-operations
-
-  PopEnvL: () ==> ()
-  PopEnvL() ==
-    env_l := tl env_l;
-
-  TopEnvL : () ==> ENV
-  TopEnvL () ==
-    return hd env_l;
-
-  PushEmptyEnv : () ==> ()
-  PushEmptyEnv () ==
-    env_l := [ [] ] ^ env_l;
-
-  PopBlkEnv : () ==> ()
-  PopBlkEnv () ==
-    env_l := [ tl hd env_l ] ^ tl env_l;
-
-  PushBlkEnv : BlkEnv ==> ()
-  PushBlkEnv (benv) ==
-    env_l := [ [ benv ] ^ hd env_l ] ^ tl env_l;
-
-  MkEmptyBlkEnv: () ==> BlkEnv
-  MkEmptyBlkEnv() ==
-    return [];
-
-  CombineBlkEnv : BlkEnv * BlkEnv ==> BlkEnv
-  CombineBlkEnv ( env1,env2) ==
-    return env1 ^ env2;
-    
-  MkBlkEnv : (Name * Position) * VAL ==> BlkEnv
-  MkBlkEnv (mk_(nm,pos), val_v ) ==
-    let fninfo = FnInfo()
-    in
-      return [ mk_(mk_(nm, pos, fninfo), val_v)];
-
-  FnInfo: () ==> [Name * VAL]
-  FnInfo() ==
-    if len curfn = 0
-    then return nil
-    else return hd curfn;
-	   
-  LooseLookUp: Name ==> LVAL
-  LooseLookUp(nm) ==
-  (let topenv = TopEnvL()
-   in
-     for env in topenv do
-       for mk_(id,val) in env do
-         if SelName(id) = nm 
-	 then return {mk_(val, if id in set fnparms
-	                       then {|->}
-			       else {id |-> val})}
-	 else skip;
-   LookUpValueDefs(nm));
-
-  LookUpValueDefs: Name ==> LVAL
-  LookUpValueDefs(nm) ==
-    (for all id in set dom val_m do
-      if SelName(id) = nm
-      then return {mk_(v,m munion {id |-> v}) | mk_(v,m) in set val_m(id)};
-     error); 
-
-  LookUpFn: Name ==> Pattern * Expr
-  LookUpFn(nm) ==
-    return fn_m(nm)
-  pre nm in set dom fn_m
-
-functions
-
-  SelName: UniqueId +> Name
-  SelName(mk_(nm,-,-)) ==
-    nm;
-    
-  SelNameAndPos: UniqueId +> Name * Position
-  SelNameAndPos(mk_(nm,pos,-)) ==
-    mk_(nm,pos);
-
-  SelDom: BlkEnv +> set of UniqueId
-  SelDom(blkenv) ==
-    {id| mk_(id,-) in set elems blkenv};
-
-  Look: BlkEnv * UniqueId +> VAL
-  Look(env,id) ==
-    if env = []
-    then undefined
-    else let mk_(nm,val) = hd env
-         in
-	   if nm = id
-	   then val
-	   else Look(tl env, id)
-  pre exists mk_(nm,-) in set elems env & nm = id;
-
-  Extend: (map UniqueId to LVAL) * (map UniqueId to LVAL) +>
-          (map UniqueId to LVAL)
-  Extend(val_m,upd_m) ==
-    val_m ++ {id |-> if id in set dom val_m
-                     then val_m(id) union upd_m(id)
-		     else upd_m(id)
-	     | id in set dom upd_m}
-    
-            
 ~~~
 {% endraw %}
 

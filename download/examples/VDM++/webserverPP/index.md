@@ -17,23 +17,24 @@ server.
 |Language Version:| vdm10|
 
 
-### url.vdmpp
+### file.vdmpp
 
 {% raw %}
 ~~~
+class File
 
-class URL
+  instance variables
 
-  operations
+    data: seq of char := ""
 
-    -- for a given configuration, translate maps this URL to the 
-    -- location of the corresponding file on the server.
+  operations 
+
     public
-    translate : () ==> Filename
-    translate () == is not yet specified;
-     
+    write : seq of char ==> ()
+    write(chs) == 
+      data := chs
 
-end URL
+end File
 ~~~
 {% endraw %}
 
@@ -62,24 +63,23 @@ end Filename
 ~~~
 {% endraw %}
 
-### file.vdmpp
+### url.vdmpp
 
 {% raw %}
 ~~~
-class File
 
-  instance variables
+class URL
 
-    data: seq of char := ""
+  operations
 
-  operations 
-
+    -- for a given configuration, translate maps this URL to the 
+    -- location of the corresponding file on the server.
     public
-    write : seq of char ==> ()
-    write(chs) == 
-      data := chs
+    translate : () ==> Filename
+    translate () == is not yet specified;
+     
 
-end File
+end URL
 ~~~
 {% endraw %}
 
