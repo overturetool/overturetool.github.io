@@ -90,3 +90,4 @@ We have [teaching materials]({{site.url}}/publications/training/) for the book.
 * Page 100, line -7+-6: "people" should be "aircraft" (twice)
 * Page 102, line 11: "The & predicate" part is optional" should be added.
 * Page 103, line 12: "the predicate" should be "the predicate in combination with the binding"
+* Page 243, line 7: "and the seq1 of _ operator" should be added
