@@ -86,3 +86,6 @@ We have [teaching materials]({{site.url}}/publications/training/) for the book.
 * Page 95, middle: "in Exercise 6.15" should be "in the solution to Exercise 6.15"
 * Page 99, line 11: Dot missing at teh end of the paragraph.
 * Page 100, line 16: "Two identical records are giving" should be "Two identical records give"
+* Page 100, line -7+-6: "people" should be "aircraft" (twice)
+* Page 102, line 11: "The & predicate" part is optional" should be added.
+* Page 103, line 12: "the predicate" should be "the predicate in combination with the binding"
