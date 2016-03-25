@@ -93,5 +93,6 @@ We have [teaching materials]({{site.url}}/publications/training/) for the book.
 * Page 103, line 12: "the predicate" should be "the predicate in combination with the binding"
 * Page 143, line 4: "dependences" should be "dependencies"
 * Page 166, line 13: "would unchanged" should be "would be unchanged"
+* Page 179, line 15: "aplication" should be "application"
 * Page 243, line 7: "and the seq1 of _ operator" should be added
 * Page 273-274, solution to exercise 5.2 and 5.3: "Controller" should be "Kernel" 
