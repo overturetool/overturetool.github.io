@@ -83,3 +83,4 @@ We have [teaching materials]({{site.url}}/publications/training/) for the book.
 * Page 63, line 1: "exceed" should be "are less than"
 * Page 84, footnote 2: "Appendix Appendix" should be "Appendix"
 * Page 89, line -4: "known about in" should be "known in"
+* Page 95, middle: "in Exercise 6.15" should be "in the solution to Exercise 6.15"
