@@ -81,4 +81,5 @@ We have [teaching materials]({{site.url}}/publications/training/) for the book.
 * Page 21, line 8: "Light" should be "Qualification"
 * Page 31, line 9-10: "Appendix Appendix" should be "Appendix"
 * Page 63, line 1: "exceed" should be "are less than"
-* 
+* Page 84, footnote 2: "Appendix Appendix" should be "Appendix"
+* Page 89, line -4: "known about in" should be "known in"
