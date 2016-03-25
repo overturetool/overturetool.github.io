@@ -82,6 +82,7 @@ We have [teaching materials]({{site.url}}/publications/training/) for the book.
 * Page 31, line 9-10: "Appendix Appendix" should be "Appendix"
 * Page 63, line 1: "exceed" should be "are less than"
 * Page 84, footnote 2: "Appendix Appendix" should be "Appendix"
+* Page 85, middle: "Figure 5.2" should be "Figure 5.1"
 * Page 89, line -4: "known about in" should be "known in"
 * Page 95, middle: "in Exercise 6.15" should be "in the solution to Exercise 6.15"
 * Page 99, line 11: Dot missing at teh end of the paragraph.
