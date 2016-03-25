@@ -85,3 +85,4 @@ We have [teaching materials]({{site.url}}/publications/training/) for the book.
 * Page 89, line -4: "known about in" should be "known in"
 * Page 95, middle: "in Exercise 6.15" should be "in the solution to Exercise 6.15"
 * Page 99, line 11: Dot missing at teh end of the paragraph.
+* Page 100, line 16: "Two identical records are giving" should be "Two identical records give"
