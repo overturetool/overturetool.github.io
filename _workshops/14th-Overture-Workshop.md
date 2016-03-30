@@ -44,7 +44,7 @@ The organising committee can be reached via the following e-mail address:  <mail
 * K Araki, Kyushu University, Japan
 * V Bandur, Aarhus University, Denmark
 * N Battle, Fujitsu, UK
-* (tentatively J S Fitzgerald, Newcastle University, UK)
+* J S Fitzgerald, Newcastle University, UK
 * F Ishikawa, NII, Japan
 * T Oda,  Software Research Associates, Inc., Japan
 * JN Oliveira, Minho University, Portugal
