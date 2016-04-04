@@ -54,6 +54,7 @@ Process (LBP) description.
 | Organization | Country | Point of contact |
 |:------------:|:-------:|:----------------:|
 | Aarhus University | Denmark | Peter Gorm Larsen |
+| Airservices Australia | Australia | Paul Chisholm |
 | Bang & Olufsen | Denmark | Klaus Kristensen |
 | Boston University | USA | Zhiqiang Ren |
 | Designers' Den Corp | Japan | Sako Hiroshi |
