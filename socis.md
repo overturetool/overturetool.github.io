@@ -10,7 +10,7 @@ In a TASTE system, functions can be implemented in a wide variety of languages. 
 
 For example if the function “world” expects a parameter “foo”, we can define the type of “foo” like this:
 
-TypeOfFoo ::= INTEGER (0..255)
+  `TypeOfFoo ::= INTEGER (0..255)`
 
 ASN.1 supports a range of data types - both simple such as INTEGER, REAL, BOOLEAN and ENUMERATED, and complex such as SEQUENCE, CHOICE, SEQUENCE OF. Parameters of a record can be optional and other constraints can be applied. 
 
