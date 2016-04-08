@@ -35,11 +35,11 @@ The student should have commanding knowledge of VDM, C, and Python. Knowledge of
 
 The idea would be to use this code generator to create combined SDL models (written with OpenGEODE, which is part of TASTE) and VDM models (written in Overture) that are deployed using the TASTE environment into a single working prototype. The challenge here is to allow seamless data exchange between the code generated from these models, which relies on ASN.1 in TASTE. A prototype of this approach (translating ASN.1 to VDM) is already available, see http://taste.tuxfamily.org/wiki/index.php?title=Work_in_progress:_Integrating_SDL_and_VDM. The work has the following objectives:
 
-To provide a bi-directional ASN.1 binding for (a subset of) VDM datatypes, such that the c-code generated from the VDM models can be seamlessly integrated into TASTE to create working prototypes
+* To provide a bi-directional ASN.1 binding for (a subset of) VDM datatypes, such that the c-code generated from the VDM models can be seamlessly integrated into TASTE to create working prototypes
 
-To demonstrate this capability on a case study
+* To demonstrate this capability on a case study
 
-To investigate (and prototype) the integration of an ASN.1 compliant communication capability directly in the Overture interpreter, which would allow the early integration of the Overture tool, rather than just the generated code from the models.
+* To investigate (and prototype) the integration of an ASN.1 compliant communication capability directly in the Overture interpreter, which would allow the early integration of the Overture tool, rather than just the generated code from the models.
 
 Mentor: Professor Peter Gorm Larsen (Aarhus University), co-mentor: Thanassis Tsiodras (ESA)
 
