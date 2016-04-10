@@ -1,4 +1,3 @@
-
 ---
 layout: default
 title: Net Meeting 97
