@@ -9,7 +9,6 @@ The Overture core group net meetings.
 
 ## Upcoming meetings:
 
-* Net Meeting 96: 13th March 2016, 1200 CET
 * Net Meeting 97: 17th April 2016, 1200 CET
 * Net Meeting 98: 22nd May 2016, 1200 CEST
 * Net Meeting 99: 26th June 2016, 1200 CEST
