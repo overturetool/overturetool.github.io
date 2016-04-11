@@ -43,10 +43,18 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
+Several small changes made to VDMJ and where relevant, Overture. The following taken from VDMJ release notes:
 
+* 3.1.1 Build 160317, fixed problem with sequence comprehensions, bug #16
+* 3.1.1 Build 160320, more performance improvements to trace iterators
+* 3.1.1 Build 160324, improvement in function instantiation checks, bug #17
+* 3.1.1 Build 160404, detect use of type parameter variables, bug #18
+* 3.1.1 Build 160408, added runtrace ranges.
+* 3.1.1 Build 160409, experimental assertVDM addition to VDMJUnit
+* 3.1.1 Build 160410, improvement to trace syntax error reporting
+* 3.1.1 Build 160411, added message parameter to assertVDM methods
 
 ##  Release Planning
 
