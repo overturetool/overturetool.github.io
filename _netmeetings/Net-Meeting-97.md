@@ -69,9 +69,9 @@ some description
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
+#### New Users
 
+Paul Chisholm is a new user from Airservices Australia (a govt. owned company that builds systems for the airline industry). He's interested both in using VDM modelling internally and using the same techniques in international standards (to do with exchange of air traffic information, since he sits on the Change Control Board for some of these standards). The recent improvements to VDMJ/Overture's type checking messages are a result of Paul's input.
 
 ##  Strategic Research Agenda
 
