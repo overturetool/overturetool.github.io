@@ -55,7 +55,7 @@ Several small changes made to VDMJ and where relevant, Overture. The following t
 * 3.1.1 Build 160409, experimental assertVDM addition to VDMJUnit
 * 3.1.1 Build 160410, improvement to trace syntax error reporting
 * 3.1.1 Build 160411, added message parameter to assertVDM methods
-* 3.1.1 Build 160414, some corrections to parse and check of exports and measures with type parameters
+* 3.1.1 Build 160415, some corrections to check of exports, imports and measures with type parameters
 
 ##  Release Planning
 
