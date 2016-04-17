@@ -10,9 +10,6 @@ title: Overture Publications
 #### Conferences / Journals
 
 
--   Exploring Alternative Designs using Automated Co-model Analysis
-    (Peter, Kenneth, Ken, Carl, and John for a journal)
-
 ## In preparation
 
 - Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. To be submitted to FM 2016.
@@ -29,14 +26,14 @@ title: Overture Publications
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
 -   Luis Diogo Couto and Peter Gorm Larsen, Improving Reuse through Extensibility in Formal Methods Tools, submitted for a special issue of Information Systems Frontiers journal on reuse, January 2016.
--   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, submitted to the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
 -   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen for MODELS 2016
 
 ## In press
 
+-   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, presented at the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
 -   Claus Ballegaard Nielsen, Kenneth Lausdahl, Peter Gorm Larsen.
     Distributed Simulation of Formal Models in System of Systems
-    Engineering. COMETS 2014, June 2014
+    Engineering. COMETS 2014, June 2014 https://www.computer.org/csdl/proceedings/wetice/2014/4249/00/4249a211.pdf
 -   José Antonio Esparza Isasa, Peter Gorm Larsen and Finn Overgaard
     Hansen. Energy-Aware Model-Driven Development of a Wearable Health
     Care Device. In preparation for the 6th FHIES/SEHC. June 2014
