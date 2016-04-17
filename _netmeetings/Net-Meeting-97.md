@@ -57,6 +57,12 @@ Several small changes made to VDMJ and where relevant, Overture. The following t
 * 3.1.1 Build 160411, added message parameter to assertVDM methods
 * 3.1.1 Build 160415, some corrections to check of exports, imports and measures with type parameters
 
+#### ViennaTalk
+
+* added syntax highlighting to VDM Browser.
+* added code generation that creates an object of an anonymous class from each module (in addition to scripts and classes).
+* performance improvement of auto-generated code (operations).
+
 ##  Release Planning
 
 #### topic 1
@@ -98,5 +104,7 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 
 
 ##  Any Other Business
+
+* Tomohiro Oda started to collect VDM benchmarks at repository (https://github.com/tomooda/VDM-benchmark). Please consider contributing your executable spec.
 
 <div id="edit_page_div"></div>
