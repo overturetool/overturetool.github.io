@@ -38,7 +38,11 @@ See https://github.com/overturetool/language/issues/35 and https://github.com/ov
 
 VDMTools is transferred to Kyushu
 
+## Overture
 
+* The Luna mirrors have been taken down so I changed Overture to build against Mars.
+* Next release of Overture requires Java 8.
+* A few auto-completion features are under development (student project) which might make it into the next release.
 
 ##  Status of the Overture Components
 
