@@ -14,31 +14,30 @@ date: 17 April 2016, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, MV, NB, LC, TO, LF, PJ.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 80-1 No progess.
+* 88-1 No progress.
 
 
 ## Overture Language Board Status
 
-#### topic 1
 
-some description
+Both RMs have entered the dicsussion phase and are open to input from the public. The LB generally seems supportive of the two RMs.
+
+See https://github.com/overturetool/language/issues/35 and https://github.com/overturetool/language/issues/36 for more information about the RMs.
 
 
 ## Status of VDMTools Development
 
-#### topic 1
 
-some description
+VDMTools is transferred to Kyushu
+
 
 
 ##  Status of the Overture Components
@@ -65,9 +64,7 @@ Several small changes made to VDMJ and where relevant, Overture. The following t
 
 ##  Release Planning
 
-#### topic 1
-
-some description
+The next release of Overture is scheduled for May 16.
 
 
 ##  Community Development
@@ -87,20 +84,8 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
 
 
 ##  Any Other Business
