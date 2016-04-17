@@ -27,10 +27,10 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
+See [RM 35](https://github.com/overturetool/language/issues/35) and [RM 36](https://github.com/overturetool/language/issues/36) for more information about the open RMs.
 
 Both RMs have entered the dicsussion phase and are open to input from the public. The LB generally seems supportive of the two RMs.
 
-See [RM 35](https://github.com/overturetool/language/issues/35) and [RM 36](https://github.com/overturetool/language/issues/36) for more information about the RMs.
 
 
 ## Status of VDMTools Development
@@ -62,9 +62,9 @@ Several small changes made to VDMJ and where relevant, Overture. The following t
 
 #### ViennaTalk
 
-* added syntax highlighting to VDM Browser.
-* added code generation that creates an object of an anonymous class from each module (in addition to scripts and classes).
-* performance improvement of auto-generated code (operations).
+* Added syntax highlighting to VDM Browser.
+* Added code generation that creates an object of an anonymous class from each module (in addition to scripts and classes).
+* Performance improvement of auto-generated code (operations).
 
 ##  Release Planning
 
