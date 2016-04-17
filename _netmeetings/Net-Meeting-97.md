@@ -30,7 +30,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 Both RMs have entered the dicsussion phase and are open to input from the public. The LB generally seems supportive of the two RMs.
 
-See https://github.com/overturetool/language/issues/35 and https://github.com/overturetool/language/issues/36 for more information about the RMs.
+See [RM 35](https://github.com/overturetool/language/issues/35) and [RM 36](https://github.com/overturetool/language/issues/36) for more information about the RMs.
 
 
 ## Status of VDMTools Development
@@ -40,7 +40,7 @@ VDMTools is transferred to Kyushu
 
 ## Overture
 
-* The Luna mirrors have been taken down so I changed Overture to build against Mars.
+* The Luna mirrors have been taken down so Overture now builds against Mars.
 * Next release of Overture requires Java 8.
 * A few auto-completion features are under development (student project) which might make it into the next release.
 
