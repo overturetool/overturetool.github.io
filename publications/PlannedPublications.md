@@ -11,6 +11,7 @@ title: Overture Publications
 
 
 ## In preparation
+- Smalltalk-based Environments for Live and Formal Modeling, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IWST06 (International Workshop on Smalltalk Technologies)
 
 - Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. To be submitted to FM 2016.
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
