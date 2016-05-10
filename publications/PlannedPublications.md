@@ -7,12 +7,17 @@ title: Overture Publications
 
 ## Planned
 
+## Planned submissions for the Overture Workshop in connection with FM'2016
+- Extensions of the Overture tool from the TEMPO project, Nico Plat, Peter Gorm Larsen, Luis Duate Couto, Kenneth Lausdahl
+- Drone Control using Crescendo and INTO-CPS, Casper Thule and René Nilsson
+- Towards VDM-SL to C#/.dot translation, ??
+- Web-IDE??
+
 #### Conferences / Journals
 
 
 ## In preparation
 - Smalltalk-based Environments for Live and Formal Modeling, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IWST06 (International Workshop on Smalltalk Technologies)
-
 - Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. To be submitted to FM 2016.
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
