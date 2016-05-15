@@ -25,6 +25,7 @@ title: Overture Publications
 -   Semantics for Generic Co-simulation of Heterogeneous Models (Kenneth
     Lausdahl, Joey Coleman and Peter Gorm Larsen, was rejected from Formal
     Aspects of Computing journal) new version in preparation with Victor Bandur, Jim Woodcock and Simon Foster
+- Modelling and Validating the properties of Scalar Variables in the FMI standard, Miran Hasanagic, Peter Gorm Larsen, Peter W. V. Tran-Jørgensen and Kenneth Lausdahl, to be submitted as short paper for FM'2016
 
 ## In review
 
