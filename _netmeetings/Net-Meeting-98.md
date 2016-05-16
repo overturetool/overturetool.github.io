@@ -65,9 +65,7 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 ...
 
 
-##  Strategic Research Agenda
-
-The Strategic Research Agenda is reviewed every other NetMeeting.
+##  The Overture Release Candidate
 
 
 ##  Publications Status and Plans
