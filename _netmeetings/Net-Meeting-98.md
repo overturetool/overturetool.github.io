@@ -43,9 +43,13 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
+Various bug fixes this period, as usual:
+
+* 3.1.1 Build 160425, correct arithmetic operations for very large values.
+* 3.1.1 Build 160426, fix problem with measures that use UpdatableValues
+* 3.1.1 Build 160511, fix a problem with UpdatableValue re-use
 
 
 ##  Release Planning
