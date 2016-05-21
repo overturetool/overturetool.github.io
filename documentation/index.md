@@ -16,3 +16,4 @@ The documentation provided here is maintained by the Overture community and is a
 - [Tutorials]({{site.url}}/documentation/tutorials.html)
 - [Videos]({{site.url}}/documentation/videos.html)
 - [Screenshots]({{site.url}}/documentation/Screenshots.html)
+- [Annotated VDM-SL example]({{site.url}}/documentation/DTG-VDM.pdf)
