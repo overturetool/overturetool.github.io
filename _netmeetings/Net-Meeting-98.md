@@ -45,7 +45,7 @@ some description
 
 #### VDMJ
 
-Various bug fixes this period, as usual:
+Various VDMJ bug fixes this period, as usual, applied to Overture where appropriate:
 
 * 3.1.1 Build 160425, correct arithmetic operations for very large values.
 * 3.1.1 Build 160426, fix problem with measures that use UpdatableValues
