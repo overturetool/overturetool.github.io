@@ -8,7 +8,7 @@ title: Overture Publications
 ## Planned
 
 ## Planned submissions for the Overture Workshop in connection with FM'2016
-- Extensions of the Overture tool from the TEMPO project, Nico Plat, Peter Gorm Larsen, Luis Duate Couto, Kenneth Lausdahl
+- Extensions of the Overture tool from the TEMPO project, Nico Plat, Peter Gorm Larsen, Luis Diogo Couto, Kenneth Lausdahl
 - Drone Control using Crescendo and INTO-CPS, Casper Thule and René Nilsson
 - Towards VDM-SL to C#/.dot translation, ??
 - Web-IDE??
