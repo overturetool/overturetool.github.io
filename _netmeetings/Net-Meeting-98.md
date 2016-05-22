@@ -58,7 +58,7 @@ Our issues concern the use of static variables in the Overture core, so we will 
 
 ##  Release Planning
 
-Anders will release Overture 2.3.6 today. See
+Anders will release Overture 2.3.6 today. For a list of fixes see:
 
 https://github.com/overturetool/overture/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aclosed+milestone%3Av2.3.6+ 
 
