@@ -33,7 +33,7 @@ class Plant
 
 instance variables
 
-alarms   : set of Alarm
+alarms   : set of Alarm;
 schedule : map Period to set of Expert;
 inv PlantInv(alarms,schedule);
 
@@ -44,7 +44,7 @@ PlantInv: set of Alarm * map Period to set of Expert ->
 PlantInv(as,sch) ==
   (forall p in set dom sch & sch(p) <> {}) and
   (forall a in set as &
-     forall p in set dom sch 
+     forall p in set dom sch &
        exists expert in set sch(p) &
          a.GetReqQuali() in set expert.GetQuali());
 
@@ -147,7 +147,7 @@ public Alarm: Expert`Qualification * String ==> Alarm
 Alarm(quali,str) ==
 ( descr := str;
   reqQuali := quali;
-  return 7
+  return self
 );
 
 pure public GetReqQuali: () ==> Expert`Qualification
@@ -170,7 +170,7 @@ quali : set of Qualification;
 
 types
  
-public Qualification = <Mech> <Chem> | <Bio> | <Elec>;
+public Qualification = <Mech> | <Chem> | <Bio> | <Elec>;
 
 operations
 

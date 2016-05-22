@@ -446,6 +446,26 @@ ISBN 0-262-10114-9.
 |Details...|[model (zip)](hotelSL/Hotel.zip)  / [show specification](hotelSL/index.html)|
 
 
+### ISO8601
+This is a model of dates, times and durations from the ISO8601 standard. It is 
+intended as a core library for use  by higher level models that require dates and/or 
+times and/or durations. Dates are  based on the Gregorian calendar. The Gregorian 
+calendar commenced in October 1582, but it is extended backwards to year 1 in the 
+proleptic Gregorian calendar, as per ISO 8601.
+Times assume Co-ordinated Univeral Time (UTC). Timezones and daylight savings are 
+not supported. The granularity of times is to the nearest millisecond.
+A duration is modelled as a number of elapsed milliseconds (being the smallest unit 
+of time). All functions are explicit and executable. Where a non-executable condition 
+adds value, it is included as a comment.
+
+
+| | |
+|------|-------|
+|Author:|Paul Chisholm|
+|Version:|VDM_SL - vdm10|
+|Details...|[model (zip)](ISO8601SL/ISO8601.zip)  / [show specification](ISO8601SL/index.html)|
+
+
 ### Library
 This specification is for a bibliography database. It has been written
 by Anne Maarsel when she was a student working at OECD Halden Reator
