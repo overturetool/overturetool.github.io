@@ -75,6 +75,10 @@ and choose 'Overture VDM2C Development'. Also note  that this plugin has its own
 
 ##  Community Development
 
+#### Student 
+
+Tommaso will join the team to work on a summer project from ESA. The idea behind Tommaso's work will be to make a ASN.1 translation to the VDM type system such that we can easily integrate Overture with TASTE. Some of this is described in MV's position paper submitted to the previous Overture workshop in Oslo.
+
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
