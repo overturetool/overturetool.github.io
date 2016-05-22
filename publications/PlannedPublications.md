@@ -12,11 +12,13 @@ title: Overture Publications
 - Drone Control using Crescendo and INTO-CPS, Casper Thule and René Nilsson
 - Towards VDM-SL to C#/.dot translation, ??
 - Web-IDE??
+- Smalltalk code generator, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
 
 #### Conferences / Journals
 
 
 ## In preparation
+- A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
 - ViennaTalk and Assertch: Building Lightweight Formal Methods Environments on Pharo 4, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IWST06 (International Workshop on Smalltalk Technologies)
 - Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. To be submitted to FM 2016.
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
