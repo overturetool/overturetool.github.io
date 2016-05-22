@@ -17,7 +17,7 @@ title: Overture Publications
 
 
 ## In preparation
-- Smalltalk-based Environments for Live and Formal Modeling, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IWST06 (International Workshop on Smalltalk Technologies)
+- ViennaTalk and Assertch: Building Lightweight Formal Methods Environments on Pharo 4, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IWST06 (International Workshop on Smalltalk Technologies)
 - Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. To be submitted to FM 2016.
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
@@ -29,7 +29,6 @@ title: Overture Publications
 
 ## In review
 
--   Tomohiro Oda and Keijiro Araki, Automated Generation of Smalltalk programs from VDM-SL specifications, submitted for Software Symposium 2016 in Yonago, Japan, June 2016
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
 -   Luis Diogo Couto and Peter Gorm Larsen, Improving Reuse through Extensibility in Formal Methods Tools, submitted for a special issue of Information Systems Frontiers journal on reuse, January 2016.
@@ -37,6 +36,7 @@ title: Overture Publications
 
 ## In press
 
+-   Tomohiro Oda and Keijiro Araki, Automated Generation of Smalltalk programs from VDM-SL specifications, submitted for Software Symposium 2016 in Yonago, Japan, June 2016
 -   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, presented at the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
 -   Claus Ballegaard Nielsen, Kenneth Lausdahl, Peter Gorm Larsen.
     Distributed Simulation of Formal Models in System of Systems
