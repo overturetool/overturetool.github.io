@@ -27,7 +27,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-Two RMs have been moved to the 'Execution' phase, which means that we will start implementing them in the tool. For more information see the minutes from today's Language Board meeting:
+Two RMs have been moved to the 'Execution' phase, which means that the LB will start implementing them in the tool. For more information see the minutes from today's Language Board meeting:
 
 https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM,-22nd-May-2016
 
@@ -52,9 +52,9 @@ Several fixes related to traces. Also a few fixes for the Java code generator re
 #### Web IDE
 
 The web IDE currently only supports VDM-SL.
-Before we implement additional features, and add support for vdm++ and vdm-rt, we need to restructure different parts of the current implementation to make the web IDE more stable and improve performance.
+Before we implement additional features, and add support for VDM++ and VDM-RT, we need to restructure different parts of the current implementation to make the web IDE more stable and improve performance.
 We will be experimenting with different approaches for using the Overture core in a multi-user environment.
-Our issues concerns the use of static variables in the Overture core, so we will be using either processes or class loaders to get around this.
+Our issues concern the use of static variables in the Overture core, so we will be using either processes or class loaders to get around this.
 
 ##  Release Planning
 
