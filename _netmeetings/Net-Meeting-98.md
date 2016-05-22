@@ -49,6 +49,12 @@ Various VDMJ bug fixes this period, as usual, applied to Overture where appropri
 
 Several fixes related to traces. Also a few fixes for the Java code generator reported by students workin on code generation related projects.
 
+#### Web IDE
+
+The web IDE currently only supports VDM-SL.
+Before we implement additional features, and add support for vdm++ and vdm-rt, we need to restructure different parts of the current implementation to make the web IDE more stable and improve performance.
+We will be experimenting with different approaches for using the Overture core in a multi-user environment.
+Our issues concerns the use of static variables in the Overture core, so we will be using either processes or class loaders to get around this.
 
 ##  Release Planning
 
