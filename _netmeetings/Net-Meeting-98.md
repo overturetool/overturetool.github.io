@@ -83,9 +83,6 @@ Tommaso will join the team to work on a summer project from ESA. The idea behind
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-##  The Overture Release Candidate
-
-A few fixes were made since the RC was sent out.
 
 ##  Publications Status and Plans
 
