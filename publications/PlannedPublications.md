@@ -12,7 +12,7 @@ title: Overture Publications
 - Drone Control using Crescendo and INTO-CPS, Casper Thule and René Nilsson
 - Towards VDM-SL to C#/.dot translation, ??
 - Web-IDE??
-- Smalltalk code generator, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
+- Automated VDM-SL to Smalltalk Code Generators for Live Specification Environments, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
 
 #### Conferences / Journals
 
