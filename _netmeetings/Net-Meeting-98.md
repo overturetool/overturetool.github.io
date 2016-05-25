@@ -56,6 +56,10 @@ Before we implement additional features, and add support for VDM++ and VDM-RT, w
 We will be experimenting with different approaches for using the Overture core in a multi-user environment.
 Our issues concern the use of static variables in the Overture core, so we will be using either processes or class loaders to get around this.
 
+#### C Code Generator
+
+A prototype code generator is now available from ``Install New Software ...''.  It has support for basic language features, including classes, overriding etc., but complex patterns, record updates, function values etc. are not yet supported.  It is still under heavy development, driven by industrial partner case study models.
+
 ##  Release Planning
 
 Anders will release Overture 2.3.6 today. For a list of fixes see:
