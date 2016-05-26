@@ -61,6 +61,7 @@ Process (LBP) description.
 | ESA/ESTEC | The Netherlands | Marcel Verhoef |
 | Fujitsu Services | England | Nick Battle |
 | Hosei University | Japan | Shin Sahara |
+| Indiana State University | USA | Ramachandra Abhyankar |
 | Insiel S.p.A. | Italy | Enrico Fracasso |
 | Institute of Technology Carlow | Ireland | Chris Meudec |
 | Institute for System Programming of the Russian Academy of Sciences | Russia | Nikolay Pakulin |
