@@ -38,7 +38,7 @@ title: Overture Publications
 
 ## In press
 
--   Tomohiro Oda and Keijiro Araki, Automated Generation of Smalltalk programs from VDM-SL specifications, Proc. of Software Symposium 2016 (SS2016),Yonago, Japan, June 2016 (Best Paper Award)
+-   Tomohiro Oda and Keijiro Araki, Automated Generation of Smalltalk programs from VDM-SL specifications, Proc. of Software Symposium 2016 (SS2016),Yonago, Japan, June 2016 (In Japanese) (Best Paper Award)
 -   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, presented at the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
 -   Claus Ballegaard Nielsen, Kenneth Lausdahl, Peter Gorm Larsen.
     Distributed Simulation of Formal Models in System of Systems
