@@ -15,12 +15,13 @@ title: Overture Publications
 - Automated VDM-SL to Smalltalk Code Generators for Live Specification Environments, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
 - Extending Overture with Implicit Monitoring of Instance Variables, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Collaborative Modelling Using Automated Negotiations, Nico Plat, Peter Gorm Larsen and Ken Pierce
+- Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur Kenneth Lausdahl and Miran Hasanagic
+- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen
 
 #### Conferences / Journals
 
 ## In preparation
 - A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
-- Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. To be submitted to FM 2016.
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
@@ -34,6 +35,11 @@ title: Overture Publications
 - ViennaTalk and Assertch: Building Lightweight Formal Methods Environments on Pharo 4, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IWST06 (International Workshop on Smalltalk Technologies)
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
+-   Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. submitted to FM 2016.
+-   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster
+-   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems, Peter Gorm Larsen, Casper Thule, Kenneth Lausdahl, Victor Bardur, Carl Gamble, Ken Pierce, Etienne Brosse, Andrey Sadovykh, Alessandra Bagnato and Luis Diogo Couto
+-   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen
+
 
 ## In press
 
