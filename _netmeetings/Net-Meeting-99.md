@@ -1,9 +1,7 @@
-~~~
-|||
-|---|---|
-| Date | 2015-01-28 13:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
-
+---
+layout: default
+title: Net Meeting 99
+date: 26 June 2016, 1200 CEST
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
@@ -89,5 +87,3 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 ##  Any Other Business
 
 <div id="edit_page_div"></div>
-
-~~~
