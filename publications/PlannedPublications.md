@@ -10,12 +10,13 @@ title: Overture Publications
 ## Planned submissions for the Overture Workshop in connection with FM'2016
 - Extensions of the Overture tool from the TEMPO project, Nico Plat, Peter Gorm Larsen, Luis Diogo Couto, Kenneth Lausdahl
 - Drone Control using Crescendo and INTO-CPS, Casper Thule and René Nilsson
-- Towards VDM-SL to C#/.dot translation, ??
+- Towards VDM-SL to C#/.dot translation, Steffen Diswal, Peter Tran-Jørgensen and Peter Gorm Larsen
 - Web-IDE??
 - Automated VDM-SL to Smalltalk Code Generators for Live Specification Environments, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
+- Extending Overture with Implicit Monitoring of Instance Variables, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
+- Collaborative Modelling Using Automated Negotiations, Nico Plat, Peter Gorm Larsen and Ken Pierce
 
 #### Conferences / Journals
-
 
 ## In preparation
 - A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
@@ -33,8 +34,6 @@ title: Overture Publications
 - ViennaTalk and Assertch: Building Lightweight Formal Methods Environments on Pharo 4, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IWST06 (International Workshop on Smalltalk Technologies)
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
--   Luis Diogo Couto and Peter Gorm Larsen, Improving Reuse through Extensibility in Formal Methods Tools, submitted for a special issue of Information Systems Frontiers journal on reuse, January 2016.
--   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen for MODELS 2016
 
 ## In press
 
@@ -53,3 +52,4 @@ title: Overture Publications
     Lausdahl for WICSA 2015)
 -   The Evolution of VDM Tools from the 1990s to 2015 and the Influence of CAMILA, (Peter Gorm Larsen and John Fitzgerald, published by the Journal of Logical and Algebraic Methods in Programming in connection with the Festscrift for José Nuno Oliveira) See http://www.sciencedirect.com/science/article/pii/S2352220815000954.
 -   Principles for Reuse in Formal Language Tools, (Luis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, presented at SAC by Victor Bandur)
+-   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen for MODELS 2016
