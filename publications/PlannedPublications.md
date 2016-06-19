@@ -16,7 +16,7 @@ title: Overture Publications
 - Extending Overture with Implicit Monitoring of Instance Variables, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Collaborative Modelling Using Automated Negotiations, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur Kenneth Lausdahl and Miran Hasanagic
-- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen
+- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
 
 #### Conferences / Journals
 
