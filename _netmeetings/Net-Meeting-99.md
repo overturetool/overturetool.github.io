@@ -45,7 +45,7 @@ some description
 
 #### VDMJ
 
-Various small fixes to VDMJ type checker as a result of Paul Chisholm's testing, mostly to do with module import/exports and polymorphic types. Also made some progress with RM35 (the "set1" type) in VDMJ, though changes not applied to Overture as yet.
+Various small fixes to VDMJ type checker as a result of Paul Chisholm's testing, mostly to do with module import/exports and polymorphic types. Also made some progress with RM35 (the "set1" type) and RM36 ("seq binds") in VDMJ, though changes not applied to Overture as yet.
 
 
 ##  Release Planning
