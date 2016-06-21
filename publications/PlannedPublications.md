@@ -32,7 +32,6 @@ title: Overture Publications
 
 ## In review
 
-- ViennaTalk and Assertch: Building Lightweight Formal Methods Environments on Pharo 4, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IWST06 (International Workshop on Smalltalk Technologies)
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
 -   Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. submitted to FM 2016.
@@ -43,6 +42,7 @@ title: Overture Publications
 
 ## In press
 
+- ViennaTalk and Assertch: Building Lightweight Formal Methods Environments on Pharo 4, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To appear in Proc of IWST16 (International Workshop on Smalltalk Technologies)
 -   Tomohiro Oda and Keijiro Araki, Automated Generation of Smalltalk programs from VDM-SL specifications, Proc. of Software Symposium 2016 (SS2016),Yonago, Japan, June 2016 (In Japanese) (Best Paper Award)
 -   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, presented at the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
 -   Claus Ballegaard Nielsen, Kenneth Lausdahl, Peter Gorm Larsen.
