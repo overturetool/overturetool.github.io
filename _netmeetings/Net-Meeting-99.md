@@ -47,6 +47,11 @@ some description
 
 Various small fixes to VDMJ type checker as a result of Paul Chisholm's testing, mostly to do with module import/exports and polymorphic types. Also made some progress with RM35 (the "set1" type) and RM36 ("seq binds") in VDMJ, though changes not applied to Overture as yet.
 
+#### New TEMPO Plotting library
+
+The new plotting library enabled plotting of variables from a VDM model during simulation without modifying the model: 
+https://github.com/overturetool/overture/issues/571
+
 
 ##  Release Planning
 
