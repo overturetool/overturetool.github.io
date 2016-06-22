@@ -50,7 +50,9 @@ Various small fixes to VDMJ type checker as a result of Paul Chisholm's testing,
 #### New TEMPO Plotting library
 
 The new plotting library enabled plotting of variables from a VDM model during simulation without modifying the model: 
-https://github.com/overturetool/overture/issues/571
+https://github.com/overturetool/overture/issues/571.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/K7qZr5HCY7g" frameborder="0" allowfullscreen></iframe>
 
 
 ##  Release Planning
