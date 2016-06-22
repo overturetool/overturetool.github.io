@@ -57,10 +57,17 @@ https://github.com/overturetool/overture/issues/571.
 
 ##  Release Planning
 
-#### topic 1
+#### VDM++ to TypeScript
 
-some description
+The Masters thesis by Peter Holst and Nikolas Bram has been submitted and their work on code generation from VDM++ to TypeScript has been added at the Overture GitHub in their own branch. It includes a number of interesting features. Hopefully we can get the thesis uploaded before Sunday so all of you who are interested can take a look.
 
+#### VDM-SL to C# and the .NET Contract Framework
+
+The Masters thesis by PSteffen Diswal has been submitted and their work on code generation from VDM-SL to C# and the .MET contracts framework has been added at the Overture GitHub in its own branch. It includes a number of interesting features. Hopefully we can get the thesis uploaded before Sunday so all of you who are interested can take a look.
+
+#### The Overture WebIDE
+
+The Masters thesis by Rasmus Reimer and Kasper Saaby has been submitted and their work on IDE for VDM-SL has been completed some time ago, and it will soon be available from one of the AU servers.
 
 ##  Community Development
 
