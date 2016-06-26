@@ -21,8 +21,8 @@ date: 26 June 2016, 1200 CEST
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 80-1 No progress. PGL will talk with JF about this when he go to Scotland next month.
-* 88-1 PGL and Nico have been discussing the possibility of taking a new position in targeting industrial contracts.
+* 80-1 No progress. PGL will talk with JF about this when he goes to Scotland next month.
+* 88-1 PGL and Nico have been discussing the possibility of taking a new position in targeting industrial contracts. The discussion will continue on Github.
 
 
 ## Overture Language Board Status
@@ -34,7 +34,7 @@ Nick has developed prototype implementtions of RM35 and RM36. We need help testi
 
 ## Status of VDMTools Development
 
-VDMTools is still moving towards open-source. There will be a meeting in July were many decision related to this will be made.
+VDMTools is still moving towards open-source. There will be a meeting in July where many decision related to this will be made.
 
 
 ##  Status of the Overture Components
@@ -69,6 +69,8 @@ Work on the code generator is currently focused on integrating it with Overture'
 ##  Release Planning
 
 A new release is planned for the 4th of July. The release candidate can be found at http://overture.au.dk/overture/development/Build-60_2016-06-25_22-26/ 
+
+As usual, we need testers for all platforms.
 
 ##  Community Development
 
