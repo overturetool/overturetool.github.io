@@ -14,31 +14,27 @@ date: 26 June 2016, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, HS, KS, MV, NB, NP, SS, TO, VB, PJ. Welcome to Tommaso Fabbri!  Minutes by PJ. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 80-1 No progress. PGL will talk with JF about this when he go to Scotland next month.
+* 88-1 PGL and Nico have been discussing the possibility of taking a new position in targeting industrial contracts.
 
 
 ## Overture Language Board Status
 
-#### topic 1
+The minutes from today's LB NM are available at https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM%2C-26th-June-2016
 
-some description
+Nick has developed prototype implementtions of RM35 and RM36. We need help testing them. Follow the links in the LB NM minutes for more information about the prototype implementations.
 
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
+VDMTools is still moving towards open-source. There will be a meeting in July were many decision related to this will be made.
 
 
 ##  Status of the Overture Components
