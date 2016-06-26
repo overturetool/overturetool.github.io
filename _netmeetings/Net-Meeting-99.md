@@ -68,7 +68,7 @@ Work on the code generator is currently focused on integrating it with Overture'
 
 ##  Release Planning
 
-A new release is planned for the 4th of July. The release candidate can be found as http://overture.au.dk/overture/development/Build-60_2016-06-25_22-26/ 
+A new release is planned for the 4th of July. The release candidate can be found at http://overture.au.dk/overture/development/Build-60_2016-06-25_22-26/ 
 
 ##  Community Development
 
@@ -85,27 +85,9 @@ In the framework of the SOCIS (Summer of Code In Space) 2016, Overture will be i
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
-
-
-
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
