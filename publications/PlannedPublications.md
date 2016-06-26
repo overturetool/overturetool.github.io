@@ -10,7 +10,6 @@ title: Overture Publications
 - Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
 
 ## Planned submissions for the Overture Workshop in connection with FM'2016
-- Extensions of the Overture tool from the TEMPO project, Nico Plat, Peter Gorm Larsen, Luis Diogo Couto, Kenneth Lausdahl
 - Drone Control using Crescendo and INTO-CPS, Casper Thule and René Nilsson
 - Towards VDM-SL to C#/.dot translation, Steffen Diswal, Peter Tran-Jørgensen and Peter Gorm Larsen
 - Web-IDE??
