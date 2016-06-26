@@ -6,6 +6,8 @@ title: Overture Publications
 # Planned Publications
 
 ## Planned
+- Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur Kenneth Lausdahl and Miran Hasanagic
+- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
 
 ## Planned submissions for the Overture Workshop in connection with FM'2016
 - Extensions of the Overture tool from the TEMPO project, Nico Plat, Peter Gorm Larsen, Luis Diogo Couto, Kenneth Lausdahl
@@ -15,8 +17,6 @@ title: Overture Publications
 - Automated VDM-SL to Smalltalk Code Generators for Live Specification Environments, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
 - Extending Overture with Implicit Monitoring of Instance Variables, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Collaborative Modelling Using Automated Negotiations, Nico Plat, Peter Gorm Larsen and Ken Pierce
-- Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur Kenneth Lausdahl and Miran Hasanagic
-- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
 
 #### Conferences / Journals
 
