@@ -69,6 +69,10 @@ The Masters thesis by PSteffen Diswal has been submitted and their work on code 
 
 The Masters thesis by Rasmus Reimer and Kasper Saaby has been submitted and their work on IDE for VDM-SL has been completed some time ago, and it will soon be available from one of the AU servers.
 
+#### The Overture C Code Generator
+
+Work on the code generator is currently focused on integrating it with Overture's (F)unctional (M)ockup (U)nit export functionality.  After exporting a model as a source code FMU, the user can upload the FMU to the FMU cross-compilation server (http://sweng.au.dk/fmubuilder) and receive a standalone FMU that can be used in co-simulation on Linux, Mac OS and Windows platforms.
+
 ##  Community Development
 
 #### Overture TASTE Integration
