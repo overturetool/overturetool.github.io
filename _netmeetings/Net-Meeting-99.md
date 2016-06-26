@@ -54,9 +54,6 @@ https://github.com/overturetool/overture/issues/571.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/K7qZr5HCY7g" frameborder="0" allowfullscreen></iframe>
 
-
-##  Release Planning
-
 #### VDM++ to TypeScript
 
 The Masters thesis by Peter Holst and Nikolas Bram has been submitted and their work on code generation from VDM++ to TypeScript has been added at the Overture GitHub in their own branch. It includes a number of interesting features. Hopefully we can get the thesis uploaded before Sunday so all of you who are interested can take a look.
@@ -72,6 +69,10 @@ The Masters thesis by Rasmus Reimer and Kasper Saaby has been submitted and thei
 #### The Overture C Code Generator
 
 Work on the code generator is currently focused on integrating it with Overture's (F)unctional (M)ockup (U)nit export functionality.  After exporting a model as a source code FMU, the user can upload the FMU to the FMU cross-compilation server (http://sweng.au.dk/fmubuilder) and receive a standalone FMU that can be used in co-simulation on Linux, Mac OS and Windows platforms.
+
+##  Release Planning
+
+A new release is planned for the 4th of July. The release candidate can be found as http://overture.au.dk/overture/development/Build-60_2016-06-25_22-26/ 
 
 ##  Community Development
 
