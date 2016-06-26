@@ -81,6 +81,8 @@ In the framework of the SOCIS (Summer of Code In Space) 2016, Overture will be i
 
 ![code-generation](https://raw.githubusercontent.com/tfabbri/miscellaneous/master/code-generation-comparison.jpg)
 
+On a more wider note, MV just announced in the Language Board meeting that in parallel to the work of Tommaso he will be looking into establishing a full binding from VDM (data types) to ASN.1
+
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
