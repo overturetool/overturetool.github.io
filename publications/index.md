@@ -12,8 +12,9 @@ This page seeks to list relevant publications that relates to Overture and the V
 
 
 ## Publication list:
+<div>
 <script src="http://bibbase.org/show?bib=overturetool.org/publications/overtureweb.bib&jsonp=1"></script> 
-
+</div>
 
 
 
