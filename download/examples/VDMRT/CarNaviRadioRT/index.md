@@ -22,163 +22,6 @@ coherent application in a distributed application.
 |Entry point     :| new World().RunScenario2()|
 
 
-### radio.vdmrt
-
-{% raw %}
-~~~
-class Radio
-
-operations
-  async 
-  public AdjustVolume: nat ==> ()
-  AdjustVolume (pno) ==
-    ( cycles (1E5) skip;
-      --duration (1E5) skip;
-      RadNavSys`mmi.UpdateScreen(1, pno) );
-
-  async 
-  public HandleTMC: nat ==> ()
-  HandleTMC (pno) ==
-    ( cycles (1E6) skip;
-      --duration (1E6) skip;
-      RadNavSys`navigation.DecodeTMC(pno) )
-
-end Radio
-~~~
-{% endraw %}
-
-### mmi.vdmrt
-
-{% raw %}
-~~~
-class MMI
-
-operations
-  async 
-  public HandleKeyPress: nat * nat ==> ()
-  HandleKeyPress (pn, pno) ==
-    ( cycles (1E5) skip;
-      --duration (1E5) skip;
-      cases (pn):
-        1 -> RadNavSys`radio.AdjustVolume(pno),
-        2 -> RadNavSys`navigation.DatabaseLookup(pno)
-      end );
-
-  async 
-  public UpdateScreen: nat * nat ==> ()
-  UpdateScreen (pn, pno) ==
-    ( cycles (5E5) skip;
-      --duration (5E5) skip;
-      cases (pn):
-        1 -> World`envTasks("VolumeKnob").HandleEvent(pno),
-        2 -> World`envTasks("InsertAddress").HandleEvent(pno),
-        3 -> World`envTasks("TransmitTMC").HandleEvent(pno)
-      end )
-
-end MMI
-~~~
-{% endraw %}
-
-### TransmitTMC.vdmrt
-
-{% raw %}
-~~~
-class TransmitTMC
-  is subclass of EnvironmentTask
-
-operations
-  public TransmitTMC: nat ==> TransmitTMC
-  TransmitTMC (pno) == max_stimuli := pno;
-
-  public HandleEvent: nat ==> ()
-  HandleEvent (pev) == logSysToEnv(pev)
-  post checkResponseTimes(e2s,s2e,40000000000);
-
-  public Run: () ==> ()
-  Run () == start(self); --,TransmitTMCT);
-
-  createSignal: () ==> ()
-  createSignal () ==
-    ( dcl num2 : nat := getNum();
-      logEnvToSys(num2);
-      RadNavSys`radio.HandleTMC(num2) )
-
-thread
-  periodic (4000E6,400,3910,0) 
-    (createSignal)
-
-end TransmitTMC
-~~~
-{% endraw %}
-
-### InsertAdress.vdmrt
-
-{% raw %}
-~~~
-class InsertAddress
-  is subclass of EnvironmentTask
-
-operations
-  public InsertAddress: nat ==> InsertAddress
-  InsertAddress (pno) == max_stimuli := pno;
-
-  public HandleEvent: nat ==> ()
-  HandleEvent (pev) == logSysToEnv(pev)
-  post checkResponseTimes(e2s,s2e,24000000000);
-
-  public Run: () ==> ()
-  Run () == start(self); 
-
-  createSignal: () ==> ()
-  createSignal () ==
-    ( dcl num2 : nat := getNum();
-      logEnvToSys(num2);
-      RadNavSys`mmi.HandleKeyPress(2,num2) )
-
-thread
-  periodic (2000E6,100,1000,0) 
-    (createSignal)
-
-end InsertAddress
-~~~
-{% endraw %}
-
-### World.vdmrt
-
-{% raw %}
-~~~
-class World
-
-types
-  public perfdata = nat * nat * real
-
-instance variables
-  static public envTasks : map seq of char to EnvironmentTask := {|->};
-
-operations
-  addEnvironmentTask: seq of char * EnvironmentTask ==> ()
-  addEnvironmentTask (pnm, penv) ==
-    ( envTasks := envTasks munion { pnm |-> penv };
-      penv.Run() );
-
-  public RunScenario1 : () ==> map seq of char to perfdata
-  RunScenario1 () ==
-    ( addEnvironmentTask("VolumeKnob", new VolumeKnob(10));
-      addEnvironmentTask("TransmitTMC", new TransmitTMC(10));
-      return { name |-> envTasks(name).getMinMaxAverage() 
-             | name in set dom envTasks } );
-
-  public RunScenario2 : () ==> map seq of char to perfdata 
-  RunScenario2 () ==
-    ( addEnvironmentTask("InsertAddress", new InsertAddress(10));
-      addEnvironmentTask("TransmitTMC", new TransmitTMC(10));
-      return { name |-> envTasks(name).getMinMaxAverage() 
-             | name in set dom envTasks } );
-
-end World
-~~~
-{% endraw %}
-
 ### EnvTask.vdmrt
 
 {% raw %}
@@ -273,6 +116,70 @@ end EnvironmentTask
 ~~~
 {% endraw %}
 
+### InsertAdress.vdmrt
+
+{% raw %}
+~~~
+class InsertAddress
+  is subclass of EnvironmentTask
+
+operations
+  public InsertAddress: nat ==> InsertAddress
+  InsertAddress (pno) == max_stimuli := pno;
+
+  public HandleEvent: nat ==> ()
+  HandleEvent (pev) == logSysToEnv(pev)
+  post checkResponseTimes(e2s,s2e,24000000000);
+
+  public Run: () ==> ()
+  Run () == start(self); 
+
+  createSignal: () ==> ()
+  createSignal () ==
+    ( dcl num2 : nat := getNum();
+      logEnvToSys(num2);
+      RadNavSys`mmi.HandleKeyPress(2,num2) )
+
+thread
+  periodic (2000E6,100,1000,0) 
+    (createSignal)
+
+end InsertAddress
+~~~
+{% endraw %}
+
+### mmi.vdmrt
+
+{% raw %}
+~~~
+class MMI
+
+operations
+  async 
+  public HandleKeyPress: nat * nat ==> ()
+  HandleKeyPress (pn, pno) ==
+    ( cycles (1E5) skip;
+      --duration (1E5) skip;
+      cases (pn):
+        1 -> RadNavSys`radio.AdjustVolume(pno),
+        2 -> RadNavSys`navigation.DatabaseLookup(pno)
+      end );
+
+  async 
+  public UpdateScreen: nat * nat ==> ()
+  UpdateScreen (pn, pno) ==
+    ( cycles (5E5) skip;
+      --duration (5E5) skip;
+      cases (pn):
+        1 -> World`envTasks("VolumeKnob").HandleEvent(pno),
+        2 -> World`envTasks("InsertAddress").HandleEvent(pno),
+        3 -> World`envTasks("TransmitTMC").HandleEvent(pno)
+      end )
+
+end MMI
+~~~
+{% endraw %}
+
 ### navigation.vdmrt
 
 {% raw %}
@@ -295,33 +202,6 @@ operations
       RadNavSys`mmi.UpdateScreen(3, pno) )
 
 end Navigation
-~~~
-{% endraw %}
-
-### Test.vdmrt
-
-{% raw %}
-~~~
-class Test
-
-instance variables
-
-mmi   : MMI        := new MMI();
-radio : Radio      := new Radio();
-nav   : Navigation := new Navigation();
-
-traces
-
-TT: let x in set {1,2,3}
-    in
-      ((mmi.HandleKeyPress(x,x) | 
-       mmi.UpdateScreen(x,x) | 
-       radio.AdjustVolume(x) |
-       radio.HandleTMC(x) |
-       nav.DatabaseLookup(x) |
-       nav.DecodeTMC(x)))
- 
-end Test
 ~~~
 {% endraw %}
 
@@ -372,6 +252,90 @@ end RadNavSys
 ~~~
 {% endraw %}
 
+### radio.vdmrt
+
+{% raw %}
+~~~
+class Radio
+
+operations
+  async 
+  public AdjustVolume: nat ==> ()
+  AdjustVolume (pno) ==
+    ( cycles (1E5) skip;
+      --duration (1E5) skip;
+      RadNavSys`mmi.UpdateScreen(1, pno) );
+
+  async 
+  public HandleTMC: nat ==> ()
+  HandleTMC (pno) ==
+    ( cycles (1E6) skip;
+      --duration (1E6) skip;
+      RadNavSys`navigation.DecodeTMC(pno) )
+
+end Radio
+~~~
+{% endraw %}
+
+### Test.vdmrt
+
+{% raw %}
+~~~
+class Test
+
+instance variables
+
+mmi   : MMI        := new MMI();
+radio : Radio      := new Radio();
+nav   : Navigation := new Navigation();
+
+traces
+
+TT: let x in set {1,2,3}
+    in
+      ((mmi.HandleKeyPress(x,x) | 
+       mmi.UpdateScreen(x,x) | 
+       radio.AdjustVolume(x) |
+       radio.HandleTMC(x) |
+       nav.DatabaseLookup(x) |
+       nav.DecodeTMC(x)))
+ 
+end Test
+~~~
+{% endraw %}
+
+### TransmitTMC.vdmrt
+
+{% raw %}
+~~~
+class TransmitTMC
+  is subclass of EnvironmentTask
+
+operations
+  public TransmitTMC: nat ==> TransmitTMC
+  TransmitTMC (pno) == max_stimuli := pno;
+
+  public HandleEvent: nat ==> ()
+  HandleEvent (pev) == logSysToEnv(pev)
+  post checkResponseTimes(e2s,s2e,40000000000);
+
+  public Run: () ==> ()
+  Run () == start(self); --,TransmitTMCT);
+
+  createSignal: () ==> ()
+  createSignal () ==
+    ( dcl num2 : nat := getNum();
+      logEnvToSys(num2);
+      RadNavSys`radio.HandleTMC(num2) )
+
+thread
+  periodic (4000E6,400,3910,0) 
+    (createSignal)
+
+end TransmitTMC
+~~~
+{% endraw %}
+
 ### VolumeKnob.vdmrt
 
 {% raw %}
@@ -401,6 +365,42 @@ thread
     (createSignal)
 
 end VolumeKnob
+~~~
+{% endraw %}
+
+### World.vdmrt
+
+{% raw %}
+~~~
+class World
+
+types
+  public perfdata = nat * nat * real
+
+instance variables
+  static public envTasks : map seq of char to EnvironmentTask := {|->};
+
+operations
+  addEnvironmentTask: seq of char * EnvironmentTask ==> ()
+  addEnvironmentTask (pnm, penv) ==
+    ( envTasks := envTasks munion { pnm |-> penv };
+      penv.Run() );
+
+  public RunScenario1 : () ==> map seq of char to perfdata
+  RunScenario1 () ==
+    ( addEnvironmentTask("VolumeKnob", new VolumeKnob(10));
+      addEnvironmentTask("TransmitTMC", new TransmitTMC(10));
+      return { name |-> envTasks(name).getMinMaxAverage() 
+             | name in set dom envTasks } );
+
+  public RunScenario2 : () ==> map seq of char to perfdata 
+  RunScenario2 () ==
+    ( addEnvironmentTask("InsertAddress", new InsertAddress(10));
+      addEnvironmentTask("TransmitTMC", new TransmitTMC(10));
+      return { name |-> envTasks(name).getMinMaxAverage() 
+             | name in set dom envTasks } );
+
+end World
 ~~~
 {% endraw %}
 

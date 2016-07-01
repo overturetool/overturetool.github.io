@@ -20,6 +20,70 @@ of the software technology course at the Technical University Graz, Austria.
 |Entry point     :| Test`RunEval()|
 
 
+### ast.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                             
+module AST
+
+exports all
+
+definitions
+
+types
+
+  Program :: decls : seq of Declaration
+             stmt  : Stmt;
+                                                                                                                                   
+  Declaration :: id  : Identifier
+                 tp  : Type
+                 val : [Value];
+                                                                                                                                                                                                                                                   
+  Identifier = seq1 of char;
+
+  Type = <BoolType> | <IntType> ;
+
+  Value = BoolVal | IntVal;
+
+  BoolVal :: val : bool;
+
+  IntVal :: val : int;
+                                                                                                                                                                                                                                                                                                                                                                   
+  Stmt = BlockStmt | AssignStmt | CondStmt | ForStmt | RepeatStmt;
+                                                                                                                                
+  BlockStmt :: decls : seq of Declaration
+               stmts : seq1 of Stmt;
+                                                                                                                                                                 
+  AssignStmt :: lhs : Variable
+                rhs : Expr;
+
+  Variable :: id : Identifier;
+                                                                                                                                                                                                
+  Expr = BinaryExpr | Value | Variable;
+
+  BinaryExpr :: lhs : Expr
+                op  : Operator
+                rhs : Expr;
+                                                                                                                                                                                                                                        
+  Operator = <Add> | <Sub> | <Div> | <Mul> | <Lt> | <Gt> | <Eq> | <And> | <Or>;
+                                                                                                                   
+  CondStmt :: guard  : Expr
+              thenst : Stmt
+              elsest : Stmt;
+                                                                                                                                                                                                                                                                                            
+  ForStmt :: start : AssignStmt
+             stop  : Expr
+             stmt  : Stmt;
+                                                                                                                       
+  RepeatStmt :: repeat : Stmt
+                until  : Expr;
+                
+end AST
+             
+~~~
+{% endraw %}
+
 ### dynsem.vdmsl
 
 {% raw %}
@@ -326,70 +390,6 @@ RunEval() ==
   
 end Test
             
-~~~
-{% endraw %}
-
-### ast.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                             
-module AST
-
-exports all
-
-definitions
-
-types
-
-  Program :: decls : seq of Declaration
-             stmt  : Stmt;
-                                                                                                                                   
-  Declaration :: id  : Identifier
-                 tp  : Type
-                 val : [Value];
-                                                                                                                                                                                                                                                   
-  Identifier = seq1 of char;
-
-  Type = <BoolType> | <IntType> ;
-
-  Value = BoolVal | IntVal;
-
-  BoolVal :: val : bool;
-
-  IntVal :: val : int;
-                                                                                                                                                                                                                                                                                                                                                                   
-  Stmt = BlockStmt | AssignStmt | CondStmt | ForStmt | RepeatStmt;
-                                                                                                                                
-  BlockStmt :: decls : seq of Declaration
-               stmts : seq1 of Stmt;
-                                                                                                                                                                 
-  AssignStmt :: lhs : Variable
-                rhs : Expr;
-
-  Variable :: id : Identifier;
-                                                                                                                                                                                                
-  Expr = BinaryExpr | Value | Variable;
-
-  BinaryExpr :: lhs : Expr
-                op  : Operator
-                rhs : Expr;
-                                                                                                                                                                                                                                        
-  Operator = <Add> | <Sub> | <Div> | <Mul> | <Lt> | <Gt> | <Eq> | <And> | <Or>;
-                                                                                                                   
-  CondStmt :: guard  : Expr
-              thenst : Stmt
-              elsest : Stmt;
-                                                                                                                                                                                                                                                                                            
-  ForStmt :: start : AssignStmt
-             stop  : Expr
-             stmt  : Stmt;
-                                                                                                                       
-  RepeatStmt :: repeat : Stmt
-                until  : Expr;
-                
-end AST
-             
 ~~~
 {% endraw %}
 

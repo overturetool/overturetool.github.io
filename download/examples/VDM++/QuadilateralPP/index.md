@@ -19,19 +19,6 @@ code automatically generated using VDMTools.
 |Language Version:| vdm10|
 
 
-### rhombus.vdmpp
-
-{% raw %}
-~~~
-class Rhombus is subclass of Parallelogram
- 
-  instance variables
-  inv length (v1) = length (v2)
- 
-end Rhombus
-~~~
-{% endraw %}
-
 ### math.vdmpp
 
 {% raw %}
@@ -155,13 +142,49 @@ end MATH
 ~~~
 {% endraw %}
 
-### square.vdmpp
+### mathematics.vdmpp
 
 {% raw %}
 ~~~
-class Square is subclass of Rhombus, Rectangle
+class Mathematics
  
-end Square
+  values
+    pi: real = 3.14
+ 
+  types
+    Angle = real
+    inv a == a >= 0 and a <= 2*pi
+ 
+  functions
+    acos (x: real) res: Angle
+    post inv_Angle (res);
+ 
+    sqrt (r: real) res: real
+    post res**2 = r
+
+end Mathematics
+~~~
+{% endraw %}
+
+### parallelogram.vdmpp
+
+{% raw %}
+~~~
+class Parallelogram is subclass of Quadrilateral
+ 
+   instance variables
+      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
+ 
+   operations
+      public
+      GetAngle: () ==> real
+      GetAngle() ==
+        let math = new MATH() 
+        in
+        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
+ 
+end Parallelogram
+
 ~~~
 {% endraw %}
 
@@ -203,25 +226,39 @@ end Quadrilateral
 ~~~
 {% endraw %}
 
-### parallelogram.vdmpp
+### rectangle.vdmpp
 
 {% raw %}
 ~~~
-class Parallelogram is subclass of Quadrilateral
+class Rectangle is subclass of Parallelogram
  
-   instance variables
-      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
+  instance variables
+  inv inproduct (v1 , v2) = 0 
  
-   operations
-      public
-      GetAngle: () ==> real
-      GetAngle() ==
-        let math = new MATH() 
-        in
-        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
- 
-end Parallelogram
+end Rectangle
+~~~
+{% endraw %}
 
+### rhombus.vdmpp
+
+{% raw %}
+~~~
+class Rhombus is subclass of Parallelogram
+ 
+  instance variables
+  inv length (v1) = length (v2)
+ 
+end Rhombus
+~~~
+{% endraw %}
+
+### square.vdmpp
+
+{% raw %}
+~~~
+class Square is subclass of Rhombus, Rectangle
+ 
+end Square
 ~~~
 {% endraw %}
 
@@ -268,19 +305,6 @@ class Vector
  
 end Vector
 
-~~~
-{% endraw %}
-
-### rectangle.vdmpp
-
-{% raw %}
-~~~
-class Rectangle is subclass of Parallelogram
- 
-  instance variables
-  inv inproduct (v1 , v2) = 0 
- 
-end Rectangle
 ~~~
 {% endraw %}
 
@@ -332,30 +356,6 @@ class WorkSpace is subclass of Vector
   
 end WorkSpace
 
-~~~
-{% endraw %}
-
-### mathematics.vdmpp
-
-{% raw %}
-~~~
-class Mathematics
- 
-  values
-    pi: real = 3.14
- 
-  types
-    Angle = real
-    inv a == a >= 0 and a <= 2*pi
- 
-  functions
-    acos (x: real) res: Angle
-    post inv_Angle (res);
- 
-    sqrt (r: real) res: real
-    post res**2 = r
-
-end Mathematics
 ~~~
 {% endraw %}
 

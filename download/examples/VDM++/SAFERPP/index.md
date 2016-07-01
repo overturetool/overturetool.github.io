@@ -46,154 +46,6 @@ More explanation about this work can be found in the papers:
 |Entry point     :| new Test().BigTest()|
 
 
-### TranslationCommand.vdmpp
-
-{% raw %}
-~~~
-                                                  
-class TranslationCommand is subclass of Command
-operations
-  public
-  Prioritize : () ==> ()
-  Prioritize() ==
-    axesdir := if axesdir(X) <> <Zero> 
-               then axesdir ++ {Y |-> <Zero>, Z |-> <Zero>}
-               elseif axesdir(Y) <> <Zero> 
-               then axesdir ++ {Z |-> <Zero>}
-               else axesdir;
-
-end TranslationCommand
-                                                                                                                                              
-~~~
-{% endraw %}
-
-### WorkSpace.vdmpp
-
-{% raw %}
-~~~
-                                         
-class WorkSpace 
-
-values
-  check : bool = true;
-
-instance variables
-  hcu: HandControlUnit := new HandControlUnit();
-  aah: AAH := new AAH();
-  intcmd: IntegratedCommand := new IntegratedCommand();
-  thrcontrol: ThrusterControl := new ThrusterControl();
-  vda: ValveDriveAssembly := new ValveDriveAssembly();
-  clock: Clock := new Clock();
-
-operations
-  public
-  SetupTopology() ==
-    (aah.SetHCULink(hcu);
-     aah.SetSixDOfLink(intcmd);
-     aah.SetClockLink(clock);
-     intcmd.SetHCULink(hcu);
-     intcmd.SetAAHLink(aah);
-     thrcontrol.SetIntCmdLink(intcmd);
-     thrcontrol.SetVDALink(vda));
-  
-  public
-  ControlCycle : Command`Direction * Command`Direction * Command`Direction * 
-                 Command`Direction * 
-                 HandControlUnit`Mode * HandControlUnit`Button * 
-                 Command`AxisMap ==>
-                 set of ThrusterControl`ThrusterPosition
-  ControlCycle(x,pitch,yaw_y,roll_z,modeswitch,aahbutton,aahcmd) ==
-    (clock.IncrTime();
-     hcu.SetAAH(aahbutton);
-     hcu.SetGrip(x, pitch, yaw_y, roll_z);
-     hcu.SetMode(modeswitch);
-     aah.SetRotcmd(aahcmd);
-     intcmd.ConvertGrip();
-     aah.Update();
-     intcmd.IntegrateCmds();
-     thrcontrol.SelectThrusters();
-     thrcontrol.SignalThrusters();
-     vda.ThrustersOn())
-  post card RESULT <= 4 and ThrusterConsistency(RESULT);
-
-  pure ThrusterConsistency : set of ThrusterControl`ThrusterPosition ==> bool 
-  ThrusterConsistency(thrusters) ==
-    return 
-    (not({<B1>, <F1>} subset thrusters) and
-     not({<B2>, <F2>} subset thrusters) and
-     not({<B3>, <F3>} subset thrusters) and
-     not({<B4>, <F4>} subset thrusters) and
-     not(thrusters inter {<L1R>, <L1F>} <> {} and
-       thrusters inter {<R2R>, <R2F>} <> {}) and
-     not(thrusters inter {<L3R>, <L3F>} <> {} and 
-       thrusters inter {<R4R>, <R4F>} <> {}) and
-     not(thrusters inter {<D1R>, <D1F>} <> {} and
-       thrusters inter {<U3R>, <U3F>} <> {}) and
-     not(thrusters inter {<D2R>, <D2F>} <> {} and 
-       thrusters inter {<U4R>, <U4F>} <> {}));
-  
-end WorkSpace
-                                                                                                                             
-~~~
-{% endraw %}
-
-### HandControlUnit.vdmpp
-
-{% raw %}
-~~~
-                                               
-class HandControlUnit
-
-types
-  public Button = <Up> | <Down>;
-  public Mode = <Tran> | <Rot>;
-
-instance variables
-  x : Command`Direction;
-  pitch : Command`Direction;
-  yaw_y : Command`Direction;
-  roll_z : Command`Direction;
-  aahbutton : Button;
-  modeswitch : Mode;
-
-
-operations
-  public
-  SetAAH : Button ==> ()
-  SetAAH(aahbuttonarg) ==
-    aahbutton := aahbuttonarg;
-
-  public
-  ReadAAH : () ==> Button
-  ReadAAH() ==
-    return aahbutton;
-
-  public
-  SetGrip : Command`Direction * Command`Direction * Command`Direction *
-            Command`Direction ==> ()
-  SetGrip(xarg, pitcharg, yaw_yarg, roll_zarg) ==
-    (x := xarg;
-     pitch := pitcharg;
-     yaw_y := yaw_yarg;
-     roll_z := roll_zarg);
-
-  public
-  SetMode : Mode ==> ()
-  SetMode(m) ==
-    modeswitch := m;
-
-  public
-  ReadGrip : () ==> Command`Direction * Command`Direction * 
-                    Command`Direction * Command`Direction * Mode
-  ReadGrip() ==
-    return mk_(x, pitch, yaw_y, roll_z, modeswitch);
-
-
-end HandControlUnit
-                                                                                                                                       
-~~~
-{% endraw %}
-
 ### AAH.vdmpp
 
 {% raw %}
@@ -308,6 +160,156 @@ end AAH
 ~~~
 {% endraw %}
 
+### Clock.vdmpp
+
+{% raw %}
+~~~
+                                     
+class Clock
+ 
+instance variables
+  count : nat := 0;
+
+operations
+  public
+  SetTime : nat ==> ()
+  SetTime(t) ==
+    count := t;
+
+  public
+  IncrTime : () ==> ()
+  IncrTime() ==
+    count := count + 1;
+
+  public
+  ReadTime : () ==> nat
+  ReadTime() ==
+    return count;
+
+end Clock
+                                                                                                                   
+~~~
+{% endraw %}
+
+### Command.vdmpp
+
+{% raw %}
+~~~
+                                       
+class Command
+types
+  public
+  Axis = <axis1> | <axis2> | <axis3>;
+  
+  public
+  Direction = <Neg> | <Pos> | <Zero>;
+
+  public
+  AxisMap = map Axis to Direction
+  inv dir == dom dir = {<axis1>, <axis2>, <axis3>};
+
+values
+  public allaxes : set of Axis = {<axis1>, <axis2>, <axis3>};
+  public X = <axis1>;
+  public Y = <axis2>;
+  public Z = <axis3>;
+  public PITCH = <axis1>;
+  public YAW = <axis2>;
+  public ROLL = <axis3>;
+  public nullaxesdir : AxisMap = {a |-> <Zero> | a in set allaxes};
+
+instance variables
+  protected axesdir : AxisMap := nullaxesdir;
+
+operations
+  public
+  GetAxesdir : () ==> AxisMap
+  GetAxesdir() ==
+    return axesdir;
+
+  public
+  SetAxesdir : AxisMap ==> ()
+  SetAxesdir(a) == 
+    axesdir := a;
+
+  public
+  GetDirection : Axis ==> Direction
+  GetDirection(a) == 
+    return axesdir(a);
+
+  public
+  SetDirection : Axis * Direction ==> ()
+  SetDirection(a, d) ==
+    axesdir := axesdir ++ {a |-> d};
+
+  public
+  SuppressAllAxes : () ==> ()
+  SuppressAllAxes() ==
+    axesdir := nullaxesdir;
+
+
+end Command
+                                                                                                                       
+~~~
+{% endraw %}
+
+### HandControlUnit.vdmpp
+
+{% raw %}
+~~~
+                                               
+class HandControlUnit
+
+types
+  public Button = <Up> | <Down>;
+  public Mode = <Tran> | <Rot>;
+
+instance variables
+  x : Command`Direction;
+  pitch : Command`Direction;
+  yaw_y : Command`Direction;
+  roll_z : Command`Direction;
+  aahbutton : Button;
+  modeswitch : Mode;
+
+
+operations
+  public
+  SetAAH : Button ==> ()
+  SetAAH(aahbuttonarg) ==
+    aahbutton := aahbuttonarg;
+
+  public
+  ReadAAH : () ==> Button
+  ReadAAH() ==
+    return aahbutton;
+
+  public
+  SetGrip : Command`Direction * Command`Direction * Command`Direction *
+            Command`Direction ==> ()
+  SetGrip(xarg, pitcharg, yaw_yarg, roll_zarg) ==
+    (x := xarg;
+     pitch := pitcharg;
+     yaw_y := yaw_yarg;
+     roll_z := roll_zarg);
+
+  public
+  SetMode : Mode ==> ()
+  SetMode(m) ==
+    modeswitch := m;
+
+  public
+  ReadGrip : () ==> Command`Direction * Command`Direction * 
+                    Command`Direction * Command`Direction * Mode
+  ReadGrip() ==
+    return mk_(x, pitch, yaw_y, roll_z, modeswitch);
+
+
+end HandControlUnit
+                                                                                                                                       
+~~~
+{% endraw %}
+
 ### IntegratedCommand.vdmpp
 
 {% raw %}
@@ -349,6 +351,287 @@ operations
 
 end IntegratedCommand
                                                                                                                                             
+~~~
+{% endraw %}
+
+### Interface.vdmpp
+
+{% raw %}
+~~~
+                                         
+class Interface
+
+instance variables
+  ws : WorkSpace := new WorkSpace() 
+
+types 
+
+public
+Input = seq of nat
+inv inp == len inp = 9;
+
+public
+ThrusterMatrix = seq of seq of bool
+inv tm == len tm = 4 and forall i in set inds tm & len tm(i) = 6
+
+operations
+
+public
+SetupTopology: () ==> ()
+SetupTopology () ==
+  ws.SetupTopology();
+
+public
+RunControlCycle: Input ==> ThrusterMatrix
+RunControlCycle (inp) ==
+  let mk_(x,p,y,z,m,ab,ah) = TransformInput (inp) in
+  let ts = ws.ControlCycle (x,p,y,z,m,ab,ah) in
+  return GenerateThrusterMatrix (ts);
+
+functions
+
+TransformInput: Input -> Command`Direction * Command`Direction *
+                 Command`Direction * Command`Direction * 
+                 HandControlUnit`Mode * HandControlUnit`Button * 
+                 Command`AxisMap 
+TransformInput (inp) ==
+  let [mode,aah,horiz,trans,vert,twist,roll,pitch,yaw] = inp in
+   mk_( ConvertAxisCmd(horiz), 
+	  ConvertAxisCmd(twist),
+	  ConvertAxisCmd(trans),
+	  ConvertAxisCmd(vert),
+	  if mode = 1 then <Tran> else <Rot>,
+	  if aah = 0 then <Up> else <Down>,
+	  { <axis3> |-> ConvertAxisCmd(roll), 
+    	    <axis1> |-> ConvertAxisCmd(pitch),
+     	    <axis2> |-> ConvertAxisCmd(yaw) } );
+
+ConvertAxisCmd: nat -> Command`Direction
+ConvertAxisCmd(n) ==
+  cases n:
+    0 -> <Neg>,
+    1 -> <Pos>,
+    2 -> <Zero>,
+    others -> undefined
+  end;
+
+GenerateThrusterMatrix: set of ThrusterControl`ThrusterPosition +> 
+                        ThrusterMatrix
+GenerateThrusterMatrix (ts) ==
+  let tson = { GenerateThrusterLabel (t) | t in set ts } in
+  [ [ mk_(j,i) in set tson | i in set {1,...,6} ]
+    | j in set {1,...,4} ];
+
+GenerateThrusterLabel: ThrusterControl`ThrusterPosition +> nat * nat
+GenerateThrusterLabel (tnm) ==
+  cases tnm:
+     <B1>  -> mk_(1,4),
+     <B2>  -> mk_(2,4),
+     <B3>  -> mk_(4,4),
+     <B4>  -> mk_(3,4),
+     <F1>  -> mk_(1,1),
+     <F2>  -> mk_(2,1),
+     <F3>  -> mk_(4,1),
+     <F4>  -> mk_(3,1),
+     <L1R> -> mk_(1,2),
+     <L1F> -> mk_(1,3),
+     <R2R> -> mk_(2,2),
+     <R2F> -> mk_(2,3),
+     <L3R> -> mk_(4,2),
+     <L3F> -> mk_(4,3),
+     <R4R> -> mk_(3,2),
+     <R4F> -> mk_(3,3),
+     <D1R> -> mk_(1,6),
+     <D1F> -> mk_(1,5),
+     <D2R> -> mk_(2,6),
+     <D2F> -> mk_(2,5),
+     <U3R> -> mk_(4,6),
+     <U3F> -> mk_(4,5),
+     <U4R> -> mk_(3,6),
+     <U4F> -> mk_(3,5)
+   end;
+
+values
+
+thrusters = mk_(<Pos>,<Zero>,<Zero>,<Zero>,<Tran>,<Down>,
+                { <Roll> |-> <Zero>, <Pitch> |-> <Zero>, <Yaw> |-> <Zero> })
+
+end Interface
+                                                              
+~~~
+{% endraw %}
+
+### RotationCommand.vdmpp
+
+{% raw %}
+~~~
+                                               
+class RotationCommand is subclass of Command
+operations
+  public
+  RotCmdsPresent : () ==> bool
+  RotCmdsPresent() ==
+    return (exists a in set dom axesdir & axesdir(a) <> <Zero>);
+
+end RotationCommand
+                                                                                                                                        
+~~~
+{% endraw %}
+
+### SixDOfCommand.vdmpp
+
+{% raw %}
+~~~
+                                             
+class SixDOfCommand
+instance variables
+  protected
+  hcu : HandControlUnit;
+  protected
+  rotcmd : RotationCommand := new RotationCommand();
+  protected
+  trancmd : TranslationCommand := new TranslationCommand();
+
+operations
+  public
+  GetCommand : () ==> Command`AxisMap * Command`AxisMap
+  GetCommand() ==
+    return(mk_(trancmd.GetAxesdir(), rotcmd.GetAxesdir()));
+
+  public
+  SetHCULink : HandControlUnit ==> ()
+  SetHCULink(h) ==
+    hcu := h;
+
+  public
+  ConvertGrip : () ==> ()
+  ConvertGrip() ==
+    let mk_(x, pitch, yaw_y, roll_z, modeswitch) = hcu.ReadGrip(),
+        tran = {Command`X |-> x,
+                Command`Y |-> if modeswitch = <Tran> 
+                              then yaw_y else <Zero>,
+                Command`Z |-> if modeswitch = <Tran> 
+                              then roll_z else <Zero>},
+        rot = {Command`ROLL |-> if modeswitch = <Rot> 
+                                then roll_z else <Zero>,
+               Command`PITCH |->pitch,
+               Command`YAW |-> if modeswitch = <Rot> 
+                               then yaw_y else <Zero>}
+    in (trancmd.SetAxesdir(tran);
+        rotcmd.SetAxesdir(rot));
+
+-- Alternative formulation of ConvertGrip
+--    let mk_(x, pitch, yaw_y, roll_z, modeswitch) = hcu.ReadGrip(),
+--    in (trancmd.SuppressAllAxes();
+--        rotcmd.SuppressAllAxes();
+--        trancmd.SetDirection(Command`X, x);
+--        rotcmd.SetDirection(Command`PITCH, pitch);
+--        if modeswitch = <Tran> 
+--        then (trancmd.SetDirection(Command`Y, yaw_y);
+--              trancmd.SetDirection(Command`Z, roll_z))
+--        else (rotcmd.SetDirection(Command`YAW, yaw_y);
+--               rotcmd.SetDirection(Command`ROLL, roll_z)));
+
+
+end SixDOfCommand
+                                                                                                                                    
+~~~
+{% endraw %}
+
+### Test.vdmpp
+
+{% raw %}
+~~~
+                                    
+class Test is subclass of WorkSpace
+ 
+values
+  DirectionSet : set of Command`Direction = {<Neg>, <Pos>, <Zero>};
+  ModeSet : set of HandControlUnit`Mode = {<Tran>, <Rot>};
+  AAHButtonSet : set of HandControlUnit`Button = {<Up>, <Down>};
+  RotCmdSet : set of Command`AxisMap =
+    {{<axis1> |-> a, <axis2> |-> b, <axis3> |-> c} 
+    | a,b,c in set {<Zero>,<Pos>,<Neg>}}
+
+instance variables
+
+  w : WorkSpace := new WorkSpace();
+
+operations
+  public BigTest: () ==> nat 
+  BigTest() ==
+    (SetupTopology();
+     return
+     (card dom 
+      {mk_(x, pitch, yaw_y, roll_z, modeswitch, <Up>) |-> 
+       ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, <Up>,
+                    Command`nullaxesdir) 
+      | x, pitch, yaw_y, roll_z in set DirectionSet, 
+        modeswitch in set ModeSet}));
+
+  public HugeTest: () ==> nat
+  HugeTest() ==
+    (SetupTopology();
+     return
+     (card dom
+     {mk_(x, pitch, yaw_y, roll_z, modeswitch, aahbutton, aahcmd) |-> 
+       ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, aahbutton,
+                    aahcmd) 
+     | x, pitch, yaw_y, roll_z in set DirectionSet, 
+       modeswitch in set ModeSet, aahbutton in set AAHButtonSet,
+       aahcmd in set RotCmdSet}));
+ 
+traces
+ 
+BT : w.SetupTopology(); let x, pitch, yaw_y, roll_z in set DirectionSet in 
+                     let modeswitch in set ModeSet in
+                     w.ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, <Up>,
+                                    Command`nullaxesdir)
+                                    
+HT: w.SetupTopology();
+    let x, pitch, yaw_y, roll_z in set DirectionSet in 
+    let modeswitch in set ModeSet in
+    let aahbutton in set AAHButtonSet in
+    let aahcmd in set RotCmdSet in
+     w.ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, aahbutton, aahcmd) 
+
+end Test
+                                                                                                                   
+~~~
+{% endraw %}
+
+### Thruster.vdmpp
+
+{% raw %}
+~~~
+                                        
+class Thruster
+
+types
+  public On_Off = <On> | <Off>;
+
+instance variables
+  state : On_Off := <Off>;
+
+ 
+operations
+  public
+  SetOn : () ==> ()
+  SetOn() ==
+    state := <On>;
+
+  public
+  SetOff : () ==> ()
+  SetOff() ==
+    state := <Off>;
+
+  public
+  GetState : () ==> On_Off
+  GetState() ==
+    return state;
+
+end Thruster
+                                                                                                                          
 ~~~
 {% endraw %}
 
@@ -517,173 +800,6 @@ end ThrusterControl
 ~~~
 {% endraw %}
 
-### SixDOfCommand.vdmpp
-
-{% raw %}
-~~~
-                                             
-class SixDOfCommand
-instance variables
-  protected
-  hcu : HandControlUnit;
-  protected
-  rotcmd : RotationCommand := new RotationCommand();
-  protected
-  trancmd : TranslationCommand := new TranslationCommand();
-
-operations
-  public
-  GetCommand : () ==> Command`AxisMap * Command`AxisMap
-  GetCommand() ==
-    return(mk_(trancmd.GetAxesdir(), rotcmd.GetAxesdir()));
-
-  public
-  SetHCULink : HandControlUnit ==> ()
-  SetHCULink(h) ==
-    hcu := h;
-
-  public
-  ConvertGrip : () ==> ()
-  ConvertGrip() ==
-    let mk_(x, pitch, yaw_y, roll_z, modeswitch) = hcu.ReadGrip(),
-        tran = {Command`X |-> x,
-                Command`Y |-> if modeswitch = <Tran> 
-                              then yaw_y else <Zero>,
-                Command`Z |-> if modeswitch = <Tran> 
-                              then roll_z else <Zero>},
-        rot = {Command`ROLL |-> if modeswitch = <Rot> 
-                                then roll_z else <Zero>,
-               Command`PITCH |->pitch,
-               Command`YAW |-> if modeswitch = <Rot> 
-                               then yaw_y else <Zero>}
-    in (trancmd.SetAxesdir(tran);
-        rotcmd.SetAxesdir(rot));
-
--- Alternative formulation of ConvertGrip
---    let mk_(x, pitch, yaw_y, roll_z, modeswitch) = hcu.ReadGrip(),
---    in (trancmd.SuppressAllAxes();
---        rotcmd.SuppressAllAxes();
---        trancmd.SetDirection(Command`X, x);
---        rotcmd.SetDirection(Command`PITCH, pitch);
---        if modeswitch = <Tran> 
---        then (trancmd.SetDirection(Command`Y, yaw_y);
---              trancmd.SetDirection(Command`Z, roll_z))
---        else (rotcmd.SetDirection(Command`YAW, yaw_y);
---               rotcmd.SetDirection(Command`ROLL, roll_z)));
-
-
-end SixDOfCommand
-                                                                                                                                    
-~~~
-{% endraw %}
-
-### Interface.vdmpp
-
-{% raw %}
-~~~
-                                         
-class Interface
-
-instance variables
-  ws : WorkSpace := new WorkSpace() 
-
-types 
-
-public
-Input = seq of nat
-inv inp == len inp = 9;
-
-public
-ThrusterMatrix = seq of seq of bool
-inv tm == len tm = 4 and forall i in set inds tm & len tm(i) = 6
-
-operations
-
-public
-SetupTopology: () ==> ()
-SetupTopology () ==
-  ws.SetupTopology();
-
-public
-RunControlCycle: Input ==> ThrusterMatrix
-RunControlCycle (inp) ==
-  let mk_(x,p,y,z,m,ab,ah) = TransformInput (inp) in
-  let ts = ws.ControlCycle (x,p,y,z,m,ab,ah) in
-  return GenerateThrusterMatrix (ts);
-
-functions
-
-TransformInput: Input -> Command`Direction * Command`Direction *
-                 Command`Direction * Command`Direction * 
-                 HandControlUnit`Mode * HandControlUnit`Button * 
-                 Command`AxisMap 
-TransformInput (inp) ==
-  let [mode,aah,horiz,trans,vert,twist,roll,pitch,yaw] = inp in
-   mk_( ConvertAxisCmd(horiz), 
-	  ConvertAxisCmd(twist),
-	  ConvertAxisCmd(trans),
-	  ConvertAxisCmd(vert),
-	  if mode = 1 then <Tran> else <Rot>,
-	  if aah = 0 then <Up> else <Down>,
-	  { <axis3> |-> ConvertAxisCmd(roll), 
-    	    <axis1> |-> ConvertAxisCmd(pitch),
-     	    <axis2> |-> ConvertAxisCmd(yaw) } );
-
-ConvertAxisCmd: nat -> Command`Direction
-ConvertAxisCmd(n) ==
-  cases n:
-    0 -> <Neg>,
-    1 -> <Pos>,
-    2 -> <Zero>,
-    others -> undefined
-  end;
-
-GenerateThrusterMatrix: set of ThrusterControl`ThrusterPosition +> 
-                        ThrusterMatrix
-GenerateThrusterMatrix (ts) ==
-  let tson = { GenerateThrusterLabel (t) | t in set ts } in
-  [ [ mk_(j,i) in set tson | i in set {1,...,6} ]
-    | j in set {1,...,4} ];
-
-GenerateThrusterLabel: ThrusterControl`ThrusterPosition +> nat * nat
-GenerateThrusterLabel (tnm) ==
-  cases tnm:
-     <B1>  -> mk_(1,4),
-     <B2>  -> mk_(2,4),
-     <B3>  -> mk_(4,4),
-     <B4>  -> mk_(3,4),
-     <F1>  -> mk_(1,1),
-     <F2>  -> mk_(2,1),
-     <F3>  -> mk_(4,1),
-     <F4>  -> mk_(3,1),
-     <L1R> -> mk_(1,2),
-     <L1F> -> mk_(1,3),
-     <R2R> -> mk_(2,2),
-     <R2F> -> mk_(2,3),
-     <L3R> -> mk_(4,2),
-     <L3F> -> mk_(4,3),
-     <R4R> -> mk_(3,2),
-     <R4F> -> mk_(3,3),
-     <D1R> -> mk_(1,6),
-     <D1F> -> mk_(1,5),
-     <D2R> -> mk_(2,6),
-     <D2F> -> mk_(2,5),
-     <U3R> -> mk_(4,6),
-     <U3F> -> mk_(4,5),
-     <U4R> -> mk_(3,6),
-     <U4F> -> mk_(3,5)
-   end;
-
-values
-
-thrusters = mk_(<Pos>,<Zero>,<Zero>,<Zero>,<Tran>,<Down>,
-                { <Roll> |-> <Zero>, <Pitch> |-> <Zero>, <Yaw> |-> <Zero> })
-
-end Interface
-                                                              
-~~~
-{% endraw %}
-
 ### ThrusterSelectionTable.vdmpp
 
 {% raw %}
@@ -718,65 +834,24 @@ end ThrusterSelectionTable
 ~~~
 {% endraw %}
 
-### Test.vdmpp
+### TranslationCommand.vdmpp
 
 {% raw %}
 ~~~
-                                    
-class Test is subclass of WorkSpace
- 
-values
-  DirectionSet : set of Command`Direction = {<Neg>, <Pos>, <Zero>};
-  ModeSet : set of HandControlUnit`Mode = {<Tran>, <Rot>};
-  AAHButtonSet : set of HandControlUnit`Button = {<Up>, <Down>};
-  RotCmdSet : set of Command`AxisMap =
-    {{<axis1> |-> a, <axis2> |-> b, <axis3> |-> c} 
-    | a,b,c in set {<Zero>,<Pos>,<Neg>}}
-
-instance variables
-
-  w : WorkSpace := new WorkSpace();
-
+                                                  
+class TranslationCommand is subclass of Command
 operations
-  public BigTest: () ==> nat 
-  BigTest() ==
-    (SetupTopology();
-     return
-     (card dom 
-      {mk_(x, pitch, yaw_y, roll_z, modeswitch, <Up>) |-> 
-       ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, <Up>,
-                    Command`nullaxesdir) 
-      | x, pitch, yaw_y, roll_z in set DirectionSet, 
-        modeswitch in set ModeSet}));
+  public
+  Prioritize : () ==> ()
+  Prioritize() ==
+    axesdir := if axesdir(X) <> <Zero> 
+               then axesdir ++ {Y |-> <Zero>, Z |-> <Zero>}
+               elseif axesdir(Y) <> <Zero> 
+               then axesdir ++ {Z |-> <Zero>}
+               else axesdir;
 
-  public HugeTest: () ==> nat
-  HugeTest() ==
-    (SetupTopology();
-     return
-     (card dom
-     {mk_(x, pitch, yaw_y, roll_z, modeswitch, aahbutton, aahcmd) |-> 
-       ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, aahbutton,
-                    aahcmd) 
-     | x, pitch, yaw_y, roll_z in set DirectionSet, 
-       modeswitch in set ModeSet, aahbutton in set AAHButtonSet,
-       aahcmd in set RotCmdSet}));
- 
-traces
- 
-BT : w.SetupTopology(); let x, pitch, yaw_y, roll_z in set DirectionSet in 
-                     let modeswitch in set ModeSet in
-                     w.ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, <Up>,
-                                    Command`nullaxesdir)
-                                    
-HT: w.SetupTopology();
-    let x, pitch, yaw_y, roll_z in set DirectionSet in 
-    let modeswitch in set ModeSet in
-    let aahbutton in set AAHButtonSet in
-    let aahcmd in set RotCmdSet in
-     w.ControlCycle(x, pitch, yaw_y, roll_z, modeswitch, aahbutton, aahcmd) 
-
-end Test
-                                                                                                                   
+end TranslationCommand
+                                                                                                                                              
 ~~~
 {% endraw %}
 
@@ -811,148 +886,73 @@ end ValveDriveAssembly
 ~~~
 {% endraw %}
 
-### Thruster.vdmpp
+### WorkSpace.vdmpp
 
 {% raw %}
 ~~~
-                                        
-class Thruster
-
-types
-  public On_Off = <On> | <Off>;
-
-instance variables
-  state : On_Off := <Off>;
-
- 
-operations
-  public
-  SetOn : () ==> ()
-  SetOn() ==
-    state := <On>;
-
-  public
-  SetOff : () ==> ()
-  SetOff() ==
-    state := <Off>;
-
-  public
-  GetState : () ==> On_Off
-  GetState() ==
-    return state;
-
-end Thruster
-                                                                                                                          
-~~~
-{% endraw %}
-
-### RotationCommand.vdmpp
-
-{% raw %}
-~~~
-                                               
-class RotationCommand is subclass of Command
-operations
-  public
-  RotCmdsPresent : () ==> bool
-  RotCmdsPresent() ==
-    return (exists a in set dom axesdir & axesdir(a) <> <Zero>);
-
-end RotationCommand
-                                                                                                                                        
-~~~
-{% endraw %}
-
-### Clock.vdmpp
-
-{% raw %}
-~~~
-                                     
-class Clock
- 
-instance variables
-  count : nat := 0;
-
-operations
-  public
-  SetTime : nat ==> ()
-  SetTime(t) ==
-    count := t;
-
-  public
-  IncrTime : () ==> ()
-  IncrTime() ==
-    count := count + 1;
-
-  public
-  ReadTime : () ==> nat
-  ReadTime() ==
-    return count;
-
-end Clock
-                                                                                                                   
-~~~
-{% endraw %}
-
-### Command.vdmpp
-
-{% raw %}
-~~~
-                                       
-class Command
-types
-  public
-  Axis = <axis1> | <axis2> | <axis3>;
-  
-  public
-  Direction = <Neg> | <Pos> | <Zero>;
-
-  public
-  AxisMap = map Axis to Direction
-  inv dir == dom dir = {<axis1>, <axis2>, <axis3>};
+                                         
+class WorkSpace 
 
 values
-  public allaxes : set of Axis = {<axis1>, <axis2>, <axis3>};
-  public X = <axis1>;
-  public Y = <axis2>;
-  public Z = <axis3>;
-  public PITCH = <axis1>;
-  public YAW = <axis2>;
-  public ROLL = <axis3>;
-  public nullaxesdir : AxisMap = {a |-> <Zero> | a in set allaxes};
+  check : bool = true;
 
 instance variables
-  protected axesdir : AxisMap := nullaxesdir;
+  hcu: HandControlUnit := new HandControlUnit();
+  aah: AAH := new AAH();
+  intcmd: IntegratedCommand := new IntegratedCommand();
+  thrcontrol: ThrusterControl := new ThrusterControl();
+  vda: ValveDriveAssembly := new ValveDriveAssembly();
+  clock: Clock := new Clock();
 
 operations
   public
-  GetAxesdir : () ==> AxisMap
-  GetAxesdir() ==
-    return axesdir;
-
+  SetupTopology() ==
+    (aah.SetHCULink(hcu);
+     aah.SetSixDOfLink(intcmd);
+     aah.SetClockLink(clock);
+     intcmd.SetHCULink(hcu);
+     intcmd.SetAAHLink(aah);
+     thrcontrol.SetIntCmdLink(intcmd);
+     thrcontrol.SetVDALink(vda));
+  
   public
-  SetAxesdir : AxisMap ==> ()
-  SetAxesdir(a) == 
-    axesdir := a;
+  ControlCycle : Command`Direction * Command`Direction * Command`Direction * 
+                 Command`Direction * 
+                 HandControlUnit`Mode * HandControlUnit`Button * 
+                 Command`AxisMap ==>
+                 set of ThrusterControl`ThrusterPosition
+  ControlCycle(x,pitch,yaw_y,roll_z,modeswitch,aahbutton,aahcmd) ==
+    (clock.IncrTime();
+     hcu.SetAAH(aahbutton);
+     hcu.SetGrip(x, pitch, yaw_y, roll_z);
+     hcu.SetMode(modeswitch);
+     aah.SetRotcmd(aahcmd);
+     intcmd.ConvertGrip();
+     aah.Update();
+     intcmd.IntegrateCmds();
+     thrcontrol.SelectThrusters();
+     thrcontrol.SignalThrusters();
+     vda.ThrustersOn())
+  post card RESULT <= 4 and ThrusterConsistency(RESULT);
 
-  public
-  GetDirection : Axis ==> Direction
-  GetDirection(a) == 
-    return axesdir(a);
-
-  public
-  SetDirection : Axis * Direction ==> ()
-  SetDirection(a, d) ==
-    axesdir := axesdir ++ {a |-> d};
-
-  public
-  SuppressAllAxes : () ==> ()
-  SuppressAllAxes() ==
-    axesdir := nullaxesdir;
-
-
-end Command
-                                                                                                                       
+  pure ThrusterConsistency : set of ThrusterControl`ThrusterPosition ==> bool 
+  ThrusterConsistency(thrusters) ==
+    return 
+    (not({<B1>, <F1>} subset thrusters) and
+     not({<B2>, <F2>} subset thrusters) and
+     not({<B3>, <F3>} subset thrusters) and
+     not({<B4>, <F4>} subset thrusters) and
+     not(thrusters inter {<L1R>, <L1F>} <> {} and
+       thrusters inter {<R2R>, <R2F>} <> {}) and
+     not(thrusters inter {<L3R>, <L3F>} <> {} and 
+       thrusters inter {<R4R>, <R4F>} <> {}) and
+     not(thrusters inter {<D1R>, <D1F>} <> {} and
+       thrusters inter {<U3R>, <U3F>} <> {}) and
+     not(thrusters inter {<D2R>, <D2F>} <> {} and 
+       thrusters inter {<U4R>, <U4F>} <> {}));
+  
+end WorkSpace
+                                                                                                                             
 ~~~
 {% endraw %}
 

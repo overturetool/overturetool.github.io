@@ -27,46 +27,60 @@ Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinbur
 |Entry point     :| new Test().Run()|
 
 
-### Request.vdmpp
+### Env.vdmpp
 
 {% raw %}
 ~~~
-class Request
+class Env
 
-instance variables
+instance variables 
+ 
+senv : map FExp`Id to FExp`SType;
+denv : map FExp`Id to FExp`Val;
+
+operations
+
+public Env: map FExp`Id to FExp`SType * map FExp`Id to FExp`Val ==> Env
+Env(s,d) ==
+  (senv := s;
+   denv := d;
+  );
+
+public GetSenv: () ==> map FExp`Id to FExp`SType
+GetSenv() ==
+  return senv;
+
+public GetDenv: () ==> map FExp`Id to FExp`Val
+GetDenv() ==
+  return denv;
+
+pure public GetVal: FExp`Id ==> FExp`Val
+GetVal(id) ==
+  return denv(id)
+pre id in set dom denv;
+
+public GetAVal:FExp`Id * FExp`Id ==> FExp`Val
+GetAVal(id,index) ==
+  return denv(id)(index)
+pre id in set dom denv and index in set dom denv(id);
+
+public GetSType: FExp`Id ==> FExp`SType
+GetSType(id) ==
+  return senv(id)
+pre id in set dom denv;
+
+public GetSAType: FExp`Id ==> FExp`AType
+GetSAType(id) ==
+  return senv(id)
+pre id in set dom denv;
+
+public GetAType:FExp`Id * FExp`Id ==> FExp`SType
+GetAType(id,index) ==
+  return senv(id)(index)
+pre id in set dom denv and index in set dom denv(id);
+
+end Env
   
--- Request targets must have a single subject AND a single resource.   
-
-subject  : PDP`Subject;
-resource : PDP`Resource;
-actions  : set of PDP`Action;
-
-types
-
-Inst :: map token to FExp`Id;
-
- operations
-
-public Request: PDP`Subject * PDP`Resource * set of PDP`Action ==> Request
-Request(s,r,aset) ==
- (subject  := s;
-  resource := r;
-  actions  := aset;
-); 
-
-public GetSubject: () ==> PDP`Subject
-GetSubject() == 
-  return subject;
-
-public GetResource: () ==> PDP`Resource
-GetResource() == 
-  return resource;
-
-public GetActions: () ==> set of PDP`Action
-GetActions() == 
-  return actions;
-
-end Request
 ~~~
 {% endraw %}
 
@@ -210,69 +224,6 @@ targetmatch(tgt) ==
 
 
 end Evaluator
-~~~
-{% endraw %}
-
-### PDP.vdmpp
-
-{% raw %}
-~~~
-class PDP 
-
-instance variables 
-
-policies : set of Policy;
-policyCombAlg : CombAlg; 
-
-operations
-
-public PDP: set of Policy * CombAlg  ==> PDP
-PDP(ps,pca) == 
- (policies := ps;
-  policyCombAlg := pca
- );
-
-types
-
-public Permit = token;
-public Deny = token;
-public Null = token;
- 
-public CombAlg = <denyOverrides> | <permitOverrides>;
- 
-public Policy :: target : [Target]
-                  rules : set of Rule
-            ruleCombAlg : CombAlg;
- 
-public Rule :: target : [Target]  
-               effect : Effect
-                 cond : [FExp];
-
-public Effect = <Permit> | <Deny> | <Indeterminate> | <NotApplicable>;   
-              
-public Target :: subjects : set of Subject
-                resources : set of Resource
-                  actions : set of Action;
-
-public Action = FExp`Id;
-public Subject = FExp`Id;
-public Resource = FExp`Id;
-
-operations
-
-public GetpolicyCombAlg: () ==> CombAlg
-GetpolicyCombAlg() ==
-  return policyCombAlg;
-
-public Getpolicies: () ==> set of Policy
-Getpolicies() ==
-  return policies;
-
-public GetEffect: Rule ==> Effect
-GetEffect(r) ==
-  return r.effect;
-
-end PDP
 ~~~
 {% endraw %}
 
@@ -562,6 +513,112 @@ end FExp
 ~~~
 {% endraw %}
 
+### PDP.vdmpp
+
+{% raw %}
+~~~
+class PDP 
+
+instance variables 
+
+policies : set of Policy;
+policyCombAlg : CombAlg; 
+
+operations
+
+public PDP: set of Policy * CombAlg  ==> PDP
+PDP(ps,pca) == 
+ (policies := ps;
+  policyCombAlg := pca
+ );
+
+types
+
+public Permit = token;
+public Deny = token;
+public Null = token;
+ 
+public CombAlg = <denyOverrides> | <permitOverrides>;
+ 
+public Policy :: target : [Target]
+                  rules : set of Rule
+            ruleCombAlg : CombAlg;
+ 
+public Rule :: target : [Target]  
+               effect : Effect
+                 cond : [FExp];
+
+public Effect = <Permit> | <Deny> | <Indeterminate> | <NotApplicable>;   
+              
+public Target :: subjects : set of Subject
+                resources : set of Resource
+                  actions : set of Action;
+
+public Action = FExp`Id;
+public Subject = FExp`Id;
+public Resource = FExp`Id;
+
+operations
+
+public GetpolicyCombAlg: () ==> CombAlg
+GetpolicyCombAlg() ==
+  return policyCombAlg;
+
+public Getpolicies: () ==> set of Policy
+Getpolicies() ==
+  return policies;
+
+public GetEffect: Rule ==> Effect
+GetEffect(r) ==
+  return r.effect;
+
+end PDP
+~~~
+{% endraw %}
+
+### Request.vdmpp
+
+{% raw %}
+~~~
+class Request
+
+instance variables
+  
+-- Request targets must have a single subject AND a single resource.   
+
+subject  : PDP`Subject;
+resource : PDP`Resource;
+actions  : set of PDP`Action;
+
+types
+
+Inst :: map token to FExp`Id;
+
+ operations
+
+public Request: PDP`Subject * PDP`Resource * set of PDP`Action ==> Request
+Request(s,r,aset) ==
+ (subject  := s;
+  resource := r;
+  actions  := aset;
+); 
+
+public GetSubject: () ==> PDP`Subject
+GetSubject() == 
+  return subject;
+
+public GetResource: () ==> PDP`Resource
+GetResource() == 
+  return resource;
+
+public GetActions: () ==> set of PDP`Action
+GetActions() == 
+  return actions;
+
+end Request
+~~~
+{% endraw %}
+
 ### Test.vdmpp
 
 {% raw %}
@@ -724,63 +781,6 @@ gold_policy_results_scale : PDP =
   );
 
 end Test
-~~~
-{% endraw %}
-
-### Env.vdmpp
-
-{% raw %}
-~~~
-class Env
-
-instance variables 
- 
-senv : map FExp`Id to FExp`SType;
-denv : map FExp`Id to FExp`Val;
-
-operations
-
-public Env: map FExp`Id to FExp`SType * map FExp`Id to FExp`Val ==> Env
-Env(s,d) ==
-  (senv := s;
-   denv := d;
-  );
-
-public GetSenv: () ==> map FExp`Id to FExp`SType
-GetSenv() ==
-  return senv;
-
-public GetDenv: () ==> map FExp`Id to FExp`Val
-GetDenv() ==
-  return denv;
-
-pure public GetVal: FExp`Id ==> FExp`Val
-GetVal(id) ==
-  return denv(id)
-pre id in set dom denv;
-
-public GetAVal:FExp`Id * FExp`Id ==> FExp`Val
-GetAVal(id,index) ==
-  return denv(id)(index)
-pre id in set dom denv and index in set dom denv(id);
-
-public GetSType: FExp`Id ==> FExp`SType
-GetSType(id) ==
-  return senv(id)
-pre id in set dom denv;
-
-public GetSAType: FExp`Id ==> FExp`AType
-GetSAType(id) ==
-  return senv(id)
-pre id in set dom denv;
-
-public GetAType:FExp`Id * FExp`Id ==> FExp`SType
-GetAType(id,index) ==
-  return senv(id)(index)
-pre id in set dom denv and index in set dom denv(id);
-
-end Env
-  
 ~~~
 {% endraw %}
 

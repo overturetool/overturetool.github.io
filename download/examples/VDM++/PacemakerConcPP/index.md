@@ -32,274 +32,6 @@ Springer-Verlag, Lecture Notes in Computer Science 5014, pp. 181--197.
 |Entry point     :| new World("tests/scenarioSometimesHeart.arg",<DOO>).Run()|
 
 
-### RateController.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                        
-class RateController is subclass of GLOBAL, BaseThread
-
-instance variables
- rateplan : map Time to Time;
- sensed   : [ActivityData];
- interval : Time;
- finished : bool;
-
- 
-                            
-instance variables
--- programmable values
- LRL       : PPM;
- MSR       : PPM;
- threshold : nat1;
- reactionT : Time;
- recoveryT : Time;
- responseF : nat1;
-
-inv threshold < 8
-    and
-    reactionT in set {10,...,50}
-    and
-    recoveryT in set {2,...,16}
-    and 
-    responseF <= 16;
-                                                                                                                                            
-operations
-  
- public 
- RateController: nat1 * bool ==> RateController
- RateController(p, isP) ==
-   (LRL       := 60;
-    MSR       := 120;
-    threshold := MED;
-    reactionT := 10; -- 10 s
-    recoveryT := 2; -- 2 minutes;
-    responseF := 8;
-    sensed    := nil; 
-    interval  := 1/((LRL/60)/1000);
-    finished  := false;
-    period := p;
-    isPeriodic := isP;
-   );
-                             
-public
-getInterval : () ==> Time
-getInterval () == return interval;
-                            
- private
- controlRate : () ==> ()
- controlRate () == 
-    (
-    if sensed > threshold
-    then increaseRate()
-    elseif sensed < threshold
-    then decreaseRate()
-    else skip;
-    sensed := nil;
-    );
-                            
-
- public 
- stimulate : ActivityData ==> ()
- stimulate (ad) == sensed := ad;
-                              
- private
- increaseRate : () ==> ()
- increaseRate () == 
-   (
-    interval := 1 / ((MSR / 60) / 1000);
-    Pacemaker`heartController.SetPeriod(interval); --setInterval(interval)
-   );
-
-                            
- private
- decreaseRate : () ==> ()
- decreaseRate () == 
-   (
-    interval := 1 / ((LRL / 60) / 1000);
-    Pacemaker`heartController.setInterval(interval)
-   );
-                             
- public 
- finish : () ==> ()
- finish () == finished := true; 
-
- public 
- isFinished : () ==> ()
- isFinished () == skip; 
-
-public Step: () ==> ()
-Step() ==
-  if (sensed <> nil)
-  then controlRate();
-
-                                                                                                       
-
---thread
--- while true do
---    controlRate();
-                                                              
-
-sync
-mutex(stimulate);
-
-mutex(increaseRate,decreaseRate,getInterval);
-
-per isFinished => finished;
-
-mutex(Step);
---per controlRate => sensed <> nil;
-
-                             
-values
-
---V-LOW 1
---LOW 2
---MED-LOW 4
-MED : ActivityData = 4;
---MED-HIGH 4
---HIGH 6
---V-HIGH 6
-
-end RateController
-                
-~~~
-{% endraw %}
-
-### Lead.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                      
-class Lead is subclass of GLOBAL, BaseThread
-
-instance variables
-
- private chamber : Chamber;       
- private scheduledPulse : [(Time * Pulse)];
-
-operations
-
- public 
- Lead: Chamber * nat1 * bool ==> Lead
- Lead(chm, p, isP) ==   
-   (
-    chamber := chm;
-    scheduledPulse := nil;
-    period := p;
-    isPeriodic := isP;
-   );
-                                                                                                                     
-
- public 
- getChamber: () ==> Chamber
- getChamber () == return chamber;
-                                                                                                                                              
-
- public 
- stimulate : Sense ==> ()
- stimulate (s) == Pacemaker`heartController.sensorNotify(s,chamber);
-
-                            
- public 
- isFinished : () ==> ()
- isFinished () == skip;
-
-                                                                                      
- public 
- addLeadPace : Pulse * Time ==> ()
- addLeadPace (p,t) ==  
-   if t <= World`timerRef.GetTime()
-   then dischargePulse(p)
-   else (scheduledPulse := mk_(t,p);
-         return);
-                            
- private 
- followPlan : () ==> ()
- followPlan () ==
-    (
-     dcl curTime : Time := World`timerRef.GetTime();
-     if scheduledPulse <> nil
-     then if(curTime >= scheduledPulse.#1) 
-          then (dischargePulse(scheduledPulse.#2);
-                scheduledPulse := nil);
-     
-   );
-   
-      
-                              
- private 
- dischargePulse : Pulse ==> ()
- dischargePulse (p) ==
-    World`env.handleEvent(p,chamber,World`timerRef.GetTime());
-
-public Step: () ==> ()
-Step() ==
- (if(scheduledPulse <> nil)
-  then followPlan();
-  --    World`timerRef.WaitRelative(5);
- );
-
-                                                                                                                          
---thread
---  while true do 
---    ( if(scheduledPulse <> nil)
---      then followPlan();
---      World`timerRef.WaitRelative(5);
---      World`timerRef.NotifyAll();
---      World`timerRef.Awake();
---    );
-    
-                                                                                      
-
-sync
-
---per followPlan => scheduledPulse <> nil;
-per isFinished => scheduledPulse = nil;
-
-mutex(Step);
-mutex(addLeadPace);
-mutex(dischargePulse);
-
-end Lead 
-             
-~~~
-{% endraw %}
-
-### Pacemaker.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                        
-class Pacemaker 
-
- instance variables
-
- public static 
- atriaLead     : Lead      := new Lead(<ATRIA>, 5, true);
-
- public static 
- ventricleLead : Lead      := new Lead(<VENTRICLE>, 5, true);
-                                                                                
-
- instance variables
-
- public static 
- accelerometer       : Accelerometer   := new Accelerometer();
-
- public static 
- rateController      : RateController  := new RateController(1, true);
-                            
- instance variables
- 
- public static 
- heartController     : HeartController := new HeartController(1000, true);
-
-end Pacemaker
-             
-~~~
-{% endraw %}
-
 ### Accelerometer.vdmpp
 
 {% raw %}
@@ -318,125 +50,49 @@ end Accelerometer
 ~~~
 {% endraw %}
 
-### TimeStamp.vdmpp
+### BaseThread.vdmpp
 
 {% raw %}
 ~~~
-              
-class TimeStamp
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-
-values
-
-public stepLength : nat = 1;
-
+class BaseThread
+	
 instance variables
 
-currentTime  : nat   := 0;
-wakeUpMap    : map nat to [nat] := {|->};
-barrierCount : nat := 0;
-registeredThreads : set of BaseThread := {};
-isInitialising : bool := true;
+protected period : nat1 := 1;
+protected isPeriodic : bool := true;
 
 operations
 
-public TimeStamp : nat ==> TimeStamp
-TimeStamp(count) ==
-	barrierCount := count;
-
-public RegisterThread : BaseThread ==> ()
-RegisterThread(t) ==
- (barrierCount := barrierCount + 1;
-  registeredThreads := registeredThreads union {t};  
- );
- 
-public UnRegisterThread : () ==> ()
-UnRegisterThread() ==
- (barrierCount := barrierCount - 1;
-  --registeredThreads := registeredThreads \ {t};
- );
- 
-public IsInitialising: () ==> bool
-IsInitialising() ==
-  return isInitialising;
- 
-public DoneInitialising: () ==> ()
-DoneInitialising() ==
- (if isInitialising
-  then (isInitialising := false;
-        for all t in set registeredThreads 
-        do
-          start(t);
-       );
+protected BaseThread : () ==> BaseThread
+BaseThread() ==
+ (World`timerRef.RegisterThread(self);
+  if(not World`timerRef.IsInitialising())
+  then start(self);  
  );
 
-public WaitRelative : nat ==> ()
-WaitRelative(val) ==
- (WaitAbsolute(currentTime + val);  
+public SetPeriod : nat1 ==> ()
+SetPeriod(p) ==
+  period := p;
+
+protected Step : () ==> ()
+Step() ==
+  is subclass responsibility
+
+thread
+ (if isPeriodic
+  then (while true
+        do 
+         (Step();
+          World`timerRef.WaitRelative(period);
+         )
+       )
+  else (Step();
+        World`timerRef.WaitRelative(0);
+        World`timerRef.UnRegisterThread();
+       )
  );
- 
-public WaitAbsolute : nat ==> ()
-WaitAbsolute(val) == (
-  AddToWakeUpMap(threadid, val);
-  -- Last to enter the barrier notifies the rest.
-  BarrierReached();
-  -- Wait till time is up
-  Awake();
-);
 
-BarrierReached : () ==> ()
-BarrierReached() == 
-(
-	while (card dom wakeUpMap = barrierCount) do
-  	(
-  		currentTime := currentTime + stepLength;
-  		let threadSet : set of nat = {th | th in set dom wakeUpMap 
-  										 & wakeUpMap(th) <> nil and wakeUpMap(th) <= currentTime }
-		in
-			for all t in set threadSet 
-			do
-				wakeUpMap := {t} <-: wakeUpMap;
-	);
-)
-post forall x in set rng wakeUpMap & x = nil or x >= currentTime;
-
-AddToWakeUpMap : nat * [nat] ==> ()
-AddToWakeUpMap(tId, val) ==
-   wakeUpMap := wakeUpMap ++ { tId |-> val };
-
-public NotifyThread : nat ==> ()
-NotifyThread(tId) ==
- wakeUpMap := {tId} <-: wakeUpMap;
-
-public GetTime : () ==> nat
-GetTime() ==
-  return currentTime;
-
-Awake: () ==> ()
-Awake() == skip;
-
-public ThreadDone : () ==> ()
-ThreadDone() == 
-	AddToWakeUpMap(threadid, nil);
-
-sync
-  per Awake => threadid not in set dom wakeUpMap;
-
-mutex(IsInitialising);
-mutex(DoneInitialising);
-  -- Is this really needed?
-  mutex(AddToWakeUpMap);
-  mutex(NotifyThread);
-  mutex(BarrierReached);
-  
-  mutex(AddToWakeUpMap, NotifyThread);
-  mutex(AddToWakeUpMap, BarrierReached);
-  mutex(NotifyThread, BarrierReached);
-  
-  mutex(AddToWakeUpMap, NotifyThread, BarrierReached);
-
-end TimeStamp
+end BaseThread
 ~~~
 {% endraw %}
 
@@ -582,61 +238,52 @@ end Environment
 ~~~
 {% endraw %}
 
-### World.vdmpp
+### GLOBAL.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                        
-class World is subclass of GLOBAL
+                                                                                                                                                                          
+class GLOBAL
 
-types
+types 
 
-instance variables
+                                                                                                                                      
+-- Sensed activity
+public
+Sense = <NONE> | <PULSE>;
+                                                                                                                                                           
+-- Heart chamber identifier
+public 
+Chamber = <ATRIA> | <VENTRICLE>;
+                                                                                                                                                                                                                                                          
 
-public static env      : [Environment] := nil;
-public static timerRef : TimeStamp := new TimeStamp(0); --3
-                                                                                                           
-operations
+-- Accelerometer output
+public 
+ActivityData = nat1
+inv a == a <= 7;
 
-public World: seq of char * Mode ==> World
-World(filename,mode) == 
-  (  -- create an environment
-     env := new Environment(filename, 1, true);
+                                                                                                                                                                                                                                                                                
+-- Paced actvity
+public
+Pulse = <PULSE> | <TRI_PULSE>;
+                                                                                                                                  
+-- Operation mode
+public 
+Mode = <OFF> | <AOO> | <AOOR> | <AAT> | <DOO>;
 
-     -- bind leads to the environment
-     env.addLeadSensor(Pacemaker`atriaLead);
-     env.addLeadSensor(Pacemaker`ventricleLead);
-   
-     -- bind accelerometer to the environment
-     env.addAccelerometer(Pacemaker`accelerometer);
+                                                                      
+-- PPM
+public 
+PPM = nat1
+inv ppm == ppm >= 30 and ppm <= 175;
+
+                                                                                               
+-- Time
+public 
+Time = nat;
     
-     -- bind leads to the controler
-     Pacemaker`heartController.addLeadPacer(Pacemaker`atriaLead);
-     Pacemaker`heartController.addLeadPacer(Pacemaker`ventricleLead);
-
-     -- set up mode
-     Pacemaker`heartController.setMode(mode);
-     
-     --start(Pacemaker`heartController);
-     --start(Pacemaker`rateController);     
-
-     --start(Pacemaker`ventricleLead);
-  );
-
-                                                                                   
-public Run: () ==> ()
-Run () == 
-  (
-   --start(env); 
-   timerRef.DoneInitialising();
-   env.isFinished();
-   Pacemaker`heartController.isFinished();
-   env.showResult()
-  );
-  
-
-end World
-             
+end GLOBAL
+                
 ~~~
 {% endraw %}
 
@@ -792,98 +439,451 @@ end HeartController
 ~~~
 {% endraw %}
 
-### BaseThread.vdmpp
+### Lead.vdmpp
 
 {% raw %}
 ~~~
-class BaseThread
-	
+                                                                                                                                                                                                                                      
+class Lead is subclass of GLOBAL, BaseThread
+
 instance variables
 
-protected period : nat1 := 1;
-protected isPeriodic : bool := true;
+ private chamber : Chamber;       
+ private scheduledPulse : [(Time * Pulse)];
 
 operations
 
-protected BaseThread : () ==> BaseThread
-BaseThread() ==
- (World`timerRef.RegisterThread(self);
-  if(not World`timerRef.IsInitialising())
-  then start(self);  
- );
+ public 
+ Lead: Chamber * nat1 * bool ==> Lead
+ Lead(chm, p, isP) ==   
+   (
+    chamber := chm;
+    scheduledPulse := nil;
+    period := p;
+    isPeriodic := isP;
+   );
+                                                                                                                     
 
-public SetPeriod : nat1 ==> ()
-SetPeriod(p) ==
-  period := p;
+ public 
+ getChamber: () ==> Chamber
+ getChamber () == return chamber;
+                                                                                                                                              
 
-protected Step : () ==> ()
+ public 
+ stimulate : Sense ==> ()
+ stimulate (s) == Pacemaker`heartController.sensorNotify(s,chamber);
+
+                            
+ public 
+ isFinished : () ==> ()
+ isFinished () == skip;
+
+                                                                                      
+ public 
+ addLeadPace : Pulse * Time ==> ()
+ addLeadPace (p,t) ==  
+   if t <= World`timerRef.GetTime()
+   then dischargePulse(p)
+   else (scheduledPulse := mk_(t,p);
+         return);
+                            
+ private 
+ followPlan : () ==> ()
+ followPlan () ==
+    (
+     dcl curTime : Time := World`timerRef.GetTime();
+     if scheduledPulse <> nil
+     then if(curTime >= scheduledPulse.#1) 
+          then (dischargePulse(scheduledPulse.#2);
+                scheduledPulse := nil);
+     
+   );
+   
+      
+                              
+ private 
+ dischargePulse : Pulse ==> ()
+ dischargePulse (p) ==
+    World`env.handleEvent(p,chamber,World`timerRef.GetTime());
+
+public Step: () ==> ()
 Step() ==
-  is subclass responsibility
-
-thread
- (if isPeriodic
-  then (while true
-        do 
-         (Step();
-          World`timerRef.WaitRelative(period);
-         )
-       )
-  else (Step();
-        World`timerRef.WaitRelative(0);
-        World`timerRef.UnRegisterThread();
-       )
+ (if(scheduledPulse <> nil)
+  then followPlan();
+  --    World`timerRef.WaitRelative(5);
  );
 
-end BaseThread
+                                                                                                                          
+--thread
+--  while true do 
+--    ( if(scheduledPulse <> nil)
+--      then followPlan();
+--      World`timerRef.WaitRelative(5);
+--      World`timerRef.NotifyAll();
+--      World`timerRef.Awake();
+--    );
+    
+                                                                                      
+
+sync
+
+--per followPlan => scheduledPulse <> nil;
+per isFinished => scheduledPulse = nil;
+
+mutex(Step);
+mutex(addLeadPace);
+mutex(dischargePulse);
+
+end Lead 
+             
 ~~~
 {% endraw %}
 
-### GLOBAL.vdmpp
+### Pacemaker.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                          
-class GLOBAL
+                                                                                                                                                                                                                                                        
+class Pacemaker 
 
-types 
+ instance variables
 
-                                                                                                                                      
--- Sensed activity
+ public static 
+ atriaLead     : Lead      := new Lead(<ATRIA>, 5, true);
+
+ public static 
+ ventricleLead : Lead      := new Lead(<VENTRICLE>, 5, true);
+                                                                                
+
+ instance variables
+
+ public static 
+ accelerometer       : Accelerometer   := new Accelerometer();
+
+ public static 
+ rateController      : RateController  := new RateController(1, true);
+                            
+ instance variables
+ 
+ public static 
+ heartController     : HeartController := new HeartController(1000, true);
+
+end Pacemaker
+             
+~~~
+{% endraw %}
+
+### RateController.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                        
+class RateController is subclass of GLOBAL, BaseThread
+
+instance variables
+ rateplan : map Time to Time;
+ sensed   : [ActivityData];
+ interval : Time;
+ finished : bool;
+
+ 
+                            
+instance variables
+-- programmable values
+ LRL       : PPM;
+ MSR       : PPM;
+ threshold : nat1;
+ reactionT : Time;
+ recoveryT : Time;
+ responseF : nat1;
+
+inv threshold < 8
+    and
+    reactionT in set {10,...,50}
+    and
+    recoveryT in set {2,...,16}
+    and 
+    responseF <= 16;
+                                                                                                                                            
+operations
+  
+ public 
+ RateController: nat1 * bool ==> RateController
+ RateController(p, isP) ==
+   (LRL       := 60;
+    MSR       := 120;
+    threshold := MED;
+    reactionT := 10; -- 10 s
+    recoveryT := 2; -- 2 minutes;
+    responseF := 8;
+    sensed    := nil; 
+    interval  := 1/((LRL/60)/1000);
+    finished  := false;
+    period := p;
+    isPeriodic := isP;
+   );
+                             
 public
-Sense = <NONE> | <PULSE>;
-                                                                                                                                                           
--- Heart chamber identifier
-public 
-Chamber = <ATRIA> | <VENTRICLE>;
-                                                                                                                                                                                                                                                          
+getInterval : () ==> Time
+getInterval () == return interval;
+                            
+ private
+ controlRate : () ==> ()
+ controlRate () == 
+    (
+    if sensed > threshold
+    then increaseRate()
+    elseif sensed < threshold
+    then decreaseRate()
+    else skip;
+    sensed := nil;
+    );
+                            
 
--- Accelerometer output
-public 
-ActivityData = nat1
-inv a == a <= 7;
+ public 
+ stimulate : ActivityData ==> ()
+ stimulate (ad) == sensed := ad;
+                              
+ private
+ increaseRate : () ==> ()
+ increaseRate () == 
+   (
+    interval := 1 / ((MSR / 60) / 1000);
+    Pacemaker`heartController.SetPeriod(interval); --setInterval(interval)
+   );
 
-                                                                                                                                                                                                                                                                                
--- Paced actvity
-public
-Pulse = <PULSE> | <TRI_PULSE>;
-                                                                                                                                  
--- Operation mode
-public 
-Mode = <OFF> | <AOO> | <AOOR> | <AAT> | <DOO>;
+                            
+ private
+ decreaseRate : () ==> ()
+ decreaseRate () == 
+   (
+    interval := 1 / ((LRL / 60) / 1000);
+    Pacemaker`heartController.setInterval(interval)
+   );
+                             
+ public 
+ finish : () ==> ()
+ finish () == finished := true; 
 
-                                                                      
--- PPM
-public 
-PPM = nat1
-inv ppm == ppm >= 30 and ppm <= 175;
+ public 
+ isFinished : () ==> ()
+ isFinished () == skip; 
 
-                                                                                               
--- Time
-public 
-Time = nat;
-    
-end GLOBAL
+public Step: () ==> ()
+Step() ==
+  if (sensed <> nil)
+  then controlRate();
+
+                                                                                                       
+
+--thread
+-- while true do
+--    controlRate();
+                                                              
+
+sync
+mutex(stimulate);
+
+mutex(increaseRate,decreaseRate,getInterval);
+
+per isFinished => finished;
+
+mutex(Step);
+--per controlRate => sensed <> nil;
+
+                             
+values
+
+--V-LOW 1
+--LOW 2
+--MED-LOW 4
+MED : ActivityData = 4;
+--MED-HIGH 4
+--HIGH 6
+--V-HIGH 6
+
+end RateController
                 
+~~~
+{% endraw %}
+
+### TimeStamp.vdmpp
+
+{% raw %}
+~~~
+              
+class TimeStamp
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+values
+
+public stepLength : nat = 1;
+
+instance variables
+
+currentTime  : nat   := 0;
+wakeUpMap    : map nat to [nat] := {|->};
+barrierCount : nat := 0;
+registeredThreads : set of BaseThread := {};
+isInitialising : bool := true;
+
+operations
+
+public TimeStamp : nat ==> TimeStamp
+TimeStamp(count) ==
+	barrierCount := count;
+
+public RegisterThread : BaseThread ==> ()
+RegisterThread(t) ==
+ (barrierCount := barrierCount + 1;
+  registeredThreads := registeredThreads union {t};  
+ );
+ 
+public UnRegisterThread : () ==> ()
+UnRegisterThread() ==
+ (barrierCount := barrierCount - 1;
+  --registeredThreads := registeredThreads \ {t};
+ );
+ 
+public IsInitialising: () ==> bool
+IsInitialising() ==
+  return isInitialising;
+ 
+public DoneInitialising: () ==> ()
+DoneInitialising() ==
+ (if isInitialising
+  then (isInitialising := false;
+        for all t in set registeredThreads 
+        do
+          start(t);
+       );
+ );
+
+public WaitRelative : nat ==> ()
+WaitRelative(val) ==
+ (WaitAbsolute(currentTime + val);  
+ );
+ 
+public WaitAbsolute : nat ==> ()
+WaitAbsolute(val) == (
+  AddToWakeUpMap(threadid, val);
+  -- Last to enter the barrier notifies the rest.
+  BarrierReached();
+  -- Wait till time is up
+  Awake();
+);
+
+BarrierReached : () ==> ()
+BarrierReached() == 
+(
+	while (card dom wakeUpMap = barrierCount) do
+  	(
+  		currentTime := currentTime + stepLength;
+  		let threadSet : set of nat = {th | th in set dom wakeUpMap 
+  										 & wakeUpMap(th) <> nil and wakeUpMap(th) <= currentTime }
+		in
+			for all t in set threadSet 
+			do
+				wakeUpMap := {t} <-: wakeUpMap;
+	);
+)
+post forall x in set rng wakeUpMap & x = nil or x >= currentTime;
+
+AddToWakeUpMap : nat * [nat] ==> ()
+AddToWakeUpMap(tId, val) ==
+   wakeUpMap := wakeUpMap ++ { tId |-> val };
+
+public NotifyThread : nat ==> ()
+NotifyThread(tId) ==
+ wakeUpMap := {tId} <-: wakeUpMap;
+
+public GetTime : () ==> nat
+GetTime() ==
+  return currentTime;
+
+Awake: () ==> ()
+Awake() == skip;
+
+public ThreadDone : () ==> ()
+ThreadDone() == 
+	AddToWakeUpMap(threadid, nil);
+
+sync
+  per Awake => threadid not in set dom wakeUpMap;
+
+mutex(IsInitialising);
+mutex(DoneInitialising);
+  -- Is this really needed?
+  mutex(AddToWakeUpMap);
+  mutex(NotifyThread);
+  mutex(BarrierReached);
+  
+  mutex(AddToWakeUpMap, NotifyThread);
+  mutex(AddToWakeUpMap, BarrierReached);
+  mutex(NotifyThread, BarrierReached);
+  
+  mutex(AddToWakeUpMap, NotifyThread, BarrierReached);
+
+end TimeStamp
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                        
+class World is subclass of GLOBAL
+
+types
+
+instance variables
+
+public static env      : [Environment] := nil;
+public static timerRef : TimeStamp := new TimeStamp(0); --3
+                                                                                                           
+operations
+
+public World: seq of char * Mode ==> World
+World(filename,mode) == 
+  (  -- create an environment
+     env := new Environment(filename, 1, true);
+
+     -- bind leads to the environment
+     env.addLeadSensor(Pacemaker`atriaLead);
+     env.addLeadSensor(Pacemaker`ventricleLead);
+   
+     -- bind accelerometer to the environment
+     env.addAccelerometer(Pacemaker`accelerometer);
+    
+     -- bind leads to the controler
+     Pacemaker`heartController.addLeadPacer(Pacemaker`atriaLead);
+     Pacemaker`heartController.addLeadPacer(Pacemaker`ventricleLead);
+
+     -- set up mode
+     Pacemaker`heartController.setMode(mode);
+     
+     --start(Pacemaker`heartController);
+     --start(Pacemaker`rateController);     
+
+     --start(Pacemaker`ventricleLead);
+  );
+
+                                                                                   
+public Run: () ==> ()
+Run () == 
+  (
+   --start(env); 
+   timerRef.DoneInitialising();
+   env.isFinished();
+   Pacemaker`heartController.isFinished();
+   env.showResult()
+  );
+  
+
+end World
+             
 ~~~
 {% endraw %}
 

@@ -27,6 +27,269 @@ the ProjectReport.pdf file included in the zip file with the source files.
 |Entry point     :| new World().Run()|
 
 
+### AutomatedStockBroker.vdmpp
+
+{% raw %}
+~~~
+class AutomatedStockBroker is subclass of GLOBAL
+  
+instance variables
+  stocks : seq of StockRecord;
+  stockWatchers : map StockIdentifier to StockWatcher;
+  actionLog : seq of ActionEvent := [];
+  balance : int;
+  inv balance >= 0;
+  -- no stock can have the same name  
+  inv forall x,y in set inds stocks & x <> y => stocks(x).Name <> stocks(y).Name;
+
+  --says that foreach ActionEvent in the log if there exist a next action with the same 
+  --Stock name, it should have a different ActionType. this insures that you dont sell or buy the same
+  --two times in a row
+  inv let stockIdentifiers = {si.Name | si in set elems stocks}
+      in 
+        forall stockIdentifier in set stockIdentifiers & 
+          let allEventsStock = [ actionLog(i) | i in set inds actionLog 
+                                              & actionLog(i).StockName = stockIdentifier]
+          in 
+            (forall e in set inds allEventsStock & 
+               (e <> len allEventsStock) => 
+               (allEventsStock(e).Type <> allEventsStock(e+1).Type)); 
+       
+  inv MaxOneOfEachActionTypePerTime(actionLog);    
+  
+
+operations
+
+public AutomatedStockBroker: nat ==> AutomatedStockBroker
+AutomatedStockBroker(startCash) == (
+  balance := startCash;
+  stocks := [];
+  stockWatchers := {|->};
+);
+
+public AddStock: StockRecord * nat1 ==> ()
+AddStock(sRecord,priority) == (
+  stocks := stocks(1,...,priority-1) ^ [sRecord] 
+            ^ stocks(priority+1,...,len stocks);
+  if (World`simulate)
+  then stockWatchers(sRecord.Name) := new StockWatcher(sRecord)
+  else stockWatchers(sRecord.Name) := new StockWatcher(sRecord,testValues(sRecord.Name));
+)
+pre sRecord.Name not in set { x.Name | x in set elems stocks}
+post (sRecord.Name in set dom stockWatchers) 
+     and (sRecord = stocks(priority)); 
+  
+public GetActionLog:() ==> seq of ActionEvent
+GetActionLog() == 
+  return actionLog;
+  
+public GetStocksWithActiveActionTrigger: StockState ==> seq of StockRecord
+GetStocksWithActiveActionTrigger(ss) == 
+  return [stocks(s) | s in set inds stocks  
+                    & (stockWatchers(stocks(s).Name).GetTriggeredAction() <> nil)
+                      and (stocks(s).State = ss)]
+post let res = RESULT in forall i in set inds res & res(i).State = ss;
+  
+FindValidBuy: seq of StockRecord * nat ==> [StockRecord]
+FindValidBuy(potBuys,time) ==  
+  return let affordableStocks = 
+    [potBuys(x) | x in set inds potBuys & CanAfford(potBuys(x),balance)]
+     in 
+     (
+      if(len affordableStocks > 0)
+      then let x in set inds affordableStocks be st  
+       (forall y in set inds affordableStocks & (stockWatchers(affordableStocks(x).Name).GetStockValue(time)) >= 
+       (stockWatchers(affordableStocks(y).Name).GetStockValue(time)))
+       in affordableStocks(x)
+      else nil 
+     );
+    
+FindValidSell: seq of StockRecord * nat ==> StockRecord
+FindValidSell(potSells,time) == 
+  return let x in set inds potSells be st  
+    (forall y in set inds potSells & 
+      (stockWatchers(potSells(x).Name).GetStockValue(time) - potSells(x).Cost) >= 
+      (stockWatchers(potSells(y).Name).GetStockValue(time) - potSells(y).Cost))
+    in potSells(x)  
+pre len potSells > 0
+post IsGTAll(stockWatchers(RESULT.Name).GetStockValue(time) - RESULT.Cost,
+  {stockWatchers(x.Name).GetStockValue(time) - x.Cost | x in set elems potSells});
+
+  PerformBuy: StockRecord * nat ==> ()
+  PerformBuy(potAction,time) == 
+   let sw = stockWatchers(potAction.Name),value = sw.GetStockValue(time)  
+   in
+   (
+    actionLog := [mk_ActionEvent(<Buy>,time,potAction.Name,value)] ^ actionLog;
+    balance := balance - value;
+
+    let i in set inds stocks be st stocks(i).Name = potAction.Name
+     in
+    (
+     stocks(i) := mu(potAction, State |-> <Bought>, Cost |-> value );
+     sw.updateStockRecord(stocks(i))
+    ) 
+   )
+  pre potAction.State = <PotentialBuy> and 
+   stockWatchers(potAction.Name).GetTriggeredAction() = <Buy>
+  post balance >= 0;
+
+  PerformSell: StockRecord * nat ==> ()
+  PerformSell(potAction,time) == 
+   let sw = stockWatchers(potAction.Name),value = sw.GetStockValue(time) 
+   in
+   (
+    actionLog := [mk_ActionEvent(<Sell>,time,potAction.Name,value)] ^ actionLog;
+    balance := balance + value;
+    
+    let i in set inds stocks be st stocks(i).Name = potAction.Name
+     in
+    (
+     stocks(i) := mu(potAction, State |-> <PotentialBuy>, Cost |-> 0);
+     sw.updateStockRecord(stocks(i))
+    ) 
+   )
+  pre potAction.State = <Bought> and 
+   stockWatchers(potAction.Name).GetTriggeredAction() = <Sell>  
+  post balance >= 0;
+  
+  ObserveAllStocks: nat ==> ()
+  ObserveAllStocks(time) == 
+   for all i in set inds stocks do
+    let stock = stocks(i), csw = stockWatchers(stock.Name)
+     in csw.ObserveStock(time);
+
+  public Step: nat ==> ()
+  Step(time) == (
+
+   ObserveAllStocks(time);
+      
+   let potBuys = GetStocksWithActiveActionTrigger(<PotentialBuy>) , 
+    potSells = GetStocksWithActiveActionTrigger(<Bought>),
+    validBuy = FindValidBuy(potBuys,time)
+    in
+    (
+     if(len potSells > 0)
+     then (PerformSell(FindValidSell(potSells,time), time);)
+     else skip;
+     IO`print("\npot sels : ");
+     IO`print(potSells);
+
+     if(validBuy <> nil)
+     then (PerformBuy(validBuy, time);)
+     else skip;
+     IO`print("\npot buys : ");
+     IO`print(potBuys);
+    );  
+   
+   IO`print("\n");
+   IO`print("Finished step : ");
+   IO`print(time);
+   IO`print(" with actionLog : ");
+   IO`print(actionLog);
+   IO`print(" and Balance : ");
+   IO`print(balance);
+   IO`print("\n");
+  )
+  post MaxOneOfEachActionTypePerTime(actionLog);
+
+functions
+
+IsGTAll: int * set of int -> bool
+IsGTAll(sv,ssv) == 
+  forall i in set ssv & sv >= i;
+
+CanAfford: StockRecord * nat -> bool
+CanAfford(sr,balance) == 
+  sr.Cost <= balance;
+    
+MaxOneOfEachActionTypePerTime: seq of ActionEvent -> bool
+MaxOneOfEachActionTypePerTime(actionLog) == 
+  forall x,y in set inds actionLog & 
+     (x <> y and actionLog(x).Time = actionLog(y).Time) => 
+     (actionLog(x).Type <> actionLog(y).Type)
+
+end AutomatedStockBroker
+~~~
+{% endraw %}
+
+### GLOBAL.vdmpp
+
+{% raw %}
+~~~
+class GLOBAL
+types
+public String = seq of char;
+
+public EventType = <UpperLimit> | <LowerLimit> | <Peak> | <Valley> | 
+<EntersNoActionRegion> | <LeavesNoActionRegion>;
+
+public StockState = <PotentialBuy> | <Bought>;
+
+public Event :: Type : EventType
+TimeStamp : nat
+Value : nat; 
+
+public Region :: UpperValue : StockValue
+  LowerValue : StockValue
+inv mk_Region(p1,p2) == p1 >= p2;
+
+public StockValue = nat;
+public StockIdentifier = token;
+
+public ActionType = <Buy> | <Sell> ;
+
+public ActionTrigger :: Trigger : seq of EventType
+Action : ActionType;
+
+public StockRecord :: Name : StockIdentifier 
+Triggers : map StockState to ActionTrigger 
+NoActionReg : Region
+Cost : StockValue
+State : StockState
+
+inv mk_StockRecord(p1,p2,p3,p4,p5) == p2(<PotentialBuy>).Action = <Buy> 
+and p2(<Bought>).Action = <Sell>;
+
+public ActionEvent :: Type : ActionType
+  Time : nat
+  StockName : StockIdentifier
+  Value : StockValue;
+ 
+values
+public static testValues : map StockIdentifier to seq of Event = 
+{mk_token("test") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<LowerLimit>,5,8),
+mk_Event(<UpperLimit>,4,12),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,13),
+mk_Event(<UpperLimit>,1,12),  
+mk_Event(<EntersNoActionRegion>,0,10)
+],
+mk_token("test12") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<LowerLimit>,5,8),
+mk_Event(<UpperLimit>,4,12),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,16),
+mk_Event(<UpperLimit>,1,12),  
+mk_Event(<EntersNoActionRegion>,0,10)
+],
+mk_token("test2") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<UpperLimit>,5,8),
+mk_Event(<LowerLimit>,4,8),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,6),
+mk_Event(<LowerLimit>,1,8),  
+mk_Event(<EntersNoActionRegion>,0,10)
+]};
+
+end GLOBAL
+~~~
+{% endraw %}
+
 ### Stock.vdmpp
 
 {% raw %}
@@ -346,6 +609,35 @@ end StockWatcher
 ~~~
 {% endraw %}
 
+### timer.vdmpp
+
+{% raw %}
+~~~
+class Timer 
+
+instance variables
+
+  currentTime : nat := 1;
+
+values 
+
+  stepLength : nat = 1;
+
+operations
+
+public 
+  StepTime: () ==> ()
+  StepTime() == 
+    currentTime := currentTime + stepLength;
+
+public
+  GetTime: () ==> nat 
+  GetTime() == return currentTime;
+
+end Timer
+~~~
+{% endraw %}
+
 ### World.vdmpp
 
 {% raw %}
@@ -417,298 +709,6 @@ functions
  let x,y in set {len m(x) | x in set dom m} be st x <> y => x <= y in x; 
 
 end World
-~~~
-{% endraw %}
-
-### AutomatedStockBroker.vdmpp
-
-{% raw %}
-~~~
-class AutomatedStockBroker is subclass of GLOBAL
-  
-instance variables
-  stocks : seq of StockRecord;
-  stockWatchers : map StockIdentifier to StockWatcher;
-  actionLog : seq of ActionEvent := [];
-  balance : int;
-  inv balance >= 0;
-  -- no stock can have the same name  
-  inv forall x,y in set inds stocks & x <> y => stocks(x).Name <> stocks(y).Name;
-
-  --says that foreach ActionEvent in the log if there exist a next action with the same 
-  --Stock name, it should have a different ActionType. this insures that you dont sell or buy the same
-  --two times in a row
-  inv let stockIdentifiers = {si.Name | si in set elems stocks}
-      in 
-        forall stockIdentifier in set stockIdentifiers & 
-          let allEventsStock = [ actionLog(i) | i in set inds actionLog 
-                                              & actionLog(i).StockName = stockIdentifier]
-          in 
-            (forall e in set inds allEventsStock & 
-               (e <> len allEventsStock) => 
-               (allEventsStock(e).Type <> allEventsStock(e+1).Type)); 
-       
-  inv MaxOneOfEachActionTypePerTime(actionLog);    
-  
-
-operations
-
-public AutomatedStockBroker: nat ==> AutomatedStockBroker
-AutomatedStockBroker(startCash) == (
-  balance := startCash;
-  stocks := [];
-  stockWatchers := {|->};
-);
-
-public AddStock: StockRecord * nat1 ==> ()
-AddStock(sRecord,priority) == (
-  stocks := stocks(1,...,priority-1) ^ [sRecord] 
-            ^ stocks(priority+1,...,len stocks);
-  if (World`simulate)
-  then stockWatchers(sRecord.Name) := new StockWatcher(sRecord)
-  else stockWatchers(sRecord.Name) := new StockWatcher(sRecord,testValues(sRecord.Name));
-)
-pre sRecord.Name not in set { x.Name | x in set elems stocks}
-post (sRecord.Name in set dom stockWatchers) 
-     and (sRecord = stocks(priority)); 
-  
-public GetActionLog:() ==> seq of ActionEvent
-GetActionLog() == 
-  return actionLog;
-  
-public GetStocksWithActiveActionTrigger: StockState ==> seq of StockRecord
-GetStocksWithActiveActionTrigger(ss) == 
-  return [stocks(s) | s in set inds stocks  
-                    & (stockWatchers(stocks(s).Name).GetTriggeredAction() <> nil)
-                      and (stocks(s).State = ss)]
-post let res = RESULT in forall i in set inds res & res(i).State = ss;
-  
-FindValidBuy: seq of StockRecord * nat ==> [StockRecord]
-FindValidBuy(potBuys,time) ==  
-  return let affordableStocks = 
-    [potBuys(x) | x in set inds potBuys & CanAfford(potBuys(x),balance)]
-     in 
-     (
-      if(len affordableStocks > 0)
-      then let x in set inds affordableStocks be st  
-       (forall y in set inds affordableStocks & (stockWatchers(affordableStocks(x).Name).GetStockValue(time)) >= 
-       (stockWatchers(affordableStocks(y).Name).GetStockValue(time)))
-       in affordableStocks(x)
-      else nil 
-     );
-    
-FindValidSell: seq of StockRecord * nat ==> StockRecord
-FindValidSell(potSells,time) == 
-  return let x in set inds potSells be st  
-    (forall y in set inds potSells & 
-      (stockWatchers(potSells(x).Name).GetStockValue(time) - potSells(x).Cost) >= 
-      (stockWatchers(potSells(y).Name).GetStockValue(time) - potSells(y).Cost))
-    in potSells(x)  
-pre len potSells > 0
-post IsGTAll(stockWatchers(RESULT.Name).GetStockValue(time) - RESULT.Cost,
-  {stockWatchers(x.Name).GetStockValue(time) - x.Cost | x in set elems potSells});
-
-  PerformBuy: StockRecord * nat ==> ()
-  PerformBuy(potAction,time) == 
-   let sw = stockWatchers(potAction.Name),value = sw.GetStockValue(time)  
-   in
-   (
-    actionLog := [mk_ActionEvent(<Buy>,time,potAction.Name,value)] ^ actionLog;
-    balance := balance - value;
-
-    let i in set inds stocks be st stocks(i).Name = potAction.Name
-     in
-    (
-     stocks(i) := mu(potAction, State |-> <Bought>, Cost |-> value );
-     sw.updateStockRecord(stocks(i))
-    ) 
-   )
-  pre potAction.State = <PotentialBuy> and 
-   stockWatchers(potAction.Name).GetTriggeredAction() = <Buy>
-  post balance >= 0;
-
-  PerformSell: StockRecord * nat ==> ()
-  PerformSell(potAction,time) == 
-   let sw = stockWatchers(potAction.Name),value = sw.GetStockValue(time) 
-   in
-   (
-    actionLog := [mk_ActionEvent(<Sell>,time,potAction.Name,value)] ^ actionLog;
-    balance := balance + value;
-    
-    let i in set inds stocks be st stocks(i).Name = potAction.Name
-     in
-    (
-     stocks(i) := mu(potAction, State |-> <PotentialBuy>, Cost |-> 0);
-     sw.updateStockRecord(stocks(i))
-    ) 
-   )
-  pre potAction.State = <Bought> and 
-   stockWatchers(potAction.Name).GetTriggeredAction() = <Sell>  
-  post balance >= 0;
-  
-  ObserveAllStocks: nat ==> ()
-  ObserveAllStocks(time) == 
-   for all i in set inds stocks do
-    let stock = stocks(i), csw = stockWatchers(stock.Name)
-     in csw.ObserveStock(time);
-
-  public Step: nat ==> ()
-  Step(time) == (
-
-   ObserveAllStocks(time);
-      
-   let potBuys = GetStocksWithActiveActionTrigger(<PotentialBuy>) , 
-    potSells = GetStocksWithActiveActionTrigger(<Bought>),
-    validBuy = FindValidBuy(potBuys,time)
-    in
-    (
-     if(len potSells > 0)
-     then (PerformSell(FindValidSell(potSells,time), time);)
-     else skip;
-     IO`print("\npot sels : ");
-     IO`print(potSells);
-
-     if(validBuy <> nil)
-     then (PerformBuy(validBuy, time);)
-     else skip;
-     IO`print("\npot buys : ");
-     IO`print(potBuys);
-    );  
-   
-   IO`print("\n");
-   IO`print("Finished step : ");
-   IO`print(time);
-   IO`print(" with actionLog : ");
-   IO`print(actionLog);
-   IO`print(" and Balance : ");
-   IO`print(balance);
-   IO`print("\n");
-  )
-  post MaxOneOfEachActionTypePerTime(actionLog);
-
-functions
-
-IsGTAll: int * set of int -> bool
-IsGTAll(sv,ssv) == 
-  forall i in set ssv & sv >= i;
-
-CanAfford: StockRecord * nat -> bool
-CanAfford(sr,balance) == 
-  sr.Cost <= balance;
-    
-MaxOneOfEachActionTypePerTime: seq of ActionEvent -> bool
-MaxOneOfEachActionTypePerTime(actionLog) == 
-  forall x,y in set inds actionLog & 
-     (x <> y and actionLog(x).Time = actionLog(y).Time) => 
-     (actionLog(x).Type <> actionLog(y).Type)
-
-end AutomatedStockBroker
-~~~
-{% endraw %}
-
-### timer.vdmpp
-
-{% raw %}
-~~~
-class Timer 
-
-instance variables
-
-  currentTime : nat := 1;
-
-values 
-
-  stepLength : nat = 1;
-
-operations
-
-public 
-  StepTime: () ==> ()
-  StepTime() == 
-    currentTime := currentTime + stepLength;
-
-public
-  GetTime: () ==> nat 
-  GetTime() == return currentTime;
-
-end Timer
-~~~
-{% endraw %}
-
-### GLOBAL.vdmpp
-
-{% raw %}
-~~~
-class GLOBAL
-types
-public String = seq of char;
-
-public EventType = <UpperLimit> | <LowerLimit> | <Peak> | <Valley> | 
-<EntersNoActionRegion> | <LeavesNoActionRegion>;
-
-public StockState = <PotentialBuy> | <Bought>;
-
-public Event :: Type : EventType
-TimeStamp : nat
-Value : nat; 
-
-public Region :: UpperValue : StockValue
-  LowerValue : StockValue
-inv mk_Region(p1,p2) == p1 >= p2;
-
-public StockValue = nat;
-public StockIdentifier = token;
-
-public ActionType = <Buy> | <Sell> ;
-
-public ActionTrigger :: Trigger : seq of EventType
-Action : ActionType;
-
-public StockRecord :: Name : StockIdentifier 
-Triggers : map StockState to ActionTrigger 
-NoActionReg : Region
-Cost : StockValue
-State : StockState
-
-inv mk_StockRecord(p1,p2,p3,p4,p5) == p2(<PotentialBuy>).Action = <Buy> 
-and p2(<Bought>).Action = <Sell>;
-
-public ActionEvent :: Type : ActionType
-  Time : nat
-  StockName : StockIdentifier
-  Value : StockValue;
- 
-values
-public static testValues : map StockIdentifier to seq of Event = 
-{mk_token("test") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<LowerLimit>,5,8),
-mk_Event(<UpperLimit>,4,12),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,13),
-mk_Event(<UpperLimit>,1,12),  
-mk_Event(<EntersNoActionRegion>,0,10)
-],
-mk_token("test12") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<LowerLimit>,5,8),
-mk_Event(<UpperLimit>,4,12),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,16),
-mk_Event(<UpperLimit>,1,12),  
-mk_Event(<EntersNoActionRegion>,0,10)
-],
-mk_token("test2") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<UpperLimit>,5,8),
-mk_Event(<LowerLimit>,4,8),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,6),
-mk_Event(<LowerLimit>,1,8),  
-mk_Event(<EntersNoActionRegion>,0,10)
-]};
-
-end GLOBAL
 ~~~
 {% endraw %}
 

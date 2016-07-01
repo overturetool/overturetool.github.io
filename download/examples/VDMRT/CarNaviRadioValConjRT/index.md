@@ -20,31 +20,6 @@ coherent application in a distributed application.
 |Entry point     :| new Testing().Test()|
 
 
-### Navigation.vdmrt
-
-{% raw %}
-~~~
-class Navigation
-
-operations
-  async 
-  public DatabaseLookup: () ==> ()
-  DatabaseLookup () ==
-    ( cycles (5E6) skip;
-      --duration (5E6) skip;
-      RadNavSys`mmi.UpdateScreen(2) );
-
-  async 
-  public DecodeTMC: () ==> ()
-  DecodeTMC () ==
-    ( cycles (5E5) skip;
-      --duration (5E6) skip;
-      RadNavSys`mmi.UpdateScreen(3) )
-
-end Navigation
-~~~
-{% endraw %}
-
 ### mmi.vdmrt
 
 {% raw %}
@@ -78,66 +53,28 @@ end MMI
 ~~~
 {% endraw %}
 
-### World.vdmrt
+### Navigation.vdmrt
 
 {% raw %}
 ~~~
-class World
- 
-types
-  public perfdata = nat * nat * real
-
-instance variables
- 
+class Navigation
 
 operations
-  	
-  public RunScenario1 : () ==> ()
-  RunScenario1 () ==
-    ( RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-    );
+  async 
+  public DatabaseLookup: () ==> ()
+  DatabaseLookup () ==
+    ( cycles (5E6) skip;
+      --duration (5E6) skip;
+      RadNavSys`mmi.UpdateScreen(2) );
 
- 
+  async 
+  public DecodeTMC: () ==> ()
+  DecodeTMC () ==
+    ( cycles (5E5) skip;
+      --duration (5E6) skip;
+      RadNavSys`mmi.UpdateScreen(3) )
 
-end World
-~~~
-{% endraw %}
-
-### Test.vdmrt
-
-{% raw %}
-~~~
-class Testing
-
-operations
-  public Test: () ==> ()
-  Test () ==
-  (
-    new World().RunScenario1();
-		start(self);
-    block();
-  );
-
-
-  private block : () ==> ()
-  block () == skip;
-
-  private op : () ==> ()
-  op () == skip;
-
-sync
-
-per block => time > 5000000
-
-
-thread
-
-  periodic(1000E6,0,0,0)(op)
-
-end Testing
-
+end Navigation
 ~~~
 {% endraw %}
 
@@ -224,6 +161,69 @@ separate(#fin(MMI`UpdateScreen), #fin(MMI`UpdateScreen), 500 ms);
 */
 
 end RadNavSys
+~~~
+{% endraw %}
+
+### Test.vdmrt
+
+{% raw %}
+~~~
+class Testing
+
+operations
+  public Test: () ==> ()
+  Test () ==
+  (
+    new World().RunScenario1();
+		start(self);
+    block();
+  );
+
+
+  private block : () ==> ()
+  block () == skip;
+
+  private op : () ==> ()
+  op () == skip;
+
+sync
+
+per block => time > 5000000
+
+
+thread
+
+  periodic(1000E6,0,0,0)(op)
+
+end Testing
+
+~~~
+{% endraw %}
+
+### World.vdmrt
+
+{% raw %}
+~~~
+class World
+ 
+types
+  public perfdata = nat * nat * real
+
+instance variables
+ 
+
+operations
+  	
+  public RunScenario1 : () ==> ()
+  RunScenario1 () ==
+    ( RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+    );
+
+ 
+
+end World
 ~~~
 {% endraw %}
 

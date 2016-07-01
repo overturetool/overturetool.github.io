@@ -26,6 +26,224 @@ This version connects to a database containing maps and busroutes.
 |Entry point     :| new World().Run()|
 
 
+### Bus.vdmpp
+
+{% raw %}
+~~~
+class Bus
+	
+	instance variables
+		seats : set of Passenger;
+		inv card seats <= Config`BusCapacity;
+		
+		--bus line number
+		line : nat;
+
+		-- the route of road the bus is moving along
+		route : seq of Road;
+		-- what roads are left in the current pass of the route
+		curRoute : seq of Road;
+		-- where are we heading
+		nextWP : Waypoint;
+		-- what road are we currently on
+		currentRoad : Road;
+		--waypoints passed by the bus
+		wps : seq of Waypoint;
+		
+	operations
+		public Bus : nat * seq of Road * seq of Waypoint ==> Bus
+		Bus(linenumber, busroute, waypoints)==
+		(
+			line := linenumber;
+			route := busroute;
+			curRoute := busroute;
+			nextWP := hd waypoints;			
+
+			wps := waypoints;
+			seats := {};
+		)
+		pre len waypoints > 1 --ensure bus has somewhere to go
+		and waypoints <> [];
+
+		public GetOn : set of Passenger ==> ()
+		GetOn(ps) == 
+		(
+			seats := seats union ps;
+			World`graphics.busPassengerCountChanged(line, card seats);
+		)
+		pre card seats + card ps <= Config`BusCapacity; 
+
+		public GotOff : set of Passenger ==> ()
+		GotOff(p) == 	
+		(
+			seats := seats \ p;
+			World`graphics.busPassengerCountChanged(line, card seats);
+		)
+		pre p inter seats <> {};
+
+		public GetWaypoints : () ==> seq of Waypoint
+		GetWaypoints()== 
+			return wps;
+
+		public GetStops : () ==> seq of Busstop
+		GetStops()== 
+			return [wps(i) | i in set inds wps & wps(i).IsStop() ];
+		
+
+		private NextWaypoint : () ==> Waypoint
+		NextWaypoint()== 
+		(	
+			--start route over
+			if(len curRoute = 0) then
+ 				curRoute := route;
+
+			--next road
+			let nextRoad = hd curRoute in 
+			(
+				--move along route
+				curRoute := tl curRoute;
+				--what road are we on
+				currentRoad := nextRoad;
+				-- update waypoints
+				let currentWp = nextWP  in
+				(
+					nextWP := currentRoad.OppositeEnd(currentWp);
+					return currentWp;
+				)
+			);
+		);
+
+		--functionality to ensure thread start
+		public WaitForThreadStart : () ==> ()
+		WaitForThreadStart() == skip;
+
+		private ThreadStarted : () ==> ()
+		ThreadStarted() == skip;
+
+	sync
+		per GetOn => card seats < Config`BusCapacity;
+		per WaitForThreadStart => #fin(ThreadStarted) > 0
+	
+	thread
+	(
+		dcl passGettingOn : set of Passenger;
+		ThreadStarted();
+		let - = NextWaypoint() in skip; --prevent return
+
+		--loop which moves bus along route, and lets passengers on and off at stops
+		while true do
+		(
+			Printer`OutWithTS("%Bus " ^ Printer`natToString(line) ^ ": running on " ^ 
+									VDMUtil`val2seq_of_char[Road`RoadNumber](currentRoad.GetRoadNumber()) ^
+									" with length " ^ Printer`natToString(currentRoad.GetLength()) ^ " and speedlimit " ^
+									 Printer`natToString(currentRoad.GetSpeedLimit()) ^
+									 " Next: " ^ VDMUtil`val2seq_of_char[Waypoint`WaypointsEnum](nextWP.GetId()) ^
+									 " Time: " ^ Printer`natToString(currentRoad.GetTimePenalty())
+							);
+ 
+			World`graphics.busInRouteTo(line,
+				VDMUtil`val2seq_of_char[Road`RoadNumber](currentRoad.GetRoadNumber()), 
+				VDMUtil`val2seq_of_char[Waypoint`WaypointsEnum](nextWP.GetId()),
+				currentRoad.GetTimePenalty());
+
+			--add to penalty for moving along road
+			World`timerRef.WaitRelative(currentRoad.GetTimePenalty());
+   			World`timerRef.NotifyAll();
+   			World`timerRef.Awake();
+
+			--next on bus route
+			let next = NextWaypoint() in
+			( 	
+				Printer`OutWithTS("%Bus " ^ Printer`natToString(line) ^ 
+				" arrived at " ^ 
+				VDMUtil`val2seq_of_char[Waypoint`WaypointsEnum](next.GetId()));
+
+				let nextId = next.GetId() in
+				( 
+					--let passengers in at central station if 
+					--their destination is on the bus' route
+					if nextId = <Central> then
+					(
+						--bus returned with passengers; in the current model this should not be possible
+						--if(seats <> {}) then exit "Bus returned with passengers";
+						
+						let central : Busstop = next in
+						( 
+							--find passengers for bus
+							let potentialPassengers : set of Passenger = central.GetWaitingOn(wps) in 
+							(
+								if(card potentialPassengers > 0) then
+								(
+									--count available sets in bus
+									if((Config`BusCapacity - card seats) < card potentialPassengers) then 
+										--not room for all, select some
+										passGettingOn := SelectSubset(potentialPassengers, Config`BusCapacity - card seats)
+									else
+										passGettingOn := potentialPassengers;
+									
+									-- leave busstop and enter bus seats
+									central.PassengerLeft(passGettingOn);
+									GetOn(passGettingOn);
+									for all p in set passGettingOn do p.GotOnBus();
+
+									Printer`OutWithTS("%Bus " ^ Printer`natToString(line) ^ ": " ^ 
+										Printer`natToString(card passGettingOn) ^ " got on");
+
+									--add to time penalty for stopping
+									World`graphics.busStopping(line);
+									World`timerRef.WaitRelative(3);
+			   						World`timerRef.NotifyAll();
+			   						World`timerRef.Awake();
+								)
+							);
+						);
+					);					
+
+					-- let passengers off at their destination
+					let gettingOff = { p | p in set seats & p.GetDestination() = next} in
+					(
+						if(card gettingOff > 0) then
+						(
+							GotOff(gettingOff);
+							Printer`OutWithTS("%Bus " ^ Printer`natToString(line) ^ ": " ^ 
+								Printer`natToString(card gettingOff) ^ " got off");
+							
+							World`env.TransportedPassengers(card gettingOff);
+
+							--add to time penalty for stopping
+							World`graphics.busStopping(line);
+							World`timerRef.WaitRelative(3);
+	   						World`timerRef.NotifyAll();
+	   						World`timerRef.Awake();
+						);
+					);
+				);
+			);
+
+		);
+	);
+
+	operations
+		private SelectSubset : set of Passenger * nat ==> set of Passenger
+		SelectSubset(ps, limit)==
+		(
+			--base case
+			if limit = 0 then 
+				return {};
+
+			--smaller than limit, return
+			if card ps <= limit then 
+				return ps;
+
+			--recusive
+			let sub in set ps in
+					return {sub} union SelectSubset(ps \ {sub}, limit -1); 
+		)
+
+end Bus
+~~~
+{% endraw %}
+
 ### Busstop.vdmpp
 
 {% raw %}
@@ -75,38 +293,6 @@ sync
 	mutex(GetWaitingCount, AddPassenger, PassengerLeft)
 
 end Busstop
-~~~
-{% endraw %}
-
-### Config.vdmpp
-
-{% raw %}
-~~~
------------------------------------------------
--- Class:			Config
--- Description: 	Config contains configuration values
------------------------------------------------
-
---
--- class definition
---
-class Config
-
---
--- Values definition section
---
-values
-
---max passengers on bus
-public static BusCapacity : nat = 15;
---speed limit on road, buses will always drive to the limit   		
-public static DefaultRoadSpeedLimit : nat = 10;   			
---amount of waiting time beofre passengers become annoyed
-public static PassengerAnnoyanceLimit : nat = 40;   	
---max value of passengers inflow 
-public static MaxInflow : nat = 10;   	
-
-end Config
 ~~~
 {% endraw %}
 
@@ -322,425 +508,53 @@ end City
 ~~~
 {% endraw %}
 
-### Waypoint.vdmpp
+### ClockTick.vdmpp
 
 {% raw %}
 ~~~
-class Waypoint
+class ClockTick
 
-	types
-		public BusStops = <A> | <B> | <C> | <D> | <E> | <F> | <Central>;
-		public WaypointsEnum = <WP1> | <WP2> | <WP3> | <WP4> | <WP5> | <WP6> | <WP7> | BusStops;	
+thread 
+	while true do
+	(
+		World`timerRef.WaitRelative(1);
+  		World`timerRef.NotifyAll();
+  		World`timerRef.Awake();
+ 	)
 
-	instance variables
-		protected id : WaypointsEnum;
-		protected isStop : bool := false;
-
-	operations
-		public Waypoint : Waypoint`WaypointsEnum ==> Waypoint
-		Waypoint(s) == 
-		(
-			id := s;
-		);
-
-		pure public GetId : () ==> WaypointsEnum
-		GetId()== return id;
-
-		pure public IsStop: () ==> bool
-		IsStop()== return isStop;
-
-	functions 
-		public static StringToBusStop : seq of char -> Waypoint`BusStops
-		StringToBusStop(busstop) ==
-	  	(
-		    cases busstop:
-		    "A" -> <A>,
-		    "B" -> <B>,
-			"C" -> <C>,
-			"D" -> <D>,
-			"E" -> <E>,
-			"F" -> <F>,
-			"Central" -> <Central>
-		    end
-	  	);
-
-		public static StringToWaypoint : seq of char -> Waypoint`WaypointsEnum
-		StringToWaypoint(wp) ==
-	  	(
-		    cases wp:
-		    "WP1" -> <WP1>,
-		    "WP2" -> <WP2>,
-			"WP3" -> <WP3>,
-			"WP4" -> <WP4>,
-			"WP5" -> <WP5>,
-			"WP6" -> <WP6>,
-			"WP7" -> <WP7>,
-			others -> StringToBusStop(wp)
-		    end
-	  	);
-
-
-end Waypoint
+ end ClockTick
 ~~~
 {% endraw %}
 
-### Types.vdmpp
+### Config.vdmpp
 
 {% raw %}
 ~~~
-class Types
+-----------------------------------------------
+-- Class:			Config
+-- Description: 	Config contains configuration values
+-----------------------------------------------
 
-types   
-public Time = nat;
-public Direction = <NORTH> | <SOUTH> | <EAST> | <WEST>;
+--
+-- class definition
+--
+class Config
 
-public Event = BusRoute | Inflow | Simulate | WasteTime;
-
-public BusRoute ::
-        ID : nat
-		route : seq of Road`RoadNumber
-		t : Time;
-        
-public Inflow ::
-        flow : nat
-        t : Time; 
-        
-public Simulate ::
-        t : nat;   
-        
-public WasteTime ::
-        t : Time;
-            
-functions 
-  public static DirectionToGraphics : Direction -> nat
-  DirectionToGraphics(d) ==
-  (
-    cases d:
-    <NORTH>-> 1,
-    <SOUTH>-> 5,
-    <EAST>->  3,
-    <WEST>->  7
-    end
-  );
-  
-end Types
-~~~
-{% endraw %}
-
-### gui_Graphics.vdmpp
-
-{% raw %}
-~~~
-class gui_Graphics
-	operations
-	    public init : () ==> ()
-		init() == is not yet specified;
-
-		public busInRouteTo : nat * seq of char * seq of char * nat ==> ()
-		busInRouteTo(busid, roadid, waypoint, time) == is not yet specified; 
-		
-		public move : () ==> ()
-		move() == is not yet specified;
-		
-		public sleep : () ==> ()
-		sleep() == is not yet specified;
-		
-		public passengerAtCentral : nat * seq of char  ==> ()
-		passengerAtCentral(id, waypoint) == is not yet specified;
-		
-		public passengerAnnoyed : nat==> ()
-		passengerAnnoyed(id) == is not yet specified;
-		
-		public passengerGotOnBus : nat ==> ()
-		passengerGotOnBus(id) == is not yet specified;
-		
-		public inflowChanged : nat ==> ()
-		inflowChanged(id) == is not yet specified;
-		
-		public busAdded : nat ==> ()
-		busAdded(id) == is not yet specified;
-		
-		public busStopping : nat ==> ()
-		busStopping(id) == is not yet specified;
-		
-		public busPassengerCountChanged : nat * nat ==> ()
-		busPassengerCountChanged(busid, count) == is not yet specified;
-
-
-end gui_Graphics
-
-~~~
-{% endraw %}
-
-### WaitNotify.vdmpp
-
-{% raw %}
-~~~
-              
-class WaitNotify
-
-instance variables
-
-waitset : set of nat := {}
-
-operations
-
-public Wait : () ==> ()
-Wait() ==
-( AddToWaitSet (threadid);
-  Awake()
-);
-	
-public Notify : () ==> ()
-Notify() ==
-  let p in set waitset in
-    waitset := waitset \ {p};
-
-public NotifyThread: nat ==> ()
-NotifyThread(tId) ==
-  waitset :=  waitset \ {tId};
-
-public NotifyAll: () ==> ()
-NotifyAll() ==
-  waitset :=  {};
-
-private AddToWaitSet : nat ==> ()
-AddToWaitSet(n) ==
-  waitset := waitset union {n};
-
-private Awake : () ==> ()
-Awake() == skip
-
-sync
-per Awake => threadid not in set waitset;
-mutex(AddToWaitSet)
-
-end WaitNotify
-                                                                                        
-~~~
-{% endraw %}
-
-### Printer.vdmpp
-
-{% raw %}
-~~~
-class Printer
-
-	operations		
-		public static Out: seq of char ==> ()
-		 Out (pstr) ==
-		   def - = new IO().echo(pstr ^ "\n") in skip;
-		    
-		
-		public static natToString : nat ==> seq of char 
-		natToString(n) ==
-		(
-			return VDMUtil`val2seq_of_char[nat](n);
-		);
-
-		  
-		public static OutWithTS: seq of char ==> ()
-		OutWithTS (pstr) ==
-    		def - = new IO().echo(Printer`natToString(World`timerRef.GetTime()) ^": " ^ pstr ^ "\n") in skip;
-
-
-		public static intToString : int ==> seq of char 
-		intToString(i) ==
-		(
-			return VDMUtil`val2seq_of_char[int](i);
-		);
-
-end Printer
-~~~
-{% endraw %}
-
-### TimeStamp.vdmpp
-
-{% raw %}
-~~~
-              
-class TimeStamp
-
-                                                                                                                                                                                                                                                                                                                                                                                                
+--
+-- Values definition section
+--
 values
 
-public stepLength : nat = 1;
+--max passengers on bus
+public static BusCapacity : nat = 15;
+--speed limit on road, buses will always drive to the limit   		
+public static DefaultRoadSpeedLimit : nat = 10;   			
+--amount of waiting time beofre passengers become annoyed
+public static PassengerAnnoyanceLimit : nat = 40;   	
+--max value of passengers inflow 
+public static MaxInflow : nat = 10;   	
 
-instance variables
-
-currentTime  : nat   := 0;
-wakeUpMap    : map nat to nat := {|->};
---syncWithTimeInc : set of nat := {};
---syncWithTimeIncCurrent : set of nat := {};
-
-operations
-
-                                                                                                                      
-
-public WaitRelative : nat ==> ()
-WaitRelative(val) ==
-  AddToWakeUpMap(threadid, currentTime + val);
- 
-                                                                                          
- 
-public WaitAbsolute : nat ==> ()
-WaitAbsolute(val) ==
-  AddToWakeUpMap(threadid, val);
-
-                                                                                                  
-
-AddToWakeUpMap : nat * nat ==> ()
-AddToWakeUpMap(tId, val) ==
-   wakeUpMap := wakeUpMap ++ { tId |-> val };
-
-                                                                                                     
-
-public NotifyThread : nat ==> ()
-NotifyThread(tId) ==
- wakeUpMap := {tId} <-: wakeUpMap;
-
-                                                                                                       
-
-public NotifyAll : () ==> ()
-NotifyAll() ==
-  let threadSet : set of nat = {th | th in set dom wakeUpMap & wakeUpMap(th) <= currentTime }
-  in
-    for all t in set threadSet 
-    do
-      NotifyThread(t);
-
-                                                                                                                                                                                                
-
-public NotifyAndIncTime : () ==> ()
-NotifyAndIncTime() ==
- (
-  		currentTime := currentTime + stepLength;
- 	 	NotifyAll();
---		syncWithTimeIncCurrent := syncWithTimeInc; 
- );
-
-                                                             
-
-public GetTime : () ==> nat
-GetTime() ==
-  return currentTime;
-
-                                                                                                                    
-
-public Awake: () ==> ()
-Awake() == skip;
-
-                                                                                                                                                                                                                                                                                                                                                          
-
---public SyncWithTimeIncrement : () ==> ()
---SyncWithTimeIncrement() ==	
---(
---	syncWithTimeInc := syncWithTimeInc union {threadid}; --keep track of all
---	syncWithTimeIncCurrent := syncWithTimeIncCurrent union {threadid}; --include in current sync round
---	skip;
---);
-
---public YieldTimeIncrement: () ==> ()
---YieldTimeIncrement()==
---(
---	syncWithTimeIncCurrent := syncWithTimeIncCurrent \ {threadid};
---	skip
---);
-
-
-sync
-  per Awake => threadid not in set dom wakeUpMap;
-
-  per NotifyAndIncTime => (card {th | th in set dom wakeUpMap & wakeUpMap(th) = currentTime +1} > 0) ;  --The magic one,  only allow run
---  per NotifyAndIncTime => ({th | th in set dom wakeUpMap & wakeUpMap(th) <= currentTime} inter syncWithTimeIncCurrent) = {};
-
-  mutex(NotifyAll);
-  mutex(AddToWakeUpMap);
-  mutex(AddToWakeUpMap, NotifyAll); 
---  mutex(SyncWithTimeIncrement);
---  mutex(YieldTimeIncrement);
---  mutex(SyncWithTimeIncrement, YieldTimeIncrement, NotifyAndIncTime);
-
-end TimeStamp
-                                                                                         
-~~~
-{% endraw %}
-
-### Road.vdmpp
-
-{% raw %}
-~~~
-class Road
-	types
-		public RoadNumber = <R1> | <R2> | <R3> | <R4> | <R5> | <R6> | <R7> | <R8> 
-			| <R9> | <R10> | <R11> | <R12> | <R13> |<R14> | <R15> | <R16> | <HW1>;
-	values
-
-	instance variables
-		roadNmbr  : RoadNumber;		
-		roadLength : nat;
-		speedlimit : nat;
-		wps : set of Waypoint := {};
-		timePenalty : nat;
-		inv card wps > 1;
-
-	operations
-		public Road : RoadNumber * set of Waypoint * nat ==> Road
-		Road(roadnumber, waypoints, length) ==
-		(
-			roadNmbr := roadnumber;
-			roadLength := length;
-			speedlimit := Config`DefaultRoadSpeedLimit;
-			wps := waypoints;
-			timePenalty := floor(roadLength / speedlimit);
-		)
-		pre card waypoints > 1;
-
-		public Road : RoadNumber *  set of Waypoint * nat * nat ==> Road
-		Road(roadnumber, waypoints, length, limit) ==
-		(
-			roadNmbr := roadnumber;
-			roadLength := length;
-			speedlimit := limit;
-			wps := waypoints;
-			--time cost of driving on the road
-			timePenalty := floor(roadLength / speedlimit);
-		)
-		pre card waypoints > 1;
-
-		pure public Covers : set of Waypoint ==> bool
-		Covers(waypoints) == 
-			 return {w.GetId() | w in set waypoints} = {w.GetId() | w in set wps};  --does road cover the waypoints in arg
-
-		public GetWaypoints : () ==> set of Waypoint
-		GetWaypoints()==
-				return wps;
-
-		public OppositeEnd : Waypoint ==> Waypoint
-		OppositeEnd(wp)==
-				 let opposite in set wps \ {wp} in return opposite
-		pre wp in set wps; 	-- if the waypoint is not found on the road
-						-- it may indicate that the route is not connected 
-						-- by the same waypoint
-
-		
-		public GetSpeedLimit : () ==> nat
-		GetSpeedLimit()==
-				return speedlimit;
-
-		public GetLength : () ==> nat
-		GetLength() == 
-			return roadLength;
-
-		public GetRoadNumber : () ==> RoadNumber
-		GetRoadNumber()== 
-				return roadNmbr;
-
-		public GetTimePenalty : () ==> nat
-		GetTimePenalty()== 
-				return timePenalty;
-
-end Road
+end Config
 ~~~
 {% endraw %}
 
@@ -1053,6 +867,51 @@ end Environment
 ~~~
 {% endraw %}
 
+### gui_Graphics.vdmpp
+
+{% raw %}
+~~~
+class gui_Graphics
+	operations
+	    public init : () ==> ()
+		init() == is not yet specified;
+
+		public busInRouteTo : nat * seq of char * seq of char * nat ==> ()
+		busInRouteTo(busid, roadid, waypoint, time) == is not yet specified; 
+		
+		public move : () ==> ()
+		move() == is not yet specified;
+		
+		public sleep : () ==> ()
+		sleep() == is not yet specified;
+		
+		public passengerAtCentral : nat * seq of char  ==> ()
+		passengerAtCentral(id, waypoint) == is not yet specified;
+		
+		public passengerAnnoyed : nat==> ()
+		passengerAnnoyed(id) == is not yet specified;
+		
+		public passengerGotOnBus : nat ==> ()
+		passengerGotOnBus(id) == is not yet specified;
+		
+		public inflowChanged : nat ==> ()
+		inflowChanged(id) == is not yet specified;
+		
+		public busAdded : nat ==> ()
+		busAdded(id) == is not yet specified;
+		
+		public busStopping : nat ==> ()
+		busStopping(id) == is not yet specified;
+		
+		public busPassengerCountChanged : nat * nat ==> ()
+		busPassengerCountChanged(busid, count) == is not yet specified;
+
+
+end gui_Graphics
+
+~~~
+{% endraw %}
+
 ### Passenger.vdmpp
 
 {% raw %}
@@ -1136,6 +995,383 @@ end Passenger
 ~~~
 {% endraw %}
 
+### Printer.vdmpp
+
+{% raw %}
+~~~
+class Printer
+
+	operations		
+		public static Out: seq of char ==> ()
+		 Out (pstr) ==
+		   def - = new IO().echo(pstr ^ "\n") in skip;
+		    
+		
+		public static natToString : nat ==> seq of char 
+		natToString(n) ==
+		(
+			return VDMUtil`val2seq_of_char[nat](n);
+		);
+
+		  
+		public static OutWithTS: seq of char ==> ()
+		OutWithTS (pstr) ==
+    		def - = new IO().echo(Printer`natToString(World`timerRef.GetTime()) ^": " ^ pstr ^ "\n") in skip;
+
+
+		public static intToString : int ==> seq of char 
+		intToString(i) ==
+		(
+			return VDMUtil`val2seq_of_char[int](i);
+		);
+
+end Printer
+~~~
+{% endraw %}
+
+### Road.vdmpp
+
+{% raw %}
+~~~
+class Road
+	types
+		public RoadNumber = <R1> | <R2> | <R3> | <R4> | <R5> | <R6> | <R7> | <R8> 
+			| <R9> | <R10> | <R11> | <R12> | <R13> |<R14> | <R15> | <R16> | <HW1>;
+	values
+
+	instance variables
+		roadNmbr  : RoadNumber;		
+		roadLength : nat;
+		speedlimit : nat;
+		wps : set of Waypoint := {};
+		timePenalty : nat;
+		inv card wps > 1;
+
+	operations
+		public Road : RoadNumber * set of Waypoint * nat ==> Road
+		Road(roadnumber, waypoints, length) ==
+		(
+			roadNmbr := roadnumber;
+			roadLength := length;
+			speedlimit := Config`DefaultRoadSpeedLimit;
+			wps := waypoints;
+			timePenalty := floor(roadLength / speedlimit);
+		)
+		pre card waypoints > 1;
+
+		public Road : RoadNumber *  set of Waypoint * nat * nat ==> Road
+		Road(roadnumber, waypoints, length, limit) ==
+		(
+			roadNmbr := roadnumber;
+			roadLength := length;
+			speedlimit := limit;
+			wps := waypoints;
+			--time cost of driving on the road
+			timePenalty := floor(roadLength / speedlimit);
+		)
+		pre card waypoints > 1;
+
+		pure public Covers : set of Waypoint ==> bool
+		Covers(waypoints) == 
+			 return {w.GetId() | w in set waypoints} = {w.GetId() | w in set wps};  --does road cover the waypoints in arg
+
+		public GetWaypoints : () ==> set of Waypoint
+		GetWaypoints()==
+				return wps;
+
+		public OppositeEnd : Waypoint ==> Waypoint
+		OppositeEnd(wp)==
+				 let opposite in set wps \ {wp} in return opposite
+		pre wp in set wps; 	-- if the waypoint is not found on the road
+						-- it may indicate that the route is not connected 
+						-- by the same waypoint
+
+		
+		public GetSpeedLimit : () ==> nat
+		GetSpeedLimit()==
+				return speedlimit;
+
+		public GetLength : () ==> nat
+		GetLength() == 
+			return roadLength;
+
+		public GetRoadNumber : () ==> RoadNumber
+		GetRoadNumber()== 
+				return roadNmbr;
+
+		public GetTimePenalty : () ==> nat
+		GetTimePenalty()== 
+				return timePenalty;
+
+end Road
+~~~
+{% endraw %}
+
+### TimeStamp.vdmpp
+
+{% raw %}
+~~~
+              
+class TimeStamp
+
+                                                                                                                                                                                                                                                                                                                                                                                                
+values
+
+public stepLength : nat = 1;
+
+instance variables
+
+currentTime  : nat   := 0;
+wakeUpMap    : map nat to nat := {|->};
+--syncWithTimeInc : set of nat := {};
+--syncWithTimeIncCurrent : set of nat := {};
+
+operations
+
+                                                                                                                      
+
+public WaitRelative : nat ==> ()
+WaitRelative(val) ==
+  AddToWakeUpMap(threadid, currentTime + val);
+ 
+                                                                                          
+ 
+public WaitAbsolute : nat ==> ()
+WaitAbsolute(val) ==
+  AddToWakeUpMap(threadid, val);
+
+                                                                                                  
+
+AddToWakeUpMap : nat * nat ==> ()
+AddToWakeUpMap(tId, val) ==
+   wakeUpMap := wakeUpMap ++ { tId |-> val };
+
+                                                                                                     
+
+public NotifyThread : nat ==> ()
+NotifyThread(tId) ==
+ wakeUpMap := {tId} <-: wakeUpMap;
+
+                                                                                                       
+
+public NotifyAll : () ==> ()
+NotifyAll() ==
+  let threadSet : set of nat = {th | th in set dom wakeUpMap & wakeUpMap(th) <= currentTime }
+  in
+    for all t in set threadSet 
+    do
+      NotifyThread(t);
+
+                                                                                                                                                                                                
+
+public NotifyAndIncTime : () ==> ()
+NotifyAndIncTime() ==
+ (
+  		currentTime := currentTime + stepLength;
+ 	 	NotifyAll();
+--		syncWithTimeIncCurrent := syncWithTimeInc; 
+ );
+
+                                                             
+
+public GetTime : () ==> nat
+GetTime() ==
+  return currentTime;
+
+                                                                                                                    
+
+public Awake: () ==> ()
+Awake() == skip;
+
+                                                                                                                                                                                                                                                                                                                                                          
+
+--public SyncWithTimeIncrement : () ==> ()
+--SyncWithTimeIncrement() ==	
+--(
+--	syncWithTimeInc := syncWithTimeInc union {threadid}; --keep track of all
+--	syncWithTimeIncCurrent := syncWithTimeIncCurrent union {threadid}; --include in current sync round
+--	skip;
+--);
+
+--public YieldTimeIncrement: () ==> ()
+--YieldTimeIncrement()==
+--(
+--	syncWithTimeIncCurrent := syncWithTimeIncCurrent \ {threadid};
+--	skip
+--);
+
+
+sync
+  per Awake => threadid not in set dom wakeUpMap;
+
+  per NotifyAndIncTime => (card {th | th in set dom wakeUpMap & wakeUpMap(th) = currentTime +1} > 0) ;  --The magic one,  only allow run
+--  per NotifyAndIncTime => ({th | th in set dom wakeUpMap & wakeUpMap(th) <= currentTime} inter syncWithTimeIncCurrent) = {};
+
+  mutex(NotifyAll);
+  mutex(AddToWakeUpMap);
+  mutex(AddToWakeUpMap, NotifyAll); 
+--  mutex(SyncWithTimeIncrement);
+--  mutex(YieldTimeIncrement);
+--  mutex(SyncWithTimeIncrement, YieldTimeIncrement, NotifyAndIncTime);
+
+end TimeStamp
+                                                                                         
+~~~
+{% endraw %}
+
+### Types.vdmpp
+
+{% raw %}
+~~~
+class Types
+
+types   
+public Time = nat;
+public Direction = <NORTH> | <SOUTH> | <EAST> | <WEST>;
+
+public Event = BusRoute | Inflow | Simulate | WasteTime;
+
+public BusRoute ::
+        ID : nat
+		route : seq of Road`RoadNumber
+		t : Time;
+        
+public Inflow ::
+        flow : nat
+        t : Time; 
+        
+public Simulate ::
+        t : nat;   
+        
+public WasteTime ::
+        t : Time;
+            
+functions 
+  public static DirectionToGraphics : Direction -> nat
+  DirectionToGraphics(d) ==
+  (
+    cases d:
+    <NORTH>-> 1,
+    <SOUTH>-> 5,
+    <EAST>->  3,
+    <WEST>->  7
+    end
+  );
+  
+end Types
+~~~
+{% endraw %}
+
+### WaitNotify.vdmpp
+
+{% raw %}
+~~~
+              
+class WaitNotify
+
+instance variables
+
+waitset : set of nat := {}
+
+operations
+
+public Wait : () ==> ()
+Wait() ==
+( AddToWaitSet (threadid);
+  Awake()
+);
+	
+public Notify : () ==> ()
+Notify() ==
+  let p in set waitset in
+    waitset := waitset \ {p};
+
+public NotifyThread: nat ==> ()
+NotifyThread(tId) ==
+  waitset :=  waitset \ {tId};
+
+public NotifyAll: () ==> ()
+NotifyAll() ==
+  waitset :=  {};
+
+private AddToWaitSet : nat ==> ()
+AddToWaitSet(n) ==
+  waitset := waitset union {n};
+
+private Awake : () ==> ()
+Awake() == skip
+
+sync
+per Awake => threadid not in set waitset;
+mutex(AddToWaitSet)
+
+end WaitNotify
+                                                                                        
+~~~
+{% endraw %}
+
+### Waypoint.vdmpp
+
+{% raw %}
+~~~
+class Waypoint
+
+	types
+		public BusStops = <A> | <B> | <C> | <D> | <E> | <F> | <Central>;
+		public WaypointsEnum = <WP1> | <WP2> | <WP3> | <WP4> | <WP5> | <WP6> | <WP7> | BusStops;	
+
+	instance variables
+		protected id : WaypointsEnum;
+		protected isStop : bool := false;
+
+	operations
+		public Waypoint : Waypoint`WaypointsEnum ==> Waypoint
+		Waypoint(s) == 
+		(
+			id := s;
+		);
+
+		pure public GetId : () ==> WaypointsEnum
+		GetId()== return id;
+
+		pure public IsStop: () ==> bool
+		IsStop()== return isStop;
+
+	functions 
+		public static StringToBusStop : seq of char -> Waypoint`BusStops
+		StringToBusStop(busstop) ==
+	  	(
+		    cases busstop:
+		    "A" -> <A>,
+		    "B" -> <B>,
+			"C" -> <C>,
+			"D" -> <D>,
+			"E" -> <E>,
+			"F" -> <F>,
+			"Central" -> <Central>
+		    end
+	  	);
+
+		public static StringToWaypoint : seq of char -> Waypoint`WaypointsEnum
+		StringToWaypoint(wp) ==
+	  	(
+		    cases wp:
+		    "WP1" -> <WP1>,
+		    "WP2" -> <WP2>,
+			"WP3" -> <WP3>,
+			"WP4" -> <WP4>,
+			"WP5" -> <WP5>,
+			"WP6" -> <WP6>,
+			"WP7" -> <WP7>,
+			others -> StringToBusStop(wp)
+		    end
+	  	);
+
+
+end Waypoint
+~~~
+{% endraw %}
+
 ### World.vdmpp
 
 {% raw %}
@@ -1216,242 +1452,6 @@ operations
 		env.city.addBus(lineNumber, route);
 
 end World
-~~~
-{% endraw %}
-
-### ClockTick.vdmpp
-
-{% raw %}
-~~~
-class ClockTick
-
-thread 
-	while true do
-	(
-		World`timerRef.WaitRelative(1);
-  		World`timerRef.NotifyAll();
-  		World`timerRef.Awake();
- 	)
-
- end ClockTick
-~~~
-{% endraw %}
-
-### Bus.vdmpp
-
-{% raw %}
-~~~
-class Bus
-	
-	instance variables
-		seats : set of Passenger;
-		inv card seats <= Config`BusCapacity;
-		
-		--bus line number
-		line : nat;
-
-		-- the route of road the bus is moving along
-		route : seq of Road;
-		-- what roads are left in the current pass of the route
-		curRoute : seq of Road;
-		-- where are we heading
-		nextWP : Waypoint;
-		-- what road are we currently on
-		currentRoad : Road;
-		--waypoints passed by the bus
-		wps : seq of Waypoint;
-		
-	operations
-		public Bus : nat * seq of Road * seq of Waypoint ==> Bus
-		Bus(linenumber, busroute, waypoints)==
-		(
-			line := linenumber;
-			route := busroute;
-			curRoute := busroute;
-			nextWP := hd waypoints;			
-
-			wps := waypoints;
-			seats := {};
-		)
-		pre len waypoints > 1 --ensure bus has somewhere to go
-		and waypoints <> [];
-
-		public GetOn : set of Passenger ==> ()
-		GetOn(ps) == 
-		(
-			seats := seats union ps;
-			World`graphics.busPassengerCountChanged(line, card seats);
-		)
-		pre card seats + card ps <= Config`BusCapacity; 
-
-		public GotOff : set of Passenger ==> ()
-		GotOff(p) == 	
-		(
-			seats := seats \ p;
-			World`graphics.busPassengerCountChanged(line, card seats);
-		)
-		pre p inter seats <> {};
-
-		public GetWaypoints : () ==> seq of Waypoint
-		GetWaypoints()== 
-			return wps;
-
-		public GetStops : () ==> seq of Busstop
-		GetStops()== 
-			return [wps(i) | i in set inds wps & wps(i).IsStop() ];
-		
-
-		private NextWaypoint : () ==> Waypoint
-		NextWaypoint()== 
-		(	
-			--start route over
-			if(len curRoute = 0) then
- 				curRoute := route;
-
-			--next road
-			let nextRoad = hd curRoute in 
-			(
-				--move along route
-				curRoute := tl curRoute;
-				--what road are we on
-				currentRoad := nextRoad;
-				-- update waypoints
-				let currentWp = nextWP  in
-				(
-					nextWP := currentRoad.OppositeEnd(currentWp);
-					return currentWp;
-				)
-			);
-		);
-
-		--functionality to ensure thread start
-		public WaitForThreadStart : () ==> ()
-		WaitForThreadStart() == skip;
-
-		private ThreadStarted : () ==> ()
-		ThreadStarted() == skip;
-
-	sync
-		per GetOn => card seats < Config`BusCapacity;
-		per WaitForThreadStart => #fin(ThreadStarted) > 0
-	
-	thread
-	(
-		dcl passGettingOn : set of Passenger;
-		ThreadStarted();
-		let - = NextWaypoint() in skip; --prevent return
-
-		--loop which moves bus along route, and lets passengers on and off at stops
-		while true do
-		(
-			Printer`OutWithTS("%Bus " ^ Printer`natToString(line) ^ ": running on " ^ 
-									VDMUtil`val2seq_of_char[Road`RoadNumber](currentRoad.GetRoadNumber()) ^
-									" with length " ^ Printer`natToString(currentRoad.GetLength()) ^ " and speedlimit " ^
-									 Printer`natToString(currentRoad.GetSpeedLimit()) ^
-									 " Next: " ^ VDMUtil`val2seq_of_char[Waypoint`WaypointsEnum](nextWP.GetId()) ^
-									 " Time: " ^ Printer`natToString(currentRoad.GetTimePenalty())
-							);
- 
-			World`graphics.busInRouteTo(line,
-				VDMUtil`val2seq_of_char[Road`RoadNumber](currentRoad.GetRoadNumber()), 
-				VDMUtil`val2seq_of_char[Waypoint`WaypointsEnum](nextWP.GetId()),
-				currentRoad.GetTimePenalty());
-
-			--add to penalty for moving along road
-			World`timerRef.WaitRelative(currentRoad.GetTimePenalty());
-   			World`timerRef.NotifyAll();
-   			World`timerRef.Awake();
-
-			--next on bus route
-			let next = NextWaypoint() in
-			( 	
-				Printer`OutWithTS("%Bus " ^ Printer`natToString(line) ^ 
-				" arrived at " ^ 
-				VDMUtil`val2seq_of_char[Waypoint`WaypointsEnum](next.GetId()));
-
-				let nextId = next.GetId() in
-				( 
-					--let passengers in at central station if 
-					--their destination is on the bus' route
-					if nextId = <Central> then
-					(
-						--bus returned with passengers; in the current model this should not be possible
-						--if(seats <> {}) then exit "Bus returned with passengers";
-						
-						let central : Busstop = next in
-						( 
-							--find passengers for bus
-							let potentialPassengers : set of Passenger = central.GetWaitingOn(wps) in 
-							(
-								if(card potentialPassengers > 0) then
-								(
-									--count available sets in bus
-									if((Config`BusCapacity - card seats) < card potentialPassengers) then 
-										--not room for all, select some
-										passGettingOn := SelectSubset(potentialPassengers, Config`BusCapacity - card seats)
-									else
-										passGettingOn := potentialPassengers;
-									
-									-- leave busstop and enter bus seats
-									central.PassengerLeft(passGettingOn);
-									GetOn(passGettingOn);
-									for all p in set passGettingOn do p.GotOnBus();
-
-									Printer`OutWithTS("%Bus " ^ Printer`natToString(line) ^ ": " ^ 
-										Printer`natToString(card passGettingOn) ^ " got on");
-
-									--add to time penalty for stopping
-									World`graphics.busStopping(line);
-									World`timerRef.WaitRelative(3);
-			   						World`timerRef.NotifyAll();
-			   						World`timerRef.Awake();
-								)
-							);
-						);
-					);					
-
-					-- let passengers off at their destination
-					let gettingOff = { p | p in set seats & p.GetDestination() = next} in
-					(
-						if(card gettingOff > 0) then
-						(
-							GotOff(gettingOff);
-							Printer`OutWithTS("%Bus " ^ Printer`natToString(line) ^ ": " ^ 
-								Printer`natToString(card gettingOff) ^ " got off");
-							
-							World`env.TransportedPassengers(card gettingOff);
-
-							--add to time penalty for stopping
-							World`graphics.busStopping(line);
-							World`timerRef.WaitRelative(3);
-	   						World`timerRef.NotifyAll();
-	   						World`timerRef.Awake();
-						);
-					);
-				);
-			);
-
-		);
-	);
-
-	operations
-		private SelectSubset : set of Passenger * nat ==> set of Passenger
-		SelectSubset(ps, limit)==
-		(
-			--base case
-			if limit = 0 then 
-				return {};
-
-			--smaller than limit, return
-			if card ps <= limit then 
-				return ps;
-
-			--recusive
-			let sub in set ps in
-					return {sub} union SelectSubset(ps \ {sub}, limit -1); 
-		)
-
-end Bus
 ~~~
 {% endraw %}
 

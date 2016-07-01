@@ -22,31 +22,217 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 |Entry point     :| new World().Run()|
 
 
-### NetworkTypes.vdmrt
+### Actuator.vdmrt
 
 {% raw %}
 ~~~
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
--- Created:		15/4 - 2008
+-- Created:		21/4 - 2008
 -- Updated:
--- Description: 	NetworkTypes class for NetworkModel project
+-- Description: 	Actuator super class
 -----------------------------------------------
 
 --
 -- class definition
 --
-class NetworkTypes
+class Actuator
+
+--
+-- instance variables
+--
+instance variables
+
+  protected ID   : nat;
+  protected Type : NetworkTypes`nodeType;
+  protected Corr : NetworkTypes`correction;
+
+--
+-- Operations definition section
+--
+operations
+
+public GetID: () ==> nat
+GetID() ==
+  return ID;
+
+public GetType: () ==> NetworkTypes`nodeType
+GetType() ==
+  return Type;
+
+public Step: () ==> ()
+Step() ==
+  is subclass responsibility
+
+end Actuator
+~~~
+{% endraw %}
+
+### Environment.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		20/4 - 2008
+-- Updated:
+-- Description: 	Environment class of the HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Environment
+
+--
+-- instance variables
+--
+instance variables
+
+  private io       : IO := new IO();
+  private inlines  : seq of inline := [];
+  private outlines : seq of outline := [];
+  private simtime  : nat;
+  private finished : bool := false;
+  private envTemp  : int := 20;
+  private envHumid : int := 75;
+--  inv envTemp >= 0;
+--  inv envHumid >= 0;
 
 --
 -- Types definition section
 --
-types   
+types
 
-public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
-public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
+-- Input file: TempIn, HumidIn, TimeIn
+public inline	= nat * nat * nat;
+-- Output: Time, TempValue, HumidValue
+public outline	= nat * nat * nat;
 
-end NetworkTypes
+--
+-- Operations definition section
+--
+operations
+ 
+public Environment: seq of char ==> Environment
+Environment(fname) ==
+ (def mk_ (-,mk_(t,input)) = io.freadval[nat * seq of inline](fname) 
+  in
+   (inlines := input;
+    simtime := t;
+    envTemp := 20;
+    envHumid := 75;
+   );
+ )
+pre fname <> []
+post inlines <> [] and simtime > 0;
+
+private CreateSignal: () ==> ()
+CreateSignal() ==
+ (if len inlines > 0
+  then (dcl curtime : nat := time;
+	def mk_ (tempIn, humidIn, timeIn) = hd inlines 
+        in
+         (if timeIn <= curtime
+          then (SetTemp(tempIn);
+                SetHumid(humidIn);              
+                inlines := tl inlines;
+                return
+               );
+         );
+       );
+  if (time >= simtime)
+  then (ShowResults();
+        finished := true;
+        return;
+       );
+ );	
+
+private ShowResults: () ==> ()
+ShowResults() ==
+ (IO`print("Time, Temperature, Humidity\n");
+
+  for all i in set inds outlines
+  do
+   (IO`print("\n");
+    IO`print(outlines(i));
+   );  
+ );
+
+public HandleEvent: nat * nat * nat ==> ()
+HandleEvent(curTime, TempValue, HumidValue) ==
+  outlines := outlines ^ [mk_ (curTime, TempValue, HumidValue)];
+
+public SetTemp: nat ==> ()
+SetTemp(t) ==
+ (envTemp := t;
+  HandleEvent(time, envTemp, envHumid);
+ );
+
+public SetHumid: nat ==> ()
+SetHumid(h) ==
+ (envHumid := h;
+  HandleEvent(time, envTemp, envHumid);
+ );
+
+public ReadTemp: () ==> int
+ReadTemp() ==
+  return envTemp;
+
+public IncTemp: () ==> ()
+IncTemp() ==
+ (envTemp := envTemp + 1;
+  HandleEvent(time, envTemp, envHumid);
+ );
+
+public DecTemp: () ==> ()
+DecTemp() ==
+ (envTemp := envTemp - 1;
+  HandleEvent(time, envTemp, envHumid);
+ );
+
+public ReadHumid: () ==> nat
+ReadHumid() ==
+  return envHumid;
+
+public IncHumid: () ==> ()
+IncHumid() ==
+ (envHumid := envHumid + 1;
+  HandleEvent(time, envTemp, envHumid);
+ );
+
+public DecHumid: () ==> ()
+DecHumid() ==
+ (envHumid := envHumid - 1;
+  HandleEvent(time, envTemp, envHumid);
+ );
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+sync
+
+  mutex(IncTemp);
+  mutex(DecTemp);
+  mutex(SetTemp);
+  mutex(ReadTemp, IncTemp, DecTemp, SetTemp);
+  mutex(IncHumid);
+  mutex(DecHumid);
+  mutex(SetHumid);
+  mutex(ReadHumid, IncHumid, DecHumid, SetHumid);
+  mutex(HandleEvent);
+  per IsFinished => finished;
+
+--
+-- Thread definition section
+--
+thread
+
+-- period of thread (period, jitter, delay, offset)
+periodic(1000E6,0,0,0) (CreateSignal)
+
+end Environment
 ~~~
 {% endraw %}
 
@@ -342,6 +528,205 @@ end HostController
 ~~~
 {% endraw %}
 
+### HumidSensor.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		21/4 - 2008
+-- Updated:
+-- Description: 	Humiditor sensor class for HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class HumidSensor is subclass of Sensor
+
+--
+-- instance variables
+--
+instance variables
+
+  finished : bool := false;
+
+--
+-- Operations definition section
+--
+operations
+
+public HumidSensor: nat * NetworkTypes`nodeType * nat ==> HumidSensor
+HumidSensor (id, type, val) ==
+ (ID := id;
+  Type := type;
+  Value := val;
+ );
+
+public Step: () ==> ()
+Step () ==
+  --cycles(1E3)
+  Value := World`env.ReadHumid();
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+sync
+  --mutex(PeriodicOp);	-- ADDED
+  per IsFinished => finished;
+
+--
+-- Thread definition section
+--
+thread
+
+-- period of thread (period, jitter, delay, offset)
+periodic(1000E6,0,0,0) (Step)
+
+end HumidSensor
+~~~
+{% endraw %}
+
+### NetworkTypes.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		15/4 - 2008
+-- Updated:
+-- Description: 	NetworkTypes class for NetworkModel project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class NetworkTypes
+
+--
+-- Types definition section
+--
+types   
+
+public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
+public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
+
+end NetworkTypes
+~~~
+{% endraw %}
+
+### Sensor.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		20/4 - 2008
+-- Updated:
+-- Description: 	Sensor superclass for HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Sensor
+
+--
+-- instance variables
+--
+instance variables
+
+  protected ID    : nat;
+  protected Type  : NetworkTypes`nodeType;
+  protected Value : int;
+
+--
+-- Operations definition section
+--
+operations
+
+public GetID: () ==> nat
+GetID() ==
+  return ID;
+
+public GetType: () ==> NetworkTypes`nodeType
+GetType() ==
+  return Type;
+
+public ReadValue: () ==> int
+ReadValue() ==
+  --cycles (1E3)
+  return Value;
+
+public Step: () ==> ()
+Step() ==
+  is subclass responsibility
+
+end Sensor
+~~~
+{% endraw %}
+
+### TemperatureSensor.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		20/4 - 2008
+-- Updated:
+-- Description: 	TemperatureSensor subclass for HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TemperatureSensor is subclass of Sensor
+
+--
+-- instance variables
+--
+instance variables
+
+  finished : bool := false;
+
+--
+-- Operations definition section
+--
+operations
+
+public TemperatureSensor: nat * NetworkTypes`nodeType * int ==> TemperatureSensor
+TemperatureSensor (id, type, val) ==
+ (ID := id;
+  Type := type;
+  Value := val;
+ );
+
+public Step: () ==> ()
+Step() ==
+  --cycles(1E3)
+  Value := World`env.ReadTemp();
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+sync
+  --mutex(PeriodicOp); -- ADDED
+  per IsFinished => finished;
+
+--
+-- Thread definition section
+--
+thread
+
+-- period of thread (period, jitter, delay, offset)
+periodic(1000E6,0,0,0) (Step)
+
+end TemperatureSensor
+~~~
+{% endraw %}
+
 ### Thermostat.vdmrt
 
 {% raw %}
@@ -419,448 +804,6 @@ end Thermostat
 ~~~
 {% endraw %}
 
-### TemperatureSensor.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		20/4 - 2008
--- Updated:
--- Description: 	TemperatureSensor subclass for HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class TemperatureSensor is subclass of Sensor
-
---
--- instance variables
---
-instance variables
-
-  finished : bool := false;
-
---
--- Operations definition section
---
-operations
-
-public TemperatureSensor: nat * NetworkTypes`nodeType * int ==> TemperatureSensor
-TemperatureSensor (id, type, val) ==
- (ID := id;
-  Type := type;
-  Value := val;
- );
-
-public Step: () ==> ()
-Step() ==
-  --cycles(1E3)
-  Value := World`env.ReadTemp();
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-sync
-  --mutex(PeriodicOp); -- ADDED
-  per IsFinished => finished;
-
---
--- Thread definition section
---
-thread
-
--- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (Step)
-
-end TemperatureSensor
-~~~
-{% endraw %}
-
-### World.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		20/4 - 2008
--- Updated:	
--- Description: 	World class in the HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class World
-
---
--- instance variables
---
-instance variables
-
-  public static env : [Environment] := nil;
-
---
--- Operations definition section
---
-operations
- 
-public World: () ==> World
-World() ==
- (env := new Environment("scenario.txt");
-  HA`Host.AddNode(HA`TempNode.GetID(),HA`TempNode.GetType());
-  HA`Host.AddNode(HA`HumidNode.GetID(),HA`HumidNode.GetType());
-  HA`Host.AddNode(HA`ThermNode.GetID(),HA`ThermNode.GetType());
-  HA`Host.AddNode(HA`WinNode.GetID(),HA`WinNode.GetType());
-
-  start(HA`TempNode);
-  start(HA`HumidNode);
-  start(HA`ThermNode);
-  start(HA`WinNode);
-  start(HA`Host);
- );
-
-public Run: () ==> ()
-Run() ==
- (-- start environment creating input
-  start(env);
-  -- wait til environment has finished creating input
-  env.IsFinished();
-  -- kill HostController thread
-  --HA`Host.Finish();
- );
-
-end World
-~~~
-{% endraw %}
-
-### Environment.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		20/4 - 2008
--- Updated:
--- Description: 	Environment class of the HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class Environment
-
---
--- instance variables
---
-instance variables
-
-  private io       : IO := new IO();
-  private inlines  : seq of inline := [];
-  private outlines : seq of outline := [];
-  private simtime  : nat;
-  private finished : bool := false;
-  private envTemp  : int := 20;
-  private envHumid : int := 75;
---  inv envTemp >= 0;
---  inv envHumid >= 0;
-
---
--- Types definition section
---
-types
-
--- Input file: TempIn, HumidIn, TimeIn
-public inline	= nat * nat * nat;
--- Output: Time, TempValue, HumidValue
-public outline	= nat * nat * nat;
-
---
--- Operations definition section
---
-operations
- 
-public Environment: seq of char ==> Environment
-Environment(fname) ==
- (def mk_ (-,mk_(t,input)) = io.freadval[nat * seq of inline](fname) 
-  in
-   (inlines := input;
-    simtime := t;
-    envTemp := 20;
-    envHumid := 75;
-   );
- )
-pre fname <> []
-post inlines <> [] and simtime > 0;
-
-private CreateSignal: () ==> ()
-CreateSignal() ==
- (if len inlines > 0
-  then (dcl curtime : nat := time;
-	def mk_ (tempIn, humidIn, timeIn) = hd inlines 
-        in
-         (if timeIn <= curtime
-          then (SetTemp(tempIn);
-                SetHumid(humidIn);              
-                inlines := tl inlines;
-                return
-               );
-         );
-       );
-  if (time >= simtime)
-  then (ShowResults();
-        finished := true;
-        return;
-       );
- );	
-
-private ShowResults: () ==> ()
-ShowResults() ==
- (IO`print("Time, Temperature, Humidity\n");
-
-  for all i in set inds outlines
-  do
-   (IO`print("\n");
-    IO`print(outlines(i));
-   );  
- );
-
-public HandleEvent: nat * nat * nat ==> ()
-HandleEvent(curTime, TempValue, HumidValue) ==
-  outlines := outlines ^ [mk_ (curTime, TempValue, HumidValue)];
-
-public SetTemp: nat ==> ()
-SetTemp(t) ==
- (envTemp := t;
-  HandleEvent(time, envTemp, envHumid);
- );
-
-public SetHumid: nat ==> ()
-SetHumid(h) ==
- (envHumid := h;
-  HandleEvent(time, envTemp, envHumid);
- );
-
-public ReadTemp: () ==> int
-ReadTemp() ==
-  return envTemp;
-
-public IncTemp: () ==> ()
-IncTemp() ==
- (envTemp := envTemp + 1;
-  HandleEvent(time, envTemp, envHumid);
- );
-
-public DecTemp: () ==> ()
-DecTemp() ==
- (envTemp := envTemp - 1;
-  HandleEvent(time, envTemp, envHumid);
- );
-
-public ReadHumid: () ==> nat
-ReadHumid() ==
-  return envHumid;
-
-public IncHumid: () ==> ()
-IncHumid() ==
- (envHumid := envHumid + 1;
-  HandleEvent(time, envTemp, envHumid);
- );
-
-public DecHumid: () ==> ()
-DecHumid() ==
- (envHumid := envHumid - 1;
-  HandleEvent(time, envTemp, envHumid);
- );
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-sync
-
-  mutex(IncTemp);
-  mutex(DecTemp);
-  mutex(SetTemp);
-  mutex(ReadTemp, IncTemp, DecTemp, SetTemp);
-  mutex(IncHumid);
-  mutex(DecHumid);
-  mutex(SetHumid);
-  mutex(ReadHumid, IncHumid, DecHumid, SetHumid);
-  mutex(HandleEvent);
-  per IsFinished => finished;
-
---
--- Thread definition section
---
-thread
-
--- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (CreateSignal)
-
-end Environment
-~~~
-{% endraw %}
-
-### Sensor.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		20/4 - 2008
--- Updated:
--- Description: 	Sensor superclass for HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class Sensor
-
---
--- instance variables
---
-instance variables
-
-  protected ID    : nat;
-  protected Type  : NetworkTypes`nodeType;
-  protected Value : int;
-
---
--- Operations definition section
---
-operations
-
-public GetID: () ==> nat
-GetID() ==
-  return ID;
-
-public GetType: () ==> NetworkTypes`nodeType
-GetType() ==
-  return Type;
-
-public ReadValue: () ==> int
-ReadValue() ==
-  --cycles (1E3)
-  return Value;
-
-public Step: () ==> ()
-Step() ==
-  is subclass responsibility
-
-end Sensor
-~~~
-{% endraw %}
-
-### HumidSensor.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		21/4 - 2008
--- Updated:
--- Description: 	Humiditor sensor class for HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class HumidSensor is subclass of Sensor
-
---
--- instance variables
---
-instance variables
-
-  finished : bool := false;
-
---
--- Operations definition section
---
-operations
-
-public HumidSensor: nat * NetworkTypes`nodeType * nat ==> HumidSensor
-HumidSensor (id, type, val) ==
- (ID := id;
-  Type := type;
-  Value := val;
- );
-
-public Step: () ==> ()
-Step () ==
-  --cycles(1E3)
-  Value := World`env.ReadHumid();
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-sync
-  --mutex(PeriodicOp);	-- ADDED
-  per IsFinished => finished;
-
---
--- Thread definition section
---
-thread
-
--- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (Step)
-
-end HumidSensor
-~~~
-{% endraw %}
-
-### Actuator.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		21/4 - 2008
--- Updated:
--- Description: 	Actuator super class
------------------------------------------------
-
---
--- class definition
---
-class Actuator
-
---
--- instance variables
---
-instance variables
-
-  protected ID   : nat;
-  protected Type : NetworkTypes`nodeType;
-  protected Corr : NetworkTypes`correction;
-
---
--- Operations definition section
---
-operations
-
-public GetID: () ==> nat
-GetID() ==
-  return ID;
-
-public GetType: () ==> NetworkTypes`nodeType
-GetType() ==
-  return Type;
-
-public Step: () ==> ()
-Step() ==
-  is subclass responsibility
-
-end Actuator
-~~~
-{% endraw %}
-
 ### Window.vdmrt
 
 {% raw %}
@@ -934,6 +877,63 @@ thread
 periodic(1000E6,0,0,0) (Step)
 
 end Window
+~~~
+{% endraw %}
+
+### World.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		20/4 - 2008
+-- Updated:	
+-- Description: 	World class in the HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class World
+
+--
+-- instance variables
+--
+instance variables
+
+  public static env : [Environment] := nil;
+
+--
+-- Operations definition section
+--
+operations
+ 
+public World: () ==> World
+World() ==
+ (env := new Environment("scenario.txt");
+  HA`Host.AddNode(HA`TempNode.GetID(),HA`TempNode.GetType());
+  HA`Host.AddNode(HA`HumidNode.GetID(),HA`HumidNode.GetType());
+  HA`Host.AddNode(HA`ThermNode.GetID(),HA`ThermNode.GetType());
+  HA`Host.AddNode(HA`WinNode.GetID(),HA`WinNode.GetType());
+
+  start(HA`TempNode);
+  start(HA`HumidNode);
+  start(HA`ThermNode);
+  start(HA`WinNode);
+  start(HA`Host);
+ );
+
+public Run: () ==> ()
+Run() ==
+ (-- start environment creating input
+  start(env);
+  -- wait til environment has finished creating input
+  env.IsFinished();
+  -- kill HostController thread
+  --HA`Host.Finish();
+ );
+
+end World
 ~~~
 {% endraw %}
 

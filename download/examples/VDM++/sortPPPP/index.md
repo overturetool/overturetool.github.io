@@ -17,45 +17,49 @@ VDM++ model created many years ago at IFAD.
 |Entry point     :| new SortMachine().GoSorting([4,2,5,6,4,42,1,1,99,5])|
 
 
-### sortmachine.vdmpp
+### dosort.vdmpp
 
 {% raw %}
 ~~~
-                                       
-
-class SortMachine
-
-instance variables
-  srt: Sorter := new MergeSort();
-
-                                                                                                                                                                                                                           
+                                
+class DoSort is subclass of Sorter
 
 operations
 
-  public SetSort: Sorter ==> ()
-  SetSort(s) ==
-    srt := s;
-                                                                                   
-  public GoSorting: seq of int ==> seq of int  
-  GoSorting(arr) ==
-    return srt.Sort(arr);
-                                                                                         
-  public SetAndSort: Sorter * seq of int ==> seq of int
-  SetAndSort(s, arr) ==
-  ( srt := s;
-    return srt.Sort(arr)
-  )
+  public Sort: seq of int ==> seq of int
+  Sort(l) ==
+    return DoSorting(l)
+ 
+functions
 
-traces
+  DoSorting: seq of int -> seq of int
+  DoSorting(l) ==
+    if l = [] then
+      []
+    else
+      let sorted = DoSorting (tl l) in
+        InsertSorted (hd l, sorted)
+  measure Len;
 
-  DiffSorting: let srt in set {new DoSort(),new ExplSort(),new ImplSort(),
-                               new MergeSort()}
-              in
-                 SetAndSort(srt,[3,1,66,11,5,3,99])
+  InsertSorted: int * seq of int -> seq of int
+  InsertSorted(i,l) ==
+    cases true :
+      (l = [])    -> [i],
+      (i <= hd l) -> [i] ^ l,
+      others      -> [hd l] ^ InsertSorted(i,tl l)
+    end
+  measure Len;
 
-end SortMachine
+  Len: seq of int -> nat
+  Len(list) ==
+    len list;
 
-             
+  Len: int * seq of int -> nat
+  Len(-,list) ==
+    len list
+
+end DoSort 
+                
 ~~~
 {% endraw %}
 
@@ -101,6 +105,39 @@ functions
     len list
 
 end ExplSort
+             
+~~~
+{% endraw %}
+
+### implsort.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                    
+class ImplSort is subclass of Sorter
+
+operations
+
+  public Sort: seq of int ==> seq of int
+  Sort(l) ==
+    return ImplSorter(l);
+
+functions
+
+  public ImplSorter(l: seq of int) r: seq of int
+  post IsPermutation(r,l) and IsOrdered(r);
+
+  IsPermutation: seq of int * seq of int -> bool
+  IsPermutation(l1,l2) ==    
+    forall e in set (elems l1 union elems l2) &
+      card {i | i in set inds l1 & l1(i) = e} =
+      card {i | i in set inds l2 & l2(i) = e};
+
+  IsOrdered: seq of int -> bool
+  IsOrdered(l) ==
+    forall i,j in set inds l & i > j => l(i) >= l(j)
+
+end ImplSort
              
 ~~~
 {% endraw %}
@@ -179,82 +216,45 @@ end Sorter
 ~~~
 {% endraw %}
 
-### implsort.vdmpp
+### sortmachine.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                    
-class ImplSort is subclass of Sorter
+                                       
+
+class SortMachine
+
+instance variables
+  srt: Sorter := new MergeSort();
+
+                                                                                                                                                                                                                           
 
 operations
 
-  public Sort: seq of int ==> seq of int
-  Sort(l) ==
-    return ImplSorter(l);
+  public SetSort: Sorter ==> ()
+  SetSort(s) ==
+    srt := s;
+                                                                                   
+  public GoSorting: seq of int ==> seq of int  
+  GoSorting(arr) ==
+    return srt.Sort(arr);
+                                                                                         
+  public SetAndSort: Sorter * seq of int ==> seq of int
+  SetAndSort(s, arr) ==
+  ( srt := s;
+    return srt.Sort(arr)
+  )
 
-functions
+traces
 
-  public ImplSorter(l: seq of int) r: seq of int
-  post IsPermutation(r,l) and IsOrdered(r);
+  DiffSorting: let srt in set {new DoSort(),new ExplSort(),new ImplSort(),
+                               new MergeSort()}
+              in
+                 SetAndSort(srt,[3,1,66,11,5,3,99])
 
-  IsPermutation: seq of int * seq of int -> bool
-  IsPermutation(l1,l2) ==    
-    forall e in set (elems l1 union elems l2) &
-      card {i | i in set inds l1 & l1(i) = e} =
-      card {i | i in set inds l2 & l2(i) = e};
+end SortMachine
 
-  IsOrdered: seq of int -> bool
-  IsOrdered(l) ==
-    forall i,j in set inds l & i > j => l(i) >= l(j)
-
-end ImplSort
              
-~~~
-{% endraw %}
-
-### dosort.vdmpp
-
-{% raw %}
-~~~
-                                
-class DoSort is subclass of Sorter
-
-operations
-
-  public Sort: seq of int ==> seq of int
-  Sort(l) ==
-    return DoSorting(l)
- 
-functions
-
-  DoSorting: seq of int -> seq of int
-  DoSorting(l) ==
-    if l = [] then
-      []
-    else
-      let sorted = DoSorting (tl l) in
-        InsertSorted (hd l, sorted)
-  measure Len;
-
-  InsertSorted: int * seq of int -> seq of int
-  InsertSorted(i,l) ==
-    cases true :
-      (l = [])    -> [i],
-      (i <= hd l) -> [i] ^ l,
-      others      -> [hd l] ^ InsertSorted(i,tl l)
-    end
-  measure Len;
-
-  Len: seq of int -> nat
-  Len(list) ==
-    len list;
-
-  Len: int * seq of int -> nat
-  Len(-,list) ==
-    len list
-
-end DoSort 
-                
 ~~~
 {% endraw %}
 

@@ -18,2973 +18,6 @@ test approach.
 |Entry point     :| new AllT().run()|
 
 
-### Hashtable.vdmpp
-
-{% raw %}
-~~~
-/* Responsibility：
- *	Hash Table
- 
- * Usage：
- *	（１） Object in Hashtable have to have hashCode() function and equals() function.
- 
- * From historical reason, there are functional programming style and object-oriented style functions.
- * if function name starts chapital letter, the function is functional programming style
- * else the function is object-oriented style.
-*/
-class Hashtable is subclass of CommonDefinition 
-
-types
-public Contents = map Object to Object;
-public Bucket = map int to Contents;
-
-instance variables
-sBucket : Bucket := { |->};
-
-operations
-
-public Hashtable : () ==> Hashtable
-Hashtable() == 
-	(
-	sBucket := { |-> };
-	return self
-	);
-	
-public Hashtable : Contents ==> Hashtable
-Hashtable(aContents) == 
-	(
-	self.putAll(aContents);
-	return self
-	);
-
---Hashtableのクリアー
-public clear : () ==> ()
-clear() == setBuckets({ |-> });
-
-public getBuckets : () ==> Bucket 
-getBuckets() == return sBucket;
-
-public setBuckets : Bucket ==> ()
-setBuckets(aBucket) == sBucket := aBucket;
-
-public keySet : () ==> set of Object
-keySet() ==
-	let	buckets = self.getBuckets()
-	in
-	(
-	dcl allKeySet : set of Object := {};
-	for all aContents in set rng buckets do
-		allKeySet := allKeySet union dom aContents;
-	return allKeySet
-	);
-
-public put : Object * Object ==> ()
-put(akey, aValue) ==
-	let	buckets = self.getBuckets(),
-		hashcode = akey.hashCode()
-	in
-	(
-	if hashcode in set dom buckets then
-		self.setBuckets(buckets ++ {hashcode |-> (buckets(hashcode) ++ {akey |-> aValue})})
-	else
-		self.setBuckets(buckets munion {hashcode |-> {akey |-> aValue}})
-	);
-
-public putAll : Contents ==> ()
-putAll(aContents) == 
-	for all key in set dom aContents do (
-		self.put(key, aContents(key))
-	);
-
-public get : Object  ==> [Object]
-get(key) ==
-	let	buckets = self.getBuckets(),
-		hashcode = key.hashCode()
-	in
-	(
-	if hashcode in set dom buckets then
-		let	aContents = buckets(hashcode)
-		in
-		for all aKey in set dom aContents do (
-			if key.equals(aKey) then
-				return aContents(aKey)
-		);
-	return nil
-	);
-
-public remove : Object ==> [Object]
-remove(key) ==
-	let	buckets = self.getBuckets(),
-		hashcode = key.hashCode(),
-		deleteObj = self.get(key)
-	in
-	(
-	if deleteObj <> nil then
-		let	aContents = buckets(hashcode),
-			newContents = aContents :-> {deleteObj}
-		in
-		(
-		self.setBuckets(buckets ++ {hashcode |-> newContents});
-		return deleteObj
-		)
-	else
-		return nil
-	);
-
-public valueSet : () ==> set of Object
-valueSet() ==
-	let	buckets = self.getBuckets()
-	in
-	(
-	dcl aValueSet : set of Object := {};
-	for all aContents in set rng buckets do
-		aValueSet := aValueSet union rng aContents;
-	return aValueSet
-	);
-
-functions
-
-public size : () -> nat
-size() == card self.keySet();
-
-public isEmpty : () -> bool
-isEmpty() == self.keySet() = {};
-		
-public contains : Object -> bool
-contains(anObject) ==
-	let	buckets = self.getBuckets()
-	in
-	exists hashcode in set dom buckets &
-		let	aContents = buckets(hashcode)
-		in
-		exists key in set dom aContents &
-			 aContents(key).equals(anObject);
-		
-public containsKey : Object -> bool
-containsKey(aKey) ==
-	let	buckets = self.getBuckets()
-	in
-	exists hashcode in set dom buckets & 
-		exists key in set dom buckets(hashcode) &
-			aKey.equals(key);
-
-
------------Functional Programming part
-
-functions
-
-static public Put[@T1, @T2] : 
-	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> @T2 
-	-> (map @T1 to (map @T1 to  @T2))
-Put(aHashtable)(aHashCode)(aKey)(aValue) ==
-	let	hashcode = aHashCode(aKey)
-	in
-	if hashcode in set dom aHashtable then
-		aHashtable ++ {hashcode |-> (aHashtable(hashcode) ++ {aKey |-> aValue})}
-	else
-		aHashtable munion {hashcode |-> {aKey |-> aValue}}
-	;
-
-static public PutAll[@T1, @T2] : 
-	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2) 
-	-> (map @T1 to (map @T1 to  @T2)) 
-PutAll(aHashtable)(aHashCode)(aMap) == 
-	PutAllAux[@T1, @T2](aHashtable)(aHashCode)(aMap)(dom aMap);
-
-static public PutAllAux[@T1, @T2] :
-	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2)  -> set of @T1
-	-> (map @T1 to (map @T1 to  @T2)) 
-PutAllAux(aHashtable)(aHashCode)(aMap)(aKeySet) ==
-	if aKeySet = {} then
-		aHashtable
-	else
-		let	aKey in set aKeySet	in
-		let	newHashtable = Put[@T1, @T2](aHashtable)(aHashCode)(aKey)(aMap(aKey))	
-		in
-		PutAllAux[@T1, @T2](newHashtable)(aHashCode)(aMap)(aKeySet \ {aKey})
-	;
-
-static public Get[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1  -> [@T2]
-Get(aHashtable)(aHashCode)(aKey) ==
-	let	hashcode = aHashCode(aKey)
-	in
-	if hashcode in set dom aHashtable then
-		Map`Get[@T1, @T2](aHashtable(hashcode))(aKey)
-	else
-		nil
-	;
-
-static public Remove[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> (map @T1 to (map @T1 to  @T2))
-Remove(aHashtable)(aHashCode)(aKey) == 
-	let	hashcode = aHashCode(aKey)
-	in
-	{h |-> ({aKey} <-: aHashtable(hashcode)) | h in set {hashcode}} munion 
-		{hashcode} <-: aHashtable ;
-
---Hashtableのクリアー
-static public Clear[@T1, @T2] : () -> (map @T1 to (map @T1 to  @T2))
-Clear() == ({ |-> });
-
-static public KeySet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T1
-KeySet(aHashtable) == 
-	--let	aMapSet = rng aHashtable,
-		--f = lambda x : map @T1 to  @T2 & dom x
-	let	aMapSet = rng aHashtable
-	in
-	if aMapSet <> {} then
-		--dunion Set`fmap[map @T1 to  @T2, @T2](f)(aMapSet)
-		dunion  {dom s | s in set aMapSet} 
-	else
-		{};
-
-static public ValueSet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T2
-ValueSet(aHashtable) == 
-	--let	aMapSet = rng aHashtable,
-		--f = lambda x : map @T1 to  @T2 & rng x
-	let	aMapSet = rng aHashtable
-	in
-	if aMapSet <> {} then
-		--dunion Set`fmap[map @T1 to  @T2, @T2](f)(aMapSet)
-		dunion  {rng s | s in set aMapSet} 
-	else
-		{};
-	
-static public Size[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> nat
-Size(aHashtable) == card KeySet[@T1, @T2](aHashtable) ;
-
-static public IsEmpty[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> bool
-IsEmpty(aHashtable) == KeySet[@T1, @T2](aHashtable) = {};
-		
-static public Contains[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T2 -> bool
-Contains(aHashtable)(aValue) == 
-	let	aMapSet = rng aHashtable	
-	in
-	if aMapSet <> {} then
-		exists aMap in set aMapSet & aValue in set rng aMap
-	else
-		false;
-		
-static public ContainsKey[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T1 -> bool
-ContainsKey(aHashtable)(aKey) == 
-	let	aMapSet = rng aHashtable	
-	in
-	if aMapSet <> {} then
-		exists aMap in set aMapSet & aKey in set dom aMap
-	else
-		false;
-
-end Hashtable
-~~~
-{% endraw %}
-
-### SequenceT.vdmpp
-
-{% raw %}
-~~~
-class SequenceT is subclass of TestDriver
-functions
-public tests : () -> seq of TestCase
-tests() == 
-	[ 
-	new SequenceT25(), 
-	new SequenceT23(), new SequenceT24(),
-	new SequenceT19(), new SequenceT20(),
-	new SequenceT21(), new SequenceT22(),
-	new SequenceT01(), new SequenceT02(),
-	new SequenceT03(), new SequenceT04(),
-	new SequenceT05(), new SequenceT06(),
-	new SequenceT07(), new SequenceT08(),
-	new SequenceT09(), new SequenceT10(),
-	new SequenceT11(), new SequenceT12(),
-	new SequenceT13(), new SequenceT14(),
-	new SequenceT15(), new SequenceT16(),
-	new SequenceT17(), new SequenceT18()
-	];
-end SequenceT
-
-class SequenceT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	sq = new Sequence()	in
-       return (sq.Sum[int]([1,2,3,4,5,6,7,8,9]) = 45 and
-       sq.Sum[int]([]) = 0) and
-       Sequence`Product[int]([2, 3, 4]) = 24 and
-       Sequence`Product[int]([]) = 1
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT01:\t Integer sum and product.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT01
-
-class SequenceT02 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	sq = new Sequence()	in
-	return sq.Sum[real]([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]) = 4.5 and
-	sq.Sum[real]([]) = 0.0 and
-	Sequence`Product[real]([2.0, 3.0, 4.0]) = 24.0 and
-	Sequence`Product[real]([]) = 1.0 and
-	Sequence`Product[real]([2.1, 3.2, 4.3]) = 2.1 * 3.2 * 4.3
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT02:\t Real sum and product.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT02
-
-class SequenceT03 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	sq = new Sequence()	in
-	return sq.isAscendingOrder[int]([1,2,4,4,7,8,8,8]) and
-	not sq.isAscendingOrder[real]([1.0,2.0,3.0,1.5])
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT03:\t Test isAscendingOrder (integer and real)";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT03
-
-class SequenceT04 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	sq = new Sequence()	in
-	return 
-		sq.isDescendingOrder[int]([3,2,2,1,1]) and
-		Sequence`isDescendingTotalOrder[int] (lambda x : int, y : int & x < y)([3,2,2,1,1]) and
-		Sequence`isDescendingTotalOrder[int] (lambda x : int, y : int & x < y)([3,2,2,1,2]) = false
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT04:\t Test isDescendingTotalOrder (integer).";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT04
-
-class SequenceT05 is subclass of TestCase
-types
-	public TestType = int|seq of char|char;
-	public RecordType ::
-		val : int
-		str : seq of char
-		chr : char;
-operations 
-public  test: () ==> bool
-test() == 
-	let	sq = new Sequence(),
-		decideOrderFuncSeq =
-			[(lambda x : int, y : int & x < y),
-			lambda x : seq of char, y : seq of char & String`LT(x,y),
-			lambda x : char, y : char & Character`LT(x,y)
-			],
-		decideOrderFunc =
-			lambda x : RecordType, y :  RecordType &
-				Sequence`isOrdered[SequenceT05`TestType]
-					(decideOrderFuncSeq)([x.val,x.str,x.chr])([y.val,y.str,y.chr])
-		in
-	return 
-		Sequence`sort[int](lambda x : int, y : int & x < y)([3,1,5,4]) = [1,3,4,5] and
-		Sequence`sort[seq of char]
-			(lambda x : seq of char, y : seq of char & String`LT(x,y))
-			(["12", "111", "01"]) = ["01","111","12"] and
-		Sequence`sort[SequenceT05`RecordType](decideOrderFunc)
-			([mk_RecordType(10,"sahara",'c'),mk_RecordType(10,"sahara",'a')]) =
-			[mk_RecordType(10,"sahara",'a'),mk_RecordType(10,"sahara",'c')] and
-		sq.isOrdered[SequenceT05`TestType](decideOrderFuncSeq)([3,"123",'a'])([3,"123",'A']) = true and
-		sq.isOrdered[SequenceT05`TestType](decideOrderFuncSeq)([3,"123",'a'])([3,"123",'0']) = false and
-		sq.isOrdered[int|seq of char|char](decideOrderFuncSeq)([])([]) = false and
-		sq.isOrdered[int|seq of char|char](decideOrderFuncSeq)([])([3,"123",'0']) = true and
-		sq.isOrdered[int|seq of char|char](decideOrderFuncSeq)([3,"123",'0'])([]) = false
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT05:\t test sort and isOrdered.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT05
-
-class SequenceT06 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	sq = new Sequence(),
-		decideOrderFunc1 = lambda x : int, y : int & x < y,
-		decideOrderFunc2 = lambda x : char, y : char & Character`LT(x,y)		in
-	return
-		sq.Merge[int](decideOrderFunc1)([1,4,6])([2,3,4,5]) = [1,2,3,4,4,5,6] and
-		sq.Merge[char](decideOrderFunc2)("146")("2345") = "1234456" and
-		sq.Merge[char](decideOrderFunc2)("")("2345") = "2345" and
-		sq.Merge[char](decideOrderFunc2)("146")("") = "146"
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT06:\t Merge sequences.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT06
-
-class SequenceT07 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	sq = new Sequence()		in
-	return
-		sq.take[int](2)([2,3,4,5]) = [2,3] and
-		sq.drop[char](5)("Shin Sahara") = "Sahara" and
-		sq.last[int]([1,2,3]) = 3 and
-		sq.filter[int](lambda x:int & x mod 2 = 0)([1,2,3,4,5,6]) = [2,4,6] and
-		Sequence`SubSeq[char](4)(3)("1234567890") = "456" and
-		Sequence`flatten[int]([[1,2,3], [3,4], [4,5,6]]) = [ 1,2,3,3,4,4,5,6 ]
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT07:\t Handling sequences.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT07
-
-class SequenceT08 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	return
-		Sequence`ascendingOrderSort[int]([3,1,6,4,2,6,5]) = [1,2,3,4,5,6,6] and
-		Sequence`descendingOrderSort[int]([3,1,6,4,2,6,5]) = [6,6,5,4,3,2,1] 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT08:\t Test sort.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT08
-
-class SequenceT09 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	return
-		Sequence`compact[[int]]([3,1,6,4,nil,2,6,5,nil]) = [3,1,6,4,2,6,5] and
-		Sequence`compact[[int]]([nil,nil]) = [] and
-		Sequence`compact[[int]]([]) = [] 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT09:\t Delete nil elements.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT09
-
-class SequenceT10 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	return
-		Sequence`freverse[[int]]([3,1,6,4,nil,2,6,5,nil]) = [nil, 5, 6, 2, nil, 4, 6, 1, 3] and
-		Sequence`freverse[[int]]([]) = [] 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT10:\t Get inverse sequence.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT10
-
-class SequenceT11 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	return
-		Sequence`Permutations[[int]]([1,2,3]) =
-			{ [ 1,2,3 ],
-			  [ 1,3,2 ],
-			  [ 2,1,3 ],
-			  [ 2,3,1 ],
-			  [ 3,1,2 ],
-			  [ 3,2,1 ] } and
-		Sequence`Permutations[[int]]([]) = {[]}
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT11:\t Get permutation.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT11
-
-class SequenceT12 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	return
-		Sequence`isMember[int](2)([1,2,3,4,5,6]) and
-		Sequence`isMember[int](0)([1,2,3,4,5,6]) = false and
-		Sequence`isMember[int](6)([1,2,3,4,5,6]) and
-		Sequence`isAnyMember[int]([6])([1,2,3,4,5,6]) and
-		Sequence`isAnyMember[int]([0,7])([1,2,3,4,5,6]) = false and
-		Sequence`isAnyMember[int]([4,6])([1,2,3,4,5,6]) and
-		Sequence`isAnyMember[int]([])([1,2,3,4,5,6]) = false 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT12:\t Search sequence.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT12
--------------------------------------------------------------
-class SequenceT13 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	return
-		Sequence`fmap[int, int](lambda x:int & x mod 3)([1,2,3,4,5])  = [1, 2, 0, 1, 2] and
-		Sequence`fmap[seq of char, seq of char]
-			(Sequence`take[char](2))(["Shin Sahara", "Hiroshi Sakoh"]) = ["Sh", "Hi"]
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT13:\tTest fmap.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT13
--------------------------------------------------------------
-class SequenceT14 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	index = Sequence`Index,
-		indexAll = Sequence`IndexAll2
-	in
-	return
-		index[int](1)([1,2,3,4,5])  = 1 and
-		index[int](5)([1,2,3,4,5])  = 5 and
-		index[int](9)([1,2,3,4,5])  = 0 and
-		index[char]('b')(['a', 'b', 'c'])  = 2 and
-		index[char]('z')(['a', 'b', 'c'])  = 0 and
-		indexAll[int](9)([1,2,3,4,5]) = {} and
-		indexAll[int](9)([]) = {} and
-		indexAll[int](1)([1,2,3,4,1]) = {1,5} and
-		indexAll[int](1)([1,2,3,4,1,1]) = {1,5,6} 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT14:\t Test Index.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT14
--------------------------------------------------------------
-class SequenceT15 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	avg1 = Sequence`GetAverage[int],
-		avg2 = Sequence`GetAverage[real]
-	in
-	return
-		avg1([]) = nil and
-		avg1([1,2,3,4]) = (1+2+3+4) / 4 and
-		avg2([1.3, 2.4, 3.5]) = 7.2 / 3
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT15:\t Test GetAverage.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT15
--------------------------------------------------------------
-class SequenceT16 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	ins1 = Sequence`InsertAt[int],
-		ins2 = Sequence`InsertAt[char]
-	in
-	return
-		ins1(1)(1)([2,3,4,5]) = [1,2,3,4,5] and
-		ins1(3)(3)([1,2,4,5]) = [1,2,3,4,5] and
-		ins1(3)(3)([1,2]) = [1,2,3] and
-		ins1(4)(3)([1,2]) = [1,2,3] and
-		ins1(5)(3)([1,2]) = [1,2,3] and
-		ins2(1)('1')("2345") = "12345" and
-		ins2(3)('3')("1245") = "12345" and
-		ins2(3)('3')("12") = "123"
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT16:\t Test InsertAt.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT16
--------------------------------------------------------------
-class SequenceT17 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	rm1 = Sequence`RemoveAt[int],
-		rm2 = Sequence`RemoveAt[char]
-	in
-	return
-		rm1(1)([1,2,3,4,5]) = [2,3,4,5] and
-		rm1(3)([1,2,4,3]) = [1,2,3] and
-		rm1(3)([1,2]) = [1,2] and
-		rm1(4)([1,2]) = [1,2] and
-		rm1(5)([1,2]) = [1,2] and
-		rm2(1)("12345") = "2345" and
-		rm2(3)("1243") = "123" and
-		rm2(3)("12") = "12"
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT17:\t Test RemoveAt.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT17
--------------------------------------------------------------
-class SequenceT18 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	up1 = Sequence`UpdateAt[int],
-		up2 = Sequence`UpdateAt[char]
-	in
-	return
-		up1(1)(10)([1,2,3,4,5]) = [10,2,3,4,5] and
-		up1(3)(40)([1,2,4,3]) = [1,2,40,3] and
-		up1(2)(30)([1,2]) = [1,30] and
-		up1(3)(30)([1,2]) = [1,2] and
-		up1(4)(30)([1,2]) = [1,2] and
-		up2(1)('a')("12345") = "a2345" and
-		up2(3)('b')("1243") = "12b3" and
-		up2(3)('c')("123") = "12c" and
-		up2(3)('c')("12") = "12"
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT18:\t Test UpdateAt.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT18
--------------------------------------------------------------
-class SequenceT19 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	removeDup = Sequence`RemoveDup[int],
-		removeMember = Sequence`RemoveMember[int],
-		removeMembers = Sequence`RemoveMembers[int]
-	in
-	return
-		removeDup([]) = [] and
-		removeDup([1,1,2,2,2,3,4,4,4,4]) = [1,2,3,4] and
-		removeDup([1,2,3,4]) = [1,2,3,4] and
-		removeMember(1)([]) = [] and
-		removeMember(1)([1,2,3]) = [2,3] and
-		removeMember(4)([1,2,3]) = [1,2,3] and
-		removeMembers([])([]) = [] and
-		removeMembers([])([1,2,3]) = [1,2,3] and
-		removeMembers([1,2,3])([]) = [] and
-		removeMembers([1,2,3])([1,2,3]) = [] and
-		removeMembers([1,4,5])([1,2,3,4]) = [2,3] 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT19:\t Test removes.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT19
--------------------------------------------------------------
-class SequenceT20 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	zip = Sequence`Zip[int, char],
-		zip2 = Sequence`Zip2[int,char],
-		unzip = Sequence`Unzip[int, char]
-	in
-	return
-		zip([], []) = [] and
-		zip([1,2,3], ['a', 'b', 'c']) = [mk_(1, 'a'), mk_(2, 'b'), mk_(3, 'c')] and
-		zip([1,2], ['a', 'b', 'c']) = [mk_(1, 'a'), mk_(2, 'b')] and
-		zip([1,2,3], ['a', 'b']) = [mk_(1, 'a'), mk_(2, 'b')] and
-		zip2([])([]) = [] and
-		zip2([1,2,3])(['a', 'b', 'c']) = [mk_(1, 'a'), mk_(2, 'b'), mk_(3, 'c')] and
-		unzip([]) = mk_([], []) and
-		unzip([mk_(1, 'a'), mk_(2, 'b'), mk_(3, 'c')]) = mk_([1,2,3], ['a', 'b', 'c']) 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT20:\t Test zip related functions.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT20
--------------------------------------------------------------
-class SequenceT21 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	span = Sequence`Span[int],
-		p1 = lambda x : int & x mod 2 = 0,
-		p2 = lambda x : int & x < 10
- 	in
-	return
-		span(p1)([]) = mk_([], []) and
-		span(p1)([2,4,6,1,3]) = mk_([2,4,6], [1,3]) and
-		span(p2)([1,2,3,4,5]) = mk_([1,2,3,4,5], []) and
-		span(p2)([1,2,12,13,4,15]) = mk_([1,2], [12,13,4,15])
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT21:\t Test span.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT21
--------------------------------------------------------------
-class SequenceT22 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	takeWhile = Sequence`TakeWhile[int],
-		dropWhile = Sequence`DropWhile[int],
-		p1 = lambda x : int & x mod 2 = 0
- 	in
-	return
-		takeWhile(p1)([]) = [] and
-		takeWhile(p1)([2,4,6,8,1,3,5,2,4]) = [2,4,6,8] and
-		dropWhile(p1)([]) = [] and
-		dropWhile(p1)([2,4,6,8,1,2,3,4,5]) = [1,2,3,4,5] 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT22:\t Test TakeWhile and DropWhile.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT22
--------------------------------------------------------------
-class SequenceT23 is subclass of TestCase
-functions
-public plus : int -> int -> int
-plus(a)(b) == a + b;
-
-public product : int -> int -> int
-product(a)(b) == a * b;
-
-public append : seq of char -> char -> seq of char
-append(s)(e) == s ^ [e];
-
-operations 
-public  test: () ==> bool
-test() == 
-	let	foldl = Sequence`Foldl[int, int],
-		f2 = Sequence`Foldl[seq of char, char]
- 	in
-	return
-		foldl(plus)(0)([1,2,3]) = 6 and
-		foldl(product)(1)([2,3,4]) = 24 and
-		f2(append)([])("abc") = "abc" 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT23:\t Test Foldl.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT23
--------------------------------------------------------------
-class SequenceT24 is subclass of TestCase
-functions
-public plus : int -> int -> int
-plus(a)(b) == a + b;
-
-public product : int -> int -> int
-product(a)(b) == a * b;
-operations 
-public  test: () ==> bool
-test() == 
-	let	removeAt = Sequence`RemoveAt[char],
-		foldr = Sequence`Foldr[int, int],
-		f3 = Sequence`Foldr[nat1, seq of char]
- 	in
-	return
-		foldr(plus)(0)([1,2,3]) = 6 and
-		foldr(product)(1)([2,3,4]) = 24 and
-		f3(removeAt)("12345")([1,3,5]) = "24"
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT24:\t Test Foldr.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT24
--------------------------------------------------------------
-class SequenceT25 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	let	sq = new Sequence()	in
-	return
-		Real`EQ(sq.GetAverage[real]([1.1,2.2,3.3]))(2.2) and
-		Real`EQ(sq.GetAverage[real]([1,2,3,4,5,6,7,8,9,10]))(5.5)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SequenceT25:\t Test GetAverage";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SequenceT25
-~~~
-{% endraw %}
-
-### FHashtable.vdmpp
-
-{% raw %}
-~~~
-                                                                                           
---"$Id"
-class FHashtable
-
-functions
-                                                                                             
-static public Put[@T1, @T2] : 
-	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> @T2 
-	-> (map @T1 to (map @T1 to  @T2))
-Put(aHashtable)(aHashCode)(aKey)(aValue) ==
-	let	hashcode = aHashCode(aKey)
-	in
-	if hashcode in set dom aHashtable then
-		aHashtable ++ {hashcode |-> (aHashtable(hashcode) ++ {aKey |-> aValue})}
-	else
-		aHashtable munion {hashcode |-> {aKey |-> aValue}}
-	;
-                                                                                            
-static public PutAll[@T1, @T2] : 
-	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2) 
-	-> (map @T1 to (map @T1 to  @T2)) 
-PutAll(aHashtable)(aHashCode)(aMap) == 
-	PutAllAux[@T1, @T2](aHashtable)(aHashCode)(aMap)(dom aMap);
-
-static public PutAllAux[@T1, @T2] :
-	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2)  -> set of @T1
-	-> (map @T1 to (map @T1 to  @T2)) 
-PutAllAux(aHashtable)(aHashCode)(aMap)(aKeySet) ==
-	if aKeySet = {} then
-		aHashtable
-	else
-		let	aKey in set aKeySet	in
-		let	newHashtable = Put[@T1, @T2](aHashtable)(aHashCode)(aKey)(aMap(aKey))	
-		in
-		PutAllAux[@T1, @T2](newHashtable)(aHashCode)(aMap)(aKeySet \ {aKey})
-	;
-                                                                              
-static public Get[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1  -> [@T2]
-Get(aHashtable)(aHashCode)(aKey) ==
-	let	hashcode = aHashCode(aKey)
-	in
-	if hashcode in set dom aHashtable then
-		FMap`Get[@T1, @T2](aHashtable(hashcode))(aKey)
-	else
-		nil
-	;
-                                                                                                              
-static public Remove[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> (map @T1 to (map @T1 to  @T2))
-Remove(aHashtable)(aHashCode)(aKey) == 
-	let	hashcode = aHashCode(aKey)
-	in
-	{h |-> ({aKey} <-: aHashtable(hashcode)) | h in set {hashcode}} munion 
-		{hashcode} <-: aHashtable ;
-                                                                               
-static public Clear[@T1, @T2] : () -> (map @T1 to (map @T1 to  @T2))
-Clear() == ({ |-> });
-                                                                                               
-static public KeySet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T1
-KeySet(aHashtable) == 
-	--let	aMapSet : set of (map @T1 to @T2) = rng aHashtable,
-		--f : map @T1 to @T2 -> set of @T1 = lambda x : map @T1 to  @T2 & dom x
-	let	aMapSet = rng aHashtable
-	in
-	if aMapSet <> {} then
-		--dunion FSet`Fmap[map @T1 to  @T2, set of @T1](f)(aMapSet)
-		dunion  {dom s | s in set aMapSet} 
-	else
-		{};
-                                                                                           
-static public ValueSet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T2
-ValueSet(aHashtable) == 
-	--let	aMapSet : set of (map @T1 to @T2) = rng aHashtable,
-		--f : map @T1 to @T2 -> set of @T2 = lambda x : map @T1 to  @T2 & rng x
-	let	aMapSet = rng aHashtable
-	in
-	if aMapSet <> {} then
-		--dunion FSet`Fmap[map @T1 to  @T2, set of @T2](f)(aMapSet)
-		dunion  {rng s | s in set aMapSet} 
-	else
-		{};
-                                                                            
-static public Size[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> nat
-Size(aHashtable) == card KeySet[@T1, @T2](aHashtable) ;
-                                                                                          
-static public IsEmpty[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> bool
-IsEmpty(aHashtable) == KeySet[@T1, @T2](aHashtable) = {};
-                                                                                                       
-static public Contains[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T2 -> bool
-Contains(aHashtable)(aValue) == 
-	let	aMapSet = rng aHashtable	
-	in
-	if aMapSet <> {} then
-		exists aMap in set aMapSet & aValue in set rng aMap
-	else
-		false;
-                                                                                                               
-static public ContainsKey[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T1 -> bool
-ContainsKey(aHashtable)(aKey) == 
-	let	aMapSet = rng aHashtable	
-	in
-	if aMapSet <> {} then
-		exists aMap in set aMapSet & aKey in set dom aMap
-	else
-		false;
-
-end FHashtable
-                                                                           
-~~~
-{% endraw %}
-
-### UseReal.vdmpp
-
-{% raw %}
-~~~
-class UseReal
-
-instance variables
-	r : Real := new Real()	
-
-traces
-
-S1: let n in set {0, 1, 9, 10, 99, 199, 0.1, 9.1, 10.1, 10.123} in r.numberOfDigit(n)
-
-end UseReal
-~~~
-{% endraw %}
-
-### JapaneseCalendar.vdmpp
-
-{% raw %}
-~~~
-class JapaneseCalendar is subclass of Calendar 
-/*
-Responsibility
-	I'm a Japanese Calendar based on JST.
-	Especially, I know Japanese holidays
-*/
-
-values
-public differenceBetweenGMTandJST = 0.375;	-- 0.375 = 9 hours = 9 / 24 day
-public differenceBetweenADandJapaneseCal = 1988;
-
-functions
-
-static private toStringAux: int -> seq of char
-toStringAux(i) == 
-	let	str = Integer`asString	in
-	if i >= 10 then str(i) else " " ^ str(i);
-	
-static public getJapaneseDateStr : Date -> seq of char
-getJapaneseDateStr(ADdate) == 
-	let	asString =Integer`asString,
-		yearOfJapaneseCal = ADdate.Year() - differenceBetweenADandJapaneseCal,
-		m = ADdate.Month(),
-		d = ADdate.day(),
-		yearStr = asString(yearOfJapaneseCal),
-		monthStr = toStringAux(m),
-		dateStr = toStringAux(d)	in
-		yearStr ^ monthStr ^ dateStr
-pre
-	ADdate.Year() >= differenceBetweenADandJapaneseCal;
-
-operations
-
-public setTheSetOfDayOffs: int ==> ()
-setTheSetOfDayOffs(year) ==
-	let	comingOfAgeDay = getNthDayOfTheWeek(year,1,2,<Mon>),
-		marineDay = if year >= 2003 then getNthDayOfTheWeek(year,7, 3,<Mon>) else getDateFrom_yyyy_mm_dd(year,7,20),
-		respect4TheAgedDay = if year >= 2003 then getNthDayOfTheWeek(year,9, 3,<Mon>) else getDateFrom_yyyy_mm_dd(year,9,15),
-		healthSportsDay = getNthDayOfTheWeek(year,10, 2,<Mon>),
-		nationalHolidaySet =  {
-			getDateFrom_yyyy_mm_dd(year,1,1), 
-			comingOfAgeDay,
-			getDateFrom_yyyy_mm_dd(year,2,11),
-			getVernalEquinox(year), 
-			getDateFrom_yyyy_mm_dd(year,4,29),
-			getDateFrom_yyyy_mm_dd(year,5,3),
-			getDateFrom_yyyy_mm_dd(year,5,4), 	--formally this date is not national holiday
-			getDateFrom_yyyy_mm_dd(year,5,5),
-			marineDay,
-			respect4TheAgedDay,
-			getAutumnalEquinox(year),
-			healthSportsDay,
-			getDateFrom_yyyy_mm_dd(year,11,3),
-			getDateFrom_yyyy_mm_dd(year,11,23),
-			getDateFrom_yyyy_mm_dd(year,12,23)
-		},
-		mondayMakeupHolidat = 
-			if year >= 2007 then 
-				{getNotNationalHolidaysInFuture(nationalHolidaySet, d) | d in set nationalHolidaySet & isSunday(d)}
-			else
-				 {d.plus(1) | d in set nationalHolidaySet & isSunday(d)},
-		weekdayBetweenDayOff = 
-			if year >= 2007 then
-				getWeekdayBetweenDayOff(nationalHolidaySet) 
-			else
-				{}
-	in
-	Year2Holidays := Year2Holidays munion { year |-> nationalHolidaySet union mondayMakeupHolidat union weekdayBetweenDayOff}
-pre
-	year >= 2000;
-
-public JapaneseCalendar : () ==> JapaneseCalendar
-JapaneseCalendar() ==
-	(
-	setDifferenceWithGMT(differenceBetweenGMTandJST); 
-	return self
-	);
-
-public getWeekdayBetweenDayOff : set of Date ==> set of Date
-getWeekdayBetweenDayOff(aNationalHolidaySet) == (
-	let 
-		candidatesOfWeekdayBetweenDayOff = 
-			dunion { {d.minus(1), d.plus(1)} | d in set aNationalHolidaySet &
-				d.minus(1).Year() = d.Year() and d.plus(1).Year() = d.Year()},
-		weekdayBetweenHoliday = 
-			{ d | d in set candidatesOfWeekdayBetweenDayOff & 
-				let yesterday : Date = d.minus(1), tomorrow : Date =  d.plus(1) in
-				isInDateSet(yesterday, aNationalHolidaySet) and isInDateSet(tomorrow, aNationalHolidaySet)}
-	in
-	return weekdayBetweenHoliday
- );
-
-functions
-public getNotNationalHolidaysInFuture :set of Date * Date-> Date
-getNotNationalHolidaysInFuture(aNationalHolidaySet, date) ==
-	cases  isInDateSet(date, aNationalHolidaySet) :
-		(true)	-> getNotNationalHolidaysInFuture(aNationalHolidaySet, date.plus( 1)),
-		others	-> date
-	end;
-
-end JapaneseCalendar
-~~~
-{% endraw %}
-
-### SetT.vdmpp
-
-{% raw %}
-~~~
-class SetT is subclass of TestDriver
-functions
-public tests : () -> seq of TestCase
-tests () == 
-	[
-		new SetT01(),
-		new SetT02(),
-		new SetT03(),
-		new SetT04()
-	];
-end SetT
-----------------------------------------
-class SetT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	return
-		Set`hasSameElems[int](Set`asSequence[int]({1,2,3,4}),{1,2,3,4}) and
-		(elems Set`asSequence[int]({1,2,3,3,4}) = {1,2,3,4})
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SetT01:\t Compare sequences and convert to sequence.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SetT01
-----------------------------------------
-
-class SetT02 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	return
-		Set`Combinations[int](2)({1,2,3}) = { { 1,2 }, { 1,3 }, { 2,3 } } and
-		Set`Combinations[int](2)({1,2,3,4}) = { { 1,2 },  { 1,3 },  { 1,4 },  { 2,3 },  { 2,4 },  { 3,4 } } and
-		Set`fmap[set of int, set of set of int](Set`Combinations[int](2))({{1,2,3}, {1,2,3,4}}) =
-			{{ { 1,2 }, { 1,3 }, { 2,3 } }, { { 1,2 },  { 1,3 },  { 1,4 },  { 2,3 },  { 2,4 },  { 3,4 } } } and
-		Set`Combinations[int](3)({1,2,3,4}) = { { 1,2,3 },  { 1,2,4 },  { 1,3,4 },  { 2,3,4 } } and
-		Set`Combinations[seq of char](2)({"Sahara", "Sato", "Sakoh", "Yatsu", "Nishikawa" }) = 
-			{ { "Sahara",    "Sato" },  { "Sahara",    "Nishikawa" },  { "Sahara",    "Yatsu" },  { "Sahara",    "Sakoh" },  { "Sato",    "Nishikawa" }, 
-			{ "Sato",    "Yatsu" },  { "Sato",    "Sakoh" },  { "Nishikawa",    "Yatsu" },  { "Nishikawa",    "Sakoh" },  { "Yatsu",    "Sakoh" } }
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SetT02:\t Get combination.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SetT02
--------------------------------------------------------------
-
-class SetT03 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	return
-		Set`fmap[int, int](lambda x:int & x mod 3)({1,2,3,4,5})  = {0, 1, 2} and
-		Set`fmap[seq of char, seq of char]
-			(Sequence`take[char](2))({"Shin Sahara", "Hiroshi Sakoh"}) = {"Sh", "Hi"}
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SetT03:\t Test fmap.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SetT03
--------------------------------------------------------------
-
-class SetT04 is subclass of TestCase
-operations 
-public  test: () ==> bool
-test() == 
-	return
-		Set`Sum[int]({1,...,10}) = 55 and
-		Set`Sum[int]({1, 2, 3, 4, 5, 6, 7, 8,  9, 10}) = 55 and
-		abs(Set`Sum[real]({0.1, 0.2, 0.3}) - 0.6) <= 1E-5 and
-		Set`Sum[nat]({1, 2, 3, 3}) = 6
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SetT04:\tTest sum of set elements.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SetT04
-~~~
-{% endraw %}
-
-### HashtableT.vdmpp
-
-{% raw %}
-~~~
-/*
-Test Group 
-	test of Hashtable
-*/
-----------------------------------------------------
-class StringObj is subclass of CommonDefinition
-
-instance variables
-public content : seq of char;
-
-functions
-public hashCode : () -> int
-hashCode() == 
-	let c = getContent() in
-	if  c <> nil then
-		len c mod 17
-	else
-		-1;
-
-public equals : Object -> bool
-equals(anObject) == if isofclass(StringObj, anObject)
-                   then self.getContent() = anObject.getContent()
-                   else false;
-
-operations
-public StringObj : seq of char ==> StringObj
-StringObj(aString) ==
-	(
-	content := aString;
-	return self
-	);
-
-public getContent : () ==> [seq of char]
-getContent() == 
-	if isofclass(StringObj, self) then 
-		return content
-	else 
-		return nil;
-
-end StringObj
-----------------------------------------------------
-class IntObj is subclass of CommonDefinition
-
-instance variables
-public content : int;
-
-functions
-public hashCode : () -> int
-hashCode() == 
-	let c = getContent() in
-	if c <> nil then
-		c mod 13
-	else
-		-1;
-
-public equals : Object -> bool
-equals(anObject) == if isofclass(IntObj, anObject)
-                   then self.getContent() = anObject.getContent()
-                   else false;
-
-operations
-public IntObj : int ==> IntObj
-IntObj(i) ==
-	(
-	content := i;
-	return self
-	);
-	
-public getContent : () ==> [int]
-getContent() == 
-	if isofclass(IntObj, self) then 
-		return content
-	else 
-		return nil;
-
-end IntObj
-----------------------------------------------------
-class HashtableT is subclass of TestDriver
-functions
-public tests : () -> seq of TestCase
-tests() == 
-	[ 
-	new HashtableT52(), new HashtableT53(), new HashtableT54(),
-	new HashtableT55(), new HashtableT56(), new HashtableT57(),
-	new HashtableT01(), new HashtableT02(), new HashtableT03(),
-	new HashtableT04(), 
-	new HashtableT05(), new HashtableT06(),
-	new HashtableT07()
-	];
-end HashtableT
-----------------------------------------------------
-
-class HashtableT01 is subclass of TestCase, CommonDefinition
-operations 
-
-protected test: () ==> bool
-test() == 
-	let	h1 = new Hashtable(),
-		k1 = new IntObj(1),
-		k2 = new IntObj(2),
-		k3 = new IntObj(3),
-		h2 =
-			new Hashtable({
-				k1 |-> new StringObj("Shin Sahara"), 
-				k2 |-> new StringObj("Kei Sato"), 
-				k3 |-> new StringObj("Hiroshi Sakoh")
-			})
-	in
-	return 
-		h1.getBuckets() = { |-> } and
-		h2.get(k1).equals(new StringObj("Shin Sahara")) and
-		h2.get(k2).equals(new StringObj("Kei Sato")) and
-		h2.get(k3).equals(new StringObj("Hiroshi Sakoh")) and
-		h2.get(new IntObj(1)).equals(new StringObj("Shin Sahara")) and
-		h2.get(new IntObj(2)).equals(new StringObj("Kei Sato")) and
-		h2.get(new IntObj(3)).equals(new StringObj("Hiroshi Sakoh")) 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT01:\tConstructor test.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT01
----------------------------------------
-
-class HashtableT02 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	h1 = 
-			new Hashtable({
-				new IntObj(1) |-> new StringObj("Shin Sahara"), 
-				new IntObj(2) |->new StringObj("Kei Sato"), 
-				new IntObj(3) |-> new StringObj("Hiroshi Sakoh")
-			}),
-		h2 = 
-			new Hashtable({
-				new StringObj("a") |->new IntObj(1),  
-				new StringObj("b") |-> new IntObj(2), 
-				new StringObj("c") |-> new IntObj(3)
-			})
-	in
-	return 
-		h1.contains(new StringObj("Shin Sahara")) and
-		h1.contains(new StringObj("Kei Sato")) and
-		h1.contains(new StringObj("Shin Sakoh")) = false and
-		h1.containsKey(new IntObj(1)) and
-		h1.containsKey(new IntObj(4)) = false and
-		h2.contains(new IntObj(3)) and
-		h2.contains(new IntObj(7)) = false and
-		h2.containsKey(new StringObj("a")) and
-		h2.containsKey(new StringObj("d")) = false
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT02:\tsearch test.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT02
----------------------------------------
-
-class HashtableT03 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	h1 =
-			new Hashtable({
-				new IntObj(1) |-> new StringObj("Shin Sahara"), 
-				new IntObj(2) |->new StringObj("Kei Sato"), 
-				new IntObj(3) |-> new StringObj("Hiroshi Sakoh")
-			}),
-		h2 = 
-			new Hashtable({
-				new StringObj("a") |->new IntObj(1),  
-				new StringObj("b") |-> new IntObj(2), 
-				new StringObj("c") |-> new IntObj(3)
-			}),
-		deleteObj = h2.remove(new StringObj("b"))
-	in
-	(
-	h1.clear();
-	return 
-		h1.getBuckets() = {|->} and
-		deleteObj.equals(new IntObj(2)) and
-		h2.get(new StringObj("b")) = nil and
-		h2.contains(new IntObj(2)) = false and
-		h2.containsKey(new StringObj("b")) = false and
-		h2.remove(new StringObj("d")) = nil
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT03:\tDelete test.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT03
----------------------------------------
-
-class HashtableT04 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	--let	h1 = new Hashtable(),
-	--	h2 = new Hashtable()
-	--in
-	(
-	dcl h1 : Hashtable := new Hashtable();
-	dcl h2 : Hashtable := new Hashtable();
-	h1.putAll({
-			new IntObj(1) |-> new StringObj("Shin Sahara"), 
-			new IntObj(2) |->new StringObj("Kei Sato"), 
-			new IntObj(14) |-> new StringObj("Hiroshi Sakoh")
-	});
-	h2.put(new StringObj("a"), new IntObj(1));
-	h2.put(new StringObj("b"), new IntObj(2));
-	def c = new StringObj("c") in (
-		h2.put(c, new IntObj(4));
-		h2.put(c, new IntObj(3))
-	);
-	return
-		h1.get(new IntObj(1)).equals(new StringObj("Shin Sahara"))  and
-		h1.get(new IntObj(2)).equals(new StringObj("Kei Sato")) and
-		h1.get(new IntObj(14)).equals(new StringObj("Hiroshi Sakoh")) and
-		h1.get(new IntObj(4)) = nil and  
-		h2.get(new StringObj("a")).equals(new IntObj(1)) and
-		h2.get(new StringObj("b")).equals(new IntObj(2)) and
-		h2.get(new StringObj("c")).equals(new IntObj(3)) and 
-		h2.get(new StringObj("d")) = nil 
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT04:\tTest of put, get.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT04
----------------------------------------
-
-class HashtableT05 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	h1 = new Hashtable(),
-		h2 = new Hashtable(),
-		h1k1 = new IntObj(1),
-		h1k2 = new IntObj(2),
-		h1k3 = new IntObj(14),
-		h1v1 = new StringObj("Shin Sahara"),
-		h1v2 = new StringObj("Kei Sato"),
-		h1v3 = new StringObj("Hiroshi Sakoh"),
-		h2k1 = new StringObj("a"),
-		h2k2 = new StringObj("b"),
-		h2k3 = new StringObj("c"),
-		h2v1 = new IntObj(1),
-		h2v2 = new IntObj(2),
-		h2v3 = new IntObj(18)
-		
-	in
-	(
-	h1.putAll({
-			h1k1 |-> h1v1, 
-			h1k2 |-> h1v2, 
-			h1k3 |-> h1v3
-	});
-	h2.put(h2k1, h2v1);
-	h2.put(h2k2, h2v2);
-	h2.put(h2k3, h2v3);
-	let	keySet1 = h1.keySet(),
-		valueSet1 = h1.valueSet(),
-		keySet2 = h2.keySet(),
-		valueSet2 = h2.valueSet()
-	in
-	return
-		keySet1 = {h1k1, h1k2, h1k3} and
-		valueSet1 = {h1v1, h1v2, h1v3} and
-		keySet2 = {h2k1, h2k2, h2k3} and
-		valueSet2 = {h2v1, h2v2, h2v3}
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT05:\tTest of getting keys and values.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT05
----------------------------------------
-
-class HashtableT06 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	h1 = new Hashtable(),
-		h1k1 = new IntObj(1),
-		h1k2 = new IntObj(14),
-		h1k3 = new IntObj(16),
-		h1k4 = new IntObj(27),
-		h1v1 = new StringObj("a"),
-		h1v2 = new StringObj("b"),
-		h1v3 = new StringObj("c")
-	in
-	(
-	h1.putAll({
-			h1k1 |-> h1v1, 
-			h1k2 |-> h1v2, 
-			h1k3 |-> h1v3
-	});
-	let	- = h1.remove(new IntObj(14)) 
-	in
-	h1.put(h1k4, h1v3);
-	return
-		h1.keySet() = {h1k1, h1k3, h1k4} and
-		h1.valueSet() = {h1v1, h1v3, h1v3}
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT06:\tTest when hashCode overlaps.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT06
----------------------------------------
-
-class HashtableT07 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	h1 = new Hashtable(),
-		h2 = new Hashtable(),
-		h1k1 = new IntObj(1),
-		h1k2 = new IntObj(14),
-		h1k3 = new IntObj(16),
-		h1v1 = new StringObj("a"),
-		h1v2 = new StringObj("b"),
-		h1v3 = new StringObj("c")
-	in
-	(
-	h1.putAll({
-			h1k1 |-> h1v1, 
-			h1k2 |-> h1v2, 
-			h1k3 |-> h1v3
-	});
-	h2.putAll({
-			h1k1 |-> h1v1, 
-			h1k2 |-> h1v2, 
-			h1k3 |-> h1v3
-	});
-	let	- = h1.remove(new IntObj(1)),
-		- = h1.remove(new IntObj(14)),
-		- = h1.remove(new IntObj(16)),
-		- = h2.remove(new IntObj(14))
-	in
-	return
-		h1.isEmpty() and
-		h1.size() = 0 and
-		h2.isEmpty() = false and
-		h2.size() = 2 
-		
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT07:\tTest of size.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT07
----------------------------------------
-
-class HashtableT52 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	aHashCode = lambda x : int & x mod 13,
-		p1 = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode)(
-				{1 |-> "Sahara", 2 |-> "Sato", 14 |-> "Sakoh"}
-			),
-		c1 = Hashtable`Contains[int, seq of char](p1)
-	in
-	return
-		c1("Sahara") and
-		c1("Sato") and
-		c1("Sakoh") and
-		c1("") = false
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT52:\tFunctional finding.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT52
----------------------------------------
-
-class HashtableT53 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	aHashCode1 = lambda x : int & x mod 13,
-		aHashCode2 = lambda x : seq of char & if x = "" then "" else Sequence`take[char](1)(x),
-		- = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
-				{1 |-> "Shin Sahara", 2 |-> "Kei Sato", 14 |-> "Hiroshi Sakoh"}
-			),
-		h2 = Hashtable`PutAll[seq of char, int]({ |-> })(aHashCode2)(
-				{"a" |-> 1, "b" |-> 2, "c" |-> 3}
-			),
-		h3 = Hashtable`Clear[int, seq of char](),
-		afterRemoveh2 = Hashtable`Remove[seq of char, int](h2)(aHashCode2)("b"),
-		c1 = Hashtable`Contains[seq of char, int](afterRemoveh2),
-		ck1 = Hashtable`ContainsKey[seq of char, int](afterRemoveh2)
-	in
-	(
-	return 
-		h3 = {|->} and
-		Hashtable`Get[seq of char, int](afterRemoveh2)(aHashCode2)("b") = nil and
-		c1(2) = false and
-		c1(1) and
-		c1(3) and
-		ck1("b") = false and 
-		ck1("a") and
-		ck1("c") 
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT53:\tTest of functional remove.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT53
----------------------------------------
-
-class HashtableT54 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	aHashCode = lambda x : int & x mod 13,
-		put = Hashtable`Put[int, seq of char],
-		p1 = put({ |-> })(aHashCode)(1)("Sahara"),
-		p2 = put(p1)(aHashCode)(2)("Bush"),
-		p3 = put(p2)(aHashCode)(2)("Sato"),
-		p4 = put(p3)(aHashCode)(14)("Sakoh"),
-		get = Hashtable`Get[int, seq of char](p4)
-	in
-	return
-		get(aHashCode)(1) = "Sahara" and
-		get(aHashCode)(2) = "Sato" and
-		get(aHashCode)(14) = "Sakoh" and
-		get(aHashCode)(99) = nil
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT54:\tFunctional Put and Get.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT54
----------------------------------------
-
-class HashtableT55 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	aHashCode = lambda x : int & x mod 13,
-		put = Hashtable`Put[int, seq of char],
-		p1 = put({ |-> })(aHashCode)(1)("Sahara"),
-		p2 = put(p1)(aHashCode)(2)("Bush"),
-		p3 = put(p2)(aHashCode)(2)("Sato"),
-		p4 = put(p3)(aHashCode)(14)("Sakoh"),
-		k = Hashtable`KeySet[int, seq of char],
-		v = Hashtable`ValueSet[int, seq of char]
-	in
-	return
-		k(p1) = {1} and
-		v(p1) = {"Sahara"} and
-		k(p2) = {1, 2} and
-		v(p2) = {"Sahara", "Bush"} and
-		k(p4) = {1,2,14} and
-		v(p4) = {"Sahara", "Sato", "Sakoh"}
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT55:\tFunctional getting information.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT55
----------------------------------------
-
-class HashtableT56 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	aHashCode1 = lambda x : int & x mod 13,
-		h1 = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
-				{1 |-> "Shin Sahara", 2 |-> "Kei Sato", 14 |-> "Hiroshi Sakoh", 27 |-> "Nishikawa"}
-			),
-		h2 = Hashtable`Remove[int, seq of char](h1)(aHashCode1)(14)
-	in
-	(
-	return
-		Hashtable`KeySet[int, seq of char](h2) = {1, 2, 27} and
-		Hashtable`ValueSet[int, seq of char](h2) = {"Shin Sahara",  "Kei Sato", "Nishikawa"}
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT56:\tWhen hashode overlapped.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT56
----------------------------------------
-
-class HashtableT57 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	aHashCode1 = lambda x : int & x mod 13,
-		remove = Hashtable`Remove[int, seq of char],
-		h1 = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
-				{1 |-> "Shin Sahara", 2 |-> "Kei Sato", 14 |-> "Hiroshi Sakoh"}
-			),
-		h2 = remove(h1)(aHashCode1)(1),
-		h3 = remove(h2)(aHashCode1)(2),
-		h4 = remove(h3)(aHashCode1)(14),
-		isempty = Hashtable`IsEmpty[int, seq of char],
-		size = Hashtable`Size[int, seq of char]
-	in
-	(
-	return
-		isempty(h4) and
-		size(h4) = 0 and
-		isempty(h3)  = false and
-		size(h3) = 1 and
-		size(h2) = 2 and
-		size(h1) = 3
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "HashtableT57:\tTest of functional Size.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end HashtableT57
----------------------------------------
-~~~
-{% endraw %}
-
-### FTestDriver.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                
---$Id: TestDriver.vpp,v 1.1 2005/10/31 02:09:59 vdmtools Exp $
-class FTestDriver
-
-types
-public TestCase ::
-	testCaseName : seq of char
-	testResult : bool;
-
-functions
-                                                                                                                                                                                                                                                          
-static public run: seq of FTestDriver`TestCase +> bool
-run(t) ==
-	let	m = "Result-of-testcases.",
-		r = [isOK(t(i)) | i in set inds t]
-	in
-	if  forall i in set inds r & r(i) then
-		FTestLogger`SuccessAll(m)
-	else
-		FTestLogger`FailureAll(m);
-                                                                                                                                                                                                               
-static public isOK: FTestDriver`TestCase +> bool
-isOK(t) ==
-	if GetTestResult(t) then
-		FTestLogger`Success(t)
-	else
-		FTestLogger`Failure(t);
-                                                                           
-static public GetTestResult : FTestDriver`TestCase +> bool
-GetTestResult(t) == t.testResult;
-                                                                       	
-static public GetTestName: FTestDriver`TestCase +> seq of char
-GetTestName(t) == t.testCaseName;
-
-end FTestDriver
-
-                                                                             
-~~~
-{% endraw %}
-
-### StringT.vdmpp
-
-{% raw %}
-~~~
-class StringT is subclass of TestDriver 
-functions
-public tests : () -> seq of TestCase
-tests () == 
-	[
-	new StringT01(), new StringT02(), 
-	new StringT03(), new StringT04(),
-	new StringT05(), new StringT06(),
-	new StringT07(), new StringT08(),
-	new StringT09(), -- new StringT10(),
-	new StringT11(), new StringT12(),
-	new StringT13(), new StringT14()
-	];
-end StringT
-
-class StringT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	c = new Character()	in
-	return
-		(
-		c.isDigit('0') = true and
-		c.isDigit('1') = true and
-		c.isDigit('2') = true and
-		c.isDigit('3') = true and
-		c.isDigit('4') = true and
-		c.isDigit('5') = true and
-		c.isDigit('6') = true and
-		c.isDigit('7') = true and
-		c.isDigit('8') = true and
-		c.isDigit('9') = true and
-		c.isDigit('a') = false and
-		c.asDigit('0') = 0 and
-		c.asDigit('1') = 1 and
-		c.asDigit('2') = 2 and
-		c.asDigit('3') = 3 and
-		c.asDigit('4') = 4 and
-		c.asDigit('5') = 5 and
-		c.asDigit('6') = 6 and
-		c.asDigit('7') = 7 and
-		c.asDigit('8') = 8 and
-		c.asDigit('9') = 9 and
-		c.asDigit('a') = false )
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT01:\tConvert digit to integer.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT01
-
-class StringT02 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	c = new Character()	in
-	return
-		(c.asDictOrder('0') = 1 and
-		c.asDictOrder('9') = 10 and
-		c.asDictOrder('a') = 11 and
-		c.asDictOrder('A') = 12 and
-		c.asDictOrder('z') = 61 and
-		c.asDictOrder('Z') = 62 and
-		c.asDictOrder('\n') = 999999 and
-		c.asDictOrder('\t') = 999999 )
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT02:\tReturn dictionary order of character.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT02
-
-class StringT03 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	s = new String(),
-		LT = String`LT2,
-		LE = String`LE2,
-		GT = String`GT2,
-		GE = String`GE2
-	in
-	return
-		(s.LT("123","123") = false and
-		LT("123")("123") = false and
-		s.GT("123","123") = false and
-		GT("123")( "123") = false and
-		s.LT("","") = false and
-		s.GT("","") = false and
-		s.LT("","123") = true and
-		s.GT("","123") = false and
-		s.LT("123","") = false and
-		s.GT("123","") and
-		s.LT("123","1234") and
-		s.GT("123","1234") = false and
-		s.LT("1234","123") = false and
-		s.GT("1234","123") and
-		s.LT("123","223") and
-		s.GT("123","223") = false and
-		s.LE("123","123") and
-		LE("123")("123") and
-		s.GE("123","123") and
-		s.LE("123","1234") and
-		LE("123")("1234") and
-		s.GE("123","1234") = false and
-		GE("123")("1234") = false and
-		s.LE("1234","123") = false and
-		not LE("1234")("123") and
-		s.GE("1234","123") and
-		s.LE("","") and
-		LE("")("") and
-		Sequence`fmap[seq of char, bool](LT("123"))(["123", "1234", "", "223"]) = [false, true, false, true] and
-		Sequence`fmap[seq of char, bool](LE("123"))(["1234", ""]) = [true, false] and
-		Sequence`fmap[seq of char, bool](GT("123"))([ "123", "", "23"]) = [false, true, false] and
-		Sequence`fmap[seq of char, bool](GE("123"))(["1234", ""]) = [false, true] 
-		)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT03:\tCompare magnitude of string.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT03
-
-class StringT04 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	s1234 = "1234",
-		s = new String()	in
-	return
-		s1234 = "1234" and
-		s.isSpaces("") = true and
-		s.isSpaces("  ") = true and
-		s.isSpaces(" \t  ") = true and
-		s.isSpaces([]) = true 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT04:\tCompare 2 strings is equal.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT04
-
-class StringT05 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	LT = Character`LT,
-		GT = Character`GT,
-		LE = Character`LE,
-		GE = Character`GE
-	in
-	return
-		(LT('a','a') = false and
-		Character`LT2('a')('a') = false and
-		GT('a','a') = false and
-		Character`GT2('a')('a') = false and
-		LT('1','2') and
-		Character`LT2('1')('2') and
-		GT('1','0') and
-		Character`GT2('1')('0') and
-		LT('9','a') and
-		Character`LT2('9')('a') and
-		GT('\n','0') and
-		Character`GT2('\n')('0') and
-		LE('a','0') = false and
-		Character`LE2('a')('0') = false and
-		GE('a','0') and
-		Character`GE2('a')('0') and
-		Sequence`fmap[char, bool](Character`LT2('5'))("456") = [false, false, true]
-		)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT05:\tCompare magnitude of character.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT05
-
-class StringT06 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	s = new String(),
-		substr = String`SubStr
-	in
-	return
-		(s.subStr("Shin Sahara",6,6) = "Sahara" and
-		s.subStr("Shin Sahara",6,8) = "Sahara" and
-		s.subStr("Shin Sahara",6,3) = "Sah" and
-		s.subStr("Shin Sahara",1,0) = "" and
-		s.subStrFill("sahara",1,3,'*') = "sah" and
-		s.subStrFill("sahara",1,6,'*') = "sahara" and
-		s.subStrFill("sahara",1,10,'*') = "sahara****" and
-		s.subStrFill("sahara",3,4,'*') = "hara" and
-		s.subStrFill("sahara",3,10,'*') = "hara******" and
-		s.subStrFill("sahara",1,0,'*') = "" and
-		s.subStrFill("",1,6,'*') = "******" and
-		String`SubStr(6)(6)("Shin Sahara") = "Sahara" and
-		substr(6)(8)("Shin Sahara") = "Sahara" and
-		Sequence`fmap[seq of char, seq of char](substr(6)(8))(["1234567890", "12345671"]) = ["67890", "671"]
-		)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT06:\tGet substring.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT06
-
-
-class StringT07 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	return
-		(String`isDigits("1234567890")  = true and
-		String`asInteger("1234567890")  = 1234567890 and
-		String`asInteger("")  = 0 
-		)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT07:\tHandling digit strings.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT07
-
-class StringT08 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	return
-		(
-		String`index("1234567890",'1')  = 1 and
-		String`index("1234567890",'0') = 10 and
-		String`index("1234567890",'a')  = 0 and
-		String`indexAll("1234567890",'1')  = {1} and
-		String`indexAll("1234567890",'0') = {10} and
-		String`indexAll("1234567890",'a')  = {} and 
-		String`indexAll("1231567190",'1')  = {1,4,8} and 
-		String`indexAll("1231567191",'1')  = {1,4,8,10} and
-		String`Index('1')("1234567890")  = 1 and
-		String`Index('0')("1234567890") = 10 and
-		String`Index('a')("1234567890")  = 0 and
-		String`IndexAll2('1')("1234567890")  = {1} and
-		String`IndexAll2('0')("1234567890") = {10} and
-		String`IndexAll2('a')("1234567890")  = {} and 
-		String`IndexAll2('1')("1231567190")  = {1,4,8} and 
-		String`IndexAll2('1')("1231567191")  = {1,4,8,10} and
-		Sequence`fmap[seq of char, int](String`Index('1'))(["1234567890", "2345671"]) = [1, 7] and
-		Sequence`fmap[seq of char, set of int](String`IndexAll2('1'))(["1231567190", "1231567191"]) = [{1,4,8}, {1,4,8,10}]
-		)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT08:\tGet first position of a character in a string.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT08
-
-class StringT09 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let isInclude = String`isInclude
-	in
-	return
-		(String`isInclude("1234567890")( "abc")  = false and
-		isInclude("Shin")("Shin") = true and
-		isInclude("Shin")("S") = true and
-		isInclude("Shin")("h") = true and
-		isInclude("Shin")("n") = true
-		)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT09:\tIs a string the substring of another string.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT09
-
-class StringT10 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-		tixe {<RuntimeError>  |->  return true } in
-		return String`isInclude("Shin Sahara")("")
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT10:\tIs a string the substring of another string. In case of pre-condition error";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT10
-
-class StringT11 is subclass of TestCase
-operations 
-public test: () ==> bool
-test() == 
-	return 
-		let 区切り文字 = elems "\t\n " in
-		String`GetToken("sahara\tshin", 区切り文字) = "sahara" and
-		String`GetToken("sahara\tshin SCSK", 区切り文字) = "sahara" and
-		String`DropToken("sahara\tshin", 区切り文字) = "\tshin" and
-		String`DropToken("sahara\tshin SCSK", 区切り文字) = "\tshin SCSK" and
-		String`DropToken("sahara\tshin SCSK\n", 区切り文字) = "\tshin SCSK\n"
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT11:\t指定した文字列の先頭tokenを得る。";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT11
-
-/*
-シナリオID
-	文字列を行に分解するシナリオ
-内容
-	文字列を行に分解するかを検査する。
-*/
-class StringT12 is subclass of TestCase
-operations 
-public test: () ==> bool
-test() == 
-	return 
-		let 対象文字列1 = "private 次状態を得る : () ==> 「状態」\n次状態を得る(aガード, aガード引数, aイベント, aイベント引数,  a処理時間) == (\ncases mk_(aガード, 現在状態, aイベント)  :\n\tmk_(-,-,(エラー検知)) -> return エラー中,\n",
-			ss1 = String`getLines(対象文字列1),
-			対象文字列2 = "佐原\n伸",
-			ss2 = String`getLines(対象文字列2)
-		in
-		ss1(1) = "private 次状態を得る : () ==> 「状態」" and
-		ss1(2) = "次状態を得る(aガード, aガード引数, aイベント, aイベント引数,  a処理時間) == (" and
-		ss1(3) = "cases mk_(aガード, 現在状態, aイベント)  :" and
-		ss1(4) = "\tmk_(-,-,(エラー検知)) -> return エラー中," and
-		ss2(1) = "佐原" and
-		ss2(2) = "伸"
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT12:\t文字列を行に分解する。";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT12
-
-/*
-シナリオID
-	英数字か判定するシナリオ
-内容
-	英数字か判定が正しいかを検査する。
-*/
-class StringT13 is subclass of TestCase
-operations 
-public test: () ==> bool
-test() == 
-	return 
-		let	w英字列 = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ",
-			w数字列 = "0123456789",
-			w英数字列 = w英字列 ^ w数字列
-		in
-		String`isLetters(w英字列) and
-		not String`isLetters(" " ^ w英字列) and
-		String`isDigits(w数字列) and
-		not String`isDigits(" " ^ w数字列) and
-		not String`isDigits("a" ^ w数字列) and
-		String`isLetterOrDigits(w英数字列)  and
-		not String`isLetterOrDigits(w英数字列 ^ " ") 
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT13:\t英数字かの判定が正しいかを検査する。";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT13
-
-class StringT14 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	isSomeString = String`isSomeString
-	in	return 
-		isSomeString(Character`isLetterOrDigit)("007isTheMmurder") and
-		not isSomeString(Character`isLetterOrDigit)("007 is the mmurder") and
-		isSomeString(Character`isCapitalLetter)("SAHARA") and
-		not isSomeString(Character`isCapitalLetter)("Sahara") and
-		isSomeString(Character`isLowercaseLetter)("sahara") and
-		not isSomeString(Character`isLowercaseLetter)("Sahara") 
-		
-;
-protected setUp: () ==> ()
-setUp() == TestName := "StringT11:\tIs a some kind of string?";
-protected tearDown: () ==> ()
-tearDown() == return;
-end StringT14
-
-~~~
-{% endraw %}
-
-### String.vdmpp
-
-{% raw %}
-~~~
-class String is subclass of Sequence
-
-functions
-
---Conversion functions
-static public asInteger: seq of char -> int
-asInteger(s) == String`AsIntegerAux(s)(0);
-
-static private AsIntegerAux : seq of char -> int -> int
-AsIntegerAux(s)(sum) ==
-	if s = [] then
-		sum
-	else
-		AsIntegerAux(tl s)(10 * sum + Character`asDigit(hd s));
---	measure length;
-
-static length : seq of char +> nat
-length(s) == len s;
-
-static lengthNil : [seq of char] +> nat
-lengthNil(s) == if s = nil then 0 else len s;
-	
---Decision functions
-static public isSomeString: (char -> bool) -> seq of char -> bool
-isSomeString(f)(s) == forall i in set inds s & f(s(i));
-
-static public isDigits : seq of char -> bool
-isDigits(s) == isSomeString(Character`isDigit)(s);
-
-static public isLetters : seq of char -> bool
-isLetters(s) == isSomeString(Character`isLetter)(s);
-
-static public isLetterOrDigits : seq of char -> bool
-isLetterOrDigits(s) == isSomeString(Character`isLetterOrDigit)(s);
-
-static public isSpaces : [seq of char] -> bool
-isSpaces(s) ==isSomeString(lambda c : char & c = ' ' or c = '\t')(s);
-
-static public LT : seq of char * seq of char -> bool
-LT(s1, s2) == String`LT2(s1)(s2);
-
-static public LT2 : seq of char -> seq of char -> bool
-LT2(s1)(s2) == 
-	cases mk_(s1,s2):
-		mk_([],[])		-> false,
-		mk_([],-)		-> true,
-		mk_(-^-,[])	-> false,
-		mk_([head1]^tails1,[head2]^tails2)	->
-			if Character`LT(head1,head2) then
-				true
-			elseif Character`LT(head2,head1) then
-				false
-			else
-				String`LT(tails1, tails2)
-	end;
-
-static public LE : seq of char * seq of char -> bool
-LE(s1, s2) == String`LE2(s1)(s2);
-
-static public LE2 : seq of char -> seq of char -> bool
-LE2(s1)(s2) == String`LT2(s1)(s2) or s1 = s2;
-
-static public GT : seq of char * seq of char -> bool
-GT(s1, s2) == String`GT2(s1)(s2);
-
-static public GT2 : seq of char -> seq of char -> bool
-GT2(s1)(s2) == String`LT(s2, s1);
-
-static public GE : seq of char * seq of char -> bool
-GE(s1, s2) == String`GE2(s1)(s2);
-
-static public GE2 : seq of char -> seq of char -> bool
-GE2(s1)(s2) == not String`LT2(s1)(s2);
-
-static public Index: char -> seq of char -> int
-Index(c)(aStr) == Sequence`Index[char](c)(aStr);
-
-static public indexAll : seq of char * char -> set of int
-indexAll(aStr,c) == Sequence`IndexAll2[char](c)(aStr);
-
-static public IndexAll2 : char -> seq of char -> set of int
-IndexAll2(c)(aStr) == Sequence`IndexAll2[char](c)(aStr);
-
-static public isInclude : seq of char -> seq of char -> bool
-isInclude(aStr)(aTargetStr) ==
-	let	indexSet = indexAll(aStr,aTargetStr(1))
-	in	exists i in set indexSet & 
-			SubStr(i)(len aTargetStr)(aStr) = aTargetStr
-pre
-	aTargetStr <> ""
-	;
-
-static public subStr :
-	seq1 of char * nat * nat -> seq of char
-subStr(aStr,fromPos,length) == aStr(fromPos,...,fromPos+length-1);
-
-static public SubStr : nat -> nat -> seq1 of char -> seq of char
-SubStr(fromPos)(length)(aStr) == aStr(fromPos,...,fromPos+length-1);
-
-static public GetToken : seq of char * set of char -> seq of char
-GetToken(s, aDelimitterSet) == 
-	TakeWhile[char](lambda c : char & c not in set aDelimitterSet)(s);
-
-static public DropToken : seq of char * set of char -> seq of char
-DropToken(s, aDelimitterSet) == 
-	DropWhile[char](lambda c : char & c not in set aDelimitterSet)(s);
-
-static public getLines : seq of char -> seq of seq of char
-getLines(s) ==
-	getLinesAux(s)([]);
-
-static public getLinesAux : seq of char -> seq of seq of char -> seq of seq of char
-getLinesAux(s)(line) ==
-	if s = [] then
-		line
-	else
-		let wDelimitterSet = {'\n'},
-			wHeadLine = GetToken(s, wDelimitterSet),
-			wTailStringCandidate = DropToken(s, wDelimitterSet),
-			wTailString = 
-				if wTailStringCandidate <> [] and hd wTailStringCandidate = '\n' then tl wTailStringCandidate 
-				else wTailStringCandidate
-		in
-		getLinesAux(wTailString)(line ^ [wHeadLine]);
---measure length;
-
-operations
-static public index: seq of char * char ==> int
-index(aStr,c) == (
-	for i = 1 to len aStr do
-		if aStr(i) = c then return i;
-	return 0
-);
-
-static public subStrFill :
-	seq of char * nat * nat * char ==> seq of char
-subStrFill(aStr,fromPos,length, fillChar) ==
-	let	lastPos = fromPos+length-1
-	in (
-		dcl aResult : seq of char := "";
-		for i = fromPos to lastPos  do (
-			if i <= len aStr then
-				aResult := aResult ^ [aStr(i)]
-			else
-				aResult := aResult ^ [fillChar]
-		);
-		return aResult
-	)
-pre
-	fromPos > 0 and length >= 0;
-
-end String
-~~~
-{% endraw %}
-
-### Product.vdmpp
-
-{% raw %}
-~~~
-class Product 
-
-functions
-
-static public Curry[@T1, @T2, @T3] : (@T1 * @T2 -> @T3) -> @T1 -> @T2 -> @T3
-Curry(f)(x)(y) == f(x, y);
-
-static public Uncurry[@T1, @T2, @T3] : (@T1 -> @T2 -> @T3) -> @T1 * @T2 -> @T3
-Uncurry(f)(x,y) == f(x)(y);
-
-end Product
-~~~
-{% endraw %}
-
-### Map.vdmpp
-
-{% raw %}
-~~~
-class Map 
-
-functions
-static public Get[@T1, @T2] : map @T1 to @T2 -> @T1 -> [@T2]
-Get(aMap)(aKey) ==
-	if aKey in set dom aMap then
-		aMap(aKey)
-	else
-		nil;
-
-static public Contains[@T1, @T2] : map @T1 to @T2 -> @T2 -> bool
-Contains(aMap)(aValue) == aValue in set rng aMap;
-
-static public ContainsKey[@T1, @T2] : map @T1 to @T2 -> @T1 -> bool
-ContainsKey(aMap)(aKey) == aKey in set dom aMap;
-	
-end Map
-~~~
-{% endraw %}
-
-### QueueT.vdmpp
-
-{% raw %}
-~~~
-class QueueT is subclass of TestDriver
-functions
-public tests : () -> seq of TestCase
-tests () == 
-	[ new QueueT01()
-	];
-end QueueT
-
-class QueueT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	q0 = Queue`empty[int](),
-		q1 = Queue`enQueue[int](1, q0),
-		q2 = Queue`enQueue[int](2, q1),
-		q3 = Queue`enQueue[int](3, q2),
-		h1 = Queue`top[int](q3),
-		q4 = Queue`deQueue[int](q3),
-		q5 = Queue`deQueue[int](q4),
-		q6 = Queue`deQueue[int](q5),
-		h2 =  Queue`top[int](q6),
-		q7 = Queue`deQueue[int](q6)
-	in
-	return
-		q0 = [] and
-		q1 = [1] and
-		q2 = [1,2] and
-		q3 = [1,2,3] and
-		h1 = 1 and
-		q4 = [2,3] and
-		q5 = [3] and
-		q6 = [] and
-		h2 = nil and
-		q7 = [] and
-		Queue`isEmpty[int](q7) and
-		not Queue`isEmpty[int](q5) 
-		
-;
-protected setUp: () ==> ()
-setUp() == TestName := "QueueT01:\t Test Queue";
-protected tearDown: () ==> ()
-tearDown() == return;
-end QueueT01
-~~~
-{% endraw %}
-
-### Date.vdmpp
-
-{% raw %}
-~~~
-class Date  is subclass of CalendarDefinition	-- date
-/*
-Responsibility
-	I am a date of Gregorio Calendar.
-Abstract
-	I calculate date by cooperating with Calendar class.
-	There can be two or more objects at the same date. 
-
-Therefore, it is judged that the date is equal by using EQ operation. 
-*/
-
-instance variables
-
-private ModifiedJulianDate : real := 0;
-private usingCalendar : Calendar;
-
-/*
-ModifiedJulianDateは、julianDateでは数値が大きくなりすぎたので採用されたdateを表す数値で、1858年11月17日を0とする。
-calculation誤差の関係から、2倍精度浮動小数点(Cではdouble)でなければならない。
-*/
-
-functions
-
-----Query
-
-public getNumberOfDayOfTheWeek: () -> Calendar`NumberOfDayOfTheWeek
-getNumberOfDayOfTheWeek() == calendar().getNumberOfDayOfTheWeek(self);
-
-public getNameOfDayOfTheWeek : () -> Calendar`NameOfDayOfTheWeek
-getNameOfDayOfTheWeek() == calendar().getNameOfDayOfTheWeek(self) ;
-
---指定された曜日が、selfとdateの間に何日あるかを返す。 
-public getNumberOfTheDayOfWeek: Date * Calendar`NameOfDayOfTheWeek -> int
-getNumberOfTheDayOfWeek(date,nameOfDayOfTheWeek) == calendar().getNumberOfTheDayOfWeek(self,date,nameOfDayOfTheWeek);
-
---selfとdateの間の休日あるいは日曜日の数を返す（startDateを含む）
-public getTheNumberOfDayOff: Date -> int
-getTheNumberOfDayOff(date) == calendar().getTheNumberOfDayOff(self,date);
-
---selfとdateの間の休日あるいは日曜日の数を返す（startDateを含まない）
-public getTheNumberOfDayOffExceptStartDate: Date -> int
-getTheNumberOfDayOffExceptStartDate(date) == calendar().getTheNumberOfDayOffExceptStartDate(self,date) ;
-
---dateから、そのdateの属する年を求める。
-public Year: () -> int
-Year() == calendar().Year(self);
-		
---dateから、そのdateの属する月を求める。
-public Month: () -> int
-Month() == calendar().Month(self);
-		
---dateから、日を求める。
-public day: () -> int
-day() == calendar().day(self);
-
-/* calculation  */
-
---休日でないdateを返す（未来へ向かって探索する）
-public getFutureWeekday : ()-> Date
-getFutureWeekday() == calendar().getFutureWeekday(self);
-
---休日でないdateを返す（過去へ向かって探索する）
-public getPastWeekday : ()-> Date
-getPastWeekday() == calendar().getPastWeekday(self);
-
---selfに、平日n日分を加算する
-public addWeekday : int -> Date
-addWeekday(addNumOfDays) == calendar().addWeekday(self,addNumOfDays);
-
---selfに、平日n日分を減算する
-public subtractWeekday : int -> Date
-subtractWeekday(subtractNumOfDays) == calendar().subtractWeekday(self,subtractNumOfDays) ;
-
-/* checking */
-
-public isSunday : () -> bool
-isSunday() == calendar().isSunday(self);
-
-public isSaturday : () -> bool
-isSaturday() == calendar().isSaturday(self);
-
-public isWeekday : () -> bool
-isWeekday() == calendar().isWeekday(self);
-
-public isNotDayOff : () -> bool
-isNotDayOff() == calendar().isNotDayOff(self);
-
-public isDayOff : () -> bool 
-isDayOff() == calendar().isDayOff(self);
-
-public isSundayOrDayoff : () -> bool 
-isSundayOrDayoff() ==  calendar().isSundayOrDayoff(self);
-
---new Date().getDateFrom_yyyy_mm_dd(2001,12,31).daysFromNewYear() = 365
-public daysFromNewYear: () -> int
-daysFromNewYear() == calendar().daysFromNewYear(self);
-
-/* conversion */
-
-public get_yyyy_mm_dd: () -> int * int * int
-get_yyyy_mm_dd() == mk_(self.Year(), self.Month(), self.day());
-
-private toStringAux: int -> seq of char
-toStringAux(i) == 
-	let	str = Integer`asString	in
-	if i >= 10 then str(i) else "0" ^ str(i);
-
-public date2Str: () -> seq of char
-date2Str() == self.asString();
-
-operations
-
-----conversion
-
-public asString: () ==> seq of char
-asString() ==
-	(let	asString =Integer`asString,
-		y = self.Year(),
-		m = self.Month(),
-		d = self.day(),
-		yearStr = asString(y),
-		monthStr = toStringAux(m),
-		dateStr = toStringAux(d)
-	in
-		return yearStr ^ monthStr ^ dateStr
-	);
-
-public print: ()   ==> seq of char
-print() ==
-	(let	asString =Integer`asString,
-		y = self.Year(),
-		m = self.Month(),
-		d = self.day(),
-		yearStr = asString(y),
-		monthStr = toStringAux(m),
-		dateStr = toStringAux(d)
-	in
-		return "Year=" ^ yearStr ^ ", Month=" ^ monthStr ^ ", Day=" ^ dateStr ^ ", "
-	);
-
-
-----比較
-
-/*
-操作名
-	大小比較を行う関数群。
-引数
-	date
-返値
-	真ならtrueを返し、そうでなければfalseを返す。
-内容
-	自身と与えられたdateの大小比較を行う。
-*/
-public LT: Date ==> bool
-LT(date) == return floor self.getModifiedJulianDate() < floor date.getModifiedJulianDate();
-
-public GT: Date ==> bool
-GT(date) == return floor self.getModifiedJulianDate() > floor date.getModifiedJulianDate();
-
-public LE: Date ==> bool
-LE(date) == return not self.GT(date);
-
-public GE: Date ==> bool
-GE(date) == return not self.LT(date);
-
---自身と与えられたdateがEQか判定する。
-public EQ: Date ==> bool	--等しければtrueを返し、そうでなければfalseを返す。
-EQ(date) ==  return (floor self.getModifiedJulianDate() = floor date.getModifiedJulianDate());
-
---自身と与えられたdateが等しくないか判定する。
-public NE: Date ==> bool	--等しければfalseを返し、そうでなければtrueを返す。
-NE(date) ==  return (floor self.getModifiedJulianDate() <> floor date.getModifiedJulianDate());
-
-----calculation
-
---自身にnumOfDaysを加算したdateを返す
-public plus: int ==> Date
-plus(addNumOfDays) == return calendar().modifiedJulianDate2Date(self.getModifiedJulianDate() + addNumOfDays) ;
-
---自身からnumOfDaysを減算したdateを返す
-public minus: int ==> Date
-minus(subtractNumOfDays) == return calendar().modifiedJulianDate2Date(self.getModifiedJulianDate() - subtractNumOfDays) ;
-
---インスタンス変数へのアクセス操作
-
---ModifiedJulianDate
-public setModifiedJulianDate: real ==> ()
-setModifiedJulianDate(r) == ModifiedJulianDate := r;
-
-public getModifiedJulianDate: () ==> real
-getModifiedJulianDate() == return ModifiedJulianDate;
-
-public calendar : () ==> Calendar
-calendar() == return usingCalendar;
-
---Constructor
-public Date : Calendar * real ==> Date
-Date(aCal, aModifiedJulianDate) == 
-	(
-	usingCalendar := aCal;
-	setModifiedJulianDate(aModifiedJulianDate);
-	return self
-	);
-
-end Date
-~~~
-{% endraw %}
-
-### ProductT.vdmpp
-
-{% raw %}
-~~~
-class ProductT is subclass of TestDriver 
-functions
-public tests : () -> seq of TestCase
-tests() == 
-	[ 
-	new ProductT01()
-	];
-end ProductT
-----------------------------------------------------------
-
-class ProductT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	lt = String`LT,
-		lt2 = lambda x : int, y : int & x < y
-	in
-	return
-		Product`Curry[seq of char, seq of char, bool](lt)("abc")("abcd") and
-		Product`Curry[seq of char, seq of char, bool](lt)("abcde")("abcd") = false and
-		Product`Curry[int, int, bool](lt2)(3)(4) and
-		Product`Uncurry[seq of char, seq of char, bool](String`LT2)("abc", "abcd") and
-		Product`Uncurry[seq of char, seq of char, bool](String`LT2)("abcde", "abcd") = false and
-		Product`Uncurry[seq of char, seq of char, bool](String`LE2)("3", "4")
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "ProductT01:\t Test of curry function.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end ProductT01
-~~~
-{% endraw %}
-
-### FMap.vdmpp
-
-{% raw %}
-~~~
-                                                                                  
---"$Id"
-class FMap
-
-functions
-                                                                                                                                 
-static public Get[@T1, @T2] : map @T1 to @T2 -> @T1 -> [@T2]
-Get(aMap)(aKey) ==
-	if aKey in set dom aMap then
-		aMap(aKey)
-	else
-		nil;
-                                                                                                                 
-static public Contains[@T1, @T2] : map @T1 to @T2 -> @T2 -> bool
-Contains(aMap)(aValue) == aValue in set rng aMap;
-                                                                                                                     
-static public ContainsKey[@T1, @T2] : map @T1 to @T2 -> @T1 -> bool
-ContainsKey(aMap)(aKey) == aKey in set dom aMap;
-	
-end FMap
-                                                              
-~~~
-{% endraw %}
-
-### Real.vdmpp
-
-{% raw %}
-~~~
-class Real
-
-values
-	Tolerance = 1e-8;
-	Variation = 1e-5;	
-
-functions
-
-static public EQ : real -> real -> bool
-EQ(r1)( r2) == abs(r1 - r2) < Tolerance;
-
-static public EQE : real -> real -> real -> bool
-EQE(e)(r1)(r2) == abs(r1 - r2) < e;
-
-static public numberOfDigit : real -> nat
-numberOfDigit(x) ==
-	let	i = floor(x)	in
-	if x = i then
-		aNumberOfIntegerPartDigit(i)
-	else
-		aNumberOfIntegerPartDigit(i) + 1 + getNumberOfDigitsAfterTheDecimalPoint(x);
-
-static public aNumberOfIntegerPartDigit : int -> nat
-aNumberOfIntegerPartDigit(i) == aNumberOfIntegerPartDigitAux(i, 1);
-
-static public aNumberOfIntegerPartDigitAux : int * nat -> nat
-aNumberOfIntegerPartDigitAux(i, numberOfDigit) ==
-	let	q = i div 10 in
-	cases q:
-		0		-> numberOfDigit,
-		others	-> Real`aNumberOfIntegerPartDigitAux(q, numberOfDigit + 1)
-	end
-measure idiv10;
-
-static idiv10 : int * nat +> nat
-idiv10(i, -) == i div 10;
-
-static public isNDigitsAfterTheDecimalPoint : real * nat -> bool
-isNDigitsAfterTheDecimalPoint(x,numberOfDigit) == 
-	getNumberOfDigitsAfterTheDecimalPoint(x) = numberOfDigit;
-
-static public getNumberOfDigitsAfterTheDecimalPoint : real -> nat
-getNumberOfDigitsAfterTheDecimalPoint(x) == getNumberOfDigitsAfterTheDecimalPointAux(x,0);
-
-static getNumberOfDigitsAfterTheDecimalPointAux : real * nat -> nat
-getNumberOfDigitsAfterTheDecimalPointAux(x,numberOfDigit) ==
-	if x = floor(x) then
-		numberOfDigit
-	else
-		getNumberOfDigitsAfterTheDecimalPointAux(x * 10, numberOfDigit + 1);
-
-static public roundAterDecimalPointByNdigit : real * nat -> real
-roundAterDecimalPointByNdigit(r, numberOfDigit) ==
-	let	multiple = 10 ** numberOfDigit
-	in
-	floor(r * multiple  + 0.5) / multiple
-pre
-	r >= 0;
-
-static public Differentiate : (real -> real) ->real -> real
-Differentiate(f)(x) == (f(x+Variation) - f(x)) / Variation ;
-
---Newton's method to solve the equation
-static public NewtonMethod: (real ->real) -> real -> real
-NewtonMethod(f)(x) ==
-	let	terminationCondition = lambda y : real &  abs(f(y)) < Tolerance,
-		nextApproximation = lambda y : real & y - (f(y) / Differentiate(f)(y))	in
-	new Function().Funtil[real](terminationCondition)(nextApproximation)(x);
-	
--- Integration by Trapezoidal rule algorithm. This is too bad :-)
-static public integrate : (real -> real)  -> nat1 -> real -> real -> real
-integrate(f)(n)(a)(b) == 
-	let	
-		h = (b - a) / n,
-		s = seqGenerate(n, a, h)
-	in
-	h * (f(a) / 2 + Sequence`Sum[real](Sequence`fmap[real, real](f)(s)) + f(b) / 2);
-
-operations
-static private seqGenerate : nat1 * real * real  ==> seq of real
-seqGenerate(n, a, h) == 
-	(	
-		dcl s : seq of real := [];
-		for i = 1 to n do
-		s := s ^ [a + i * h];
-	return s
-	);
-
-functions
---get root value for testing Newton Method.
-static public root: real -> real
-root(x) ==
-	let	f = lambda y : real & y ** 2 - x	in
-	NewtonMethod(f)(x);
-
-static public getTotalPrincipal : real * int -> real
-getTotalPrincipal(Interest,year) == (1 + Interest) ** year
-pre
-	Interest >= 0 and year > 0;
-
-static getInterestImplicitSpec_Math_version : real * int -> real
-getInterestImplicitSpec_Math_version(multiple,year) == is not yet specified
-pre
-	multiple > 1.0 and year > 0 
-post
-	multiple > 1.0 and year > 0 and
-	exists1 Interest : real &
-		let totalPrincipalAndInterest = getTotalPrincipal(Interest,year)
-		in multiple = totalPrincipalAndInterest  and RESULT = Interest;
-		
-static getInterestImplicitSpec_Computer_version : real * int -> real
-getInterestImplicitSpec_Computer_version(multiple,years) ==
-	is not yet specified
-pre
-	multiple > 1.0 and years > 0 
-post
-	multiple > 1.0 and years > 0 and
-	exists1 Interest : real & 
-		let	totalPrincipalAndInterest = getTotalPrincipal(Interest,years)
-		in	EQ(multiple)(totalPrincipalAndInterest) and RESULT = Interest;
-
---getInterest explicit specification
-static public getInterest: real * int -> real
-getInterest(multiple,years) ==
-	let	f = lambda Interest : real & multiple - getTotalPrincipal(Interest,years)	in
-	NewtonMethod(f)(0);
-	
-end Real
-~~~
-{% endraw %}
-
-### CommonDefinition.vdmpp
-
-{% raw %}
-~~~
-class CommonDefinition is subclass of Object
-
-/*
-values
-public StringOrder	= lambda x : seq of char , y : seq of char & String`LT(x,y);
-public NumericOrder	= lambda x : NumericalValue, y : NumericalValue & x < y;
-public DateOrder	= lambda x : Date, y : Date & x.LT(y);
-public AmountOfMoneyOrder	= lambda x : AmountOfMoney, y : AmountOfMoney & x < y;
-*/
-
-functions
-public StringOrder : seq of char * seq of char -> bool
-StringOrder(x, y) == String`LT(x,y);
-
-public NumericOrder : NumericalValue * NumericalValue -> bool
-NumericOrder(x, y) == x < y;
-
-public DateOrder : Date * Date -> bool
-DateOrder(x, y) ==  x.LT(y);
-
-public AmountOfMoneyOrder : AmountOfMoney * AmountOfMoney -> bool
-AmountOfMoneyOrder(x, y) == x < y;
-	
-types
-public Identifier = seq of char
-inv - ==  forall s1, s2 : seq of char, id1, id2 : Identifier & id1 <> id2 => s1 <> s2;
-public Quantity = int;
-public NumericalValue = int;
-public Percent = real
-inv p == 0 <= p and p <= 100;
-public AmountOfMoney = int;
-public NonNegativeAmountOfMoney = nat;
-public PositiveAmountOfMoney = nat1;
-public AmountOfMoney2 = real
-	inv am == new Real().isNDigitsAfterTheDecimalPoint(am,2) ;	-- 2 digits after the decimal point
-
-end CommonDefinition
-~~~
-{% endraw %}
-
-### TestLogger.vdmpp
-
-{% raw %}
-~~~
---$Id: TestLogger.vpp,v 1.2 2006/04/04 07:03:05 vdmtools Exp $
-class TestLogger
---テストのログを管理する
-
-values
-
-hisotoryFileName = "VDMTESTLOG.TXT"
-
-functions
-
-public Succeeded: TestCase -> bool
-Succeeded(t) == 
-	let	Message = t.getTestName()^"\t OK.\n",
-		- = new IO().fecho(hisotoryFileName, Message, <append>)	,
-		- = new IO().echo(Message)		in
-	true;
-
-public Failed: TestCase -> bool
-Failed(t) == 
-	let	Message = t.getTestName()^"\t NG.\n",
-		- = new IO().fecho(hisotoryFileName, Message, <append>),
-		- = new IO().echo( Message)		in
-	false;
-
-public succeededInAllTestcases : seq of char -> bool
-succeededInAllTestcases(m) ==
-	let	Message = m ^ "\t OK!!\n",
-		- = new IO().fecho(hisotoryFileName, Message, <append>),
-		- = new IO().echo( Message)
-	in
-	true;
-	
-public notSucceededInAllTestcases :  seq of char -> bool
-notSucceededInAllTestcases(m) ==
-	let	Message = m ^ "\t NG!!\n",
-		- = new IO().fecho(hisotoryFileName,  Message, <append>),
-		- = new IO().echo( Message)
-	in
-	false;
-
-end TestLogger
-~~~
-{% endraw %}
-
-### Integer.vdmpp
-
-{% raw %}
-~~~
-class Integer
-
-functions 
-
-static public asString: int -> seq1 of char 
-asString(i) == 
-	if i < 0 then
-		"-" ^ asStringAux(-i)
-	else
-		asStringAux(i) ;
-		
-static public asStringAux: nat -> seq1 of char 
-asStringAux(n) == 
-	let	r = n mod 10,
-		q = n div 10
-	in
-		cases q:
-			0		-> asChar(r),
-			others	-> asStringAux(q) ^ asChar(r)
-		end
-	measure ndiv10;
-
-static ndiv10 : nat +> nat
-ndiv10(n) == n div 10;
-
--- Convert integer to COBOL type number string (like ZZZ9.ZZ). 
-static public asStringZ: seq of char -> int -> seq1 of char 
-asStringZ(cobolStrConversionCommand)(i) == 
-	let	minusSymbol = '-'	in
-	if i < 0 then
-		if cobolStrConversionCommand(1) = minusSymbol then
-			[minusSymbol] ^ asStringZAux(String`subStr(cobolStrConversionCommand,2,len cobolStrConversionCommand))(-i, true)
-		else
-			asStringZAux(cobolStrConversionCommand)(-i, true)
-	else
-		if cobolStrConversionCommand(1) = minusSymbol then
-			asStringZAux(String`subStr(cobolStrConversionCommand,2,len cobolStrConversionCommand))(i, true)
-		else
-			asStringZAux(cobolStrConversionCommand)(i, true) ;
- 		
- static public asStringZAux: seq of char -> nat * bool -> seq1 of char 
- asStringZAux(cobolStrConversionCommand)(n, wasZero) == 
-  	let	cobolStrConversionCommandStrLen = len cobolStrConversionCommand,
-  		cobolStrConversionCommandChar = cobolStrConversionCommand(cobolStrConversionCommandStrLen),
-  		cobolStrConversionCommandStr = String`subStr(cobolStrConversionCommand,1,cobolStrConversionCommandStrLen - 1),
-  		r = n mod 10,
-  		q = n div 10,
-  		isZero = r = 0 and wasZero and q <> 0 
-  	in
-  		cases cobolStrConversionCommandStr:
-  			[]		-> asCharZ(cobolStrConversionCommandChar)(r, isZero),
-  			others	-> 
-  				asStringZAux(cobolStrConversionCommandStr)(q, isZero) ^ 
-  				asCharZ(cobolStrConversionCommandChar)(r, isZero)
- 		end;
---measure  length;
-
-static length : seq of char -> nat * bool -> nat
-length(cobolStrConversionCommand)(-, -) == len cobolStrConversionCommand;
-
-static public asCharZ : char -> nat * bool ->  seq1 of char | bool
-asCharZ(cobolStrConversionCommandChar)(n, wasZero) ==
-	cases n:
-		0	-> 
-			if cobolStrConversionCommandChar in set {'z', 'Z'} and wasZero then
-				"0"
-			elseif cobolStrConversionCommandChar = '0'  or cobolStrConversionCommandChar = '9' then
-				"0"
-			else
-				" ",	-- Don't deal with all cases of cobolStrConversionCommandChar
-		1	-> "1",
-		2	-> "2",
-		3	-> "3",
-		4	-> "4",
-		5	-> "5",
-		6	-> "6",
-		7	-> "7",
-		8	-> "8",
-		9	-> "9",
-		others	-> false
-	end;
-
-static public asChar : int -> seq1 of char | bool
-asChar(i) ==
-	cases i:
-		0	-> "0",
-		1	-> "1",
-		2	-> "2",
-		3	-> "3",
-		4	-> "4",
-		5	-> "5",
-		6	-> "6",
-		7	-> "7",
-		8	-> "8",
-		9	-> "9",
-		others	-> false
-	end;
-
-static public GCD : nat -> nat -> nat
-GCD(x)(y) == 
-	if y = 0 then x else GCD(y)(x rem y);
---measure GCDMeasure;
-
-static GCDMeasure : nat -> nat -> nat
-GCDMeasure(x)(-) == x;
-
-static public LCM : nat -> nat -> nat
-LCM(x)(y) ==
-	cases mk_(x, y) :
-	mk_(-, 0)	-> 0,
-	mk_(0, -)	-> 0,
-	mk_(z, w)	-> (z / GCD(z)(w)) * w
-	end;
-			
-end Integer
-~~~
-{% endraw %}
-
 ### AllT.vdmpp
 
 {% raw %}
@@ -3030,1836 +63,6 @@ run () ==
 	
 end AllT
  
-~~~
-{% endraw %}
-
-### Function.vdmpp
-
-{% raw %}
-~~~
-              
-class Function
-
-functions 
-                            
-static public Funtil[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @T
-Funtil(p)(f)(x) == if p(x) then x else Funtil[@T](p)(f)(f(x));
-                            
-static public Fwhile[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @T
-Fwhile(p)(f)(x) == if p(x) then Fwhile[@T](p)(f)(f(x)) else x;
-                            
-static public Seq[@T] : seq of (@T -> @T) -> @T -> @T
-Seq(fs)(p) ==
-	cases fs :
-	[xf] ^ xfs	-> Seq[@T](xfs)(xf(p)),
-	[]					-> p
-	end
---measure length
-;
-
---static length[@T] : seq of (@T -> @T) -> @T -> nat
---length(fs)(-) == len fs;
-                            
-static public readFn[@T] : seq of char -> [@T]
-readFn(fname) ==
-	let 
-		io = new IO(),
-		mk_(aResult, f) = io.freadval[@T](fname)
-	in
-	if aResult then
-		f
-	else
-		let -= io.echo("Can't read values from the data file = " ^ fname)
-		in
-		nil;
-                            
-end Function
-            
-~~~
-{% endraw %}
-
-### SBCalendarT.vdmpp
-
-{% raw %}
-~~~
-class SBCalendarT is subclass of TestDriver
-functions
-public tests : () -> seq of TestCase
-tests () == 
-	[
-	new SBCalendarT06(),
-	new SBCalendarT05(),
-	new SBCalendarT04(),
-	new SBCalendarT03(),
-	new SBCalendarT02(),
-	new SBCalendarT01()
-	];
-end SBCalendarT
-
-class SBCalendarT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	c = new SBCalendar()	in
-	(
-	c.setTodayOnBusiness(c.getDateFrom_yyyy_mm_dd(2001,9,12));
-	c.setSystemTime(new Time(c, 2003, 10, 23, 13, 12, 34, 567));
-	return
-		(
-		--c.maxDate().EQ(c.getDateFrom_yyyy_mm_dd(9999,12,31)) and
-		--c.maxDate().date2Str = c.dateの最大値 and
-		c.todayOnBusiness().EQ(c.getDateFrom_yyyy_mm_dd(2001,9,12)) and
-		c.isDateNil(nil) = true and
-		--c.isDateNil(c.maxDate()) = true and
-		c.isDateNil(c.todayOnBusiness()) = false and
-		c.systemDate().EQ(c.today()) and
-		c.systemTime().EQ(new Time(c, 2003, 10, 23, 13, 12, 34, 567))
-		)
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SBCalendarT01:\tTest maxDate and date is nil.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SBCalendarT01
-
-class SBCalendarT02 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	jc = new SBCalendar(),
-		setOfDayOff = jc.getSetOfDayOff(2001),
-		setOfDayOff2006 = jc.getSetOfDayOff(2006),
-		d0401 = jc.getDateFromString("20010401"),
-		d0408 = jc.getDateFromString("20010408"),
-		d0430 = jc.getDateFromString("20010430"),
-		setOfDayOffBy_yyyy_mm_dd =  {jc.getYyyymmdd(dayOff) | dayOff in set setOfDayOff}	,
-		setOfDayOffBy_yyyy_mm_dd2006 =  {jc.getYyyymmdd(dayOff) | dayOff in set setOfDayOff2006}	in
-	return
-		setOfDayOffBy_yyyy_mm_dd = 
-			{ mk_( 2001,1,1 ),
-			  mk_( 2001,1,2 ),
-			  mk_( 2001,1,3 ),
-			  mk_( 2001,1,6 ),
-			  mk_( 2001,1,8 ),
-			  mk_( 2001,1,13 ),
-			  mk_( 2001,1,20 ),
-			  mk_( 2001,1,27 ),
-			  mk_( 2001,2,3 ),
-			  mk_( 2001,2,10 ),
-			  mk_( 2001,2,11 ),
-			  mk_( 2001,2,12 ),
-			  mk_( 2001,2,17 ),
-			  mk_( 2001,2,24 ),
-			  mk_( 2001,3,3 ),
-			  mk_( 2001,3,10 ),
-			  mk_( 2001,3,17 ),
-			  mk_( 2001,3,20 ),
-			  mk_( 2001,3,24 ),
-			  mk_( 2001,3,31 ),
-			  mk_( 2001,4,7 ),
-			  mk_( 2001,4,14 ),
-			  mk_( 2001,4,21 ),
-			  mk_( 2001,4,28 ),
-			  mk_( 2001,4,29 ),
-			  mk_( 2001,4,30 ),
-			  mk_( 2001,5,3 ),
-			  mk_( 2001,5,4 ),
-			  mk_( 2001,5,5 ),
-			  mk_( 2001,5,12 ),
-			  mk_( 2001,5,19 ),
-			  mk_( 2001,5,26 ),
-			  mk_( 2001,6,2 ),
-			  mk_( 2001,6,9 ),
-			  mk_( 2001,6,16 ),
-			  mk_( 2001,6,23 ),
-			  mk_( 2001,6,30 ),
-			  mk_( 2001,7,7 ),
-			  mk_( 2001,7,14 ),
-			  mk_( 2001,7,20 ),
-			  mk_( 2001,7,21 ),
-			  mk_( 2001,7,28 ),
-			  mk_( 2001,8,4 ),
-			  mk_( 2001,8,11 ),
-			  mk_( 2001,8,18 ),
-			  mk_( 2001,8,25 ),
-			  mk_( 2001,9,1 ),
-			  mk_( 2001,9,8 ),
-			  mk_( 2001,9,15 ),
-			  mk_( 2001,9,22 ),
-			  mk_( 2001,9,23 ),
-			  mk_( 2001,9,24 ),
-			  mk_( 2001,9,29 ),
-			  mk_( 2001,10,6 ),
-			  mk_( 2001,10,8 ),
-			  mk_( 2001,10,13 ),
-			  mk_( 2001,10,20 ),
-			  mk_( 2001,10,27 ),
-			  mk_( 2001,11,3 ),
-			  mk_( 2001,11,10 ),
-			  mk_( 2001,11,17 ),
-			  mk_( 2001,11,23 ),
-			  mk_( 2001,11,24 ),
-			  mk_( 2001,12,1 ),
-			  mk_( 2001,12,8 ),
-			  mk_( 2001,12,15 ),
-			  mk_( 2001,12,22 ),
-			  mk_( 2001,12,23 ),
-			  mk_( 2001,12,24 ),
-			  mk_( 2001,12,29 ),
-			  mk_( 2001,12,30 ),
-			 mk_( 2001,12,31 ) } and
-  		setOfDayOffBy_yyyy_mm_dd2006 =
-			{ mk_( 2006,1,1 ),
-			  mk_( 2006,1,2 ),
-			  mk_( 2006,1,3 ),
-			  mk_( 2006,1,7 ),
-			  mk_( 2006,1,9 ),
-			  mk_( 2006,1,14 ),
-			  mk_( 2006,1,21 ),
-			  mk_( 2006,1,28 ),
-			  mk_( 2006,2,4 ),
-			  mk_( 2006,2,11 ),
-			  mk_( 2006,2,18 ),
-			  mk_( 2006,2,25 ),
-			  mk_( 2006,3,4 ),
-			  mk_( 2006,3,11 ),
-			  mk_( 2006,3,18 ),
-			  mk_( 2006,3,21 ),
-			  mk_( 2006,3,25 ),
-			  mk_( 2006,4,1 ),
-			  mk_( 2006,4,8 ),
-			  mk_( 2006,4,15 ),
-			  mk_( 2006,4,22 ),
-			  mk_( 2006,4,29 ),
-			  mk_( 2006,5,3 ),
-			  mk_( 2006,5,4 ),
-			  mk_( 2006,5,5 ),
-			  mk_( 2006,5,6 ),
-			  mk_( 2006,5,13 ),
-			  mk_( 2006,5,20 ),
-			  mk_( 2006,5,27 ),
-			  mk_( 2006,6,3 ),
-			  mk_( 2006,6,10 ),
-			  mk_( 2006,6,17 ),
-			  mk_( 2006,6,24 ),
-			  mk_( 2006,7,1 ),
-			  mk_( 2006,7,8 ),
-			  mk_( 2006,7,15 ),
-			  mk_( 2006,7,17 ),
-			  mk_( 2006,7,22 ),
-			  mk_( 2006,7,29 ),
-			  mk_( 2006,8,5 ),
-			  mk_( 2006,8,12 ),
-			  mk_( 2006,8,19 ),
-			  mk_( 2006,8,26 ),
-			  mk_( 2006,9,2 ),
-			  mk_( 2006,9,9 ),
-			  mk_( 2006,9,16 ),
-			  mk_( 2006,9,18 ),
-			  mk_( 2006,9,23 ),
-			  mk_( 2006,9,30 ),
-			  mk_( 2006,10,7 ),
-			  mk_( 2006,10,9 ),
-			  mk_( 2006,10,14 ),
-			  mk_( 2006,10,21 ),
-			  mk_( 2006,10,28 ),
-			  mk_( 2006,11,3 ),
-			  mk_( 2006,11,4 ),
-			  mk_( 2006,11,11 ),
-			  mk_( 2006,11,18 ),
-			  mk_( 2006,11,23 ),
-			  mk_( 2006,11,25 ),
-			  mk_( 2006,12,2 ),
-			  mk_( 2006,12,9 ),
-			  mk_( 2006,12,16 ),
-			  mk_( 2006,12,23 ),
-			  mk_( 2006,12,29 ),
-			  mk_( 2006,12,30 ),
-			  mk_( 2006,12,31 ) } and
-  		jc.getDayOffsExceptSunday(d0401,d0430)  = 6 and
-  		card jc.getDayOffsAndSunday(d0401,d0430) = 1 and
-  		jc.getDayOffsAndSunday(d0401,d0408) = {}
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "SBCalendarT02:\tGetting set of day off.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SBCalendarT02
-
-class SBCalendarT03 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	c = new SBCalendar()	in
-	(
-	c.setTodayOnBusiness(c.getDateFrom_yyyy_mm_dd(2001,9,12));
-	return
-		(
-		c.getExerciseDate("200111").EQ(c.getDateFrom_yyyy_mm_dd(2001,11,9))  and
-		c.getExerciseDate("200109").EQ(c.getDateFrom_yyyy_mm_dd(2001,9,14))  and
-		c.isCorrectContractMonth("200206") = true and
-		c.isCorrectContractMonth("200206.01") = false and
-		c.isCorrectContractMonth("Shin Sahara") = false 
-		)
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SBCalendarT03:\tTest validity checking of contract month and getting execution date.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SBCalendarT03
-
-class SBCalendarT04 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	c = new SBCalendar(),
-		d0929 = c.getDateFrom_yyyy_mm_dd(2001, 9, 29),
-		d0104 = c.getDateFrom_yyyy_mm_dd(20021, 1, 4)	in
-	(
-	c.setTodayOnCompany("007",d0104);
-	c.setTodayOnCompany("009",d0929);
-	return
-		(
-		c.todayOnCompany("007") = d0104 and
-		c.todayOnCompany("009") = d0929 
-		)
-	)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SBCalendarT04:\tTest of todayOnCompany";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SBCalendarT04
-
-class SBCalendarT05 is subclass of TestCase, CalendarDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	c = new SBCalendar()
-	in
-	return
-		c.todayOnBusiness().EQ(c.getDateFrom_yyyy_mm_dd(2003, 10, 24)) and
-		c.readFromFiletodayOnBusiness(homedir ^ "/temp/Today.txt").EQ(c.getDateFrom_yyyy_mm_dd(2001, 3, 1))
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SBCalendarT05:\tTest todayOnBusiness from a file.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SBCalendarT05
-
-class SBCalendarT06 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	c = new SBCalendar(),
-		sDate = SBCalendar`getContractDate
-	in
-	return
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 1, 5)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 5)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 1, 31)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 8, 2)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 8, 27)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 1)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 30)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 31)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 30)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 4, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 10, 1)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 4, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 10, 29)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 6)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 5)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 7)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 5)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 10)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 10)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 1)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 28)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 5)).EQ(c.getDateFrom_yyyy_mm_dd(2005, 1, 5)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2005, 1, 28)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 2)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 28)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 9, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 3, 1)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 9, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 3, 30)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 10, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 1)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 10, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 28))  and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 11, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 30)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 11, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 5, 28)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 12, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 6, 1)) and
-		sDate(c.getDateFrom_yyyy_mm_dd(2003, 12, 26)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 6, 25))
-;
-protected setUp: () ==> ()
-setUp() == TestName := "SBCalendarT06:\tGetting contract date of margin trading.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end SBCalendarT06
-~~~
-{% endraw %}
-
-### UseCalendar.vdmpp
-
-{% raw %}
-~~~
-class UseCalendar
-
-instance variables
-sJC : JapaneseCalendar :=  new JapaneseCalendar();
-
-traces
-
-S1 : 
-	let y in set {2010,...,2012} in let m in set {1,...,12} in let d in set {1,...,31} in sJC.getDateFrom_yyyy_mm_dd(y, m, d).asString()
-
-S2:
-	let y in set {2010,...,2100} in sJC.getVernalEquinox(y).date2Str()
-
-end UseCalendar
-~~~
-{% endraw %}
-
-### Object.vdmpp
-
-{% raw %}
-~~~
-class Object
-/*
-作成者 = 佐原伸
-作成日 = 2000年 8月 23日 
-Responsibility
-	オブジェクト共通の振る舞いを表す。
-
-Abstract
-	すべてのオブジェクトに共通な機能を定義する。
-*/
-	
-functions 
-
-public hashCode : () -> int
-hashCode() == 1;
-
-public equals : Object -> bool
-equals(-) == true;
-
-operations
-public getContent : () ==> [seq of char | int]
-getContent() == return 1374;	--meaningless value. so subclass must set.
-			
-end Object
-~~~
-{% endraw %}
-
-### Sequence.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           	
-class Sequence
-	
-functions 
-
-static public Sum[@T]: seq of @T ->  @T
-Sum(s) == SumAux[@T](s)(0)
-pre
-	is_(s, seq of real);
-
-static SumAux[@T] : seq of @T -> @T -> @T
-SumAux(s)(sum) ==
-  if is_(s,seq of real) and is_real(sum)
-  then
-	if s = [] then
-		sum
-	else
-		SumAux[@T](tl s)(sum + hd s)
-  else undefined;
---measure length_measure;
-
-static length_measure[@T] : seq of @T +> nat
-length_measure(s) == len s;
-
-static public Product[@T]: seq of @T ->  @T
-Product(s) == ProductAux[@T](s)(1)
-pre
-	is_(s, seq of real);
- 	
-static ProductAux[@T] : seq of @T -> @T -> @T
-ProductAux(s)(p) ==
- if is_(s,seq of real) and is_real(p)
- then
-	cases s :
-	[h] ^ tail	-> ProductAux[@T](tail)(p * h),
-	[]			-> p
-	end
- else undefined;
---measure length_measure;
-
-static public GetAverage[@T]: seq of @T ->  [real]
-GetAverage(s) == if s = [] then nil else GetAverageAux[@T](s)(0)(len s);
-
-static GetAverageAux[@T] : seq of @T -> @T -> @T -> real
-GetAverageAux(s)(sum)(numberOfElem) ==
- if is_(s,seq of real) and is_real(sum) and is_real(numberOfElem)
- then
-	cases s :
-	[h] ^ tail	-> GetAverageAux[@T](tail)(sum + h)(numberOfElem),
-	[]			-> sum / numberOfElem
-	end
-else undefined;
---measure length_measure;
-
-static public isAscendingTotalOrder [@T]:
-	(@T * @T -> bool) -> seq of @T -> bool
-isAscendingTotalOrder (decideOrderFunc)(s) ==
-	forall i,j  in set inds s & i < j  => decideOrderFunc(s(i),s(j)) or s(i) = s(j);
-
-static public isDescendingTotalOrder [@T]:
-	(@T * @T -> bool) -> seq of @T -> bool
-isDescendingTotalOrder (decideOrderFunc)(s) ==
-	forall i,j  in set inds s & i < j  => decideOrderFunc(s(j),s(i)) or s(i) = s(j);
-
-static public isAscendingOrder [@T]: seq of @T -> bool
-isAscendingOrder(s) ==
-	isAscendingTotalOrder [@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
-                                                     then x < y
-                                                     else undefined)(s);
-
-static public isDescendingOrder[@T]: seq of @T -> bool
-isDescendingOrder(s) ==
-	isDescendingTotalOrder [@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
-                                                      then x < y
-                                                      else undefined)(s);
-
-static public sort[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T
-sort(decideOrderFunc)(s) ==
-	cases s:
-		[]	-> [],
-		[h]^tail	-> 
-			sort[@T](decideOrderFunc)([tail(i) | i in set inds tail & decideOrderFunc(tail(i),h)]) ^
-			[h] ^
-			sort[@T](decideOrderFunc)([tail(i) | i in set inds tail & not decideOrderFunc(tail(i),h)])
-	end;
-
-static public ascendingOrderSort[@T] : seq of @T -> seq of @T
-ascendingOrderSort(s) == sort[@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
-                                                          then x < y
-                                                          else undefined)(s);
-
-static public descendingOrderSort[@T] : seq of @T -> seq of @T
-descendingOrderSort(s) == sort[@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
-                                                           then x > y
-                                                           else undefined)(s);
-
-static public isOrdered[@T] : seq of (@T * @T -> bool) -> seq of @T -> seq of @T -> bool
-isOrdered(decideOrderFuncSeq)(s1)(s2) ==
-	cases mk_(s1,s2):
-		mk_([],[])		-> false,
-		mk_([],-)		-> true,
-		mk_(-,[])	-> false,
-		mk_([h1]^tail1,[h2]^tail2)	->
-			if (hd decideOrderFuncSeq)(h1,h2) then
-				true
-			elseif (hd decideOrderFuncSeq)(h2,h1) then
-				false
-			else
-				Sequence`isOrdered[@T](tl decideOrderFuncSeq)(tail1)(tail2)
-	end;
-
-static public Merge[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T -> seq of @T
-Merge(decideOrderFunc)(s1)(s2) == 
-	cases mk_(s1,s2):
-		mk_([], y)						-> y,
-		mk_(x, [])						-> x,
-		mk_([h1]^tail1,[h2]^tail2)		->
-			if decideOrderFunc(h1,h2) then
-				[h1] ^ Sequence`Merge[@T](decideOrderFunc)(tail1)(s2)
-			else
-				[h2] ^ Sequence`Merge[@T](decideOrderFunc)(s1)(tail2)
-	end;
-
-static public InsertAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
-InsertAt(position)(e)(s) ==
-	cases mk_(position, s) :
-	mk_(1, str)				-> [e] ^ str,
-	mk_(-, [])				-> [e],
-	mk_(pos, [h] ^ tail)	-> [h] ^ InsertAt[@T](pos - 1)(e)(tail)
-	end;
-
-static public RemoveAt[@T]: nat1 -> seq of @T -> seq of @T
-RemoveAt(position)(s) ==
-	cases mk_(position, s) :
-	mk_(1, [-] ^ tail)		-> tail,
-	mk_(pos, [h] ^ tail)	-> [h] ^ RemoveAt[@T](pos - 1)(tail),
-	mk_(-, [])				-> []
-	end;
-
-static public RemoveDup[@T] :  seq of @T ->  seq of @T
-RemoveDup(s) == 
-	cases s :
-	[h]^tail		-> [h] ^ RemoveDup[@T](filter[@T](lambda x : @T & x <> h)(tail)) ,
-	[]			-> []
-	end
-measure length_measure;
-	
-static public RemoveMember[@T] :  @T -> seq of @T -> seq of @T
-RemoveMember(e)(s) == 
-	cases s :
-	[h]^tail		-> if e = h then tail else [h] ^ RemoveMember[@T](e)(tail),
-	[]			-> []
-	end;
-	
-static public RemoveMembers[@T] :  seq of @T -> seq of @T -> seq of @T
-RemoveMembers(elemSeq)(s) == 
-	cases elemSeq :
-	[]			-> s,
-	[h]^tail		-> RemoveMembers[@T](tail)(RemoveMember[@T](h)(s))
-	end;
-
-static public UpdateAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
-UpdateAt(position)(e)(s) ==
-	cases mk_(position, s) :
-	mk_(-, [])				-> [],
-	mk_(1, [-] ^ tail)		-> [e] ^ tail,
-	mk_(pos,  [h] ^ tail)	-> [h] ^ UpdateAt[@T](pos - 1)(e)(tail)
-	end;
-
-static public take[@T]: int -> seq of @T -> seq of @T
-take(i)(s) == s(1,...,i);
-
-static public TakeWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
-TakeWhile(f)(s) ==
-	cases s :
-	[h] ^ tail	-> 
-		if f(h) then
-			[h] ^ TakeWhile[@T](f)(tail)
-		else
-			[],
-	[]	-> []
-	end;
-	
-static public drop[@T]: int -> seq of @T -> seq of @T
-drop(i)(s) == s(i+1,...,len s);
-
-static public DropWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
-DropWhile(f)(s) ==
-	cases s :
-	[h] ^ tail	-> 
-		if f(h) then
-			DropWhile[@T](f)(tail)
-		else
-			s,
-	[]	-> []
-	end;
-
-static public Span[@T] : (@T -> bool) -> seq of @T -> seq of @T * seq of @T
-Span(f)(s) ==
-	cases s :
-	[h] ^ tail	-> 
-		if f(h) then
-			let	mk_(matchSeq, otherSeq) = Span[@T](f)(tail)
-			in
-			mk_([h] ^ matchSeq, otherSeq)
-		else
-			mk_([], s),
-	[]	-> mk_([], [])
-	end;
-
-static public SubSeq[@T]: nat -> nat -> seq1 of @T -> seq of @T
-SubSeq(startPos)(numOfElem)(s) == s(startPos,...,startPos+numOfElem-1);
-
-static public last[@T]: seq of @T -> @T
-last(s) == s(len s);
-
-static public fmap[@T1,@T2]: (@T1 -> @T2) -> seq of @T1 -> seq of @T2
-fmap(f)(s) == [f(s(i)) | i in set inds s];
-
-public Fmap[@elem]: (@elem -> @elem) -> seq of @elem -> seq of @elem
-Fmap(f)(l) ==
-       if l = []
-       then []
-       else [f(hd l)] ^ (Fmap[@elem](f)(tl l));
-
-static public filter[@T]: (@T -> bool) -> seq of @T -> seq of @T
-filter(f)(s) == [s(i) | i in set inds s & f(s(i))];
-
-static public Foldl[@T1, @T2] : 
-	(@T1 -> @T2 -> @T1) -> @T1 -> seq of @T2 -> @T1
-Foldl(f)(arg)(s) == 
-	cases s :
-	[]			-> arg,
-	[h] ^ tail	-> Foldl[@T1,@T2](f)(f(arg)(h))(tail)
-	end;
-
-static public Foldr[@T1, @T2] : 
-	(@T1 -> @T2 -> @T2) -> @T2 -> seq of @T1 -> @T2
-Foldr(f)(arg)(s) == 
-	cases s :
-	[]			-> arg,
-	[h] ^ tail	-> f(h)(Foldr[@T1,@T2](f)(arg)(tail))
-	end;
-
-static public isMember[@T] : @T -> seq of @T -> bool
-isMember(e)(s) == 
-	cases s :
-	[h]^tail		-> e = h or isMember[@T] (e)(tail),
-	[]			-> false
-	end;
-
-static public isAnyMember[@T]:  seq of @T -> seq of @T -> bool
-isAnyMember(elemSeq)(s) == 
-	cases elemSeq :
-	[h]^tail		->  isMember[@T] (h)(s) or isAnyMember[@T] (tail)(s) ,
-	[]			-> false
-	end;
-
-static public Index[@T]: @T -> seq of @T -> int
-Index(e)(s) == 
-	let	i = 0
-	in	IndexAux[@T](e)(s)(i);
-
-static IndexAux[@T]: @T -> seq of @T -> int -> int
-IndexAux(e)(s)(indx) ==
-	cases s:
-		[]			-> 0,
-		[x]^xs	->
-			if x = e then 
-				indx + 1
-			else
-				IndexAux[@T](e)(xs)(indx+1)
-	end;
-	
-static public IndexAll2[@T] : @T -> seq of @T -> set of int
-IndexAll2(e)(s) == {i | i in set inds s & s(i) = e};
-	
-static public flatten[@T] : seq of seq of @T -> seq of @T
-flatten(s) == conc s;
-
-static public compact[@T] : seq of [@T] -> seq of @T
-compact(s) == [s(i) | i in set inds s & s(i) <> nil];
-
-static public freverse[@T] : seq of @T -> seq of @T
-freverse(s) == [s(len s + 1 -  i) | i in set inds s];
-
-static public Permutations[@T]: seq of @T -> set of seq of @T
-Permutations(s) == 
-cases s:
-	[],[-] -> {s},
-	others -> dunion {{[s(i)]^j | j in set Permutations[@T](RestSeq[@T](s,i))} | i in set inds s}
-end
-measure length_measure;
-
-static public RestSeq[@T]: seq of @T * nat -> seq of @T
-RestSeq(s,i) == [s(j) | j in set (inds s \ {i})];
-
-static public Unzip[@T1, @T2] : seq of (@T1 * @T2) -> seq of @T1 * seq of @T2
-Unzip(s) ==
-	cases s :
-	[]				-> mk_([], []),
-	[mk_(x, y)] ^ tail	->
-		let	mk_(xs, ys) = Unzip[@T1, @T2](tail)
-		in
-		mk_([x] ^ xs, [y] ^ ys)
-	end
-measure lengthUnzip;
-
-static lengthUnzip[@T1, @T2] : seq of (@T1 * @T2) +> nat
-lengthUnzip(s) == len s;
-
-static public Zip[@T1, @T2] : seq of @T1 * seq of @T2 -> seq of (@T1 * @T2)
-Zip(s1, s2) == Zip2[@T1, @T2](s1)(s2);
-                            	
-static public Zip2[@T1, @T2] : seq of @T1 -> seq of @T2 -> seq of (@T1 * @T2)
-Zip2(s1)(s2) == 
-	cases mk_(s1, s2) :
-	mk_([h1] ^ tail1, [h2] ^ tail2)		-> [mk_(h1, h2)] ^ Zip2[@T1, @T2](tail1)(tail2),
-	mk_(-, -)							-> []
-	end;
-
-end Sequence
-                                                                       
-~~~
-{% endraw %}
-
-### SBCalendar.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                          	
-class SBCalendar is subclass of JapaneseCalendar -- date
-
-values
-	io = new IO();
-	calendar = new SBCalendar();
-
-instance variables
-
-public iTodayOnBusiness : [Date] := nil;	-- This value express today for test.
-public iTodayOnCompanyMap : [map seq of char to Date] := { |-> };		-- a map of companyCode to todayOnBusiness
-public timeOfSystem : [Time] := nil;	-- This value express now for test.
-
-functions
-
-static public isCorrectContractMonth: seq of char -> bool
-isCorrectContractMonth(aContractMonth) ==
-	calendar.getDateFromString(aContractMonth ^ "01") <> false;
-
-static public getExerciseDate :  seq of char -> Date
-getExerciseDate(aContractMonth) ==
-	let	firstDayOfContractMonth = calendar.getDateFromString(aContractMonth ^ "01"),
-		designatedYear = firstDayOfContractMonth.Year(),
-		designatedMonth =firstDayOfContractMonth.Month()	in
-	calendar.getNthDayOfTheWeek(designatedYear,designatedMonth,2,<Fri>).getPastWeekday()
-pre
-	isCorrectContractMonth(aContractMonth);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 	
-static public getContractDate : Date -> Date 
-getContractDate(aDate) == 	
-	let	 
-		mk_(year, month) = calendar.getMonthOf6monthsLater(aDate.Year(), aDate.Month()),
-		date = aDate.day(),
-		candidateDate = getCandidateDate(year, month, date)
-	in
-	candidateDate.getPastWeekday()	--Sometime the result is a date of previous month. 
---pre
-	--aDate.isNotDayOff()
-post	
-	let	
-		mk_(year, month) = calendar.getMonthOf6monthsLater(aDate.Year(), aDate.Month()),
-		date = aDate.day(),
-		candidateDate = getCandidateDate(year, month, date) 
-	in
-	RESULT.EQ(candidateDate.getPastWeekday()) and
-	if isDayoffFromTheBeginingOfMonthToCandidateDate(candidateDate) then
-		RESULT.Month() = getPreviousMonth(year, month) 
-	else
-		RESULT.Month() = month;
-
-static public getMonthOf6monthsLater :  int * int ->  int * int
-getMonthOf6monthsLater(year, month) == calendar.getRegularMonth(year, month+6);
-
-static public getCandidateDate : int * int * int -> Date
-getCandidateDate(year, month, date)  == 
-		let	dateOfEndOfMonth = calendar.getLastDayOfMonth(year, month)
-		in
-			if dateOfEndOfMonth.day() < date then
-				dateOfEndOfMonth
-			else
-				calendar.getDateFrom_yyyy_mm_dd(year, month, date);
-
-static public isDayoffFromTheBeginingOfMonthToCandidateDate : Date -> bool
-isDayoffFromTheBeginingOfMonthToCandidateDate(candidateDate) == 
-	forall day in set {1, ..., candidateDate.day()} & 
-		calendar.isSundayOrDayoff(calendar.getDateFrom_yyyy_mm_dd(candidateDate.Year(), candidateDate.Month(), day));
-
-static public getPreviousMonth : int * int -> int
-getPreviousMonth(year, month) == 
-		let	mk_(-, previousMonth) = calendar.getRegularMonth(year, month-1)
-		in
-		previousMonth;
-
-static public isDateNil: [Date] -> bool
-isDateNil(date) ==  date = nil; --or date = maxDate();
-
-static public systemDate : () -> Date
-systemDate() == calendar.today();
-
-operations
-public setTheSetOfDayOffs: int ==> () 	-- get the set of dayoff, but Sundays are not in set
-setTheSetOfDayOffs(year) ==
-	let	japaneseCalendar = new JapaneseCalendar(),
-		japaneseDayoffSet = japaneseCalendar.getSetOfDayOff(year),
-		TR1のsetOfDayOff = {
-			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,1,2), 
-			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,1,3), 
-			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,12,29), 
-			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,12,30), 
-			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,12,31)
-		},
-		saturdaySet = japaneseCalendar.getDayOfTheWeekInYear(year,<Sat>) 	in
-	Year2Holidays := Year2Holidays munion { year |-> japaneseDayoffSet union TR1のsetOfDayOff union saturdaySet}
-pre
-	year >= 2000;
-
---todayOnBusinessをreadFromFile
-public readTodayOnBusiness : seq of char ==> [Date]
-readTodayOnBusiness(fname) ==
-	let	mk_(rslt, mk_(y,m,d)) = io.freadval[int * int * int](fname)
-	in
-	if rslt then
-		return getDateFrom_yyyy_mm_dd(y,m,d)
-	else
-		let	- = io.echo("Can't read BaseDay's data file.")
-		in
-		return nil;
-
---get today for test
-public todayOnBusiness: () ==> Date
-todayOnBusiness() == 
-	if iTodayOnBusiness = nil then
-		return readTodayOnBusiness(homedir ^ "/temp/BaseDay.txt")
-	else
-		return iTodayOnBusiness;
-
-public readFromFiletodayOnBusiness: seq of char ==> Date
-readFromFiletodayOnBusiness(fname) == 
-	if iTodayOnBusiness = nil then
-		return readTodayOnBusiness(fname)
-	else
-		return iTodayOnBusiness;
-
-public setTodayOnBusiness : Date ==> ()
-setTodayOnBusiness(date) == iTodayOnBusiness := date;
-
--- get today for system. For example, many business systems thinks just after midnight is as "today"
-public todayOnCompany: seq of char ==> Date
-todayOnCompany(companyCode) == 
-	(
-	if iTodayOnCompanyMap = nil then
-		setTodayOnCompany(companyCode,todayOnBusiness());
-	return iTodayOnCompanyMap(companyCode)
-	);
-
-public setTodayOnCompany : seq of char * Date ==> ()
-setTodayOnCompany(companyCode,date) == iTodayOnCompanyMap := iTodayOnCompanyMap ++ { companyCode |-> date };
-
-public readSystemTime : () ==> [Time]
-readSystemTime() ==
-	let	mk_(rslt, now) = io.freadval[Time](homedir ^ "/temp/SystemTime.txt")
-	in
-	if rslt then
-		return now
-	else
-		let	- = io.echo("Can't read System Time data file.")
-		in
-		return nil;
-
-public systemTime : () ==> Time
-systemTime() == 
-	if timeOfSystem = nil then
-		readSystemTime()
-	else
-		return timeOfSystem;
-
-public setSystemTime : Time ==> ()
-setSystemTime(t) ==  timeOfSystem := t;
-
-public SBCalendar : () ==> SBCalendar
-SBCalendar() ==
-	(
-	setDifferenceWithGMT(differenceBetweenGMTandJST); 
-	return self
-	);
-	
-end SBCalendar
-                                                                          
-~~~
-{% endraw %}
-
-### Time.vdmpp
-
-{% raw %}
-~~~
-class Time is subclass of CalendarDefinition
-/*
-Responsibility
-	時間を表す。
-Abstract
-	私は時間あるいはアナリシス・パターンで言うところの時点であり、aDateの時間を表す。
-	例えば2003年7月28日14時15分59秒を表す。
-*/
-
-values
-public hoursPerDay = 24;	--１日の時間数
-public minutesPerHour = 60;	--１時間の分数
-public secondsPerMinute = 60;	--１分の秒数
-public ミリ = 1000;		--ミリを通常の単位にするための倍数
-public milliSecondsPerDay = hoursPerDay * minutesPerHour * secondsPerMinute * ミリ;	--１日=２４時間をmilliSecondで表した数
-public milliSecondsPerHour = minutesPerHour * secondsPerMinute * ミリ;	--１時間をmilliSecondで表した数
-private io = new IO();
-
-types
-public TimeInMilliSeconds = nat;	--１日の時刻を０時を0としたmilliSecond単位で持つ。
-	
-instance variables
-/*　本来は、Javaのようにdate・時間を合わせてmilliSecond単位で持つべきだろうが、
-　　Dateは倍精度浮動小数点数でModifiedJulianDateを持っているため、時間の精度は５分程度となる。
-　　このため、dateと時刻を分けて持つことにした。
-*/
-sDate : Date;
-sTime : TimeInMilliSeconds;
-	
-operations
---Constructor
-public Time : Calendar * int * int * int * nat * nat * nat  * nat ==> Time
-Time(cal, year, month, 日, 時, aMinute, aSecond, milliSecond) ==
-	(
-	sDate := cal.getDateFrom_yyyy_mm_dd(year, month, 日);
-	sTime := self.IntProduct2TimeMillieSeconds(時, aMinute, aSecond, milliSecond);
-	return self
-	);
-
-public Time : Calendar * int * int * int ==> Time
-Time(cal, year, month, 日) ==
-	(
-	sDate := cal.getDateFrom_yyyy_mm_dd(year, month, 日);
-	sTime := self.IntProduct2TimeMillieSeconds(0, 0, 0, 0);
-	return self
-	);
-	
-public Time : Date ==> Time
-Time(aDate) ==
-	(
-	sDate := aDate;
-	sTime := self.IntProduct2TimeMillieSeconds(0, 0, 0, 0);
-	return self
-	);
-	
---currentDateTimeを求める単体テスト用関数。
-public Time: Calendar ==> Time
-Time(cal) == 
-	(
-	let	currentDateTime = readCurrentDateTime(homedir ^ "/temp/Today.txt", homedir ^ "/temp/Now.txt", cal)
-	in
-	(
-	sDate := currentDateTime.getDate();
-	sTime := currentDateTime.getTime();
-	);
-	return self
-	);
-
-
---currentDateTimeを指定したreadFromFile単体テスト用関数。
-public Time: seq of char * seq of char * Calendar ==> Time
-Time(dateFileName, 時間fname, cal) ==
-	(
-	let	currentDateTime = readCurrentDateTime(dateFileName, 時間fname, cal)
-	in
-	(
-	sDate := currentDateTime.getDate();
-	sTime := currentDateTime.getTime();
-	);
-	return self
-	);
-		
---currentDateTimeをreadFromFile
-public readCurrentDateTime : seq of char * seq of char * Calendar ==> [Time]
-readCurrentDateTime(dateFileName, 時間fname, cal) ==
-	let	mk_(結果, mk_(h, m, s, ms)) = io.freadval[int * int * int * int](時間fname)
-	in
-	if 結果 then
-		let	d = cal.readFromFiletoday(dateFileName)	in
-		return new Time(cal, d.Year(),  d.Month(), d.day(), h, m, s, ms)
-	else
-		let	- = io.echo("Can't read Current Date-Time data file.")
-		in
-		return nil;
-
---インスタンス変数操作
-
-public getDate : () ==> Date
-getDate() == return sDate;	
-
-public setDate : Date ==> ()
-setDate(aDate) == sDate := aDate;
-
-public getTime : () ==> TimeInMilliSeconds
-getTime() == return sTime;
-
-public setTime : TimeInMilliSeconds ==> ()
-setTime(aTime) == sTime :=aTime;
-
-public hour: () ==> nat
-hour() == 
-	let	mk_(hour, -, -, -) = self.Time2IntProduct(self.getTime())
-	in
-	return hour;
-
-public setTimeFromNat : nat ==> ()
-setTimeFromNat(aTime) ==
-	let	mk_(-, aMinute, aSecond, milliSecond) = self.Time2IntProduct(self.getTime())
-	in
-	self.setTime(IntProduct2TimeMillieSeconds(aTime, aMinute, aSecond, milliSecond));
-	
-public minute: () ==> nat
-minute() == 
-	let	mk_(-, aMinute, -, -) = self.Time2IntProduct(self.getTime())
-	in
-	return aMinute;
-	
-public setMinuteFromNat : nat ==> ()
-setMinuteFromNat(minute) ==
-	let	mk_(hour, -, aSecond, milliSecond) = self.Time2IntProduct(self.getTime())
-	in
-	self.setTime(IntProduct2TimeMillieSeconds(hour, minute, aSecond, milliSecond));
-		
-public second: () ==> nat
-second() ==
-	let	mk_(-, -, aSecond, -) = self.Time2IntProduct(self.getTime())
-	in
-	return aSecond;
-	
-public setSecond : nat ==> ()
-setSecond(aSecond) ==
-	let	mk_(hour, aMinute, -, milliSecond) = self.Time2IntProduct(self.getTime())
-	in
-	self.setTime(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond));
-		
-public milliSecond: () ==> nat
-milliSecond() ==
-	let	mk_(-, -, -, milliSecond) = self.Time2IntProduct(self.getTime())
-	in
-	return milliSecond;
-	
-public setMilliSecond : nat ==> ()
-setMilliSecond(aMilliSecond) ==
-	let	mk_(hour, aMinute, aSecond, -) = self.Time2IntProduct(self.getTime())
-	in
-	self.setTime(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, aMilliSecond));
-	
-functions
--- Get attribute.
-
---時間から、その時間の属する暦を求める。
-public calendar : () -> Calendar
-calendar() == getDate().calendar();
-
---時間から、その時間の属する年を求める。
-public Year: () -> int
-Year() == self.getDate().calendar().Year(self.getDate());
-		
---時間から、その時間の属する月を求める。
-public Month: () -> int
-Month() == self.getDate().calendar().Month(self.getDate());
-		
---時間から、日を求める。
-public day: () -> int
-day() == self.getDate().calendar().day(self.getDate());
-
-public getTimeAsNat : () -> nat
-getTimeAsNat() == self.getTime();
-
-----Compare
-
-public LT: Time -> bool
-LT(aTime) == 
-	let	date1 = floor self.getDate().getModifiedJulianDate(),
-		date2 = floor aTime.getDate().getModifiedJulianDate()
-	in
-	cases true :
-	(date1 < date2)	-> true,
-	(date1 = date2)	-> 
-		if self.getTimeAsNat() < aTime.getTimeAsNat() then
-			true
-		else
-			false,
-	others		-> false
-	end;
-
-public GT: Time -> bool
-GT(aTime) == not (self.LT(aTime) or self.EQ(aTime));
-
-public LE: Time -> bool
-LE(aTime) == not self.GT(aTime);
-
-public GE: Time -> bool
-GE(aTime) == not self.LT(aTime);
-
---自身と与えられた時間がEQか判定する。
-public EQ: Time  ->  bool
-EQ(aTime) == 
-	self.getDate().EQ(aTime.getDate()) and self.getTimeAsNat() = aTime.getTimeAsNat();
-
---自身と与えられた時間が等しくないか判定する。
-public NE: Time ->  bool
-NE(aTime) ==  not self.EQ(aTime);
-
---変換
-
-public IntProduct2TimeMillieSeconds : int * int * int * int -> int
-IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond) ==((hour * minutesPerHour + aMinute) * secondsPerMinute + aSecond) * ミリ + milliSecond;
-
-public Time2IntProduct : TimeInMilliSeconds -> nat * nat * nat * nat
-Time2IntProduct(aTime) ==
-	let	hms = aTime div ミリ,
-		milliSecond = aTime mod ミリ,
-		hm = hms div secondsPerMinute,
-		aSecond = hms mod secondsPerMinute,
-		hour = hm div minutesPerHour,
-		aMinute = hm mod minutesPerHour
-	in
-	mk_(hour, aMinute, aSecond, milliSecond);
-
-operations
-public asString : () ==> seq of char
-asString() == 
-	let	mk_(hour, aMinute, aSecond, milliSecond) = self.Time2IntProduct(self.getTime())
-	in
-	return 
-		self.getDate().asString() ^ 
-		Integer`asString(hour) ^
-		Integer`asString(aMinute) ^
-		Integer`asString(aSecond) ^
-		Integer`asStringZ("009")(milliSecond);
-
-public print : () ==> seq of char
-print() == 
-	let	mk_(hour, aMinute, aSecond, milliSecond) = self.Time2IntProduct(self.getTime())
-	in
-	return 
-		self.getDate().print() ^ 
-		Integer`asString(hour) ^ "Hour, " ^
-		Integer`asString(aMinute) ^ "Minute, " ^
-		Integer`asString(aSecond) ^ "Second, " ^
-		Integer`asStringZ("009")(milliSecond) ^ "MilliSecond" ;
-
-----calculation
-
---milliSecondを加算する
-public plusmilliSecond : int ==> Time
-plusmilliSecond(aMilliSecond) == 
-	let	time = self.getTime() + aMilliSecond,
-		CarriedNumOfDays = 
-			if time >= 0 then
-				time div milliSecondsPerDay
-			else
-				time div milliSecondsPerDay - 1,
-		newTime = time mod milliSecondsPerDay
-	in
-	(
-	dcl aTime : Time := new Time(self.calendar(), self.Year(), self.Month(), self.day()) ;
-	aTime.setTime(newTime);
-	aTime.setDate(aTime.getDate().plus(CarriedNumOfDays));
-	return aTime
-	);
-	
-public plussecond : int ==> Time
-plussecond(aSecond) == self.plusmilliSecond(aSecond * ミリ);
-	
-public plusminute : int ==> Time
-plusminute(minute) == self.plusmilliSecond(minute * secondsPerMinute * ミリ);
-	
-public plushour : int ==> Time
-plushour(hour) == self.plusmilliSecond(hour * minutesPerHour * secondsPerMinute * ミリ);
-	
-public plus: int * int * int * int ==> Time
-plus(hour, aMinute, aSecond, milliSecond) == self.plusmilliSecond(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond));
-	
---milliSecondを減算する
-public minusmilliSecond : int ==> Time
-minusmilliSecond(aMilliSecond) == return self.plusmilliSecond(-aMilliSecond);
-		
-public minus: int * int * int * int  ==> Time
-minus(hour, aMinute, aSecond, milliSecond) == self.minusmilliSecond(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond));
-		
-end Time
-~~~
-{% endraw %}
-
-### FunctionT.vdmpp
-
-{% raw %}
-~~~
-class FunctionT is subclass of TestDriver 
-functions
-public tests : () -> seq of TestCase
-tests() == 
-	[ 
-	new FunctionT01(), new FunctionT02(),  new FunctionT03()
-	];
-end FunctionT
-----------------------------------------------------------
-
-class FunctionT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	f1 = lambda x : int & x * 2,
-		p1 = lambda x : int & x > 1000,
-		p11 = lambda x : int & x <= 1000,
-		f2 = lambda x : seq of char & x ^ "0",
-		p2 = lambda x : seq of char & len x > 9,
-		p21 = lambda x : seq of char & len x <= 9
-	in
-	return
-		Function`Fwhile[int](p11)(f1)(1) = 1024 and
-		Function`Fwhile[seq of char](p21)(f2)("123456") = "1234560000" and
-		Function`Funtil[int](p1)(f1)(1) = 1024 and
-		Function`Funtil[seq of char](p2)(f2)("123456") = "1234560000"
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "FunctionT01:\tTest Fwhile, Funtil.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end FunctionT01
-----------------------------------------------------------
-
-class FunctionT02 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	f1 = lambda x : int & x * 2,
-		f2 = lambda x : int & x * 3,
-		f3 = lambda x : int & x ** 2,
-		funcSeq1 = [f1, f2, f3],
-		f10 = lambda x : seq of char & x ^ x,
-		f11 = Sequence`take[char](10),
-		f12 = Sequence`drop[char](4),
-		funcSeq2 = [f10, f11, f12]
-	in
-	return
-		Function`Seq[int](funcSeq1)(2) = (2 * 2 * 3) ** 2 and
-		Function`Seq[seq of char](funcSeq2)("12345678") = "567812"
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "FunctionT02:\tTest function apply.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end FunctionT02
-----------------------------------------------------------
-
-class FunctionT03 is subclass of TestCase
-types
-public INT = int;
-public ReadingFunctionType = INT -> INT -> INT;
---public ReadingFunctionType = int -> int -> int;
-
-functions
-public ReadingFunction: () -> ReadingFunctionType
-ReadingFunction() == 
-	let fn =  "./fread-func.txt"
-	in
-	Function`readFn[ReadingFunctionType](fn);
-
-operations 
-protected test: () ==> bool
-test() == 
-	return 
-		ReadingFunction() (3)(2) = 1 and
-		ReadingFunction() (4)(4) = 0 and
-		ReadingFunction() (4)(-3) = -2 and
-		ReadingFunction() (-4)(3) = 2
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "FunctionT03:\tTest of reading function.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end FunctionT03
-~~~
-{% endraw %}
-
-### Number.vdmpp
-
-{% raw %}
-~~~
-class Number
- 
-functions 
-
-static public isComputable[@e]: @e -> bool
-isComputable(n) ==
-	is_(n,int) or is_(n,nat) or is_(n,nat1) or is_(n,real) or is_(n,rat);
-
-static public min[@e] :( @e * @e -> bool) -> @e -> @e -> @e
-min(f)(n1)(n2) == if f(n1,n2) then n1 else n2;
-	
-static public max[@e] : ( @e * @e -> bool) -> @e -> @e -> @e
-max(f)(n1)(n2) == if f(n1,n2) then n2 else n1;
-			
-end Number
-~~~
-{% endraw %}
-
-### FTestLogger.vdmpp
-
-{% raw %}
-~~~
-                                                                                                  
---$Id: TestLogger.vpp,v 1.1 2005/10/31 02:09:59 vdmtools Exp $
-class FTestLogger
-values
-historyFileName =  "VDMTESTLOG.TXT";
-
-functions
-                                                                                                                                        
-static public Success: FTestDriver`TestCase +> bool
-Success(t) == 
-	let	message = 
-			FTestDriver`GetTestName(t)^"\tOK.\n",
-		- = Fprint( message),
-		- = Print(message)		
-	in
-	true;
-                                                                                                                                         
-static public Failure: FTestDriver`TestCase +> bool
-Failure(t) == 
-	let	message = FTestDriver`GetTestName(t)^"\tNG.\n",
-		- = Fprint( message),
-		- = Print( message)		
-	in
-	false;
-                                                                                                                                                 
-static public SuccessAll : seq of char +> bool
-SuccessAll(m) ==
-	let	message = m ^ "\tOK!!\n",
-		- = Fprint(message),
-		- = Print( message)
-	in
-	true;
-                                                                                                                                                  	
-static public FailureAll :  seq of char +> bool
-FailureAll(m) ==
-	let	message = m ^ "\tNG!!\n",
-		- = Fprint( message),
-		- = Print( message)
-	in
-	false;
-                                                                                      
-static public Print : seq of char -> bool
-Print (s) == new IO().echo(s);
-                                                                                                                                                 
-static public Fprint : seq of char -> bool
-Fprint (s) == new IO().fecho(historyFileName,  s, <append>);
-
-operations
-                                                                                                       
-static public Pr : seq of char ==> ()
-Pr (s) == let - = new IO().echo(s) in skip;
-                                                                                                                                                                   
-static public Fpr : seq of char ==> ()
-Fpr (s) == let - = new IO().fecho(historyFileName,  s, <append>) in skip;
-
-end FTestLogger
-                                                                            
-~~~
-{% endraw %}
-
-### TermT.vdmpp
-
-{% raw %}
-~~~
-class TermT is subclass of TestDriver 
-functions
-public tests : () -> seq of TestCase
-tests() == 
-	[ 
-	new TermT01()
-	];
-end TermT
-----------------------------------------------------------
-
-class TermT01 is subclass of TestCase, CalendarDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	cal = new JapaneseCalendar(),
-		astartTime = new Time(cal, 2003, 7, 30, 14, 29, 30, 20),
-		aendTime = new Time(cal, 2003, 7, 30, 14, 29, 30, 22),
-		t1        = new Time(cal, 2003, 7, 30, 14, 29, 30, 19),
-		t2        = new Time(cal, 2003, 7, 30, 14, 29, 30, 20),
-		t3        = new Time(cal, 2003, 7, 30, 14, 29, 30, 21),
-		t4        = new Time(cal, 2003, 7, 30, 14, 29, 30, 22),
-		t5        = new Time(cal, 2003, 7, 30, 14, 29, 30, 23),
-		t6        = new Time(cal, 2003, 7, 29, 14, 29, 30, 20),
-		t7        = new Time(cal, 2003, 7, 31, 14, 29, 30, 20),
-		t8        = new Time(cal, 2003, 7, 29, 14, 29, 29, 20),
-		t9        = new Time(cal, 2003, 7, 29, 14, 29, 31, 20),
-		term1 = new Term(astartTime, aendTime)
-	in
-	return
-		not term1.isInThePeriod(t1, term1) and
-		term1.isInThePeriod(t2, term1) and
-		term1.isInThePeriod(t3, term1) and
-		term1.isInThePeriod(t4, term1) and
-		not term1.isInThePeriod(t5, term1) and
-		not term1.isInThePeriod(t6, term1) and
-		not term1.isInThePeriod(t7, term1) and
-		not term1.isInThePeriod(t8, term1) and
-		not term1.isInThePeriod(t9, term1)
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "TermT01:\tTest of term constructor and isInThePeriod()";
-protected tearDown: () ==> ()
-tearDown() == return;
-end TermT01
-----------------------------------------------------------
-~~~
-{% endraw %}
-
-### UseUniqueNumber.vdmpp
-
-{% raw %}
-~~~
-class UseUniqueNumber
-
-instance variables
-sUN : ＵｎｉｑｕｅＮｕｍｂｅｒ :=  new ＵｎｉｑｕｅＮｕｍｂｅｒ()
-
-traces
-
-S1 : 
-	let n in set {1,...,4} in sUN.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(n){100}
-
-end UseUniqueNumber
-~~~
-{% endraw %}
-
-### IntegerT.vdmpp
-
-{% raw %}
-~~~
-class IntegerT is subclass of TestDriver
-functions
-public tests : () -> seq of TestCase
-tests () == 
-	[ new IntegerT01(), new IntegerT02()
-	];
-end IntegerT
----------------------------------------
-class IntegerT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	i = new Integer()		in
-	return
-		(i.asString(1234567890) = "1234567890" and
-		i.asString(-1234567890) = "-1234567890" and
-		i.asStringZ("zzz9")(9900) = "9900" and
-		i.asStringZ("9")(0) = "0" and
-		i.asStringZ("z")(0) = " " and
-		i.asStringZ("z")(9) = "9" and
-		i.asStringZ("zzz9")(9) = "   9" and
-		i.asStringZ("0009")(9) = "0009" and
-		i.asStringZ("-0009")(9) = "0009" and
-		i.asStringZ("-zzz9")(-9999) = "-9999" and
-		i.asStringZ("-zzz9")(-9) = "-   9" and
-		i.asStringZ("zzz9")(-9999) = "9999" and
-		i.asStringZ("zzz9")(-9) = "   9" and
-		i.asString(0) = "0" and
-		i.asChar(0) = "0" and 
-		i.asChar(1) = "1" and
-		i.asChar(2) = "2" and
-		i.asChar(3) = "3" and
-		i.asChar(4) = "4" and 
-		i.asChar(5) = "5" and 
-		i.asChar(6) = "6" and
-		i.asChar(7) = "7" and
-		i.asChar(8) = "8" and
-		i.asChar(9) = "9" and
-		i.asChar(10) = false
-		)
-;
-protected setUp: () ==> ()
-setUp() == TestName := "IntegerT01:\tConvert integer to string.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end IntegerT01
----------------------------------------
-
-class IntegerT02 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	gcd = Integer`GCD(24),
-		lcm = Integer`LCM(7)
-	in
-	return
-		Sequence`fmap[nat, nat](gcd)([36, 48, 16]) = [12, 24, 8]  and
-		Sequence`fmap[nat, nat](lcm)([3, 4, 5]) = [21, 28, 35]
-;
-protected setUp: () ==> ()
-setUp() == TestName := "IntegerT02:\tGet GCD and LCM.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end IntegerT02
-~~~
-{% endraw %}
-
-### Queue.vdmpp
-
-{% raw %}
-~~~
-class Queue
-
-functions
-static public empty[@T] : () -> seq of @T
-empty() == [];
-
-static public isEmpty[@T] : seq of @T -> bool
-isEmpty(s) == s = [];
-	
-static public enQueue[@T] : @T * seq of @T -> seq of @T
-enQueue(anElem, aQueue) == aQueue ^ [anElem];
-
-static public deQueue[@T] : seq of @T -> seq of @T
-deQueue(aQueue) == 
-	if aQueue = [] then
-		[]
-	else
-		tl aQueue;
-
-static public top[@T] : seq of @T -> [@T]
-top(aQueue) == 
-	if aQueue = [] then
-		nil
-	else
-		hd aQueue;
-
-end Queue
-~~~
-{% endraw %}
-
-### DoubleListQueueT.vdmpp
-
-{% raw %}
-~~~
-class DoubleListQueueT is subclass of TestDriver
-functions
-public tests : () -> seq of TestCase
-tests () == 
-	[ new DoubleListQueueT01()
-	];
-end DoubleListQueueT
-
-class DoubleListQueueT01 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	q0 = DoubleListQueue`empty[int](),
-		q1 = DoubleListQueue`enQueue[int](1, q0),
-		q2 = DoubleListQueue`enQueue[int](2, q1),
-		q3 = DoubleListQueue`enQueue[int](3, q2),
-		h1 = DoubleListQueue`top[int](q3),
-		q4 = DoubleListQueue`deQueue[int](q3),
-		q5 = DoubleListQueue`enQueue[int](4, q4),
-		q6 = DoubleListQueue`enQueue[int](5, q5),
-		q7 = DoubleListQueue`deQueue[int](q6),
-		q8 = DoubleListQueue`deQueue[int](q7),
-		q9 = DoubleListQueue`deQueue[int](q8),
-		q10 = DoubleListQueue`deQueue[int](q9),
-		h2 = DoubleListQueue`top[int](q10),
-		q11 = DoubleListQueue`deQueue[int](q10),
-		q12 = DoubleListQueue`fromList[char]("Sahara Shin", DoubleListQueue`empty[char]())
-	in
-	return
-		DoubleListQueue`isEmpty[int](q0) and q0 = mk_([], []) and
-		DoubleListQueue`toList[int](q1) = [1] and q1 = mk_([], [1]) and
-		DoubleListQueue`toList[int](q2) = [1,2] and q2 = mk_([], [2,1]) and
-		DoubleListQueue`toList[int](q3) = [1,2,3] and q3 = mk_([], [3,2,1]) and
-		h1 = 1 and
-		DoubleListQueue`toList[int](q4) = [2,3] and q4 = mk_([2,3], []) and
-		DoubleListQueue`toList[int](q5) = [2,3,4] and q5 = mk_([2,3], [4]) and
-		DoubleListQueue`toList[int](q6) = [2,3,4,5] and q6 = mk_([2,3], [5, 4]) and
-		DoubleListQueue`toList[int](q7) = [3,4,5] and q7 = mk_([3], [5, 4]) and
-		DoubleListQueue`toList[int](q8) = [4,5] and q8 = mk_([], [5, 4]) and
-		DoubleListQueue`toList[int](q9) = [5] and q9 = mk_([5], []) and
-		DoubleListQueue`toList[int](q10) = [] and DoubleListQueue`isEmpty[int](q10) and q10 = mk_([], []) and
-		h2 = nil and
-		q11 = nil and
-		DoubleListQueue`toList[char](q12) = "Sahara Shin" and q12 = mk_([], "nihS arahaS")
-		
-;
-protected setUp: () ==> ()
-setUp() == TestName := "DoubleListQueueT01:\t Test Queue";
-protected tearDown: () ==> ()
-tearDown() == return;
-end DoubleListQueueT01
-~~~
-{% endraw %}
-
-### DateT.vdmpp
-
-{% raw %}
-~~~
-class DateT is subclass of TestDriver 
-functions
-public tests : () -> seq of TestCase
-tests() == 
-	[ new DateT01(), new DateT02(), new DateT03(), 
-	new DateT04(),
-	new DateT05(), new DateT06(),new DateT07()
-	];
-end DateT
-
-class DateT01 is subclass of TestCase, CalendarDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	jc = new JapaneseCalendar(),
-		d = jc.getDateFrom_yyyy_mm_dd(2001,5,1)	,
-		d1 = jc.getDateFrom_yyyy_mm_dd(2001,4,29),
-		d2 = jc.getDateFrom_yyyy_mm_dd(2001,4,28)
-	in
-	return
-		d.getNumberOfDayOfTheWeek() = jc.getNumberOfDayOfTheWeekFromName(<Tue>) and
-		d.getNameOfDayOfTheWeek() = <Tue> and
-		d1.getNameOfDayOfTheWeek() = <Sun> and
-		d2.getNameOfDayOfTheWeek() = <Sat> and
-		d.isSunday() = false and
-		d.isSaturday() = false and
-		d.isWeekday() = true and
-		d.isDayOff() = false and 
-		d.isNotDayOff() = true and
-		d.isSundayOrDayoff()  = false
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "DateT01:\tCalculate the day of the week.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end DateT01
-
-class DateT02 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	jc = new JapaneseCalendar(),
-		d = jc.getDateFrom_yyyy_mm_dd(2001,5,1)		in
-	return
-		d.get_yyyy_mm_dd() = mk_(2001,5,1) and
-		d.date2Str() = "20010501" and
-		d.asString() = "20010501" and
-		d.print() = "Year=2001, Month=05, Day=01, "
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "DateT02:\tConvert date.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end DateT02
-
-class DateT03 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	jc = new JapaneseCalendar(),
-		d20000101 = jc.getDateFromString("20000101"),
-		d0301 = jc.getDateFromString("20010301"),
-		d0501 = jc.getDateFromString("20010501"),
-		d0711 = jc.getDateFrom_yyyy_mm_dd(2001,7,11)	in
-	return
-		d0301.getTheNumberOfDayOff(d0711)  = 24 and
-		d0501.getTheNumberOfDayOffExceptStartDate(d0711) = 13 and
-		d20000101.getTheNumberOfDayOff(d0711)  = 103
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "DateT03:\tgetTheNumberOfDayOff";
-protected tearDown: () ==> ()
-tearDown() == return;
-end DateT03
-
-class DateT04 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	jc = new JapaneseCalendar(),
-		d20001231 = jc.getDateFrom_yyyy_mm_dd(2000,12,31),
-		d1231 = jc.getDateFrom_yyyy_mm_dd(2001,12,31),
-		d0626 = jc.getDateFrom_yyyy_mm_dd(2001,6,26),
-		d0501 = jc.getDateFromString("20010501"),
-		d0505 = jc.getDateFromString("20010505"),
-		d0502 = jc.getDateFrom_yyyy_mm_dd(2001,5,2)		in
-	return
-		d0502.addWeekday(1).getFutureWeekday().date2Str() = "20010507" and
-		d0502.getPastWeekday().subtractWeekday(1).date2Str() = "20010501" and
-		d0501.getPastWeekday().subtractWeekday(1).date2Str() = "20010427" and
-		d0501.getFutureWeekday().date2Str() = "20010501" and
-		d0501.addWeekday(2).date2Str() = "20010507" and
-		d0502.subtractWeekday(2).date2Str() = "20010427" and
-		d1231.daysFromNewYear() = 365 and
-		d20001231.daysFromNewYear() = 366 and
-		d0501.getNumberOfTheDayOfWeek(d0626,<Tue>) = 9 and
-		jc.getFutureWeekday(d0505).date2Str() = "20010507" and
-		jc.getFutureWeekday(d0501).date2Str() = "20010501" and
-		jc.getPastWeekday(d0501).date2Str() = "20010501" and
-		jc.getPastWeekday(d0505).date2Str() = "20010502" 
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "DateT04:\tCalculate date.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end DateT04
-
-class DateT05 is subclass of TestCase
-operations 
-protected test: () ==> bool
-test() == 
-	let	jc = new JapaneseCalendar(),
-		d0711 = jc.getDateFromString("20010711")	in
-	(
-	jc.setToday(jc.getDateFrom_yyyy_mm_dd(2001, 3, 1));
-	let	d0301 = jc.today()	in
-	return
-		d0711.EQ(jc.getDateFrom_yyyy_mm_dd(2001, 7, 11)) and
-		d0711.NE(jc.getDateFrom_yyyy_mm_dd(2001, 7, 12)) and
-		jc.EQ(d0711,jc.getDateFrom_yyyy_mm_dd(2001, 7, 11)) and
-		d0301.LT(d0711) and
-		jc.LT(d0301, d0711) and
-		d0711.GT(d0301) and
-		jc.GT(d0711,d0301) and
-		d0711.GE(d0711) and d0711.GE(d0301) and
-		jc.GE(d0711,d0711)  and jc.GE(d0711,d0301) and
-		d0711.LE(d0711) and d0301.LE(d0711) and
-		jc.LE(d0711,d0711) and jc.LE(d0301,d0711)
-	);
-protected setUp: () ==> ()
-setUp() == TestName := "DateT05:\tCompare date.date";
-protected tearDown: () ==> ()
-tearDown() == return;
-end DateT05
-
-class DateT06 is subclass of TestCase, CalendarDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	jc = new JapaneseCalendar(),
-		d10010301 = jc.getDateFromString("10010301"),
-		d0711 = jc.getDateFromString("20010711")	in
-	(
-	jc.setToday(jc.getDateFrom_yyyy_mm_dd(2001, 3, 1));
-	let	d0301 = jc.today()		in
-	return
-		jc.firstDayOfTheWeekInMonth(2000,3,<Wed>).get_yyyy_mm_dd() = mk_( 2000,3,1 ) and
-		jc.firstDayOfTheWeekInMonth(2001,7,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,1 ) and
-		jc.lastDayOfTheWeekInMonth(2000,2,<Tue>).get_yyyy_mm_dd() = mk_( 2000,2,29 ) and
-		jc.lastDayOfTheWeekInMonth(2001,7,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,29 ) and
-		jc.getNthDayOfTheWeek(2001,7,5,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,29 ) and
-		jc.getNthDayOfTheWeek(2001,7,6,<Sun>) = false and
-		jc.getNumberOfTheDayOfWeek(d0711,d0301,<Sun>)  = 19 and
-		jc.getNumberOfTheDayOfWeek(d0711,d10010301,<Sun>)  = 52196	
-	);
-protected setUp: () ==> ()
-setUp() == TestName := "DateT06:\tGet the day of the week.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end DateT06
-
-class DateT07 is subclass of TestCase, CalendarDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	jc = new JapaneseCalendar()	in
-	return
-		jc.isLeapYear(2000) = true and
-		jc.isLeapYear(2001) = false and
-		jc.isLeapYear(1996) = true and
-		jc.isLeapYear(1900) = false and
-		jc.isLeapYear(1600) = true and
-		jc.isDateString("sahara") = false and
-		jc.isDateString("20010723") = true and
-		jc.isDateString("20011232") = false and
-		jc.isWeekday(<Mon>) = true and
-		jc.isWeekday(<Tue>) = true and
-		jc.isWeekday(<Wed>) = true and
-		jc.isWeekday(<Thu>) = true and
-		jc.isWeekday(<Fri>) = true and
-		jc.isWeekday(<Sat>) = false and
-		jc.isWeekday(<Sun>) = false and
-		jc.date2Str(jc.getLastDayOfMonth(2000,2)) = "20000229" and
-		jc.date2Str(jc.getLastDayOfMonth(2001,2)) = "20010228"
-	;
-protected setUp: () ==> ()
-setUp() == TestName := "DateT07:\tQuery about date.date";
-protected tearDown: () ==> ()
-tearDown() == return;
-end DateT07
 ~~~
 {% endraw %}
 
@@ -5487,846 +690,6 @@ end Calendar
 ~~~
 {% endraw %}
 
-### Term.vdmpp
-
-{% raw %}
-~~~
-class Term
-
-values
-	Rcsid = "$Id: Term.vpp,v 1.1 2005/10/31 02:15:42 vdmtools Exp $";
-
-instance variables
-startTime : [Time];
-endTime : [Time];
-
-functions
-static public isInThePeriod : Time * Term -> bool
-isInThePeriod(aTime, aPeriod) ==
-	(aPeriod.getStartTime() = nil or aPeriod.getStartTime().LE(aTime)) and
-	(aPeriod.getEndTime() = nil or aPeriod.getEndTime().GE(aTime));
-
-public EQ : Term -> bool
-EQ(aPeriod) == 
-	self.getStartTime().EQ(aPeriod.getStartTime()) and self.getEndTime().EQ(aPeriod.getEndTime());
-
-operations
-public Term:[Time]*[Time] ==> Term
-Term(astartTime, aendTime) ==
-	(
-	startTime := astartTime;
-	endTime := aendTime;
-	return self
-	);
-
-public getStartTime : () ==> [Time]
-getStartTime() == return startTime;
-
-public getEndTime : () ==> [Time]
-getEndTime() == return endTime;
-	
-end  Term
-~~~
-{% endraw %}
-
-### DoubleListQueue.vdmpp
-
-{% raw %}
-~~~
-/*   
- * Queue using 2 sequences.
- * Usage:
- *	make empty queue as following:
- * 		let Q0 = DoubleListQueue`empty[int]() in ...
- *	
- *	append an element to queue:
- *		DoubleListQueue`enQueue(1, Q0)
- *	
-*/
-
-class DoubleListQueue
-
-functions
-static public empty[@T] : () -> seq of @T * seq of @T
-empty() == mk_([], []);
-
-static public isEmpty[@T] : (seq of @T * seq of @T) -> bool
-isEmpty(s) == s = mk_([], []);
-
-static public enQueue[@T] : @T * (seq of @T * seq of @T) -> seq of @T * seq of @T
-enQueue(anElem, mk_(aHeads, aTails)) == mk_(aHeads, [anElem] ^ aTails);
-
-static public deQueue[@T] : (seq of @T * seq of @T) -> [seq of @T * seq of @T]
-deQueue(mk_(aHeads, aTails)) == 
-	cases aHeads:
-		[-] ^ aTailsOfHeads	-> mk_(aTailsOfHeads, aTails),
-		[]	-> 
-			cases aTails:
-				[]		-> nil,
-				others	-> mk_(tl Sequence`freverse[@T](aTails), [])
-			end
-	end;
-
-static public top[@T] : (seq of @T * seq of @T) -> [@T]
-top(mk_(aHeads, aTails)) == 
-	cases aHeads:
-		[h] ^ -	-> h,
-		[]	-> 
-			cases aTails:
-				[]		-> nil,
-				others	-> hd Sequence`freverse[@T](aTails)
-			end
-	end;
-
-static public fromList[@T] : seq of @T * (seq of @T * seq of @T) -> seq of @T * seq of @T
-fromList(aSeq, aQueue) ==
-	cases aSeq:
-		[]				-> aQueue,
-		[h] ^ aTailsOfSeq		-> fromList[@T](aTailsOfSeq, enQueue[@T](h, aQueue))
-	end
-measure fromListMeasure;
-
-static fromListMeasure[@T] : seq of @T *  (seq of @T * seq of @T) +> nat
-fromListMeasure(s, -) == len s;
-
-static public toList[@T] : (seq of @T * seq of @T) -> seq of @T
-toList(aaQueue) ==
-	cases aaQueue:
-		(mk_([], []))	-> [],
-		aQueue	-> [top[@T](aQueue)] ^ toList[@T](deQueue[@T](aQueue))
-	end
-measure toListMeasure;
-
-static toListMeasure[@T] :  (seq of @T * seq of @T) +> nat
-toListMeasure(mk_(s1, s2)) == len s1 + len s2;
-
-end DoubleListQueue
-~~~
-{% endraw %}
-
-### FHashtableT.vdmpp
-
-{% raw %}
-~~~
-                                                         
-class FHashtableT
-
-functions
-static public run : () +> bool
-run() == 
-let	testcases = [ t1(), t2(), t3(), t4(), t5(), t6() ]
-in
-FTestDriver`run(testcases);
-                                                                  
-static t1 : () -> FTestDriver`TestCase
-t1() ==
-	
-	mk_FTestDriver`TestCase(
-	"FHashtableT01:\t Test Contains, PutAll",
-	let	aHashCode = lambda x : int & x mod 13,
-		p1 = FHashtable`PutAll[int, seq of char]({ |-> })(aHashCode)(
-				{1 |-> "Sahara", 2 |-> "Sato", 14 |-> "Sakoh"}
-			),
-		c1 = FHashtable`Contains[int, seq of char](p1)
-	in
-	c1("Sahara") and
-	c1("Sato") and
-	c1("Sakoh") and
-	c1("") = false)
-	;
-                                                                            
-static t2 : () -> FTestDriver`TestCase
-t2() ==
-	
-	mk_FTestDriver`TestCase(
-	"FHashtableT02:\t Test Clear, Remove, ContainsKey",
-	let	aHashCode = lambda x : seq of char & if x = "" then "" else FSequence`Take[char](1)(x),
-		h2 = FHashtable`PutAll[seq of char, int]({ |-> })(aHashCode)(
-				{"a" |-> 1, "b" |-> 2, "c" |-> 3}
-			),
-		h3 = FHashtable`Clear[int, seq of char](),
-		deletedh2 = FHashtable`Remove[seq of char, int](h2)(aHashCode)("b"),
-		c1 = FHashtable`Contains[seq of char, int](deletedh2),
-		ck1 = FHashtable`ContainsKey[seq of char, int](deletedh2)
-	in
-	h3 = {|->} and
-	FHashtable`Get[seq of char, int](deletedh2)(aHashCode)("b") = nil and
-	c1(2) = false and
-	c1(1) and
-	c1(3) and
-	ck1("b") = false and 
-	ck1("a") and
-	ck1("c"))
-	;
-                                                          
-static t3 : () -> FTestDriver`TestCase
-t3() ==
-	
-	mk_FTestDriver`TestCase(
-	"FHashtableT03:\t Test Put, Get",
-	let	aHashCode = lambda x : int & x mod 13,
-		put = FHashtable`Put[int, seq of char],
-		p1 = put({ |-> })(aHashCode)(1)("Sahara"),
-		p2 = put(p1)(aHashCode)(2)("Bush"),
-		p3 = put(p2)(aHashCode)(2)("Sato"),
-		p4 = put(p3)(aHashCode)(14)("Sakoh"),
-		get = FHashtable`Get[int, seq of char](p4),
-		g = FHashtable`Get[int, seq of char](p4)(aHashCode)
-	in
-	get(aHashCode)(1) = "Sahara" and
-	get(aHashCode)(2) = "Sato" and
-	get(aHashCode)(14) = "Sakoh" and
-	get(aHashCode)(99) = nil and
-	FSequence`Fmap[int, seq of char](g)([1, 14]) = ["Sahara", "Sakoh"] and
-	FSequence`Fmap[int, seq of char](g)([1, 2]) = ["Sahara", "Sato"] 
-	)
-	;
-                                                                  
-static t4 : () -> FTestDriver`TestCase
-t4() ==
-	
-	mk_FTestDriver`TestCase(
-	"FHashtableT04:\t Test KeySet, ValueSet",
-	let	aHashCode = lambda x : int & x mod 13,
-		put = FHashtable`Put[int, seq of char],
-		p1 = put({ |-> })(aHashCode)(1)("Sahara"),
-		p2 = put(p1)(aHashCode)(2)("Bush"),
-		p3 = put(p2)(aHashCode)(2)("Sato"),
-		p4 = put(p3)(aHashCode)(14)("Sakoh"),
-		k = FHashtable`KeySet[int, seq of char],
-		v = FHashtable`ValueSet[int, seq of char]
-	in
-	k(p1) = {1} and
-	v(p1) = {"Sahara"} and
-	k(p2) = {1, 2} and
-	v(p2) = {"Sahara", "Bush"} and
-	k(p4) = {1,2,14} and
-	v(p4) = {"Sahara", "Sato", "Sakoh"})
-	;
-                                                                            
-static t5 : () -> FTestDriver`TestCase
-t5() ==
-	
-	mk_FTestDriver`TestCase(
-	"FHashtableT05:\t Test hashCode is duplicate",
-	let	aHashCode1 = lambda x : int & x mod 13,
-		h1 = FHashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
-				{1 |-> "SaharaShin", 2 |-> "SatoKei", 14 |-> "SakohHiroshi", 27 |-> "NishikawaNoriko"}
-			),
-		h2 = FHashtable`Remove[int, seq of char](h1)(aHashCode1)(14)
-	in
-	FHashtable`KeySet[int, seq of char](h2) = {1, 2, 27} and
-	FHashtable`ValueSet[int, seq of char](h2) = {"SaharaShin",  "SatoKei", "NishikawaNoriko"})
-	;
-                                                      
-static t6 : () -> FTestDriver`TestCase
-t6() ==
-	
-	mk_FTestDriver`TestCase(
-	"FHashtableT06:\t Test Size",
-	let	aHashCode1 = lambda x : int & x mod 13,
-		remove = FHashtable`Remove[int, seq of char],
-		h1 = FHashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
-				{1 |-> "SaharaShin", 2 |-> "SatoKei", 14 |-> "SakohHiroshi"}
-			),
-		h2 = remove(h1)(aHashCode1)(1),
-		h3 = remove(h2)(aHashCode1)(2),
-		h4 = remove(h3)(aHashCode1)(14),
-		isempty = FHashtable`IsEmpty[int, seq of char],
-		size = FHashtable`Size[int, seq of char]
-	in
-	isempty(h4) and
-	size(h4) = 0 and
-	isempty(h3)  = false and
-	size(h3) = 1 and
-	size(h2) = 2 and
-	size(h1) = 3)
-	;
-
-end FHashtableT
-            
-~~~
-{% endraw %}
-
-### Set.vdmpp
-
-{% raw %}
-~~~
-class Set
-
-functions 
--- Same as VDMUtil`set2seq which is implemented by C++
-static public asSequence[@T]: set of @T -> seq of @T
-asSequence(aSet) ==  
-	cases aSet :
-		{}		-> [],
-		{x} union xs	-> [x] ^ asSequence[@T](xs)
-	end
-post
-	hasSameElems[@T](RESULT, aSet)
-measure cardinality;
-
-static cardinality[@T]: set of @T +> nat
-cardinality(aSet) == card aSet;
-
-static public hasSameElems[@T] : (seq of @T) * (set of @T) -> bool
-hasSameElems(aSeq,aSet) == (elems aSeq = aSet) and (len aSeq = card aSet);
-
-static public Combinations[@T] : nat1 -> set of @T -> set of set of @T
-Combinations(n)(aSet) ==
-	{ aElem | aElem in set power aSet & card aElem = n};
-
-
-static public fmap[@T1,@T2]: (@T1 -> @T2) -> set of @T1 -> set of @T2
-fmap(f)(aSet) == {f(s) | s in set aSet};
-
-static public Sum[@T]: set of @T ->  @T
-Sum(aSet) == SumAux[@T](aSet)(0)
-pre
-	is_(aSet, set of int) or is_(aSet, set of nat) or is_(aSet, set of nat1) or
- 	is_(aSet, set of real) or is_(aSet, set of rat);
-
-static SumAux[@T] : set of @T -> @T -> @T
-SumAux(aSet)(aSum) ==
-	cases aSet :
-	({})	-> aSum,
-	{e} union s->
-		SumAux[@T](s)(if is_real(aSum) and is_real(e)
-		              then aSum + e
-		              else undefined)
-	end
-pre
-	pre_Sum[@T](aSet);
-
-end Set
-~~~
-{% endraw %}
-
-### FSequence.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                        
-class FSequence
---"$Id: Sequence.vpp,v 1.1 2005/10/31 02:09:58 vdmtools Exp $";
-	
-functions 
-
-                                                                     
-static public Sum[@T] : seq of @T ->  @T
-Sum(s) == Foldl[@T, @T](Plus[@T])(0)(s)
-pre
-	is_(s, seq of int) or is_(s, seq of nat) or is_(s, seq of nat1) or
- 	is_(s, seq of real) or is_(s, seq of rat);
-                                                                      
-static public Prod[@T] : seq of @T ->  @T
-Prod(s) == Foldl[@T, @T](Product[@T])(1)(s)
-pre
-	is_(s, seq of int) or is_(s, seq of nat) or is_(s, seq of nat1) or
- 	is_(s, seq of real) or is_(s, seq of rat);
-                                                       
-static public Plus[@T] : @T -> @T -> @T
-Plus(a)(b) == if is_real(a) and is_real(b)
-              then a + b
-              else undefined;
-                                                         
-static public Product[@T] : @T -> @T -> @T
-Product(a)(b) == if is_real(a) and is_real(b)
-              then a * b
-              else undefined;
-                                                              
-static public Append[@T] : seq of @T -> @T -> seq of @T
-Append(s)(e) == s ^ [e];
-                                                                            
-static public Average[@T]: seq of @T ->  [real]
-Average(s) == if s = [] then nil else AverageAux[@T](0)(0)(s)
-post
-	if s = [] then
-		RESULT = nil
-	else let sum = Sum[@T](s)
-	     in
-		RESULT = if is_real(sum) 
-		         then sum / len s
-		         else undefined;
-
-static AverageAux[@T] : @T -> @T -> seq of @T -> real
-AverageAux(total)(numOfElem)(s) ==
-  if is_(s,seq of real) and is_real(total) and is_real(numOfElem)
-  then
-	cases s :
-	[x] ^ xs	-> AverageAux[@T](total + x)(numOfElem + 1)(xs),
-	[]		-> total / numOfElem 
-	end
-	else undefined;
-                                                                                                                                                      
-static public IsAscendingInTotalOrder[@T] : (@T * @T -> bool) -> seq of @T -> bool
-IsAscendingInTotalOrder(f)(s) ==
-	forall i,j  in set inds s & i < j  => f(s(i),s(j)) or s(i) = s(j);
-                                                                                                                                                       
-static public IsDescendingInTotalOrder[@T] : (@T * @T -> bool) -> seq of @T -> bool
-IsDescendingInTotalOrder(f)(s) ==
-	forall i,j  in set inds s & i < j  => f(s(j),s(i)) or s(i) = s(j);
-                                                                                                                                             
-static public IsAscending [@T]: seq of @T -> bool
-IsAscending(s) ==
-	IsAscendingInTotalOrder[@T](lambda x : @T, y : @T & 
-	                              if is_real(x) and is_real(y) 
-	                              then x < y
-	                              else undefined)(s);
-                                                                                                                                              
-static public IsDescending[@T]: seq of @T -> bool
-IsDescending(s) ==
-	IsDescendingInTotalOrder[@T](lambda x : @T, y : @T & 
-	                                  if is_real(x) and is_real(y) 
-	                                  then x < y
-	                                  else undefined)(s);
-                                                                                                                                   
-static public Sort[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T
-Sort(f)(s) ==
-	cases s:
-		[]	-> [],
-		[x]^xs	-> 
-			Sort[@T](f)([xs(i) | i in set inds xs & f(xs(i),x)]) ^
-			[x] ^
-			Sort[@T](f)([xs(i) | i in set inds xs & not f(xs(i),x)])
-	end;
-                                                                                                                                   
-static public AscendingSort[@T] : seq of @T -> seq of @T
-AscendingSort(s) == Sort[@T](lambda x : @T, y : @T & 
-                                if is_real(x) and is_real(y) 
-	                              then x < y
-	                              else undefined)(s)
-post
-	IsAscending[@T](RESULT);
-                                                                                                                                                                       
-static public DescendingSort[@T] : seq of @T -> seq of @T
-DescendingSort(s) == Sort[@T](lambda x : @T, y : @T & 
-                                  if is_real(x) and is_real(y) 
-	                                then x > y
-	                                else undefined)(s)
-post
-	IsDescending[@T](RESULT);
-                                                                                                                                                 
-static public IsOrdered[@T] : seq of (@T * @T -> bool) -> seq of @T -> seq of @T -> bool
-IsOrdered(f)(s1)(s2) ==
-	cases mk_(s1,s2):
-		mk_([],[])			-> false,
-		mk_([],-)			-> true,
-		mk_(-,[])			-> false,
-		mk_([x1]^xs1,[x2]^xs2)	->
-			if (hd f)(x1,x2) then
-				true
-			elseif (hd f)(x2,x1) then
-				false
-			else
-				IsOrdered[@T](tl f)(xs1)(xs2)
-	end;
-                                                                                                                   
-static public Merge[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T -> seq of @T
-Merge(f)(s1)(s2) == 
-	cases mk_(s1,s2):
-		mk_([], y)			-> y,
-		mk_(x, [])			-> x,
-		mk_([x1]^xs1,[x2]^xs2)	->
-			if f(x1,x2) then
-				[x1] ^ FSequence`Merge[@T](f)(xs1)(s2)
-			else
-				[x2] ^ FSequence`Merge[@T](f)(s1)(xs2)
-	end;
-                                                                                                    
-static public InsertAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
-InsertAt(i)(e)(s) ==
-	cases mk_(i, s) :
-	mk_(1, s1)		-> [e] ^ s1,
-	mk_(-, [])		-> [e],
-	mk_(i1, [x] ^ xs)	-> [x] ^ InsertAt[@T](i1 - 1)(e)(xs)
-	end;
-                                                                                                   
-static public RemoveAt[@T]: nat1 -> seq of @T -> seq of @T
-RemoveAt(i)(s) ==
-	cases mk_(i, s) :
-	mk_(1, [-] ^ xs)	-> xs,
-	mk_(i1, [x] ^ xs)	-> [x] ^ RemoveAt[@T](i1 - 1)(xs),
-	mk_(-, [])		-> []
-	end;
-                                                                                          
-static public RemoveDup[@T] :  seq of @T ->  seq of @T
-RemoveDup(s) == 
-	cases s :
-	[x]^xs		-> [x] ^ RemoveDup[@T](Filter[@T](lambda e : @T & e <> x)(xs)) ,
-	[]		-> []
-	end
-post
-	not IsDup[@T](RESULT);
-                                                                                   
-static public RemoveMember[@T] :  @T -> seq of @T -> seq of @T
-RemoveMember(e)(s) == 
-	cases s :
-	[x]^xs		-> if e = x then xs else [x] ^ RemoveMember[@T](e)(xs),
-	[]		-> []
-	end;
-                                                                                                    
-static public RemoveMembers[@T] :  seq of @T -> seq of @T -> seq of @T
-RemoveMembers(es)(s) == 
-	cases es :
-	[]		-> s,
-	[x]^xs		-> RemoveMembers[@T](xs)(RemoveMember[@T](x)(s))
-	end;
-                                                                                                                                  
-static public UpdateAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
-UpdateAt(i)(e)(s) ==
-	cases mk_(i, s) :
-	mk_(-, [])		-> [],
-	mk_(1, [-] ^ xs)	-> [e] ^ xs,
-	mk_(i1,  [x] ^ xs)	-> [x] ^ UpdateAt[@T](i1 - 1)(e)(xs)
-	end;
-                                                                                   
-static public Take[@T] : int -> seq of @T -> seq of @T
-Take(i)(s) == s(1,...,i);
-                                                                                                                         
-static public TakeWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
-TakeWhile(f)(s) ==
-	cases s :
-	[x] ^ xs	-> 
-		if f(x) then
-			[x] ^ TakeWhile[@T](f)(xs)
-		else
-			[],
-	[]	-> []
-	end;
-                                                                                
-static public Drop[@T]: int -> seq of @T -> seq of @T
-Drop(i)(s) == s(i+1,...,len s);
-                                                                                                                      
-static public DropWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
-DropWhile(f)(s) ==
-	cases s :
-	[x] ^ xs	-> 
-		if f(x) then
-			DropWhile[@T](f)(xs)
-		else
-			s,
-	[]	-> []
-	end;
-                                                                                                                                                                                         
-static public Span[@T] : (@T -> bool) -> seq of @T -> seq of @T * seq of @T
-Span(f)(s) ==
-	cases s :
-	[x] ^ xs	-> 
-		if f(x) then
-			let	mk_(satisfied, notSatisfied) = Span[@T](f)(xs)
-			in
-			mk_([x] ^ satisfied, notSatisfied)
-		else
-			mk_([], s),
-	[]	-> mk_([], [])
-	end;
-                                                                                                                
-static public SubSeq[@T]: nat -> nat -> seq1 of @T -> seq of @T
-SubSeq(i)(numOfElems)(s) == s(i,...,i + numOfElems - 1);
-                                                                         
-static public Last[@T]: seq of @T -> @T
-Last(s) == s(len s);
-                                                                                          
-static public Fmap[@T1,@T2]: (@T1 -> @T2) -> seq of @T1 -> seq of @T2
-Fmap(f)(s) == [f(s(i)) | i in set inds s];
-                                                                                                                                                                   
-static public Filter[@T]: (@T -> bool) -> seq of @T -> seq of @T
-Filter(f)(s) == [s(i) | i in set inds s & f(s(i))];
-                                                                                                                    
-static public Foldl[@T1, @T2] : (@T1 -> @T2 -> @T1) -> @T1 -> seq of @T2 -> @T1
-Foldl(f)(args)(s) == 
-	cases s :
-	[]		-> args,
-	[x] ^ xs	-> Foldl[@T1,@T2](f)(f(args)(x))(xs)
-	end;
-                                                                                                                      
-static public Foldr[@T1, @T2] : 
-	(@T1 -> @T2 -> @T2) -> @T2 -> seq of @T1 -> @T2
-Foldr(f)(args)(s) == 
-	cases s :
-	[]		-> args,
-	[x] ^ xs	-> f(x)(Foldr[@T1,@T2](f)(args)(xs))
-	end;
-                                                                               
-static public IsMember[@T] : @T -> seq of @T -> bool
-IsMember(e)(s) == 
-	cases s :
-	[x]^xs		-> e = x or IsMember[@T] (e)(xs),
-	[]		-> false
-	end;
-                                                                                                             
-static public IsAnyMember[@T]:  seq of @T -> seq of @T -> bool
-IsAnyMember(es)(s) == 
-	cases es :
-	[x]^xs		->  IsMember[@T] (x)(s) or IsAnyMember[@T] (xs)(s) ,
-	[]		-> false
-	end;
-                                                                                            
-static public IsDup[@T] : seq of @T -> bool
-IsDup(s) == not card elems s = len s
-post
-	if s = [] then 
-		RESULT = false
-	else
-		RESULT = not forall i, j in set inds s & s(i) <> s(j) <=> i <> j ;
-                                                                                                                                              
-static public Index[@T]: @T -> seq of @T -> int
-Index(e)(s) == 
-	let	i = 0
-	in
-	IndexAux[@T](e)(s)(i);
-
-static public IndexAux[@T] : @T -> seq of @T -> int -> int
-IndexAux(e)(s)(i) ==
-	cases s:
-		[]		-> 0,
-		[x]^xs		->
-			if x = e then 
-				i + 1
-			else
-				IndexAux[@T](e)(xs)(i+1)
-	end;
-                                                                                                                                     
-static public IndexAll[@T] : @T -> seq of @T -> set of nat1
-IndexAll(e)(s) == {i | i in set inds s & s(i) = e};
-                                                                                                                             
-static public Flatten[@T] : seq of seq of @T -> seq of @T
-Flatten(s) == conc s;
-                                                                                                 
-static public Compact[@T] : seq of [@T] -> seq of @T
-Compact(s) == [s(i) | i in set inds s & s(i) <> nil]
-post
-	forall i in set inds RESULT & RESULT(i) <> nil;
-                                                                                                                                               
-static public Freverse[@T] : seq of @T -> seq of @T
-Freverse(s) == [s(len s + 1 -  i) | i in set inds s];
-                                                                        
-static public Permutations[@T]: seq of @T -> set of seq of @T
-Permutations(s) == 
-cases s:
-	[],[-] -> {s},
-	others -> dunion {{[s(i)]^j | j in set Permutations[@T](RemoveAt[@T](i)(s))} | i in set inds s} 
-end
-post
-	forall x in set RESULT & elems x = elems s;
-                                                                                                            
-static public IsPermutations[@T]: seq of @T -> seq of @T -> bool
-IsPermutations(s)(t) == 
-	RemoveMembers[@T](s)(t) = [] and RemoveMembers[@T](t)(s) = [];
-                                                                               
-static public Unzip[@T1, @T2] : seq of (@T1 * @T2) -> seq of @T1 * seq of @T2
-Unzip(s) ==
-	cases s :
-	[]			-> mk_([], []),
-	[mk_(x, y)] ^ xs	->
-		let	mk_(s1, t) = Unzip[@T1, @T2](xs)
-		in
-		mk_([x] ^ s1, [y] ^ t)
-	end;
-                                                                             
-static public Zip[@T1, @T2] : seq of @T1 * seq of @T2 -> seq of (@T1 * @T2)
-Zip(s1, s2) == Zip2[@T1, @T2](s1)(s2);
-                                                                                                                                          
-static public Zip2[@T1, @T2] : seq of @T1 -> seq of @T2 -> seq of (@T1 * @T2)
-Zip2(s1)(s2) == 
-	cases mk_(s1, s2) :
-	mk_([x1] ^ xs1, [x2] ^ xs2)	-> [mk_(x1, x2)] ^ Zip2[@T1, @T2](xs1)(xs2),
-	mk_(-, -)				-> []
-	end;
-
-end FSequence
-                                                                         
-~~~
-{% endraw %}
-
-### Character.vdmpp
-
-{% raw %}
-~~~
-class Character
-
-values
---vNumEnglishChars = "0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
-vNumOrderMap = 
-	{'0' |-> 1, '1' |-> 2, '2' |-> 3, '3' |-> 4, '4' |-> 5, '5' |-> 6, '6' |-> 7, '7' |-> 8, '8' |-> 9, '9' |-> 10};
-
-vChapitalCharOrderMap =
-	{'A' |-> 12, 'B' |-> 14, 'C' |-> 16, 'D' |-> 18, 'E' |-> 20, 'F' |-> 22, 'G' |-> 24, 'H' |-> 26, 'I' |-> 28, 
-	'J' |-> 30, 'K' |-> 32, 'L' |-> 34, 'M' |-> 36, 'N' |-> 38, 'O' |-> 40, 'P' |-> 42, 'Q' |-> 44, 'R' |-> 46,
-	'S' |-> 48, 'T' |-> 50, 'U' |-> 52, 'V' |-> 54, 'W' |-> 56, 'X' |-> 58, 'Y' |-> 60, 'Z' |-> 62};
-
-vSmallCharOrderMap =
-	{'a' |-> 11, 'b' |-> 13, 'c' |-> 15, 'd' |-> 17, 'e' |-> 19, 'f' |-> 21, 'g' |-> 23, 'h' |-> 25, 'i' |-> 27,
-	'j' |-> 29, 'k' |-> 31, 'l' |-> 33, 'm' |-> 35, 'n' |-> 37, 'o' |-> 39, 'p' |-> 41, 'q' |-> 43, 'r' |-> 45, 
-	's' |-> 47, 't' |-> 49, 'u' |-> 51, 'v' |-> 53, 'w' |-> 55, 'x' |-> 57, 'y' |-> 59, 'z' |-> 61};
-
-vCharOrderMap = vNumOrderMap munion vChapitalCharOrderMap munion vSmallCharOrderMap;
-
-functions
-/* Converted from vNumEnglishChars to vCharOrderMap
-static public makeOrderMap : seq of char +> map char to nat
-makeOrderMap(s) ==
-	{s(i) |-> i | i in set inds s};
-*/
-
-static public asDigit: char -> int | bool
-asDigit(c) ==
-	if isDigit(c) then
-		let s = [c] in
-		let mk_(-, i) = VDMUtil`seq_of_char2val[int](s) in i
-	else
-		false;
-
-static public asDictOrder : char -> int
-asDictOrder(c) == 
-	if c in set dom vCharOrderMap then
-		vCharOrderMap(c)
-	else
-		let nonAsciiChar = 999999 in nonAsciiChar;
-
-static public isDigit : char -> bool
-isDigit(c) == c in set dom vNumOrderMap;
-
-static public isLetter : char -> bool
-isLetter(c) == c in set dom (vChapitalCharOrderMap munion vSmallCharOrderMap);
-
-static public isLetterOrDigit : char -> bool
-isLetterOrDigit(c) == isDigit(c) or isLetter(c);
-
-static public isCapitalLetter : char -> bool
-isCapitalLetter(c) == c in set dom vChapitalCharOrderMap;
-
-static public isLowercaseLetter : char -> bool
-isLowercaseLetter(c) == c in set dom vSmallCharOrderMap;
-
-static public LT: char * char -> bool
-LT(c1,c2) == Character`LT2(c1)(c2);
-
-static public LT2: char -> char -> bool
-LT2(c1)(c2) == Character`asDictOrder(c1) < Character`asDictOrder(c2);
-
-static public LE : char * char -> bool
-LE(c1, c2) == Character`LE2(c1)(c2);
-
-static public LE2 : char -> char -> bool
-LE2(c1)(c2) ==  Character`LT2(c1)(c2) or c1 = c2;
-
-static public GT : char * char -> bool
-GT(c1, c2) == Character`GT2(c1)(c2);
-
-static public GT2 : char -> char -> bool
-GT2(c1)(c2) == Character`LT2(c2)(c1);
-
-static public GE : char * char -> bool
-GE(c1, c2) == Character`GE2(c1)(c2);
-
-static public GE2 : char -> char -> bool
-GE2(c1)(c2) == not Character`LT2(c1)(c2);
-			
-end Character
-~~~
-{% endraw %}
-
-### TestCase.vdmpp
-
-{% raw %}
-~~~
-class TestCase
-
-instance variables
-
-	public TestName: seq of char := "** anonymous regression test **";
-
-operations
-public TestACase: () ==> bool
-TestACase() == 
-	(dcl	r: bool;
-	setUp();
-	r := test();
-	tearDown();
-	return r);
-	
-public getTestName: () ==> seq of char
-getTestName() == return TestName;
-
-protected test: () ==> bool
-test() == is subclass responsibility;
-
-protected setUp: () ==> ()
-setUp() == return;
-
-protected tearDown: () ==> ()
-tearDown() == return;
-
-end TestCase
-
-~~~
-{% endraw %}
-
-### MapT.vdmpp
-
-{% raw %}
-~~~
-class MapT is subclass of TestDriver
-functions
-public tests : () -> seq of TestCase
-tests() == 
-	[ 
-	new MapT01(), new MapT02()	
-	];
-end MapT
-----------------------------------------------------
-class MapT01 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	m1 = {1 |-> "Kei Sato", 19 |-> "Shin Sahara", 20 |-> "Hiroshi Sakoh"},
-		m2 = {"Kei Sato" |-> 1,  "Shin Sahara" |-> 19,  "Hiroshi Sakoh" |-> 20},
-		get1 = Map`Get[int, seq of char],
-		get2 = Map`Get[seq of char, int]
-	in
-	return 
-		get1(m1)(19) = "Shin Sahara" and
-		get1(m1)(2) = nil and
-		get2(m2)("Shin Sahara") = 19 and
-		get2(m2)("Worst Prime Minister Koizumi") = nil
-;
-protected setUp: () ==> ()
-setUp() == TestName := "MapT01:\tTest of Get function.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end MapT01
-----------------------------------------------------
-class MapT02 is subclass of TestCase, CommonDefinition
-operations 
-protected test: () ==> bool
-test() == 
-	let	m1 = {1 |-> "Kei Sato", 19 |-> "Shin Sahara", 20 |-> "Hiroshi Sakoh"},
-		m2 = {"Kei Sato" |-> 1,  "Shin Sahara" |-> 19,  "Hiroshi Sakoh" |-> 20},
-		c1 = Map`Contains[int, seq of char],
-		k1 = Map`ContainsKey[int, seq of char],
-		c2 = Map`Contains[seq of char, int],
-		k2 = Map`ContainsKey[seq of char, int]
-	in
-	return 
-		c1(m1)("Kei Sato") and c1(m1)("Shin Sahara") and c1(m1)("Hiroshi Sakoh") and
-		c1(m1)("Worst Prime Minister Koizumi") = false and
-		k1(m1)(1) and k1(m1)(19) and k1(m1)(20) and
-		not k1(m1)(99) and
-		c2(m2)(1) and c2(m2)(19) and c2(m2)(20) and
-		c2(m2)(30) = false and
-		k2(m2)("Kei Sato") and k2(m2)("Shin Sahara") and k2(m2)("Hiroshi Sakoh") and
-		k2(m2)("Worst Prime Minister Koizumi") = false
-;
-protected setUp: () ==> ()
-setUp() == TestName := "MapT02:\tTest of Contains related functions.";
-protected tearDown: () ==> ()
-tearDown() == return;
-end MapT02
-~~~
-{% endraw %}
-
 ### CalendarT.vdmpp
 
 {% raw %}
@@ -6705,93 +1068,2748 @@ end CalendarT12
 ~~~
 {% endraw %}
 
-### TestDriver.vdmpp
+### Character.vdmpp
 
 {% raw %}
 ~~~
-class TestDriver
---Super class of TestDriver
+class Character
+
+values
+--vNumEnglishChars = "0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
+vNumOrderMap = 
+	{'0' |-> 1, '1' |-> 2, '2' |-> 3, '3' |-> 4, '4' |-> 5, '5' |-> 6, '6' |-> 7, '7' |-> 8, '8' |-> 9, '9' |-> 10};
+
+vChapitalCharOrderMap =
+	{'A' |-> 12, 'B' |-> 14, 'C' |-> 16, 'D' |-> 18, 'E' |-> 20, 'F' |-> 22, 'G' |-> 24, 'H' |-> 26, 'I' |-> 28, 
+	'J' |-> 30, 'K' |-> 32, 'L' |-> 34, 'M' |-> 36, 'N' |-> 38, 'O' |-> 40, 'P' |-> 42, 'Q' |-> 44, 'R' |-> 46,
+	'S' |-> 48, 'T' |-> 50, 'U' |-> 52, 'V' |-> 54, 'W' |-> 56, 'X' |-> 58, 'Y' |-> 60, 'Z' |-> 62};
+
+vSmallCharOrderMap =
+	{'a' |-> 11, 'b' |-> 13, 'c' |-> 15, 'd' |-> 17, 'e' |-> 19, 'f' |-> 21, 'g' |-> 23, 'h' |-> 25, 'i' |-> 27,
+	'j' |-> 29, 'k' |-> 31, 'l' |-> 33, 'm' |-> 35, 'n' |-> 37, 'o' |-> 39, 'p' |-> 41, 'q' |-> 43, 'r' |-> 45, 
+	's' |-> 47, 't' |-> 49, 'u' |-> 51, 'v' |-> 53, 'w' |-> 55, 'x' |-> 57, 'y' |-> 59, 'z' |-> 61};
+
+vCharOrderMap = vNumOrderMap munion vChapitalCharOrderMap munion vSmallCharOrderMap;
 
 functions
+/* Converted from vNumEnglishChars to vCharOrderMap
+static public makeOrderMap : seq of char +> map char to nat
+makeOrderMap(s) ==
+	{s(i) |-> i | i in set inds s};
+*/
 
---Return all TestCases
-public tests : () -> seq of TestCase
-tests() == is subclass responsibility;
-
---Confirm test result
-public isOK: TestCase -> bool
-isOK(t) ==
-	if t.TestACase() then
-		new TestLogger().Succeeded(t)
+static public asDigit: char -> int | bool
+asDigit(c) ==
+	if isDigit(c) then
+		let s = [c] in
+		let mk_(-, i) = VDMUtil`seq_of_char2val[int](s) in i
 	else
-		new TestLogger().Failed(t);
+		false;
 
-operations
-
---Test a TestCase sequence.
-public run: () ==> bool
-run() ==
-	let	Message = "Test result of a testcase seaquence.",
-		TestcaseSeq = tests()	,
-		aResult = [isOK(TestcaseSeq(i)) | i in set inds TestcaseSeq]
-		--aResult = new Sequence().fmap[TestCase,bool](isOK)(TestcaseSeq)
-	in
-	if  forall i in set inds aResult & aResult(i) then
-		return new TestLogger().succeededInAllTestcases(Message)
+static public asDictOrder : char -> int
+asDictOrder(c) == 
+	if c in set dom vCharOrderMap then
+		vCharOrderMap(c)
 	else
-		return new TestLogger().notSucceededInAllTestcases(Message)
-	
-end TestDriver
+		let nonAsciiChar = 999999 in nonAsciiChar;
 
+static public isDigit : char -> bool
+isDigit(c) == c in set dom vNumOrderMap;
+
+static public isLetter : char -> bool
+isLetter(c) == c in set dom (vChapitalCharOrderMap munion vSmallCharOrderMap);
+
+static public isLetterOrDigit : char -> bool
+isLetterOrDigit(c) == isDigit(c) or isLetter(c);
+
+static public isCapitalLetter : char -> bool
+isCapitalLetter(c) == c in set dom vChapitalCharOrderMap;
+
+static public isLowercaseLetter : char -> bool
+isLowercaseLetter(c) == c in set dom vSmallCharOrderMap;
+
+static public LT: char * char -> bool
+LT(c1,c2) == Character`LT2(c1)(c2);
+
+static public LT2: char -> char -> bool
+LT2(c1)(c2) == Character`asDictOrder(c1) < Character`asDictOrder(c2);
+
+static public LE : char * char -> bool
+LE(c1, c2) == Character`LE2(c1)(c2);
+
+static public LE2 : char -> char -> bool
+LE2(c1)(c2) ==  Character`LT2(c1)(c2) or c1 = c2;
+
+static public GT : char * char -> bool
+GT(c1, c2) == Character`GT2(c1)(c2);
+
+static public GT2 : char -> char -> bool
+GT2(c1)(c2) == Character`LT2(c2)(c1);
+
+static public GE : char * char -> bool
+GE(c1, c2) == Character`GE2(c1)(c2);
+
+static public GE2 : char -> char -> bool
+GE2(c1)(c2) == not Character`LT2(c1)(c2);
+			
+end Character
 ~~~
 {% endraw %}
 
-### UniqueNumberT.vdmpp
+### CommonDefinition.vdmpp
 
 {% raw %}
 ~~~
-class ＵｎｉｑｕｅＮｕｍｂｅｒＴ is subclass of TestDriver
+class CommonDefinition is subclass of Object
+
+/*
+values
+public StringOrder	= lambda x : seq of char , y : seq of char & String`LT(x,y);
+public NumericOrder	= lambda x : NumericalValue, y : NumericalValue & x < y;
+public DateOrder	= lambda x : Date, y : Date & x.LT(y);
+public AmountOfMoneyOrder	= lambda x : AmountOfMoney, y : AmountOfMoney & x < y;
+*/
+
+functions
+public StringOrder : seq of char * seq of char -> bool
+StringOrder(x, y) == String`LT(x,y);
+
+public NumericOrder : NumericalValue * NumericalValue -> bool
+NumericOrder(x, y) == x < y;
+
+public DateOrder : Date * Date -> bool
+DateOrder(x, y) ==  x.LT(y);
+
+public AmountOfMoneyOrder : AmountOfMoney * AmountOfMoney -> bool
+AmountOfMoneyOrder(x, y) == x < y;
+	
+types
+public Identifier = seq of char
+inv - ==  forall s1, s2 : seq of char, id1, id2 : Identifier & id1 <> id2 => s1 <> s2;
+public Quantity = int;
+public NumericalValue = int;
+public Percent = real
+inv p == 0 <= p and p <= 100;
+public AmountOfMoney = int;
+public NonNegativeAmountOfMoney = nat;
+public PositiveAmountOfMoney = nat1;
+public AmountOfMoney2 = real
+	inv am == new Real().isNDigitsAfterTheDecimalPoint(am,2) ;	-- 2 digits after the decimal point
+
+end CommonDefinition
+~~~
+{% endraw %}
+
+### Date.vdmpp
+
+{% raw %}
+~~~
+class Date  is subclass of CalendarDefinition	-- date
+/*
+Responsibility
+	I am a date of Gregorio Calendar.
+Abstract
+	I calculate date by cooperating with Calendar class.
+	There can be two or more objects at the same date. 
+
+Therefore, it is judged that the date is equal by using EQ operation. 
+*/
+
+instance variables
+
+private ModifiedJulianDate : real := 0;
+private usingCalendar : Calendar;
+
+/*
+ModifiedJulianDateは、julianDateでは数値が大きくなりすぎたので採用されたdateを表す数値で、1858年11月17日を0とする。
+calculation誤差の関係から、2倍精度浮動小数点(Cではdouble)でなければならない。
+*/
+
+functions
+
+----Query
+
+public getNumberOfDayOfTheWeek: () -> Calendar`NumberOfDayOfTheWeek
+getNumberOfDayOfTheWeek() == calendar().getNumberOfDayOfTheWeek(self);
+
+public getNameOfDayOfTheWeek : () -> Calendar`NameOfDayOfTheWeek
+getNameOfDayOfTheWeek() == calendar().getNameOfDayOfTheWeek(self) ;
+
+--指定された曜日が、selfとdateの間に何日あるかを返す。 
+public getNumberOfTheDayOfWeek: Date * Calendar`NameOfDayOfTheWeek -> int
+getNumberOfTheDayOfWeek(date,nameOfDayOfTheWeek) == calendar().getNumberOfTheDayOfWeek(self,date,nameOfDayOfTheWeek);
+
+--selfとdateの間の休日あるいは日曜日の数を返す（startDateを含む）
+public getTheNumberOfDayOff: Date -> int
+getTheNumberOfDayOff(date) == calendar().getTheNumberOfDayOff(self,date);
+
+--selfとdateの間の休日あるいは日曜日の数を返す（startDateを含まない）
+public getTheNumberOfDayOffExceptStartDate: Date -> int
+getTheNumberOfDayOffExceptStartDate(date) == calendar().getTheNumberOfDayOffExceptStartDate(self,date) ;
+
+--dateから、そのdateの属する年を求める。
+public Year: () -> int
+Year() == calendar().Year(self);
+		
+--dateから、そのdateの属する月を求める。
+public Month: () -> int
+Month() == calendar().Month(self);
+		
+--dateから、日を求める。
+public day: () -> int
+day() == calendar().day(self);
+
+/* calculation  */
+
+--休日でないdateを返す（未来へ向かって探索する）
+public getFutureWeekday : ()-> Date
+getFutureWeekday() == calendar().getFutureWeekday(self);
+
+--休日でないdateを返す（過去へ向かって探索する）
+public getPastWeekday : ()-> Date
+getPastWeekday() == calendar().getPastWeekday(self);
+
+--selfに、平日n日分を加算する
+public addWeekday : int -> Date
+addWeekday(addNumOfDays) == calendar().addWeekday(self,addNumOfDays);
+
+--selfに、平日n日分を減算する
+public subtractWeekday : int -> Date
+subtractWeekday(subtractNumOfDays) == calendar().subtractWeekday(self,subtractNumOfDays) ;
+
+/* checking */
+
+public isSunday : () -> bool
+isSunday() == calendar().isSunday(self);
+
+public isSaturday : () -> bool
+isSaturday() == calendar().isSaturday(self);
+
+public isWeekday : () -> bool
+isWeekday() == calendar().isWeekday(self);
+
+public isNotDayOff : () -> bool
+isNotDayOff() == calendar().isNotDayOff(self);
+
+public isDayOff : () -> bool 
+isDayOff() == calendar().isDayOff(self);
+
+public isSundayOrDayoff : () -> bool 
+isSundayOrDayoff() ==  calendar().isSundayOrDayoff(self);
+
+--new Date().getDateFrom_yyyy_mm_dd(2001,12,31).daysFromNewYear() = 365
+public daysFromNewYear: () -> int
+daysFromNewYear() == calendar().daysFromNewYear(self);
+
+/* conversion */
+
+public get_yyyy_mm_dd: () -> int * int * int
+get_yyyy_mm_dd() == mk_(self.Year(), self.Month(), self.day());
+
+private toStringAux: int -> seq of char
+toStringAux(i) == 
+	let	str = Integer`asString	in
+	if i >= 10 then str(i) else "0" ^ str(i);
+
+public date2Str: () -> seq of char
+date2Str() == self.asString();
+
+operations
+
+----conversion
+
+public asString: () ==> seq of char
+asString() ==
+	(let	asString =Integer`asString,
+		y = self.Year(),
+		m = self.Month(),
+		d = self.day(),
+		yearStr = asString(y),
+		monthStr = toStringAux(m),
+		dateStr = toStringAux(d)
+	in
+		return yearStr ^ monthStr ^ dateStr
+	);
+
+public print: ()   ==> seq of char
+print() ==
+	(let	asString =Integer`asString,
+		y = self.Year(),
+		m = self.Month(),
+		d = self.day(),
+		yearStr = asString(y),
+		monthStr = toStringAux(m),
+		dateStr = toStringAux(d)
+	in
+		return "Year=" ^ yearStr ^ ", Month=" ^ monthStr ^ ", Day=" ^ dateStr ^ ", "
+	);
+
+
+----比較
+
+/*
+操作名
+	大小比較を行う関数群。
+引数
+	date
+返値
+	真ならtrueを返し、そうでなければfalseを返す。
+内容
+	自身と与えられたdateの大小比較を行う。
+*/
+public LT: Date ==> bool
+LT(date) == return floor self.getModifiedJulianDate() < floor date.getModifiedJulianDate();
+
+public GT: Date ==> bool
+GT(date) == return floor self.getModifiedJulianDate() > floor date.getModifiedJulianDate();
+
+public LE: Date ==> bool
+LE(date) == return not self.GT(date);
+
+public GE: Date ==> bool
+GE(date) == return not self.LT(date);
+
+--自身と与えられたdateがEQか判定する。
+public EQ: Date ==> bool	--等しければtrueを返し、そうでなければfalseを返す。
+EQ(date) ==  return (floor self.getModifiedJulianDate() = floor date.getModifiedJulianDate());
+
+--自身と与えられたdateが等しくないか判定する。
+public NE: Date ==> bool	--等しければfalseを返し、そうでなければtrueを返す。
+NE(date) ==  return (floor self.getModifiedJulianDate() <> floor date.getModifiedJulianDate());
+
+----calculation
+
+--自身にnumOfDaysを加算したdateを返す
+public plus: int ==> Date
+plus(addNumOfDays) == return calendar().modifiedJulianDate2Date(self.getModifiedJulianDate() + addNumOfDays) ;
+
+--自身からnumOfDaysを減算したdateを返す
+public minus: int ==> Date
+minus(subtractNumOfDays) == return calendar().modifiedJulianDate2Date(self.getModifiedJulianDate() - subtractNumOfDays) ;
+
+--インスタンス変数へのアクセス操作
+
+--ModifiedJulianDate
+public setModifiedJulianDate: real ==> ()
+setModifiedJulianDate(r) == ModifiedJulianDate := r;
+
+public getModifiedJulianDate: () ==> real
+getModifiedJulianDate() == return ModifiedJulianDate;
+
+public calendar : () ==> Calendar
+calendar() == return usingCalendar;
+
+--Constructor
+public Date : Calendar * real ==> Date
+Date(aCal, aModifiedJulianDate) == 
+	(
+	usingCalendar := aCal;
+	setModifiedJulianDate(aModifiedJulianDate);
+	return self
+	);
+
+end Date
+~~~
+{% endraw %}
+
+### DateT.vdmpp
+
+{% raw %}
+~~~
+class DateT is subclass of TestDriver 
 functions
 public tests : () -> seq of TestCase
-tests () == 
-	[new ＵｎｉｑｕｅＮｕｍｂｅｒＴ01()
+tests() == 
+	[ new DateT01(), new DateT02(), new DateT03(), 
+	new DateT04(),
+	new DateT05(), new DateT06(),new DateT07()
 	];
-end ＵｎｉｑｕｅＮｕｍｂｅｒＴ
+end DateT
 
-class ＵｎｉｑｕｅＮｕｍｂｅｒＴ01 is subclass of TestCase
+class DateT01 is subclass of TestCase, CalendarDefinition
 operations 
 protected test: () ==> bool
 test() == 
-	let	o = new ＵｎｉｑｕｅＮｕｍｂｅｒ()	in
+	let	jc = new JapaneseCalendar(),
+		d = jc.getDateFrom_yyyy_mm_dd(2001,5,1)	,
+		d1 = jc.getDateFrom_yyyy_mm_dd(2001,4,29),
+		d2 = jc.getDateFrom_yyyy_mm_dd(2001,4,28)
+	in
 	return
+		d.getNumberOfDayOfTheWeek() = jc.getNumberOfDayOfTheWeekFromName(<Tue>) and
+		d.getNameOfDayOfTheWeek() = <Tue> and
+		d1.getNameOfDayOfTheWeek() = <Sun> and
+		d2.getNameOfDayOfTheWeek() = <Sat> and
+		d.isSunday() = false and
+		d.isSaturday() = false and
+		d.isWeekday() = true and
+		d.isDayOff() = false and 
+		d.isNotDayOff() = true and
+		d.isSundayOrDayoff()  = false
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "DateT01:\tCalculate the day of the week.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end DateT01
+
+class DateT02 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	jc = new JapaneseCalendar(),
+		d = jc.getDateFrom_yyyy_mm_dd(2001,5,1)		in
+	return
+		d.get_yyyy_mm_dd() = mk_(2001,5,1) and
+		d.date2Str() = "20010501" and
+		d.asString() = "20010501" and
+		d.print() = "Year=2001, Month=05, Day=01, "
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "DateT02:\tConvert date.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end DateT02
+
+class DateT03 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	jc = new JapaneseCalendar(),
+		d20000101 = jc.getDateFromString("20000101"),
+		d0301 = jc.getDateFromString("20010301"),
+		d0501 = jc.getDateFromString("20010501"),
+		d0711 = jc.getDateFrom_yyyy_mm_dd(2001,7,11)	in
+	return
+		d0301.getTheNumberOfDayOff(d0711)  = 24 and
+		d0501.getTheNumberOfDayOffExceptStartDate(d0711) = 13 and
+		d20000101.getTheNumberOfDayOff(d0711)  = 103
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "DateT03:\tgetTheNumberOfDayOff";
+protected tearDown: () ==> ()
+tearDown() == return;
+end DateT03
+
+class DateT04 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	jc = new JapaneseCalendar(),
+		d20001231 = jc.getDateFrom_yyyy_mm_dd(2000,12,31),
+		d1231 = jc.getDateFrom_yyyy_mm_dd(2001,12,31),
+		d0626 = jc.getDateFrom_yyyy_mm_dd(2001,6,26),
+		d0501 = jc.getDateFromString("20010501"),
+		d0505 = jc.getDateFromString("20010505"),
+		d0502 = jc.getDateFrom_yyyy_mm_dd(2001,5,2)		in
+	return
+		d0502.addWeekday(1).getFutureWeekday().date2Str() = "20010507" and
+		d0502.getPastWeekday().subtractWeekday(1).date2Str() = "20010501" and
+		d0501.getPastWeekday().subtractWeekday(1).date2Str() = "20010427" and
+		d0501.getFutureWeekday().date2Str() = "20010501" and
+		d0501.addWeekday(2).date2Str() = "20010507" and
+		d0502.subtractWeekday(2).date2Str() = "20010427" and
+		d1231.daysFromNewYear() = 365 and
+		d20001231.daysFromNewYear() = 366 and
+		d0501.getNumberOfTheDayOfWeek(d0626,<Tue>) = 9 and
+		jc.getFutureWeekday(d0505).date2Str() = "20010507" and
+		jc.getFutureWeekday(d0501).date2Str() = "20010501" and
+		jc.getPastWeekday(d0501).date2Str() = "20010501" and
+		jc.getPastWeekday(d0505).date2Str() = "20010502" 
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "DateT04:\tCalculate date.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end DateT04
+
+class DateT05 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	jc = new JapaneseCalendar(),
+		d0711 = jc.getDateFromString("20010711")	in
+	(
+	jc.setToday(jc.getDateFrom_yyyy_mm_dd(2001, 3, 1));
+	let	d0301 = jc.today()	in
+	return
+		d0711.EQ(jc.getDateFrom_yyyy_mm_dd(2001, 7, 11)) and
+		d0711.NE(jc.getDateFrom_yyyy_mm_dd(2001, 7, 12)) and
+		jc.EQ(d0711,jc.getDateFrom_yyyy_mm_dd(2001, 7, 11)) and
+		d0301.LT(d0711) and
+		jc.LT(d0301, d0711) and
+		d0711.GT(d0301) and
+		jc.GT(d0711,d0301) and
+		d0711.GE(d0711) and d0711.GE(d0301) and
+		jc.GE(d0711,d0711)  and jc.GE(d0711,d0301) and
+		d0711.LE(d0711) and d0301.LE(d0711) and
+		jc.LE(d0711,d0711) and jc.LE(d0301,d0711)
+	);
+protected setUp: () ==> ()
+setUp() == TestName := "DateT05:\tCompare date.date";
+protected tearDown: () ==> ()
+tearDown() == return;
+end DateT05
+
+class DateT06 is subclass of TestCase, CalendarDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	jc = new JapaneseCalendar(),
+		d10010301 = jc.getDateFromString("10010301"),
+		d0711 = jc.getDateFromString("20010711")	in
+	(
+	jc.setToday(jc.getDateFrom_yyyy_mm_dd(2001, 3, 1));
+	let	d0301 = jc.today()		in
+	return
+		jc.firstDayOfTheWeekInMonth(2000,3,<Wed>).get_yyyy_mm_dd() = mk_( 2000,3,1 ) and
+		jc.firstDayOfTheWeekInMonth(2001,7,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,1 ) and
+		jc.lastDayOfTheWeekInMonth(2000,2,<Tue>).get_yyyy_mm_dd() = mk_( 2000,2,29 ) and
+		jc.lastDayOfTheWeekInMonth(2001,7,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,29 ) and
+		jc.getNthDayOfTheWeek(2001,7,5,<Sun>).get_yyyy_mm_dd() = mk_( 2001,7,29 ) and
+		jc.getNthDayOfTheWeek(2001,7,6,<Sun>) = false and
+		jc.getNumberOfTheDayOfWeek(d0711,d0301,<Sun>)  = 19 and
+		jc.getNumberOfTheDayOfWeek(d0711,d10010301,<Sun>)  = 52196	
+	);
+protected setUp: () ==> ()
+setUp() == TestName := "DateT06:\tGet the day of the week.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end DateT06
+
+class DateT07 is subclass of TestCase, CalendarDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	jc = new JapaneseCalendar()	in
+	return
+		jc.isLeapYear(2000) = true and
+		jc.isLeapYear(2001) = false and
+		jc.isLeapYear(1996) = true and
+		jc.isLeapYear(1900) = false and
+		jc.isLeapYear(1600) = true and
+		jc.isDateString("sahara") = false and
+		jc.isDateString("20010723") = true and
+		jc.isDateString("20011232") = false and
+		jc.isWeekday(<Mon>) = true and
+		jc.isWeekday(<Tue>) = true and
+		jc.isWeekday(<Wed>) = true and
+		jc.isWeekday(<Thu>) = true and
+		jc.isWeekday(<Fri>) = true and
+		jc.isWeekday(<Sat>) = false and
+		jc.isWeekday(<Sun>) = false and
+		jc.date2Str(jc.getLastDayOfMonth(2000,2)) = "20000229" and
+		jc.date2Str(jc.getLastDayOfMonth(2001,2)) = "20010228"
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "DateT07:\tQuery about date.date";
+protected tearDown: () ==> ()
+tearDown() == return;
+end DateT07
+~~~
+{% endraw %}
+
+### DoubleListQueue.vdmpp
+
+{% raw %}
+~~~
+/*   
+ * Queue using 2 sequences.
+ * Usage:
+ *	make empty queue as following:
+ * 		let Q0 = DoubleListQueue`empty[int]() in ...
+ *	
+ *	append an element to queue:
+ *		DoubleListQueue`enQueue(1, Q0)
+ *	
+*/
+
+class DoubleListQueue
+
+functions
+static public empty[@T] : () -> seq of @T * seq of @T
+empty() == mk_([], []);
+
+static public isEmpty[@T] : (seq of @T * seq of @T) -> bool
+isEmpty(s) == s = mk_([], []);
+
+static public enQueue[@T] : @T * (seq of @T * seq of @T) -> seq of @T * seq of @T
+enQueue(anElem, mk_(aHeads, aTails)) == mk_(aHeads, [anElem] ^ aTails);
+
+static public deQueue[@T] : (seq of @T * seq of @T) -> [seq of @T * seq of @T]
+deQueue(mk_(aHeads, aTails)) == 
+	cases aHeads:
+		[-] ^ aTailsOfHeads	-> mk_(aTailsOfHeads, aTails),
+		[]	-> 
+			cases aTails:
+				[]		-> nil,
+				others	-> mk_(tl Sequence`freverse[@T](aTails), [])
+			end
+	end;
+
+static public top[@T] : (seq of @T * seq of @T) -> [@T]
+top(mk_(aHeads, aTails)) == 
+	cases aHeads:
+		[h] ^ -	-> h,
+		[]	-> 
+			cases aTails:
+				[]		-> nil,
+				others	-> hd Sequence`freverse[@T](aTails)
+			end
+	end;
+
+static public fromList[@T] : seq of @T * (seq of @T * seq of @T) -> seq of @T * seq of @T
+fromList(aSeq, aQueue) ==
+	cases aSeq:
+		[]				-> aQueue,
+		[h] ^ aTailsOfSeq		-> fromList[@T](aTailsOfSeq, enQueue[@T](h, aQueue))
+	end
+measure fromListMeasure;
+
+static fromListMeasure[@T] : seq of @T *  (seq of @T * seq of @T) +> nat
+fromListMeasure(s, -) == len s;
+
+static public toList[@T] : (seq of @T * seq of @T) -> seq of @T
+toList(aaQueue) ==
+	cases aaQueue:
+		(mk_([], []))	-> [],
+		aQueue	-> [top[@T](aQueue)] ^ toList[@T](deQueue[@T](aQueue))
+	end
+measure toListMeasure;
+
+static toListMeasure[@T] :  (seq of @T * seq of @T) +> nat
+toListMeasure(mk_(s1, s2)) == len s1 + len s2;
+
+end DoubleListQueue
+~~~
+{% endraw %}
+
+### DoubleListQueueT.vdmpp
+
+{% raw %}
+~~~
+class DoubleListQueueT is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests () == 
+	[ new DoubleListQueueT01()
+	];
+end DoubleListQueueT
+
+class DoubleListQueueT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	q0 = DoubleListQueue`empty[int](),
+		q1 = DoubleListQueue`enQueue[int](1, q0),
+		q2 = DoubleListQueue`enQueue[int](2, q1),
+		q3 = DoubleListQueue`enQueue[int](3, q2),
+		h1 = DoubleListQueue`top[int](q3),
+		q4 = DoubleListQueue`deQueue[int](q3),
+		q5 = DoubleListQueue`enQueue[int](4, q4),
+		q6 = DoubleListQueue`enQueue[int](5, q5),
+		q7 = DoubleListQueue`deQueue[int](q6),
+		q8 = DoubleListQueue`deQueue[int](q7),
+		q9 = DoubleListQueue`deQueue[int](q8),
+		q10 = DoubleListQueue`deQueue[int](q9),
+		h2 = DoubleListQueue`top[int](q10),
+		q11 = DoubleListQueue`deQueue[int](q10),
+		q12 = DoubleListQueue`fromList[char]("Sahara Shin", DoubleListQueue`empty[char]())
+	in
+	return
+		DoubleListQueue`isEmpty[int](q0) and q0 = mk_([], []) and
+		DoubleListQueue`toList[int](q1) = [1] and q1 = mk_([], [1]) and
+		DoubleListQueue`toList[int](q2) = [1,2] and q2 = mk_([], [2,1]) and
+		DoubleListQueue`toList[int](q3) = [1,2,3] and q3 = mk_([], [3,2,1]) and
+		h1 = 1 and
+		DoubleListQueue`toList[int](q4) = [2,3] and q4 = mk_([2,3], []) and
+		DoubleListQueue`toList[int](q5) = [2,3,4] and q5 = mk_([2,3], [4]) and
+		DoubleListQueue`toList[int](q6) = [2,3,4,5] and q6 = mk_([2,3], [5, 4]) and
+		DoubleListQueue`toList[int](q7) = [3,4,5] and q7 = mk_([3], [5, 4]) and
+		DoubleListQueue`toList[int](q8) = [4,5] and q8 = mk_([], [5, 4]) and
+		DoubleListQueue`toList[int](q9) = [5] and q9 = mk_([5], []) and
+		DoubleListQueue`toList[int](q10) = [] and DoubleListQueue`isEmpty[int](q10) and q10 = mk_([], []) and
+		h2 = nil and
+		q11 = nil and
+		DoubleListQueue`toList[char](q12) = "Sahara Shin" and q12 = mk_([], "nihS arahaS")
+		
+;
+protected setUp: () ==> ()
+setUp() == TestName := "DoubleListQueueT01:\t Test Queue";
+protected tearDown: () ==> ()
+tearDown() == return;
+end DoubleListQueueT01
+~~~
+{% endraw %}
+
+### FHashtable.vdmpp
+
+{% raw %}
+~~~
+                                                                                           
+--"$Id"
+class FHashtable
+
+functions
+                                                                                             
+static public Put[@T1, @T2] : 
+	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> @T2 
+	-> (map @T1 to (map @T1 to  @T2))
+Put(aHashtable)(aHashCode)(aKey)(aValue) ==
+	let	hashcode = aHashCode(aKey)
+	in
+	if hashcode in set dom aHashtable then
+		aHashtable ++ {hashcode |-> (aHashtable(hashcode) ++ {aKey |-> aValue})}
+	else
+		aHashtable munion {hashcode |-> {aKey |-> aValue}}
+	;
+                                                                                            
+static public PutAll[@T1, @T2] : 
+	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2) 
+	-> (map @T1 to (map @T1 to  @T2)) 
+PutAll(aHashtable)(aHashCode)(aMap) == 
+	PutAllAux[@T1, @T2](aHashtable)(aHashCode)(aMap)(dom aMap);
+
+static public PutAllAux[@T1, @T2] :
+	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2)  -> set of @T1
+	-> (map @T1 to (map @T1 to  @T2)) 
+PutAllAux(aHashtable)(aHashCode)(aMap)(aKeySet) ==
+	if aKeySet = {} then
+		aHashtable
+	else
+		let	aKey in set aKeySet	in
+		let	newHashtable = Put[@T1, @T2](aHashtable)(aHashCode)(aKey)(aMap(aKey))	
+		in
+		PutAllAux[@T1, @T2](newHashtable)(aHashCode)(aMap)(aKeySet \ {aKey})
+	;
+                                                                              
+static public Get[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1  -> [@T2]
+Get(aHashtable)(aHashCode)(aKey) ==
+	let	hashcode = aHashCode(aKey)
+	in
+	if hashcode in set dom aHashtable then
+		FMap`Get[@T1, @T2](aHashtable(hashcode))(aKey)
+	else
+		nil
+	;
+                                                                                                              
+static public Remove[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> (map @T1 to (map @T1 to  @T2))
+Remove(aHashtable)(aHashCode)(aKey) == 
+	let	hashcode = aHashCode(aKey)
+	in
+	{h |-> ({aKey} <-: aHashtable(hashcode)) | h in set {hashcode}} munion 
+		{hashcode} <-: aHashtable ;
+                                                                               
+static public Clear[@T1, @T2] : () -> (map @T1 to (map @T1 to  @T2))
+Clear() == ({ |-> });
+                                                                                               
+static public KeySet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T1
+KeySet(aHashtable) == 
+	--let	aMapSet : set of (map @T1 to @T2) = rng aHashtable,
+		--f : map @T1 to @T2 -> set of @T1 = lambda x : map @T1 to  @T2 & dom x
+	let	aMapSet = rng aHashtable
+	in
+	if aMapSet <> {} then
+		--dunion FSet`Fmap[map @T1 to  @T2, set of @T1](f)(aMapSet)
+		dunion  {dom s | s in set aMapSet} 
+	else
+		{};
+                                                                                           
+static public ValueSet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T2
+ValueSet(aHashtable) == 
+	--let	aMapSet : set of (map @T1 to @T2) = rng aHashtable,
+		--f : map @T1 to @T2 -> set of @T2 = lambda x : map @T1 to  @T2 & rng x
+	let	aMapSet = rng aHashtable
+	in
+	if aMapSet <> {} then
+		--dunion FSet`Fmap[map @T1 to  @T2, set of @T2](f)(aMapSet)
+		dunion  {rng s | s in set aMapSet} 
+	else
+		{};
+                                                                            
+static public Size[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> nat
+Size(aHashtable) == card KeySet[@T1, @T2](aHashtable) ;
+                                                                                          
+static public IsEmpty[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> bool
+IsEmpty(aHashtable) == KeySet[@T1, @T2](aHashtable) = {};
+                                                                                                       
+static public Contains[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T2 -> bool
+Contains(aHashtable)(aValue) == 
+	let	aMapSet = rng aHashtable	
+	in
+	if aMapSet <> {} then
+		exists aMap in set aMapSet & aValue in set rng aMap
+	else
+		false;
+                                                                                                               
+static public ContainsKey[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T1 -> bool
+ContainsKey(aHashtable)(aKey) == 
+	let	aMapSet = rng aHashtable	
+	in
+	if aMapSet <> {} then
+		exists aMap in set aMapSet & aKey in set dom aMap
+	else
+		false;
+
+end FHashtable
+                                                                           
+~~~
+{% endraw %}
+
+### FHashtableT.vdmpp
+
+{% raw %}
+~~~
+                                                         
+class FHashtableT
+
+functions
+static public run : () +> bool
+run() == 
+let	testcases = [ t1(), t2(), t3(), t4(), t5(), t6() ]
+in
+FTestDriver`run(testcases);
+                                                                  
+static t1 : () -> FTestDriver`TestCase
+t1() ==
+	
+	mk_FTestDriver`TestCase(
+	"FHashtableT01:\t Test Contains, PutAll",
+	let	aHashCode = lambda x : int & x mod 13,
+		p1 = FHashtable`PutAll[int, seq of char]({ |-> })(aHashCode)(
+				{1 |-> "Sahara", 2 |-> "Sato", 14 |-> "Sakoh"}
+			),
+		c1 = FHashtable`Contains[int, seq of char](p1)
+	in
+	c1("Sahara") and
+	c1("Sato") and
+	c1("Sakoh") and
+	c1("") = false)
+	;
+                                                                            
+static t2 : () -> FTestDriver`TestCase
+t2() ==
+	
+	mk_FTestDriver`TestCase(
+	"FHashtableT02:\t Test Clear, Remove, ContainsKey",
+	let	aHashCode = lambda x : seq of char & if x = "" then "" else FSequence`Take[char](1)(x),
+		h2 = FHashtable`PutAll[seq of char, int]({ |-> })(aHashCode)(
+				{"a" |-> 1, "b" |-> 2, "c" |-> 3}
+			),
+		h3 = FHashtable`Clear[int, seq of char](),
+		deletedh2 = FHashtable`Remove[seq of char, int](h2)(aHashCode)("b"),
+		c1 = FHashtable`Contains[seq of char, int](deletedh2),
+		ck1 = FHashtable`ContainsKey[seq of char, int](deletedh2)
+	in
+	h3 = {|->} and
+	FHashtable`Get[seq of char, int](deletedh2)(aHashCode)("b") = nil and
+	c1(2) = false and
+	c1(1) and
+	c1(3) and
+	ck1("b") = false and 
+	ck1("a") and
+	ck1("c"))
+	;
+                                                          
+static t3 : () -> FTestDriver`TestCase
+t3() ==
+	
+	mk_FTestDriver`TestCase(
+	"FHashtableT03:\t Test Put, Get",
+	let	aHashCode = lambda x : int & x mod 13,
+		put = FHashtable`Put[int, seq of char],
+		p1 = put({ |-> })(aHashCode)(1)("Sahara"),
+		p2 = put(p1)(aHashCode)(2)("Bush"),
+		p3 = put(p2)(aHashCode)(2)("Sato"),
+		p4 = put(p3)(aHashCode)(14)("Sakoh"),
+		get = FHashtable`Get[int, seq of char](p4),
+		g = FHashtable`Get[int, seq of char](p4)(aHashCode)
+	in
+	get(aHashCode)(1) = "Sahara" and
+	get(aHashCode)(2) = "Sato" and
+	get(aHashCode)(14) = "Sakoh" and
+	get(aHashCode)(99) = nil and
+	FSequence`Fmap[int, seq of char](g)([1, 14]) = ["Sahara", "Sakoh"] and
+	FSequence`Fmap[int, seq of char](g)([1, 2]) = ["Sahara", "Sato"] 
+	)
+	;
+                                                                  
+static t4 : () -> FTestDriver`TestCase
+t4() ==
+	
+	mk_FTestDriver`TestCase(
+	"FHashtableT04:\t Test KeySet, ValueSet",
+	let	aHashCode = lambda x : int & x mod 13,
+		put = FHashtable`Put[int, seq of char],
+		p1 = put({ |-> })(aHashCode)(1)("Sahara"),
+		p2 = put(p1)(aHashCode)(2)("Bush"),
+		p3 = put(p2)(aHashCode)(2)("Sato"),
+		p4 = put(p3)(aHashCode)(14)("Sakoh"),
+		k = FHashtable`KeySet[int, seq of char],
+		v = FHashtable`ValueSet[int, seq of char]
+	in
+	k(p1) = {1} and
+	v(p1) = {"Sahara"} and
+	k(p2) = {1, 2} and
+	v(p2) = {"Sahara", "Bush"} and
+	k(p4) = {1,2,14} and
+	v(p4) = {"Sahara", "Sato", "Sakoh"})
+	;
+                                                                            
+static t5 : () -> FTestDriver`TestCase
+t5() ==
+	
+	mk_FTestDriver`TestCase(
+	"FHashtableT05:\t Test hashCode is duplicate",
+	let	aHashCode1 = lambda x : int & x mod 13,
+		h1 = FHashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
+				{1 |-> "SaharaShin", 2 |-> "SatoKei", 14 |-> "SakohHiroshi", 27 |-> "NishikawaNoriko"}
+			),
+		h2 = FHashtable`Remove[int, seq of char](h1)(aHashCode1)(14)
+	in
+	FHashtable`KeySet[int, seq of char](h2) = {1, 2, 27} and
+	FHashtable`ValueSet[int, seq of char](h2) = {"SaharaShin",  "SatoKei", "NishikawaNoriko"})
+	;
+                                                      
+static t6 : () -> FTestDriver`TestCase
+t6() ==
+	
+	mk_FTestDriver`TestCase(
+	"FHashtableT06:\t Test Size",
+	let	aHashCode1 = lambda x : int & x mod 13,
+		remove = FHashtable`Remove[int, seq of char],
+		h1 = FHashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
+				{1 |-> "SaharaShin", 2 |-> "SatoKei", 14 |-> "SakohHiroshi"}
+			),
+		h2 = remove(h1)(aHashCode1)(1),
+		h3 = remove(h2)(aHashCode1)(2),
+		h4 = remove(h3)(aHashCode1)(14),
+		isempty = FHashtable`IsEmpty[int, seq of char],
+		size = FHashtable`Size[int, seq of char]
+	in
+	isempty(h4) and
+	size(h4) = 0 and
+	isempty(h3)  = false and
+	size(h3) = 1 and
+	size(h2) = 2 and
+	size(h1) = 3)
+	;
+
+end FHashtableT
+            
+~~~
+{% endraw %}
+
+### FMap.vdmpp
+
+{% raw %}
+~~~
+                                                                                  
+--"$Id"
+class FMap
+
+functions
+                                                                                                                                 
+static public Get[@T1, @T2] : map @T1 to @T2 -> @T1 -> [@T2]
+Get(aMap)(aKey) ==
+	if aKey in set dom aMap then
+		aMap(aKey)
+	else
+		nil;
+                                                                                                                 
+static public Contains[@T1, @T2] : map @T1 to @T2 -> @T2 -> bool
+Contains(aMap)(aValue) == aValue in set rng aMap;
+                                                                                                                     
+static public ContainsKey[@T1, @T2] : map @T1 to @T2 -> @T1 -> bool
+ContainsKey(aMap)(aKey) == aKey in set dom aMap;
+	
+end FMap
+                                                              
+~~~
+{% endraw %}
+
+### FSequence.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                        
+class FSequence
+--"$Id: Sequence.vpp,v 1.1 2005/10/31 02:09:58 vdmtools Exp $";
+	
+functions 
+
+                                                                     
+static public Sum[@T] : seq of @T ->  @T
+Sum(s) == Foldl[@T, @T](Plus[@T])(0)(s)
+pre
+	is_(s, seq of int) or is_(s, seq of nat) or is_(s, seq of nat1) or
+ 	is_(s, seq of real) or is_(s, seq of rat);
+                                                                      
+static public Prod[@T] : seq of @T ->  @T
+Prod(s) == Foldl[@T, @T](Product[@T])(1)(s)
+pre
+	is_(s, seq of int) or is_(s, seq of nat) or is_(s, seq of nat1) or
+ 	is_(s, seq of real) or is_(s, seq of rat);
+                                                       
+static public Plus[@T] : @T -> @T -> @T
+Plus(a)(b) == if is_real(a) and is_real(b)
+              then a + b
+              else undefined;
+                                                         
+static public Product[@T] : @T -> @T -> @T
+Product(a)(b) == if is_real(a) and is_real(b)
+              then a * b
+              else undefined;
+                                                              
+static public Append[@T] : seq of @T -> @T -> seq of @T
+Append(s)(e) == s ^ [e];
+                                                                            
+static public Average[@T]: seq of @T ->  [real]
+Average(s) == if s = [] then nil else AverageAux[@T](0)(0)(s)
+post
+	if s = [] then
+		RESULT = nil
+	else let sum = Sum[@T](s)
+	     in
+		RESULT = if is_real(sum) 
+		         then sum / len s
+		         else undefined;
+
+static AverageAux[@T] : @T -> @T -> seq of @T -> real
+AverageAux(total)(numOfElem)(s) ==
+  if is_(s,seq of real) and is_real(total) and is_real(numOfElem)
+  then
+	cases s :
+	[x] ^ xs	-> AverageAux[@T](total + x)(numOfElem + 1)(xs),
+	[]		-> total / numOfElem 
+	end
+	else undefined;
+                                                                                                                                                      
+static public IsAscendingInTotalOrder[@T] : (@T * @T -> bool) -> seq of @T -> bool
+IsAscendingInTotalOrder(f)(s) ==
+	forall i,j  in set inds s & i < j  => f(s(i),s(j)) or s(i) = s(j);
+                                                                                                                                                       
+static public IsDescendingInTotalOrder[@T] : (@T * @T -> bool) -> seq of @T -> bool
+IsDescendingInTotalOrder(f)(s) ==
+	forall i,j  in set inds s & i < j  => f(s(j),s(i)) or s(i) = s(j);
+                                                                                                                                             
+static public IsAscending [@T]: seq of @T -> bool
+IsAscending(s) ==
+	IsAscendingInTotalOrder[@T](lambda x : @T, y : @T & 
+	                              if is_real(x) and is_real(y) 
+	                              then x < y
+	                              else undefined)(s);
+                                                                                                                                              
+static public IsDescending[@T]: seq of @T -> bool
+IsDescending(s) ==
+	IsDescendingInTotalOrder[@T](lambda x : @T, y : @T & 
+	                                  if is_real(x) and is_real(y) 
+	                                  then x < y
+	                                  else undefined)(s);
+                                                                                                                                   
+static public Sort[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T
+Sort(f)(s) ==
+	cases s:
+		[]	-> [],
+		[x]^xs	-> 
+			Sort[@T](f)([xs(i) | i in set inds xs & f(xs(i),x)]) ^
+			[x] ^
+			Sort[@T](f)([xs(i) | i in set inds xs & not f(xs(i),x)])
+	end;
+                                                                                                                                   
+static public AscendingSort[@T] : seq of @T -> seq of @T
+AscendingSort(s) == Sort[@T](lambda x : @T, y : @T & 
+                                if is_real(x) and is_real(y) 
+	                              then x < y
+	                              else undefined)(s)
+post
+	IsAscending[@T](RESULT);
+                                                                                                                                                                       
+static public DescendingSort[@T] : seq of @T -> seq of @T
+DescendingSort(s) == Sort[@T](lambda x : @T, y : @T & 
+                                  if is_real(x) and is_real(y) 
+	                                then x > y
+	                                else undefined)(s)
+post
+	IsDescending[@T](RESULT);
+                                                                                                                                                 
+static public IsOrdered[@T] : seq of (@T * @T -> bool) -> seq of @T -> seq of @T -> bool
+IsOrdered(f)(s1)(s2) ==
+	cases mk_(s1,s2):
+		mk_([],[])			-> false,
+		mk_([],-)			-> true,
+		mk_(-,[])			-> false,
+		mk_([x1]^xs1,[x2]^xs2)	->
+			if (hd f)(x1,x2) then
+				true
+			elseif (hd f)(x2,x1) then
+				false
+			else
+				IsOrdered[@T](tl f)(xs1)(xs2)
+	end;
+                                                                                                                   
+static public Merge[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T -> seq of @T
+Merge(f)(s1)(s2) == 
+	cases mk_(s1,s2):
+		mk_([], y)			-> y,
+		mk_(x, [])			-> x,
+		mk_([x1]^xs1,[x2]^xs2)	->
+			if f(x1,x2) then
+				[x1] ^ FSequence`Merge[@T](f)(xs1)(s2)
+			else
+				[x2] ^ FSequence`Merge[@T](f)(s1)(xs2)
+	end;
+                                                                                                    
+static public InsertAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
+InsertAt(i)(e)(s) ==
+	cases mk_(i, s) :
+	mk_(1, s1)		-> [e] ^ s1,
+	mk_(-, [])		-> [e],
+	mk_(i1, [x] ^ xs)	-> [x] ^ InsertAt[@T](i1 - 1)(e)(xs)
+	end;
+                                                                                                   
+static public RemoveAt[@T]: nat1 -> seq of @T -> seq of @T
+RemoveAt(i)(s) ==
+	cases mk_(i, s) :
+	mk_(1, [-] ^ xs)	-> xs,
+	mk_(i1, [x] ^ xs)	-> [x] ^ RemoveAt[@T](i1 - 1)(xs),
+	mk_(-, [])		-> []
+	end;
+                                                                                          
+static public RemoveDup[@T] :  seq of @T ->  seq of @T
+RemoveDup(s) == 
+	cases s :
+	[x]^xs		-> [x] ^ RemoveDup[@T](Filter[@T](lambda e : @T & e <> x)(xs)) ,
+	[]		-> []
+	end
+post
+	not IsDup[@T](RESULT);
+                                                                                   
+static public RemoveMember[@T] :  @T -> seq of @T -> seq of @T
+RemoveMember(e)(s) == 
+	cases s :
+	[x]^xs		-> if e = x then xs else [x] ^ RemoveMember[@T](e)(xs),
+	[]		-> []
+	end;
+                                                                                                    
+static public RemoveMembers[@T] :  seq of @T -> seq of @T -> seq of @T
+RemoveMembers(es)(s) == 
+	cases es :
+	[]		-> s,
+	[x]^xs		-> RemoveMembers[@T](xs)(RemoveMember[@T](x)(s))
+	end;
+                                                                                                                                  
+static public UpdateAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
+UpdateAt(i)(e)(s) ==
+	cases mk_(i, s) :
+	mk_(-, [])		-> [],
+	mk_(1, [-] ^ xs)	-> [e] ^ xs,
+	mk_(i1,  [x] ^ xs)	-> [x] ^ UpdateAt[@T](i1 - 1)(e)(xs)
+	end;
+                                                                                   
+static public Take[@T] : int -> seq of @T -> seq of @T
+Take(i)(s) == s(1,...,i);
+                                                                                                                         
+static public TakeWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
+TakeWhile(f)(s) ==
+	cases s :
+	[x] ^ xs	-> 
+		if f(x) then
+			[x] ^ TakeWhile[@T](f)(xs)
+		else
+			[],
+	[]	-> []
+	end;
+                                                                                
+static public Drop[@T]: int -> seq of @T -> seq of @T
+Drop(i)(s) == s(i+1,...,len s);
+                                                                                                                      
+static public DropWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
+DropWhile(f)(s) ==
+	cases s :
+	[x] ^ xs	-> 
+		if f(x) then
+			DropWhile[@T](f)(xs)
+		else
+			s,
+	[]	-> []
+	end;
+                                                                                                                                                                                         
+static public Span[@T] : (@T -> bool) -> seq of @T -> seq of @T * seq of @T
+Span(f)(s) ==
+	cases s :
+	[x] ^ xs	-> 
+		if f(x) then
+			let	mk_(satisfied, notSatisfied) = Span[@T](f)(xs)
+			in
+			mk_([x] ^ satisfied, notSatisfied)
+		else
+			mk_([], s),
+	[]	-> mk_([], [])
+	end;
+                                                                                                                
+static public SubSeq[@T]: nat -> nat -> seq1 of @T -> seq of @T
+SubSeq(i)(numOfElems)(s) == s(i,...,i + numOfElems - 1);
+                                                                         
+static public Last[@T]: seq of @T -> @T
+Last(s) == s(len s);
+                                                                                          
+static public Fmap[@T1,@T2]: (@T1 -> @T2) -> seq of @T1 -> seq of @T2
+Fmap(f)(s) == [f(s(i)) | i in set inds s];
+                                                                                                                                                                   
+static public Filter[@T]: (@T -> bool) -> seq of @T -> seq of @T
+Filter(f)(s) == [s(i) | i in set inds s & f(s(i))];
+                                                                                                                    
+static public Foldl[@T1, @T2] : (@T1 -> @T2 -> @T1) -> @T1 -> seq of @T2 -> @T1
+Foldl(f)(args)(s) == 
+	cases s :
+	[]		-> args,
+	[x] ^ xs	-> Foldl[@T1,@T2](f)(f(args)(x))(xs)
+	end;
+                                                                                                                      
+static public Foldr[@T1, @T2] : 
+	(@T1 -> @T2 -> @T2) -> @T2 -> seq of @T1 -> @T2
+Foldr(f)(args)(s) == 
+	cases s :
+	[]		-> args,
+	[x] ^ xs	-> f(x)(Foldr[@T1,@T2](f)(args)(xs))
+	end;
+                                                                               
+static public IsMember[@T] : @T -> seq of @T -> bool
+IsMember(e)(s) == 
+	cases s :
+	[x]^xs		-> e = x or IsMember[@T] (e)(xs),
+	[]		-> false
+	end;
+                                                                                                             
+static public IsAnyMember[@T]:  seq of @T -> seq of @T -> bool
+IsAnyMember(es)(s) == 
+	cases es :
+	[x]^xs		->  IsMember[@T] (x)(s) or IsAnyMember[@T] (xs)(s) ,
+	[]		-> false
+	end;
+                                                                                            
+static public IsDup[@T] : seq of @T -> bool
+IsDup(s) == not card elems s = len s
+post
+	if s = [] then 
+		RESULT = false
+	else
+		RESULT = not forall i, j in set inds s & s(i) <> s(j) <=> i <> j ;
+                                                                                                                                              
+static public Index[@T]: @T -> seq of @T -> int
+Index(e)(s) == 
+	let	i = 0
+	in
+	IndexAux[@T](e)(s)(i);
+
+static public IndexAux[@T] : @T -> seq of @T -> int -> int
+IndexAux(e)(s)(i) ==
+	cases s:
+		[]		-> 0,
+		[x]^xs		->
+			if x = e then 
+				i + 1
+			else
+				IndexAux[@T](e)(xs)(i+1)
+	end;
+                                                                                                                                     
+static public IndexAll[@T] : @T -> seq of @T -> set of nat1
+IndexAll(e)(s) == {i | i in set inds s & s(i) = e};
+                                                                                                                             
+static public Flatten[@T] : seq of seq of @T -> seq of @T
+Flatten(s) == conc s;
+                                                                                                 
+static public Compact[@T] : seq of [@T] -> seq of @T
+Compact(s) == [s(i) | i in set inds s & s(i) <> nil]
+post
+	forall i in set inds RESULT & RESULT(i) <> nil;
+                                                                                                                                               
+static public Freverse[@T] : seq of @T -> seq of @T
+Freverse(s) == [s(len s + 1 -  i) | i in set inds s];
+                                                                        
+static public Permutations[@T]: seq of @T -> set of seq of @T
+Permutations(s) == 
+cases s:
+	[],[-] -> {s},
+	others -> dunion {{[s(i)]^j | j in set Permutations[@T](RemoveAt[@T](i)(s))} | i in set inds s} 
+end
+post
+	forall x in set RESULT & elems x = elems s;
+                                                                                                            
+static public IsPermutations[@T]: seq of @T -> seq of @T -> bool
+IsPermutations(s)(t) == 
+	RemoveMembers[@T](s)(t) = [] and RemoveMembers[@T](t)(s) = [];
+                                                                               
+static public Unzip[@T1, @T2] : seq of (@T1 * @T2) -> seq of @T1 * seq of @T2
+Unzip(s) ==
+	cases s :
+	[]			-> mk_([], []),
+	[mk_(x, y)] ^ xs	->
+		let	mk_(s1, t) = Unzip[@T1, @T2](xs)
+		in
+		mk_([x] ^ s1, [y] ^ t)
+	end;
+                                                                             
+static public Zip[@T1, @T2] : seq of @T1 * seq of @T2 -> seq of (@T1 * @T2)
+Zip(s1, s2) == Zip2[@T1, @T2](s1)(s2);
+                                                                                                                                          
+static public Zip2[@T1, @T2] : seq of @T1 -> seq of @T2 -> seq of (@T1 * @T2)
+Zip2(s1)(s2) == 
+	cases mk_(s1, s2) :
+	mk_([x1] ^ xs1, [x2] ^ xs2)	-> [mk_(x1, x2)] ^ Zip2[@T1, @T2](xs1)(xs2),
+	mk_(-, -)				-> []
+	end;
+
+end FSequence
+                                                                         
+~~~
+{% endraw %}
+
+### FTestDriver.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                
+--$Id: TestDriver.vpp,v 1.1 2005/10/31 02:09:59 vdmtools Exp $
+class FTestDriver
+
+types
+public TestCase ::
+	testCaseName : seq of char
+	testResult : bool;
+
+functions
+                                                                                                                                                                                                                                                          
+static public run: seq of FTestDriver`TestCase +> bool
+run(t) ==
+	let	m = "Result-of-testcases.",
+		r = [isOK(t(i)) | i in set inds t]
+	in
+	if  forall i in set inds r & r(i) then
+		FTestLogger`SuccessAll(m)
+	else
+		FTestLogger`FailureAll(m);
+                                                                                                                                                                                                               
+static public isOK: FTestDriver`TestCase +> bool
+isOK(t) ==
+	if GetTestResult(t) then
+		FTestLogger`Success(t)
+	else
+		FTestLogger`Failure(t);
+                                                                           
+static public GetTestResult : FTestDriver`TestCase +> bool
+GetTestResult(t) == t.testResult;
+                                                                       	
+static public GetTestName: FTestDriver`TestCase +> seq of char
+GetTestName(t) == t.testCaseName;
+
+end FTestDriver
+
+                                                                             
+~~~
+{% endraw %}
+
+### FTestLogger.vdmpp
+
+{% raw %}
+~~~
+                                                                                                  
+--$Id: TestLogger.vpp,v 1.1 2005/10/31 02:09:59 vdmtools Exp $
+class FTestLogger
+values
+historyFileName =  "VDMTESTLOG.TXT";
+
+functions
+                                                                                                                                        
+static public Success: FTestDriver`TestCase +> bool
+Success(t) == 
+	let	message = 
+			FTestDriver`GetTestName(t)^"\tOK.\n",
+		- = Fprint( message),
+		- = Print(message)		
+	in
+	true;
+                                                                                                                                         
+static public Failure: FTestDriver`TestCase +> bool
+Failure(t) == 
+	let	message = FTestDriver`GetTestName(t)^"\tNG.\n",
+		- = Fprint( message),
+		- = Print( message)		
+	in
+	false;
+                                                                                                                                                 
+static public SuccessAll : seq of char +> bool
+SuccessAll(m) ==
+	let	message = m ^ "\tOK!!\n",
+		- = Fprint(message),
+		- = Print( message)
+	in
+	true;
+                                                                                                                                                  	
+static public FailureAll :  seq of char +> bool
+FailureAll(m) ==
+	let	message = m ^ "\tNG!!\n",
+		- = Fprint( message),
+		- = Print( message)
+	in
+	false;
+                                                                                      
+static public Print : seq of char -> bool
+Print (s) == new IO().echo(s);
+                                                                                                                                                 
+static public Fprint : seq of char -> bool
+Fprint (s) == new IO().fecho(historyFileName,  s, <append>);
+
+operations
+                                                                                                       
+static public Pr : seq of char ==> ()
+Pr (s) == let - = new IO().echo(s) in skip;
+                                                                                                                                                                   
+static public Fpr : seq of char ==> ()
+Fpr (s) == let - = new IO().fecho(historyFileName,  s, <append>) in skip;
+
+end FTestLogger
+                                                                            
+~~~
+{% endraw %}
+
+### Function.vdmpp
+
+{% raw %}
+~~~
+              
+class Function
+
+functions 
+                            
+static public Funtil[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @T
+Funtil(p)(f)(x) == if p(x) then x else Funtil[@T](p)(f)(f(x));
+                            
+static public Fwhile[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @T
+Fwhile(p)(f)(x) == if p(x) then Fwhile[@T](p)(f)(f(x)) else x;
+                            
+static public Seq[@T] : seq of (@T -> @T) -> @T -> @T
+Seq(fs)(p) ==
+	cases fs :
+	[xf] ^ xfs	-> Seq[@T](xfs)(xf(p)),
+	[]					-> p
+	end
+--measure length
+;
+
+--static length[@T] : seq of (@T -> @T) -> @T -> nat
+--length(fs)(-) == len fs;
+                            
+static public readFn[@T] : seq of char -> [@T]
+readFn(fname) ==
+	let 
+		io = new IO(),
+		mk_(aResult, f) = io.freadval[@T](fname)
+	in
+	if aResult then
+		f
+	else
+		let -= io.echo("Can't read values from the data file = " ^ fname)
+		in
+		nil;
+                            
+end Function
+            
+~~~
+{% endraw %}
+
+### FunctionT.vdmpp
+
+{% raw %}
+~~~
+class FunctionT is subclass of TestDriver 
+functions
+public tests : () -> seq of TestCase
+tests() == 
+	[ 
+	new FunctionT01(), new FunctionT02(),  new FunctionT03()
+	];
+end FunctionT
+----------------------------------------------------------
+
+class FunctionT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	f1 = lambda x : int & x * 2,
+		p1 = lambda x : int & x > 1000,
+		p11 = lambda x : int & x <= 1000,
+		f2 = lambda x : seq of char & x ^ "0",
+		p2 = lambda x : seq of char & len x > 9,
+		p21 = lambda x : seq of char & len x <= 9
+	in
+	return
+		Function`Fwhile[int](p11)(f1)(1) = 1024 and
+		Function`Fwhile[seq of char](p21)(f2)("123456") = "1234560000" and
+		Function`Funtil[int](p1)(f1)(1) = 1024 and
+		Function`Funtil[seq of char](p2)(f2)("123456") = "1234560000"
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "FunctionT01:\tTest Fwhile, Funtil.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end FunctionT01
+----------------------------------------------------------
+
+class FunctionT02 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	f1 = lambda x : int & x * 2,
+		f2 = lambda x : int & x * 3,
+		f3 = lambda x : int & x ** 2,
+		funcSeq1 = [f1, f2, f3],
+		f10 = lambda x : seq of char & x ^ x,
+		f11 = Sequence`take[char](10),
+		f12 = Sequence`drop[char](4),
+		funcSeq2 = [f10, f11, f12]
+	in
+	return
+		Function`Seq[int](funcSeq1)(2) = (2 * 2 * 3) ** 2 and
+		Function`Seq[seq of char](funcSeq2)("12345678") = "567812"
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "FunctionT02:\tTest function apply.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end FunctionT02
+----------------------------------------------------------
+
+class FunctionT03 is subclass of TestCase
+types
+public INT = int;
+public ReadingFunctionType = INT -> INT -> INT;
+--public ReadingFunctionType = int -> int -> int;
+
+functions
+public ReadingFunction: () -> ReadingFunctionType
+ReadingFunction() == 
+	let fn =  "./fread-func.txt"
+	in
+	Function`readFn[ReadingFunctionType](fn);
+
+operations 
+protected test: () ==> bool
+test() == 
+	return 
+		ReadingFunction() (3)(2) = 1 and
+		ReadingFunction() (4)(4) = 0 and
+		ReadingFunction() (4)(-3) = -2 and
+		ReadingFunction() (-4)(3) = 2
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "FunctionT03:\tTest of reading function.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end FunctionT03
+~~~
+{% endraw %}
+
+### Hashtable.vdmpp
+
+{% raw %}
+~~~
+/* Responsibility：
+ *	Hash Table
+ 
+ * Usage：
+ *	（１） Object in Hashtable have to have hashCode() function and equals() function.
+ 
+ * From historical reason, there are functional programming style and object-oriented style functions.
+ * if function name starts chapital letter, the function is functional programming style
+ * else the function is object-oriented style.
+*/
+class Hashtable is subclass of CommonDefinition 
+
+types
+public Contents = map Object to Object;
+public Bucket = map int to Contents;
+
+instance variables
+sBucket : Bucket := { |->};
+
+operations
+
+public Hashtable : () ==> Hashtable
+Hashtable() == 
+	(
+	sBucket := { |-> };
+	return self
+	);
+	
+public Hashtable : Contents ==> Hashtable
+Hashtable(aContents) == 
+	(
+	self.putAll(aContents);
+	return self
+	);
+
+--Hashtableのクリアー
+public clear : () ==> ()
+clear() == setBuckets({ |-> });
+
+public getBuckets : () ==> Bucket 
+getBuckets() == return sBucket;
+
+public setBuckets : Bucket ==> ()
+setBuckets(aBucket) == sBucket := aBucket;
+
+public keySet : () ==> set of Object
+keySet() ==
+	let	buckets = self.getBuckets()
+	in
+	(
+	dcl allKeySet : set of Object := {};
+	for all aContents in set rng buckets do
+		allKeySet := allKeySet union dom aContents;
+	return allKeySet
+	);
+
+public put : Object * Object ==> ()
+put(akey, aValue) ==
+	let	buckets = self.getBuckets(),
+		hashcode = akey.hashCode()
+	in
+	(
+	if hashcode in set dom buckets then
+		self.setBuckets(buckets ++ {hashcode |-> (buckets(hashcode) ++ {akey |-> aValue})})
+	else
+		self.setBuckets(buckets munion {hashcode |-> {akey |-> aValue}})
+	);
+
+public putAll : Contents ==> ()
+putAll(aContents) == 
+	for all key in set dom aContents do (
+		self.put(key, aContents(key))
+	);
+
+public get : Object  ==> [Object]
+get(key) ==
+	let	buckets = self.getBuckets(),
+		hashcode = key.hashCode()
+	in
+	(
+	if hashcode in set dom buckets then
+		let	aContents = buckets(hashcode)
+		in
+		for all aKey in set dom aContents do (
+			if key.equals(aKey) then
+				return aContents(aKey)
+		);
+	return nil
+	);
+
+public remove : Object ==> [Object]
+remove(key) ==
+	let	buckets = self.getBuckets(),
+		hashcode = key.hashCode(),
+		deleteObj = self.get(key)
+	in
+	(
+	if deleteObj <> nil then
+		let	aContents = buckets(hashcode),
+			newContents = aContents :-> {deleteObj}
+		in
 		(
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "1" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "2" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "3" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "4" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "5" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "6" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "7" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "8" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "9" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "1" and 
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "2" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "3" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "4" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "5" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "6" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "7" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "8" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "9" and
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "10" and 
-		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "11"
+		self.setBuckets(buckets ++ {hashcode |-> newContents});
+		return deleteObj
+		)
+	else
+		return nil
+	);
+
+public valueSet : () ==> set of Object
+valueSet() ==
+	let	buckets = self.getBuckets()
+	in
+	(
+	dcl aValueSet : set of Object := {};
+	for all aContents in set rng buckets do
+		aValueSet := aValueSet union rng aContents;
+	return aValueSet
+	);
+
+functions
+
+public size : () -> nat
+size() == card self.keySet();
+
+public isEmpty : () -> bool
+isEmpty() == self.keySet() = {};
+		
+public contains : Object -> bool
+contains(anObject) ==
+	let	buckets = self.getBuckets()
+	in
+	exists hashcode in set dom buckets &
+		let	aContents = buckets(hashcode)
+		in
+		exists key in set dom aContents &
+			 aContents(key).equals(anObject);
+		
+public containsKey : Object -> bool
+containsKey(aKey) ==
+	let	buckets = self.getBuckets()
+	in
+	exists hashcode in set dom buckets & 
+		exists key in set dom buckets(hashcode) &
+			aKey.equals(key);
+
+
+-----------Functional Programming part
+
+functions
+
+static public Put[@T1, @T2] : 
+	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> @T2 
+	-> (map @T1 to (map @T1 to  @T2))
+Put(aHashtable)(aHashCode)(aKey)(aValue) ==
+	let	hashcode = aHashCode(aKey)
+	in
+	if hashcode in set dom aHashtable then
+		aHashtable ++ {hashcode |-> (aHashtable(hashcode) ++ {aKey |-> aValue})}
+	else
+		aHashtable munion {hashcode |-> {aKey |-> aValue}}
+	;
+
+static public PutAll[@T1, @T2] : 
+	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2) 
+	-> (map @T1 to (map @T1 to  @T2)) 
+PutAll(aHashtable)(aHashCode)(aMap) == 
+	PutAllAux[@T1, @T2](aHashtable)(aHashCode)(aMap)(dom aMap);
+
+static public PutAllAux[@T1, @T2] :
+	(map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> (map @T1 to  @T2)  -> set of @T1
+	-> (map @T1 to (map @T1 to  @T2)) 
+PutAllAux(aHashtable)(aHashCode)(aMap)(aKeySet) ==
+	if aKeySet = {} then
+		aHashtable
+	else
+		let	aKey in set aKeySet	in
+		let	newHashtable = Put[@T1, @T2](aHashtable)(aHashCode)(aKey)(aMap(aKey))	
+		in
+		PutAllAux[@T1, @T2](newHashtable)(aHashCode)(aMap)(aKeySet \ {aKey})
+	;
+
+static public Get[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1  -> [@T2]
+Get(aHashtable)(aHashCode)(aKey) ==
+	let	hashcode = aHashCode(aKey)
+	in
+	if hashcode in set dom aHashtable then
+		Map`Get[@T1, @T2](aHashtable(hashcode))(aKey)
+	else
+		nil
+	;
+
+static public Remove[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> (@T1 -> @T1) -> @T1 -> (map @T1 to (map @T1 to  @T2))
+Remove(aHashtable)(aHashCode)(aKey) == 
+	let	hashcode = aHashCode(aKey)
+	in
+	{h |-> ({aKey} <-: aHashtable(hashcode)) | h in set {hashcode}} munion 
+		{hashcode} <-: aHashtable ;
+
+--Hashtableのクリアー
+static public Clear[@T1, @T2] : () -> (map @T1 to (map @T1 to  @T2))
+Clear() == ({ |-> });
+
+static public KeySet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T1
+KeySet(aHashtable) == 
+	--let	aMapSet = rng aHashtable,
+		--f = lambda x : map @T1 to  @T2 & dom x
+	let	aMapSet = rng aHashtable
+	in
+	if aMapSet <> {} then
+		--dunion Set`fmap[map @T1 to  @T2, @T2](f)(aMapSet)
+		dunion  {dom s | s in set aMapSet} 
+	else
+		{};
+
+static public ValueSet[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> set of  @T2
+ValueSet(aHashtable) == 
+	--let	aMapSet = rng aHashtable,
+		--f = lambda x : map @T1 to  @T2 & rng x
+	let	aMapSet = rng aHashtable
+	in
+	if aMapSet <> {} then
+		--dunion Set`fmap[map @T1 to  @T2, @T2](f)(aMapSet)
+		dunion  {rng s | s in set aMapSet} 
+	else
+		{};
+	
+static public Size[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> nat
+Size(aHashtable) == card KeySet[@T1, @T2](aHashtable) ;
+
+static public IsEmpty[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> bool
+IsEmpty(aHashtable) == KeySet[@T1, @T2](aHashtable) = {};
+		
+static public Contains[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T2 -> bool
+Contains(aHashtable)(aValue) == 
+	let	aMapSet = rng aHashtable	
+	in
+	if aMapSet <> {} then
+		exists aMap in set aMapSet & aValue in set rng aMap
+	else
+		false;
+		
+static public ContainsKey[@T1, @T2] : (map @T1 to (map @T1 to  @T2)) -> @T1 -> bool
+ContainsKey(aHashtable)(aKey) == 
+	let	aMapSet = rng aHashtable	
+	in
+	if aMapSet <> {} then
+		exists aMap in set aMapSet & aKey in set dom aMap
+	else
+		false;
+
+end Hashtable
+~~~
+{% endraw %}
+
+### HashtableT.vdmpp
+
+{% raw %}
+~~~
+/*
+Test Group 
+	test of Hashtable
+*/
+----------------------------------------------------
+class StringObj is subclass of CommonDefinition
+
+instance variables
+public content : seq of char;
+
+functions
+public hashCode : () -> int
+hashCode() == 
+	let c = getContent() in
+	if  c <> nil then
+		len c mod 17
+	else
+		-1;
+
+public equals : Object -> bool
+equals(anObject) == if isofclass(StringObj, anObject)
+                   then self.getContent() = anObject.getContent()
+                   else false;
+
+operations
+public StringObj : seq of char ==> StringObj
+StringObj(aString) ==
+	(
+	content := aString;
+	return self
+	);
+
+public getContent : () ==> [seq of char]
+getContent() == 
+	if isofclass(StringObj, self) then 
+		return content
+	else 
+		return nil;
+
+end StringObj
+----------------------------------------------------
+class IntObj is subclass of CommonDefinition
+
+instance variables
+public content : int;
+
+functions
+public hashCode : () -> int
+hashCode() == 
+	let c = getContent() in
+	if c <> nil then
+		c mod 13
+	else
+		-1;
+
+public equals : Object -> bool
+equals(anObject) == if isofclass(IntObj, anObject)
+                   then self.getContent() = anObject.getContent()
+                   else false;
+
+operations
+public IntObj : int ==> IntObj
+IntObj(i) ==
+	(
+	content := i;
+	return self
+	);
+	
+public getContent : () ==> [int]
+getContent() == 
+	if isofclass(IntObj, self) then 
+		return content
+	else 
+		return nil;
+
+end IntObj
+----------------------------------------------------
+class HashtableT is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests() == 
+	[ 
+	new HashtableT52(), new HashtableT53(), new HashtableT54(),
+	new HashtableT55(), new HashtableT56(), new HashtableT57(),
+	new HashtableT01(), new HashtableT02(), new HashtableT03(),
+	new HashtableT04(), 
+	new HashtableT05(), new HashtableT06(),
+	new HashtableT07()
+	];
+end HashtableT
+----------------------------------------------------
+
+class HashtableT01 is subclass of TestCase, CommonDefinition
+operations 
+
+protected test: () ==> bool
+test() == 
+	let	h1 = new Hashtable(),
+		k1 = new IntObj(1),
+		k2 = new IntObj(2),
+		k3 = new IntObj(3),
+		h2 =
+			new Hashtable({
+				k1 |-> new StringObj("Shin Sahara"), 
+				k2 |-> new StringObj("Kei Sato"), 
+				k3 |-> new StringObj("Hiroshi Sakoh")
+			})
+	in
+	return 
+		h1.getBuckets() = { |-> } and
+		h2.get(k1).equals(new StringObj("Shin Sahara")) and
+		h2.get(k2).equals(new StringObj("Kei Sato")) and
+		h2.get(k3).equals(new StringObj("Hiroshi Sakoh")) and
+		h2.get(new IntObj(1)).equals(new StringObj("Shin Sahara")) and
+		h2.get(new IntObj(2)).equals(new StringObj("Kei Sato")) and
+		h2.get(new IntObj(3)).equals(new StringObj("Hiroshi Sakoh")) 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT01:\tConstructor test.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT01
+---------------------------------------
+
+class HashtableT02 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	h1 = 
+			new Hashtable({
+				new IntObj(1) |-> new StringObj("Shin Sahara"), 
+				new IntObj(2) |->new StringObj("Kei Sato"), 
+				new IntObj(3) |-> new StringObj("Hiroshi Sakoh")
+			}),
+		h2 = 
+			new Hashtable({
+				new StringObj("a") |->new IntObj(1),  
+				new StringObj("b") |-> new IntObj(2), 
+				new StringObj("c") |-> new IntObj(3)
+			})
+	in
+	return 
+		h1.contains(new StringObj("Shin Sahara")) and
+		h1.contains(new StringObj("Kei Sato")) and
+		h1.contains(new StringObj("Shin Sakoh")) = false and
+		h1.containsKey(new IntObj(1)) and
+		h1.containsKey(new IntObj(4)) = false and
+		h2.contains(new IntObj(3)) and
+		h2.contains(new IntObj(7)) = false and
+		h2.containsKey(new StringObj("a")) and
+		h2.containsKey(new StringObj("d")) = false
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT02:\tsearch test.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT02
+---------------------------------------
+
+class HashtableT03 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	h1 =
+			new Hashtable({
+				new IntObj(1) |-> new StringObj("Shin Sahara"), 
+				new IntObj(2) |->new StringObj("Kei Sato"), 
+				new IntObj(3) |-> new StringObj("Hiroshi Sakoh")
+			}),
+		h2 = 
+			new Hashtable({
+				new StringObj("a") |->new IntObj(1),  
+				new StringObj("b") |-> new IntObj(2), 
+				new StringObj("c") |-> new IntObj(3)
+			}),
+		deleteObj = h2.remove(new StringObj("b"))
+	in
+	(
+	h1.clear();
+	return 
+		h1.getBuckets() = {|->} and
+		deleteObj.equals(new IntObj(2)) and
+		h2.get(new StringObj("b")) = nil and
+		h2.contains(new IntObj(2)) = false and
+		h2.containsKey(new StringObj("b")) = false and
+		h2.remove(new StringObj("d")) = nil
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT03:\tDelete test.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT03
+---------------------------------------
+
+class HashtableT04 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	--let	h1 = new Hashtable(),
+	--	h2 = new Hashtable()
+	--in
+	(
+	dcl h1 : Hashtable := new Hashtable();
+	dcl h2 : Hashtable := new Hashtable();
+	h1.putAll({
+			new IntObj(1) |-> new StringObj("Shin Sahara"), 
+			new IntObj(2) |->new StringObj("Kei Sato"), 
+			new IntObj(14) |-> new StringObj("Hiroshi Sakoh")
+	});
+	h2.put(new StringObj("a"), new IntObj(1));
+	h2.put(new StringObj("b"), new IntObj(2));
+	def c = new StringObj("c") in (
+		h2.put(c, new IntObj(4));
+		h2.put(c, new IntObj(3))
+	);
+	return
+		h1.get(new IntObj(1)).equals(new StringObj("Shin Sahara"))  and
+		h1.get(new IntObj(2)).equals(new StringObj("Kei Sato")) and
+		h1.get(new IntObj(14)).equals(new StringObj("Hiroshi Sakoh")) and
+		h1.get(new IntObj(4)) = nil and  
+		h2.get(new StringObj("a")).equals(new IntObj(1)) and
+		h2.get(new StringObj("b")).equals(new IntObj(2)) and
+		h2.get(new StringObj("c")).equals(new IntObj(3)) and 
+		h2.get(new StringObj("d")) = nil 
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT04:\tTest of put, get.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT04
+---------------------------------------
+
+class HashtableT05 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	h1 = new Hashtable(),
+		h2 = new Hashtable(),
+		h1k1 = new IntObj(1),
+		h1k2 = new IntObj(2),
+		h1k3 = new IntObj(14),
+		h1v1 = new StringObj("Shin Sahara"),
+		h1v2 = new StringObj("Kei Sato"),
+		h1v3 = new StringObj("Hiroshi Sakoh"),
+		h2k1 = new StringObj("a"),
+		h2k2 = new StringObj("b"),
+		h2k3 = new StringObj("c"),
+		h2v1 = new IntObj(1),
+		h2v2 = new IntObj(2),
+		h2v3 = new IntObj(18)
+		
+	in
+	(
+	h1.putAll({
+			h1k1 |-> h1v1, 
+			h1k2 |-> h1v2, 
+			h1k3 |-> h1v3
+	});
+	h2.put(h2k1, h2v1);
+	h2.put(h2k2, h2v2);
+	h2.put(h2k3, h2v3);
+	let	keySet1 = h1.keySet(),
+		valueSet1 = h1.valueSet(),
+		keySet2 = h2.keySet(),
+		valueSet2 = h2.valueSet()
+	in
+	return
+		keySet1 = {h1k1, h1k2, h1k3} and
+		valueSet1 = {h1v1, h1v2, h1v3} and
+		keySet2 = {h2k1, h2k2, h2k3} and
+		valueSet2 = {h2v1, h2v2, h2v3}
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT05:\tTest of getting keys and values.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT05
+---------------------------------------
+
+class HashtableT06 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	h1 = new Hashtable(),
+		h1k1 = new IntObj(1),
+		h1k2 = new IntObj(14),
+		h1k3 = new IntObj(16),
+		h1k4 = new IntObj(27),
+		h1v1 = new StringObj("a"),
+		h1v2 = new StringObj("b"),
+		h1v3 = new StringObj("c")
+	in
+	(
+	h1.putAll({
+			h1k1 |-> h1v1, 
+			h1k2 |-> h1v2, 
+			h1k3 |-> h1v3
+	});
+	let	- = h1.remove(new IntObj(14)) 
+	in
+	h1.put(h1k4, h1v3);
+	return
+		h1.keySet() = {h1k1, h1k3, h1k4} and
+		h1.valueSet() = {h1v1, h1v3, h1v3}
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT06:\tTest when hashCode overlaps.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT06
+---------------------------------------
+
+class HashtableT07 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	h1 = new Hashtable(),
+		h2 = new Hashtable(),
+		h1k1 = new IntObj(1),
+		h1k2 = new IntObj(14),
+		h1k3 = new IntObj(16),
+		h1v1 = new StringObj("a"),
+		h1v2 = new StringObj("b"),
+		h1v3 = new StringObj("c")
+	in
+	(
+	h1.putAll({
+			h1k1 |-> h1v1, 
+			h1k2 |-> h1v2, 
+			h1k3 |-> h1v3
+	});
+	h2.putAll({
+			h1k1 |-> h1v1, 
+			h1k2 |-> h1v2, 
+			h1k3 |-> h1v3
+	});
+	let	- = h1.remove(new IntObj(1)),
+		- = h1.remove(new IntObj(14)),
+		- = h1.remove(new IntObj(16)),
+		- = h2.remove(new IntObj(14))
+	in
+	return
+		h1.isEmpty() and
+		h1.size() = 0 and
+		h2.isEmpty() = false and
+		h2.size() = 2 
+		
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT07:\tTest of size.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT07
+---------------------------------------
+
+class HashtableT52 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	aHashCode = lambda x : int & x mod 13,
+		p1 = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode)(
+				{1 |-> "Sahara", 2 |-> "Sato", 14 |-> "Sakoh"}
+			),
+		c1 = Hashtable`Contains[int, seq of char](p1)
+	in
+	return
+		c1("Sahara") and
+		c1("Sato") and
+		c1("Sakoh") and
+		c1("") = false
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT52:\tFunctional finding.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT52
+---------------------------------------
+
+class HashtableT53 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	aHashCode1 = lambda x : int & x mod 13,
+		aHashCode2 = lambda x : seq of char & if x = "" then "" else Sequence`take[char](1)(x),
+		- = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
+				{1 |-> "Shin Sahara", 2 |-> "Kei Sato", 14 |-> "Hiroshi Sakoh"}
+			),
+		h2 = Hashtable`PutAll[seq of char, int]({ |-> })(aHashCode2)(
+				{"a" |-> 1, "b" |-> 2, "c" |-> 3}
+			),
+		h3 = Hashtable`Clear[int, seq of char](),
+		afterRemoveh2 = Hashtable`Remove[seq of char, int](h2)(aHashCode2)("b"),
+		c1 = Hashtable`Contains[seq of char, int](afterRemoveh2),
+		ck1 = Hashtable`ContainsKey[seq of char, int](afterRemoveh2)
+	in
+	(
+	return 
+		h3 = {|->} and
+		Hashtable`Get[seq of char, int](afterRemoveh2)(aHashCode2)("b") = nil and
+		c1(2) = false and
+		c1(1) and
+		c1(3) and
+		ck1("b") = false and 
+		ck1("a") and
+		ck1("c") 
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT53:\tTest of functional remove.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT53
+---------------------------------------
+
+class HashtableT54 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	aHashCode = lambda x : int & x mod 13,
+		put = Hashtable`Put[int, seq of char],
+		p1 = put({ |-> })(aHashCode)(1)("Sahara"),
+		p2 = put(p1)(aHashCode)(2)("Bush"),
+		p3 = put(p2)(aHashCode)(2)("Sato"),
+		p4 = put(p3)(aHashCode)(14)("Sakoh"),
+		get = Hashtable`Get[int, seq of char](p4)
+	in
+	return
+		get(aHashCode)(1) = "Sahara" and
+		get(aHashCode)(2) = "Sato" and
+		get(aHashCode)(14) = "Sakoh" and
+		get(aHashCode)(99) = nil
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT54:\tFunctional Put and Get.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT54
+---------------------------------------
+
+class HashtableT55 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	aHashCode = lambda x : int & x mod 13,
+		put = Hashtable`Put[int, seq of char],
+		p1 = put({ |-> })(aHashCode)(1)("Sahara"),
+		p2 = put(p1)(aHashCode)(2)("Bush"),
+		p3 = put(p2)(aHashCode)(2)("Sato"),
+		p4 = put(p3)(aHashCode)(14)("Sakoh"),
+		k = Hashtable`KeySet[int, seq of char],
+		v = Hashtable`ValueSet[int, seq of char]
+	in
+	return
+		k(p1) = {1} and
+		v(p1) = {"Sahara"} and
+		k(p2) = {1, 2} and
+		v(p2) = {"Sahara", "Bush"} and
+		k(p4) = {1,2,14} and
+		v(p4) = {"Sahara", "Sato", "Sakoh"}
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT55:\tFunctional getting information.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT55
+---------------------------------------
+
+class HashtableT56 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	aHashCode1 = lambda x : int & x mod 13,
+		h1 = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
+				{1 |-> "Shin Sahara", 2 |-> "Kei Sato", 14 |-> "Hiroshi Sakoh", 27 |-> "Nishikawa"}
+			),
+		h2 = Hashtable`Remove[int, seq of char](h1)(aHashCode1)(14)
+	in
+	(
+	return
+		Hashtable`KeySet[int, seq of char](h2) = {1, 2, 27} and
+		Hashtable`ValueSet[int, seq of char](h2) = {"Shin Sahara",  "Kei Sato", "Nishikawa"}
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT56:\tWhen hashode overlapped.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT56
+---------------------------------------
+
+class HashtableT57 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	aHashCode1 = lambda x : int & x mod 13,
+		remove = Hashtable`Remove[int, seq of char],
+		h1 = Hashtable`PutAll[int, seq of char]({ |-> })(aHashCode1)(
+				{1 |-> "Shin Sahara", 2 |-> "Kei Sato", 14 |-> "Hiroshi Sakoh"}
+			),
+		h2 = remove(h1)(aHashCode1)(1),
+		h3 = remove(h2)(aHashCode1)(2),
+		h4 = remove(h3)(aHashCode1)(14),
+		isempty = Hashtable`IsEmpty[int, seq of char],
+		size = Hashtable`Size[int, seq of char]
+	in
+	(
+	return
+		isempty(h4) and
+		size(h4) = 0 and
+		isempty(h3)  = false and
+		size(h3) = 1 and
+		size(h2) = 2 and
+		size(h1) = 3
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "HashtableT57:\tTest of functional Size.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end HashtableT57
+---------------------------------------
+~~~
+{% endraw %}
+
+### Integer.vdmpp
+
+{% raw %}
+~~~
+class Integer
+
+functions 
+
+static public asString: int -> seq1 of char 
+asString(i) == 
+	if i < 0 then
+		"-" ^ asStringAux(-i)
+	else
+		asStringAux(i) ;
+		
+static public asStringAux: nat -> seq1 of char 
+asStringAux(n) == 
+	let	r = n mod 10,
+		q = n div 10
+	in
+		cases q:
+			0		-> asChar(r),
+			others	-> asStringAux(q) ^ asChar(r)
+		end
+	measure ndiv10;
+
+static ndiv10 : nat +> nat
+ndiv10(n) == n div 10;
+
+-- Convert integer to COBOL type number string (like ZZZ9.ZZ). 
+static public asStringZ: seq of char -> int -> seq1 of char 
+asStringZ(cobolStrConversionCommand)(i) == 
+	let	minusSymbol = '-'	in
+	if i < 0 then
+		if cobolStrConversionCommand(1) = minusSymbol then
+			[minusSymbol] ^ asStringZAux(String`subStr(cobolStrConversionCommand,2,len cobolStrConversionCommand))(-i, true)
+		else
+			asStringZAux(cobolStrConversionCommand)(-i, true)
+	else
+		if cobolStrConversionCommand(1) = minusSymbol then
+			asStringZAux(String`subStr(cobolStrConversionCommand,2,len cobolStrConversionCommand))(i, true)
+		else
+			asStringZAux(cobolStrConversionCommand)(i, true) ;
+ 		
+ static public asStringZAux: seq of char -> nat * bool -> seq1 of char 
+ asStringZAux(cobolStrConversionCommand)(n, wasZero) == 
+  	let	cobolStrConversionCommandStrLen = len cobolStrConversionCommand,
+  		cobolStrConversionCommandChar = cobolStrConversionCommand(cobolStrConversionCommandStrLen),
+  		cobolStrConversionCommandStr = String`subStr(cobolStrConversionCommand,1,cobolStrConversionCommandStrLen - 1),
+  		r = n mod 10,
+  		q = n div 10,
+  		isZero = r = 0 and wasZero and q <> 0 
+  	in
+  		cases cobolStrConversionCommandStr:
+  			[]		-> asCharZ(cobolStrConversionCommandChar)(r, isZero),
+  			others	-> 
+  				asStringZAux(cobolStrConversionCommandStr)(q, isZero) ^ 
+  				asCharZ(cobolStrConversionCommandChar)(r, isZero)
+ 		end;
+--measure  length;
+
+static length : seq of char -> nat * bool -> nat
+length(cobolStrConversionCommand)(-, -) == len cobolStrConversionCommand;
+
+static public asCharZ : char -> nat * bool ->  seq1 of char | bool
+asCharZ(cobolStrConversionCommandChar)(n, wasZero) ==
+	cases n:
+		0	-> 
+			if cobolStrConversionCommandChar in set {'z', 'Z'} and wasZero then
+				"0"
+			elseif cobolStrConversionCommandChar = '0'  or cobolStrConversionCommandChar = '9' then
+				"0"
+			else
+				" ",	-- Don't deal with all cases of cobolStrConversionCommandChar
+		1	-> "1",
+		2	-> "2",
+		3	-> "3",
+		4	-> "4",
+		5	-> "5",
+		6	-> "6",
+		7	-> "7",
+		8	-> "8",
+		9	-> "9",
+		others	-> false
+	end;
+
+static public asChar : int -> seq1 of char | bool
+asChar(i) ==
+	cases i:
+		0	-> "0",
+		1	-> "1",
+		2	-> "2",
+		3	-> "3",
+		4	-> "4",
+		5	-> "5",
+		6	-> "6",
+		7	-> "7",
+		8	-> "8",
+		9	-> "9",
+		others	-> false
+	end;
+
+static public GCD : nat -> nat -> nat
+GCD(x)(y) == 
+	if y = 0 then x else GCD(y)(x rem y);
+--measure GCDMeasure;
+
+static GCDMeasure : nat -> nat -> nat
+GCDMeasure(x)(-) == x;
+
+static public LCM : nat -> nat -> nat
+LCM(x)(y) ==
+	cases mk_(x, y) :
+	mk_(-, 0)	-> 0,
+	mk_(0, -)	-> 0,
+	mk_(z, w)	-> (z / GCD(z)(w)) * w
+	end;
+			
+end Integer
+~~~
+{% endraw %}
+
+### IntegerT.vdmpp
+
+{% raw %}
+~~~
+class IntegerT is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests () == 
+	[ new IntegerT01(), new IntegerT02()
+	];
+end IntegerT
+---------------------------------------
+class IntegerT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	i = new Integer()		in
+	return
+		(i.asString(1234567890) = "1234567890" and
+		i.asString(-1234567890) = "-1234567890" and
+		i.asStringZ("zzz9")(9900) = "9900" and
+		i.asStringZ("9")(0) = "0" and
+		i.asStringZ("z")(0) = " " and
+		i.asStringZ("z")(9) = "9" and
+		i.asStringZ("zzz9")(9) = "   9" and
+		i.asStringZ("0009")(9) = "0009" and
+		i.asStringZ("-0009")(9) = "0009" and
+		i.asStringZ("-zzz9")(-9999) = "-9999" and
+		i.asStringZ("-zzz9")(-9) = "-   9" and
+		i.asStringZ("zzz9")(-9999) = "9999" and
+		i.asStringZ("zzz9")(-9) = "   9" and
+		i.asString(0) = "0" and
+		i.asChar(0) = "0" and 
+		i.asChar(1) = "1" and
+		i.asChar(2) = "2" and
+		i.asChar(3) = "3" and
+		i.asChar(4) = "4" and 
+		i.asChar(5) = "5" and 
+		i.asChar(6) = "6" and
+		i.asChar(7) = "7" and
+		i.asChar(8) = "8" and
+		i.asChar(9) = "9" and
+		i.asChar(10) = false
 		)
 ;
 protected setUp: () ==> ()
-setUp() == TestName := " ＵｎｉｑｕｅＮｕｍｂｅｒＴ01:\t ＵｎｉｑｕｅＮｕｍｂｅｒＴ01 Unit test";
+setUp() == TestName := "IntegerT01:\tConvert integer to string.";
 protected tearDown: () ==> ()
 tearDown() == return;
-end ＵｎｉｑｕｅＮｕｍｂｅｒＴ01
+end IntegerT01
+---------------------------------------
+
+class IntegerT02 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	gcd = Integer`GCD(24),
+		lcm = Integer`LCM(7)
+	in
+	return
+		Sequence`fmap[nat, nat](gcd)([36, 48, 16]) = [12, 24, 8]  and
+		Sequence`fmap[nat, nat](lcm)([3, 4, 5]) = [21, 28, 35]
+;
+protected setUp: () ==> ()
+setUp() == TestName := "IntegerT02:\tGet GCD and LCM.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end IntegerT02
+~~~
+{% endraw %}
+
+### JapaneseCalendar.vdmpp
+
+{% raw %}
+~~~
+class JapaneseCalendar is subclass of Calendar 
+/*
+Responsibility
+	I'm a Japanese Calendar based on JST.
+	Especially, I know Japanese holidays
+*/
+
+values
+public differenceBetweenGMTandJST = 0.375;	-- 0.375 = 9 hours = 9 / 24 day
+public differenceBetweenADandJapaneseCal = 1988;
+
+functions
+
+static private toStringAux: int -> seq of char
+toStringAux(i) == 
+	let	str = Integer`asString	in
+	if i >= 10 then str(i) else " " ^ str(i);
+	
+static public getJapaneseDateStr : Date -> seq of char
+getJapaneseDateStr(ADdate) == 
+	let	asString =Integer`asString,
+		yearOfJapaneseCal = ADdate.Year() - differenceBetweenADandJapaneseCal,
+		m = ADdate.Month(),
+		d = ADdate.day(),
+		yearStr = asString(yearOfJapaneseCal),
+		monthStr = toStringAux(m),
+		dateStr = toStringAux(d)	in
+		yearStr ^ monthStr ^ dateStr
+pre
+	ADdate.Year() >= differenceBetweenADandJapaneseCal;
+
+operations
+
+public setTheSetOfDayOffs: int ==> ()
+setTheSetOfDayOffs(year) ==
+	let	comingOfAgeDay = getNthDayOfTheWeek(year,1,2,<Mon>),
+		marineDay = if year >= 2003 then getNthDayOfTheWeek(year,7, 3,<Mon>) else getDateFrom_yyyy_mm_dd(year,7,20),
+		respect4TheAgedDay = if year >= 2003 then getNthDayOfTheWeek(year,9, 3,<Mon>) else getDateFrom_yyyy_mm_dd(year,9,15),
+		healthSportsDay = getNthDayOfTheWeek(year,10, 2,<Mon>),
+		nationalHolidaySet =  {
+			getDateFrom_yyyy_mm_dd(year,1,1), 
+			comingOfAgeDay,
+			getDateFrom_yyyy_mm_dd(year,2,11),
+			getVernalEquinox(year), 
+			getDateFrom_yyyy_mm_dd(year,4,29),
+			getDateFrom_yyyy_mm_dd(year,5,3),
+			getDateFrom_yyyy_mm_dd(year,5,4), 	--formally this date is not national holiday
+			getDateFrom_yyyy_mm_dd(year,5,5),
+			marineDay,
+			respect4TheAgedDay,
+			getAutumnalEquinox(year),
+			healthSportsDay,
+			getDateFrom_yyyy_mm_dd(year,11,3),
+			getDateFrom_yyyy_mm_dd(year,11,23),
+			getDateFrom_yyyy_mm_dd(year,12,23)
+		},
+		mondayMakeupHolidat = 
+			if year >= 2007 then 
+				{getNotNationalHolidaysInFuture(nationalHolidaySet, d) | d in set nationalHolidaySet & isSunday(d)}
+			else
+				 {d.plus(1) | d in set nationalHolidaySet & isSunday(d)},
+		weekdayBetweenDayOff = 
+			if year >= 2007 then
+				getWeekdayBetweenDayOff(nationalHolidaySet) 
+			else
+				{}
+	in
+	Year2Holidays := Year2Holidays munion { year |-> nationalHolidaySet union mondayMakeupHolidat union weekdayBetweenDayOff}
+pre
+	year >= 2000;
+
+public JapaneseCalendar : () ==> JapaneseCalendar
+JapaneseCalendar() ==
+	(
+	setDifferenceWithGMT(differenceBetweenGMTandJST); 
+	return self
+	);
+
+public getWeekdayBetweenDayOff : set of Date ==> set of Date
+getWeekdayBetweenDayOff(aNationalHolidaySet) == (
+	let 
+		candidatesOfWeekdayBetweenDayOff = 
+			dunion { {d.minus(1), d.plus(1)} | d in set aNationalHolidaySet &
+				d.minus(1).Year() = d.Year() and d.plus(1).Year() = d.Year()},
+		weekdayBetweenHoliday = 
+			{ d | d in set candidatesOfWeekdayBetweenDayOff & 
+				let yesterday : Date = d.minus(1), tomorrow : Date =  d.plus(1) in
+				isInDateSet(yesterday, aNationalHolidaySet) and isInDateSet(tomorrow, aNationalHolidaySet)}
+	in
+	return weekdayBetweenHoliday
+ );
+
+functions
+public getNotNationalHolidaysInFuture :set of Date * Date-> Date
+getNotNationalHolidaysInFuture(aNationalHolidaySet, date) ==
+	cases  isInDateSet(date, aNationalHolidaySet) :
+		(true)	-> getNotNationalHolidaysInFuture(aNationalHolidaySet, date.plus( 1)),
+		others	-> date
+	end;
+
+end JapaneseCalendar
+~~~
+{% endraw %}
+
+### Map.vdmpp
+
+{% raw %}
+~~~
+class Map 
+
+functions
+static public Get[@T1, @T2] : map @T1 to @T2 -> @T1 -> [@T2]
+Get(aMap)(aKey) ==
+	if aKey in set dom aMap then
+		aMap(aKey)
+	else
+		nil;
+
+static public Contains[@T1, @T2] : map @T1 to @T2 -> @T2 -> bool
+Contains(aMap)(aValue) == aValue in set rng aMap;
+
+static public ContainsKey[@T1, @T2] : map @T1 to @T2 -> @T1 -> bool
+ContainsKey(aMap)(aKey) == aKey in set dom aMap;
+	
+end Map
+~~~
+{% endraw %}
+
+### MapT.vdmpp
+
+{% raw %}
+~~~
+class MapT is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests() == 
+	[ 
+	new MapT01(), new MapT02()	
+	];
+end MapT
+----------------------------------------------------
+class MapT01 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	m1 = {1 |-> "Kei Sato", 19 |-> "Shin Sahara", 20 |-> "Hiroshi Sakoh"},
+		m2 = {"Kei Sato" |-> 1,  "Shin Sahara" |-> 19,  "Hiroshi Sakoh" |-> 20},
+		get1 = Map`Get[int, seq of char],
+		get2 = Map`Get[seq of char, int]
+	in
+	return 
+		get1(m1)(19) = "Shin Sahara" and
+		get1(m1)(2) = nil and
+		get2(m2)("Shin Sahara") = 19 and
+		get2(m2)("Worst Prime Minister Koizumi") = nil
+;
+protected setUp: () ==> ()
+setUp() == TestName := "MapT01:\tTest of Get function.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end MapT01
+----------------------------------------------------
+class MapT02 is subclass of TestCase, CommonDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	m1 = {1 |-> "Kei Sato", 19 |-> "Shin Sahara", 20 |-> "Hiroshi Sakoh"},
+		m2 = {"Kei Sato" |-> 1,  "Shin Sahara" |-> 19,  "Hiroshi Sakoh" |-> 20},
+		c1 = Map`Contains[int, seq of char],
+		k1 = Map`ContainsKey[int, seq of char],
+		c2 = Map`Contains[seq of char, int],
+		k2 = Map`ContainsKey[seq of char, int]
+	in
+	return 
+		c1(m1)("Kei Sato") and c1(m1)("Shin Sahara") and c1(m1)("Hiroshi Sakoh") and
+		c1(m1)("Worst Prime Minister Koizumi") = false and
+		k1(m1)(1) and k1(m1)(19) and k1(m1)(20) and
+		not k1(m1)(99) and
+		c2(m2)(1) and c2(m2)(19) and c2(m2)(20) and
+		c2(m2)(30) = false and
+		k2(m2)("Kei Sato") and k2(m2)("Shin Sahara") and k2(m2)("Hiroshi Sakoh") and
+		k2(m2)("Worst Prime Minister Koizumi") = false
+;
+protected setUp: () ==> ()
+setUp() == TestName := "MapT02:\tTest of Contains related functions.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end MapT02
+~~~
+{% endraw %}
+
+### Number.vdmpp
+
+{% raw %}
+~~~
+class Number
+ 
+functions 
+
+static public isComputable[@e]: @e -> bool
+isComputable(n) ==
+	is_(n,int) or is_(n,nat) or is_(n,nat1) or is_(n,real) or is_(n,rat);
+
+static public min[@e] :( @e * @e -> bool) -> @e -> @e -> @e
+min(f)(n1)(n2) == if f(n1,n2) then n1 else n2;
+	
+static public max[@e] : ( @e * @e -> bool) -> @e -> @e -> @e
+max(f)(n1)(n2) == if f(n1,n2) then n2 else n1;
+			
+end Number
 ~~~
 {% endraw %}
 
@@ -6858,6 +3876,311 @@ setUp() == TestName := "NumberT03:\tType is not computable, but...";
 protected tearDown: () ==> ()
 tearDown() == return;
 end NumberT03
+~~~
+{% endraw %}
+
+### Object.vdmpp
+
+{% raw %}
+~~~
+class Object
+/*
+作成者 = 佐原伸
+作成日 = 2000年 8月 23日 
+Responsibility
+	オブジェクト共通の振る舞いを表す。
+
+Abstract
+	すべてのオブジェクトに共通な機能を定義する。
+*/
+	
+functions 
+
+public hashCode : () -> int
+hashCode() == 1;
+
+public equals : Object -> bool
+equals(-) == true;
+
+operations
+public getContent : () ==> [seq of char | int]
+getContent() == return 1374;	--meaningless value. so subclass must set.
+			
+end Object
+~~~
+{% endraw %}
+
+### Product.vdmpp
+
+{% raw %}
+~~~
+class Product 
+
+functions
+
+static public Curry[@T1, @T2, @T3] : (@T1 * @T2 -> @T3) -> @T1 -> @T2 -> @T3
+Curry(f)(x)(y) == f(x, y);
+
+static public Uncurry[@T1, @T2, @T3] : (@T1 -> @T2 -> @T3) -> @T1 * @T2 -> @T3
+Uncurry(f)(x,y) == f(x)(y);
+
+end Product
+~~~
+{% endraw %}
+
+### ProductT.vdmpp
+
+{% raw %}
+~~~
+class ProductT is subclass of TestDriver 
+functions
+public tests : () -> seq of TestCase
+tests() == 
+	[ 
+	new ProductT01()
+	];
+end ProductT
+----------------------------------------------------------
+
+class ProductT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	lt = String`LT,
+		lt2 = lambda x : int, y : int & x < y
+	in
+	return
+		Product`Curry[seq of char, seq of char, bool](lt)("abc")("abcd") and
+		Product`Curry[seq of char, seq of char, bool](lt)("abcde")("abcd") = false and
+		Product`Curry[int, int, bool](lt2)(3)(4) and
+		Product`Uncurry[seq of char, seq of char, bool](String`LT2)("abc", "abcd") and
+		Product`Uncurry[seq of char, seq of char, bool](String`LT2)("abcde", "abcd") = false and
+		Product`Uncurry[seq of char, seq of char, bool](String`LE2)("3", "4")
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "ProductT01:\t Test of curry function.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end ProductT01
+~~~
+{% endraw %}
+
+### Queue.vdmpp
+
+{% raw %}
+~~~
+class Queue
+
+functions
+static public empty[@T] : () -> seq of @T
+empty() == [];
+
+static public isEmpty[@T] : seq of @T -> bool
+isEmpty(s) == s = [];
+	
+static public enQueue[@T] : @T * seq of @T -> seq of @T
+enQueue(anElem, aQueue) == aQueue ^ [anElem];
+
+static public deQueue[@T] : seq of @T -> seq of @T
+deQueue(aQueue) == 
+	if aQueue = [] then
+		[]
+	else
+		tl aQueue;
+
+static public top[@T] : seq of @T -> [@T]
+top(aQueue) == 
+	if aQueue = [] then
+		nil
+	else
+		hd aQueue;
+
+end Queue
+~~~
+{% endraw %}
+
+### QueueT.vdmpp
+
+{% raw %}
+~~~
+class QueueT is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests () == 
+	[ new QueueT01()
+	];
+end QueueT
+
+class QueueT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	q0 = Queue`empty[int](),
+		q1 = Queue`enQueue[int](1, q0),
+		q2 = Queue`enQueue[int](2, q1),
+		q3 = Queue`enQueue[int](3, q2),
+		h1 = Queue`top[int](q3),
+		q4 = Queue`deQueue[int](q3),
+		q5 = Queue`deQueue[int](q4),
+		q6 = Queue`deQueue[int](q5),
+		h2 =  Queue`top[int](q6),
+		q7 = Queue`deQueue[int](q6)
+	in
+	return
+		q0 = [] and
+		q1 = [1] and
+		q2 = [1,2] and
+		q3 = [1,2,3] and
+		h1 = 1 and
+		q4 = [2,3] and
+		q5 = [3] and
+		q6 = [] and
+		h2 = nil and
+		q7 = [] and
+		Queue`isEmpty[int](q7) and
+		not Queue`isEmpty[int](q5) 
+		
+;
+protected setUp: () ==> ()
+setUp() == TestName := "QueueT01:\t Test Queue";
+protected tearDown: () ==> ()
+tearDown() == return;
+end QueueT01
+~~~
+{% endraw %}
+
+### Real.vdmpp
+
+{% raw %}
+~~~
+class Real
+
+values
+	Tolerance = 1e-8;
+	Variation = 1e-5;	
+
+functions
+
+static public EQ : real -> real -> bool
+EQ(r1)( r2) == abs(r1 - r2) < Tolerance;
+
+static public EQE : real -> real -> real -> bool
+EQE(e)(r1)(r2) == abs(r1 - r2) < e;
+
+static public numberOfDigit : real -> nat
+numberOfDigit(x) ==
+	let	i = floor(x)	in
+	if x = i then
+		aNumberOfIntegerPartDigit(i)
+	else
+		aNumberOfIntegerPartDigit(i) + 1 + getNumberOfDigitsAfterTheDecimalPoint(x);
+
+static public aNumberOfIntegerPartDigit : int -> nat
+aNumberOfIntegerPartDigit(i) == aNumberOfIntegerPartDigitAux(i, 1);
+
+static public aNumberOfIntegerPartDigitAux : int * nat -> nat
+aNumberOfIntegerPartDigitAux(i, numberOfDigit) ==
+	let	q = i div 10 in
+	cases q:
+		0		-> numberOfDigit,
+		others	-> Real`aNumberOfIntegerPartDigitAux(q, numberOfDigit + 1)
+	end
+measure idiv10;
+
+static idiv10 : int * nat +> nat
+idiv10(i, -) == i div 10;
+
+static public isNDigitsAfterTheDecimalPoint : real * nat -> bool
+isNDigitsAfterTheDecimalPoint(x,numberOfDigit) == 
+	getNumberOfDigitsAfterTheDecimalPoint(x) = numberOfDigit;
+
+static public getNumberOfDigitsAfterTheDecimalPoint : real -> nat
+getNumberOfDigitsAfterTheDecimalPoint(x) == getNumberOfDigitsAfterTheDecimalPointAux(x,0);
+
+static getNumberOfDigitsAfterTheDecimalPointAux : real * nat -> nat
+getNumberOfDigitsAfterTheDecimalPointAux(x,numberOfDigit) ==
+	if x = floor(x) then
+		numberOfDigit
+	else
+		getNumberOfDigitsAfterTheDecimalPointAux(x * 10, numberOfDigit + 1);
+
+static public roundAterDecimalPointByNdigit : real * nat -> real
+roundAterDecimalPointByNdigit(r, numberOfDigit) ==
+	let	multiple = 10 ** numberOfDigit
+	in
+	floor(r * multiple  + 0.5) / multiple
+pre
+	r >= 0;
+
+static public Differentiate : (real -> real) ->real -> real
+Differentiate(f)(x) == (f(x+Variation) - f(x)) / Variation ;
+
+--Newton's method to solve the equation
+static public NewtonMethod: (real ->real) -> real -> real
+NewtonMethod(f)(x) ==
+	let	terminationCondition = lambda y : real &  abs(f(y)) < Tolerance,
+		nextApproximation = lambda y : real & y - (f(y) / Differentiate(f)(y))	in
+	new Function().Funtil[real](terminationCondition)(nextApproximation)(x);
+	
+-- Integration by Trapezoidal rule algorithm. This is too bad :-)
+static public integrate : (real -> real)  -> nat1 -> real -> real -> real
+integrate(f)(n)(a)(b) == 
+	let	
+		h = (b - a) / n,
+		s = seqGenerate(n, a, h)
+	in
+	h * (f(a) / 2 + Sequence`Sum[real](Sequence`fmap[real, real](f)(s)) + f(b) / 2);
+
+operations
+static private seqGenerate : nat1 * real * real  ==> seq of real
+seqGenerate(n, a, h) == 
+	(	
+		dcl s : seq of real := [];
+		for i = 1 to n do
+		s := s ^ [a + i * h];
+	return s
+	);
+
+functions
+--get root value for testing Newton Method.
+static public root: real -> real
+root(x) ==
+	let	f = lambda y : real & y ** 2 - x	in
+	NewtonMethod(f)(x);
+
+static public getTotalPrincipal : real * int -> real
+getTotalPrincipal(Interest,year) == (1 + Interest) ** year
+pre
+	Interest >= 0 and year > 0;
+
+static getInterestImplicitSpec_Math_version : real * int -> real
+getInterestImplicitSpec_Math_version(multiple,year) == is not yet specified
+pre
+	multiple > 1.0 and year > 0 
+post
+	multiple > 1.0 and year > 0 and
+	exists1 Interest : real &
+		let totalPrincipalAndInterest = getTotalPrincipal(Interest,year)
+		in multiple = totalPrincipalAndInterest  and RESULT = Interest;
+		
+static getInterestImplicitSpec_Computer_version : real * int -> real
+getInterestImplicitSpec_Computer_version(multiple,years) ==
+	is not yet specified
+pre
+	multiple > 1.0 and years > 0 
+post
+	multiple > 1.0 and years > 0 and
+	exists1 Interest : real & 
+		let	totalPrincipalAndInterest = getTotalPrincipal(Interest,years)
+		in	EQ(multiple)(totalPrincipalAndInterest) and RESULT = Interest;
+
+--getInterest explicit specification
+static public getInterest: real * int -> real
+getInterest(multiple,years) ==
+	let	f = lambda Interest : real & multiple - getTotalPrincipal(Interest,years)	in
+	NewtonMethod(f)(0);
+	
+end Real
 ~~~
 {% endraw %}
 
@@ -7038,6 +4361,2578 @@ end RealT08
 
 
 
+~~~
+{% endraw %}
+
+### SBCalendar.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                          	
+class SBCalendar is subclass of JapaneseCalendar -- date
+
+values
+	io = new IO();
+	calendar = new SBCalendar();
+
+instance variables
+
+public iTodayOnBusiness : [Date] := nil;	-- This value express today for test.
+public iTodayOnCompanyMap : [map seq of char to Date] := { |-> };		-- a map of companyCode to todayOnBusiness
+public timeOfSystem : [Time] := nil;	-- This value express now for test.
+
+functions
+
+static public isCorrectContractMonth: seq of char -> bool
+isCorrectContractMonth(aContractMonth) ==
+	calendar.getDateFromString(aContractMonth ^ "01") <> false;
+
+static public getExerciseDate :  seq of char -> Date
+getExerciseDate(aContractMonth) ==
+	let	firstDayOfContractMonth = calendar.getDateFromString(aContractMonth ^ "01"),
+		designatedYear = firstDayOfContractMonth.Year(),
+		designatedMonth =firstDayOfContractMonth.Month()	in
+	calendar.getNthDayOfTheWeek(designatedYear,designatedMonth,2,<Fri>).getPastWeekday()
+pre
+	isCorrectContractMonth(aContractMonth);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 	
+static public getContractDate : Date -> Date 
+getContractDate(aDate) == 	
+	let	 
+		mk_(year, month) = calendar.getMonthOf6monthsLater(aDate.Year(), aDate.Month()),
+		date = aDate.day(),
+		candidateDate = getCandidateDate(year, month, date)
+	in
+	candidateDate.getPastWeekday()	--Sometime the result is a date of previous month. 
+--pre
+	--aDate.isNotDayOff()
+post	
+	let	
+		mk_(year, month) = calendar.getMonthOf6monthsLater(aDate.Year(), aDate.Month()),
+		date = aDate.day(),
+		candidateDate = getCandidateDate(year, month, date) 
+	in
+	RESULT.EQ(candidateDate.getPastWeekday()) and
+	if isDayoffFromTheBeginingOfMonthToCandidateDate(candidateDate) then
+		RESULT.Month() = getPreviousMonth(year, month) 
+	else
+		RESULT.Month() = month;
+
+static public getMonthOf6monthsLater :  int * int ->  int * int
+getMonthOf6monthsLater(year, month) == calendar.getRegularMonth(year, month+6);
+
+static public getCandidateDate : int * int * int -> Date
+getCandidateDate(year, month, date)  == 
+		let	dateOfEndOfMonth = calendar.getLastDayOfMonth(year, month)
+		in
+			if dateOfEndOfMonth.day() < date then
+				dateOfEndOfMonth
+			else
+				calendar.getDateFrom_yyyy_mm_dd(year, month, date);
+
+static public isDayoffFromTheBeginingOfMonthToCandidateDate : Date -> bool
+isDayoffFromTheBeginingOfMonthToCandidateDate(candidateDate) == 
+	forall day in set {1, ..., candidateDate.day()} & 
+		calendar.isSundayOrDayoff(calendar.getDateFrom_yyyy_mm_dd(candidateDate.Year(), candidateDate.Month(), day));
+
+static public getPreviousMonth : int * int -> int
+getPreviousMonth(year, month) == 
+		let	mk_(-, previousMonth) = calendar.getRegularMonth(year, month-1)
+		in
+		previousMonth;
+
+static public isDateNil: [Date] -> bool
+isDateNil(date) ==  date = nil; --or date = maxDate();
+
+static public systemDate : () -> Date
+systemDate() == calendar.today();
+
+operations
+public setTheSetOfDayOffs: int ==> () 	-- get the set of dayoff, but Sundays are not in set
+setTheSetOfDayOffs(year) ==
+	let	japaneseCalendar = new JapaneseCalendar(),
+		japaneseDayoffSet = japaneseCalendar.getSetOfDayOff(year),
+		TR1のsetOfDayOff = {
+			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,1,2), 
+			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,1,3), 
+			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,12,29), 
+			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,12,30), 
+			japaneseCalendar.getDateFrom_yyyy_mm_dd(year,12,31)
+		},
+		saturdaySet = japaneseCalendar.getDayOfTheWeekInYear(year,<Sat>) 	in
+	Year2Holidays := Year2Holidays munion { year |-> japaneseDayoffSet union TR1のsetOfDayOff union saturdaySet}
+pre
+	year >= 2000;
+
+--todayOnBusinessをreadFromFile
+public readTodayOnBusiness : seq of char ==> [Date]
+readTodayOnBusiness(fname) ==
+	let	mk_(rslt, mk_(y,m,d)) = io.freadval[int * int * int](fname)
+	in
+	if rslt then
+		return getDateFrom_yyyy_mm_dd(y,m,d)
+	else
+		let	- = io.echo("Can't read BaseDay's data file.")
+		in
+		return nil;
+
+--get today for test
+public todayOnBusiness: () ==> Date
+todayOnBusiness() == 
+	if iTodayOnBusiness = nil then
+		return readTodayOnBusiness(homedir ^ "/temp/BaseDay.txt")
+	else
+		return iTodayOnBusiness;
+
+public readFromFiletodayOnBusiness: seq of char ==> Date
+readFromFiletodayOnBusiness(fname) == 
+	if iTodayOnBusiness = nil then
+		return readTodayOnBusiness(fname)
+	else
+		return iTodayOnBusiness;
+
+public setTodayOnBusiness : Date ==> ()
+setTodayOnBusiness(date) == iTodayOnBusiness := date;
+
+-- get today for system. For example, many business systems thinks just after midnight is as "today"
+public todayOnCompany: seq of char ==> Date
+todayOnCompany(companyCode) == 
+	(
+	if iTodayOnCompanyMap = nil then
+		setTodayOnCompany(companyCode,todayOnBusiness());
+	return iTodayOnCompanyMap(companyCode)
+	);
+
+public setTodayOnCompany : seq of char * Date ==> ()
+setTodayOnCompany(companyCode,date) == iTodayOnCompanyMap := iTodayOnCompanyMap ++ { companyCode |-> date };
+
+public readSystemTime : () ==> [Time]
+readSystemTime() ==
+	let	mk_(rslt, now) = io.freadval[Time](homedir ^ "/temp/SystemTime.txt")
+	in
+	if rslt then
+		return now
+	else
+		let	- = io.echo("Can't read System Time data file.")
+		in
+		return nil;
+
+public systemTime : () ==> Time
+systemTime() == 
+	if timeOfSystem = nil then
+		readSystemTime()
+	else
+		return timeOfSystem;
+
+public setSystemTime : Time ==> ()
+setSystemTime(t) ==  timeOfSystem := t;
+
+public SBCalendar : () ==> SBCalendar
+SBCalendar() ==
+	(
+	setDifferenceWithGMT(differenceBetweenGMTandJST); 
+	return self
+	);
+	
+end SBCalendar
+                                                                          
+~~~
+{% endraw %}
+
+### SBCalendarT.vdmpp
+
+{% raw %}
+~~~
+class SBCalendarT is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests () == 
+	[
+	new SBCalendarT06(),
+	new SBCalendarT05(),
+	new SBCalendarT04(),
+	new SBCalendarT03(),
+	new SBCalendarT02(),
+	new SBCalendarT01()
+	];
+end SBCalendarT
+
+class SBCalendarT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	c = new SBCalendar()	in
+	(
+	c.setTodayOnBusiness(c.getDateFrom_yyyy_mm_dd(2001,9,12));
+	c.setSystemTime(new Time(c, 2003, 10, 23, 13, 12, 34, 567));
+	return
+		(
+		--c.maxDate().EQ(c.getDateFrom_yyyy_mm_dd(9999,12,31)) and
+		--c.maxDate().date2Str = c.dateの最大値 and
+		c.todayOnBusiness().EQ(c.getDateFrom_yyyy_mm_dd(2001,9,12)) and
+		c.isDateNil(nil) = true and
+		--c.isDateNil(c.maxDate()) = true and
+		c.isDateNil(c.todayOnBusiness()) = false and
+		c.systemDate().EQ(c.today()) and
+		c.systemTime().EQ(new Time(c, 2003, 10, 23, 13, 12, 34, 567))
+		)
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SBCalendarT01:\tTest maxDate and date is nil.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SBCalendarT01
+
+class SBCalendarT02 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	jc = new SBCalendar(),
+		setOfDayOff = jc.getSetOfDayOff(2001),
+		setOfDayOff2006 = jc.getSetOfDayOff(2006),
+		d0401 = jc.getDateFromString("20010401"),
+		d0408 = jc.getDateFromString("20010408"),
+		d0430 = jc.getDateFromString("20010430"),
+		setOfDayOffBy_yyyy_mm_dd =  {jc.getYyyymmdd(dayOff) | dayOff in set setOfDayOff}	,
+		setOfDayOffBy_yyyy_mm_dd2006 =  {jc.getYyyymmdd(dayOff) | dayOff in set setOfDayOff2006}	in
+	return
+		setOfDayOffBy_yyyy_mm_dd = 
+			{ mk_( 2001,1,1 ),
+			  mk_( 2001,1,2 ),
+			  mk_( 2001,1,3 ),
+			  mk_( 2001,1,6 ),
+			  mk_( 2001,1,8 ),
+			  mk_( 2001,1,13 ),
+			  mk_( 2001,1,20 ),
+			  mk_( 2001,1,27 ),
+			  mk_( 2001,2,3 ),
+			  mk_( 2001,2,10 ),
+			  mk_( 2001,2,11 ),
+			  mk_( 2001,2,12 ),
+			  mk_( 2001,2,17 ),
+			  mk_( 2001,2,24 ),
+			  mk_( 2001,3,3 ),
+			  mk_( 2001,3,10 ),
+			  mk_( 2001,3,17 ),
+			  mk_( 2001,3,20 ),
+			  mk_( 2001,3,24 ),
+			  mk_( 2001,3,31 ),
+			  mk_( 2001,4,7 ),
+			  mk_( 2001,4,14 ),
+			  mk_( 2001,4,21 ),
+			  mk_( 2001,4,28 ),
+			  mk_( 2001,4,29 ),
+			  mk_( 2001,4,30 ),
+			  mk_( 2001,5,3 ),
+			  mk_( 2001,5,4 ),
+			  mk_( 2001,5,5 ),
+			  mk_( 2001,5,12 ),
+			  mk_( 2001,5,19 ),
+			  mk_( 2001,5,26 ),
+			  mk_( 2001,6,2 ),
+			  mk_( 2001,6,9 ),
+			  mk_( 2001,6,16 ),
+			  mk_( 2001,6,23 ),
+			  mk_( 2001,6,30 ),
+			  mk_( 2001,7,7 ),
+			  mk_( 2001,7,14 ),
+			  mk_( 2001,7,20 ),
+			  mk_( 2001,7,21 ),
+			  mk_( 2001,7,28 ),
+			  mk_( 2001,8,4 ),
+			  mk_( 2001,8,11 ),
+			  mk_( 2001,8,18 ),
+			  mk_( 2001,8,25 ),
+			  mk_( 2001,9,1 ),
+			  mk_( 2001,9,8 ),
+			  mk_( 2001,9,15 ),
+			  mk_( 2001,9,22 ),
+			  mk_( 2001,9,23 ),
+			  mk_( 2001,9,24 ),
+			  mk_( 2001,9,29 ),
+			  mk_( 2001,10,6 ),
+			  mk_( 2001,10,8 ),
+			  mk_( 2001,10,13 ),
+			  mk_( 2001,10,20 ),
+			  mk_( 2001,10,27 ),
+			  mk_( 2001,11,3 ),
+			  mk_( 2001,11,10 ),
+			  mk_( 2001,11,17 ),
+			  mk_( 2001,11,23 ),
+			  mk_( 2001,11,24 ),
+			  mk_( 2001,12,1 ),
+			  mk_( 2001,12,8 ),
+			  mk_( 2001,12,15 ),
+			  mk_( 2001,12,22 ),
+			  mk_( 2001,12,23 ),
+			  mk_( 2001,12,24 ),
+			  mk_( 2001,12,29 ),
+			  mk_( 2001,12,30 ),
+			 mk_( 2001,12,31 ) } and
+  		setOfDayOffBy_yyyy_mm_dd2006 =
+			{ mk_( 2006,1,1 ),
+			  mk_( 2006,1,2 ),
+			  mk_( 2006,1,3 ),
+			  mk_( 2006,1,7 ),
+			  mk_( 2006,1,9 ),
+			  mk_( 2006,1,14 ),
+			  mk_( 2006,1,21 ),
+			  mk_( 2006,1,28 ),
+			  mk_( 2006,2,4 ),
+			  mk_( 2006,2,11 ),
+			  mk_( 2006,2,18 ),
+			  mk_( 2006,2,25 ),
+			  mk_( 2006,3,4 ),
+			  mk_( 2006,3,11 ),
+			  mk_( 2006,3,18 ),
+			  mk_( 2006,3,21 ),
+			  mk_( 2006,3,25 ),
+			  mk_( 2006,4,1 ),
+			  mk_( 2006,4,8 ),
+			  mk_( 2006,4,15 ),
+			  mk_( 2006,4,22 ),
+			  mk_( 2006,4,29 ),
+			  mk_( 2006,5,3 ),
+			  mk_( 2006,5,4 ),
+			  mk_( 2006,5,5 ),
+			  mk_( 2006,5,6 ),
+			  mk_( 2006,5,13 ),
+			  mk_( 2006,5,20 ),
+			  mk_( 2006,5,27 ),
+			  mk_( 2006,6,3 ),
+			  mk_( 2006,6,10 ),
+			  mk_( 2006,6,17 ),
+			  mk_( 2006,6,24 ),
+			  mk_( 2006,7,1 ),
+			  mk_( 2006,7,8 ),
+			  mk_( 2006,7,15 ),
+			  mk_( 2006,7,17 ),
+			  mk_( 2006,7,22 ),
+			  mk_( 2006,7,29 ),
+			  mk_( 2006,8,5 ),
+			  mk_( 2006,8,12 ),
+			  mk_( 2006,8,19 ),
+			  mk_( 2006,8,26 ),
+			  mk_( 2006,9,2 ),
+			  mk_( 2006,9,9 ),
+			  mk_( 2006,9,16 ),
+			  mk_( 2006,9,18 ),
+			  mk_( 2006,9,23 ),
+			  mk_( 2006,9,30 ),
+			  mk_( 2006,10,7 ),
+			  mk_( 2006,10,9 ),
+			  mk_( 2006,10,14 ),
+			  mk_( 2006,10,21 ),
+			  mk_( 2006,10,28 ),
+			  mk_( 2006,11,3 ),
+			  mk_( 2006,11,4 ),
+			  mk_( 2006,11,11 ),
+			  mk_( 2006,11,18 ),
+			  mk_( 2006,11,23 ),
+			  mk_( 2006,11,25 ),
+			  mk_( 2006,12,2 ),
+			  mk_( 2006,12,9 ),
+			  mk_( 2006,12,16 ),
+			  mk_( 2006,12,23 ),
+			  mk_( 2006,12,29 ),
+			  mk_( 2006,12,30 ),
+			  mk_( 2006,12,31 ) } and
+  		jc.getDayOffsExceptSunday(d0401,d0430)  = 6 and
+  		card jc.getDayOffsAndSunday(d0401,d0430) = 1 and
+  		jc.getDayOffsAndSunday(d0401,d0408) = {}
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "SBCalendarT02:\tGetting set of day off.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SBCalendarT02
+
+class SBCalendarT03 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	c = new SBCalendar()	in
+	(
+	c.setTodayOnBusiness(c.getDateFrom_yyyy_mm_dd(2001,9,12));
+	return
+		(
+		c.getExerciseDate("200111").EQ(c.getDateFrom_yyyy_mm_dd(2001,11,9))  and
+		c.getExerciseDate("200109").EQ(c.getDateFrom_yyyy_mm_dd(2001,9,14))  and
+		c.isCorrectContractMonth("200206") = true and
+		c.isCorrectContractMonth("200206.01") = false and
+		c.isCorrectContractMonth("Shin Sahara") = false 
+		)
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SBCalendarT03:\tTest validity checking of contract month and getting execution date.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SBCalendarT03
+
+class SBCalendarT04 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	c = new SBCalendar(),
+		d0929 = c.getDateFrom_yyyy_mm_dd(2001, 9, 29),
+		d0104 = c.getDateFrom_yyyy_mm_dd(20021, 1, 4)	in
+	(
+	c.setTodayOnCompany("007",d0104);
+	c.setTodayOnCompany("009",d0929);
+	return
+		(
+		c.todayOnCompany("007") = d0104 and
+		c.todayOnCompany("009") = d0929 
+		)
+	)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SBCalendarT04:\tTest of todayOnCompany";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SBCalendarT04
+
+class SBCalendarT05 is subclass of TestCase, CalendarDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	c = new SBCalendar()
+	in
+	return
+		c.todayOnBusiness().EQ(c.getDateFrom_yyyy_mm_dd(2003, 10, 24)) and
+		c.readFromFiletodayOnBusiness(homedir ^ "/temp/Today.txt").EQ(c.getDateFrom_yyyy_mm_dd(2001, 3, 1))
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SBCalendarT05:\tTest todayOnBusiness from a file.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SBCalendarT05
+
+class SBCalendarT06 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	c = new SBCalendar(),
+		sDate = SBCalendar`getContractDate
+	in
+	return
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 1, 5)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 5)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 1, 31)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 8, 2)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 8, 27)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 1)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 30)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 3, 31)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 9, 30)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 4, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 10, 1)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 4, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 10, 29)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 6)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 5)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 7)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 5)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 5, 10)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 11, 10)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 1)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 28)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 6, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 12, 28)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 5)).EQ(c.getDateFrom_yyyy_mm_dd(2005, 1, 5)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2004, 7, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2005, 1, 28)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 2)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 2)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 28)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 8, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 2, 27)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 9, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 3, 1)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 9, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 3, 30)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 10, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 1)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 10, 29)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 28))  and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 11, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 4, 30)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 11, 30)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 5, 28)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 12, 1)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 6, 1)) and
+		sDate(c.getDateFrom_yyyy_mm_dd(2003, 12, 26)).EQ(c.getDateFrom_yyyy_mm_dd(2004, 6, 25))
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SBCalendarT06:\tGetting contract date of margin trading.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SBCalendarT06
+~~~
+{% endraw %}
+
+### Sequence.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           	
+class Sequence
+	
+functions 
+
+static public Sum[@T]: seq of @T ->  @T
+Sum(s) == SumAux[@T](s)(0)
+pre
+	is_(s, seq of real);
+
+static SumAux[@T] : seq of @T -> @T -> @T
+SumAux(s)(sum) ==
+  if is_(s,seq of real) and is_real(sum)
+  then
+	if s = [] then
+		sum
+	else
+		SumAux[@T](tl s)(sum + hd s)
+  else undefined;
+--measure length_measure;
+
+static length_measure[@T] : seq of @T +> nat
+length_measure(s) == len s;
+
+static public Product[@T]: seq of @T ->  @T
+Product(s) == ProductAux[@T](s)(1)
+pre
+	is_(s, seq of real);
+ 	
+static ProductAux[@T] : seq of @T -> @T -> @T
+ProductAux(s)(p) ==
+ if is_(s,seq of real) and is_real(p)
+ then
+	cases s :
+	[h] ^ tail	-> ProductAux[@T](tail)(p * h),
+	[]			-> p
+	end
+ else undefined;
+--measure length_measure;
+
+static public GetAverage[@T]: seq of @T ->  [real]
+GetAverage(s) == if s = [] then nil else GetAverageAux[@T](s)(0)(len s);
+
+static GetAverageAux[@T] : seq of @T -> @T -> @T -> real
+GetAverageAux(s)(sum)(numberOfElem) ==
+ if is_(s,seq of real) and is_real(sum) and is_real(numberOfElem)
+ then
+	cases s :
+	[h] ^ tail	-> GetAverageAux[@T](tail)(sum + h)(numberOfElem),
+	[]			-> sum / numberOfElem
+	end
+else undefined;
+--measure length_measure;
+
+static public isAscendingTotalOrder [@T]:
+	(@T * @T -> bool) -> seq of @T -> bool
+isAscendingTotalOrder (decideOrderFunc)(s) ==
+	forall i,j  in set inds s & i < j  => decideOrderFunc(s(i),s(j)) or s(i) = s(j);
+
+static public isDescendingTotalOrder [@T]:
+	(@T * @T -> bool) -> seq of @T -> bool
+isDescendingTotalOrder (decideOrderFunc)(s) ==
+	forall i,j  in set inds s & i < j  => decideOrderFunc(s(j),s(i)) or s(i) = s(j);
+
+static public isAscendingOrder [@T]: seq of @T -> bool
+isAscendingOrder(s) ==
+	isAscendingTotalOrder [@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
+                                                     then x < y
+                                                     else undefined)(s);
+
+static public isDescendingOrder[@T]: seq of @T -> bool
+isDescendingOrder(s) ==
+	isDescendingTotalOrder [@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
+                                                      then x < y
+                                                      else undefined)(s);
+
+static public sort[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T
+sort(decideOrderFunc)(s) ==
+	cases s:
+		[]	-> [],
+		[h]^tail	-> 
+			sort[@T](decideOrderFunc)([tail(i) | i in set inds tail & decideOrderFunc(tail(i),h)]) ^
+			[h] ^
+			sort[@T](decideOrderFunc)([tail(i) | i in set inds tail & not decideOrderFunc(tail(i),h)])
+	end;
+
+static public ascendingOrderSort[@T] : seq of @T -> seq of @T
+ascendingOrderSort(s) == sort[@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
+                                                          then x < y
+                                                          else undefined)(s);
+
+static public descendingOrderSort[@T] : seq of @T -> seq of @T
+descendingOrderSort(s) == sort[@T](lambda x : @T, y : @T & if is_real(x) and is_real(y)
+                                                           then x > y
+                                                           else undefined)(s);
+
+static public isOrdered[@T] : seq of (@T * @T -> bool) -> seq of @T -> seq of @T -> bool
+isOrdered(decideOrderFuncSeq)(s1)(s2) ==
+	cases mk_(s1,s2):
+		mk_([],[])		-> false,
+		mk_([],-)		-> true,
+		mk_(-,[])	-> false,
+		mk_([h1]^tail1,[h2]^tail2)	->
+			if (hd decideOrderFuncSeq)(h1,h2) then
+				true
+			elseif (hd decideOrderFuncSeq)(h2,h1) then
+				false
+			else
+				Sequence`isOrdered[@T](tl decideOrderFuncSeq)(tail1)(tail2)
+	end;
+
+static public Merge[@T] : (@T * @T -> bool) -> seq of @T -> seq of @T -> seq of @T
+Merge(decideOrderFunc)(s1)(s2) == 
+	cases mk_(s1,s2):
+		mk_([], y)						-> y,
+		mk_(x, [])						-> x,
+		mk_([h1]^tail1,[h2]^tail2)		->
+			if decideOrderFunc(h1,h2) then
+				[h1] ^ Sequence`Merge[@T](decideOrderFunc)(tail1)(s2)
+			else
+				[h2] ^ Sequence`Merge[@T](decideOrderFunc)(s1)(tail2)
+	end;
+
+static public InsertAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
+InsertAt(position)(e)(s) ==
+	cases mk_(position, s) :
+	mk_(1, str)				-> [e] ^ str,
+	mk_(-, [])				-> [e],
+	mk_(pos, [h] ^ tail)	-> [h] ^ InsertAt[@T](pos - 1)(e)(tail)
+	end;
+
+static public RemoveAt[@T]: nat1 -> seq of @T -> seq of @T
+RemoveAt(position)(s) ==
+	cases mk_(position, s) :
+	mk_(1, [-] ^ tail)		-> tail,
+	mk_(pos, [h] ^ tail)	-> [h] ^ RemoveAt[@T](pos - 1)(tail),
+	mk_(-, [])				-> []
+	end;
+
+static public RemoveDup[@T] :  seq of @T ->  seq of @T
+RemoveDup(s) == 
+	cases s :
+	[h]^tail		-> [h] ^ RemoveDup[@T](filter[@T](lambda x : @T & x <> h)(tail)) ,
+	[]			-> []
+	end
+measure length_measure;
+	
+static public RemoveMember[@T] :  @T -> seq of @T -> seq of @T
+RemoveMember(e)(s) == 
+	cases s :
+	[h]^tail		-> if e = h then tail else [h] ^ RemoveMember[@T](e)(tail),
+	[]			-> []
+	end;
+	
+static public RemoveMembers[@T] :  seq of @T -> seq of @T -> seq of @T
+RemoveMembers(elemSeq)(s) == 
+	cases elemSeq :
+	[]			-> s,
+	[h]^tail		-> RemoveMembers[@T](tail)(RemoveMember[@T](h)(s))
+	end;
+
+static public UpdateAt[@T]: nat1 -> @T -> seq of @T -> seq of @T
+UpdateAt(position)(e)(s) ==
+	cases mk_(position, s) :
+	mk_(-, [])				-> [],
+	mk_(1, [-] ^ tail)		-> [e] ^ tail,
+	mk_(pos,  [h] ^ tail)	-> [h] ^ UpdateAt[@T](pos - 1)(e)(tail)
+	end;
+
+static public take[@T]: int -> seq of @T -> seq of @T
+take(i)(s) == s(1,...,i);
+
+static public TakeWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
+TakeWhile(f)(s) ==
+	cases s :
+	[h] ^ tail	-> 
+		if f(h) then
+			[h] ^ TakeWhile[@T](f)(tail)
+		else
+			[],
+	[]	-> []
+	end;
+	
+static public drop[@T]: int -> seq of @T -> seq of @T
+drop(i)(s) == s(i+1,...,len s);
+
+static public DropWhile[@T] : (@T -> bool) -> seq of @T ->seq of @T
+DropWhile(f)(s) ==
+	cases s :
+	[h] ^ tail	-> 
+		if f(h) then
+			DropWhile[@T](f)(tail)
+		else
+			s,
+	[]	-> []
+	end;
+
+static public Span[@T] : (@T -> bool) -> seq of @T -> seq of @T * seq of @T
+Span(f)(s) ==
+	cases s :
+	[h] ^ tail	-> 
+		if f(h) then
+			let	mk_(matchSeq, otherSeq) = Span[@T](f)(tail)
+			in
+			mk_([h] ^ matchSeq, otherSeq)
+		else
+			mk_([], s),
+	[]	-> mk_([], [])
+	end;
+
+static public SubSeq[@T]: nat -> nat -> seq1 of @T -> seq of @T
+SubSeq(startPos)(numOfElem)(s) == s(startPos,...,startPos+numOfElem-1);
+
+static public last[@T]: seq of @T -> @T
+last(s) == s(len s);
+
+static public fmap[@T1,@T2]: (@T1 -> @T2) -> seq of @T1 -> seq of @T2
+fmap(f)(s) == [f(s(i)) | i in set inds s];
+
+public Fmap[@elem]: (@elem -> @elem) -> seq of @elem -> seq of @elem
+Fmap(f)(l) ==
+       if l = []
+       then []
+       else [f(hd l)] ^ (Fmap[@elem](f)(tl l));
+
+static public filter[@T]: (@T -> bool) -> seq of @T -> seq of @T
+filter(f)(s) == [s(i) | i in set inds s & f(s(i))];
+
+static public Foldl[@T1, @T2] : 
+	(@T1 -> @T2 -> @T1) -> @T1 -> seq of @T2 -> @T1
+Foldl(f)(arg)(s) == 
+	cases s :
+	[]			-> arg,
+	[h] ^ tail	-> Foldl[@T1,@T2](f)(f(arg)(h))(tail)
+	end;
+
+static public Foldr[@T1, @T2] : 
+	(@T1 -> @T2 -> @T2) -> @T2 -> seq of @T1 -> @T2
+Foldr(f)(arg)(s) == 
+	cases s :
+	[]			-> arg,
+	[h] ^ tail	-> f(h)(Foldr[@T1,@T2](f)(arg)(tail))
+	end;
+
+static public isMember[@T] : @T -> seq of @T -> bool
+isMember(e)(s) == 
+	cases s :
+	[h]^tail		-> e = h or isMember[@T] (e)(tail),
+	[]			-> false
+	end;
+
+static public isAnyMember[@T]:  seq of @T -> seq of @T -> bool
+isAnyMember(elemSeq)(s) == 
+	cases elemSeq :
+	[h]^tail		->  isMember[@T] (h)(s) or isAnyMember[@T] (tail)(s) ,
+	[]			-> false
+	end;
+
+static public Index[@T]: @T -> seq of @T -> int
+Index(e)(s) == 
+	let	i = 0
+	in	IndexAux[@T](e)(s)(i);
+
+static IndexAux[@T]: @T -> seq of @T -> int -> int
+IndexAux(e)(s)(indx) ==
+	cases s:
+		[]			-> 0,
+		[x]^xs	->
+			if x = e then 
+				indx + 1
+			else
+				IndexAux[@T](e)(xs)(indx+1)
+	end;
+	
+static public IndexAll2[@T] : @T -> seq of @T -> set of int
+IndexAll2(e)(s) == {i | i in set inds s & s(i) = e};
+	
+static public flatten[@T] : seq of seq of @T -> seq of @T
+flatten(s) == conc s;
+
+static public compact[@T] : seq of [@T] -> seq of @T
+compact(s) == [s(i) | i in set inds s & s(i) <> nil];
+
+static public freverse[@T] : seq of @T -> seq of @T
+freverse(s) == [s(len s + 1 -  i) | i in set inds s];
+
+static public Permutations[@T]: seq of @T -> set of seq of @T
+Permutations(s) == 
+cases s:
+	[],[-] -> {s},
+	others -> dunion {{[s(i)]^j | j in set Permutations[@T](RestSeq[@T](s,i))} | i in set inds s}
+end
+measure length_measure;
+
+static public RestSeq[@T]: seq of @T * nat -> seq of @T
+RestSeq(s,i) == [s(j) | j in set (inds s \ {i})];
+
+static public Unzip[@T1, @T2] : seq of (@T1 * @T2) -> seq of @T1 * seq of @T2
+Unzip(s) ==
+	cases s :
+	[]				-> mk_([], []),
+	[mk_(x, y)] ^ tail	->
+		let	mk_(xs, ys) = Unzip[@T1, @T2](tail)
+		in
+		mk_([x] ^ xs, [y] ^ ys)
+	end
+measure lengthUnzip;
+
+static lengthUnzip[@T1, @T2] : seq of (@T1 * @T2) +> nat
+lengthUnzip(s) == len s;
+
+static public Zip[@T1, @T2] : seq of @T1 * seq of @T2 -> seq of (@T1 * @T2)
+Zip(s1, s2) == Zip2[@T1, @T2](s1)(s2);
+                            	
+static public Zip2[@T1, @T2] : seq of @T1 -> seq of @T2 -> seq of (@T1 * @T2)
+Zip2(s1)(s2) == 
+	cases mk_(s1, s2) :
+	mk_([h1] ^ tail1, [h2] ^ tail2)		-> [mk_(h1, h2)] ^ Zip2[@T1, @T2](tail1)(tail2),
+	mk_(-, -)							-> []
+	end;
+
+end Sequence
+                                                                       
+~~~
+{% endraw %}
+
+### SequenceT.vdmpp
+
+{% raw %}
+~~~
+class SequenceT is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests() == 
+	[ 
+	new SequenceT25(), 
+	new SequenceT23(), new SequenceT24(),
+	new SequenceT19(), new SequenceT20(),
+	new SequenceT21(), new SequenceT22(),
+	new SequenceT01(), new SequenceT02(),
+	new SequenceT03(), new SequenceT04(),
+	new SequenceT05(), new SequenceT06(),
+	new SequenceT07(), new SequenceT08(),
+	new SequenceT09(), new SequenceT10(),
+	new SequenceT11(), new SequenceT12(),
+	new SequenceT13(), new SequenceT14(),
+	new SequenceT15(), new SequenceT16(),
+	new SequenceT17(), new SequenceT18()
+	];
+end SequenceT
+
+class SequenceT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	sq = new Sequence()	in
+       return (sq.Sum[int]([1,2,3,4,5,6,7,8,9]) = 45 and
+       sq.Sum[int]([]) = 0) and
+       Sequence`Product[int]([2, 3, 4]) = 24 and
+       Sequence`Product[int]([]) = 1
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT01:\t Integer sum and product.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT01
+
+class SequenceT02 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	sq = new Sequence()	in
+	return sq.Sum[real]([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]) = 4.5 and
+	sq.Sum[real]([]) = 0.0 and
+	Sequence`Product[real]([2.0, 3.0, 4.0]) = 24.0 and
+	Sequence`Product[real]([]) = 1.0 and
+	Sequence`Product[real]([2.1, 3.2, 4.3]) = 2.1 * 3.2 * 4.3
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT02:\t Real sum and product.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT02
+
+class SequenceT03 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	sq = new Sequence()	in
+	return sq.isAscendingOrder[int]([1,2,4,4,7,8,8,8]) and
+	not sq.isAscendingOrder[real]([1.0,2.0,3.0,1.5])
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT03:\t Test isAscendingOrder (integer and real)";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT03
+
+class SequenceT04 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	sq = new Sequence()	in
+	return 
+		sq.isDescendingOrder[int]([3,2,2,1,1]) and
+		Sequence`isDescendingTotalOrder[int] (lambda x : int, y : int & x < y)([3,2,2,1,1]) and
+		Sequence`isDescendingTotalOrder[int] (lambda x : int, y : int & x < y)([3,2,2,1,2]) = false
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT04:\t Test isDescendingTotalOrder (integer).";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT04
+
+class SequenceT05 is subclass of TestCase
+types
+	public TestType = int|seq of char|char;
+	public RecordType ::
+		val : int
+		str : seq of char
+		chr : char;
+operations 
+public  test: () ==> bool
+test() == 
+	let	sq = new Sequence(),
+		decideOrderFuncSeq =
+			[(lambda x : int, y : int & x < y),
+			lambda x : seq of char, y : seq of char & String`LT(x,y),
+			lambda x : char, y : char & Character`LT(x,y)
+			],
+		decideOrderFunc =
+			lambda x : RecordType, y :  RecordType &
+				Sequence`isOrdered[SequenceT05`TestType]
+					(decideOrderFuncSeq)([x.val,x.str,x.chr])([y.val,y.str,y.chr])
+		in
+	return 
+		Sequence`sort[int](lambda x : int, y : int & x < y)([3,1,5,4]) = [1,3,4,5] and
+		Sequence`sort[seq of char]
+			(lambda x : seq of char, y : seq of char & String`LT(x,y))
+			(["12", "111", "01"]) = ["01","111","12"] and
+		Sequence`sort[SequenceT05`RecordType](decideOrderFunc)
+			([mk_RecordType(10,"sahara",'c'),mk_RecordType(10,"sahara",'a')]) =
+			[mk_RecordType(10,"sahara",'a'),mk_RecordType(10,"sahara",'c')] and
+		sq.isOrdered[SequenceT05`TestType](decideOrderFuncSeq)([3,"123",'a'])([3,"123",'A']) = true and
+		sq.isOrdered[SequenceT05`TestType](decideOrderFuncSeq)([3,"123",'a'])([3,"123",'0']) = false and
+		sq.isOrdered[int|seq of char|char](decideOrderFuncSeq)([])([]) = false and
+		sq.isOrdered[int|seq of char|char](decideOrderFuncSeq)([])([3,"123",'0']) = true and
+		sq.isOrdered[int|seq of char|char](decideOrderFuncSeq)([3,"123",'0'])([]) = false
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT05:\t test sort and isOrdered.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT05
+
+class SequenceT06 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	sq = new Sequence(),
+		decideOrderFunc1 = lambda x : int, y : int & x < y,
+		decideOrderFunc2 = lambda x : char, y : char & Character`LT(x,y)		in
+	return
+		sq.Merge[int](decideOrderFunc1)([1,4,6])([2,3,4,5]) = [1,2,3,4,4,5,6] and
+		sq.Merge[char](decideOrderFunc2)("146")("2345") = "1234456" and
+		sq.Merge[char](decideOrderFunc2)("")("2345") = "2345" and
+		sq.Merge[char](decideOrderFunc2)("146")("") = "146"
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT06:\t Merge sequences.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT06
+
+class SequenceT07 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	sq = new Sequence()		in
+	return
+		sq.take[int](2)([2,3,4,5]) = [2,3] and
+		sq.drop[char](5)("Shin Sahara") = "Sahara" and
+		sq.last[int]([1,2,3]) = 3 and
+		sq.filter[int](lambda x:int & x mod 2 = 0)([1,2,3,4,5,6]) = [2,4,6] and
+		Sequence`SubSeq[char](4)(3)("1234567890") = "456" and
+		Sequence`flatten[int]([[1,2,3], [3,4], [4,5,6]]) = [ 1,2,3,3,4,4,5,6 ]
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT07:\t Handling sequences.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT07
+
+class SequenceT08 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	return
+		Sequence`ascendingOrderSort[int]([3,1,6,4,2,6,5]) = [1,2,3,4,5,6,6] and
+		Sequence`descendingOrderSort[int]([3,1,6,4,2,6,5]) = [6,6,5,4,3,2,1] 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT08:\t Test sort.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT08
+
+class SequenceT09 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	return
+		Sequence`compact[[int]]([3,1,6,4,nil,2,6,5,nil]) = [3,1,6,4,2,6,5] and
+		Sequence`compact[[int]]([nil,nil]) = [] and
+		Sequence`compact[[int]]([]) = [] 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT09:\t Delete nil elements.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT09
+
+class SequenceT10 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	return
+		Sequence`freverse[[int]]([3,1,6,4,nil,2,6,5,nil]) = [nil, 5, 6, 2, nil, 4, 6, 1, 3] and
+		Sequence`freverse[[int]]([]) = [] 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT10:\t Get inverse sequence.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT10
+
+class SequenceT11 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	return
+		Sequence`Permutations[[int]]([1,2,3]) =
+			{ [ 1,2,3 ],
+			  [ 1,3,2 ],
+			  [ 2,1,3 ],
+			  [ 2,3,1 ],
+			  [ 3,1,2 ],
+			  [ 3,2,1 ] } and
+		Sequence`Permutations[[int]]([]) = {[]}
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT11:\t Get permutation.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT11
+
+class SequenceT12 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	return
+		Sequence`isMember[int](2)([1,2,3,4,5,6]) and
+		Sequence`isMember[int](0)([1,2,3,4,5,6]) = false and
+		Sequence`isMember[int](6)([1,2,3,4,5,6]) and
+		Sequence`isAnyMember[int]([6])([1,2,3,4,5,6]) and
+		Sequence`isAnyMember[int]([0,7])([1,2,3,4,5,6]) = false and
+		Sequence`isAnyMember[int]([4,6])([1,2,3,4,5,6]) and
+		Sequence`isAnyMember[int]([])([1,2,3,4,5,6]) = false 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT12:\t Search sequence.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT12
+-------------------------------------------------------------
+class SequenceT13 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	return
+		Sequence`fmap[int, int](lambda x:int & x mod 3)([1,2,3,4,5])  = [1, 2, 0, 1, 2] and
+		Sequence`fmap[seq of char, seq of char]
+			(Sequence`take[char](2))(["Shin Sahara", "Hiroshi Sakoh"]) = ["Sh", "Hi"]
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT13:\tTest fmap.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT13
+-------------------------------------------------------------
+class SequenceT14 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	index = Sequence`Index,
+		indexAll = Sequence`IndexAll2
+	in
+	return
+		index[int](1)([1,2,3,4,5])  = 1 and
+		index[int](5)([1,2,3,4,5])  = 5 and
+		index[int](9)([1,2,3,4,5])  = 0 and
+		index[char]('b')(['a', 'b', 'c'])  = 2 and
+		index[char]('z')(['a', 'b', 'c'])  = 0 and
+		indexAll[int](9)([1,2,3,4,5]) = {} and
+		indexAll[int](9)([]) = {} and
+		indexAll[int](1)([1,2,3,4,1]) = {1,5} and
+		indexAll[int](1)([1,2,3,4,1,1]) = {1,5,6} 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT14:\t Test Index.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT14
+-------------------------------------------------------------
+class SequenceT15 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	avg1 = Sequence`GetAverage[int],
+		avg2 = Sequence`GetAverage[real]
+	in
+	return
+		avg1([]) = nil and
+		avg1([1,2,3,4]) = (1+2+3+4) / 4 and
+		avg2([1.3, 2.4, 3.5]) = 7.2 / 3
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT15:\t Test GetAverage.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT15
+-------------------------------------------------------------
+class SequenceT16 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	ins1 = Sequence`InsertAt[int],
+		ins2 = Sequence`InsertAt[char]
+	in
+	return
+		ins1(1)(1)([2,3,4,5]) = [1,2,3,4,5] and
+		ins1(3)(3)([1,2,4,5]) = [1,2,3,4,5] and
+		ins1(3)(3)([1,2]) = [1,2,3] and
+		ins1(4)(3)([1,2]) = [1,2,3] and
+		ins1(5)(3)([1,2]) = [1,2,3] and
+		ins2(1)('1')("2345") = "12345" and
+		ins2(3)('3')("1245") = "12345" and
+		ins2(3)('3')("12") = "123"
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT16:\t Test InsertAt.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT16
+-------------------------------------------------------------
+class SequenceT17 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	rm1 = Sequence`RemoveAt[int],
+		rm2 = Sequence`RemoveAt[char]
+	in
+	return
+		rm1(1)([1,2,3,4,5]) = [2,3,4,5] and
+		rm1(3)([1,2,4,3]) = [1,2,3] and
+		rm1(3)([1,2]) = [1,2] and
+		rm1(4)([1,2]) = [1,2] and
+		rm1(5)([1,2]) = [1,2] and
+		rm2(1)("12345") = "2345" and
+		rm2(3)("1243") = "123" and
+		rm2(3)("12") = "12"
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT17:\t Test RemoveAt.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT17
+-------------------------------------------------------------
+class SequenceT18 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	up1 = Sequence`UpdateAt[int],
+		up2 = Sequence`UpdateAt[char]
+	in
+	return
+		up1(1)(10)([1,2,3,4,5]) = [10,2,3,4,5] and
+		up1(3)(40)([1,2,4,3]) = [1,2,40,3] and
+		up1(2)(30)([1,2]) = [1,30] and
+		up1(3)(30)([1,2]) = [1,2] and
+		up1(4)(30)([1,2]) = [1,2] and
+		up2(1)('a')("12345") = "a2345" and
+		up2(3)('b')("1243") = "12b3" and
+		up2(3)('c')("123") = "12c" and
+		up2(3)('c')("12") = "12"
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT18:\t Test UpdateAt.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT18
+-------------------------------------------------------------
+class SequenceT19 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	removeDup = Sequence`RemoveDup[int],
+		removeMember = Sequence`RemoveMember[int],
+		removeMembers = Sequence`RemoveMembers[int]
+	in
+	return
+		removeDup([]) = [] and
+		removeDup([1,1,2,2,2,3,4,4,4,4]) = [1,2,3,4] and
+		removeDup([1,2,3,4]) = [1,2,3,4] and
+		removeMember(1)([]) = [] and
+		removeMember(1)([1,2,3]) = [2,3] and
+		removeMember(4)([1,2,3]) = [1,2,3] and
+		removeMembers([])([]) = [] and
+		removeMembers([])([1,2,3]) = [1,2,3] and
+		removeMembers([1,2,3])([]) = [] and
+		removeMembers([1,2,3])([1,2,3]) = [] and
+		removeMembers([1,4,5])([1,2,3,4]) = [2,3] 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT19:\t Test removes.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT19
+-------------------------------------------------------------
+class SequenceT20 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	zip = Sequence`Zip[int, char],
+		zip2 = Sequence`Zip2[int,char],
+		unzip = Sequence`Unzip[int, char]
+	in
+	return
+		zip([], []) = [] and
+		zip([1,2,3], ['a', 'b', 'c']) = [mk_(1, 'a'), mk_(2, 'b'), mk_(3, 'c')] and
+		zip([1,2], ['a', 'b', 'c']) = [mk_(1, 'a'), mk_(2, 'b')] and
+		zip([1,2,3], ['a', 'b']) = [mk_(1, 'a'), mk_(2, 'b')] and
+		zip2([])([]) = [] and
+		zip2([1,2,3])(['a', 'b', 'c']) = [mk_(1, 'a'), mk_(2, 'b'), mk_(3, 'c')] and
+		unzip([]) = mk_([], []) and
+		unzip([mk_(1, 'a'), mk_(2, 'b'), mk_(3, 'c')]) = mk_([1,2,3], ['a', 'b', 'c']) 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT20:\t Test zip related functions.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT20
+-------------------------------------------------------------
+class SequenceT21 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	span = Sequence`Span[int],
+		p1 = lambda x : int & x mod 2 = 0,
+		p2 = lambda x : int & x < 10
+ 	in
+	return
+		span(p1)([]) = mk_([], []) and
+		span(p1)([2,4,6,1,3]) = mk_([2,4,6], [1,3]) and
+		span(p2)([1,2,3,4,5]) = mk_([1,2,3,4,5], []) and
+		span(p2)([1,2,12,13,4,15]) = mk_([1,2], [12,13,4,15])
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT21:\t Test span.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT21
+-------------------------------------------------------------
+class SequenceT22 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	takeWhile = Sequence`TakeWhile[int],
+		dropWhile = Sequence`DropWhile[int],
+		p1 = lambda x : int & x mod 2 = 0
+ 	in
+	return
+		takeWhile(p1)([]) = [] and
+		takeWhile(p1)([2,4,6,8,1,3,5,2,4]) = [2,4,6,8] and
+		dropWhile(p1)([]) = [] and
+		dropWhile(p1)([2,4,6,8,1,2,3,4,5]) = [1,2,3,4,5] 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT22:\t Test TakeWhile and DropWhile.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT22
+-------------------------------------------------------------
+class SequenceT23 is subclass of TestCase
+functions
+public plus : int -> int -> int
+plus(a)(b) == a + b;
+
+public product : int -> int -> int
+product(a)(b) == a * b;
+
+public append : seq of char -> char -> seq of char
+append(s)(e) == s ^ [e];
+
+operations 
+public  test: () ==> bool
+test() == 
+	let	foldl = Sequence`Foldl[int, int],
+		f2 = Sequence`Foldl[seq of char, char]
+ 	in
+	return
+		foldl(plus)(0)([1,2,3]) = 6 and
+		foldl(product)(1)([2,3,4]) = 24 and
+		f2(append)([])("abc") = "abc" 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT23:\t Test Foldl.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT23
+-------------------------------------------------------------
+class SequenceT24 is subclass of TestCase
+functions
+public plus : int -> int -> int
+plus(a)(b) == a + b;
+
+public product : int -> int -> int
+product(a)(b) == a * b;
+operations 
+public  test: () ==> bool
+test() == 
+	let	removeAt = Sequence`RemoveAt[char],
+		foldr = Sequence`Foldr[int, int],
+		f3 = Sequence`Foldr[nat1, seq of char]
+ 	in
+	return
+		foldr(plus)(0)([1,2,3]) = 6 and
+		foldr(product)(1)([2,3,4]) = 24 and
+		f3(removeAt)("12345")([1,3,5]) = "24"
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT24:\t Test Foldr.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT24
+-------------------------------------------------------------
+class SequenceT25 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	let	sq = new Sequence()	in
+	return
+		Real`EQ(sq.GetAverage[real]([1.1,2.2,3.3]))(2.2) and
+		Real`EQ(sq.GetAverage[real]([1,2,3,4,5,6,7,8,9,10]))(5.5)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SequenceT25:\t Test GetAverage";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SequenceT25
+~~~
+{% endraw %}
+
+### Set.vdmpp
+
+{% raw %}
+~~~
+class Set
+
+functions 
+-- Same as VDMUtil`set2seq which is implemented by C++
+static public asSequence[@T]: set of @T -> seq of @T
+asSequence(aSet) ==  
+	cases aSet :
+		{}		-> [],
+		{x} union xs	-> [x] ^ asSequence[@T](xs)
+	end
+post
+	hasSameElems[@T](RESULT, aSet)
+measure cardinality;
+
+static cardinality[@T]: set of @T +> nat
+cardinality(aSet) == card aSet;
+
+static public hasSameElems[@T] : (seq of @T) * (set of @T) -> bool
+hasSameElems(aSeq,aSet) == (elems aSeq = aSet) and (len aSeq = card aSet);
+
+static public Combinations[@T] : nat1 -> set of @T -> set of set of @T
+Combinations(n)(aSet) ==
+	{ aElem | aElem in set power aSet & card aElem = n};
+
+
+static public fmap[@T1,@T2]: (@T1 -> @T2) -> set of @T1 -> set of @T2
+fmap(f)(aSet) == {f(s) | s in set aSet};
+
+static public Sum[@T]: set of @T ->  @T
+Sum(aSet) == SumAux[@T](aSet)(0)
+pre
+	is_(aSet, set of int) or is_(aSet, set of nat) or is_(aSet, set of nat1) or
+ 	is_(aSet, set of real) or is_(aSet, set of rat);
+
+static SumAux[@T] : set of @T -> @T -> @T
+SumAux(aSet)(aSum) ==
+	cases aSet :
+	({})	-> aSum,
+	{e} union s->
+		SumAux[@T](s)(if is_real(aSum) and is_real(e)
+		              then aSum + e
+		              else undefined)
+	end
+pre
+	pre_Sum[@T](aSet);
+
+end Set
+~~~
+{% endraw %}
+
+### SetT.vdmpp
+
+{% raw %}
+~~~
+class SetT is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests () == 
+	[
+		new SetT01(),
+		new SetT02(),
+		new SetT03(),
+		new SetT04()
+	];
+end SetT
+----------------------------------------
+class SetT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	return
+		Set`hasSameElems[int](Set`asSequence[int]({1,2,3,4}),{1,2,3,4}) and
+		(elems Set`asSequence[int]({1,2,3,3,4}) = {1,2,3,4})
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SetT01:\t Compare sequences and convert to sequence.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SetT01
+----------------------------------------
+
+class SetT02 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	return
+		Set`Combinations[int](2)({1,2,3}) = { { 1,2 }, { 1,3 }, { 2,3 } } and
+		Set`Combinations[int](2)({1,2,3,4}) = { { 1,2 },  { 1,3 },  { 1,4 },  { 2,3 },  { 2,4 },  { 3,4 } } and
+		Set`fmap[set of int, set of set of int](Set`Combinations[int](2))({{1,2,3}, {1,2,3,4}}) =
+			{{ { 1,2 }, { 1,3 }, { 2,3 } }, { { 1,2 },  { 1,3 },  { 1,4 },  { 2,3 },  { 2,4 },  { 3,4 } } } and
+		Set`Combinations[int](3)({1,2,3,4}) = { { 1,2,3 },  { 1,2,4 },  { 1,3,4 },  { 2,3,4 } } and
+		Set`Combinations[seq of char](2)({"Sahara", "Sato", "Sakoh", "Yatsu", "Nishikawa" }) = 
+			{ { "Sahara",    "Sato" },  { "Sahara",    "Nishikawa" },  { "Sahara",    "Yatsu" },  { "Sahara",    "Sakoh" },  { "Sato",    "Nishikawa" }, 
+			{ "Sato",    "Yatsu" },  { "Sato",    "Sakoh" },  { "Nishikawa",    "Yatsu" },  { "Nishikawa",    "Sakoh" },  { "Yatsu",    "Sakoh" } }
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SetT02:\t Get combination.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SetT02
+-------------------------------------------------------------
+
+class SetT03 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	return
+		Set`fmap[int, int](lambda x:int & x mod 3)({1,2,3,4,5})  = {0, 1, 2} and
+		Set`fmap[seq of char, seq of char]
+			(Sequence`take[char](2))({"Shin Sahara", "Hiroshi Sakoh"}) = {"Sh", "Hi"}
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SetT03:\t Test fmap.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SetT03
+-------------------------------------------------------------
+
+class SetT04 is subclass of TestCase
+operations 
+public  test: () ==> bool
+test() == 
+	return
+		Set`Sum[int]({1,...,10}) = 55 and
+		Set`Sum[int]({1, 2, 3, 4, 5, 6, 7, 8,  9, 10}) = 55 and
+		abs(Set`Sum[real]({0.1, 0.2, 0.3}) - 0.6) <= 1E-5 and
+		Set`Sum[nat]({1, 2, 3, 3}) = 6
+;
+protected setUp: () ==> ()
+setUp() == TestName := "SetT04:\tTest sum of set elements.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end SetT04
+~~~
+{% endraw %}
+
+### String.vdmpp
+
+{% raw %}
+~~~
+class String is subclass of Sequence
+
+functions
+
+--Conversion functions
+static public asInteger: seq of char -> int
+asInteger(s) == String`AsIntegerAux(s)(0);
+
+static private AsIntegerAux : seq of char -> int -> int
+AsIntegerAux(s)(sum) ==
+	if s = [] then
+		sum
+	else
+		AsIntegerAux(tl s)(10 * sum + Character`asDigit(hd s));
+--	measure length;
+
+static length : seq of char +> nat
+length(s) == len s;
+
+static lengthNil : [seq of char] +> nat
+lengthNil(s) == if s = nil then 0 else len s;
+	
+--Decision functions
+static public isSomeString: (char -> bool) -> seq of char -> bool
+isSomeString(f)(s) == forall i in set inds s & f(s(i));
+
+static public isDigits : seq of char -> bool
+isDigits(s) == isSomeString(Character`isDigit)(s);
+
+static public isLetters : seq of char -> bool
+isLetters(s) == isSomeString(Character`isLetter)(s);
+
+static public isLetterOrDigits : seq of char -> bool
+isLetterOrDigits(s) == isSomeString(Character`isLetterOrDigit)(s);
+
+static public isSpaces : [seq of char] -> bool
+isSpaces(s) ==isSomeString(lambda c : char & c = ' ' or c = '\t')(s);
+
+static public LT : seq of char * seq of char -> bool
+LT(s1, s2) == String`LT2(s1)(s2);
+
+static public LT2 : seq of char -> seq of char -> bool
+LT2(s1)(s2) == 
+	cases mk_(s1,s2):
+		mk_([],[])		-> false,
+		mk_([],-)		-> true,
+		mk_(-^-,[])	-> false,
+		mk_([head1]^tails1,[head2]^tails2)	->
+			if Character`LT(head1,head2) then
+				true
+			elseif Character`LT(head2,head1) then
+				false
+			else
+				String`LT(tails1, tails2)
+	end;
+
+static public LE : seq of char * seq of char -> bool
+LE(s1, s2) == String`LE2(s1)(s2);
+
+static public LE2 : seq of char -> seq of char -> bool
+LE2(s1)(s2) == String`LT2(s1)(s2) or s1 = s2;
+
+static public GT : seq of char * seq of char -> bool
+GT(s1, s2) == String`GT2(s1)(s2);
+
+static public GT2 : seq of char -> seq of char -> bool
+GT2(s1)(s2) == String`LT(s2, s1);
+
+static public GE : seq of char * seq of char -> bool
+GE(s1, s2) == String`GE2(s1)(s2);
+
+static public GE2 : seq of char -> seq of char -> bool
+GE2(s1)(s2) == not String`LT2(s1)(s2);
+
+static public Index: char -> seq of char -> int
+Index(c)(aStr) == Sequence`Index[char](c)(aStr);
+
+static public indexAll : seq of char * char -> set of int
+indexAll(aStr,c) == Sequence`IndexAll2[char](c)(aStr);
+
+static public IndexAll2 : char -> seq of char -> set of int
+IndexAll2(c)(aStr) == Sequence`IndexAll2[char](c)(aStr);
+
+static public isInclude : seq of char -> seq of char -> bool
+isInclude(aStr)(aTargetStr) ==
+	let	indexSet = indexAll(aStr,aTargetStr(1))
+	in	exists i in set indexSet & 
+			SubStr(i)(len aTargetStr)(aStr) = aTargetStr
+pre
+	aTargetStr <> ""
+	;
+
+static public subStr :
+	seq1 of char * nat * nat -> seq of char
+subStr(aStr,fromPos,length) == aStr(fromPos,...,fromPos+length-1);
+
+static public SubStr : nat -> nat -> seq1 of char -> seq of char
+SubStr(fromPos)(length)(aStr) == aStr(fromPos,...,fromPos+length-1);
+
+static public GetToken : seq of char * set of char -> seq of char
+GetToken(s, aDelimitterSet) == 
+	TakeWhile[char](lambda c : char & c not in set aDelimitterSet)(s);
+
+static public DropToken : seq of char * set of char -> seq of char
+DropToken(s, aDelimitterSet) == 
+	DropWhile[char](lambda c : char & c not in set aDelimitterSet)(s);
+
+static public getLines : seq of char -> seq of seq of char
+getLines(s) ==
+	getLinesAux(s)([]);
+
+static public getLinesAux : seq of char -> seq of seq of char -> seq of seq of char
+getLinesAux(s)(line) ==
+	if s = [] then
+		line
+	else
+		let wDelimitterSet = {'\n'},
+			wHeadLine = GetToken(s, wDelimitterSet),
+			wTailStringCandidate = DropToken(s, wDelimitterSet),
+			wTailString = 
+				if wTailStringCandidate <> [] and hd wTailStringCandidate = '\n' then tl wTailStringCandidate 
+				else wTailStringCandidate
+		in
+		getLinesAux(wTailString)(line ^ [wHeadLine]);
+--measure length;
+
+operations
+static public index: seq of char * char ==> int
+index(aStr,c) == (
+	for i = 1 to len aStr do
+		if aStr(i) = c then return i;
+	return 0
+);
+
+static public subStrFill :
+	seq of char * nat * nat * char ==> seq of char
+subStrFill(aStr,fromPos,length, fillChar) ==
+	let	lastPos = fromPos+length-1
+	in (
+		dcl aResult : seq of char := "";
+		for i = fromPos to lastPos  do (
+			if i <= len aStr then
+				aResult := aResult ^ [aStr(i)]
+			else
+				aResult := aResult ^ [fillChar]
+		);
+		return aResult
+	)
+pre
+	fromPos > 0 and length >= 0;
+
+end String
+~~~
+{% endraw %}
+
+### StringT.vdmpp
+
+{% raw %}
+~~~
+class StringT is subclass of TestDriver 
+functions
+public tests : () -> seq of TestCase
+tests () == 
+	[
+	new StringT01(), new StringT02(), 
+	new StringT03(), new StringT04(),
+	new StringT05(), new StringT06(),
+	new StringT07(), new StringT08(),
+	new StringT09(), -- new StringT10(),
+	new StringT11(), new StringT12(),
+	new StringT13(), new StringT14()
+	];
+end StringT
+
+class StringT01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	c = new Character()	in
+	return
+		(
+		c.isDigit('0') = true and
+		c.isDigit('1') = true and
+		c.isDigit('2') = true and
+		c.isDigit('3') = true and
+		c.isDigit('4') = true and
+		c.isDigit('5') = true and
+		c.isDigit('6') = true and
+		c.isDigit('7') = true and
+		c.isDigit('8') = true and
+		c.isDigit('9') = true and
+		c.isDigit('a') = false and
+		c.asDigit('0') = 0 and
+		c.asDigit('1') = 1 and
+		c.asDigit('2') = 2 and
+		c.asDigit('3') = 3 and
+		c.asDigit('4') = 4 and
+		c.asDigit('5') = 5 and
+		c.asDigit('6') = 6 and
+		c.asDigit('7') = 7 and
+		c.asDigit('8') = 8 and
+		c.asDigit('9') = 9 and
+		c.asDigit('a') = false )
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT01:\tConvert digit to integer.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT01
+
+class StringT02 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	c = new Character()	in
+	return
+		(c.asDictOrder('0') = 1 and
+		c.asDictOrder('9') = 10 and
+		c.asDictOrder('a') = 11 and
+		c.asDictOrder('A') = 12 and
+		c.asDictOrder('z') = 61 and
+		c.asDictOrder('Z') = 62 and
+		c.asDictOrder('\n') = 999999 and
+		c.asDictOrder('\t') = 999999 )
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT02:\tReturn dictionary order of character.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT02
+
+class StringT03 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	s = new String(),
+		LT = String`LT2,
+		LE = String`LE2,
+		GT = String`GT2,
+		GE = String`GE2
+	in
+	return
+		(s.LT("123","123") = false and
+		LT("123")("123") = false and
+		s.GT("123","123") = false and
+		GT("123")( "123") = false and
+		s.LT("","") = false and
+		s.GT("","") = false and
+		s.LT("","123") = true and
+		s.GT("","123") = false and
+		s.LT("123","") = false and
+		s.GT("123","") and
+		s.LT("123","1234") and
+		s.GT("123","1234") = false and
+		s.LT("1234","123") = false and
+		s.GT("1234","123") and
+		s.LT("123","223") and
+		s.GT("123","223") = false and
+		s.LE("123","123") and
+		LE("123")("123") and
+		s.GE("123","123") and
+		s.LE("123","1234") and
+		LE("123")("1234") and
+		s.GE("123","1234") = false and
+		GE("123")("1234") = false and
+		s.LE("1234","123") = false and
+		not LE("1234")("123") and
+		s.GE("1234","123") and
+		s.LE("","") and
+		LE("")("") and
+		Sequence`fmap[seq of char, bool](LT("123"))(["123", "1234", "", "223"]) = [false, true, false, true] and
+		Sequence`fmap[seq of char, bool](LE("123"))(["1234", ""]) = [true, false] and
+		Sequence`fmap[seq of char, bool](GT("123"))([ "123", "", "23"]) = [false, true, false] and
+		Sequence`fmap[seq of char, bool](GE("123"))(["1234", ""]) = [false, true] 
+		)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT03:\tCompare magnitude of string.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT03
+
+class StringT04 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	s1234 = "1234",
+		s = new String()	in
+	return
+		s1234 = "1234" and
+		s.isSpaces("") = true and
+		s.isSpaces("  ") = true and
+		s.isSpaces(" \t  ") = true and
+		s.isSpaces([]) = true 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT04:\tCompare 2 strings is equal.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT04
+
+class StringT05 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	LT = Character`LT,
+		GT = Character`GT,
+		LE = Character`LE,
+		GE = Character`GE
+	in
+	return
+		(LT('a','a') = false and
+		Character`LT2('a')('a') = false and
+		GT('a','a') = false and
+		Character`GT2('a')('a') = false and
+		LT('1','2') and
+		Character`LT2('1')('2') and
+		GT('1','0') and
+		Character`GT2('1')('0') and
+		LT('9','a') and
+		Character`LT2('9')('a') and
+		GT('\n','0') and
+		Character`GT2('\n')('0') and
+		LE('a','0') = false and
+		Character`LE2('a')('0') = false and
+		GE('a','0') and
+		Character`GE2('a')('0') and
+		Sequence`fmap[char, bool](Character`LT2('5'))("456") = [false, false, true]
+		)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT05:\tCompare magnitude of character.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT05
+
+class StringT06 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	s = new String(),
+		substr = String`SubStr
+	in
+	return
+		(s.subStr("Shin Sahara",6,6) = "Sahara" and
+		s.subStr("Shin Sahara",6,8) = "Sahara" and
+		s.subStr("Shin Sahara",6,3) = "Sah" and
+		s.subStr("Shin Sahara",1,0) = "" and
+		s.subStrFill("sahara",1,3,'*') = "sah" and
+		s.subStrFill("sahara",1,6,'*') = "sahara" and
+		s.subStrFill("sahara",1,10,'*') = "sahara****" and
+		s.subStrFill("sahara",3,4,'*') = "hara" and
+		s.subStrFill("sahara",3,10,'*') = "hara******" and
+		s.subStrFill("sahara",1,0,'*') = "" and
+		s.subStrFill("",1,6,'*') = "******" and
+		String`SubStr(6)(6)("Shin Sahara") = "Sahara" and
+		substr(6)(8)("Shin Sahara") = "Sahara" and
+		Sequence`fmap[seq of char, seq of char](substr(6)(8))(["1234567890", "12345671"]) = ["67890", "671"]
+		)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT06:\tGet substring.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT06
+
+
+class StringT07 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	return
+		(String`isDigits("1234567890")  = true and
+		String`asInteger("1234567890")  = 1234567890 and
+		String`asInteger("")  = 0 
+		)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT07:\tHandling digit strings.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT07
+
+class StringT08 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	return
+		(
+		String`index("1234567890",'1')  = 1 and
+		String`index("1234567890",'0') = 10 and
+		String`index("1234567890",'a')  = 0 and
+		String`indexAll("1234567890",'1')  = {1} and
+		String`indexAll("1234567890",'0') = {10} and
+		String`indexAll("1234567890",'a')  = {} and 
+		String`indexAll("1231567190",'1')  = {1,4,8} and 
+		String`indexAll("1231567191",'1')  = {1,4,8,10} and
+		String`Index('1')("1234567890")  = 1 and
+		String`Index('0')("1234567890") = 10 and
+		String`Index('a')("1234567890")  = 0 and
+		String`IndexAll2('1')("1234567890")  = {1} and
+		String`IndexAll2('0')("1234567890") = {10} and
+		String`IndexAll2('a')("1234567890")  = {} and 
+		String`IndexAll2('1')("1231567190")  = {1,4,8} and 
+		String`IndexAll2('1')("1231567191")  = {1,4,8,10} and
+		Sequence`fmap[seq of char, int](String`Index('1'))(["1234567890", "2345671"]) = [1, 7] and
+		Sequence`fmap[seq of char, set of int](String`IndexAll2('1'))(["1231567190", "1231567191"]) = [{1,4,8}, {1,4,8,10}]
+		)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT08:\tGet first position of a character in a string.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT08
+
+class StringT09 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let isInclude = String`isInclude
+	in
+	return
+		(String`isInclude("1234567890")( "abc")  = false and
+		isInclude("Shin")("Shin") = true and
+		isInclude("Shin")("S") = true and
+		isInclude("Shin")("h") = true and
+		isInclude("Shin")("n") = true
+		)
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT09:\tIs a string the substring of another string.";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT09
+
+class StringT10 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+		tixe {<RuntimeError>  |->  return true } in
+		return String`isInclude("Shin Sahara")("")
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT10:\tIs a string the substring of another string. In case of pre-condition error";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT10
+
+class StringT11 is subclass of TestCase
+operations 
+public test: () ==> bool
+test() == 
+	return 
+		let 区切り文字 = elems "\t\n " in
+		String`GetToken("sahara\tshin", 区切り文字) = "sahara" and
+		String`GetToken("sahara\tshin SCSK", 区切り文字) = "sahara" and
+		String`DropToken("sahara\tshin", 区切り文字) = "\tshin" and
+		String`DropToken("sahara\tshin SCSK", 区切り文字) = "\tshin SCSK" and
+		String`DropToken("sahara\tshin SCSK\n", 区切り文字) = "\tshin SCSK\n"
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT11:\t指定した文字列の先頭tokenを得る。";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT11
+
+/*
+シナリオID
+	文字列を行に分解するシナリオ
+内容
+	文字列を行に分解するかを検査する。
+*/
+class StringT12 is subclass of TestCase
+operations 
+public test: () ==> bool
+test() == 
+	return 
+		let 対象文字列1 = "private 次状態を得る : () ==> 「状態」\n次状態を得る(aガード, aガード引数, aイベント, aイベント引数,  a処理時間) == (\ncases mk_(aガード, 現在状態, aイベント)  :\n\tmk_(-,-,(エラー検知)) -> return エラー中,\n",
+			ss1 = String`getLines(対象文字列1),
+			対象文字列2 = "佐原\n伸",
+			ss2 = String`getLines(対象文字列2)
+		in
+		ss1(1) = "private 次状態を得る : () ==> 「状態」" and
+		ss1(2) = "次状態を得る(aガード, aガード引数, aイベント, aイベント引数,  a処理時間) == (" and
+		ss1(3) = "cases mk_(aガード, 現在状態, aイベント)  :" and
+		ss1(4) = "\tmk_(-,-,(エラー検知)) -> return エラー中," and
+		ss2(1) = "佐原" and
+		ss2(2) = "伸"
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT12:\t文字列を行に分解する。";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT12
+
+/*
+シナリオID
+	英数字か判定するシナリオ
+内容
+	英数字か判定が正しいかを検査する。
+*/
+class StringT13 is subclass of TestCase
+operations 
+public test: () ==> bool
+test() == 
+	return 
+		let	w英字列 = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ",
+			w数字列 = "0123456789",
+			w英数字列 = w英字列 ^ w数字列
+		in
+		String`isLetters(w英字列) and
+		not String`isLetters(" " ^ w英字列) and
+		String`isDigits(w数字列) and
+		not String`isDigits(" " ^ w数字列) and
+		not String`isDigits("a" ^ w数字列) and
+		String`isLetterOrDigits(w英数字列)  and
+		not String`isLetterOrDigits(w英数字列 ^ " ") 
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT13:\t英数字かの判定が正しいかを検査する。";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT13
+
+class StringT14 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	isSomeString = String`isSomeString
+	in	return 
+		isSomeString(Character`isLetterOrDigit)("007isTheMmurder") and
+		not isSomeString(Character`isLetterOrDigit)("007 is the mmurder") and
+		isSomeString(Character`isCapitalLetter)("SAHARA") and
+		not isSomeString(Character`isCapitalLetter)("Sahara") and
+		isSomeString(Character`isLowercaseLetter)("sahara") and
+		not isSomeString(Character`isLowercaseLetter)("Sahara") 
+		
+;
+protected setUp: () ==> ()
+setUp() == TestName := "StringT11:\tIs a some kind of string?";
+protected tearDown: () ==> ()
+tearDown() == return;
+end StringT14
+
+~~~
+{% endraw %}
+
+### Term.vdmpp
+
+{% raw %}
+~~~
+class Term
+
+values
+	Rcsid = "$Id: Term.vpp,v 1.1 2005/10/31 02:15:42 vdmtools Exp $";
+
+instance variables
+startTime : [Time];
+endTime : [Time];
+
+functions
+static public isInThePeriod : Time * Term -> bool
+isInThePeriod(aTime, aPeriod) ==
+	(aPeriod.getStartTime() = nil or aPeriod.getStartTime().LE(aTime)) and
+	(aPeriod.getEndTime() = nil or aPeriod.getEndTime().GE(aTime));
+
+public EQ : Term -> bool
+EQ(aPeriod) == 
+	self.getStartTime().EQ(aPeriod.getStartTime()) and self.getEndTime().EQ(aPeriod.getEndTime());
+
+operations
+public Term:[Time]*[Time] ==> Term
+Term(astartTime, aendTime) ==
+	(
+	startTime := astartTime;
+	endTime := aendTime;
+	return self
+	);
+
+public getStartTime : () ==> [Time]
+getStartTime() == return startTime;
+
+public getEndTime : () ==> [Time]
+getEndTime() == return endTime;
+	
+end  Term
+~~~
+{% endraw %}
+
+### TermT.vdmpp
+
+{% raw %}
+~~~
+class TermT is subclass of TestDriver 
+functions
+public tests : () -> seq of TestCase
+tests() == 
+	[ 
+	new TermT01()
+	];
+end TermT
+----------------------------------------------------------
+
+class TermT01 is subclass of TestCase, CalendarDefinition
+operations 
+protected test: () ==> bool
+test() == 
+	let	cal = new JapaneseCalendar(),
+		astartTime = new Time(cal, 2003, 7, 30, 14, 29, 30, 20),
+		aendTime = new Time(cal, 2003, 7, 30, 14, 29, 30, 22),
+		t1        = new Time(cal, 2003, 7, 30, 14, 29, 30, 19),
+		t2        = new Time(cal, 2003, 7, 30, 14, 29, 30, 20),
+		t3        = new Time(cal, 2003, 7, 30, 14, 29, 30, 21),
+		t4        = new Time(cal, 2003, 7, 30, 14, 29, 30, 22),
+		t5        = new Time(cal, 2003, 7, 30, 14, 29, 30, 23),
+		t6        = new Time(cal, 2003, 7, 29, 14, 29, 30, 20),
+		t7        = new Time(cal, 2003, 7, 31, 14, 29, 30, 20),
+		t8        = new Time(cal, 2003, 7, 29, 14, 29, 29, 20),
+		t9        = new Time(cal, 2003, 7, 29, 14, 29, 31, 20),
+		term1 = new Term(astartTime, aendTime)
+	in
+	return
+		not term1.isInThePeriod(t1, term1) and
+		term1.isInThePeriod(t2, term1) and
+		term1.isInThePeriod(t3, term1) and
+		term1.isInThePeriod(t4, term1) and
+		not term1.isInThePeriod(t5, term1) and
+		not term1.isInThePeriod(t6, term1) and
+		not term1.isInThePeriod(t7, term1) and
+		not term1.isInThePeriod(t8, term1) and
+		not term1.isInThePeriod(t9, term1)
+	;
+protected setUp: () ==> ()
+setUp() == TestName := "TermT01:\tTest of term constructor and isInThePeriod()";
+protected tearDown: () ==> ()
+tearDown() == return;
+end TermT01
+----------------------------------------------------------
+~~~
+{% endraw %}
+
+### TestCase.vdmpp
+
+{% raw %}
+~~~
+class TestCase
+
+instance variables
+
+	public TestName: seq of char := "** anonymous regression test **";
+
+operations
+public TestACase: () ==> bool
+TestACase() == 
+	(dcl	r: bool;
+	setUp();
+	r := test();
+	tearDown();
+	return r);
+	
+public getTestName: () ==> seq of char
+getTestName() == return TestName;
+
+protected test: () ==> bool
+test() == is subclass responsibility;
+
+protected setUp: () ==> ()
+setUp() == return;
+
+protected tearDown: () ==> ()
+tearDown() == return;
+
+end TestCase
+
+~~~
+{% endraw %}
+
+### TestDriver.vdmpp
+
+{% raw %}
+~~~
+class TestDriver
+--Super class of TestDriver
+
+functions
+
+--Return all TestCases
+public tests : () -> seq of TestCase
+tests() == is subclass responsibility;
+
+--Confirm test result
+public isOK: TestCase -> bool
+isOK(t) ==
+	if t.TestACase() then
+		new TestLogger().Succeeded(t)
+	else
+		new TestLogger().Failed(t);
+
+operations
+
+--Test a TestCase sequence.
+public run: () ==> bool
+run() ==
+	let	Message = "Test result of a testcase seaquence.",
+		TestcaseSeq = tests()	,
+		aResult = [isOK(TestcaseSeq(i)) | i in set inds TestcaseSeq]
+		--aResult = new Sequence().fmap[TestCase,bool](isOK)(TestcaseSeq)
+	in
+	if  forall i in set inds aResult & aResult(i) then
+		return new TestLogger().succeededInAllTestcases(Message)
+	else
+		return new TestLogger().notSucceededInAllTestcases(Message)
+	
+end TestDriver
+
+~~~
+{% endraw %}
+
+### TestLogger.vdmpp
+
+{% raw %}
+~~~
+--$Id: TestLogger.vpp,v 1.2 2006/04/04 07:03:05 vdmtools Exp $
+class TestLogger
+--テストのログを管理する
+
+values
+
+hisotoryFileName = "VDMTESTLOG.TXT"
+
+functions
+
+public Succeeded: TestCase -> bool
+Succeeded(t) == 
+	let	Message = t.getTestName()^"\t OK.\n",
+		- = new IO().fecho(hisotoryFileName, Message, <append>)	,
+		- = new IO().echo(Message)		in
+	true;
+
+public Failed: TestCase -> bool
+Failed(t) == 
+	let	Message = t.getTestName()^"\t NG.\n",
+		- = new IO().fecho(hisotoryFileName, Message, <append>),
+		- = new IO().echo( Message)		in
+	false;
+
+public succeededInAllTestcases : seq of char -> bool
+succeededInAllTestcases(m) ==
+	let	Message = m ^ "\t OK!!\n",
+		- = new IO().fecho(hisotoryFileName, Message, <append>),
+		- = new IO().echo( Message)
+	in
+	true;
+	
+public notSucceededInAllTestcases :  seq of char -> bool
+notSucceededInAllTestcases(m) ==
+	let	Message = m ^ "\t NG!!\n",
+		- = new IO().fecho(hisotoryFileName,  Message, <append>),
+		- = new IO().echo( Message)
+	in
+	false;
+
+end TestLogger
+~~~
+{% endraw %}
+
+### Time.vdmpp
+
+{% raw %}
+~~~
+class Time is subclass of CalendarDefinition
+/*
+Responsibility
+	時間を表す。
+Abstract
+	私は時間あるいはアナリシス・パターンで言うところの時点であり、aDateの時間を表す。
+	例えば2003年7月28日14時15分59秒を表す。
+*/
+
+values
+public hoursPerDay = 24;	--１日の時間数
+public minutesPerHour = 60;	--１時間の分数
+public secondsPerMinute = 60;	--１分の秒数
+public ミリ = 1000;		--ミリを通常の単位にするための倍数
+public milliSecondsPerDay = hoursPerDay * minutesPerHour * secondsPerMinute * ミリ;	--１日=２４時間をmilliSecondで表した数
+public milliSecondsPerHour = minutesPerHour * secondsPerMinute * ミリ;	--１時間をmilliSecondで表した数
+private io = new IO();
+
+types
+public TimeInMilliSeconds = nat;	--１日の時刻を０時を0としたmilliSecond単位で持つ。
+	
+instance variables
+/*　本来は、Javaのようにdate・時間を合わせてmilliSecond単位で持つべきだろうが、
+　　Dateは倍精度浮動小数点数でModifiedJulianDateを持っているため、時間の精度は５分程度となる。
+　　このため、dateと時刻を分けて持つことにした。
+*/
+sDate : Date;
+sTime : TimeInMilliSeconds;
+	
+operations
+--Constructor
+public Time : Calendar * int * int * int * nat * nat * nat  * nat ==> Time
+Time(cal, year, month, 日, 時, aMinute, aSecond, milliSecond) ==
+	(
+	sDate := cal.getDateFrom_yyyy_mm_dd(year, month, 日);
+	sTime := self.IntProduct2TimeMillieSeconds(時, aMinute, aSecond, milliSecond);
+	return self
+	);
+
+public Time : Calendar * int * int * int ==> Time
+Time(cal, year, month, 日) ==
+	(
+	sDate := cal.getDateFrom_yyyy_mm_dd(year, month, 日);
+	sTime := self.IntProduct2TimeMillieSeconds(0, 0, 0, 0);
+	return self
+	);
+	
+public Time : Date ==> Time
+Time(aDate) ==
+	(
+	sDate := aDate;
+	sTime := self.IntProduct2TimeMillieSeconds(0, 0, 0, 0);
+	return self
+	);
+	
+--currentDateTimeを求める単体テスト用関数。
+public Time: Calendar ==> Time
+Time(cal) == 
+	(
+	let	currentDateTime = readCurrentDateTime(homedir ^ "/temp/Today.txt", homedir ^ "/temp/Now.txt", cal)
+	in
+	(
+	sDate := currentDateTime.getDate();
+	sTime := currentDateTime.getTime();
+	);
+	return self
+	);
+
+
+--currentDateTimeを指定したreadFromFile単体テスト用関数。
+public Time: seq of char * seq of char * Calendar ==> Time
+Time(dateFileName, 時間fname, cal) ==
+	(
+	let	currentDateTime = readCurrentDateTime(dateFileName, 時間fname, cal)
+	in
+	(
+	sDate := currentDateTime.getDate();
+	sTime := currentDateTime.getTime();
+	);
+	return self
+	);
+		
+--currentDateTimeをreadFromFile
+public readCurrentDateTime : seq of char * seq of char * Calendar ==> [Time]
+readCurrentDateTime(dateFileName, 時間fname, cal) ==
+	let	mk_(結果, mk_(h, m, s, ms)) = io.freadval[int * int * int * int](時間fname)
+	in
+	if 結果 then
+		let	d = cal.readFromFiletoday(dateFileName)	in
+		return new Time(cal, d.Year(),  d.Month(), d.day(), h, m, s, ms)
+	else
+		let	- = io.echo("Can't read Current Date-Time data file.")
+		in
+		return nil;
+
+--インスタンス変数操作
+
+public getDate : () ==> Date
+getDate() == return sDate;	
+
+public setDate : Date ==> ()
+setDate(aDate) == sDate := aDate;
+
+public getTime : () ==> TimeInMilliSeconds
+getTime() == return sTime;
+
+public setTime : TimeInMilliSeconds ==> ()
+setTime(aTime) == sTime :=aTime;
+
+public hour: () ==> nat
+hour() == 
+	let	mk_(hour, -, -, -) = self.Time2IntProduct(self.getTime())
+	in
+	return hour;
+
+public setTimeFromNat : nat ==> ()
+setTimeFromNat(aTime) ==
+	let	mk_(-, aMinute, aSecond, milliSecond) = self.Time2IntProduct(self.getTime())
+	in
+	self.setTime(IntProduct2TimeMillieSeconds(aTime, aMinute, aSecond, milliSecond));
+	
+public minute: () ==> nat
+minute() == 
+	let	mk_(-, aMinute, -, -) = self.Time2IntProduct(self.getTime())
+	in
+	return aMinute;
+	
+public setMinuteFromNat : nat ==> ()
+setMinuteFromNat(minute) ==
+	let	mk_(hour, -, aSecond, milliSecond) = self.Time2IntProduct(self.getTime())
+	in
+	self.setTime(IntProduct2TimeMillieSeconds(hour, minute, aSecond, milliSecond));
+		
+public second: () ==> nat
+second() ==
+	let	mk_(-, -, aSecond, -) = self.Time2IntProduct(self.getTime())
+	in
+	return aSecond;
+	
+public setSecond : nat ==> ()
+setSecond(aSecond) ==
+	let	mk_(hour, aMinute, -, milliSecond) = self.Time2IntProduct(self.getTime())
+	in
+	self.setTime(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond));
+		
+public milliSecond: () ==> nat
+milliSecond() ==
+	let	mk_(-, -, -, milliSecond) = self.Time2IntProduct(self.getTime())
+	in
+	return milliSecond;
+	
+public setMilliSecond : nat ==> ()
+setMilliSecond(aMilliSecond) ==
+	let	mk_(hour, aMinute, aSecond, -) = self.Time2IntProduct(self.getTime())
+	in
+	self.setTime(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, aMilliSecond));
+	
+functions
+-- Get attribute.
+
+--時間から、その時間の属する暦を求める。
+public calendar : () -> Calendar
+calendar() == getDate().calendar();
+
+--時間から、その時間の属する年を求める。
+public Year: () -> int
+Year() == self.getDate().calendar().Year(self.getDate());
+		
+--時間から、その時間の属する月を求める。
+public Month: () -> int
+Month() == self.getDate().calendar().Month(self.getDate());
+		
+--時間から、日を求める。
+public day: () -> int
+day() == self.getDate().calendar().day(self.getDate());
+
+public getTimeAsNat : () -> nat
+getTimeAsNat() == self.getTime();
+
+----Compare
+
+public LT: Time -> bool
+LT(aTime) == 
+	let	date1 = floor self.getDate().getModifiedJulianDate(),
+		date2 = floor aTime.getDate().getModifiedJulianDate()
+	in
+	cases true :
+	(date1 < date2)	-> true,
+	(date1 = date2)	-> 
+		if self.getTimeAsNat() < aTime.getTimeAsNat() then
+			true
+		else
+			false,
+	others		-> false
+	end;
+
+public GT: Time -> bool
+GT(aTime) == not (self.LT(aTime) or self.EQ(aTime));
+
+public LE: Time -> bool
+LE(aTime) == not self.GT(aTime);
+
+public GE: Time -> bool
+GE(aTime) == not self.LT(aTime);
+
+--自身と与えられた時間がEQか判定する。
+public EQ: Time  ->  bool
+EQ(aTime) == 
+	self.getDate().EQ(aTime.getDate()) and self.getTimeAsNat() = aTime.getTimeAsNat();
+
+--自身と与えられた時間が等しくないか判定する。
+public NE: Time ->  bool
+NE(aTime) ==  not self.EQ(aTime);
+
+--変換
+
+public IntProduct2TimeMillieSeconds : int * int * int * int -> int
+IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond) ==((hour * minutesPerHour + aMinute) * secondsPerMinute + aSecond) * ミリ + milliSecond;
+
+public Time2IntProduct : TimeInMilliSeconds -> nat * nat * nat * nat
+Time2IntProduct(aTime) ==
+	let	hms = aTime div ミリ,
+		milliSecond = aTime mod ミリ,
+		hm = hms div secondsPerMinute,
+		aSecond = hms mod secondsPerMinute,
+		hour = hm div minutesPerHour,
+		aMinute = hm mod minutesPerHour
+	in
+	mk_(hour, aMinute, aSecond, milliSecond);
+
+operations
+public asString : () ==> seq of char
+asString() == 
+	let	mk_(hour, aMinute, aSecond, milliSecond) = self.Time2IntProduct(self.getTime())
+	in
+	return 
+		self.getDate().asString() ^ 
+		Integer`asString(hour) ^
+		Integer`asString(aMinute) ^
+		Integer`asString(aSecond) ^
+		Integer`asStringZ("009")(milliSecond);
+
+public print : () ==> seq of char
+print() == 
+	let	mk_(hour, aMinute, aSecond, milliSecond) = self.Time2IntProduct(self.getTime())
+	in
+	return 
+		self.getDate().print() ^ 
+		Integer`asString(hour) ^ "Hour, " ^
+		Integer`asString(aMinute) ^ "Minute, " ^
+		Integer`asString(aSecond) ^ "Second, " ^
+		Integer`asStringZ("009")(milliSecond) ^ "MilliSecond" ;
+
+----calculation
+
+--milliSecondを加算する
+public plusmilliSecond : int ==> Time
+plusmilliSecond(aMilliSecond) == 
+	let	time = self.getTime() + aMilliSecond,
+		CarriedNumOfDays = 
+			if time >= 0 then
+				time div milliSecondsPerDay
+			else
+				time div milliSecondsPerDay - 1,
+		newTime = time mod milliSecondsPerDay
+	in
+	(
+	dcl aTime : Time := new Time(self.calendar(), self.Year(), self.Month(), self.day()) ;
+	aTime.setTime(newTime);
+	aTime.setDate(aTime.getDate().plus(CarriedNumOfDays));
+	return aTime
+	);
+	
+public plussecond : int ==> Time
+plussecond(aSecond) == self.plusmilliSecond(aSecond * ミリ);
+	
+public plusminute : int ==> Time
+plusminute(minute) == self.plusmilliSecond(minute * secondsPerMinute * ミリ);
+	
+public plushour : int ==> Time
+plushour(hour) == self.plusmilliSecond(hour * minutesPerHour * secondsPerMinute * ミリ);
+	
+public plus: int * int * int * int ==> Time
+plus(hour, aMinute, aSecond, milliSecond) == self.plusmilliSecond(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond));
+	
+--milliSecondを減算する
+public minusmilliSecond : int ==> Time
+minusmilliSecond(aMilliSecond) == return self.plusmilliSecond(-aMilliSecond);
+		
+public minus: int * int * int * int  ==> Time
+minus(hour, aMinute, aSecond, milliSecond) == self.minusmilliSecond(IntProduct2TimeMillieSeconds(hour, aMinute, aSecond, milliSecond));
+		
+end Time
 ~~~
 {% endraw %}
 
@@ -7278,6 +7173,111 @@ initialize() ==
 	);
 
 end  ＵｎｉｑｕｅＮｕｍｂｅｒ
+~~~
+{% endraw %}
+
+### UniqueNumberT.vdmpp
+
+{% raw %}
+~~~
+class ＵｎｉｑｕｅＮｕｍｂｅｒＴ is subclass of TestDriver
+functions
+public tests : () -> seq of TestCase
+tests () == 
+	[new ＵｎｉｑｕｅＮｕｍｂｅｒＴ01()
+	];
+end ＵｎｉｑｕｅＮｕｍｂｅｒＴ
+
+class ＵｎｉｑｕｅＮｕｍｂｅｒＴ01 is subclass of TestCase
+operations 
+protected test: () ==> bool
+test() == 
+	let	o = new ＵｎｉｑｕｅＮｕｍｂｅｒ()	in
+	return
+		(
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "1" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "2" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "3" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "4" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "5" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "6" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "7" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "8" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "9" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "1" and 
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(1) = "2" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "3" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "4" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "5" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "6" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "7" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "8" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "9" and
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "10" and 
+		o.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(2) = "11"
+		)
+;
+protected setUp: () ==> ()
+setUp() == TestName := " ＵｎｉｑｕｅＮｕｍｂｅｒＴ01:\t ＵｎｉｑｕｅＮｕｍｂｅｒＴ01 Unit test";
+protected tearDown: () ==> ()
+tearDown() == return;
+end ＵｎｉｑｕｅＮｕｍｂｅｒＴ01
+~~~
+{% endraw %}
+
+### UseCalendar.vdmpp
+
+{% raw %}
+~~~
+class UseCalendar
+
+instance variables
+sJC : JapaneseCalendar :=  new JapaneseCalendar();
+
+traces
+
+S1 : 
+	let y in set {2010,...,2012} in let m in set {1,...,12} in let d in set {1,...,31} in sJC.getDateFrom_yyyy_mm_dd(y, m, d).asString()
+
+S2:
+	let y in set {2010,...,2100} in sJC.getVernalEquinox(y).date2Str()
+
+end UseCalendar
+~~~
+{% endraw %}
+
+### UseReal.vdmpp
+
+{% raw %}
+~~~
+class UseReal
+
+instance variables
+	r : Real := new Real()	
+
+traces
+
+S1: let n in set {0, 1, 9, 10, 99, 199, 0.1, 9.1, 10.1, 10.123} in r.numberOfDigit(n)
+
+end UseReal
+~~~
+{% endraw %}
+
+### UseUniqueNumber.vdmpp
+
+{% raw %}
+~~~
+class UseUniqueNumber
+
+instance variables
+sUN : ＵｎｉｑｕｅＮｕｍｂｅｒ :=  new ＵｎｉｑｕｅＮｕｍｂｅｒ()
+
+traces
+
+S1 : 
+	let n in set {1,...,4} in sUN.ｇｅｔＵｎｉｑＮｕｍＳｔｒ(n){100}
+
+end UseUniqueNumber
 ~~~
 {% endraw %}
 

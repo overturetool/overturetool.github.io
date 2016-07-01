@@ -17,6 +17,21 @@ and traversing over abstract threes and queues.
 |Language Version:| vdm10|
 
 
+### avl.vdmpp
+
+{% raw %}
+~~~
+class AVLTree is subclass of Tree
+
+  functions
+
+  tree_isAVLTree : tree -> bool
+  tree_isAVLTree(t) == true
+
+end AVLTree
+~~~
+{% endraw %}
+
 ### bst.vdmpp
 
 {% raw %}
@@ -63,6 +78,39 @@ class BalancedBST is subclass of BinarySearchTree
   v = 1
 
 end BalancedBST
+~~~
+{% endraw %}
+
+### queue.vdmpp
+
+{% raw %}
+~~~
+class Queue
+
+  instance variables
+    vals : seq of Tree`node := [];
+
+  operations
+
+    public
+    Enqueue : Tree`node ==> ()
+    Enqueue (x) ==
+      vals := vals ^ [x];
+
+    public
+    Dequeue : () ==> Tree`node
+    Dequeue () ==
+      def x = hd vals
+      in ( vals := tl vals;
+           return x)
+    pre not isEmpty();
+
+    pure public
+    isEmpty : () ==> bool
+    isEmpty () == 
+      return(vals = [])
+
+end Queue
 ~~~
 {% endraw %}
 
@@ -172,54 +220,6 @@ class Tree
 
 end Tree
     
-~~~
-{% endraw %}
-
-### queue.vdmpp
-
-{% raw %}
-~~~
-class Queue
-
-  instance variables
-    vals : seq of Tree`node := [];
-
-  operations
-
-    public
-    Enqueue : Tree`node ==> ()
-    Enqueue (x) ==
-      vals := vals ^ [x];
-
-    public
-    Dequeue : () ==> Tree`node
-    Dequeue () ==
-      def x = hd vals
-      in ( vals := tl vals;
-           return x)
-    pre not isEmpty();
-
-    pure public
-    isEmpty : () ==> bool
-    isEmpty () == 
-      return(vals = [])
-
-end Queue
-~~~
-{% endraw %}
-
-### avl.vdmpp
-
-{% raw %}
-~~~
-class AVLTree is subclass of Tree
-
-  functions
-
-  tree_isAVLTree : tree -> bool
-  tree_isAVLTree(t) == true
-
-end AVLTree
 ~~~
 {% endraw %}
 
