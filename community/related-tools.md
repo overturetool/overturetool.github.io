@@ -5,7 +5,7 @@ title: The Overture Community
 
 # WedIDE for VDM-SL
 
-[A WebIDE for Overture](http://ide.overturetool.org/) is a VDM-SL environment that you can access if you login using a Google account. It has been developed by two Masters thesis students (Rasmus Reimer and Kasper Saaby) at Aarhus University (AU) and its backend is installed at one of the AU servers. It is also possible to import existing VDM-SL examples in order to easily see how one can gain value in using this tool support.
+[A WebIDE for Overture](http://ide.overturetool.org/) is a VDM-SL environment that you can access if you login using a Google account. It has been developed by two Masters thesis students (Rasmus Reimer and Kasper Saaby) at Aarhus University (AU) and its backend is installed at one of the AU servers. It has functionality for managing multiple VDM-SL projects. It is also possible to import existing VDM-SL examples in order to easily see how one can gain value in using this tool support.
 
 # ViennaTalk
 
