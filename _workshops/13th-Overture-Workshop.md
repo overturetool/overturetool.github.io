@@ -8,7 +8,8 @@ location: Oslo, Norway
 # {{ page.title }}
 ## Proceedings
 
-The proceedings for this workshop can be found at http://grace-center.jp/wp-content/uploads/2012/05/13thOverture-Proceedings.pdf
+The proceedings for this workshop can be found [at](http://grace-center.jp/wp-content/uploads/2012/05/13thOverture-Proceedings.pdf)
+
 ## Programme
 9:00-9:15 [Opening](13/Overture13Opening.pdf), Peter Gorm Larsen and Fuyuki Ishikawa
 
