@@ -16,7 +16,7 @@ title: Overture Publications
 - Automated VDM-SL to Smalltalk Code Generators for Live Specification Environments, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
 - Extending Overture with Implicit Monitoring of Instance Variables, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Collaborative Modelling Using Automated Negotiations, Nico Plat, Peter Gorm Larsen and Ken Pierce
-- The Overture / TASTE integration with the C code generator, Tommasso Fabri, Marcel Verhoef, Victor Bandur and Peter Gorm Larsen
+- Connecting TASTE with Overture using Code Generation Glue, Tommasso Fabri, Marcel Verhoef, Victor Bandur, M. Perrotin, A. Tsiodras and Peter Gorm Larsen
 
 #### Conferences / Journals
 
