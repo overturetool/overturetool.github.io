@@ -17,6 +17,8 @@ title: Overture Publications
 - Extending Overture with Implicit Monitoring of Instance Variables, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Collaborative Modelling Using Automated Negotiations, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Connecting TASTE with Overture using Code Generation Glue, Tommasso Fabri, Marcel Verhoef, Victor Bandur, M. Perrotin, A. Tsiodras and Peter Gorm Larsen
+-   Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle
+-   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems, Peter Gorm Larsen, Casper Thule, Kenneth Lausdahl, Victor Bardur, Carl Gamble, Ken Pierce, Etienne Brosse, Andrey Sadovykh, Alessandra Bagnato and Luis Diogo Couto
 
 #### Conferences / Journals
 
@@ -34,10 +36,8 @@ title: Overture Publications
 
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
--   Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle. submitted to FM 2016.
 -   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster, accepted for publication at Isola 2016
--   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems, Peter Gorm Larsen, Casper Thule, Kenneth Lausdahl, Victor Bardur, Carl Gamble, Ken Pierce, Etienne Brosse, Andrey Sadovykh, Alessandra Bagnato and Luis Diogo Couto, submitted as short paper for FM'2016
--   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, submitted as short paper for FM'2016
+-   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, accepted as short paper for FM'2016
 
 
 ## In press
