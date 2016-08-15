@@ -13,7 +13,7 @@ title: Overture Publications
 - Drone Control using Crescendo and INTO-CPS, Casper Thule and René Nilsson
 - Towards VDM-SL to C#/.dot translation, Steffen Diswal, Peter Tran-Jørgensen and Peter Gorm Larsen
 - An Overture WebIDE for VDM-SL Models, Rasmus Reimer, Kasper Saaby, Tomohiro Oda and Peter Gorm Larsen
-- Automated VDM-SL to Smalltalk Code Generators for Live Specification Environments, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
+- Automated VDM-SL to Smalltalk Code Generators for Exploratory Modeling, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
 - Extending Overture with Implicit Monitoring of Instance Variables, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Collaborative Modelling Using Automated Negotiations, Nico Plat, Peter Gorm Larsen and Ken Pierce
 - Connecting TASTE with Overture using Code Generation Glue, Tommasso Fabri, Marcel Verhoef, Victor Bandur, M. Perrotin, A. Tsiodras and Peter Gorm Larsen
