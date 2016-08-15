@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Net Meeting XX
-date: 4 February 2007, 1200 CET
+title: Net Meeting 100
+date: 21 August 2016, 1200 CET
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
