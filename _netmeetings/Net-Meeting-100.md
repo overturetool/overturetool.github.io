@@ -35,18 +35,24 @@ some description
 
 
 ## Status of VDMTools Development
+### adopted RM#35 and RM#36 (set1 and seq bind)
+### Jenkins server at http://vdmtools.csce.kyushu-u.ac.jp/ci/ for Linux binary package
 
-#### topic 1
-
-some description
+still needs some fixes to make the source publicly open.
 
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### ViennaTalk
 
-details about it
+* adopted RM#35 and RM#36 (set1 and seq bind)
+* The Smalltalk Code generator translates all the executable subset of VDM-SL including type invariants, state invariants, pre/post conditions into executable Smalltalk codes.
+  - quotes state invariants, pre/post conditions on functions/operations
+* The generated code can execute type-bound expressions such as ```forall y:nat1 & y = 1 or x = y or x mod y > 0``` by giving a finite set as an approximate enumeration of the type's values.
 
+#### Component 2
+
+some description
 
 ##  Release Planning
 
