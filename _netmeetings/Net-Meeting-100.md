@@ -50,9 +50,9 @@ still needs some fixes to make the source publicly open.
   - quotes state invariants, pre/post conditions on functions/operations
 * The generated code can execute type-bound expressions such as ```forall y:nat1 & y = 1 or x = y or x mod y > 0``` by giving a finite set as an approximate enumeration of the type's values.
 
-#### Component 2
+#### VDMJ
 
-some description
+VDMJ has been updated to include RMs 35 and 36 (set1 and seq binds), and released as version 3.2.0. The same changes have been ported to Overture, and will be included in the next release, once the LRM has been updated.
 
 ##  Release Planning
 
