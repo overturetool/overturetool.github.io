@@ -19,7 +19,7 @@ The Overture tools are being developed by volunteers from industry,
 research scientists and students, currently from Denmark, England, The
 Netherlands and Japan.  You can find an overview of us at our wiki
 page
-[The Community](http://wiki.overturetool.org/index.php?title=The_Community).
+[The Community](http://overturetool.org/community/).
 
 Anyone interested (from both industry and academia) is welcome to join
 the project as an active member.  You might be interested in
@@ -33,9 +33,9 @@ PhD), we can provide practical and theoretical projects!
 The Overture community at large (shown above at the 8th Overture
 workshop on language semantics, held at BCS, London in september 2010)
 meets together at occasional
-[Workshops](http://wiki.overturetool.org/index.php/Workshops) (about
+[Workshops](http://overturetool.org/workshops/) (about
 once per year) and monthly via on-line
-[Netmeetings](http://wiki.overturetool.org/index.php/NetMeetings)
+[Netmeetings](http://overturetool.org/netmeetings/)
 using Skype.  If you want to join the project please do not hesitate
 to [send us an e-mail](mailto:info@overturetool.org).
 
