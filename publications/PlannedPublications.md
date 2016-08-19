@@ -24,7 +24,6 @@ title: Overture Publications
 #### Conferences / Journals
 
 ## In preparation
-- A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
@@ -35,6 +34,7 @@ title: Overture Publications
 
 ## In review
 
+- A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
 -   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster, accepted for publication at Isola 2016
