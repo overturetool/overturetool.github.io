@@ -54,7 +54,16 @@ still needs some fixes to make the source publicly open.
 
 VDMJ has been updated to include RMs 35 and 36 (set1 and seq binds), and released as version 3.2.0. The same changes have been ported to Overture, and will be included in the next release, once the LRM has been updated.
 
+#### Overture
+
+In addition to RMs 35 and 36 Overture has been updated to build against Eclipse Neon.
+
 ##  Release Planning
+
+Overture 2.4.0 will be released on August 30, 2016.
+A release candidate will be sent out some time next week.
+
+See [issues closed since last release](https://github.com/overturetool/overture/issues?utf8=%E2%9C%93&q=is%3Aclosed%20is%3Aissue%20milestone%3Av2.4.0%20)
 
 #### topic 1
 
