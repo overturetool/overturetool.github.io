@@ -22,7 +22,7 @@ date: 21 August 2016, 1200 CET
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
 * 80-1 No progress. JF is visiting PGL this week so hopefully they will find time to work on this.
-* 88-1 NP is suggesting to take a structured approach to this (NP will add the details about this to the Github tracker). In particular, Nico is suggesting to have a session about this at the next Overture workshop.
+* 88-1 NP is suggesting to take a structured approach to this (NP will add the details about this to the Github tracker later). In particular, Nico is suggesting to have a session about this at the next Overture workshop.
 * ...
 
 
@@ -34,15 +34,13 @@ See the minutes from today's [LB NM](https://github.com/overturetool/language/wi
 ## Status of VDMTools Development
 * Adopted RM#35 and RM#36 (set1 and seq bind)
 * Jenkins server at http://vdmtools.csce.kyushu-u.ac.jp/ci/ for Linux binary package
-
-still needs some fixes to make the source publicly open.
-
+* Work in progress: It is expected that the VDMTools sources will be publicly available by the end of the year
 
 ##  Status of the Overture Components
 
 #### ViennaTalk
 
-* adopted RM#35 and RM#36 (set1 and seq bind)
+* Adopted RM#35 and RM#36 (set1 and seq bind)
 * The Smalltalk Code generator translates all the executable subset of VDM-SL including type invariants, state invariants, pre/post conditions into executable Smalltalk codes.
   - quotes state invariants, pre/post conditions on functions/operations
 * The generated code can execute type-bound expressions such as ```forall y:nat1 & y = 1 or x = y or x mod y > 0``` by giving a finite set as an approximate enumeration of the type's values.
