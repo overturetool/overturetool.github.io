@@ -29,14 +29,12 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
+TBD.
 
 
 ## Status of VDMTools Development
-### adopted RM#35 and RM#36 (set1 and seq bind)
-### Jenkins server at http://vdmtools.csce.kyushu-u.ac.jp/ci/ for Linux binary package
+* Adopted RM#35 and RM#36 (set1 and seq bind)
+* Jenkins server at http://vdmtools.csce.kyushu-u.ac.jp/ci/ for Linux binary package
 
 still needs some fixes to make the source publicly open.
 
@@ -65,19 +63,12 @@ A release candidate will be sent out some time next week.
 
 See [issues closed since last release](https://github.com/overturetool/overture/issues?utf8=%E2%9C%93&q=is%3Aclosed%20is%3Aissue%20milestone%3Av2.4.0%20)
 
-#### topic 1
-
-some description
-
 
 ##  Community Development
 
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
-
-#### topic 1
-...
 
 
 ##  Strategic Research Agenda
@@ -87,20 +78,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
