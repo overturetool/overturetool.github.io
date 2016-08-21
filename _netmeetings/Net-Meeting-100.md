@@ -22,13 +22,13 @@ date: 21 August 2016, 1200 CET
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
 * 80-1 No progress. JF is visiting PGL this week so hopefully they will find time to work on this.
-* 88-1 is now closed.
+* 88-1 NP is suggesting to take a structured approach to this (NP will add the details about this to the Github tracker). In particular, Nico is suggesting to have a session about this at the next Overture workshop.
 * ...
 
 
 ## Overture Language Board Status
 
-TBD.
+See the minutes from today's [LB NM](https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM%2C-21st-August-2016)
 
 
 ## Status of VDMTools Development
