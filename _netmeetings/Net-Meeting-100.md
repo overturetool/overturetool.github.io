@@ -14,7 +14,7 @@ date: 21 August 2016, 1200 CET
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | PGL, JF, PJ, LDC, TO, NP, SS, TF (Tommaso Fabbri).  Minutes by PJ. |
+| Participants | PGL, JF, SH, PJ, LDC, TO, NP, SS, TF (Tommaso Fabbri).  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -69,6 +69,10 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 #### The C code generator
 
 Tommaso Fabbri is working on connecting Overture to TASTE in collaboration with ESA. A paper that describes this project will be submitted to the Overture workshop.
+
+#### Overture workshop
+
+The local organisers have offered us to take part in a general workshop dinner (for all workshops) on the Monday evening, but it will cost  40 euros per person. PGL will ask the local organisers if the dinner is mandatory for all participants if we accept this offer.
 
 
 ##  Strategic Research Agenda
