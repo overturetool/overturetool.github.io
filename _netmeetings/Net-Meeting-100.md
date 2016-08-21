@@ -14,7 +14,7 @@ date: 21 August 2016, 1200 CET
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, JF, PJ, LDC, TO, NP, SS, TF (Tommaso Fabbri).  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -66,6 +66,10 @@ See [issues closed since last release](https://github.com/overturetool/overture/
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
+
+#### The C code generator
+
+Tommaso Fabbri is working on connecting Overture to TASTE in collaboration with ESA. A paper that describes this project will be submitted to the Overture workshop.
 
 
 ##  Strategic Research Agenda
