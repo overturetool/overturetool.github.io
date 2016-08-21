@@ -21,9 +21,8 @@ date: 21 August 2016, 1200 CET
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
+* 80-1 No progress. JF is visiting PGL this week so hopefully they will find time to work on this.
+* 88-1 is now closed.
 * ...
 
 
