@@ -87,4 +87,6 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
+None.
+
 <div id="edit_page_div"></div>
