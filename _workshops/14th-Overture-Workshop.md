@@ -28,9 +28,10 @@ The scope of the workshop includes, but is not restricted to:
 
 ### Important Dates
 
-* 1st September 2016: Submission deadline for workshop papers (submit at https://easychair.org/conferences/?conf=overture14)
-* 1st October 2015: Notification to workshop paper authors
-* 1st November 2015: Final version of workshop papers due
+* 1st September 2016: Submission deadline for abstract of workshop papers (submit at https://easychair.org/conferences/?conf=overture14)
+* 7th September 2016: Submission deadline for full workshop papers
+* 28th October 2016: Notification to workshop paper authors
+* 1st November 2016: Final version of workshop papers due 
 
 ### Organisers
 
