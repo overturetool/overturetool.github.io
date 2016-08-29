@@ -15,69 +15,6 @@ Author: Claus Ballegaard Nielsen
 |Entry point     :| new World().Run()|
 
 
-### Agent.vdmpp
-
-{% raw %}
-~~~
-class Agent
-
-values
-  thing_l = [<Tobacco>, <Paper>, <Match>]
-
-instance variables
-  timer : nat := 0;
-  table : Table;
-
-operations
-
-public Agent: Table ==> Agent
-Agent(tab) ==
-  table := tab;
-
-public GetTime: () ==> nat
-GetTime() ==
-  return timer;
-
-public AddTobacco : () ==> bool
-AddTobacco() == 
-(
-  if table.AddElement(thing_l(1)) then
-  (
- 	World`graphics.tobaccoAdded();
-	return true;
-  );
-
-  return false;
-);
-
-public AddPaper : () ==> bool
-AddPaper() == 
-(
-  if table.AddElement(thing_l(2)) then
-  (
- 	World`graphics.paperAdded();
-	return true;
-  );
-
-  return false;
-);
-
-public AddMatch : () ==> bool
-AddMatch() == 
-(
-  if table.AddElement(thing_l(3)) then
-  (
- 	World`graphics.matchAdded();
-	return true;
-  );
-
-  return false;
-);
-
-end Agent
-~~~
-{% endraw %}
-
 ### gui_Graphics.vdmpp
 
 {% raw %}
@@ -114,6 +51,188 @@ class gui_Graphics
 
 end gui_Graphics
 
+~~~
+{% endraw %}
+
+### Smoker.vdmpp
+
+{% raw %}
+~~~
+class Smoker
+
+instance variables
+  smokerName : seq of char; 
+  elements: set of Table`Element;
+  orig_element : Table`Element;
+  cigarettes : nat := 0;
+  --inv cigarettes in set {0,1};
+  table : Table;
+
+operations
+
+public Smoker: seq of char * Table`Element * Table ==> Smoker
+Smoker(name ,element,tab) == (
+  smokerName := name;
+  elements := {element};
+  orig_element := element;
+  table := tab);
+
+Roll: () ==> ()
+Roll() == (
+  World`graphics.nowSmoking(gui_Graphics`ElementToNat(orig_element));
+  IO`print(smokerName ^ " rolling ");  
+  elements := {};
+  cigarettes := cigarettes + 1
+  )
+pre card elements = 3;
+
+Smoke: () ==> ()
+Smoke() ==(
+  IO`print("and smoking \n"); 
+  cigarettes := cigarettes - 1;
+  elements := {orig_element};
+);
+
+thread
+  while true do (
+    elements := elements union table.TakeElements(elements);
+    Roll();
+    Smoke()
+  )
+
+sync
+per Smoke => cigarettes > 0;
+
+end Smoker
+~~~
+{% endraw %}
+
+### MATH.vdmpp
+
+{% raw %}
+~~~
+class MATH
+
+-- 	Overture STANDARD LIBRARY: MATH
+--      --------------------------------------------
+-- 
+-- Standard library for the Overture Interpreter. When the interpreter
+-- evaluates the preliminary functions/operations in this file,
+-- corresponding internal functions is called instead of issuing a run
+-- time error. Signatures should not be changed, as well as name of
+-- module (VDM-SL) or class (VDM++). Pre/post conditions is 
+-- fully user customisable. 
+-- Dont care's may NOT be used in the parameter lists.
+
+  functions
+public static
+    sin:real +> real
+    sin(v) ==
+    is not yet specified    
+    post abs RESULT <= 1;
+
+public static
+    cos:real +> real
+    cos(v) ==
+    is not yet specified
+    post abs RESULT <= 1;
+
+public static
+    tan:real -> real
+    tan(a) ==
+    is not yet specified
+    pre cos(a) <> 0;
+
+public static
+    cot:real -> real	
+    cot(a) ==
+    is not yet specified -- Could also be: 1/tan(r)
+    pre sin(a) <> 0;
+
+public static
+    asin:real -> real
+    asin(a) ==
+    is not yet specified
+    pre abs a <= 1;
+
+public static
+    acos:real -> real
+    acos(a) ==
+    is not yet specified
+    pre abs a <= 1;
+
+public static
+    atan:real +> real
+    atan(v) ==
+    is not yet specified;
+
+public static
+    acot:real +> real
+    acot(a) ==
+    atan(1/a)
+    pre a <> 0;
+
+public static
+    sqrt:real -> real
+    sqrt(a) ==
+    is not yet specified
+    pre a >= 0;
+
+public static
+    pi_f:() +> real
+    pi_f () ==
+    is not yet specified
+
+  operations
+
+public static
+    srand:int ==> ()
+    srand(a) ==
+    let - = MATH`srand2(a) in skip
+    pre a >= -1;
+
+public static
+    rand:int ==> int 
+    rand(a) ==
+    is not yet specified;
+
+public static
+    srand2:int ==> int 
+    srand2(a) ==
+    is not yet specified
+    pre a >= -1
+
+  functions
+
+public static
+    exp:real +> real
+    exp(a) ==
+    is not yet specified;
+
+public static
+    ln:real -> real
+    ln(a) ==
+    is not yet specified
+    pre a > 0;
+
+public static
+    log:real -> real
+    log(a) ==
+    is not yet specified
+    pre a > 0;
+
+public static 
+    fac:nat -> nat1 
+    fac(a) == 
+    is not yet specified 
+    pre a < 21;         -- The limit for 64-bit calculations
+
+  values
+public
+    pi = 3.14159265358979323846
+
+ 
+end MATH
 ~~~
 {% endraw %}
 
@@ -261,135 +380,6 @@ end IO
 ~~~
 {% endraw %}
 
-### MATH.vdmpp
-
-{% raw %}
-~~~
-class MATH
-
--- 	Overture STANDARD LIBRARY: MATH
---      --------------------------------------------
--- 
--- Standard library for the Overture Interpreter. When the interpreter
--- evaluates the preliminary functions/operations in this file,
--- corresponding internal functions is called instead of issuing a run
--- time error. Signatures should not be changed, as well as name of
--- module (VDM-SL) or class (VDM++). Pre/post conditions is 
--- fully user customisable. 
--- Dont care's may NOT be used in the parameter lists.
-
-  functions
-public static
-    sin:real +> real
-    sin(v) ==
-    is not yet specified    
-    post abs RESULT <= 1;
-
-public static
-    cos:real +> real
-    cos(v) ==
-    is not yet specified
-    post abs RESULT <= 1;
-
-public static
-    tan:real -> real
-    tan(a) ==
-    is not yet specified
-    pre cos(a) <> 0;
-
-public static
-    cot:real -> real	
-    cot(a) ==
-    is not yet specified -- Could also be: 1/tan(r)
-    pre sin(a) <> 0;
-
-public static
-    asin:real -> real
-    asin(a) ==
-    is not yet specified
-    pre abs a <= 1;
-
-public static
-    acos:real -> real
-    acos(a) ==
-    is not yet specified
-    pre abs a <= 1;
-
-public static
-    atan:real +> real
-    atan(v) ==
-    is not yet specified;
-
-public static
-    acot:real +> real
-    acot(a) ==
-    atan(1/a)
-    pre a <> 0;
-
-public static
-    sqrt:real -> real
-    sqrt(a) ==
-    is not yet specified
-    pre a >= 0;
-
-public static
-    pi_f:() +> real
-    pi_f () ==
-    is not yet specified
-
-  operations
-
-public static
-    srand:int ==> ()
-    srand(a) ==
-    let - = MATH`srand2(a) in skip
-    pre a >= -1;
-
-public static
-    rand:int ==> int 
-    rand(a) ==
-    is not yet specified;
-
-public static
-    srand2:int ==> int 
-    srand2(a) ==
-    is not yet specified
-    pre a >= -1
-
-  functions
-
-public static
-    exp:real +> real
-    exp(a) ==
-    is not yet specified;
-
-public static
-    ln:real -> real
-    ln(a) ==
-    is not yet specified
-    pre a > 0;
-
-public static
-    log:real -> real
-    log(a) ==
-    is not yet specified
-    pre a > 0;
-
-public static 
-    fac:nat -> nat1 
-    fac(a) == 
-    is not yet specified 
-    pre a < 21;         -- The limit for 64-bit calculations
-
-  values
-public
-    pi = 3.14159265358979323846
-
- 
-end MATH
-~~~
-{% endraw %}
-
 ### VDMUtil.vdmpp
 
 {% raw %}
@@ -398,6 +388,7 @@ class VDMUtil
 
 -- 	Overture STANDARD LIBRARY: MiscUtils
 --      --------------------------------------------
+-- Version 1.0.0 
 -- 
 -- Standard library for the Overture Interpreter. When the interpreter
 -- evaluates the preliminary functions/operations in this file,
@@ -425,9 +416,12 @@ val2seq_of_char(x) == is not yet specified;
 -- RESULT.#1 = false implies a conversion failure
 static public seq_of_char2val[@p]:seq1 of char -> bool * [@p]
 seq_of_char2val(s) ==
-  is not yet specified
-  post let mk_(b,t) = RESULT in not b => t = nil;
+let mk_(b, v) = seq_of_char2val_(s) in
+if is_(v, @p) then mk_(b, v) else mk_(false, nil)
+post let mk_(b,t) = RESULT in not b => t = nil;
 
+static private seq_of_char2val_:seq1 of char -> bool * ?
+seq_of_char2val_(s) == is not yet specified;
 
 static public classname[@T] : @T -> [seq1 of char]
     classname(s) == is not yet specified;
@@ -438,56 +432,120 @@ end VDMUtil
 ~~~
 {% endraw %}
 
-### Smoker.vdmpp
+### World.vdmpp
 
 {% raw %}
 ~~~
-class Smoker
+class World
 
 instance variables
-  smokerName : seq of char; 
-  elements: set of Table`Element;
-  orig_element : Table`Element;
-  cigarettes : nat := 0;
-  --inv cigarettes in set {0,1};
+public static graphics : gui_Graphics:= new gui_Graphics();
+
+table: Table := new Table();
+public agent: Agent := new Agent(table);
+smokers : set of Smoker := {new Smoker("Smoker 1", <Tobacco>, table),
+                            new Smoker("Smoker 2", <Paper>, table),
+                            new Smoker("Smoker 3", <Match>, table)};
+limit : nat;
+finished : bool := false;
+
+operations
+
+public World: nat ==> World
+World(simtime) ==
+(
+  IO`print("World Ctor");
+  limit := simtime;
+  
+);
+
+public Yield: () ==> ()
+Yield() == skip;
+
+Finished: () ==> nat
+Finished() ==
+  agent.GetTime();
+
+public Run: () ==> ()
+Run() ==
+(
+   startlist(smokers);
+    graphics.init();
+ )
+
+thread
+(
+while agent.GetTime() <= limit do
+  skip; 
+  finished := true)
+
+sync
+
+per Finished => finished;
+end World
+~~~
+{% endraw %}
+
+### Agent.vdmpp
+
+{% raw %}
+~~~
+class Agent
+
+values
+  thing_l = [<Tobacco>, <Paper>, <Match>]
+
+instance variables
+  timer : nat := 0;
   table : Table;
 
 operations
 
-public Smoker: seq of char * Table`Element * Table ==> Smoker
-Smoker(name ,element,tab) == (
-  smokerName := name;
-  elements := {element};
-  orig_element := element;
-  table := tab);
+public Agent: Table ==> Agent
+Agent(tab) ==
+  table := tab;
 
-Roll: () ==> ()
-Roll() == (
-  World`graphics.nowSmoking(gui_Graphics`ElementToNat(orig_element));
-  IO`print(smokerName ^ " rolling ");  
-  elements := {};
-  cigarettes := cigarettes + 1
-  )
-pre card elements = 3;
+public GetTime: () ==> nat
+GetTime() ==
+  return timer;
 
-Smoke: () ==> ()
-Smoke() ==(
-  IO`print("and smoking \n"); 
-  cigarettes := cigarettes - 1;
-  elements := {orig_element};
+public AddTobacco : () ==> bool
+AddTobacco() == 
+(
+  if table.AddElement(thing_l(1)) then
+  (
+ 	World`graphics.tobaccoAdded();
+	return true;
+  );
+
+  return false;
 );
 
-thread
-  while true do (
-    elements := elements union table.TakeElements(elements);
-    Roll();
-    Smoke()
-  )
+public AddPaper : () ==> bool
+AddPaper() == 
+(
+  if table.AddElement(thing_l(2)) then
+  (
+ 	World`graphics.paperAdded();
+	return true;
+  );
 
-sync
-per Smoke => cigarettes > 0;
+  return false;
+);
 
-end Smoker
+public AddMatch : () ==> bool
+AddMatch() == 
+(
+  if table.AddElement(thing_l(3)) then
+  (
+ 	World`graphics.matchAdded();
+	return true;
+  );
+
+  return false;
+);
+
+end Agent
 ~~~
 {% endraw %}
 
@@ -558,60 +616,6 @@ per MissingTP => elements = {<Tobacco>, <Paper>};
 --per TakeElements => card elements = 2;
 
 end Table
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
-class World
-
-instance variables
-public static graphics : gui_Graphics:= new gui_Graphics();
-
-table: Table := new Table();
-public agent: Agent := new Agent(table);
-smokers : set of Smoker := {new Smoker("Smoker 1", <Tobacco>, table),
-                            new Smoker("Smoker 2", <Paper>, table),
-                            new Smoker("Smoker 3", <Match>, table)};
-limit : nat;
-finished : bool := false;
-
-operations
-
-public World: nat ==> World
-World(simtime) ==
-(
-  IO`print("World Ctor");
-  limit := simtime;
-  
-);
-
-public Yield: () ==> ()
-Yield() == skip;
-
-Finished: () ==> nat
-Finished() ==
-  agent.GetTime();
-
-public Run: () ==> ()
-Run() ==
-(
-   startlist(smokers);
-    graphics.init();
- )
-
-thread
-(
-while agent.GetTime() <= limit do
-  skip; 
-  finished := true)
-
-sync
-
-per Finished => finished;
-end World
 ~~~
 {% endraw %}
 

@@ -22,7 +22,7 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 |Entry point     :| new World().Run()|
 
 
-### Actuator.vdmrt
+### Window.vdmrt
 
 {% raw %}
 ~~~
@@ -30,41 +30,71 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 -- Author:		Sune Wolff - 20022462
 -- Created:		21/4 - 2008
 -- Updated:
--- Description: 	Actuator super class
+-- Description: 	Window actuator sub class
 -----------------------------------------------
 
 --
 -- class definition
 --
-class Actuator
+class Window is subclass of Actuator
 
 --
 -- instance variables
 --
 instance variables
 
-  protected ID   : nat;
-  protected Type : NetworkTypes`nodeType;
-  protected Corr : NetworkTypes`correction;
+  finished : bool := false;
 
 --
 -- Operations definition section
 --
 operations
 
-public GetID: () ==> nat
-GetID() ==
-  return ID;
-
-public GetType: () ==> NetworkTypes`nodeType
-GetType() ==
-  return Type;
+public Window: nat * NetworkTypes`nodeType ==> Window
+Window (id, type) ==
+ (ID := id;
+  Type := type;
+  Corr := <CLOSE>;
+ );
 
 public Step: () ==> ()
 Step() ==
-  is subclass responsibility
+  --cycles(1E3)
+ (dcl tempCorr: NetworkTypes`correction := GetCorrection();
+  if (tempCorr = <OPEN>)
+  then (World`env.DecHumid();
+        World`env.DecTemp();
+       );
+ );
 
-end Actuator
+async public SetCorrection: NetworkTypes`correction ==> ()
+SetCorrection(cor) ==
+  --cycles(1E3)
+  Corr := cor
+pre (cor = <OPEN>) or (cor = <CLOSE>);
+
+public GetCorrection: () ==> NetworkTypes`correction
+GetCorrection() ==
+  return Corr;
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+sync
+  --mutex(PeriodicOp); -- ADDED
+  per IsFinished => finished;
+  mutex(SetCorrection, GetCorrection);
+
+--
+-- Thread definition section
+--
+thread
+
+-- period of thread (period, jitter, delay, offset)
+periodic(1000E6,0,0,0) (Step)
+
+end Window
 ~~~
 {% endraw %}
 
@@ -236,60 +266,140 @@ end Environment
 ~~~
 {% endraw %}
 
-### HomeAutomation.vdmrt
+### HumidSensor.vdmrt
 
 {% raw %}
 ~~~
 -----------------------------------------------
--- Author:		Sune Wolf - 20022462
--- Created:		20/4 - 2008
+-- Author:		Sune Wolff - 20022462
+-- Created:		21/4 - 2008
 -- Updated:
--- Description: 	System class in the HomeAutomation project
+-- Description: 	Humiditor sensor class for HomeAutomation project
 -----------------------------------------------
 
 --
 -- class definition
 --
-system HA
+class HumidSensor is subclass of Sensor
 
--- 
+--
 -- instance variables
 --
 instance variables
 
-  -- cpu for host controller
-  cpu1 : CPU := new CPU(<FCFS>, 1E6);
-  -- cpu for sensors
-  cpu2 : CPU := new CPU(<FCFS>, 1E6);
-  cpu5 : CPU := new CPU(<FCFS>, 1E6);
-  -- cpu for actuators
-  cpu3 : CPU := new CPU(<FCFS>, 1E6);
-  cpu4 : CPU := new CPU(<FCFS>, 1E6);
-
-  -- bus connecting host controller and sensors
-  bus1 : BUS := new BUS(<FCFS>, 1E3, {cpu1, cpu2, cpu3, cpu4, cpu5 });
-
-  public static Host      : HostController := new HostController(20, 75);
-  public static TempNode  : TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 20);
-  public static HumidNode : HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 75);
-  public static ThermNode : Thermostat := new Thermostat(3, <THERMOSTAT>);
-  public static WinNode   : Window := new Window(4, <WINDOW>);
+  finished : bool := false;
 
 --
 -- Operations definition section
 --
 operations
 
-public HA: () ==> HA
-HA() ==
- (cpu1.deploy(Host);
-  cpu2.deploy(TempNode);
-  cpu5.deploy(HumidNode);
-  cpu3.deploy(ThermNode);
-  cpu4.deploy(WinNode); 
+public HumidSensor: nat * NetworkTypes`nodeType * nat ==> HumidSensor
+HumidSensor (id, type, val) ==
+ (ID := id;
+  Type := type;
+  Value := val;
  );
 
-end HA
+public Step: () ==> ()
+Step () ==
+  --cycles(1E3)
+  Value := World`env.ReadHumid();
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+sync
+  --mutex(PeriodicOp);	-- ADDED
+  per IsFinished => finished;
+
+--
+-- Thread definition section
+--
+thread
+
+-- period of thread (period, jitter, delay, offset)
+periodic(1000E6,0,0,0) (Step)
+
+end HumidSensor
+~~~
+{% endraw %}
+
+### Thermostat.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		21/4 - 2008
+-- Updated:
+-- Description: 	Thermostat sub class
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Thermostat is subclass of Actuator
+
+--
+-- instance variables
+--
+instance variables
+
+  finished : bool := false;
+
+--
+-- Operations definition section
+--
+operations
+
+public Thermostat: nat * NetworkTypes`nodeType 
+==> Thermostat
+Thermostat (id, type) ==
+ (ID := id;
+  Type := type;
+  Corr := <NONE>;
+ );
+
+public Step: () ==> ()
+Step() ==
+  --cycles(1E3)
+ (dcl tempCorr: NetworkTypes`correction := GetCorrection();
+  if (tempCorr = <INC>)
+  then World`env.IncTemp()
+  elseif (tempCorr = <DEC>)
+  then World`env.DecTemp();
+ );
+
+async public SetCorrection: NetworkTypes`correction ==> ()
+SetCorrection(cor) ==
+  --cycles(1E3)
+  Corr := cor
+pre (cor = <INC>) or (cor = <DEC>) or (cor = <NONE>);
+
+public GetCorrection: () ==> NetworkTypes`correction
+GetCorrection() ==
+  return Corr;
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+sync
+  --mutex(PeriodicOp); -- ADDED
+  per IsFinished => finished;
+  mutex(SetCorrection, GetCorrection);
+
+--
+-- Thread definition section
+--
+thread
+
+-- period of thread (period, jitter, delay, offset)
+periodic(1000E6,0,0,0) (Step)
+
+end Thermostat
 ~~~
 {% endraw %}
 
@@ -528,94 +638,6 @@ end HostController
 ~~~
 {% endraw %}
 
-### HumidSensor.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		21/4 - 2008
--- Updated:
--- Description: 	Humiditor sensor class for HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class HumidSensor is subclass of Sensor
-
---
--- instance variables
---
-instance variables
-
-  finished : bool := false;
-
---
--- Operations definition section
---
-operations
-
-public HumidSensor: nat * NetworkTypes`nodeType * nat ==> HumidSensor
-HumidSensor (id, type, val) ==
- (ID := id;
-  Type := type;
-  Value := val;
- );
-
-public Step: () ==> ()
-Step () ==
-  --cycles(1E3)
-  Value := World`env.ReadHumid();
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-sync
-  --mutex(PeriodicOp);	-- ADDED
-  per IsFinished => finished;
-
---
--- Thread definition section
---
-thread
-
--- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (Step)
-
-end HumidSensor
-~~~
-{% endraw %}
-
-### NetworkTypes.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		15/4 - 2008
--- Updated:
--- Description: 	NetworkTypes class for NetworkModel project
------------------------------------------------
-
---
--- class definition
---
-class NetworkTypes
-
---
--- Types definition section
---
-types   
-
-public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
-public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
-
-end NetworkTypes
-~~~
-{% endraw %}
-
 ### Sensor.vdmrt
 
 {% raw %}
@@ -664,6 +686,194 @@ Step() ==
   is subclass responsibility
 
 end Sensor
+~~~
+{% endraw %}
+
+### World.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		20/4 - 2008
+-- Updated:	
+-- Description: 	World class in the HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class World
+
+--
+-- instance variables
+--
+instance variables
+
+  public static env : [Environment] := nil;
+
+--
+-- Operations definition section
+--
+operations
+ 
+public World: () ==> World
+World() ==
+ (env := new Environment("scenario.txt");
+  HA`Host.AddNode(HA`TempNode.GetID(),HA`TempNode.GetType());
+  HA`Host.AddNode(HA`HumidNode.GetID(),HA`HumidNode.GetType());
+  HA`Host.AddNode(HA`ThermNode.GetID(),HA`ThermNode.GetType());
+  HA`Host.AddNode(HA`WinNode.GetID(),HA`WinNode.GetType());
+
+  start(HA`TempNode);
+  start(HA`HumidNode);
+  start(HA`ThermNode);
+  start(HA`WinNode);
+  start(HA`Host);
+ );
+
+public Run: () ==> ()
+Run() ==
+ (-- start environment creating input
+  start(env);
+  -- wait til environment has finished creating input
+  env.IsFinished();
+  -- kill HostController thread
+  --HA`Host.Finish();
+ );
+
+end World
+~~~
+{% endraw %}
+
+### NetworkTypes.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		15/4 - 2008
+-- Updated:
+-- Description: 	NetworkTypes class for NetworkModel project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class NetworkTypes
+
+--
+-- Types definition section
+--
+types   
+
+public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
+public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
+
+end NetworkTypes
+~~~
+{% endraw %}
+
+### Actuator.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		21/4 - 2008
+-- Updated:
+-- Description: 	Actuator super class
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Actuator
+
+--
+-- instance variables
+--
+instance variables
+
+  protected ID   : nat;
+  protected Type : NetworkTypes`nodeType;
+  protected Corr : NetworkTypes`correction;
+
+--
+-- Operations definition section
+--
+operations
+
+public GetID: () ==> nat
+GetID() ==
+  return ID;
+
+public GetType: () ==> NetworkTypes`nodeType
+GetType() ==
+  return Type;
+
+public Step: () ==> ()
+Step() ==
+  is subclass responsibility
+
+end Actuator
+~~~
+{% endraw %}
+
+### HomeAutomation.vdmrt
+
+{% raw %}
+~~~
+-----------------------------------------------
+-- Author:		Sune Wolf - 20022462
+-- Created:		20/4 - 2008
+-- Updated:
+-- Description: 	System class in the HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+system HA
+
+-- 
+-- instance variables
+--
+instance variables
+
+  -- cpu for host controller
+  cpu1 : CPU := new CPU(<FCFS>, 1E6);
+  -- cpu for sensors
+  cpu2 : CPU := new CPU(<FCFS>, 1E6);
+  cpu5 : CPU := new CPU(<FCFS>, 1E6);
+  -- cpu for actuators
+  cpu3 : CPU := new CPU(<FCFS>, 1E6);
+  cpu4 : CPU := new CPU(<FCFS>, 1E6);
+
+  -- bus connecting host controller and sensors
+  bus1 : BUS := new BUS(<FCFS>, 1E3, {cpu1, cpu2, cpu3, cpu4, cpu5 });
+
+  public static Host      : HostController := new HostController(20, 75);
+  public static TempNode  : TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 20);
+  public static HumidNode : HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 75);
+  public static ThermNode : Thermostat := new Thermostat(3, <THERMOSTAT>);
+  public static WinNode   : Window := new Window(4, <WINDOW>);
+
+--
+-- Operations definition section
+--
+operations
+
+public HA: () ==> HA
+HA() ==
+ (cpu1.deploy(Host);
+  cpu2.deploy(TempNode);
+  cpu5.deploy(HumidNode);
+  cpu3.deploy(ThermNode);
+  cpu4.deploy(WinNode); 
+ );
+
+end HA
 ~~~
 {% endraw %}
 
@@ -724,216 +934,6 @@ thread
 periodic(1000E6,0,0,0) (Step)
 
 end TemperatureSensor
-~~~
-{% endraw %}
-
-### Thermostat.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		21/4 - 2008
--- Updated:
--- Description: 	Thermostat sub class
------------------------------------------------
-
---
--- class definition
---
-class Thermostat is subclass of Actuator
-
---
--- instance variables
---
-instance variables
-
-  finished : bool := false;
-
---
--- Operations definition section
---
-operations
-
-public Thermostat: nat * NetworkTypes`nodeType 
-==> Thermostat
-Thermostat (id, type) ==
- (ID := id;
-  Type := type;
-  Corr := <NONE>;
- );
-
-public Step: () ==> ()
-Step() ==
-  --cycles(1E3)
- (dcl tempCorr: NetworkTypes`correction := GetCorrection();
-  if (tempCorr = <INC>)
-  then World`env.IncTemp()
-  elseif (tempCorr = <DEC>)
-  then World`env.DecTemp();
- );
-
-async public SetCorrection: NetworkTypes`correction ==> ()
-SetCorrection(cor) ==
-  --cycles(1E3)
-  Corr := cor
-pre (cor = <INC>) or (cor = <DEC>) or (cor = <NONE>);
-
-public GetCorrection: () ==> NetworkTypes`correction
-GetCorrection() ==
-  return Corr;
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-sync
-  --mutex(PeriodicOp); -- ADDED
-  per IsFinished => finished;
-  mutex(SetCorrection, GetCorrection);
-
---
--- Thread definition section
---
-thread
-
--- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (Step)
-
-end Thermostat
-~~~
-{% endraw %}
-
-### Window.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		21/4 - 2008
--- Updated:
--- Description: 	Window actuator sub class
------------------------------------------------
-
---
--- class definition
---
-class Window is subclass of Actuator
-
---
--- instance variables
---
-instance variables
-
-  finished : bool := false;
-
---
--- Operations definition section
---
-operations
-
-public Window: nat * NetworkTypes`nodeType ==> Window
-Window (id, type) ==
- (ID := id;
-  Type := type;
-  Corr := <CLOSE>;
- );
-
-public Step: () ==> ()
-Step() ==
-  --cycles(1E3)
- (dcl tempCorr: NetworkTypes`correction := GetCorrection();
-  if (tempCorr = <OPEN>)
-  then (World`env.DecHumid();
-        World`env.DecTemp();
-       );
- );
-
-async public SetCorrection: NetworkTypes`correction ==> ()
-SetCorrection(cor) ==
-  --cycles(1E3)
-  Corr := cor
-pre (cor = <OPEN>) or (cor = <CLOSE>);
-
-public GetCorrection: () ==> NetworkTypes`correction
-GetCorrection() ==
-  return Corr;
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-sync
-  --mutex(PeriodicOp); -- ADDED
-  per IsFinished => finished;
-  mutex(SetCorrection, GetCorrection);
-
---
--- Thread definition section
---
-thread
-
--- period of thread (period, jitter, delay, offset)
-periodic(1000E6,0,0,0) (Step)
-
-end Window
-~~~
-{% endraw %}
-
-### World.vdmrt
-
-{% raw %}
-~~~
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		20/4 - 2008
--- Updated:	
--- Description: 	World class in the HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class World
-
---
--- instance variables
---
-instance variables
-
-  public static env : [Environment] := nil;
-
---
--- Operations definition section
---
-operations
- 
-public World: () ==> World
-World() ==
- (env := new Environment("scenario.txt");
-  HA`Host.AddNode(HA`TempNode.GetID(),HA`TempNode.GetType());
-  HA`Host.AddNode(HA`HumidNode.GetID(),HA`HumidNode.GetType());
-  HA`Host.AddNode(HA`ThermNode.GetID(),HA`ThermNode.GetType());
-  HA`Host.AddNode(HA`WinNode.GetID(),HA`WinNode.GetType());
-
-  start(HA`TempNode);
-  start(HA`HumidNode);
-  start(HA`ThermNode);
-  start(HA`WinNode);
-  start(HA`Host);
- );
-
-public Run: () ==> ()
-Run() ==
- (-- start environment creating input
-  start(env);
-  -- wait til environment has finished creating input
-  env.IsFinished();
-  -- kill HostController thread
-  --HA`Host.Finish();
- );
-
-end World
 ~~~
 {% endraw %}
 

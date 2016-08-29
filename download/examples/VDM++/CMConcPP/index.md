@@ -18,208 +18,6 @@ distributed real time version of this example.
 |Language Version:| vdm10|
 
 
-### BaseThread.vdmpp
-
-{% raw %}
-~~~
-class BaseThread
-	
-types
-
-public static ThreadDef ::
-  p : nat1
-  isP : bool;
-
-instance variables
-
-protected period : nat1 := 1;
-protected isPeriodic : bool := true;
-
-protected registeredSelf : BaseThread;
-protected timeStamp : TimeStamp := TimeStamp`GetInstance();
-
-operations
-
-protected BaseThread : BaseThread ==> BaseThread
-BaseThread(t) ==
- (registeredSelf:= t;
-  timeStamp.RegisterThread(registeredSelf);
-  if(not timeStamp.IsInitialising())
-  then start(registeredSelf);  
- );
-
-protected Step : () ==> ()
-Step() ==
-  is subclass responsibility;
-
-thread
-
- (if isPeriodic
-  then (while true
-        do 
-         (Step();
-          timeStamp.WaitRelative(period)
-         )
-       )
-  else (Step();
-        timeStamp.WaitRelative(0);
-        timeStamp.UnRegisterThread(registeredSelf);
-       );
- );
-
-end BaseThread
-~~~
-{% endraw %}
-
-### environment.vdmpp
-
-{% raw %}
-~~~
-              
-class Environment is subclass of GLOBAL, BaseThread
-
-types
-
-public InputTP   = (Time * seq of inline);
-
-public inline  = EventId * MissileType * Angle * Time;
-public outline = EventId * FlareType * Angle * Time * Time
-
-instance variables
-
--- access to the VDMTools stdio
-io : IO := new IO();
-
--- the input file to process
-inlines : seq of inline := [];
-
--- the output file to print
-outlines : seq of outline := [];
-
--- maintain a link to all sensors
-ranges : map nat to (Angle * Angle) := {|->};
-sensors : map nat to Sensor := {|->};
-inv dom ranges = dom sensors;
-
-busy : bool := true;
-
--- Amount of time we want to simulate
-simtime : Time;
-
-operations
-
-public Environment: seq of char * [ThreadDef] ==> Environment
-Environment (fname, tDef) ==
- (def mk_ (-,mk_(timeval,input)) = io.freadval[InputTP](fname) in
-    (inlines := input;
-     simtime := timeval);
-     
-  if tDef <> nil
-  then (period := tDef.p;
-        isPeriodic := tDef.isP;
-       );
-  BaseThread(self);
-  );
-
-public addSensor: Sensor ==> ()
-addSensor (psens) ==
-  (dcl id : nat := card dom ranges + 1;
-   atomic (
-    ranges := ranges munion {id |-> psens.getAperture()};
-    sensors := sensors munion {id |-> psens} 
-   )
-  );
-
-private createSignal: () ==> () 
-createSignal () ==
-  (if len inlines > 0
-   then (dcl curtime : Time := World`timerRef.GetTime(), 
-             done : bool := false;
-         while not done do
-           def mk_ (eventid, pmt, pa, pt) = hd inlines in
-             if pt <= curtime
-             then (for all id in set dom ranges do
-                     def mk_(papplhs,pappsize) = ranges(id) in
-                       if canObserve(pa,papplhs,pappsize)
-                       then sensors(id).trip(eventid,pmt,pa);
-                   inlines := tl inlines;
-                   done := len inlines = 0;
-                   return) 
-             else (done := true;
-                   return))
-   else (busy := false;
-         return));
-
-public handleEvent: EventId * FlareType * Angle * Time * Time ==> ()
-handleEvent (evid,pfltp,angle,pt1,pt2) ==
-  (outlines := outlines ^ [mk_ (evid,pfltp,angle,pt1,pt2)] );
-
-public showResult: () ==> ()
-showResult () ==
-  def - = io.writeval[seq of outline](outlines) in skip;
-
-public isFinished : () ==> ()
-isFinished () == skip;
-
-public Step : () ==> ()
-Step() ==
- (if World`timerRef.GetTime() < simtime
-  then createSignal()
-  else busy := false;
- );
- 
-sync
-
-mutex (handleEvent);
-mutex (createSignal);
-per isFinished => not busy;
-
-end Environment
-                                                                                           
-~~~
-{% endraw %}
-
-### fighteraircraft.vdmpp
-
-{% raw %}
-~~~
-              
-class CM
-
-instance variables
-
-  -- maintain a link to the detector
-  public static detector : MissileDetector := new MissileDetector(nil);
-
-  public static sensor0 : Sensor := new Sensor(detector,0);
-  public static sensor1 : Sensor := new Sensor(detector,90);
-  public static sensor2 : Sensor := new Sensor(detector,180);
-  public static sensor3 : Sensor := new Sensor(detector,270);
-
-  public static controller0 : FlareController := new FlareController(0, nil);
-  public static controller1 : FlareController := new FlareController(120, nil);
-  public static controller2 : FlareController := new FlareController(240, nil);
-
-  public static dispenser0 : FlareDispenser := new FlareDispenser(0, nil);
-  public static dispenser1 : FlareDispenser := new FlareDispenser(30, nil);
-  public static dispenser2 : FlareDispenser := new FlareDispenser(60, nil);
-  public static dispenser3 : FlareDispenser := new FlareDispenser(90, nil);
-
-  public static dispenser4 : FlareDispenser := new FlareDispenser(0, nil);
-  public static dispenser5 : FlareDispenser := new FlareDispenser(30, nil);
-  public static dispenser6 : FlareDispenser := new FlareDispenser(60, nil);
-  public static dispenser7 : FlareDispenser := new FlareDispenser(90, nil);
-
-  public static dispenser8 : FlareDispenser := new FlareDispenser(0, nil);
-  public static dispenser9 : FlareDispenser := new FlareDispenser(30, nil);
-  public static dispenser10 : FlareDispenser := new FlareDispenser(60, nil);
-  public static dispenser11 : FlareDispenser := new FlareDispenser(90, nil);
-
-end CM
-              
-~~~
-{% endraw %}
-
 ### flarecontroller.vdmpp
 
 {% raw %}
@@ -435,51 +233,152 @@ end FlareDispenser
 ~~~
 {% endraw %}
 
-### global.vdmpp
+### fighteraircraft.vdmpp
 
 {% raw %}
 ~~~
               
-class GLOBAL
+class CM
 
-values
+instance variables
 
-public SENSOR_APERTURE = 90;
-public FLARE_APERTURE = 120;
-public DISPENSER_APERTURE = 30
+  -- maintain a link to the detector
+  public static detector : MissileDetector := new MissileDetector(nil);
+
+  public static sensor0 : Sensor := new Sensor(detector,0);
+  public static sensor1 : Sensor := new Sensor(detector,90);
+  public static sensor2 : Sensor := new Sensor(detector,180);
+  public static sensor3 : Sensor := new Sensor(detector,270);
+
+  public static controller0 : FlareController := new FlareController(0, nil);
+  public static controller1 : FlareController := new FlareController(120, nil);
+  public static controller2 : FlareController := new FlareController(240, nil);
+
+  public static dispenser0 : FlareDispenser := new FlareDispenser(0, nil);
+  public static dispenser1 : FlareDispenser := new FlareDispenser(30, nil);
+  public static dispenser2 : FlareDispenser := new FlareDispenser(60, nil);
+  public static dispenser3 : FlareDispenser := new FlareDispenser(90, nil);
+
+  public static dispenser4 : FlareDispenser := new FlareDispenser(0, nil);
+  public static dispenser5 : FlareDispenser := new FlareDispenser(30, nil);
+  public static dispenser6 : FlareDispenser := new FlareDispenser(60, nil);
+  public static dispenser7 : FlareDispenser := new FlareDispenser(90, nil);
+
+  public static dispenser8 : FlareDispenser := new FlareDispenser(0, nil);
+  public static dispenser9 : FlareDispenser := new FlareDispenser(30, nil);
+  public static dispenser10 : FlareDispenser := new FlareDispenser(60, nil);
+  public static dispenser11 : FlareDispenser := new FlareDispenser(90, nil);
+
+end CM
+              
+~~~
+{% endraw %}
+
+### environment.vdmpp
+
+{% raw %}
+~~~
+              
+class Environment is subclass of GLOBAL, BaseThread
 
 types
 
--- there are three different types of missiles
-public MissileType = <MissileA> | <MissileB> | <MissileC> | <None>;
+public InputTP   = (Time * seq of inline);
 
--- there are nine different flare types, three per missile
-public FlareType =
-    <FlareOneA> | <FlareTwoA> | <DoNothingA> | 
-    <FlareOneB> | <FlareTwoB> | <DoNothingB> | 
-    <FlareOneC> | <FlareTwoC> | <DoNothingC>;
+public inline  = EventId * MissileType * Angle * Time;
+public outline = EventId * FlareType * Angle * Time * Time
 
--- the angle at which the missile is incoming
-public Angle = nat
-inv num == num < 360;
+instance variables
 
-public EventId = nat;
+-- access to the VDMTools stdio
+io : IO := new IO();
 
-public Time = nat;
+-- the input file to process
+inlines : seq of inline := [];
+
+-- the output file to print
+outlines : seq of outline := [];
+
+-- maintain a link to all sensors
+ranges : map nat to (Angle * Angle) := {|->};
+sensors : map nat to Sensor := {|->};
+inv dom ranges = dom sensors;
+
+busy : bool := true;
+
+-- Amount of time we want to simulate
+simtime : Time;
 
 operations
 
-pure public canObserve: Angle * Angle * Angle ==> bool
-canObserve (pangle, pleft, psize) ==
-  def pright = (pleft + psize) mod 360 in
-    if pright < pleft
-    -- check between [0,pright> and [pleft,360>
-    then return (pangle < pright or pangle >= pleft)
-    -- check between [pleft, pright>
-    else return (pangle >= pleft and pangle < pright);
+public Environment: seq of char * [ThreadDef] ==> Environment
+Environment (fname, tDef) ==
+ (def mk_ (-,mk_(timeval,input)) = io.freadval[InputTP](fname) in
+    (inlines := input;
+     simtime := timeval);
+     
+  if tDef <> nil
+  then (period := tDef.p;
+        isPeriodic := tDef.isP;
+       );
+  BaseThread(self);
+  );
 
-end GLOBAL
-                                                                              
+public addSensor: Sensor ==> ()
+addSensor (psens) ==
+  (dcl id : nat := card dom ranges + 1;
+   atomic (
+    ranges := ranges munion {id |-> psens.getAperture()};
+    sensors := sensors munion {id |-> psens} 
+   )
+  );
+
+private createSignal: () ==> () 
+createSignal () ==
+  (if len inlines > 0
+   then (dcl curtime : Time := World`timerRef.GetTime(), 
+             done : bool := false;
+         while not done do
+           def mk_ (eventid, pmt, pa, pt) = hd inlines in
+             if pt <= curtime
+             then (for all id in set dom ranges do
+                     def mk_(papplhs,pappsize) = ranges(id) in
+                       if canObserve(pa,papplhs,pappsize)
+                       then sensors(id).trip(eventid,pmt,pa);
+                   inlines := tl inlines;
+                   done := len inlines = 0;
+                   return) 
+             else (done := true;
+                   return))
+   else (busy := false;
+         return));
+
+public handleEvent: EventId * FlareType * Angle * Time * Time ==> ()
+handleEvent (evid,pfltp,angle,pt1,pt2) ==
+  (outlines := outlines ^ [mk_ (evid,pfltp,angle,pt1,pt2)] );
+
+public showResult: () ==> ()
+showResult () ==
+  def - = io.writeval[seq of outline](outlines) in skip;
+
+public isFinished : () ==> ()
+isFinished () == skip;
+
+public Step : () ==> ()
+Step() ==
+ (if World`timerRef.GetTime() < simtime
+  then createSignal()
+  else busy := false;
+ );
+ 
+sync
+
+mutex (handleEvent);
+mutex (createSignal);
+per isFinished => not busy;
+
+end Environment
+                                                                                           
 ~~~
 {% endraw %}
 
@@ -575,6 +474,171 @@ per isFinished => not busy
 
 end MissileDetector
                                                                                                    
+~~~
+{% endraw %}
+
+### global.vdmpp
+
+{% raw %}
+~~~
+              
+class GLOBAL
+
+values
+
+public SENSOR_APERTURE = 90;
+public FLARE_APERTURE = 120;
+public DISPENSER_APERTURE = 30
+
+types
+
+-- there are three different types of missiles
+public MissileType = <MissileA> | <MissileB> | <MissileC> | <None>;
+
+-- there are nine different flare types, three per missile
+public FlareType =
+    <FlareOneA> | <FlareTwoA> | <DoNothingA> | 
+    <FlareOneB> | <FlareTwoB> | <DoNothingB> | 
+    <FlareOneC> | <FlareTwoC> | <DoNothingC>;
+
+-- the angle at which the missile is incoming
+public Angle = nat
+inv num == num < 360;
+
+public EventId = nat;
+
+public Time = nat;
+
+operations
+
+pure public canObserve: Angle * Angle * Angle ==> bool
+canObserve (pangle, pleft, psize) ==
+  def pright = (pleft + psize) mod 360 in
+    if pright < pleft
+    -- check between [0,pright> and [pleft,360>
+    then return (pangle < pright or pangle >= pleft)
+    -- check between [pleft, pright>
+    else return (pangle >= pleft and pangle < pright);
+
+end GLOBAL
+                                                                              
+~~~
+{% endraw %}
+
+### BaseThread.vdmpp
+
+{% raw %}
+~~~
+class BaseThread
+	
+types
+
+public static ThreadDef ::
+  p : nat1
+  isP : bool;
+
+instance variables
+
+protected period : nat1 := 1;
+protected isPeriodic : bool := true;
+
+protected registeredSelf : BaseThread;
+protected timeStamp : TimeStamp := TimeStamp`GetInstance();
+
+operations
+
+protected BaseThread : BaseThread ==> BaseThread
+BaseThread(t) ==
+ (registeredSelf:= t;
+  timeStamp.RegisterThread(registeredSelf);
+  if(not timeStamp.IsInitialising())
+  then start(registeredSelf);  
+ );
+
+protected Step : () ==> ()
+Step() ==
+  is subclass responsibility;
+
+thread
+
+ (if isPeriodic
+  then (while true
+        do 
+         (Step();
+          timeStamp.WaitRelative(period)
+         )
+       )
+  else (Step();
+        timeStamp.WaitRelative(0);
+        timeStamp.UnRegisterThread(registeredSelf);
+       );
+ );
+
+end BaseThread
+~~~
+{% endraw %}
+
+### world.vdmpp
+
+{% raw %}
+~~~
+              
+class World
+
+instance variables
+
+public static timerRef : TimeStamp := TimeStamp`GetInstance();
+public static env : [Environment] := nil;
+
+operations
+
+public World: () ==> World
+World () ==
+  (-- set-up the sensors
+   env := new Environment("scenario.txt", nil);
+   
+   env.addSensor(CM`sensor0);
+   env.addSensor(CM`sensor1);
+   env.addSensor(CM`sensor2);
+   env.addSensor(CM`sensor3);
+
+   -- add the first controller with four dispensers
+   CM`controller0.addDispenser(CM`dispenser0);
+   CM`controller0.addDispenser(CM`dispenser1);
+   CM`controller0.addDispenser(CM`dispenser2);
+   CM`controller0.addDispenser(CM`dispenser3);
+   CM`detector.addController(CM`controller0);
+
+   -- add the second controller with four dispensers
+   CM`controller1.addDispenser(CM`dispenser4);
+   CM`controller1.addDispenser(CM`dispenser5);
+   CM`controller1.addDispenser(CM`dispenser6);
+   CM`controller1.addDispenser(CM`dispenser7);
+   CM`detector.addController(CM`controller1);
+ 
+   -- add the third controller with four dispensers
+   CM`controller2.addDispenser(CM`dispenser8);
+   CM`controller2.addDispenser(CM`dispenser9);
+   CM`controller2.addDispenser(CM`dispenser10);
+   CM`controller2.addDispenser(CM`dispenser11);
+   CM`detector.addController(CM`controller2);   
+   );
+
+-- the run function blocks the user-interface thread
+-- until all missiles in the file have been processed
+public Run: () ==> ()
+Run () == 
+  (-- start the environment
+   timerRef.DoneInitialising();
+   -- wait for the environment to handle all input
+   env.isFinished();
+   -- wait for the missile detector to finish
+   CM`detector.isFinished();
+   -- print the result
+   env.showResult())
+
+end World
+                                                                       
 ~~~
 {% endraw %}
 
@@ -742,70 +806,6 @@ sync
   mutex (AddToWakeUpMap, NotifyThread, BarrierReached);
 
 end TimeStamp
-~~~
-{% endraw %}
-
-### world.vdmpp
-
-{% raw %}
-~~~
-              
-class World
-
-instance variables
-
-public static timerRef : TimeStamp := TimeStamp`GetInstance();
-public static env : [Environment] := nil;
-
-operations
-
-public World: () ==> World
-World () ==
-  (-- set-up the sensors
-   env := new Environment("scenario.txt", nil);
-   
-   env.addSensor(CM`sensor0);
-   env.addSensor(CM`sensor1);
-   env.addSensor(CM`sensor2);
-   env.addSensor(CM`sensor3);
-
-   -- add the first controller with four dispensers
-   CM`controller0.addDispenser(CM`dispenser0);
-   CM`controller0.addDispenser(CM`dispenser1);
-   CM`controller0.addDispenser(CM`dispenser2);
-   CM`controller0.addDispenser(CM`dispenser3);
-   CM`detector.addController(CM`controller0);
-
-   -- add the second controller with four dispensers
-   CM`controller1.addDispenser(CM`dispenser4);
-   CM`controller1.addDispenser(CM`dispenser5);
-   CM`controller1.addDispenser(CM`dispenser6);
-   CM`controller1.addDispenser(CM`dispenser7);
-   CM`detector.addController(CM`controller1);
- 
-   -- add the third controller with four dispensers
-   CM`controller2.addDispenser(CM`dispenser8);
-   CM`controller2.addDispenser(CM`dispenser9);
-   CM`controller2.addDispenser(CM`dispenser10);
-   CM`controller2.addDispenser(CM`dispenser11);
-   CM`detector.addController(CM`controller2);   
-   );
-
--- the run function blocks the user-interface thread
--- until all missiles in the file have been processed
-public Run: () ==> ()
-Run () == 
-  (-- start the environment
-   timerRef.DoneInitialising();
-   -- wait for the environment to handle all input
-   env.isFinished();
-   -- wait for the missile detector to finish
-   CM`detector.isFinished();
-   -- print the result
-   env.showResult())
-
-end World
-                                                                       
 ~~~
 {% endraw %}
 

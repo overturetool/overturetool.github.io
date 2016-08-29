@@ -20,70 +20,6 @@ of the software technology course at the Technical University Graz, Austria.
 |Entry point     :| Test`RunEval()|
 
 
-### ast.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                             
-module AST
-
-exports all
-
-definitions
-
-types
-
-  Program :: decls : seq of Declaration
-             stmt  : Stmt;
-                                                                                                                                   
-  Declaration :: id  : Identifier
-                 tp  : Type
-                 val : [Value];
-                                                                                                                                                                                                                                                   
-  Identifier = seq1 of char;
-
-  Type = <BoolType> | <IntType> ;
-
-  Value = BoolVal | IntVal;
-
-  BoolVal :: val : bool;
-
-  IntVal :: val : int;
-                                                                                                                                                                                                                                                                                                                                                                   
-  Stmt = BlockStmt | AssignStmt | CondStmt | ForStmt | RepeatStmt;
-                                                                                                                                
-  BlockStmt :: decls : seq of Declaration
-               stmts : seq1 of Stmt;
-                                                                                                                                                                 
-  AssignStmt :: lhs : Variable
-                rhs : Expr;
-
-  Variable :: id : Identifier;
-                                                                                                                                                                                                
-  Expr = BinaryExpr | Value | Variable;
-
-  BinaryExpr :: lhs : Expr
-                op  : Operator
-                rhs : Expr;
-                                                                                                                                                                                                                                        
-  Operator = <Add> | <Sub> | <Div> | <Mul> | <Lt> | <Gt> | <Eq> | <And> | <Or>;
-                                                                                                                   
-  CondStmt :: guard  : Expr
-              thenst : Stmt
-              elsest : Stmt;
-                                                                                                                                                                                                                                                                                            
-  ForStmt :: start : AssignStmt
-             stop  : Expr
-             stmt  : Stmt;
-                                                                                                                       
-  RepeatStmt :: repeat : Stmt
-                until  : Expr;
-                
-end AST
-             
-~~~
-{% endraw %}
-
 ### dynsem.vdmsl
 
 {% raw %}
@@ -234,6 +170,42 @@ end DYNSEM
 ~~~
 {% endraw %}
 
+### Test.vdmsl
+
+{% raw %}
+~~~
+                                         
+module Test
+
+imports 
+from AST all,
+from STATSEM all,
+from DYNSEM all
+ 
+exports all
+definitions 
+
+values 
+
+  binexpr: AST`Expr = 
+           mk_AST`BinaryExpr(mk_AST`IntVal(4),
+                             <Add>,
+                             mk_AST`IntVal(5))
+functions
+
+RunTypeCheck: () -> bool * [AST`Type]
+RunTypeCheck() ==
+  STATSEM`wf_Expr(binexpr,{|->});
+  
+RunEval: () -> AST`Value
+RunEval() ==
+  DYNSEM`EvalExpr(binexpr,{|->})
+  
+end Test
+            
+~~~
+{% endraw %}
+
 ### statsem.vdmsl
 
 {% raw %}
@@ -357,39 +329,67 @@ end STATSEM
 ~~~
 {% endraw %}
 
-### Test.vdmsl
+### ast.vdmsl
 
 {% raw %}
 ~~~
-                                         
-module Test
+                                                                                                                                                                                                                                                                             
+module AST
 
-imports 
-from AST all,
-from STATSEM all,
-from DYNSEM all
- 
 exports all
-definitions 
 
-values 
+definitions
 
-  binexpr: AST`Expr = 
-           mk_AST`BinaryExpr(mk_AST`IntVal(4),
-                             <Add>,
-                             mk_AST`IntVal(5))
-functions
+types
 
-RunTypeCheck: () -> bool * [AST`Type]
-RunTypeCheck() ==
-  STATSEM`wf_Expr(binexpr,{|->});
-  
-RunEval: () -> AST`Value
-RunEval() ==
-  DYNSEM`EvalExpr(binexpr,{|->})
-  
-end Test
-            
+  Program :: decls : seq of Declaration
+             stmt  : Stmt;
+                                                                                                                                   
+  Declaration :: id  : Identifier
+                 tp  : Type
+                 val : [Value];
+                                                                                                                                                                                                                                                   
+  Identifier = seq1 of char;
+
+  Type = <BoolType> | <IntType> ;
+
+  Value = BoolVal | IntVal;
+
+  BoolVal :: val : bool;
+
+  IntVal :: val : int;
+                                                                                                                                                                                                                                                                                                                                                                   
+  Stmt = BlockStmt | AssignStmt | CondStmt | ForStmt | RepeatStmt;
+                                                                                                                                
+  BlockStmt :: decls : seq of Declaration
+               stmts : seq1 of Stmt;
+                                                                                                                                                                 
+  AssignStmt :: lhs : Variable
+                rhs : Expr;
+
+  Variable :: id : Identifier;
+                                                                                                                                                                                                
+  Expr = BinaryExpr | Value | Variable;
+
+  BinaryExpr :: lhs : Expr
+                op  : Operator
+                rhs : Expr;
+                                                                                                                                                                                                                                        
+  Operator = <Add> | <Sub> | <Div> | <Mul> | <Lt> | <Gt> | <Eq> | <And> | <Or>;
+                                                                                                                   
+  CondStmt :: guard  : Expr
+              thenst : Stmt
+              elsest : Stmt;
+                                                                                                                                                                                                                                                                                            
+  ForStmt :: start : AssignStmt
+             stop  : Expr
+             stmt  : Stmt;
+                                                                                                                       
+  RepeatStmt :: repeat : Stmt
+                until  : Expr;
+                
+end AST
+             
 ~~~
 {% endraw %}
 

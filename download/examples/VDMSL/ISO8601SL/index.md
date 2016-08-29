@@ -26,120 +26,137 @@ adds value, it is included as a comment.
 |Entry point     :| Set`sum({1,2,3,4,5,6,7,8,9})|
 
 
-### Char.vdmsl
+### Set.vdmsl
 
 {% raw %}
 ~~~
 /*
-   A module that specifies and defines general purpose types, constants and functions over
-   characters and strings (sequences characters).
+   A module that specifies and defines general purpose functions over sets.
 
    All functions are explicit and executable. Where a non-executable condition adds value, it
    is included as a comment.
 */
-module Char
-imports from Seq all
-exports types Upper
-              Lower
-              Letter
-              Digit
-              Octal
-              Hex
-              AlphaNum
-              AlphaNumUpper
-              AlphaNumLower
-              Space
-              WhiteSpace
-              Phrase
-              PhraseUpper
-              PhraseLower
-              Text
-              TextUpper
-              TextLower
-        values SP, TB, CR, LF : char
-               WHITE_SPACE, UPPER, LOWER, DIGIT, OCTAL, HEX : set of char
-               UPPERS, LOWERS, DIGITS, OCTALS, HEXS: seq of char
-        functions toLower: Upper +> Lower
-                  toUpper: Lower +> Upper
+module Set
+imports from Numeric all,
+        from Seq all
+exports functions sum: set of real +> real
+                  prod: set of real +> real
+                  min: set of real +> real
+                  max: set of real +> real
+                  toSeq[@a]: set of @a +> seq of @a
+                  xform[@a,@b]: (@a +> @b) * set of @a +> set of @b
+                  fold[@a]: (@a * @a +> @a) * @a * set of @a +> @a
+                  fold1[@a]: (@a * @a +> @a) * set of @a +> @a
+                  pairwiseDisjoint[@a]: set of set of @a +> bool
+                  isPartition[@a]: set of set of @a * set of @a +> bool
+                  permutations[@a]: set of @a +> set of seq1 of @a
+                  xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b)
 
 definitions
 
-types
-
-  Upper = char
-  inv c == c in set UPPER;
-
-  Lower = char
-  inv c == c in set LOWER;
-
-  Letter = Upper | Lower;
-
-  Digit = char
-  inv c == c in set DIGIT;
-  
-  Octal = char
-  inv c == c in set OCTAL;
-
-  Hex = char
-  inv c == c in set HEX;
-
-  AlphaNum = Letter | Digit;
-
-  AlphaNumUpper = Upper | Digit;
-
-  AlphaNumLower = Lower | Digit;
-
-  Space = char
-  inv sp == sp = ' ';
-
-  WhiteSpace = char
-  inv ws == ws in set WHITE_SPACE;
-
-  Phrase = seq1 of (AlphaNum|Space);
-
-  PhraseUpper = seq1 of (AlphaNumUpper|Space);
-
-  PhraseLower = seq1 of (AlphaNumLower|Space);
-
-  Text = seq1 of (AlphaNum|WhiteSpace);
-
-  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace);
-
-  TextLower = seq1 of (AlphaNumLower|WhiteSpace);
-
-values
-
-  SP:char = ' ';
-  TB:char = '\t';
-  CR:char = '\r';
-  LF:char = '\n';
-  WHITE_SPACE:set of char = {SP,TB,CR,LF};
-  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
-                       'R','S','T','U','V','W','X','Y','Z'};
-  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
-                       'r','s','t','u','v','w','x','y','z'};
-  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
-  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
-  DIGITS:seq of Digit = "0123456789";
-  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
-  OCTALS:seq of Octal = "01234567";
-  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-  HEXS:seq of Hex = "0123456789ABCDEF";
-
 functions
 
-  -- Convert upper case letter to lower case.
-  toLower: Upper +> Lower
-  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
-  post toUpper(RESULT) = c;
+  -- The sum of a set of numerics.
+  sum: set of real +> real
+  sum(s) == fold[real](Numeric`add,0,s);
 
-  -- Convert lower case letter to upper case.
-  toUpper: Lower +> Upper
-  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
-  --post toLower(RESULT) = c;
+  -- The product of a set of numerics.
+  prod: set of real +> real
+  prod(s) == fold[real](Numeric`mult,1,s);
 
-end Char
+  -- The minimum of a set of numerics.
+  min: set of real +> real
+  min(s) == fold1[real](Numeric`min, s)
+  pre s <> {}
+  post RESULT in set s and forall e in set s & RESULT <= e;
+
+  -- The maximum of a set of numerics.
+  max: set of real +> real
+  max(s) == fold1[real](Numeric`max, s)
+  pre s <> {}
+  post RESULT in set s and forall e in set s & RESULT >= e;
+
+  -- The sequence whose elements are those of a specified set, with no duplicates.
+  -- No order is guaranteed in the resulting sequence.
+  toSeq[@a]: set of @a +> seq of @a
+  toSeq(s) ==
+  	cases s:
+		{} ->        [],
+		{x} ->       [x],
+		t union u -> toSeq[@a](t) ^ toSeq[@a](u)
+    end
+  post len RESULT = card s and forall e in set s & Seq`inSeq[@a](e,RESULT);
+
+  -- Apply a function to all elements of a set. The result set may be smaller than the
+  -- argument set if the function argument is not injective.
+  xform[@a,@b]: (@a+>@b) * set of @a +> set of @b
+  xform(f,s) == { f(e) | e in set s }
+  post (forall e in set s & f(e) in set RESULT) and
+       (forall r in set RESULT & exists e in set s & f(e) = r);
+
+  -- Fold (iterate, accumulate, reduce) a binary function over a set.
+  -- The function is assumed to be commutative and associative, and have an identity element.
+  fold[@a]: (@a * @a +> @a) * @a * set of @a +> @a
+  fold(f, e, s) == cases s:
+                     {}        -> e,
+                     {x}       -> x,
+                     t union u -> f(fold[@a](f,e,t), fold[@a](f,e,u))
+                   end
+  --pre (exists x:@a & forall y:@a & f(x,y) = y and f(y,x) = y)
+  --and (forall x,y:@a & f(x, y) = f(y, x))
+  --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
+  measure size2;
+
+  -- Fold (iterate, accumulate, reduce) a binary function over a non-empty set.
+  -- The function is assumed to be commutative and associative.
+  fold1[@a]: (@a * @a +> @a) * set of @a +> @a
+  fold1(f, s) == cases s:
+                   {e}       -> e,
+                   t union u -> f(fold1[@a](f,t), fold1[@a](f,u))
+                 end
+  pre s <> {}
+  --and (forall x,y:@a & f(x,y) = f(y,x))
+  --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
+  measure size1;
+
+  -- Are the members of a set of sets pairwise disjoint.
+  pairwiseDisjoint[@a]: set of set of @a +> bool
+  pairwiseDisjoint(ss) == forall x,y in set ss & x<>y => x inter y = {};
+
+  -- Is a set of sets a partition of a set?
+  isPartition[@a]: set of set of @a * set of @a +> bool
+  isPartition(ss,s) == pairwiseDisjoint[@a](ss) and dunion ss = s;
+
+  -- All (sequence) permutations of a set.
+  permutations[@a]: set of @a +> set of seq1 of @a
+  permutations(s) ==
+    cases s:
+      {e} -> {[e]},
+      -   -> dunion { { [e]^tail | tail in set permutations[@a](s\{e}) } | e in set s }
+    end
+  pre s <> {}
+  post -- for a set of size n, there are n! permutations
+       card RESULT = prod({1,...,card s}) and
+       forall sq in set RESULT & len sq = card s and elems sq = s
+  measure size;
+
+  -- The cross product of two sets.
+  xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b)
+  xProduct(s,t) == { mk_(x,y) | x in set s, y in set t }
+  post card RESULT = card s * card t;
+
+  -- Measure functions.
+
+  size[@a]: set of @a +> nat
+  size(s) == card s;
+
+  size1[@a]: (@a * @a +> @a) * set of @a +> nat
+  size1(-, s) == card s;
+
+  size2[@a]: (@a * @a +> @a) * @a * set of @a +> nat
+  size2(-, -, s) == card s;
+
+end Set
 ~~~
 {% endraw %}
 
@@ -860,79 +877,120 @@ end ISO8601
 ~~~
 {% endraw %}
 
-### Numeric.vdmsl
+### Char.vdmsl
 
 {% raw %}
 ~~~
 /*
-   A module that specifies and defines general purpose functions over numerics.
+   A module that specifies and defines general purpose types, constants and functions over
+   characters and strings (sequences characters).
 
-   All definitions are explicit and executable.
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
 */
-module Numeric
-imports from Char all,
-        from Seq all
-exports functions min: real * real +> real
-                  max: real * real +> real
-                  formatNat: nat +> seq of Char`Digit
-                  zeroPad: nat * nat1 +> seq of Char`Digit
-                  formatNat: nat +> seq of Char`Digit
-                  fromChar: Char`Digit +> nat
-                  toChar: nat +> Char`Digit
-                  add: real * real +> real
-                  mult: real * real +> real
+module Char
+imports from Seq all
+exports types Upper
+              Lower
+              Letter
+              Digit
+              Octal
+              Hex
+              AlphaNum
+              AlphaNumUpper
+              AlphaNumLower
+              Space
+              WhiteSpace
+              Phrase
+              PhraseUpper
+              PhraseLower
+              Text
+              TextUpper
+              TextLower
+        values SP, TB, CR, LF : char
+               WHITE_SPACE, UPPER, LOWER, DIGIT, OCTAL, HEX : set of char
+               UPPERS, LOWERS, DIGITS, OCTALS, HEXS: seq of char
+        functions toLower: Upper +> Lower
+                  toUpper: Lower +> Upper
 
 definitions
 
+types
+
+  Upper = char
+  inv c == c in set UPPER;
+
+  Lower = char
+  inv c == c in set LOWER;
+
+  Letter = Upper | Lower;
+
+  Digit = char
+  inv c == c in set DIGIT;
+  
+  Octal = char
+  inv c == c in set OCTAL;
+
+  Hex = char
+  inv c == c in set HEX;
+
+  AlphaNum = Letter | Digit;
+
+  AlphaNumUpper = Upper | Digit;
+
+  AlphaNumLower = Lower | Digit;
+
+  Space = char
+  inv sp == sp = ' ';
+
+  WhiteSpace = char
+  inv ws == ws in set WHITE_SPACE;
+
+  Phrase = seq1 of (AlphaNum|Space);
+
+  PhraseUpper = seq1 of (AlphaNumUpper|Space);
+
+  PhraseLower = seq1 of (AlphaNumLower|Space);
+
+  Text = seq1 of (AlphaNum|WhiteSpace);
+
+  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace);
+
+  TextLower = seq1 of (AlphaNumLower|WhiteSpace);
+
+values
+
+  SP:char = ' ';
+  TB:char = '\t';
+  CR:char = '\r';
+  LF:char = '\n';
+  WHITE_SPACE:set of char = {SP,TB,CR,LF};
+  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                       'R','S','T','U','V','W','X','Y','Z'};
+  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+                       'r','s','t','u','v','w','x','y','z'};
+  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
+  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
+  DIGITS:seq of Digit = "0123456789";
+  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
+  OCTALS:seq of Octal = "01234567";
+  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+  HEXS:seq of Hex = "0123456789ABCDEF";
+
 functions
 
-  -- The minimum of two numerics.
-  min: real * real +> real
-  min(x,y) == if x<y then x else y;
+  -- Convert upper case letter to lower case.
+  toLower: Upper +> Lower
+  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
+  post toUpper(RESULT) = c;
 
-  -- The maximum of two numerics.
-  max: real * real +> real
-  max(x,y) == if x>y then x else y;
+  -- Convert lower case letter to upper case.
+  toUpper: Lower +> Upper
+  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
+  --post toLower(RESULT) = c;
 
-  -- Format a natural number as a string of digits.
-  formatNat: nat +> seq of Char`Digit
-  formatNat(n) == if n < 10
-                  then [toChar(n)]
-                  else formatNat(n div 10) ^ [toChar(n mod 10)]
-  measure size1;
-
-  -- Convert a character digit to the corresponding natural number.
-  fromChar: Char`Digit +> nat
-  fromChar(c) == Seq`indexOf[Char`Digit](c,Char`DIGITS)-1
-  post toChar(RESULT) = c;
-
-  -- Convert a numeric digit to the corresponding character.
-  toChar: nat +> Char`Digit
-  toChar(n) == Char`DIGITS(n+1)
-  pre 0 <= n and n <= 9;
-  --post fromChar(RESULT) = n
-
-  -- Format a natural number as a string with leading zeros up to a specified length.
-  zeroPad: nat * nat1 +> seq of Char`Digit
-  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
-
-  -- The following functions wrap primitives for convenience, to allow them for example to
-  -- serve as function arguments.
-
-  -- Sum of two numbers.
-  add: real * real +> real
-  add(m,n) == m+n;
-
-  -- Product of two numbers.
-  mult: real * real +> real
-  mult(m,n) == m*n;
-
-  -- Measure functions.
-
-  size1: nat +> nat
-  size1(n) == n;
-
-end Numeric
+end Char
 ~~~
 {% endraw %}
 
@@ -1126,137 +1184,79 @@ end Seq
 ~~~
 {% endraw %}
 
-### Set.vdmsl
+### Numeric.vdmsl
 
 {% raw %}
 ~~~
 /*
-   A module that specifies and defines general purpose functions over sets.
+   A module that specifies and defines general purpose functions over numerics.
 
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
+   All definitions are explicit and executable.
 */
-module Set
-imports from Numeric all,
+module Numeric
+imports from Char all,
         from Seq all
-exports functions sum: set of real +> real
-                  prod: set of real +> real
-                  min: set of real +> real
-                  max: set of real +> real
-                  toSeq[@a]: set of @a +> seq of @a
-                  xform[@a,@b]: (@a +> @b) * set of @a +> set of @b
-                  fold[@a]: (@a * @a +> @a) * @a * set of @a +> @a
-                  fold1[@a]: (@a * @a +> @a) * set of @a +> @a
-                  pairwiseDisjoint[@a]: set of set of @a +> bool
-                  isPartition[@a]: set of set of @a * set of @a +> bool
-                  permutations[@a]: set of @a +> set of seq1 of @a
-                  xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b)
+exports functions min: real * real +> real
+                  max: real * real +> real
+                  formatNat: nat +> seq of Char`Digit
+                  zeroPad: nat * nat1 +> seq of Char`Digit
+                  formatNat: nat +> seq of Char`Digit
+                  fromChar: Char`Digit +> nat
+                  toChar: nat +> Char`Digit
+                  add: real * real +> real
+                  mult: real * real +> real
 
 definitions
 
 functions
 
-  -- The sum of a set of numerics.
-  sum: set of real +> real
-  sum(s) == fold[real](Numeric`add,0,s);
+  -- The minimum of two numerics.
+  min: real * real +> real
+  min(x,y) == if x<y then x else y;
 
-  -- The product of a set of numerics.
-  prod: set of real +> real
-  prod(s) == fold[real](Numeric`mult,1,s);
+  -- The maximum of two numerics.
+  max: real * real +> real
+  max(x,y) == if x>y then x else y;
 
-  -- The minimum of a set of numerics.
-  min: set of real +> real
-  min(s) == fold1[real](Numeric`min, s)
-  pre s <> {}
-  post RESULT in set s and forall e in set s & RESULT <= e;
-
-  -- The maximum of a set of numerics.
-  max: set of real +> real
-  max(s) == fold1[real](Numeric`max, s)
-  pre s <> {}
-  post RESULT in set s and forall e in set s & RESULT >= e;
-
-  -- The sequence whose elements are those of a specified set, with no duplicates.
-  -- No order is guaranteed in the resulting sequence.
-  toSeq[@a]: set of @a +> seq of @a
-  toSeq(s) ==
-  	cases s:
-		{} ->        [],
-		{x} ->       [x],
-		t union u -> toSeq[@a](t) ^ toSeq[@a](u)
-    end
-  post len RESULT = card s and forall e in set s & Seq`inSeq[@a](e,RESULT);
-
-  -- Apply a function to all elements of a set. The result set may be smaller than the
-  -- argument set if the function argument is not injective.
-  xform[@a,@b]: (@a+>@b) * set of @a +> set of @b
-  xform(f,s) == { f(e) | e in set s }
-  post (forall e in set s & f(e) in set RESULT) and
-       (forall r in set RESULT & exists e in set s & f(e) = r);
-
-  -- Fold (iterate, accumulate, reduce) a binary function over a set.
-  -- The function is assumed to be commutative and associative, and have an identity element.
-  fold[@a]: (@a * @a +> @a) * @a * set of @a +> @a
-  fold(f, e, s) == cases s:
-                     {}        -> e,
-                     {x}       -> x,
-                     t union u -> f(fold[@a](f,e,t), fold[@a](f,e,u))
-                   end
-  --pre (exists x:@a & forall y:@a & f(x,y) = y and f(y,x) = y)
-  --and (forall x,y:@a & f(x, y) = f(y, x))
-  --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
-  measure size2;
-
-  -- Fold (iterate, accumulate, reduce) a binary function over a non-empty set.
-  -- The function is assumed to be commutative and associative.
-  fold1[@a]: (@a * @a +> @a) * set of @a +> @a
-  fold1(f, s) == cases s:
-                   {e}       -> e,
-                   t union u -> f(fold1[@a](f,t), fold1[@a](f,u))
-                 end
-  pre s <> {}
-  --and (forall x,y:@a & f(x,y) = f(y,x))
-  --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
+  -- Format a natural number as a string of digits.
+  formatNat: nat +> seq of Char`Digit
+  formatNat(n) == if n < 10
+                  then [toChar(n)]
+                  else formatNat(n div 10) ^ [toChar(n mod 10)]
   measure size1;
 
-  -- Are the members of a set of sets pairwise disjoint.
-  pairwiseDisjoint[@a]: set of set of @a +> bool
-  pairwiseDisjoint(ss) == forall x,y in set ss & x<>y => x inter y = {};
+  -- Convert a character digit to the corresponding natural number.
+  fromChar: Char`Digit +> nat
+  fromChar(c) == Seq`indexOf[Char`Digit](c,Char`DIGITS)-1
+  post toChar(RESULT) = c;
 
-  -- Is a set of sets a partition of a set?
-  isPartition[@a]: set of set of @a * set of @a +> bool
-  isPartition(ss,s) == pairwiseDisjoint[@a](ss) and dunion ss = s;
+  -- Convert a numeric digit to the corresponding character.
+  toChar: nat +> Char`Digit
+  toChar(n) == Char`DIGITS(n+1)
+  pre 0 <= n and n <= 9;
+  --post fromChar(RESULT) = n
 
-  -- All (sequence) permutations of a set.
-  permutations[@a]: set of @a +> set of seq1 of @a
-  permutations(s) ==
-    cases s:
-      {e} -> {[e]},
-      -   -> dunion { { [e]^tail | tail in set permutations[@a](s\{e}) } | e in set s }
-    end
-  pre s <> {}
-  post -- for a set of size n, there are n! permutations
-       card RESULT = prod({1,...,card s}) and
-       forall sq in set RESULT & len sq = card s and elems sq = s
-  measure size;
+  -- Format a natural number as a string with leading zeros up to a specified length.
+  zeroPad: nat * nat1 +> seq of Char`Digit
+  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
 
-  -- The cross product of two sets.
-  xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b)
-  xProduct(s,t) == { mk_(x,y) | x in set s, y in set t }
-  post card RESULT = card s * card t;
+  -- The following functions wrap primitives for convenience, to allow them for example to
+  -- serve as function arguments.
+
+  -- Sum of two numbers.
+  add: real * real +> real
+  add(m,n) == m+n;
+
+  -- Product of two numbers.
+  mult: real * real +> real
+  mult(m,n) == m*n;
 
   -- Measure functions.
 
-  size[@a]: set of @a +> nat
-  size(s) == card s;
+  size1: nat +> nat
+  size1(n) == n;
 
-  size1[@a]: (@a * @a +> @a) * set of @a +> nat
-  size1(-, s) == card s;
-
-  size2[@a]: (@a * @a +> @a) * @a * set of @a +> nat
-  size2(-, -, s) == card s;
-
-end Set
+end Numeric
 ~~~
 {% endraw %}
 

@@ -20,6 +20,29 @@ This project is currently not running with the Overture interpreter.
 |Entry point     :| new World().Run()|
 
 
+### MSAW.vdmpp
+
+{% raw %}
+~~~
+class MSAW is subclass of GLOBAL
+
+instance variables 
+
+public static atc : AirTrafficController := new AirTrafficController(1, true);
+  
+
+public static airspace : AirSpace := new AirSpace();
+
+public static militaryZone : Obstacle := 
+  new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
+
+public static radar1 : Radar := new Radar(6,11,20, 1, true);
+public static radar2 : Radar := new Radar (30,30,5, 1, true);  
+
+end MSAW
+~~~
+{% endraw %}
+
 ### AirSpace.vdmpp
 
 {% raw %}
@@ -71,6 +94,257 @@ updateFO(id,coord,alt) ==
   MSAW`atc.UpdatesPresent())
 
 end AirSpace
+~~~
+{% endraw %}
+
+### environment.vdmpp
+
+{% raw %}
+~~~
+class Environment is subclass of GLOBAL, BaseThread
+
+types 
+
+InputTP   = (Time * seq of inline);
+
+inline  = FOId * int * int * Altitude * Time;
+  
+FOOut = FOId * Coordinates * Altitude * FOWarning * 
+        MinimumSafetyAltitude * Time;
+RadarOut = Coordinates * nat1 * RadarWarning * nat *  Time;
+  
+  
+outline = FOOut | RadarOut; 
+
+
+instance variables 
+
+  io : IO := new IO();
+  inlines  : seq of inline  := [];
+  outlines : seq of outline := [];
+
+  airspace : [AirSpace] := nil;
+  busy : bool := true;
+  updating : bool := false;
+  simtime : Time;  
+operations
+  
+public Environment : String * nat1 * bool ==> Environment
+Environment(fname, p, isP) == 
+ (def mk_(-,mk_(timeval,input)) = io.freadval[InputTP](fname) 
+  in
+    (inlines := input;
+     simtime := timeval);
+ period := p;
+ isPeriodic := isP;    
+ );    
+      
+public setAirSpace : AirSpace ==> ()
+setAirSpace(as) ==
+  airspace := as;
+      
+public handleFOWarningEvent : FOId * Coordinates * Altitude * FOWarning * 
+                              MinimumSafetyAltitude * Time ==> ()
+handleFOWarningEvent(id,coord,alt,warn,msa,t) ==
+  outlines := outlines ^ [mk_(id,coord,alt,warn,msa,t)];
+ 
+public handleRadarWarningEvent : Coordinates * nat1 * RadarWarning * nat *  Time ==> ()
+handleRadarWarningEvent(coord,range,radWarn,num,pt) ==
+  outlines := outlines ^ [mk_(coord,range,radWarn,num,pt)];
+
+public showResult : () ==> ()
+showResult() ==
+  def - = io.writeval[seq of outline](outlines) in skip;
+ 
+
+private updateFOs : () ==> ()
+updateFOs() ==
+ (if len inlines > 0 
+  then (dcl curtime : Time := World`timerRef.GetTime(),
+        done : bool := false;
+        while not done do
+          def mk_(id,x,y, altitude,pt) = hd inlines
+          in 
+            if pt <= curtime 
+            then (airspace.updateFO(id,mk_Coordinates(x,y),altitude);
+                  inlines := tl inlines; 
+                  updating := true;
+                  done := len inlines = 0 )
+            else done := true
+       )
+  else busy := false
+ );
+     
+
+public isFinished : () ==> () 
+isFinished() == skip;
+
+public Step: () ==> ()
+Step() ==
+ (if World`timerRef.GetTime() < simtime
+  then(updateFOs();
+       if updating
+       then updating := false;
+      )
+  else busy := false; 
+ );
+
+sync
+
+mutex(handleFOWarningEvent);
+per isFinished => not busy;
+
+mutex(handleRadarWarningEvent);
+mutex(handleRadarWarningEvent,handleFOWarningEvent);
+
+--thread
+-- (
+--  while World`timerRef.GetTime() < simtime do
+--   (updateFOs();
+              
+--    if updating
+--    then (World`timerRef.WaitRelative(1);
+--          updating := false);
+--   );
+--  busy := false; 
+--  )
+
+
+end Environment
+~~~
+{% endraw %}
+
+### Radar.vdmpp
+
+{% raw %}
+~~~
+class Radar is subclass of GLOBAL, BaseThread
+
+types 
+
+instance variables
+  busy     : bool := true;
+  location : Coordinates;
+  range    : nat1;
+  detected : map FOId to FO;
+  priority : seq of FO := [];
+inv forall foid in set dom detected & detected(foid).getId() = foid
+  
+operations
+
+public Radar : int * int * nat1 * nat1 * bool ==> Radar
+Radar(x,y,r, p, isP) ==
+ (location := mk_Coordinates(x,y);
+  range := r;
+  detected := {|->};
+  period := p;
+  isPeriodic := isP;
+ );
+
+public Scan : AirSpace ==> ()
+Scan(as) ==
+ (detected := { x.getId() |-> x | x in set as.getAirspace() & InRange(x) };
+  UpdatePriorityList()
+ );
+    
+private InRange : FO ==> bool
+InRange(fo) ==
+  let foLocation = fo.getCoordinates()
+  in 
+    return isPointInRange(location,range,foLocation); 
+   
+public getDetected : () ==> set of FO
+getDetected() == 
+  return rng detected;
+
+public getDetectedMap : () ==> map FOId to FO
+getDetectedMap() ==
+  return detected;
+
+public saturatedRadar : () ==> bool
+saturatedRadar() == 
+  return card dom detected > range / 4;
+  
+public getSaturatingFOs : () ==> set of FOId
+getSaturatingFOs() ==
+  return {priority(i).getId() | i in set inds priority & i > floor(range/4)};
+
+public getLocation : () ==> Coordinates
+getLocation() == 
+  return location;
+
+public getRange : () ==> nat1
+getRange() ==
+  return range;
+  
+private UpdatePriorityList : () ==> ()
+UpdatePriorityList() == 
+  let notDetect = elems priority \ rng detected,
+      newlyDet  = detected :-> elems priority
+  in 
+    ( removeNotDetected(notDetect);
+      addNewlyDetected(newlyDet);
+      busy := false
+    );
+
+private removeNotDetected : set of FO ==> ()
+removeNotDetected(fos) == 
+  priority := [priority(i) | i in set inds priority 
+                           & priority(i) in set fos];    
+  
+private addNewlyDetected : map FOId to FO ==> ()
+addNewlyDetected(newlyDetect) == 
+  priority := priority ^ set2seqFO(rng newlyDetect);    
+
+public isFinished: () ==> ()
+isFinished() == skip;
+
+public Step: () ==> ()
+Step() ==
+  let as = MSAW`airspace
+  in
+  (detected := { x.getId() |-> x | x in set as.getAirspace() & InRange(x) };
+   UpdatePriorityList();
+   --World`timerRef.WaitRelative(TimeStamp`stepLength);
+  )
+
+functions
+set2seqFO : set of FO -> seq of FO
+set2seqFO(fos) ==
+  if fos = {}
+  then []
+  else 
+    let fo in set fos
+    in
+      [fo] ^ set2seqFO(fos\{fo})
+measure set2seqFOm;  
+      
+set2seqFOm : set of FO -> nat
+set2seqFOm(fos) == card fos;
+     
+--thread
+
+--while true do
+-- (
+--  let as = MSAW`airspace
+--  in
+--  (detected := { x.getId() |-> x | x in set as.getAirspace() & InRange(x) };
+--   UpdatePriorityList();
+--   World`timerRef.WaitRelative(TimeStamp`stepLength);
+--  )
+-- )
+
+sync 
+mutex(Step);
+mutex(InRange);
+mutex(UpdatePriorityList);
+
+per isFinished => not busy;
+mutex(removeNotDetected);
+mutex (addNewlyDetected);
+mutex(UpdatePriorityList)
+      
+end Radar
 ~~~
 {% endraw %}
 
@@ -342,165 +616,6 @@ end AirTrafficController
 ~~~
 {% endraw %}
 
-### BaseThread.vdmpp
-
-{% raw %}
-~~~
-class BaseThread
-	
-instance variables
-
-protected period : nat1 := 1;
-protected isPeriodic : bool := true;
-
-operations
-
-protected BaseThread : () ==> BaseThread
-BaseThread() ==
- (World`timerRef.RegisterThread(self);
-  if(not World`timerRef.IsInitialising())
-  then start(self);  
- );
-
-protected Step : () ==> ()
-Step() ==
-  is subclass responsibility
-
-thread
- (if isPeriodic
-  then (while true
-        do 
-         (Step();
-          World`timerRef.WaitRelative(period);
-         )
-       )
-  else (Step();
-        World`timerRef.WaitRelative(0);
-        World`timerRef.UnRegisterThread();
-       )
- );
-
-end BaseThread
-~~~
-{% endraw %}
-
-### environment.vdmpp
-
-{% raw %}
-~~~
-class Environment is subclass of GLOBAL, BaseThread
-
-types 
-
-InputTP   = (Time * seq of inline);
-
-inline  = FOId * int * int * Altitude * Time;
-  
-FOOut = FOId * Coordinates * Altitude * FOWarning * 
-        MinimumSafetyAltitude * Time;
-RadarOut = Coordinates * nat1 * RadarWarning * nat *  Time;
-  
-  
-outline = FOOut | RadarOut; 
-
-
-instance variables 
-
-  io : IO := new IO();
-  inlines  : seq of inline  := [];
-  outlines : seq of outline := [];
-
-  airspace : [AirSpace] := nil;
-  busy : bool := true;
-  updating : bool := false;
-  simtime : Time;  
-operations
-  
-public Environment : String * nat1 * bool ==> Environment
-Environment(fname, p, isP) == 
- (def mk_(-,mk_(timeval,input)) = io.freadval[InputTP](fname) 
-  in
-    (inlines := input;
-     simtime := timeval);
- period := p;
- isPeriodic := isP;    
- );    
-      
-public setAirSpace : AirSpace ==> ()
-setAirSpace(as) ==
-  airspace := as;
-      
-public handleFOWarningEvent : FOId * Coordinates * Altitude * FOWarning * 
-                              MinimumSafetyAltitude * Time ==> ()
-handleFOWarningEvent(id,coord,alt,warn,msa,t) ==
-  outlines := outlines ^ [mk_(id,coord,alt,warn,msa,t)];
- 
-public handleRadarWarningEvent : Coordinates * nat1 * RadarWarning * nat *  Time ==> ()
-handleRadarWarningEvent(coord,range,radWarn,num,pt) ==
-  outlines := outlines ^ [mk_(coord,range,radWarn,num,pt)];
-
-public showResult : () ==> ()
-showResult() ==
-  def - = io.writeval[seq of outline](outlines) in skip;
- 
-
-private updateFOs : () ==> ()
-updateFOs() ==
- (if len inlines > 0 
-  then (dcl curtime : Time := World`timerRef.GetTime(),
-        done : bool := false;
-        while not done do
-          def mk_(id,x,y, altitude,pt) = hd inlines
-          in 
-            if pt <= curtime 
-            then (airspace.updateFO(id,mk_Coordinates(x,y),altitude);
-                  inlines := tl inlines; 
-                  updating := true;
-                  done := len inlines = 0 )
-            else done := true
-       )
-  else busy := false
- );
-     
-
-public isFinished : () ==> () 
-isFinished() == skip;
-
-public Step: () ==> ()
-Step() ==
- (if World`timerRef.GetTime() < simtime
-  then(updateFOs();
-       if updating
-       then updating := false;
-      )
-  else busy := false; 
- );
-
-sync
-
-mutex(handleFOWarningEvent);
-per isFinished => not busy;
-
-mutex(handleRadarWarningEvent);
-mutex(handleRadarWarningEvent,handleFOWarningEvent);
-
---thread
--- (
---  while World`timerRef.GetTime() < simtime do
---   (updateFOs();
-              
---    if updating
---    then (World`timerRef.WaitRelative(1);
---          updating := false);
---   );
---  busy := false; 
---  )
-
-
-end Environment
-~~~
-{% endraw %}
-
 ### FO.vdmpp
 
 {% raw %}
@@ -548,6 +663,141 @@ getPosition() ==
   
 
 end FO
+~~~
+{% endraw %}
+
+### BaseThread.vdmpp
+
+{% raw %}
+~~~
+class BaseThread
+	
+instance variables
+
+protected period : nat1 := 1;
+protected isPeriodic : bool := true;
+
+operations
+
+protected BaseThread : () ==> BaseThread
+BaseThread() ==
+ (World`timerRef.RegisterThread(self);
+  if(not World`timerRef.IsInitialising())
+  then start(self);  
+ );
+
+protected Step : () ==> ()
+Step() ==
+  is subclass responsibility
+
+thread
+ (if isPeriodic
+  then (while true
+        do 
+         (Step();
+          World`timerRef.WaitRelative(period);
+         )
+       )
+  else (Step();
+        World`timerRef.WaitRelative(0);
+        World`timerRef.UnRegisterThread();
+       )
+ );
+
+end BaseThread
+~~~
+{% endraw %}
+
+### obstacle.vdmpp
+
+{% raw %}
+~~~
+class Obstacle is subclass of GLOBAL
+
+instance variables
+ 
+  MSA            : MinimumSafetyAltitude ;
+  location       : Coordinates;
+  radius         : nat1;
+  securityRadius : nat;
+  type           : ObstacleType;
+  
+operations 
+ 
+public Obstacle : MinimumSafetyAltitude * Coordinates * nat * nat * 
+                  ObstacleType ==> Obstacle
+Obstacle(msa,loc,ra,secRa,tp) ==
+ (MSA := msa;
+  location := loc;
+  radius := ra;
+  securityRadius := secRa;
+  type := tp;
+ ); 
+
+public getType : () ==> ObstacleType 
+getType() == 
+  return type;
+ 
+public getCoordinates : () ==> Coordinates
+getCoordinates() ==
+  return location;
+
+public getSecureRange : () ==> nat1
+getSecureRange() ==
+  return radius + securityRadius;
+  
+public getMSA : () ==> MinimumSafetyAltitude
+getMSA() == 
+  return MSA;
+ 
+
+
+end Obstacle 
+~~~
+{% endraw %}
+
+### world.vdmpp
+
+{% raw %}
+~~~
+class World
+  
+instance variables  
+  
+public static
+  env : [Environment] := nil;
+
+public static 
+  timerRef : TimeStamp := new TimeStamp(); --2    
+
+  
+   
+operations
+
+public 
+  World : () ==> World
+  World() ==
+    ( env := new Environment("scenario.txt", 1, true);
+      env.setAirSpace(MSAW`airspace);
+      MSAW`atc.addObstacle(MSAW`militaryZone);
+      MSAW`atc.addRadar(MSAW`radar1);
+      MSAW`atc.addRadar(MSAW`radar2);
+      
+      timerRef.DoneInitialising();
+    );
+  
+public Run : () ==> ()
+Run() ==
+ (
+  --start(env);
+  --start(MSAW`atc);
+  env.isFinished();
+  MSAW`atc.isFinished();
+  
+  env.showResult()
+ )
+ 
+end World
 ~~~
 {% endraw %}
 
@@ -688,211 +938,6 @@ end GLOBAL
 ~~~
 {% endraw %}
 
-### MSAW.vdmpp
-
-{% raw %}
-~~~
-class MSAW is subclass of GLOBAL
-
-instance variables 
-
-public static atc : AirTrafficController := new AirTrafficController(1, true);
-  
-
-public static airspace : AirSpace := new AirSpace();
-
-public static militaryZone : Obstacle := 
-  new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
-
-public static radar1 : Radar := new Radar(6,11,20, 1, true);
-public static radar2 : Radar := new Radar (30,30,5, 1, true);  
-
-end MSAW
-~~~
-{% endraw %}
-
-### obstacle.vdmpp
-
-{% raw %}
-~~~
-class Obstacle is subclass of GLOBAL
-
-instance variables
- 
-  MSA            : MinimumSafetyAltitude ;
-  location       : Coordinates;
-  radius         : nat1;
-  securityRadius : nat;
-  type           : ObstacleType;
-  
-operations 
- 
-public Obstacle : MinimumSafetyAltitude * Coordinates * nat * nat * 
-                  ObstacleType ==> Obstacle
-Obstacle(msa,loc,ra,secRa,tp) ==
- (MSA := msa;
-  location := loc;
-  radius := ra;
-  securityRadius := secRa;
-  type := tp;
- ); 
-
-public getType : () ==> ObstacleType 
-getType() == 
-  return type;
- 
-public getCoordinates : () ==> Coordinates
-getCoordinates() ==
-  return location;
-
-public getSecureRange : () ==> nat1
-getSecureRange() ==
-  return radius + securityRadius;
-  
-public getMSA : () ==> MinimumSafetyAltitude
-getMSA() == 
-  return MSA;
- 
-
-
-end Obstacle 
-~~~
-{% endraw %}
-
-### Radar.vdmpp
-
-{% raw %}
-~~~
-class Radar is subclass of GLOBAL, BaseThread
-
-types 
-
-instance variables
-  busy     : bool := true;
-  location : Coordinates;
-  range    : nat1;
-  detected : map FOId to FO;
-  priority : seq of FO := [];
-inv forall foid in set dom detected & detected(foid).getId() = foid
-  
-operations
-
-public Radar : int * int * nat1 * nat1 * bool ==> Radar
-Radar(x,y,r, p, isP) ==
- (location := mk_Coordinates(x,y);
-  range := r;
-  detected := {|->};
-  period := p;
-  isPeriodic := isP;
- );
-
-public Scan : AirSpace ==> ()
-Scan(as) ==
- (detected := { x.getId() |-> x | x in set as.getAirspace() & InRange(x) };
-  UpdatePriorityList()
- );
-    
-private InRange : FO ==> bool
-InRange(fo) ==
-  let foLocation = fo.getCoordinates()
-  in 
-    return isPointInRange(location,range,foLocation); 
-   
-public getDetected : () ==> set of FO
-getDetected() == 
-  return rng detected;
-
-public getDetectedMap : () ==> map FOId to FO
-getDetectedMap() ==
-  return detected;
-
-public saturatedRadar : () ==> bool
-saturatedRadar() == 
-  return card dom detected > range / 4;
-  
-public getSaturatingFOs : () ==> set of FOId
-getSaturatingFOs() ==
-  return {priority(i).getId() | i in set inds priority & i > floor(range/4)};
-
-public getLocation : () ==> Coordinates
-getLocation() == 
-  return location;
-
-public getRange : () ==> nat1
-getRange() ==
-  return range;
-  
-private UpdatePriorityList : () ==> ()
-UpdatePriorityList() == 
-  let notDetect = elems priority \ rng detected,
-      newlyDet  = detected :-> elems priority
-  in 
-    ( removeNotDetected(notDetect);
-      addNewlyDetected(newlyDet);
-      busy := false
-    );
-
-private removeNotDetected : set of FO ==> ()
-removeNotDetected(fos) == 
-  priority := [priority(i) | i in set inds priority 
-                           & priority(i) in set fos];    
-  
-private addNewlyDetected : map FOId to FO ==> ()
-addNewlyDetected(newlyDetect) == 
-  priority := priority ^ set2seqFO(rng newlyDetect);    
-
-public isFinished: () ==> ()
-isFinished() == skip;
-
-public Step: () ==> ()
-Step() ==
-  let as = MSAW`airspace
-  in
-  (detected := { x.getId() |-> x | x in set as.getAirspace() & InRange(x) };
-   UpdatePriorityList();
-   --World`timerRef.WaitRelative(TimeStamp`stepLength);
-  )
-
-functions
-set2seqFO : set of FO -> seq of FO
-set2seqFO(fos) ==
-  if fos = {}
-  then []
-  else 
-    let fo in set fos
-    in
-      [fo] ^ set2seqFO(fos\{fo})
-measure set2seqFOm;  
-      
-set2seqFOm : set of FO -> nat
-set2seqFOm(fos) == card fos;
-     
---thread
-
---while true do
--- (
---  let as = MSAW`airspace
---  in
---  (detected := { x.getId() |-> x | x in set as.getAirspace() & InRange(x) };
---   UpdatePriorityList();
---   World`timerRef.WaitRelative(TimeStamp`stepLength);
---  )
--- )
-
-sync 
-mutex(Step);
-mutex(InRange);
-mutex(UpdatePriorityList);
-
-per isFinished => not busy;
-mutex(removeNotDetected);
-mutex (addNewlyDetected);
-mutex(UpdatePriorityList)
-      
-end Radar
-~~~
-{% endraw %}
-
 ### TimeStamp.vdmpp
 
 {% raw %}
@@ -1012,51 +1057,6 @@ mutex(DoneInitialising);
   mutex(AddToWakeUpMap, NotifyThread, BarrierReached);
 
 end TimeStamp
-~~~
-{% endraw %}
-
-### world.vdmpp
-
-{% raw %}
-~~~
-class World
-  
-instance variables  
-  
-public static
-  env : [Environment] := nil;
-
-public static 
-  timerRef : TimeStamp := new TimeStamp(); --2    
-
-  
-   
-operations
-
-public 
-  World : () ==> World
-  World() ==
-    ( env := new Environment("scenario.txt", 1, true);
-      env.setAirSpace(MSAW`airspace);
-      MSAW`atc.addObstacle(MSAW`militaryZone);
-      MSAW`atc.addRadar(MSAW`radar1);
-      MSAW`atc.addRadar(MSAW`radar2);
-      
-      timerRef.DoneInitialising();
-    );
-  
-public Run : () ==> ()
-Run() ==
- (
-  --start(env);
-  --start(MSAW`atc);
-  env.isFinished();
-  MSAW`atc.isFinished();
-  
-  env.showResult()
- )
- 
-end World
 ~~~
 {% endraw %}
 

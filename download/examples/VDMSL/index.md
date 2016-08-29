@@ -248,6 +248,28 @@ Overture debugger.
 |Details...|[model (zip)](crosswordSL/Crossword.zip)  / [show specification](crosswordSL/index.html)|
 
 
+### DepartureTMI
+This is a model of an Air Traffic Flow Management (ATFM) departure Traffic Management Initiative
+  (TMI) with the constraints:
+  - a set of flights wish to depart an airport;
+  - each flight may only take off from certain runways;
+  - each flight has a preferred take off time;
+  - each flight has an acceptable take off window;
+  - only certain runways are available;
+  - runways have a maximum rate at which departures can take place;
+  - the TMI runs for a specific time interval.
+
+Within these constraints, the goal is to allocate a take off time and runway to flights
+in an optimal manner. This model is making use of some of the newer language features such as set1.
+
+
+| | |
+|------|-------|
+|Author:|Paul Chisholm|
+|Version:|VDM_SL - vdm10|
+|Details...|[model (zip)](DepartureTMISL/DepartureTMI.zip)  / [show specification](DepartureTMISL/index.html)|
+
+
 ### DFDexample
 This specification describes how one can automatically transform Data
 Flow Diagrams (DFD) into VDM-SL definitions. It is written as a flat
@@ -957,6 +979,6 @@ VDM AST representation.
 | | |
 |------|-------|
 |Author:|Tomohiro Oda|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](VCParser-masterSL/VCParser-master.zip)  / [show specification](VCParser-masterSL/index.html)|
 

@@ -14,79 +14,6 @@ Author:
 |Language Version:| classic|
 
 
-### Actuator.vdmpp
-
-{% raw %}
-~~~
-class Actuator
-
-instance variables
-
-protected ID   : nat;
-protected Type : NetworkTypes`nodeType;
-protected Corr : NetworkTypes`correction;
-protected Env	: Surroundings;
-
-operations
-
-public GetID: () ==> nat
-GetID() ==
-  return ID;
-
-public GetType: () ==> NetworkTypes`nodeType
-GetType() ==
-  return Type;
-
-protected GetCorr: () ==> NetworkTypes`correction
-GetCorr() ==
-  return Corr;
-
-end Actuator
-~~~
-{% endraw %}
-
-### BaseThread.vdmpp
-
-{% raw %}
-~~~
-class BaseThread
-	
-instance variables
-
-protected period : nat1 := 1;
-protected isPeriodic : bool := true;
-
-operations
-
-protected BaseThread : () ==> BaseThread
-BaseThread() ==
- (World`timerRef.RegisterThread(self);
-  if(not World`timerRef.IsInitialising())
-  then start(self);  
- );
-
-protected Step : () ==> ()
-Step() ==
-  is subclass responsibility
-
-thread
- (if isPeriodic
-  then (while true
-        do 
-         (Step();
-          World`timerRef.WaitRelative(period);
-         )
-       )
-  else (Step();
-        World`timerRef.WaitRelative(0);
-        World`timerRef.UnRegisterThread();
-       )
- );
-
-end BaseThread
-~~~
-{% endraw %}
-
 ### Environment.vdmpp
 
 {% raw %}
@@ -181,23 +108,333 @@ end Environment
 ~~~
 {% endraw %}
 
-### HomeAutomation.vdmpp
+### Sensor.vdmpp
 
 {% raw %}
 ~~~
-
-class HA
+class Sensor
 
 instance variables
 
-public static Sur		: Surroundings := new Surroundings();
-public static TempNode	: TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0, Sur, 3, true);
-public static HumidNode	: HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0, Sur, 3, true);
-public static ThermNode	: Thermostat := new Thermostat(3, <THERMOSTAT>, Sur, 5, true);
-public static WinNode	: Window := new Window(4, <WINDOW>, Sur, 5, true);
-public static Host		: HostController := new HostController(22, 75, 3, true);
+protected ID	: nat;
+protected Type	: NetworkTypes`nodeType;
+protected Value	: nat;
+protected Env	: Surroundings;
 
-end HA
+operations
+
+public GetID: () ==> nat
+GetID() ==
+  return ID;
+
+public GetType: () ==> NetworkTypes`nodeType
+GetType() ==
+  return Type;
+
+public ReadValue: () ==> nat
+ReadValue() ==
+  return Value;
+
+end Sensor
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+class World
+
+instance variables
+
+private env				: Environment;
+public static timerRef	: TimeStamp := new TimeStamp(); --(6);
+private ha : HA;
+
+operations
+
+public World: () ==> World
+World() ==
+ (ha := new HA();  
+  env := new Environment("scenario.txt", 1, true);
+  
+  ha.Host.AddNode(ha.TempNode.GetID(), ha.TempNode.GetType());
+  ha.Host.AddNode(ha.HumidNode.GetID(), ha.HumidNode.GetType());
+  ha.Host.AddNode(ha.ThermNode.GetID(), ha.ThermNode.GetType());
+  ha.Host.AddNode(ha.WinNode.GetID(), ha.WinNode.GetType());
+
+  -- End the initialisation phase of system threads
+  World`timerRef.DoneInitialising();  
+ );
+
+public Run: () ==> ()
+Run() ==
+ (-- wait til environment has finished creating input
+  env.IsFinished();
+  -- print simulation finishing message
+  IO`print("Test run finished at time: ");
+  IO`print(timerRef.GetTime());
+ );
+
+end World
+~~~
+{% endraw %}
+
+### TemperatureSensor.vdmpp
+
+{% raw %}
+~~~
+class TemperatureSensor is subclass of Sensor, BaseThread
+
+instance variables
+
+finished	: bool := false;
+
+operations
+
+public TemperatureSensor: nat * NetworkTypes`nodeType * nat * Surroundings * nat1 * bool ==> TemperatureSensor
+TemperatureSensor (id, type, val, envir, p, isP) ==
+ (ID := id;
+  Type := type;
+  Value := val;
+  Env := envir;
+  period := p;
+  isPeriodic := isP;
+ );
+
+public Finish: () ==> ()
+Finish() ==
+  finished := true;
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+protected Step: () ==> ()
+Step() ==
+  Value := Env.ReadTemp();
+
+sync
+	
+  per IsFinished => finished;
+
+--thread
+-- (--World`timerRef.RegisterThread();
+ 
+--  while true 
+--  do
+--   (Value := Env.ReadTemp();
+--    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);
+--   )
+-- )
+
+end TemperatureSensor
+~~~
+{% endraw %}
+
+### Surroundings.vdmpp
+
+{% raw %}
+~~~
+class Surroundings
+
+instance variables
+
+private envTemp	 : nat;
+private envHumid : nat;
+
+operations
+
+public Surroundings: () ==> Surroundings
+Surroundings() ==
+ (envTemp := 20;
+  envHumid := 75;
+ );
+
+public SetTemp: nat ==> ()
+SetTemp(t) ==
+  envTemp := t;
+
+public SetHumid: nat ==> ()
+SetHumid(h) ==
+  envHumid := h;
+
+public ReadTemp: () ==> nat
+ReadTemp() ==
+  return envTemp;
+
+public IncTemp: () ==> ()
+IncTemp() ==
+  envTemp := envTemp + 1;
+
+public DecTemp: () ==> ()
+DecTemp() ==
+  envTemp := envTemp - 1;
+
+public ReadHumid: () ==> nat
+ReadHumid() ==
+  return envHumid;
+
+public IncHumid: () ==> ()
+IncHumid() ==
+  envHumid := envHumid + 1;
+
+public DecHumid: () ==> ()
+DecHumid() ==
+  envHumid := envHumid - 1;
+
+sync
+
+  mutex(IncTemp);
+  mutex(DecTemp);
+  mutex(SetTemp);
+  mutex(ReadTemp, IncTemp, DecTemp, SetTemp);
+  mutex(IncHumid);
+  mutex(DecHumid); 
+  mutex(SetHumid);
+  mutex(ReadHumid, IncHumid, DecHumid, SetHumid);
+
+end Surroundings
+~~~
+{% endraw %}
+
+### HumidSensor.vdmpp
+
+{% raw %}
+~~~
+class HumidSensor is subclass of Sensor, BaseThread
+
+instance variables
+
+finished	: bool := false;
+
+operations
+
+public HumidSensor: nat * NetworkTypes`nodeType * nat * Surroundings * nat1 * bool ==> HumidSensor
+HumidSensor (id, type, val, envir, p, isP) ==
+ (ID := id;
+  Type := type;
+  Value := val;
+  Env := envir;
+  period := p;
+  isPeriodic := isP;
+ );
+
+public Finish: () ==> ()
+Finish() ==
+  finished := true;
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+protected Step: () ==> ()
+Step() ==
+  Value := Env.ReadHumid();
+
+sync
+	
+  per IsFinished => finished;
+
+--thread
+-- (--World`timerRef.RegisterThread();
+  
+--  while true 
+--  do 
+--   (Value := Env.ReadHumid();
+--    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);
+--   )
+-- )
+
+end HumidSensor
+~~~
+{% endraw %}
+
+### NetworkTypes.vdmpp
+
+{% raw %}
+~~~
+class NetworkTypes
+
+types   
+
+public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
+public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
+
+end NetworkTypes
+~~~
+{% endraw %}
+
+### Actuator.vdmpp
+
+{% raw %}
+~~~
+class Actuator
+
+instance variables
+
+protected ID   : nat;
+protected Type : NetworkTypes`nodeType;
+protected Corr : NetworkTypes`correction;
+protected Env	: Surroundings;
+
+operations
+
+public GetID: () ==> nat
+GetID() ==
+  return ID;
+
+public GetType: () ==> NetworkTypes`nodeType
+GetType() ==
+  return Type;
+
+protected GetCorr: () ==> NetworkTypes`correction
+GetCorr() ==
+  return Corr;
+
+end Actuator
+~~~
+{% endraw %}
+
+### BaseThread.vdmpp
+
+{% raw %}
+~~~
+class BaseThread
+	
+instance variables
+
+protected period : nat1 := 1;
+protected isPeriodic : bool := true;
+
+operations
+
+protected BaseThread : () ==> BaseThread
+BaseThread() ==
+ (World`timerRef.RegisterThread(self);
+  if(not World`timerRef.IsInitialising())
+  then start(self);  
+ );
+
+protected Step : () ==> ()
+Step() ==
+  is subclass responsibility
+
+thread
+ (if isPeriodic
+  then (while true
+        do 
+         (Step();
+          World`timerRef.WaitRelative(period);
+         )
+       )
+  else (Step();
+        World`timerRef.WaitRelative(0);
+        World`timerRef.UnRegisterThread();
+       )
+ );
+
+end BaseThread
 ~~~
 {% endraw %}
 
@@ -432,222 +669,6 @@ per printStr => print;
 -- )
 
 end HostController
-~~~
-{% endraw %}
-
-### HumidSensor.vdmpp
-
-{% raw %}
-~~~
-class HumidSensor is subclass of Sensor, BaseThread
-
-instance variables
-
-finished	: bool := false;
-
-operations
-
-public HumidSensor: nat * NetworkTypes`nodeType * nat * Surroundings * nat1 * bool ==> HumidSensor
-HumidSensor (id, type, val, envir, p, isP) ==
- (ID := id;
-  Type := type;
-  Value := val;
-  Env := envir;
-  period := p;
-  isPeriodic := isP;
- );
-
-public Finish: () ==> ()
-Finish() ==
-  finished := true;
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-protected Step: () ==> ()
-Step() ==
-  Value := Env.ReadHumid();
-
-sync
-	
-  per IsFinished => finished;
-
---thread
--- (--World`timerRef.RegisterThread();
-  
---  while true 
---  do 
---   (Value := Env.ReadHumid();
---    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);
---   )
--- )
-
-end HumidSensor
-~~~
-{% endraw %}
-
-### NetworkTypes.vdmpp
-
-{% raw %}
-~~~
-class NetworkTypes
-
-types   
-
-public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
-public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
-
-end NetworkTypes
-~~~
-{% endraw %}
-
-### Sensor.vdmpp
-
-{% raw %}
-~~~
-class Sensor
-
-instance variables
-
-protected ID	: nat;
-protected Type	: NetworkTypes`nodeType;
-protected Value	: nat;
-protected Env	: Surroundings;
-
-operations
-
-public GetID: () ==> nat
-GetID() ==
-  return ID;
-
-public GetType: () ==> NetworkTypes`nodeType
-GetType() ==
-  return Type;
-
-public ReadValue: () ==> nat
-ReadValue() ==
-  return Value;
-
-end Sensor
-~~~
-{% endraw %}
-
-### Surroundings.vdmpp
-
-{% raw %}
-~~~
-class Surroundings
-
-instance variables
-
-private envTemp	 : nat;
-private envHumid : nat;
-
-operations
-
-public Surroundings: () ==> Surroundings
-Surroundings() ==
- (envTemp := 20;
-  envHumid := 75;
- );
-
-public SetTemp: nat ==> ()
-SetTemp(t) ==
-  envTemp := t;
-
-public SetHumid: nat ==> ()
-SetHumid(h) ==
-  envHumid := h;
-
-public ReadTemp: () ==> nat
-ReadTemp() ==
-  return envTemp;
-
-public IncTemp: () ==> ()
-IncTemp() ==
-  envTemp := envTemp + 1;
-
-public DecTemp: () ==> ()
-DecTemp() ==
-  envTemp := envTemp - 1;
-
-public ReadHumid: () ==> nat
-ReadHumid() ==
-  return envHumid;
-
-public IncHumid: () ==> ()
-IncHumid() ==
-  envHumid := envHumid + 1;
-
-public DecHumid: () ==> ()
-DecHumid() ==
-  envHumid := envHumid - 1;
-
-sync
-
-  mutex(IncTemp);
-  mutex(DecTemp);
-  mutex(SetTemp);
-  mutex(ReadTemp, IncTemp, DecTemp, SetTemp);
-  mutex(IncHumid);
-  mutex(DecHumid); 
-  mutex(SetHumid);
-  mutex(ReadHumid, IncHumid, DecHumid, SetHumid);
-
-end Surroundings
-~~~
-{% endraw %}
-
-### TemperatureSensor.vdmpp
-
-{% raw %}
-~~~
-class TemperatureSensor is subclass of Sensor, BaseThread
-
-instance variables
-
-finished	: bool := false;
-
-operations
-
-public TemperatureSensor: nat * NetworkTypes`nodeType * nat * Surroundings * nat1 * bool ==> TemperatureSensor
-TemperatureSensor (id, type, val, envir, p, isP) ==
- (ID := id;
-  Type := type;
-  Value := val;
-  Env := envir;
-  period := p;
-  isPeriodic := isP;
- );
-
-public Finish: () ==> ()
-Finish() ==
-  finished := true;
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-protected Step: () ==> ()
-Step() ==
-  Value := Env.ReadTemp();
-
-sync
-	
-  per IsFinished => finished;
-
---thread
--- (--World`timerRef.RegisterThread();
- 
---  while true 
---  do
---   (Value := Env.ReadTemp();
---    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);
---   )
--- )
-
-end TemperatureSensor
 ~~~
 {% endraw %}
 
@@ -908,44 +929,23 @@ end Window
 ~~~
 {% endraw %}
 
-### World.vdmpp
+### HomeAutomation.vdmpp
 
 {% raw %}
 ~~~
-class World
+
+class HA
 
 instance variables
 
-private env				: Environment;
-public static timerRef	: TimeStamp := new TimeStamp(); --(6);
-private ha : HA;
+public static Sur		: Surroundings := new Surroundings();
+public static TempNode	: TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0, Sur, 3, true);
+public static HumidNode	: HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0, Sur, 3, true);
+public static ThermNode	: Thermostat := new Thermostat(3, <THERMOSTAT>, Sur, 5, true);
+public static WinNode	: Window := new Window(4, <WINDOW>, Sur, 5, true);
+public static Host		: HostController := new HostController(22, 75, 3, true);
 
-operations
-
-public World: () ==> World
-World() ==
- (ha := new HA();  
-  env := new Environment("scenario.txt", 1, true);
-  
-  ha.Host.AddNode(ha.TempNode.GetID(), ha.TempNode.GetType());
-  ha.Host.AddNode(ha.HumidNode.GetID(), ha.HumidNode.GetType());
-  ha.Host.AddNode(ha.ThermNode.GetID(), ha.ThermNode.GetType());
-  ha.Host.AddNode(ha.WinNode.GetID(), ha.WinNode.GetType());
-
-  -- End the initialisation phase of system threads
-  World`timerRef.DoneInitialising();  
- );
-
-public Run: () ==> ()
-Run() ==
- (-- wait til environment has finished creating input
-  env.IsFinished();
-  -- print simulation finishing message
-  IO`print("Test run finished at time: ");
-  IO`print(timerRef.GetTime());
- );
-
-end World
+end HA
 ~~~
 {% endraw %}
 

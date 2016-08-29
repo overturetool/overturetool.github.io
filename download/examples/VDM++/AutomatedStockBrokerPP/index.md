@@ -27,6 +27,149 @@ the ProjectReport.pdf file included in the zip file with the source files.
 |Entry point     :| new World().Run()|
 
 
+### timer.vdmpp
+
+{% raw %}
+~~~
+class Timer 
+
+instance variables
+
+  currentTime : nat := 1;
+
+values 
+
+  stepLength : nat = 1;
+
+operations
+
+public 
+  StepTime: () ==> ()
+  StepTime() == 
+    currentTime := currentTime + stepLength;
+
+public
+  GetTime: () ==> nat 
+  GetTime() == return currentTime;
+
+end Timer
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+class World is subclass of GLOBAL
+ 
+values
+ simTime : nat = 100; 
+ actionsLimit : nat = 4;
+ startCash : nat = 100;
+ public static simulate : bool = false;
+ 
+instance variables  
+
+ public static timerRef : Timer := new Timer();
+
+ public static stockMarket : StockMarket := new StockMarket();
+ asb : AutomatedStockBroker := new AutomatedStockBroker(startCash);  
+   
+operations
+
+public isFinished : () ==> bool
+ isFinished() == 
+    return (not len asb.GetActionLog() < actionsLimit) or 
+           (not timerRef.GetTime() <= simTime);
+
+ public Run : () ==> ()
+ Run() ==
+ ( 
+  stockMarket.AddStock(new Stock(mk_token("test"),10));
+  stockMarket.AddStock(new Stock(mk_token("test12"),10));
+  stockMarket.AddStock(new Stock(mk_token("test2"),10));
+
+  (dcl r1 : StockRecord := mk_StockRecord(mk_token("test"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),10,<Bought>),
+    r2 : StockRecord := mk_StockRecord(mk_token("test12"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),10,<Bought>),
+
+   r3 : StockRecord := mk_StockRecord(mk_token("test2"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),0,<PotentialBuy>);
+
+   asb.AddStock(r1,1);
+   asb.AddStock(r2,2);
+   asb.AddStock(r3,3);
+   
+   while not isFinished()
+   do 
+   (
+    IO`print("step : ");
+    IO`print(timerRef.GetTime());
+    IO`print("\n");
+ 
+    stockMarket.UpdateStocks();
+ 
+    asb.Step(timerRef.GetTime());
+       timerRef.StepTime();
+   );
+  )
+ );
+functions
+ public FindSmallestSeqLen: map String to seq of Event -> nat
+ FindSmallestSeqLen(m) == 
+ let x,y in set {len m(x) | x in set dom m} be st x <> y => x <= y in x; 
+
+end World
+~~~
+{% endraw %}
+
+### StockMarket.vdmpp
+
+{% raw %}
+~~~
+class StockMarket is subclass of GLOBAL
+
+ instance variables
+  stocks : map StockIdentifier to Stock := {|->};
+
+ operations
+  public UpdateStocks:() ==> ()
+  UpdateStocks() == 
+   for all stock in set rng stocks do
+    stock.UpdateStock();
+
+  public AddStock:(Stock )==> ()
+  AddStock(stock) == 
+   stocks := {stock.GetName() |-> stock} munion stocks
+  pre stock.GetName() not in set dom stocks
+  post stock.GetName() in set dom stocks; 
+
+  public RemoveStock:(Stock )==> ()
+  RemoveStock(stock) == 
+   stocks := {stock.GetName()} <-: stocks
+  pre stock.GetName() in set dom stocks
+  post stock.GetName() not in set dom stocks;
+
+  pure public GetStock:(StockIdentifier)==> Stock 
+  GetStock(name) == 
+   return stocks(name)
+  pre name in set dom stocks;
+
+  pure public GetStockNames: () ==> set of StockIdentifier 
+  GetStockNames() ==
+   return dom stocks;
+  
+end StockMarket
+~~~
+{% endraw %}
+
 ### AutomatedStockBroker.vdmpp
 
 {% raw %}
@@ -213,223 +356,6 @@ end AutomatedStockBroker
 ~~~
 {% endraw %}
 
-### GLOBAL.vdmpp
-
-{% raw %}
-~~~
-class GLOBAL
-types
-public String = seq of char;
-
-public EventType = <UpperLimit> | <LowerLimit> | <Peak> | <Valley> | 
-<EntersNoActionRegion> | <LeavesNoActionRegion>;
-
-public StockState = <PotentialBuy> | <Bought>;
-
-public Event :: Type : EventType
-TimeStamp : nat
-Value : nat; 
-
-public Region :: UpperValue : StockValue
-  LowerValue : StockValue
-inv mk_Region(p1,p2) == p1 >= p2;
-
-public StockValue = nat;
-public StockIdentifier = token;
-
-public ActionType = <Buy> | <Sell> ;
-
-public ActionTrigger :: Trigger : seq of EventType
-Action : ActionType;
-
-public StockRecord :: Name : StockIdentifier 
-Triggers : map StockState to ActionTrigger 
-NoActionReg : Region
-Cost : StockValue
-State : StockState
-
-inv mk_StockRecord(p1,p2,p3,p4,p5) == p2(<PotentialBuy>).Action = <Buy> 
-and p2(<Bought>).Action = <Sell>;
-
-public ActionEvent :: Type : ActionType
-  Time : nat
-  StockName : StockIdentifier
-  Value : StockValue;
- 
-values
-public static testValues : map StockIdentifier to seq of Event = 
-{mk_token("test") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<LowerLimit>,5,8),
-mk_Event(<UpperLimit>,4,12),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,13),
-mk_Event(<UpperLimit>,1,12),  
-mk_Event(<EntersNoActionRegion>,0,10)
-],
-mk_token("test12") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<LowerLimit>,5,8),
-mk_Event(<UpperLimit>,4,12),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,16),
-mk_Event(<UpperLimit>,1,12),  
-mk_Event(<EntersNoActionRegion>,0,10)
-],
-mk_token("test2") |-> [
-mk_Event(<LeavesNoActionRegion>,6,5),
-mk_Event(<UpperLimit>,5,8),
-mk_Event(<LowerLimit>,4,8),
-mk_Event(<EntersNoActionRegion>,3,11),
-mk_Event(<LeavesNoActionRegion>,2,6),
-mk_Event(<LowerLimit>,1,8),  
-mk_Event(<EntersNoActionRegion>,0,10)
-]};
-
-end GLOBAL
-~~~
-{% endraw %}
-
-### Stock.vdmpp
-
-{% raw %}
-~~~
-class Stock is subclass of GLOBAL
- types
-  
-  public RateOfChange = <positive> | <negative> | <constant>;  
-  
- instance variables
-  name : StockIdentifier;
-  valueHistory : seq of StockValue;
-  currentRateOfChange : [RateOfChange]; 
- operations
-  
-  public Stock: StockIdentifier * StockValue ==> Stock
-  Stock(n,startValue) == (
-   valueHistory := [];
-   valueHistory := [startValue] ^ valueHistory; 
-   name := n;
-   currentRateOfChange := nil;  
-  ); 
-
-  public UpdateStock:() ==> ()
-  UpdateStock() == (
-   
-   currentRateOfChange :=
-   cases currentRateOfChange:
-    nil -> InitialRateOfChange(hd valueHistory),
-    others -> NextRateOfChange(currentRateOfChange, hd valueHistory)
-   end;   
-
-   cases currentRateOfChange:
-    <positive> -> valueHistory := [hd valueHistory + 1] ^ valueHistory,  
-    <negative> -> valueHistory := [hd valueHistory - 1] ^ valueHistory,
-    <constant> -> valueHistory := [hd valueHistory] ^ valueHistory
-   end;
-  )
-  pre len valueHistory >= 1
-  post (currentRateOfChange = <positive> => valueHistory(1) > valueHistory(2))
-   and (currentRateOfChange = <negative> => valueHistory(1) < valueHistory(2))
-   and (currentRateOfChange = <constant> => valueHistory(1) = valueHistory(2))
-   and hd valueHistory >= 0;
-
-  pure public GetName: () ==> StockIdentifier 
-  GetName() == 
-   return name; 
-
-  pure public GetCurrentValue : () ==> StockValue 
-  GetCurrentValue() == 
-   return hd valueHistory; 
-
-  pure public GetValueHistory : () ==> seq of StockValue 
-  GetValueHistory() == (
-   return valueHistory; 
-  );
-   
-  InitialRateOfChange : (StockValue) ==> RateOfChange
-  InitialRateOfChange(sv) == 
-   let r = MATH`rand(21) mod 3 
-   in
-    return 
-    if(sv > 0)
-    then
-     cases r:
-      0 -> <positive>,
-      1 -> <negative>,
-      2 -> <constant>
-     end
-    else 
-     cases r:
-      0 -> <positive>,
-      1 -> <positive>,
-      2 -> <constant>
-     end;
-
-  NextRateOfChange : RateOfChange * StockValue ==> RateOfChange
-  NextRateOfChange(roc,sv) == 
-   let r = MATH`rand(10), 
-    other = MakelistFromSet({x | x : RateOfChange & x <> roc and (x=<negative> => sv > 0) })   
-   in
-    return 
-    if r >= 0 and r <= 7 and (roc = <negative> => sv > 0)  
-    then roc
-    else  
-     other((MATH`rand(20) mod len other) + 1);
-
-  MakelistFromSet : set of RateOfChange ==> seq of RateOfChange
-  MakelistFromSet(roc) ==
-   return
-   if( card roc > 0) then 
-    let r in set roc 
-     in 
-     [r] ^ MakelistFromSet(roc \ {r})
-   else []
-
-end Stock
-~~~
-{% endraw %}
-
-### StockMarket.vdmpp
-
-{% raw %}
-~~~
-class StockMarket is subclass of GLOBAL
-
- instance variables
-  stocks : map StockIdentifier to Stock := {|->};
-
- operations
-  public UpdateStocks:() ==> ()
-  UpdateStocks() == 
-   for all stock in set rng stocks do
-    stock.UpdateStock();
-
-  public AddStock:(Stock )==> ()
-  AddStock(stock) == 
-   stocks := {stock.GetName() |-> stock} munion stocks
-  pre stock.GetName() not in set dom stocks
-  post stock.GetName() in set dom stocks; 
-
-  public RemoveStock:(Stock )==> ()
-  RemoveStock(stock) == 
-   stocks := {stock.GetName()} <-: stocks
-  pre stock.GetName() in set dom stocks
-  post stock.GetName() not in set dom stocks;
-
-  pure public GetStock:(StockIdentifier)==> Stock 
-  GetStock(name) == 
-   return stocks(name)
-  pre name in set dom stocks;
-
-  pure public GetStockNames: () ==> set of StockIdentifier 
-  GetStockNames() ==
-   return dom stocks;
-  
-end StockMarket
-~~~
-{% endraw %}
-
 ### StockWatcher.vdmpp
 
 {% raw %}
@@ -609,106 +535,180 @@ end StockWatcher
 ~~~
 {% endraw %}
 
-### timer.vdmpp
+### Stock.vdmpp
 
 {% raw %}
 ~~~
-class Timer 
+class Stock is subclass of GLOBAL
+ types
+  
+  public RateOfChange = <positive> | <negative> | <constant>;  
+  
+ instance variables
+  name : StockIdentifier;
+  valueHistory : seq of StockValue;
+  currentRateOfChange : [RateOfChange]; 
+ operations
+  
+  public Stock: StockIdentifier * StockValue ==> Stock
+  Stock(n,startValue) == (
+   valueHistory := [];
+   valueHistory := [startValue] ^ valueHistory; 
+   name := n;
+   currentRateOfChange := nil;  
+  ); 
 
-instance variables
+  public UpdateStock:() ==> ()
+  UpdateStock() == (
+   
+   currentRateOfChange :=
+   cases currentRateOfChange:
+    nil -> InitialRateOfChange(hd valueHistory),
+    others -> NextRateOfChange(currentRateOfChange, hd valueHistory)
+   end;   
 
-  currentTime : nat := 1;
+   cases currentRateOfChange:
+    <positive> -> valueHistory := [hd valueHistory + 1] ^ valueHistory,  
+    <negative> -> valueHistory := [hd valueHistory - 1] ^ valueHistory,
+    <constant> -> valueHistory := [hd valueHistory] ^ valueHistory
+   end;
+  )
+  pre len valueHistory >= 1
+  post (currentRateOfChange = <positive> => valueHistory(1) > valueHistory(2))
+   and (currentRateOfChange = <negative> => valueHistory(1) < valueHistory(2))
+   and (currentRateOfChange = <constant> => valueHistory(1) = valueHistory(2))
+   and hd valueHistory >= 0;
 
-values 
+  pure public GetName: () ==> StockIdentifier 
+  GetName() == 
+   return name; 
 
-  stepLength : nat = 1;
+  pure public GetCurrentValue : () ==> StockValue 
+  GetCurrentValue() == 
+   return hd valueHistory; 
 
-operations
+  pure public GetValueHistory : () ==> seq of StockValue 
+  GetValueHistory() == (
+   return valueHistory; 
+  );
+   
+  InitialRateOfChange : (StockValue) ==> RateOfChange
+  InitialRateOfChange(sv) == 
+   let r = MATH`rand(21) mod 3 
+   in
+    return 
+    if(sv > 0)
+    then
+     cases r:
+      0 -> <positive>,
+      1 -> <negative>,
+      2 -> <constant>
+     end
+    else 
+     cases r:
+      0 -> <positive>,
+      1 -> <positive>,
+      2 -> <constant>
+     end;
 
-public 
-  StepTime: () ==> ()
-  StepTime() == 
-    currentTime := currentTime + stepLength;
+  NextRateOfChange : RateOfChange * StockValue ==> RateOfChange
+  NextRateOfChange(roc,sv) == 
+   let r = MATH`rand(10), 
+    other = MakelistFromSet({x | x : RateOfChange & x <> roc and (x=<negative> => sv > 0) })   
+   in
+    return 
+    if r >= 0 and r <= 7 and (roc = <negative> => sv > 0)  
+    then roc
+    else  
+     other((MATH`rand(20) mod len other) + 1);
 
-public
-  GetTime: () ==> nat 
-  GetTime() == return currentTime;
+  MakelistFromSet : set of RateOfChange ==> seq of RateOfChange
+  MakelistFromSet(roc) ==
+   return
+   if( card roc > 0) then 
+    let r in set roc 
+     in 
+     [r] ^ MakelistFromSet(roc \ {r})
+   else []
 
-end Timer
+end Stock
 ~~~
 {% endraw %}
 
-### World.vdmpp
+### GLOBAL.vdmpp
 
 {% raw %}
 ~~~
-class World is subclass of GLOBAL
+class GLOBAL
+types
+public String = seq of char;
+
+public EventType = <UpperLimit> | <LowerLimit> | <Peak> | <Valley> | 
+<EntersNoActionRegion> | <LeavesNoActionRegion>;
+
+public StockState = <PotentialBuy> | <Bought>;
+
+public Event :: Type : EventType
+TimeStamp : nat
+Value : nat; 
+
+public Region :: UpperValue : StockValue
+  LowerValue : StockValue
+inv mk_Region(p1,p2) == p1 >= p2;
+
+public StockValue = nat;
+public StockIdentifier = token;
+
+public ActionType = <Buy> | <Sell> ;
+
+public ActionTrigger :: Trigger : seq of EventType
+Action : ActionType;
+
+public StockRecord :: Name : StockIdentifier 
+Triggers : map StockState to ActionTrigger 
+NoActionReg : Region
+Cost : StockValue
+State : StockState
+
+inv mk_StockRecord(p1,p2,p3,p4,p5) == p2(<PotentialBuy>).Action = <Buy> 
+and p2(<Bought>).Action = <Sell>;
+
+public ActionEvent :: Type : ActionType
+  Time : nat
+  StockName : StockIdentifier
+  Value : StockValue;
  
 values
- simTime : nat = 100; 
- actionsLimit : nat = 4;
- startCash : nat = 100;
- public static simulate : bool = false;
- 
-instance variables  
+public static testValues : map StockIdentifier to seq of Event = 
+{mk_token("test") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<LowerLimit>,5,8),
+mk_Event(<UpperLimit>,4,12),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,13),
+mk_Event(<UpperLimit>,1,12),  
+mk_Event(<EntersNoActionRegion>,0,10)
+],
+mk_token("test12") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<LowerLimit>,5,8),
+mk_Event(<UpperLimit>,4,12),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,16),
+mk_Event(<UpperLimit>,1,12),  
+mk_Event(<EntersNoActionRegion>,0,10)
+],
+mk_token("test2") |-> [
+mk_Event(<LeavesNoActionRegion>,6,5),
+mk_Event(<UpperLimit>,5,8),
+mk_Event(<LowerLimit>,4,8),
+mk_Event(<EntersNoActionRegion>,3,11),
+mk_Event(<LeavesNoActionRegion>,2,6),
+mk_Event(<LowerLimit>,1,8),  
+mk_Event(<EntersNoActionRegion>,0,10)
+]};
 
- public static timerRef : Timer := new Timer();
-
- public static stockMarket : StockMarket := new StockMarket();
- asb : AutomatedStockBroker := new AutomatedStockBroker(startCash);  
-   
-operations
-
-public isFinished : () ==> bool
- isFinished() == 
-    return (not len asb.GetActionLog() < actionsLimit) or 
-           (not timerRef.GetTime() <= simTime);
-
- public Run : () ==> ()
- Run() ==
- ( 
-  stockMarket.AddStock(new Stock(mk_token("test"),10));
-  stockMarket.AddStock(new Stock(mk_token("test12"),10));
-  stockMarket.AddStock(new Stock(mk_token("test2"),10));
-
-  (dcl r1 : StockRecord := mk_StockRecord(mk_token("test"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),10,<Bought>),
-    r2 : StockRecord := mk_StockRecord(mk_token("test12"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),10,<Bought>),
-
-   r3 : StockRecord := mk_StockRecord(mk_token("test2"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),0,<PotentialBuy>);
-
-   asb.AddStock(r1,1);
-   asb.AddStock(r2,2);
-   asb.AddStock(r3,3);
-   
-   while not isFinished()
-   do 
-   (
-    IO`print("step : ");
-    IO`print(timerRef.GetTime());
-    IO`print("\n");
- 
-    stockMarket.UpdateStocks();
- 
-    asb.Step(timerRef.GetTime());
-       timerRef.StepTime();
-   );
-  )
- );
-functions
- public FindSmallestSeqLen: map String to seq of Event -> nat
- FindSmallestSeqLen(m) == 
- let x,y in set {len m(x) | x in set dom m} be st x <> y => x <= y in x; 
-
-end World
+end GLOBAL
 ~~~
 {% endraw %}
 

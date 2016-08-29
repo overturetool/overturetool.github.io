@@ -78,46 +78,6 @@ end Navigation
 ~~~
 {% endraw %}
 
-### Radio.vdmrt
-
-{% raw %}
-~~~
-class Radio
-
-values 
-  public MAX : nat = 10;
-
-instance variables
-  public volume : nat := 0;
-
-operations
-
-  async public AdjustVolumeUp : () ==> ()
-  AdjustVolumeUp () ==
-	( cycles (1E6) skip;
-    if volume < MAX
-    then ( volume := volume + 1;		   
-           RadNavSys`mmi.UpdateScreen(1))
-    );
-
-  async public AdjustVolumeDown : () ==> ()
-  AdjustVolumeDown () ==
-    ( cycles (1E6) skip;
-    if volume > 0
-    then ( volume := volume - 1;       
-           RadNavSys`mmi.UpdateScreen(1))
-    );
-
-  async public HandleTMC: () ==> ()
-  HandleTMC () ==
-    ( cycles (1E6) skip;
-      RadNavSys`navigation.DecodeTMC() 
-    );
-
-end Radio
-~~~
-{% endraw %}
-
 ### RadNavSys.vdmrt
 
 {% raw %}
@@ -164,6 +124,73 @@ end RadNavSys
 ~~~
 {% endraw %}
 
+### World.vdmrt
+
+{% raw %}
+~~~
+class World
+ 
+types
+  public perfdata = nat * nat * real
+
+instance variables
+ 
+
+operations
+  	
+  public RunScenario1 : () ==> ()
+  RunScenario1 () ==
+    ( RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+    );
+
+ 
+
+end World
+~~~
+{% endraw %}
+
+### Radio.vdmrt
+
+{% raw %}
+~~~
+class Radio
+
+values 
+  public MAX : nat = 10;
+
+instance variables
+  public volume : nat := 0;
+
+operations
+
+  async public AdjustVolumeUp : () ==> ()
+  AdjustVolumeUp () ==
+	( cycles (1E6) skip;
+    if volume < MAX
+    then ( volume := volume + 1;		   
+           RadNavSys`mmi.UpdateScreen(1))
+    );
+
+  async public AdjustVolumeDown : () ==> ()
+  AdjustVolumeDown () ==
+    ( cycles (1E6) skip;
+    if volume > 0
+    then ( volume := volume - 1;       
+           RadNavSys`mmi.UpdateScreen(1))
+    );
+
+  async public HandleTMC: () ==> ()
+  HandleTMC () ==
+    ( cycles (1E6) skip;
+      RadNavSys`navigation.DecodeTMC() 
+    );
+
+end Radio
+~~~
+{% endraw %}
+
 ### Test.vdmrt
 
 {% raw %}
@@ -197,33 +224,6 @@ thread
 
 end Testing
 
-~~~
-{% endraw %}
-
-### World.vdmrt
-
-{% raw %}
-~~~
-class World
- 
-types
-  public perfdata = nat * nat * real
-
-instance variables
- 
-
-operations
-  	
-  public RunScenario1 : () ==> ()
-  RunScenario1 () ==
-    ( RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-    );
-
- 
-
-end World
 ~~~
 {% endraw %}
 

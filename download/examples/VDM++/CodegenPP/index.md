@@ -21,7 +21,91 @@ Overture.
 |Entry point     :| new codegen_Util().Run()|
 
 
-### GiraffeBasicTypeImpl.vdmpp
+### returnConstInt.vdmpp
+
+{% raw %}
+~~~
+class returnConstInt
+values
+public returnConstInt = 
+new SimpleSpecificationImpl([
+    new SimpleFunctionDefinitionImpl(new SimpleIdentifierImpl("x"),
+        [
+        ],
+        new SimpleIntegerLiteralExpressionImpl(13))
+])
+;
+end returnConstInt
+~~~
+{% endraw %}
+
+### nativetest.vdmpp
+
+{% raw %}
+~~~
+class codegen_Util
+
+instance variables
+
+compiler : Compiler := new Compiler();
+codegen : Codegen := new Codegen();
+--io : IO := new IO();
+
+operations
+
+public Run : () ==> (bool|int|seq of char)
+Run() ==
+	let programs = getSimpleNames() in
+	Run(programs);
+				
+public Run : seq of seq of char ==> seq of char
+Run(programs) ==
+	if programs = [] then
+		return []
+	else
+		let
+			program = hd programs,
+			z = parseSimpleProgram(program),
+			a = compiler.Compile(program, z),
+			b = codegen.Generate(a),
+			real_b = b ^ " public static void main(String[] argv){ System.exit(x()); }}",
+			c = writeProgram(program, real_b),
+			d = compileProgram(program),
+			e = runProgram(program)
+		in
+			if e <> 42 then
+				return "\nTest " ^ program ^ " failed with code: " ^ iToS(e) ^ Run(tl programs)
+			else
+				return "\nTest " ^ program ^ " success" ^ Run(tl programs);
+	
+functions
+	public iToS : int -> seq of char
+	iToS(i) == is not yet specified;
+
+	public showType : int -> int
+	showType(type) == is not yet specified;
+
+	public getSimpleNames : () -> seq of seq of char
+	getSimpleNames() == is not yet specified;
+
+	public parseSimpleProgram : seq of char -> SimpleSpecification
+	parseSimpleProgram(filename) == is not yet specified;
+	
+	public writeProgram : seq of char * seq of char -> bool
+	writeProgram(fileName, contents) == is not yet specified;
+	
+	public compileProgram : seq of char -> bool
+	compileProgram(fileName) == is not yet specified;
+	
+	public runProgram : seq of char -> (int|bool)
+	runProgram(fileName) == is not yet specified;
+	
+end codegen_Util
+
+~~~
+{% endraw %}
+
+### GiraffeUnaryOperatorImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -30,9 +114,100 @@ Overture.
 -- Wed Mar 17 13:43:16 CET 2010
 --
 
-class GiraffeBasicTypeImpl is subclass of GiraffeBasicType
+class GiraffeUnaryOperatorImpl is subclass of GiraffeUnaryOperator
 
-end GiraffeBasicTypeImpl
+end GiraffeUnaryOperatorImpl
+~~~
+{% endraw %}
+
+### GiraffeReturnStatementImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeReturnStatementImpl is subclass of GiraffeReturnStatement
+instance variables
+    private iv_value:GiraffeExpression;
+
+operations
+    public GiraffeReturnStatementImpl: GiraffeExpression ==> GiraffeReturnStatementImpl
+    GiraffeReturnStatementImpl(p_value) ==
+    (
+        iv_value := p_value;
+    );
+
+    public getValue: () ==> GiraffeExpression
+    getValue() == return iv_value;
+
+end GiraffeReturnStatementImpl
+~~~
+{% endraw %}
+
+### GiraffeDoubleLiteralExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeDoubleLiteralExpressionImpl is subclass of GiraffeDoubleLiteralExpression
+instance variables
+    private iv_value:real;
+
+operations
+    public GiraffeDoubleLiteralExpressionImpl: real ==> GiraffeDoubleLiteralExpressionImpl
+    GiraffeDoubleLiteralExpressionImpl(p_value) ==
+    (
+        iv_value := p_value;
+    );
+
+    public getValue: () ==> real
+    getValue() == return iv_value;
+
+end GiraffeDoubleLiteralExpressionImpl
+~~~
+{% endraw %}
+
+### GiraffeIfExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeIfExpressionImpl is subclass of GiraffeIfExpression
+instance variables
+    private iv_test:GiraffeExpression;
+    private iv_thn:GiraffeExpression;
+    private iv_els:GiraffeExpression;
+
+operations
+    public GiraffeIfExpressionImpl: GiraffeExpression * GiraffeExpression * GiraffeExpression ==> GiraffeIfExpressionImpl
+    GiraffeIfExpressionImpl(p_test, p_thn, p_els) ==
+    (
+        iv_test := p_test;
+        iv_thn := p_thn;
+        iv_els := p_els;
+    );
+
+    public getTest: () ==> GiraffeExpression
+    getTest() == return iv_test;
+
+    public getThn: () ==> GiraffeExpression
+    getThn() == return iv_thn;
+
+    public getEls: () ==> GiraffeExpression
+    getEls() == return iv_els;
+
+end GiraffeIfExpressionImpl
 ~~~
 {% endraw %}
 
@@ -73,7 +248,7 @@ end GiraffeBinaryExpressionImpl
 ~~~
 {% endraw %}
 
-### GiraffeBinaryOperatorImpl.vdmpp
+### GiraffeExpressionImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -82,9 +257,36 @@ end GiraffeBinaryExpressionImpl
 -- Wed Mar 17 13:43:16 CET 2010
 --
 
-class GiraffeBinaryOperatorImpl is subclass of GiraffeBinaryOperator
+class GiraffeExpressionImpl is subclass of GiraffeNodeImpl
+    -- empty
+end GiraffeExpressionImpl
+~~~
+{% endraw %}
 
-end GiraffeBinaryOperatorImpl
+### GiraffeIntegerLiteralExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeIntegerLiteralExpressionImpl is subclass of GiraffeIntegerLiteralExpression
+instance variables
+    private iv_value:int;
+
+operations
+    public GiraffeIntegerLiteralExpressionImpl: int ==> GiraffeIntegerLiteralExpressionImpl
+    GiraffeIntegerLiteralExpressionImpl(p_value) ==
+    (
+        iv_value := p_value;
+    );
+
+    public getValue: () ==> int
+    getValue() == return iv_value;
+
+end GiraffeIntegerLiteralExpressionImpl
 ~~~
 {% endraw %}
 
@@ -115,7 +317,7 @@ end GiraffeBooleanLiteralExpressionImpl
 ~~~
 {% endraw %}
 
-### GiraffeCaseAlternativeImpl.vdmpp
+### GiraffeBasicTypeImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -124,26 +326,197 @@ end GiraffeBooleanLiteralExpressionImpl
 -- Wed Mar 17 13:43:16 CET 2010
 --
 
-class GiraffeCaseAlternativeImpl is subclass of GiraffeCaseAlternative
+class GiraffeBasicTypeImpl is subclass of GiraffeBasicType
+
+end GiraffeBasicTypeImpl
+~~~
+{% endraw %}
+
+### GiraffeIdentifierImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeIdentifierImpl is subclass of GiraffeIdentifier
 instance variables
-    private iv_test:GiraffeExpression;
-    private iv_exp:GiraffeExpression;
+    private iv_name:seq of char;
 
 operations
-    public GiraffeCaseAlternativeImpl: GiraffeExpression * GiraffeExpression ==> GiraffeCaseAlternativeImpl
-    GiraffeCaseAlternativeImpl(p_test, p_exp) ==
+    public GiraffeIdentifierImpl: seq of char ==> GiraffeIdentifierImpl
+    GiraffeIdentifierImpl(p_name) ==
+    (
+        iv_name := p_name;
+    );
+
+    public getName: () ==> seq of char
+    getName() == return iv_name;
+
+end GiraffeIdentifierImpl
+~~~
+{% endraw %}
+
+### GiraffeStatementImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeStatementImpl is subclass of GiraffeNodeImpl
+    -- empty
+end GiraffeStatementImpl
+~~~
+{% endraw %}
+
+### GiraffeNodeImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeNodeImpl
+    -- empty
+end GiraffeNodeImpl
+~~~
+{% endraw %}
+
+### GiraffeTypeImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeTypeImpl is subclass of GiraffeNodeImpl
+    -- empty
+end GiraffeTypeImpl
+~~~
+{% endraw %}
+
+### GiraffeParameterImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeParameterImpl is subclass of GiraffeParameter
+instance variables
+    private iv_type:GiraffeType;
+    private iv_name:GiraffeIdentifier;
+
+operations
+    public GiraffeParameterImpl: GiraffeType * GiraffeIdentifier ==> GiraffeParameterImpl
+    GiraffeParameterImpl(p_type, p_name) ==
+    (
+        iv_type := p_type;
+        iv_name := p_name;
+    );
+
+    public getType: () ==> GiraffeType
+    getType() == return iv_type;
+
+    public getName: () ==> GiraffeIdentifier
+    getName() == return iv_name;
+
+end GiraffeParameterImpl
+~~~
+{% endraw %}
+
+### GiraffeVariableDeclStatementImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeVariableDeclStatementImpl is subclass of GiraffeVariableDeclStatement
+instance variables
+    private iv_type:GiraffeType;
+    private iv_name:GiraffeIdentifier;
+    private iv_value:GiraffeExpression;
+
+operations
+    public GiraffeVariableDeclStatementImpl: GiraffeType * GiraffeIdentifier * GiraffeExpression ==> GiraffeVariableDeclStatementImpl
+    GiraffeVariableDeclStatementImpl(p_type, p_name, p_value) ==
+    (
+        iv_type := p_type;
+        iv_name := p_name;
+        iv_value := p_value;
+    );
+
+    public getType: () ==> GiraffeType
+    getType() == return iv_type;
+
+    public getName: () ==> GiraffeIdentifier
+    getName() == return iv_name;
+
+    public getValue: () ==> GiraffeExpression
+    getValue() == return iv_value;
+
+end GiraffeVariableDeclStatementImpl
+~~~
+{% endraw %}
+
+### GiraffeLiteralExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeLiteralExpressionImpl is subclass of GiraffeExpressionImpl
+    -- empty
+end GiraffeLiteralExpressionImpl
+~~~
+{% endraw %}
+
+### GiraffeElseIfExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Thu Mar 11 11:27:03 CET 2010
+--
+
+class GiraffeElseIfExpressionImpl is subclass of GiraffeElseIfExpression
+instance variables
+    private iv_test:GiraffeExpression;
+    private iv_thn:GiraffeExpression;
+
+operations
+    public GiraffeElseIfExpressionImpl: GiraffeExpression * GiraffeExpression ==> GiraffeElseIfExpressionImpl
+    GiraffeElseIfExpressionImpl(p_test, p_thn) ==
     (
         iv_test := p_test;
-        iv_exp := p_exp;
+        iv_thn := p_thn;
     );
 
     public getTest: () ==> GiraffeExpression
     getTest() == return iv_test;
 
-    public getExp: () ==> GiraffeExpression
-    getExp() == return iv_exp;
+    public getThn: () ==> GiraffeExpression
+    getThn() == return iv_thn;
 
-end GiraffeCaseAlternativeImpl
+end GiraffeElseIfExpressionImpl
 ~~~
 {% endraw %}
 
@@ -187,7 +560,7 @@ end GiraffeCasesExpressionImpl
 ~~~
 {% endraw %}
 
-### GiraffeClassDefinitionImpl.vdmpp
+### GiraffeCaseAlternativeImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -196,30 +569,57 @@ end GiraffeCasesExpressionImpl
 -- Wed Mar 17 13:43:16 CET 2010
 --
 
-class GiraffeClassDefinitionImpl is subclass of GiraffeClassDefinition
+class GiraffeCaseAlternativeImpl is subclass of GiraffeCaseAlternative
 instance variables
-    private iv_name:GiraffeIdentifier;
-    private iv_methods:set of GiraffeMethodDefinition;
+    private iv_test:GiraffeExpression;
+    private iv_exp:GiraffeExpression;
 
 operations
-    public GiraffeClassDefinitionImpl: GiraffeIdentifier * set of GiraffeMethodDefinition ==> GiraffeClassDefinitionImpl
-    GiraffeClassDefinitionImpl(p_name, p_methods) ==
+    public GiraffeCaseAlternativeImpl: GiraffeExpression * GiraffeExpression ==> GiraffeCaseAlternativeImpl
+    GiraffeCaseAlternativeImpl(p_test, p_exp) ==
+    (
+        iv_test := p_test;
+        iv_exp := p_exp;
+    );
+
+    public getTest: () ==> GiraffeExpression
+    getTest() == return iv_test;
+
+    public getExp: () ==> GiraffeExpression
+    getExp() == return iv_exp;
+
+end GiraffeCaseAlternativeImpl
+~~~
+{% endraw %}
+
+### GiraffeVariableExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:16 CET 2010
+--
+
+class GiraffeVariableExpressionImpl is subclass of GiraffeVariableExpression
+instance variables
+    private iv_name:GiraffeIdentifier;
+
+operations
+    public GiraffeVariableExpressionImpl: GiraffeIdentifier ==> GiraffeVariableExpressionImpl
+    GiraffeVariableExpressionImpl(p_name) ==
     (
         iv_name := p_name;
-        iv_methods := p_methods;
     );
 
     public getName: () ==> GiraffeIdentifier
     getName() == return iv_name;
 
-    public getMethods: () ==> set of GiraffeMethodDefinition
-    getMethods() == return iv_methods;
-
-end GiraffeClassDefinitionImpl
+end GiraffeVariableExpressionImpl
 ~~~
 {% endraw %}
 
-### GiraffeDoubleLiteralExpressionImpl.vdmpp
+### GiraffeBinaryOperatorImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -228,174 +628,9 @@ end GiraffeClassDefinitionImpl
 -- Wed Mar 17 13:43:16 CET 2010
 --
 
-class GiraffeDoubleLiteralExpressionImpl is subclass of GiraffeDoubleLiteralExpression
-instance variables
-    private iv_value:real;
+class GiraffeBinaryOperatorImpl is subclass of GiraffeBinaryOperator
 
-operations
-    public GiraffeDoubleLiteralExpressionImpl: real ==> GiraffeDoubleLiteralExpressionImpl
-    GiraffeDoubleLiteralExpressionImpl(p_value) ==
-    (
-        iv_value := p_value;
-    );
-
-    public getValue: () ==> real
-    getValue() == return iv_value;
-
-end GiraffeDoubleLiteralExpressionImpl
-~~~
-{% endraw %}
-
-### GiraffeElseIfExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Thu Mar 11 11:27:03 CET 2010
---
-
-class GiraffeElseIfExpressionImpl is subclass of GiraffeElseIfExpression
-instance variables
-    private iv_test:GiraffeExpression;
-    private iv_thn:GiraffeExpression;
-
-operations
-    public GiraffeElseIfExpressionImpl: GiraffeExpression * GiraffeExpression ==> GiraffeElseIfExpressionImpl
-    GiraffeElseIfExpressionImpl(p_test, p_thn) ==
-    (
-        iv_test := p_test;
-        iv_thn := p_thn;
-    );
-
-    public getTest: () ==> GiraffeExpression
-    getTest() == return iv_test;
-
-    public getThn: () ==> GiraffeExpression
-    getThn() == return iv_thn;
-
-end GiraffeElseIfExpressionImpl
-~~~
-{% endraw %}
-
-### GiraffeExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeExpressionImpl is subclass of GiraffeNodeImpl
-    -- empty
-end GiraffeExpressionImpl
-~~~
-{% endraw %}
-
-### GiraffeIdentifierImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeIdentifierImpl is subclass of GiraffeIdentifier
-instance variables
-    private iv_name:seq of char;
-
-operations
-    public GiraffeIdentifierImpl: seq of char ==> GiraffeIdentifierImpl
-    GiraffeIdentifierImpl(p_name) ==
-    (
-        iv_name := p_name;
-    );
-
-    public getName: () ==> seq of char
-    getName() == return iv_name;
-
-end GiraffeIdentifierImpl
-~~~
-{% endraw %}
-
-### GiraffeIfExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeIfExpressionImpl is subclass of GiraffeIfExpression
-instance variables
-    private iv_test:GiraffeExpression;
-    private iv_thn:GiraffeExpression;
-    private iv_els:GiraffeExpression;
-
-operations
-    public GiraffeIfExpressionImpl: GiraffeExpression * GiraffeExpression * GiraffeExpression ==> GiraffeIfExpressionImpl
-    GiraffeIfExpressionImpl(p_test, p_thn, p_els) ==
-    (
-        iv_test := p_test;
-        iv_thn := p_thn;
-        iv_els := p_els;
-    );
-
-    public getTest: () ==> GiraffeExpression
-    getTest() == return iv_test;
-
-    public getThn: () ==> GiraffeExpression
-    getThn() == return iv_thn;
-
-    public getEls: () ==> GiraffeExpression
-    getEls() == return iv_els;
-
-end GiraffeIfExpressionImpl
-~~~
-{% endraw %}
-
-### GiraffeIntegerLiteralExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeIntegerLiteralExpressionImpl is subclass of GiraffeIntegerLiteralExpression
-instance variables
-    private iv_value:int;
-
-operations
-    public GiraffeIntegerLiteralExpressionImpl: int ==> GiraffeIntegerLiteralExpressionImpl
-    GiraffeIntegerLiteralExpressionImpl(p_value) ==
-    (
-        iv_value := p_value;
-    );
-
-    public getValue: () ==> int
-    getValue() == return iv_value;
-
-end GiraffeIntegerLiteralExpressionImpl
-~~~
-{% endraw %}
-
-### GiraffeLiteralExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeLiteralExpressionImpl is subclass of GiraffeExpressionImpl
-    -- empty
-end GiraffeLiteralExpressionImpl
+end GiraffeBinaryOperatorImpl
 ~~~
 {% endraw %}
 
@@ -441,137 +676,6 @@ end GiraffeMethodDefinitionImpl
 ~~~
 {% endraw %}
 
-### GiraffeNodeImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeNodeImpl
-    -- empty
-end GiraffeNodeImpl
-~~~
-{% endraw %}
-
-### GiraffeParameterImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeParameterImpl is subclass of GiraffeParameter
-instance variables
-    private iv_type:GiraffeType;
-    private iv_name:GiraffeIdentifier;
-
-operations
-    public GiraffeParameterImpl: GiraffeType * GiraffeIdentifier ==> GiraffeParameterImpl
-    GiraffeParameterImpl(p_type, p_name) ==
-    (
-        iv_type := p_type;
-        iv_name := p_name;
-    );
-
-    public getType: () ==> GiraffeType
-    getType() == return iv_type;
-
-    public getName: () ==> GiraffeIdentifier
-    getName() == return iv_name;
-
-end GiraffeParameterImpl
-~~~
-{% endraw %}
-
-### GiraffeReturnStatementImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeReturnStatementImpl is subclass of GiraffeReturnStatement
-instance variables
-    private iv_value:GiraffeExpression;
-
-operations
-    public GiraffeReturnStatementImpl: GiraffeExpression ==> GiraffeReturnStatementImpl
-    GiraffeReturnStatementImpl(p_value) ==
-    (
-        iv_value := p_value;
-    );
-
-    public getValue: () ==> GiraffeExpression
-    getValue() == return iv_value;
-
-end GiraffeReturnStatementImpl
-~~~
-{% endraw %}
-
-### GiraffeSpecificationImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeSpecificationImpl is subclass of GiraffeSpecification
-instance variables
-    private iv_clazz:GiraffeClassDefinition;
-
-operations
-    public GiraffeSpecificationImpl: GiraffeClassDefinition ==> GiraffeSpecificationImpl
-    GiraffeSpecificationImpl(p_clazz) ==
-    (
-        iv_clazz := p_clazz;
-    );
-
-    public getClazz: () ==> GiraffeClassDefinition
-    getClazz() == return iv_clazz;
-
-end GiraffeSpecificationImpl
-~~~
-{% endraw %}
-
-### GiraffeStatementImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeStatementImpl is subclass of GiraffeNodeImpl
-    -- empty
-end GiraffeStatementImpl
-~~~
-{% endraw %}
-
-### GiraffeTypeImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeTypeImpl is subclass of GiraffeNodeImpl
-    -- empty
-end GiraffeTypeImpl
-~~~
-{% endraw %}
-
 ### GiraffeUnaryExpressionImpl.vdmpp
 
 {% raw %}
@@ -604,7 +708,7 @@ end GiraffeUnaryExpressionImpl
 ~~~
 {% endraw %}
 
-### GiraffeUnaryOperatorImpl.vdmpp
+### GiraffeClassDefinitionImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -613,13 +717,30 @@ end GiraffeUnaryExpressionImpl
 -- Wed Mar 17 13:43:16 CET 2010
 --
 
-class GiraffeUnaryOperatorImpl is subclass of GiraffeUnaryOperator
+class GiraffeClassDefinitionImpl is subclass of GiraffeClassDefinition
+instance variables
+    private iv_name:GiraffeIdentifier;
+    private iv_methods:set of GiraffeMethodDefinition;
 
-end GiraffeUnaryOperatorImpl
+operations
+    public GiraffeClassDefinitionImpl: GiraffeIdentifier * set of GiraffeMethodDefinition ==> GiraffeClassDefinitionImpl
+    GiraffeClassDefinitionImpl(p_name, p_methods) ==
+    (
+        iv_name := p_name;
+        iv_methods := p_methods;
+    );
+
+    public getName: () ==> GiraffeIdentifier
+    getName() == return iv_name;
+
+    public getMethods: () ==> set of GiraffeMethodDefinition
+    getMethods() == return iv_methods;
+
+end GiraffeClassDefinitionImpl
 ~~~
 {% endraw %}
 
-### GiraffeVariableDeclStatementImpl.vdmpp
+### GiraffeSpecificationImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -628,58 +749,48 @@ end GiraffeUnaryOperatorImpl
 -- Wed Mar 17 13:43:16 CET 2010
 --
 
-class GiraffeVariableDeclStatementImpl is subclass of GiraffeVariableDeclStatement
+class GiraffeSpecificationImpl is subclass of GiraffeSpecification
 instance variables
-    private iv_type:GiraffeType;
-    private iv_name:GiraffeIdentifier;
-    private iv_value:GiraffeExpression;
+    private iv_clazz:GiraffeClassDefinition;
 
 operations
-    public GiraffeVariableDeclStatementImpl: GiraffeType * GiraffeIdentifier * GiraffeExpression ==> GiraffeVariableDeclStatementImpl
-    GiraffeVariableDeclStatementImpl(p_type, p_name, p_value) ==
+    public GiraffeSpecificationImpl: GiraffeClassDefinition ==> GiraffeSpecificationImpl
+    GiraffeSpecificationImpl(p_clazz) ==
     (
-        iv_type := p_type;
-        iv_name := p_name;
-        iv_value := p_value;
+        iv_clazz := p_clazz;
     );
+
+    public getClazz: () ==> GiraffeClassDefinition
+    getClazz() == return iv_clazz;
+
+end GiraffeSpecificationImpl
+~~~
+{% endraw %}
+
+### GiraffeMethodDefinition.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeMethodDefinition is subclass of GiraffeNode
+operations
+    public getName: () ==> GiraffeIdentifier
+    getName() == is subclass responsibility;
+
+    public getParameters: () ==> seq of GiraffeParameter
+    getParameters() == is subclass responsibility;
 
     public getType: () ==> GiraffeType
-    getType() == return iv_type;
+    getType() == is subclass responsibility;
 
-    public getName: () ==> GiraffeIdentifier
-    getName() == return iv_name;
+    public getBody: () ==> seq of GiraffeStatement
+    getBody() == is subclass responsibility;
 
-    public getValue: () ==> GiraffeExpression
-    getValue() == return iv_value;
-
-end GiraffeVariableDeclStatementImpl
-~~~
-{% endraw %}
-
-### GiraffeVariableExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:16 CET 2010
---
-
-class GiraffeVariableExpressionImpl is subclass of GiraffeVariableExpression
-instance variables
-    private iv_name:GiraffeIdentifier;
-
-operations
-    public GiraffeVariableExpressionImpl: GiraffeIdentifier ==> GiraffeVariableExpressionImpl
-    GiraffeVariableExpressionImpl(p_name) ==
-    (
-        iv_name := p_name;
-    );
-
-    public getName: () ==> GiraffeIdentifier
-    getName() == return iv_name;
-
-end GiraffeVariableExpressionImpl
+end GiraffeMethodDefinition
 ~~~
 {% endraw %}
 
@@ -709,7 +820,7 @@ end GiraffeBasicType
 ~~~
 {% endraw %}
 
-### GiraffeBinaryExpression.vdmpp
+### GiraffeCasesExpression.vdmpp
 
 {% raw %}
 ~~~
@@ -718,18 +829,105 @@ end GiraffeBasicType
 -- Wed Mar 17 13:43:15 CET 2010
 --
 
-class GiraffeBinaryExpression is subclass of GiraffeExpression
+class GiraffeCasesExpression is subclass of GiraffeExpression
 operations
-    public getLhs: () ==> GiraffeExpression
-    getLhs() == is subclass responsibility;
+    public getTest: () ==> GiraffeExpression
+    getTest() == is subclass responsibility;
 
-    public getOp: () ==> GiraffeBinaryOperator
-    getOp() == is subclass responsibility;
+    public getAlts: () ==> seq of GiraffeCaseAlternative
+    getAlts() == is subclass responsibility;
 
-    public getRhs: () ==> GiraffeExpression
-    getRhs() == is subclass responsibility;
+    public hasDeflt: () ==> bool
+    hasDeflt() == is subclass responsibility;
 
-end GiraffeBinaryExpression
+    public getDeflt: () ==> GiraffeExpression
+    getDeflt() == is subclass responsibility;
+
+end GiraffeCasesExpression
+~~~
+{% endraw %}
+
+### GiraffeParameter.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeParameter is subclass of GiraffeNode
+operations
+    public getType: () ==> GiraffeType
+    getType() == is subclass responsibility;
+
+    public getName: () ==> GiraffeIdentifier
+    getName() == is subclass responsibility;
+
+end GiraffeParameter
+~~~
+{% endraw %}
+
+### GiraffeDoubleLiteralExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeDoubleLiteralExpression is subclass of GiraffeLiteralExpression
+operations
+    public getValue: () ==> real
+    getValue() == is subclass responsibility;
+
+end GiraffeDoubleLiteralExpression
+~~~
+{% endraw %}
+
+### GiraffeCaseAlternative.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeCaseAlternative is subclass of GiraffeNode
+operations
+    public getTest: () ==> GiraffeExpression
+    getTest() == is subclass responsibility;
+
+    public getExp: () ==> GiraffeExpression
+    getExp() == is subclass responsibility;
+
+end GiraffeCaseAlternative
+~~~
+{% endraw %}
+
+### GiraffeVariableDeclStatement.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeVariableDeclStatement is subclass of GiraffeStatement
+operations
+    public getType: () ==> GiraffeType
+    getType() == is subclass responsibility;
+
+    public getName: () ==> GiraffeIdentifier
+    getName() == is subclass responsibility;
+
+    public getValue: () ==> GiraffeExpression
+    getValue() == is subclass responsibility;
+
+end GiraffeVariableDeclStatement
 ~~~
 {% endraw %}
 
@@ -769,132 +967,6 @@ end GiraffeBinaryOperator
 ~~~
 {% endraw %}
 
-### GiraffeBooleanLiteralExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeBooleanLiteralExpression is subclass of GiraffeLiteralExpression
-operations
-    public getValue: () ==> bool
-    getValue() == is subclass responsibility;
-
-end GiraffeBooleanLiteralExpression
-~~~
-{% endraw %}
-
-### GiraffeCaseAlternative.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeCaseAlternative is subclass of GiraffeNode
-operations
-    public getTest: () ==> GiraffeExpression
-    getTest() == is subclass responsibility;
-
-    public getExp: () ==> GiraffeExpression
-    getExp() == is subclass responsibility;
-
-end GiraffeCaseAlternative
-~~~
-{% endraw %}
-
-### GiraffeCasesExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeCasesExpression is subclass of GiraffeExpression
-operations
-    public getTest: () ==> GiraffeExpression
-    getTest() == is subclass responsibility;
-
-    public getAlts: () ==> seq of GiraffeCaseAlternative
-    getAlts() == is subclass responsibility;
-
-    public hasDeflt: () ==> bool
-    hasDeflt() == is subclass responsibility;
-
-    public getDeflt: () ==> GiraffeExpression
-    getDeflt() == is subclass responsibility;
-
-end GiraffeCasesExpression
-~~~
-{% endraw %}
-
-### GiraffeClassDefinition.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeClassDefinition is subclass of GiraffeNode
-operations
-    public getName: () ==> GiraffeIdentifier
-    getName() == is subclass responsibility;
-
-    public getMethods: () ==> set of GiraffeMethodDefinition
-    getMethods() == is subclass responsibility;
-
-end GiraffeClassDefinition
-~~~
-{% endraw %}
-
-### GiraffeDoubleLiteralExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeDoubleLiteralExpression is subclass of GiraffeLiteralExpression
-operations
-    public getValue: () ==> real
-    getValue() == is subclass responsibility;
-
-end GiraffeDoubleLiteralExpression
-~~~
-{% endraw %}
-
-### GiraffeElseIfExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Thu Mar 11 11:27:03 CET 2010
---
-
-class GiraffeElseIfExpression is subclass of GiraffeNode
-operations
-    public getTest: () ==> GiraffeExpression
-    getTest() == is subclass responsibility;
-
-    public getThn: () ==> GiraffeExpression
-    getThn() == is subclass responsibility;
-
-end GiraffeElseIfExpression
-~~~
-{% endraw %}
-
 ### GiraffeExpression.vdmpp
 
 {% raw %}
@@ -907,6 +979,21 @@ end GiraffeElseIfExpression
 class GiraffeExpression is subclass of GiraffeNode
     -- Abstract
 end GiraffeExpression
+~~~
+{% endraw %}
+
+### GiraffeStatement.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeStatement is subclass of GiraffeNode
+    -- Abstract
+end GiraffeStatement
 ~~~
 {% endraw %}
 
@@ -928,90 +1015,6 @@ end GiraffeIdentifier
 ~~~
 {% endraw %}
 
-### GiraffeIfExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeIfExpression is subclass of GiraffeExpression
-operations
-    public getTest: () ==> GiraffeExpression
-    getTest() == is subclass responsibility;
-
-    public getThn: () ==> GiraffeExpression
-    getThn() == is subclass responsibility;
-
-    public getEls: () ==> GiraffeExpression
-    getEls() == is subclass responsibility;
-
-end GiraffeIfExpression
-~~~
-{% endraw %}
-
-### GiraffeIntegerLiteralExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeIntegerLiteralExpression is subclass of GiraffeLiteralExpression
-operations
-    public getValue: () ==> int
-    getValue() == is subclass responsibility;
-
-end GiraffeIntegerLiteralExpression
-~~~
-{% endraw %}
-
-### GiraffeLiteralExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeLiteralExpression is subclass of GiraffeExpression
-    -- Abstract
-end GiraffeLiteralExpression
-~~~
-{% endraw %}
-
-### GiraffeMethodDefinition.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeMethodDefinition is subclass of GiraffeNode
-operations
-    public getName: () ==> GiraffeIdentifier
-    getName() == is subclass responsibility;
-
-    public getParameters: () ==> seq of GiraffeParameter
-    getParameters() == is subclass responsibility;
-
-    public getType: () ==> GiraffeType
-    getType() == is subclass responsibility;
-
-    public getBody: () ==> seq of GiraffeStatement
-    getBody() == is subclass responsibility;
-
-end GiraffeMethodDefinition
-~~~
-{% endraw %}
-
 ### GiraffeNode.vdmpp
 
 {% raw %}
@@ -1024,78 +1027,6 @@ end GiraffeMethodDefinition
 class GiraffeNode
     -- Abstract
 end GiraffeNode
-~~~
-{% endraw %}
-
-### GiraffeParameter.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeParameter is subclass of GiraffeNode
-operations
-    public getType: () ==> GiraffeType
-    getType() == is subclass responsibility;
-
-    public getName: () ==> GiraffeIdentifier
-    getName() == is subclass responsibility;
-
-end GiraffeParameter
-~~~
-{% endraw %}
-
-### GiraffeReturnStatement.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeReturnStatement is subclass of GiraffeStatement
-operations
-    public getValue: () ==> GiraffeExpression
-    getValue() == is subclass responsibility;
-
-end GiraffeReturnStatement
-~~~
-{% endraw %}
-
-### GiraffeSpecification.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeSpecification is subclass of GiraffeNode
-operations
-    public getClazz: () ==> GiraffeClassDefinition
-    getClazz() == is subclass responsibility;
-
-end GiraffeSpecification
-~~~
-{% endraw %}
-
-### GiraffeStatement.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 13:43:15 CET 2010
---
-
-class GiraffeStatement is subclass of GiraffeNode
-    -- Abstract
-end GiraffeStatement
 ~~~
 {% endraw %}
 
@@ -1114,7 +1045,7 @@ end GiraffeType
 ~~~
 {% endraw %}
 
-### GiraffeUnaryExpression.vdmpp
+### GiraffeBinaryExpression.vdmpp
 
 {% raw %}
 ~~~
@@ -1123,15 +1054,51 @@ end GiraffeType
 -- Wed Mar 17 13:43:15 CET 2010
 --
 
-class GiraffeUnaryExpression is subclass of GiraffeExpression
+class GiraffeBinaryExpression is subclass of GiraffeExpression
 operations
-    public getOp: () ==> GiraffeUnaryOperator
+    public getLhs: () ==> GiraffeExpression
+    getLhs() == is subclass responsibility;
+
+    public getOp: () ==> GiraffeBinaryOperator
     getOp() == is subclass responsibility;
 
-    public getExp: () ==> GiraffeExpression
-    getExp() == is subclass responsibility;
+    public getRhs: () ==> GiraffeExpression
+    getRhs() == is subclass responsibility;
 
-end GiraffeUnaryExpression
+end GiraffeBinaryExpression
+~~~
+{% endraw %}
+
+### GiraffeLiteralExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeLiteralExpression is subclass of GiraffeExpression
+    -- Abstract
+end GiraffeLiteralExpression
+~~~
+{% endraw %}
+
+### GiraffeSpecification.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeSpecification is subclass of GiraffeNode
+operations
+    public getClazz: () ==> GiraffeClassDefinition
+    getClazz() == is subclass responsibility;
+
+end GiraffeSpecification
 ~~~
 {% endraw %}
 
@@ -1161,7 +1128,7 @@ end GiraffeUnaryOperator
 ~~~
 {% endraw %}
 
-### GiraffeVariableDeclStatement.vdmpp
+### GiraffeIfExpression.vdmpp
 
 {% raw %}
 ~~~
@@ -1170,18 +1137,96 @@ end GiraffeUnaryOperator
 -- Wed Mar 17 13:43:15 CET 2010
 --
 
-class GiraffeVariableDeclStatement is subclass of GiraffeStatement
+class GiraffeIfExpression is subclass of GiraffeExpression
 operations
-    public getType: () ==> GiraffeType
-    getType() == is subclass responsibility;
+    public getTest: () ==> GiraffeExpression
+    getTest() == is subclass responsibility;
 
+    public getThn: () ==> GiraffeExpression
+    getThn() == is subclass responsibility;
+
+    public getEls: () ==> GiraffeExpression
+    getEls() == is subclass responsibility;
+
+end GiraffeIfExpression
+~~~
+{% endraw %}
+
+### GiraffeClassDefinition.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeClassDefinition is subclass of GiraffeNode
+operations
     public getName: () ==> GiraffeIdentifier
     getName() == is subclass responsibility;
 
+    public getMethods: () ==> set of GiraffeMethodDefinition
+    getMethods() == is subclass responsibility;
+
+end GiraffeClassDefinition
+~~~
+{% endraw %}
+
+### GiraffeBooleanLiteralExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeBooleanLiteralExpression is subclass of GiraffeLiteralExpression
+operations
+    public getValue: () ==> bool
+    getValue() == is subclass responsibility;
+
+end GiraffeBooleanLiteralExpression
+~~~
+{% endraw %}
+
+### GiraffeReturnStatement.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeReturnStatement is subclass of GiraffeStatement
+operations
     public getValue: () ==> GiraffeExpression
     getValue() == is subclass responsibility;
 
-end GiraffeVariableDeclStatement
+end GiraffeReturnStatement
+~~~
+{% endraw %}
+
+### GiraffeUnaryExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeUnaryExpression is subclass of GiraffeExpression
+operations
+    public getOp: () ==> GiraffeUnaryOperator
+    getOp() == is subclass responsibility;
+
+    public getExp: () ==> GiraffeExpression
+    getExp() == is subclass responsibility;
+
+end GiraffeUnaryExpression
 ~~~
 {% endraw %}
 
@@ -1203,7 +1248,46 @@ end GiraffeVariableExpression
 ~~~
 {% endraw %}
 
-### SimpleApplyExpressionImpl.vdmpp
+### GiraffeElseIfExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Thu Mar 11 11:27:03 CET 2010
+--
+
+class GiraffeElseIfExpression is subclass of GiraffeNode
+operations
+    public getTest: () ==> GiraffeExpression
+    getTest() == is subclass responsibility;
+
+    public getThn: () ==> GiraffeExpression
+    getThn() == is subclass responsibility;
+
+end GiraffeElseIfExpression
+~~~
+{% endraw %}
+
+### GiraffeIntegerLiteralExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 13:43:15 CET 2010
+--
+
+class GiraffeIntegerLiteralExpression is subclass of GiraffeLiteralExpression
+operations
+    public getValue: () ==> int
+    getValue() == is subclass responsibility;
+
+end GiraffeIntegerLiteralExpression
+~~~
+{% endraw %}
+
+### SimpleElseIfExpressionImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -1212,30 +1296,30 @@ end GiraffeVariableExpression
 -- Wed Mar 17 17:56:55 CET 2010
 --
 
-class SimpleApplyExpressionImpl is subclass of SimpleApplyExpression
+class SimpleElseIfExpressionImpl is subclass of SimpleElseIfExpression
 instance variables
-    private iv_func:SimpleExpression;
-    private iv_args:seq of SimpleExpression;
+    private iv_test:SimpleExpression;
+    private iv_thn:SimpleExpression;
 
 operations
-    public SimpleApplyExpressionImpl: SimpleExpression * seq of SimpleExpression ==> SimpleApplyExpressionImpl
-    SimpleApplyExpressionImpl(p_func, p_args) ==
+    public SimpleElseIfExpressionImpl: SimpleExpression * SimpleExpression ==> SimpleElseIfExpressionImpl
+    SimpleElseIfExpressionImpl(p_test, p_thn) ==
     (
-        iv_func := p_func;
-        iv_args := p_args;
+        iv_test := p_test;
+        iv_thn := p_thn;
     );
 
-    public getFunc: () ==> SimpleExpression
-    getFunc() == return iv_func;
+    public getTest: () ==> SimpleExpression
+    getTest() == return iv_test;
 
-    public getArgs: () ==> seq of SimpleExpression
-    getArgs() == return iv_args;
+    public getThn: () ==> SimpleExpression
+    getThn() == return iv_thn;
 
-end SimpleApplyExpressionImpl
+end SimpleElseIfExpressionImpl
 ~~~
 {% endraw %}
 
-### SimpleBasicTypeImpl.vdmpp
+### SimpleDefinitionImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -1244,88 +1328,9 @@ end SimpleApplyExpressionImpl
 -- Wed Mar 17 17:56:55 CET 2010
 --
 
-class SimpleBasicTypeImpl is subclass of SimpleBasicType
-
-end SimpleBasicTypeImpl
-~~~
-{% endraw %}
-
-### SimpleBinaryExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleBinaryExpressionImpl is subclass of SimpleBinaryExpression
-instance variables
-    private iv_lhs:SimpleExpression;
-    private iv_op:SimpleBinaryOperator;
-    private iv_rhs:SimpleExpression;
-
-operations
-    public SimpleBinaryExpressionImpl: SimpleExpression * SimpleBinaryOperator * SimpleExpression ==> SimpleBinaryExpressionImpl
-    SimpleBinaryExpressionImpl(p_lhs, p_op, p_rhs) ==
-    (
-        iv_lhs := p_lhs;
-        iv_op := p_op;
-        iv_rhs := p_rhs;
-    );
-
-    public getLhs: () ==> SimpleExpression
-    getLhs() == return iv_lhs;
-
-    public getOp: () ==> SimpleBinaryOperator
-    getOp() == return iv_op;
-
-    public getRhs: () ==> SimpleExpression
-    getRhs() == return iv_rhs;
-
-end SimpleBinaryExpressionImpl
-~~~
-{% endraw %}
-
-### SimpleBinaryOperatorImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleBinaryOperatorImpl is subclass of SimpleBinaryOperator
-
-end SimpleBinaryOperatorImpl
-~~~
-{% endraw %}
-
-### SimpleBooleanLiteralExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleBooleanLiteralExpressionImpl is subclass of SimpleBooleanLiteralExpression
-instance variables
-    private iv_value:bool;
-
-operations
-    public SimpleBooleanLiteralExpressionImpl: bool ==> SimpleBooleanLiteralExpressionImpl
-    SimpleBooleanLiteralExpressionImpl(p_value) ==
-    (
-        iv_value := p_value;
-    );
-
-    public getValue: () ==> bool
-    getValue() == return iv_value;
-
-end SimpleBooleanLiteralExpressionImpl
+class SimpleDefinitionImpl is subclass of SimpleNodeImpl
+    -- empty
+end SimpleDefinitionImpl
 ~~~
 {% endraw %}
 
@@ -1361,7 +1366,7 @@ end SimpleCaseAlternativeImpl
 ~~~
 {% endraw %}
 
-### SimpleCasesExpressionImpl.vdmpp
+### SimpleParameterImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -1370,38 +1375,30 @@ end SimpleCaseAlternativeImpl
 -- Wed Mar 17 17:56:55 CET 2010
 --
 
-class SimpleCasesExpressionImpl is subclass of SimpleCasesExpression
+class SimpleParameterImpl is subclass of SimpleParameter
 instance variables
-    private iv_test:SimpleExpression;
-    private iv_alts:seq of SimpleCaseAlternative;
-    private iv_deflt:[SimpleExpression];
+    private iv_name:SimpleIdentifier;
+    private iv_type:SimpleType;
 
 operations
-    public SimpleCasesExpressionImpl: SimpleExpression * seq of SimpleCaseAlternative * [SimpleExpression] ==> SimpleCasesExpressionImpl
-    SimpleCasesExpressionImpl(p_test, p_alts, p_deflt) ==
+    public SimpleParameterImpl: SimpleIdentifier * SimpleType ==> SimpleParameterImpl
+    SimpleParameterImpl(p_name, p_type) ==
     (
-        iv_test := p_test;
-        iv_alts := p_alts;
-        iv_deflt := p_deflt;
+        iv_name := p_name;
+        iv_type := p_type;
     );
 
-    public getTest: () ==> SimpleExpression
-    getTest() == return iv_test;
+    public getName: () ==> SimpleIdentifier
+    getName() == return iv_name;
 
-    public getAlts: () ==> seq of SimpleCaseAlternative
-    getAlts() == return iv_alts;
+    public getType: () ==> SimpleType
+    getType() == return iv_type;
 
-    public hasDeflt: () ==> bool
-    hasDeflt() == return (iv_deflt = nil);
-
-    public getDeflt: () ==> SimpleExpression
-    getDeflt() == return iv_deflt;
-
-end SimpleCasesExpressionImpl
+end SimpleParameterImpl
 ~~~
 {% endraw %}
 
-### SimpleDefinitionImpl.vdmpp
+### SimpleIntegerLiteralExpressionImpl.vdmpp
 
 {% raw %}
 ~~~
@@ -1410,41 +1407,21 @@ end SimpleCasesExpressionImpl
 -- Wed Mar 17 17:56:55 CET 2010
 --
 
-class SimpleDefinitionImpl is subclass of SimpleNodeImpl
-    -- empty
-end SimpleDefinitionImpl
-~~~
-{% endraw %}
-
-### SimpleElseIfExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleElseIfExpressionImpl is subclass of SimpleElseIfExpression
+class SimpleIntegerLiteralExpressionImpl is subclass of SimpleIntegerLiteralExpression
 instance variables
-    private iv_test:SimpleExpression;
-    private iv_thn:SimpleExpression;
+    private iv_value:int;
 
 operations
-    public SimpleElseIfExpressionImpl: SimpleExpression * SimpleExpression ==> SimpleElseIfExpressionImpl
-    SimpleElseIfExpressionImpl(p_test, p_thn) ==
+    public SimpleIntegerLiteralExpressionImpl: int ==> SimpleIntegerLiteralExpressionImpl
+    SimpleIntegerLiteralExpressionImpl(p_value) ==
     (
-        iv_test := p_test;
-        iv_thn := p_thn;
+        iv_value := p_value;
     );
 
-    public getTest: () ==> SimpleExpression
-    getTest() == return iv_test;
+    public getValue: () ==> int
+    getValue() == return iv_value;
 
-    public getThn: () ==> SimpleExpression
-    getThn() == return iv_thn;
-
-end SimpleElseIfExpressionImpl
+end SimpleIntegerLiteralExpressionImpl
 ~~~
 {% endraw %}
 
@@ -1500,6 +1477,209 @@ end SimpleFunctionDefinitionImpl
 ~~~
 {% endraw %}
 
+### SimpleApplyExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleApplyExpressionImpl is subclass of SimpleApplyExpression
+instance variables
+    private iv_func:SimpleExpression;
+    private iv_args:seq of SimpleExpression;
+
+operations
+    public SimpleApplyExpressionImpl: SimpleExpression * seq of SimpleExpression ==> SimpleApplyExpressionImpl
+    SimpleApplyExpressionImpl(p_func, p_args) ==
+    (
+        iv_func := p_func;
+        iv_args := p_args;
+    );
+
+    public getFunc: () ==> SimpleExpression
+    getFunc() == return iv_func;
+
+    public getArgs: () ==> seq of SimpleExpression
+    getArgs() == return iv_args;
+
+end SimpleApplyExpressionImpl
+~~~
+{% endraw %}
+
+### SimpleUnaryOperatorImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleUnaryOperatorImpl is subclass of SimpleUnaryOperator
+
+end SimpleUnaryOperatorImpl
+~~~
+{% endraw %}
+
+### SimpleTypeImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleTypeImpl is subclass of SimpleNodeImpl
+    -- empty
+end SimpleTypeImpl
+~~~
+{% endraw %}
+
+### SimpleLetExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleLetExpressionImpl is subclass of SimpleLetExpression
+instance variables
+    private iv_defs:seq of SimpleLocalDefinition;
+    private iv_body:SimpleExpression;
+
+operations
+    public SimpleLetExpressionImpl: seq of SimpleLocalDefinition * SimpleExpression ==> SimpleLetExpressionImpl
+    SimpleLetExpressionImpl(p_defs, p_body) ==
+    (
+        iv_defs := p_defs;
+        iv_body := p_body;
+    );
+
+    public getDefs: () ==> seq of SimpleLocalDefinition
+    getDefs() == return iv_defs;
+
+    public getBody: () ==> SimpleExpression
+    getBody() == return iv_body;
+
+end SimpleLetExpressionImpl
+~~~
+{% endraw %}
+
+### SimpleBasicTypeImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleBasicTypeImpl is subclass of SimpleBasicType
+
+end SimpleBasicTypeImpl
+~~~
+{% endraw %}
+
+### SimpleBinaryExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleBinaryExpressionImpl is subclass of SimpleBinaryExpression
+instance variables
+    private iv_lhs:SimpleExpression;
+    private iv_op:SimpleBinaryOperator;
+    private iv_rhs:SimpleExpression;
+
+operations
+    public SimpleBinaryExpressionImpl: SimpleExpression * SimpleBinaryOperator * SimpleExpression ==> SimpleBinaryExpressionImpl
+    SimpleBinaryExpressionImpl(p_lhs, p_op, p_rhs) ==
+    (
+        iv_lhs := p_lhs;
+        iv_op := p_op;
+        iv_rhs := p_rhs;
+    );
+
+    public getLhs: () ==> SimpleExpression
+    getLhs() == return iv_lhs;
+
+    public getOp: () ==> SimpleBinaryOperator
+    getOp() == return iv_op;
+
+    public getRhs: () ==> SimpleExpression
+    getRhs() == return iv_rhs;
+
+end SimpleBinaryExpressionImpl
+~~~
+{% endraw %}
+
+### SimpleBooleanLiteralExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleBooleanLiteralExpressionImpl is subclass of SimpleBooleanLiteralExpression
+instance variables
+    private iv_value:bool;
+
+operations
+    public SimpleBooleanLiteralExpressionImpl: bool ==> SimpleBooleanLiteralExpressionImpl
+    SimpleBooleanLiteralExpressionImpl(p_value) ==
+    (
+        iv_value := p_value;
+    );
+
+    public getValue: () ==> bool
+    getValue() == return iv_value;
+
+end SimpleBooleanLiteralExpressionImpl
+~~~
+{% endraw %}
+
+### SimpleNodeImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleNodeImpl
+    -- empty
+end SimpleNodeImpl
+~~~
+{% endraw %}
+
+### SimpleBinaryOperatorImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleBinaryOperatorImpl is subclass of SimpleBinaryOperator
+
+end SimpleBinaryOperatorImpl
+~~~
+{% endraw %}
+
 ### SimpleIdentifierImpl.vdmpp
 
 {% raw %}
@@ -1524,6 +1704,238 @@ operations
     getName() == return iv_name;
 
 end SimpleIdentifierImpl
+~~~
+{% endraw %}
+
+### SimpleUnaryExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleUnaryExpressionImpl is subclass of SimpleUnaryExpression
+instance variables
+    private iv_op:SimpleUnaryOperator;
+    private iv_exp:SimpleExpression;
+
+operations
+    public SimpleUnaryExpressionImpl: SimpleUnaryOperator * SimpleExpression ==> SimpleUnaryExpressionImpl
+    SimpleUnaryExpressionImpl(p_op, p_exp) ==
+    (
+        iv_op := p_op;
+        iv_exp := p_exp;
+    );
+
+    public getOp: () ==> SimpleUnaryOperator
+    getOp() == return iv_op;
+
+    public getExp: () ==> SimpleExpression
+    getExp() == return iv_exp;
+
+end SimpleUnaryExpressionImpl
+~~~
+{% endraw %}
+
+### SimpleLiteralExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleLiteralExpressionImpl is subclass of SimpleExpressionImpl
+    -- empty
+end SimpleLiteralExpressionImpl
+~~~
+{% endraw %}
+
+### SimpleSpecificationImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleSpecificationImpl is subclass of SimpleSpecification
+instance variables
+    private iv_defs:seq of SimpleDefinition;
+
+operations
+    public SimpleSpecificationImpl: seq of SimpleDefinition ==> SimpleSpecificationImpl
+    SimpleSpecificationImpl(p_defs) ==
+    (
+        iv_defs := p_defs;
+    );
+
+    public getDefs: () ==> seq of SimpleDefinition
+    getDefs() == return iv_defs;
+
+end SimpleSpecificationImpl
+~~~
+{% endraw %}
+
+### SimpleLocalDefinitionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleLocalDefinitionImpl is subclass of SimpleLocalDefinition
+instance variables
+    private iv_name:SimpleIdentifier;
+    private iv_value:SimpleExpression;
+
+operations
+    public SimpleLocalDefinitionImpl: SimpleIdentifier * SimpleExpression ==> SimpleLocalDefinitionImpl
+    SimpleLocalDefinitionImpl(p_name, p_value) ==
+    (
+        iv_name := p_name;
+        iv_value := p_value;
+    );
+
+    public getName: () ==> SimpleIdentifier
+    getName() == return iv_name;
+
+    public getValue: () ==> SimpleExpression
+    getValue() == return iv_value;
+
+end SimpleLocalDefinitionImpl
+~~~
+{% endraw %}
+
+### SimpleRealLiteralExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleRealLiteralExpressionImpl is subclass of SimpleRealLiteralExpression
+instance variables
+    private iv_value:real;
+
+operations
+    public SimpleRealLiteralExpressionImpl: real ==> SimpleRealLiteralExpressionImpl
+    SimpleRealLiteralExpressionImpl(p_value) ==
+    (
+        iv_value := p_value;
+    );
+
+    public getValue: () ==> real
+    getValue() == return iv_value;
+
+end SimpleRealLiteralExpressionImpl
+~~~
+{% endraw %}
+
+### SimpleTypeDefinitionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleTypeDefinitionImpl is subclass of SimpleTypeDefinition
+instance variables
+    private iv_name:SimpleIdentifier;
+    private iv_type:SimpleType;
+
+operations
+    public SimpleTypeDefinitionImpl: SimpleIdentifier * SimpleType ==> SimpleTypeDefinitionImpl
+    SimpleTypeDefinitionImpl(p_name, p_type) ==
+    (
+        iv_name := p_name;
+        iv_type := p_type;
+    );
+
+    public getName: () ==> SimpleIdentifier
+    getName() == return iv_name;
+
+    public getType: () ==> SimpleType
+    getType() == return iv_type;
+
+end SimpleTypeDefinitionImpl
+~~~
+{% endraw %}
+
+### SimpleVariableExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleVariableExpressionImpl is subclass of SimpleVariableExpression
+instance variables
+    private iv_name:SimpleIdentifier;
+
+operations
+    public SimpleVariableExpressionImpl: SimpleIdentifier ==> SimpleVariableExpressionImpl
+    SimpleVariableExpressionImpl(p_name) ==
+    (
+        iv_name := p_name;
+    );
+
+    public getName: () ==> SimpleIdentifier
+    getName() == return iv_name;
+
+end SimpleVariableExpressionImpl
+~~~
+{% endraw %}
+
+### SimpleCasesExpressionImpl.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:55 CET 2010
+--
+
+class SimpleCasesExpressionImpl is subclass of SimpleCasesExpression
+instance variables
+    private iv_test:SimpleExpression;
+    private iv_alts:seq of SimpleCaseAlternative;
+    private iv_deflt:[SimpleExpression];
+
+operations
+    public SimpleCasesExpressionImpl: SimpleExpression * seq of SimpleCaseAlternative * [SimpleExpression] ==> SimpleCasesExpressionImpl
+    SimpleCasesExpressionImpl(p_test, p_alts, p_deflt) ==
+    (
+        iv_test := p_test;
+        iv_alts := p_alts;
+        iv_deflt := p_deflt;
+    );
+
+    public getTest: () ==> SimpleExpression
+    getTest() == return iv_test;
+
+    public getAlts: () ==> seq of SimpleCaseAlternative
+    getAlts() == return iv_alts;
+
+    public hasDeflt: () ==> bool
+    hasDeflt() == return (iv_deflt = nil);
+
+    public getDeflt: () ==> SimpleExpression
+    getDeflt() == return iv_deflt;
+
+end SimpleCasesExpressionImpl
 ~~~
 {% endraw %}
 
@@ -1569,335 +1981,7 @@ end SimpleIfExpressionImpl
 ~~~
 {% endraw %}
 
-### SimpleIntegerLiteralExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleIntegerLiteralExpressionImpl is subclass of SimpleIntegerLiteralExpression
-instance variables
-    private iv_value:int;
-
-operations
-    public SimpleIntegerLiteralExpressionImpl: int ==> SimpleIntegerLiteralExpressionImpl
-    SimpleIntegerLiteralExpressionImpl(p_value) ==
-    (
-        iv_value := p_value;
-    );
-
-    public getValue: () ==> int
-    getValue() == return iv_value;
-
-end SimpleIntegerLiteralExpressionImpl
-~~~
-{% endraw %}
-
-### SimpleLetExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleLetExpressionImpl is subclass of SimpleLetExpression
-instance variables
-    private iv_defs:seq of SimpleLocalDefinition;
-    private iv_body:SimpleExpression;
-
-operations
-    public SimpleLetExpressionImpl: seq of SimpleLocalDefinition * SimpleExpression ==> SimpleLetExpressionImpl
-    SimpleLetExpressionImpl(p_defs, p_body) ==
-    (
-        iv_defs := p_defs;
-        iv_body := p_body;
-    );
-
-    public getDefs: () ==> seq of SimpleLocalDefinition
-    getDefs() == return iv_defs;
-
-    public getBody: () ==> SimpleExpression
-    getBody() == return iv_body;
-
-end SimpleLetExpressionImpl
-~~~
-{% endraw %}
-
-### SimpleLiteralExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleLiteralExpressionImpl is subclass of SimpleExpressionImpl
-    -- empty
-end SimpleLiteralExpressionImpl
-~~~
-{% endraw %}
-
-### SimpleLocalDefinitionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleLocalDefinitionImpl is subclass of SimpleLocalDefinition
-instance variables
-    private iv_name:SimpleIdentifier;
-    private iv_value:SimpleExpression;
-
-operations
-    public SimpleLocalDefinitionImpl: SimpleIdentifier * SimpleExpression ==> SimpleLocalDefinitionImpl
-    SimpleLocalDefinitionImpl(p_name, p_value) ==
-    (
-        iv_name := p_name;
-        iv_value := p_value;
-    );
-
-    public getName: () ==> SimpleIdentifier
-    getName() == return iv_name;
-
-    public getValue: () ==> SimpleExpression
-    getValue() == return iv_value;
-
-end SimpleLocalDefinitionImpl
-~~~
-{% endraw %}
-
-### SimpleNodeImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleNodeImpl
-    -- empty
-end SimpleNodeImpl
-~~~
-{% endraw %}
-
-### SimpleParameterImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleParameterImpl is subclass of SimpleParameter
-instance variables
-    private iv_name:SimpleIdentifier;
-    private iv_type:SimpleType;
-
-operations
-    public SimpleParameterImpl: SimpleIdentifier * SimpleType ==> SimpleParameterImpl
-    SimpleParameterImpl(p_name, p_type) ==
-    (
-        iv_name := p_name;
-        iv_type := p_type;
-    );
-
-    public getName: () ==> SimpleIdentifier
-    getName() == return iv_name;
-
-    public getType: () ==> SimpleType
-    getType() == return iv_type;
-
-end SimpleParameterImpl
-~~~
-{% endraw %}
-
-### SimpleRealLiteralExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleRealLiteralExpressionImpl is subclass of SimpleRealLiteralExpression
-instance variables
-    private iv_value:real;
-
-operations
-    public SimpleRealLiteralExpressionImpl: real ==> SimpleRealLiteralExpressionImpl
-    SimpleRealLiteralExpressionImpl(p_value) ==
-    (
-        iv_value := p_value;
-    );
-
-    public getValue: () ==> real
-    getValue() == return iv_value;
-
-end SimpleRealLiteralExpressionImpl
-~~~
-{% endraw %}
-
-### SimpleSpecificationImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleSpecificationImpl is subclass of SimpleSpecification
-instance variables
-    private iv_defs:seq of SimpleDefinition;
-
-operations
-    public SimpleSpecificationImpl: seq of SimpleDefinition ==> SimpleSpecificationImpl
-    SimpleSpecificationImpl(p_defs) ==
-    (
-        iv_defs := p_defs;
-    );
-
-    public getDefs: () ==> seq of SimpleDefinition
-    getDefs() == return iv_defs;
-
-end SimpleSpecificationImpl
-~~~
-{% endraw %}
-
-### SimpleTypeDefinitionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleTypeDefinitionImpl is subclass of SimpleTypeDefinition
-instance variables
-    private iv_name:SimpleIdentifier;
-    private iv_type:SimpleType;
-
-operations
-    public SimpleTypeDefinitionImpl: SimpleIdentifier * SimpleType ==> SimpleTypeDefinitionImpl
-    SimpleTypeDefinitionImpl(p_name, p_type) ==
-    (
-        iv_name := p_name;
-        iv_type := p_type;
-    );
-
-    public getName: () ==> SimpleIdentifier
-    getName() == return iv_name;
-
-    public getType: () ==> SimpleType
-    getType() == return iv_type;
-
-end SimpleTypeDefinitionImpl
-~~~
-{% endraw %}
-
-### SimpleTypeImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleTypeImpl is subclass of SimpleNodeImpl
-    -- empty
-end SimpleTypeImpl
-~~~
-{% endraw %}
-
-### SimpleUnaryExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleUnaryExpressionImpl is subclass of SimpleUnaryExpression
-instance variables
-    private iv_op:SimpleUnaryOperator;
-    private iv_exp:SimpleExpression;
-
-operations
-    public SimpleUnaryExpressionImpl: SimpleUnaryOperator * SimpleExpression ==> SimpleUnaryExpressionImpl
-    SimpleUnaryExpressionImpl(p_op, p_exp) ==
-    (
-        iv_op := p_op;
-        iv_exp := p_exp;
-    );
-
-    public getOp: () ==> SimpleUnaryOperator
-    getOp() == return iv_op;
-
-    public getExp: () ==> SimpleExpression
-    getExp() == return iv_exp;
-
-end SimpleUnaryExpressionImpl
-~~~
-{% endraw %}
-
-### SimpleUnaryOperatorImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleUnaryOperatorImpl is subclass of SimpleUnaryOperator
-
-end SimpleUnaryOperatorImpl
-~~~
-{% endraw %}
-
-### SimpleVariableExpressionImpl.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:55 CET 2010
---
-
-class SimpleVariableExpressionImpl is subclass of SimpleVariableExpression
-instance variables
-    private iv_name:SimpleIdentifier;
-
-operations
-    public SimpleVariableExpressionImpl: SimpleIdentifier ==> SimpleVariableExpressionImpl
-    SimpleVariableExpressionImpl(p_name) ==
-    (
-        iv_name := p_name;
-    );
-
-    public getName: () ==> SimpleIdentifier
-    getName() == return iv_name;
-
-end SimpleVariableExpressionImpl
-~~~
-{% endraw %}
-
-### SimpleApplyExpression.vdmpp
+### SimpleFunctionDefinition.vdmpp
 
 {% raw %}
 ~~~
@@ -1906,15 +1990,120 @@ end SimpleVariableExpressionImpl
 -- Wed Mar 17 17:56:54 CET 2010
 --
 
-class SimpleApplyExpression is subclass of SimpleExpression
+class SimpleFunctionDefinition is subclass of SimpleDefinition
 operations
-    public getFunc: () ==> SimpleExpression
-    getFunc() == is subclass responsibility;
+    public getName: () ==> SimpleIdentifier
+    getName() == is subclass responsibility;
 
-    public getArgs: () ==> seq of SimpleExpression
-    getArgs() == is subclass responsibility;
+    public getParams: () ==> seq of SimpleParameter
+    getParams() == is subclass responsibility;
 
-end SimpleApplyExpression
+    public getBody: () ==> SimpleExpression
+    getBody() == is subclass responsibility;
+
+end SimpleFunctionDefinition
+~~~
+{% endraw %}
+
+### SimpleSpecification.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleSpecification is subclass of SimpleNode
+operations
+    public getDefs: () ==> seq of SimpleDefinition
+    getDefs() == is subclass responsibility;
+
+end SimpleSpecification
+~~~
+{% endraw %}
+
+### SimpleVariableExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleVariableExpression is subclass of SimpleExpression
+operations
+    public getName: () ==> SimpleIdentifier
+    getName() == is subclass responsibility;
+
+end SimpleVariableExpression
+~~~
+{% endraw %}
+
+### SimpleNode.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleNode
+    -- Abstract
+end SimpleNode
+~~~
+{% endraw %}
+
+### SimpleType.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleType is subclass of SimpleNode
+    -- Abstract
+end SimpleType
+~~~
+{% endraw %}
+
+### SimpleDefinition.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleDefinition is subclass of SimpleNode
+    -- Abstract
+end SimpleDefinition
+~~~
+{% endraw %}
+
+### SimpleElseIfExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleElseIfExpression is subclass of SimpleNode
+operations
+    public getTest: () ==> SimpleExpression
+    getTest() == is subclass responsibility;
+
+    public getThn: () ==> SimpleExpression
+    getThn() == is subclass responsibility;
+
+end SimpleElseIfExpression
 ~~~
 {% endraw %}
 
@@ -1945,7 +2134,7 @@ end SimpleBasicType
 ~~~
 {% endraw %}
 
-### SimpleBinaryExpression.vdmpp
+### SimpleExpression.vdmpp
 
 {% raw %}
 ~~~
@@ -1954,18 +2143,69 @@ end SimpleBasicType
 -- Wed Mar 17 17:56:54 CET 2010
 --
 
-class SimpleBinaryExpression is subclass of SimpleExpression
+class SimpleExpression is subclass of SimpleNode
+    -- Abstract
+end SimpleExpression
+~~~
+{% endraw %}
+
+### SimpleTypeDefinition.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleTypeDefinition is subclass of SimpleDefinition
 operations
-    public getLhs: () ==> SimpleExpression
-    getLhs() == is subclass responsibility;
+    public getName: () ==> SimpleIdentifier
+    getName() == is subclass responsibility;
 
-    public getOp: () ==> SimpleBinaryOperator
-    getOp() == is subclass responsibility;
+    public getType: () ==> SimpleType
+    getType() == is subclass responsibility;
 
-    public getRhs: () ==> SimpleExpression
-    getRhs() == is subclass responsibility;
+end SimpleTypeDefinition
+~~~
+{% endraw %}
 
-end SimpleBinaryExpression
+### SimpleRealLiteralExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleRealLiteralExpression is subclass of SimpleLiteralExpression
+operations
+    public getValue: () ==> real
+    getValue() == is subclass responsibility;
+
+end SimpleRealLiteralExpression
+~~~
+{% endraw %}
+
+### SimpleParameter.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleParameter is subclass of SimpleNode
+operations
+    public getName: () ==> SimpleIdentifier
+    getName() == is subclass responsibility;
+
+    public getType: () ==> SimpleType
+    getType() == is subclass responsibility;
+
+end SimpleParameter
 ~~~
 {% endraw %}
 
@@ -2006,6 +2246,179 @@ operations
     SimpleBinaryOperator(n) == name := n;
 
 end SimpleBinaryOperator
+~~~
+{% endraw %}
+
+### SimpleUnaryOperator.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleUnaryOperator is subclass of SimpleNode
+values
+    public MINUS = new SimpleUnaryOperator("MINUS");
+    public NOT = new SimpleUnaryOperator("NOT");
+    public PLUS = new SimpleUnaryOperator("PLUS");
+
+instance variables
+    public name:[seq of char] := nil;
+
+operations
+    public SimpleUnaryOperator: seq of char ==> SimpleUnaryOperator
+    SimpleUnaryOperator(n) == name := n;
+
+end SimpleUnaryOperator
+~~~
+{% endraw %}
+
+### SimpleIdentifier.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleIdentifier is subclass of SimpleType
+operations
+    public getName: () ==> seq of char
+    getName() == is subclass responsibility;
+
+end SimpleIdentifier
+~~~
+{% endraw %}
+
+### SimpleIfExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleIfExpression is subclass of SimpleExpression
+operations
+    public getTest: () ==> SimpleExpression
+    getTest() == is subclass responsibility;
+
+    public getThn: () ==> SimpleExpression
+    getThn() == is subclass responsibility;
+
+    public getElif: () ==> seq of SimpleElseIfExpression
+    getElif() == is subclass responsibility;
+
+    public getEse: () ==> SimpleExpression
+    getEse() == is subclass responsibility;
+
+end SimpleIfExpression
+~~~
+{% endraw %}
+
+### SimpleApplyExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleApplyExpression is subclass of SimpleExpression
+operations
+    public getFunc: () ==> SimpleExpression
+    getFunc() == is subclass responsibility;
+
+    public getArgs: () ==> seq of SimpleExpression
+    getArgs() == is subclass responsibility;
+
+end SimpleApplyExpression
+~~~
+{% endraw %}
+
+### SimpleLetExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleLetExpression is subclass of SimpleExpression
+operations
+    public getDefs: () ==> seq of SimpleLocalDefinition
+    getDefs() == is subclass responsibility;
+
+    public getBody: () ==> SimpleExpression
+    getBody() == is subclass responsibility;
+
+end SimpleLetExpression
+~~~
+{% endraw %}
+
+### SimpleIntegerLiteralExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleIntegerLiteralExpression is subclass of SimpleLiteralExpression
+operations
+    public getValue: () ==> int
+    getValue() == is subclass responsibility;
+
+end SimpleIntegerLiteralExpression
+~~~
+{% endraw %}
+
+### SimpleLocalDefinition.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleLocalDefinition is subclass of SimpleNode
+operations
+    public getName: () ==> SimpleIdentifier
+    getName() == is subclass responsibility;
+
+    public getValue: () ==> SimpleExpression
+    getValue() == is subclass responsibility;
+
+end SimpleLocalDefinition
+~~~
+{% endraw %}
+
+### SimpleUnaryExpression.vdmpp
+
+{% raw %}
+~~~
+--
+-- Created automatically by VDMJ ASTgen. DO NOT EDIT.
+-- Wed Mar 17 17:56:54 CET 2010
+--
+
+class SimpleUnaryExpression is subclass of SimpleExpression
+operations
+    public getOp: () ==> SimpleUnaryOperator
+    getOp() == is subclass responsibility;
+
+    public getExp: () ==> SimpleExpression
+    getExp() == is subclass responsibility;
+
+end SimpleUnaryExpression
 ~~~
 {% endraw %}
 
@@ -2075,165 +2488,6 @@ end SimpleCasesExpression
 ~~~
 {% endraw %}
 
-### SimpleDefinition.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleDefinition is subclass of SimpleNode
-    -- Abstract
-end SimpleDefinition
-~~~
-{% endraw %}
-
-### SimpleElseIfExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleElseIfExpression is subclass of SimpleNode
-operations
-    public getTest: () ==> SimpleExpression
-    getTest() == is subclass responsibility;
-
-    public getThn: () ==> SimpleExpression
-    getThn() == is subclass responsibility;
-
-end SimpleElseIfExpression
-~~~
-{% endraw %}
-
-### SimpleExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleExpression is subclass of SimpleNode
-    -- Abstract
-end SimpleExpression
-~~~
-{% endraw %}
-
-### SimpleFunctionDefinition.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleFunctionDefinition is subclass of SimpleDefinition
-operations
-    public getName: () ==> SimpleIdentifier
-    getName() == is subclass responsibility;
-
-    public getParams: () ==> seq of SimpleParameter
-    getParams() == is subclass responsibility;
-
-    public getBody: () ==> SimpleExpression
-    getBody() == is subclass responsibility;
-
-end SimpleFunctionDefinition
-~~~
-{% endraw %}
-
-### SimpleIdentifier.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleIdentifier is subclass of SimpleType
-operations
-    public getName: () ==> seq of char
-    getName() == is subclass responsibility;
-
-end SimpleIdentifier
-~~~
-{% endraw %}
-
-### SimpleIfExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleIfExpression is subclass of SimpleExpression
-operations
-    public getTest: () ==> SimpleExpression
-    getTest() == is subclass responsibility;
-
-    public getThn: () ==> SimpleExpression
-    getThn() == is subclass responsibility;
-
-    public getElif: () ==> seq of SimpleElseIfExpression
-    getElif() == is subclass responsibility;
-
-    public getEse: () ==> SimpleExpression
-    getEse() == is subclass responsibility;
-
-end SimpleIfExpression
-~~~
-{% endraw %}
-
-### SimpleIntegerLiteralExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleIntegerLiteralExpression is subclass of SimpleLiteralExpression
-operations
-    public getValue: () ==> int
-    getValue() == is subclass responsibility;
-
-end SimpleIntegerLiteralExpression
-~~~
-{% endraw %}
-
-### SimpleLetExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleLetExpression is subclass of SimpleExpression
-operations
-    public getDefs: () ==> seq of SimpleLocalDefinition
-    getDefs() == is subclass responsibility;
-
-    public getBody: () ==> SimpleExpression
-    getBody() == is subclass responsibility;
-
-end SimpleLetExpression
-~~~
-{% endraw %}
-
 ### SimpleLiteralExpression.vdmpp
 
 {% raw %}
@@ -2249,7 +2503,7 @@ end SimpleLiteralExpression
 ~~~
 {% endraw %}
 
-### SimpleLocalDefinition.vdmpp
+### SimpleBinaryExpression.vdmpp
 
 {% raw %}
 ~~~
@@ -2258,188 +2512,70 @@ end SimpleLiteralExpression
 -- Wed Mar 17 17:56:54 CET 2010
 --
 
-class SimpleLocalDefinition is subclass of SimpleNode
+class SimpleBinaryExpression is subclass of SimpleExpression
 operations
-    public getName: () ==> SimpleIdentifier
-    getName() == is subclass responsibility;
+    public getLhs: () ==> SimpleExpression
+    getLhs() == is subclass responsibility;
 
-    public getValue: () ==> SimpleExpression
-    getValue() == is subclass responsibility;
-
-end SimpleLocalDefinition
-~~~
-{% endraw %}
-
-### SimpleNode.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleNode
-    -- Abstract
-end SimpleNode
-~~~
-{% endraw %}
-
-### SimpleParameter.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleParameter is subclass of SimpleNode
-operations
-    public getName: () ==> SimpleIdentifier
-    getName() == is subclass responsibility;
-
-    public getType: () ==> SimpleType
-    getType() == is subclass responsibility;
-
-end SimpleParameter
-~~~
-{% endraw %}
-
-### SimpleRealLiteralExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleRealLiteralExpression is subclass of SimpleLiteralExpression
-operations
-    public getValue: () ==> real
-    getValue() == is subclass responsibility;
-
-end SimpleRealLiteralExpression
-~~~
-{% endraw %}
-
-### SimpleSpecification.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleSpecification is subclass of SimpleNode
-operations
-    public getDefs: () ==> seq of SimpleDefinition
-    getDefs() == is subclass responsibility;
-
-end SimpleSpecification
-~~~
-{% endraw %}
-
-### SimpleType.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleType is subclass of SimpleNode
-    -- Abstract
-end SimpleType
-~~~
-{% endraw %}
-
-### SimpleTypeDefinition.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleTypeDefinition is subclass of SimpleDefinition
-operations
-    public getName: () ==> SimpleIdentifier
-    getName() == is subclass responsibility;
-
-    public getType: () ==> SimpleType
-    getType() == is subclass responsibility;
-
-end SimpleTypeDefinition
-~~~
-{% endraw %}
-
-### SimpleUnaryExpression.vdmpp
-
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
-
-class SimpleUnaryExpression is subclass of SimpleExpression
-operations
-    public getOp: () ==> SimpleUnaryOperator
+    public getOp: () ==> SimpleBinaryOperator
     getOp() == is subclass responsibility;
 
-    public getExp: () ==> SimpleExpression
-    getExp() == is subclass responsibility;
+    public getRhs: () ==> SimpleExpression
+    getRhs() == is subclass responsibility;
 
-end SimpleUnaryExpression
+end SimpleBinaryExpression
 ~~~
 {% endraw %}
 
-### SimpleUnaryOperator.vdmpp
+### VDMUtil.vdmpp
 
 {% raw %}
 ~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
+class VDMUtil
 
-class SimpleUnaryOperator is subclass of SimpleNode
-values
-    public MINUS = new SimpleUnaryOperator("MINUS");
-    public NOT = new SimpleUnaryOperator("NOT");
-    public PLUS = new SimpleUnaryOperator("PLUS");
+-- 	Overture STANDARD LIBRARY: MiscUtils
+--      --------------------------------------------
+-- Version 1.0.0 
+-- 
+-- Standard library for the Overture Interpreter. When the interpreter
+-- evaluates the preliminary functions/operations in this file,
+-- corresponding internal functions is called instead of issuing a run
+-- time error. Signatures should not be changed, as well as name of
+-- module (VDM-SL) or class (VDM++). Pre/post conditions is 
+-- fully user customisable. 
+-- Dont care's may NOT be used in the parameter lists.
 
-instance variables
-    public name:[seq of char] := nil;
+functions
+-- Converts a set argument into a sequence in non-deterministic order.
+static public set2seq[@T] : set of @T +> seq of @T
+set2seq(x) == is not yet specified;
 
-operations
-    public SimpleUnaryOperator: seq of char ==> SimpleUnaryOperator
-    SimpleUnaryOperator(n) == name := n;
+-- Returns a context information tuple which represents
+-- (fine_name * line_num * column_num * class_name * fnop_name) of corresponding source text
+static public get_file_pos : () +> [ seq of char * nat * nat * seq of char * seq of char ]
+get_file_pos() == is not yet specified;
 
-end SimpleUnaryOperator
-~~~
-{% endraw %}
+-- Converts a VDM value into a seq of char.
+static public val2seq_of_char[@T] : @T +> seq of char
+val2seq_of_char(x) == is not yet specified;
 
-### SimpleVariableExpression.vdmpp
+-- converts VDM value in ASCII format into a VDM value
+-- RESULT.#1 = false implies a conversion failure
+static public seq_of_char2val[@p]:seq1 of char -> bool * [@p]
+seq_of_char2val(s) ==
+let mk_(b, v) = seq_of_char2val_(s) in
+if is_(v, @p) then mk_(b, v) else mk_(false, nil)
+post let mk_(b,t) = RESULT in not b => t = nil;
 
-{% raw %}
-~~~
---
--- Created automatically by VDMJ ASTgen. DO NOT EDIT.
--- Wed Mar 17 17:56:54 CET 2010
---
+static private seq_of_char2val_:seq1 of char -> bool * ?
+seq_of_char2val_(s) == is not yet specified;
 
-class SimpleVariableExpression is subclass of SimpleExpression
-operations
-    public getName: () ==> SimpleIdentifier
-    getName() == is subclass responsibility;
+static public classname[@T] : @T -> [seq1 of char]
+    classname(s) == is not yet specified;
 
-end SimpleVariableExpression
+end VDMUtil
+
+
 ~~~
 {% endraw %}
 
@@ -2745,139 +2881,6 @@ deflatten(elsif, els) ==
 		in new GiraffeIfExpressionImpl(gTest, gThen, gElse);
 		
 end Compiler
-~~~
-{% endraw %}
-
-### nativetest.vdmpp
-
-{% raw %}
-~~~
-class codegen_Util
-
-instance variables
-
-compiler : Compiler := new Compiler();
-codegen : Codegen := new Codegen();
---io : IO := new IO();
-
-operations
-
-public Run : () ==> (bool|int|seq of char)
-Run() ==
-	let programs = getSimpleNames() in
-	Run(programs);
-				
-public Run : seq of seq of char ==> seq of char
-Run(programs) ==
-	if programs = [] then
-		return []
-	else
-		let
-			program = hd programs,
-			z = parseSimpleProgram(program),
-			a = compiler.Compile(program, z),
-			b = codegen.Generate(a),
-			real_b = b ^ " public static void main(String[] argv){ System.exit(x()); }}",
-			c = writeProgram(program, real_b),
-			d = compileProgram(program),
-			e = runProgram(program)
-		in
-			if e <> 42 then
-				return "\nTest " ^ program ^ " failed with code: " ^ iToS(e) ^ Run(tl programs)
-			else
-				return "\nTest " ^ program ^ " success" ^ Run(tl programs);
-	
-functions
-	public iToS : int -> seq of char
-	iToS(i) == is not yet specified;
-
-	public showType : int -> int
-	showType(type) == is not yet specified;
-
-	public getSimpleNames : () -> seq of seq of char
-	getSimpleNames() == is not yet specified;
-
-	public parseSimpleProgram : seq of char -> SimpleSpecification
-	parseSimpleProgram(filename) == is not yet specified;
-	
-	public writeProgram : seq of char * seq of char -> bool
-	writeProgram(fileName, contents) == is not yet specified;
-	
-	public compileProgram : seq of char -> bool
-	compileProgram(fileName) == is not yet specified;
-	
-	public runProgram : seq of char -> (int|bool)
-	runProgram(fileName) == is not yet specified;
-	
-end codegen_Util
-
-~~~
-{% endraw %}
-
-### returnConstInt.vdmpp
-
-{% raw %}
-~~~
-class returnConstInt
-values
-public returnConstInt = 
-new SimpleSpecificationImpl([
-    new SimpleFunctionDefinitionImpl(new SimpleIdentifierImpl("x"),
-        [
-        ],
-        new SimpleIntegerLiteralExpressionImpl(13))
-])
-;
-end returnConstInt
-~~~
-{% endraw %}
-
-### VDMUtil.vdmpp
-
-{% raw %}
-~~~
-class VDMUtil
-
--- 	Overture STANDARD LIBRARY: MiscUtils
---      --------------------------------------------
--- 
--- Standard library for the Overture Interpreter. When the interpreter
--- evaluates the preliminary functions/operations in this file,
--- corresponding internal functions is called instead of issuing a run
--- time error. Signatures should not be changed, as well as name of
--- module (VDM-SL) or class (VDM++). Pre/post conditions is 
--- fully user customisable. 
--- Dont care's may NOT be used in the parameter lists.
-
-functions
--- Converts a set argument into a sequence in non-deterministic order.
-static public set2seq[@T] : set of @T +> seq of @T
-set2seq(x) == is not yet specified;
-
--- Returns a context information tuple which represents
--- (fine_name * line_num * column_num * class_name * fnop_name) of corresponding source text
-static public get_file_pos : () +> [ seq of char * nat * nat * seq of char * seq of char ]
-get_file_pos() == is not yet specified;
-
--- Converts a VDM value into a seq of char.
-static public val2seq_of_char[@T] : @T +> seq of char
-val2seq_of_char(x) == is not yet specified;
-
--- converts VDM value in ASCII format into a VDM value
--- RESULT.#1 = false implies a conversion failure
-static public seq_of_char2val[@p]:seq1 of char -> bool * [@p]
-seq_of_char2val(s) ==
-  is not yet specified
-  post let mk_(b,t) = RESULT in not b => t = nil;
-
-end VDMUtil
-
-class A
-functions
-	public f() r:[ seq of char * nat * nat * seq of char * seq of char ]
-		== VDMUtil`get_file_pos();
-	
-end A
 ~~~
 {% endraw %}
 

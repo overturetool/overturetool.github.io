@@ -26,6 +26,115 @@ Springer Verlag, October 1994.
 |Entry point     :| DEFAULT`LooseEvalExpr(expr)|
 
 
+### pat.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                       
+operations
+
+  PatternMatch : Pattern * VAL ==> set of BlkEnv
+  PatternMatch (pat_p, val_v) ==
+    cases true:
+     (is_PatternName(pat_p))     -> let mk_PatternName(id) = pat_p in
+                                       return { MkBlkEnv(id, val_v) },
+     (is_MatchVal(pat_p))        -> let lval = LooseEvalExpr(pat_p.val)
+                                    in
+				      (for all mk_(v,m) in set lval do
+				        if v = val_v
+					then return { MkEmptyBlkEnv()};
+			               return {}),
+     (is_SetEnumPattern(pat_p))  -> MatchSetEnumPattern(pat_p, val_v),
+     (is_SetUnionPattern(pat_p)) -> MatchSetUnionPattern(pat_p, val_v),
+     others -> error
+    end;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+MatchSetEnumPattern : SetEnumPattern * VAL ==> set of BlkEnv
+MatchSetEnumPattern ( mk_SetEnumPattern(elems_lp), val_v) ==
+if is_SET(val_v)
+then let mk_SET(val_sv) = val_v in
+       if card val_sv = card elems elems_lp
+       then let perm_slv = Permute(SetToSeq(val_sv)) in
+              return dunion { MatchLists(elems_lp, tmp_lv) | 
+                              tmp_lv in set perm_slv }
+       else return {}
+else return {};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+MatchSetUnionPattern : SetUnionPattern * VAL ==> set of BlkEnv
+MatchSetUnionPattern ( mk_SetUnionPattern(lp_p, rp_p), val_v) ==
+( dcl envres_sl : set of BlkEnv := {};
+  if is_SET(val_v)
+  then let mk_SET(val_sv) = val_v in
+       ( for all mk_(setl_sv, setr_sv) in set 
+               { mk_(setl_sv,setr_sv) |
+                 setl_sv ,setr_sv in set power val_sv &
+                   (setl_sv union setr_sv = val_sv ) and 
+                   (setl_sv inter setr_sv = {}) } do 
+           let envl_s = PatternMatch(lp_p, mk_SET(setl_sv)),
+               envr_s = PatternMatch(rp_p, mk_SET(setr_sv)) in
+             if envl_s <> {} and envr_s <> {}
+             then let tmpenv = { CombineBlkEnv(tmp1, tmp2) |
+                                 tmp1 in set envl_s, tmp2 in set envr_s } 
+                  in
+                    envres_sl := envres_sl union UnionMatch(tmpenv);
+         return envres_sl
+       )
+  else return {}
+);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+MatchLists : seq of Pattern * seq of VAL ==> set of BlkEnv
+MatchLists (els_lp, val_lv) ==
+ let tmp_ls = [ PatternMatch(els_lp(i), val_lv(i)) |
+                i in set inds els_lp ] in
+   if {} not in set elems tmp_ls
+   then let perm_s = SeqOfSetOf2SetOfSeqOf(tmp_ls) in
+          UnionMatch({ conc l | l in set perm_s })
+   else return {};
+                                                                                                                                                                                                                                                                                                                                          
+UnionMatch : set of BlkEnv ==> set of BlkEnv
+UnionMatch (blk_sl) ==
+return { StripDoubles(blk_l) |
+         blk_l in set blk_sl &
+           forall mk_(id1,v1_v) in set elems blk_l,
+                  mk_(id2,v2_v) in set elems blk_l & 
+                  SelName(id1) = SelName(id2) => (v1_v = v2_v)};
+                                                                                          
+StripDoubles : BlkEnv ==> BlkEnv
+StripDoubles (blk_l) ==
+( dcl tmpblk_l : BlkEnv := blk_l,
+      res_l : BlkEnv := [];
+  while tmpblk_l <> [] do 
+    let mk_(id,val_v) = hd tmpblk_l in
+    ( if not exists mk_(id1 ,-) in set elems tl tmpblk_l & id1 = id
+      then res_l := CombineBlkEnv(res_l, MkBlkEnv(SelNameAndPos(id), val_v));
+      tmpblk_l := tl tmpblk_l
+    );
+  return res_l
+);
+                                                                                                                            
+EvalBind : Bind ==> set of (BlkEnv * Model)
+EvalBind (bind) ==
+EvalSetBind(bind);
+                                                                           
+EvalSetBind : SetBind ==> set of (BlkEnv * Model)
+EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
+( dcl env_s : set of (BlkEnv * Model) := {};
+  let set_lv = LooseEvalExpr(set_e) in
+   (for all mk_(set_v,m) in set set_lv do
+     (if is_SET(set_v)
+      then let mk_SET(set_sv) = set_v in
+           ( for all elm_v in set set_sv do 
+               (let new_envs = PatternMatch(pat_p, elm_v) in
+                env_s := env_s union {mk_(env,m) | env in set new_envs})
+           )
+      else error);
+    return env_s)
+)
+                                                                                                                                 
+~~~
+{% endraw %}
+
 ### as.vdmsl
 
 {% raw %}
@@ -160,6 +269,208 @@ values
  expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
 
              
+~~~
+{% endraw %}
+
+### expr.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+
+operations
+
+  LooseEvalExpr: Expr ==> LVAL
+  LooseEvalExpr(expr) ==
+    cases true :
+     (is_LetExpr(expr))                  -> LooseEvalLetExpr(expr),
+     (is_LetBeSTExpr(expr))              -> LooseEvalLetBeSTExpr(expr),
+     (is_IfExpr(expr))                   -> LooseEvalIfExpr(expr),
+     (is_CasesExpr(expr))                -> LooseEvalCasesExpr(expr),
+     (is_BinaryExpr(expr))               -> LooseEvalBinaryExpr(expr),
+     (is_SetEnumerationExpr(expr))       -> LooseEvalSetEnumerationExpr(expr),
+     (is_ApplyExpr(expr))                -> LooseEvalApplyExpr(expr),
+     (is_NumLit(expr)),
+     (is_BoolLit(expr))                  -> LooseEvalLiteral(expr),
+     (is_Name(expr))                     -> LooseLookUp(expr),
+     (is_BracketedExpr(expr))            -> LooseEvalBracketedExpr(expr),
+     others                              -> error
+    end;
+
+  LooseEvalBracketedExpr : BracketedExpr ==> LVAL
+  LooseEvalBracketedExpr (mk_BracketedExpr(expr)) ==
+    LooseEvalExpr(expr);
+                                                          
+  LooseEvalLetExpr : LetExpr ==> LVAL
+  LooseEvalLetExpr ( mk_LetExpr(pat,expr,in_e)) ==
+  ( dcl lval: LVAL := {};
+
+    let val_lv = LooseEvalExpr(expr) in
+     for all mk_(val_v,m) in set val_lv do
+       let env_s = PatternMatch(pat,val_v) in
+         if env_s <> {}
+         then for all env in set env_s do
+	       (PushBlkEnv(env) ;
+                let in_lv = LooseEvalExpr(in_e) in
+                ( PopBlkEnv() ;
+                  lval := lval union Consistent(in_lv,m)
+                )
+              )
+         else error;
+  return lval);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+  LooseEvalLetBeSTExpr : LetBeSTExpr ==> LVAL
+  LooseEvalLetBeSTExpr ( mk_LetBeSTExpr(lhs, st_e, in_e)) ==
+   (dcl lval : LVAL := {};
+    dcl em_s: set of (BlkEnv * Model) := {};
+    
+    for all mk_(env,m) in set EvalBind(lhs) do 
+    (PushBlkEnv(env);
+     let st_lv = LooseEvalExpr(st_e) in
+       for all mk_(val,m2) in set Consistent(st_lv,m) do
+         if val = mk_BOOL(true)
+	 then em_s := em_s union {mk_(env,m2 munion m)};
+    PopBlkEnv());
+    if em_s <> {}
+    then for all mk_(env,m3) in set em_s do
+          (PushBlkEnv(env) ;
+           let in_lv = LooseEvalExpr(in_e) in
+             (PopBlkEnv();
+              lval := lval union Consistent(in_lv,m3)
+             )
+          )
+    else error;
+    return lval);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  LooseEvalIfExpr : IfExpr ==> LVAL
+  LooseEvalIfExpr(mk_IfExpr (test, cons, altn)) ==
+  (dcl lval : set of (VAL * Model) := {};
+  
+  let test_lv = LooseEvalExpr(test) in
+   for all mk_(test_v,m) in set test_lv do
+    if is_BOOL(test_v)
+    then let mk_BOOL(b) = test_v in
+         if b
+         then lval := lval union Consistent(LooseEvalExpr(cons),m)
+         else lval := lval union Consistent(LooseEvalExpr(altn),m)
+    else error;
+  return lval);
+                                                                                                                                                                                                                                                                                                                                                              
+  LooseEvalCasesExpr: CasesExpr ==> LVAL
+  LooseEvalCasesExpr (mk_CasesExpr(sel,altns,Others)) ==
+  (dcl lval : set of (VAL * Model) := {},
+       alt_l : seq of CaseAltn := altns,
+       cont : bool := true;
+
+   let sel_lv = LooseEvalExpr(sel)
+   in
+     for all mk_(sel_v,m) in set sel_lv do
+       (while alt_l <> [] and cont do
+        (let mk_CaseAltn(pat,body) = hd alt_l
+	 in
+	   let env_s = PatternMatch(pat,sel_v)
+	   in
+	     if env_s <> {}
+	     then (cont := false;
+	           for all env in set env_s do
+	            (PushBlkEnv(env);
+	             lval := lval union Consistent(LooseEvalExpr(body),m);
+		     PopBlkEnv()));
+	 alt_l := tl alt_l);
+      if not cont
+      then cont := true
+      elseif Others = nil
+      then error
+      else lval := lval union LooseEvalExpr(Others));
+    return lval);
+                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  LooseEvalBinaryExpr: BinaryExpr ==> LVAL
+  LooseEvalBinaryExpr (mk_BinaryExpr(left_e, opr, right_e)) ==
+    let left_lv  = LooseEvalExpr(left_e),
+        right_lv = LooseEvalExpr(right_e)
+    in
+      if opr = <SETMINUS>
+      then LooseEvalSetBinaryExpr(left_lv, right_lv)
+      elseif opr = <EQ>
+      then LooseEvalEqBinaryExpr(left_lv, right_lv)
+      else LooseEvalNumBinaryExpr(left_lv, opr, right_lv);
+                                                                                                                                                                                                                                                                                                                                                                                                         
+  LooseEvalSetBinaryExpr: LVAL * LVAL ==> LVAL
+  LooseEvalSetBinaryExpr(l_lv, r_lv) ==
+   (dcl lval : LVAL := {};
+    for all mk_(mk_SET(lv),lm) in set l_lv do
+      for all mk_(mk_SET(rv),rm) in set Consistent(r_lv,lm) do
+        lval := lval union {mk_(mk_SET(lv \ rv),rm munion lm)};
+    return lval)
+  pre forall mk_(v,-) in set l_lv union r_lv & is_SET(v);
+
+  LooseEvalEqBinaryExpr: LVAL * LVAL ==> LVAL
+  LooseEvalEqBinaryExpr(l_lv, r_lv) ==
+   (dcl lval : LVAL := {};
+    for all mk_(lv,lm) in set l_lv do
+      for all mk_(rv,rm) in set Consistent(r_lv,lm) do
+        lval := lval union {mk_(mk_BOOL(lv = rv),rm munion lm)};
+    return lval);
+
+  LooseEvalNumBinaryExpr: LVAL * BinaryOp * LVAL ==> LVAL
+  LooseEvalNumBinaryExpr(l_lv, opr, r_lv) ==
+   (dcl lval : LVAL := {};
+    for all mk_(mk_NUM(lv),lm) in set l_lv do
+      for all mk_(mk_NUM(rv),rm) in set Consistent(r_lv,lm) do
+        cases opr:
+          <NUMMINUS> -> lval := lval union {mk_(mk_NUM(lv - rv),rm munion lm)},
+          <NUMPLUS>  -> lval := lval union {mk_(mk_NUM(lv + rv),rm munion lm)},
+          <NUMMULT>  -> lval := lval union {mk_(mk_NUM(lv * rv),rm munion lm)}
+    end;
+    return lval)
+  pre forall mk_(v,-) in set l_lv union r_lv & is_NUM(v);
+                                                                      
+  LooseEvalSetEnumerationExpr: SetEnumerationExpr ==> LVAL
+  LooseEvalSetEnumerationExpr(mk_SetEnumerationExpr(els)) ==
+    (dcl sm_s : set of ((set of VAL) * Model) := {};
+
+     if len els = 0
+     then return {mk_(mk_SET({}),{|->})}
+     else (sm_s := {mk_({elem},m) | mk_(elem,m) in set LooseEvalExpr(els(1))};
+     
+           for index = 2 to len els do
+            let elm_llv = LooseEvalExpr(els(index)) in
+              sm_s := {mk_(s union {e},m munion m2)
+	              | mk_(s,m) in set sm_s, mk_(e,m2) in set elm_llv &
+		        forall id in set (dom m inter dom m2) &
+			m(id) = m2(id)};
+           return {mk_(mk_SET(s),m) | mk_(s,m) in set sm_s})); 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+  LooseEvalApplyExpr: ApplyExpr ==> LVAL
+  LooseEvalApplyExpr(mk_ApplyExpr(fct_e, arg_e)) ==
+   (dcl lval: LVAL := {};
+   
+    let arg_lv = LooseEvalExpr(arg_e),
+        mk_(pat,body) = LookUpFn(fct_e)
+    in
+     (PushEmptyEnv();
+      for all mk_(arg_v,m) in set arg_lv do
+        let env_s = PatternMatch(pat,arg_v)
+	in
+	  (InstallCurFn(fct_e, arg_v, PatternIds(pat));
+	   for all env in set env_s do
+	     (PushBlkEnv(env);
+	      let ap_lv = LooseEvalExpr(body)
+	      in
+	        (PopBlkEnv();
+	         lval := lval union Consistent(ap_lv,m))));
+           LeaveCurFn());
+    PopEnvL();
+    return lval);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+  LooseEvalLiteral: Literal ==> LVAL
+  LooseEvalLiteral(lit) ==
+    return if is_NumLit(lit)
+           then {mk_(mk_NUM(lit.val),{|->})}
+	   else {mk_(mk_BOOL(lit.val),{|->})}
+
+  
+                                                                                                                                                                           
 ~~~
 {% endraw %}
 
@@ -415,317 +726,6 @@ functions
 	     | id in set dom upd_m}
     
             
-~~~
-{% endraw %}
-
-### expr.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-
-operations
-
-  LooseEvalExpr: Expr ==> LVAL
-  LooseEvalExpr(expr) ==
-    cases true :
-     (is_LetExpr(expr))                  -> LooseEvalLetExpr(expr),
-     (is_LetBeSTExpr(expr))              -> LooseEvalLetBeSTExpr(expr),
-     (is_IfExpr(expr))                   -> LooseEvalIfExpr(expr),
-     (is_CasesExpr(expr))                -> LooseEvalCasesExpr(expr),
-     (is_BinaryExpr(expr))               -> LooseEvalBinaryExpr(expr),
-     (is_SetEnumerationExpr(expr))       -> LooseEvalSetEnumerationExpr(expr),
-     (is_ApplyExpr(expr))                -> LooseEvalApplyExpr(expr),
-     (is_NumLit(expr)),
-     (is_BoolLit(expr))                  -> LooseEvalLiteral(expr),
-     (is_Name(expr))                     -> LooseLookUp(expr),
-     (is_BracketedExpr(expr))            -> LooseEvalBracketedExpr(expr),
-     others                              -> error
-    end;
-
-  LooseEvalBracketedExpr : BracketedExpr ==> LVAL
-  LooseEvalBracketedExpr (mk_BracketedExpr(expr)) ==
-    LooseEvalExpr(expr);
-                                                          
-  LooseEvalLetExpr : LetExpr ==> LVAL
-  LooseEvalLetExpr ( mk_LetExpr(pat,expr,in_e)) ==
-  ( dcl lval: LVAL := {};
-
-    let val_lv = LooseEvalExpr(expr) in
-     for all mk_(val_v,m) in set val_lv do
-       let env_s = PatternMatch(pat,val_v) in
-         if env_s <> {}
-         then for all env in set env_s do
-	       (PushBlkEnv(env) ;
-                let in_lv = LooseEvalExpr(in_e) in
-                ( PopBlkEnv() ;
-                  lval := lval union Consistent(in_lv,m)
-                )
-              )
-         else error;
-  return lval);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-  LooseEvalLetBeSTExpr : LetBeSTExpr ==> LVAL
-  LooseEvalLetBeSTExpr ( mk_LetBeSTExpr(lhs, st_e, in_e)) ==
-   (dcl lval : LVAL := {};
-    dcl em_s: set of (BlkEnv * Model) := {};
-    
-    for all mk_(env,m) in set EvalBind(lhs) do 
-    (PushBlkEnv(env);
-     let st_lv = LooseEvalExpr(st_e) in
-       for all mk_(val,m2) in set Consistent(st_lv,m) do
-         if val = mk_BOOL(true)
-	 then em_s := em_s union {mk_(env,m2 munion m)};
-    PopBlkEnv());
-    if em_s <> {}
-    then for all mk_(env,m3) in set em_s do
-          (PushBlkEnv(env) ;
-           let in_lv = LooseEvalExpr(in_e) in
-             (PopBlkEnv();
-              lval := lval union Consistent(in_lv,m3)
-             )
-          )
-    else error;
-    return lval);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-  LooseEvalIfExpr : IfExpr ==> LVAL
-  LooseEvalIfExpr(mk_IfExpr (test, cons, altn)) ==
-  (dcl lval : set of (VAL * Model) := {};
-  
-  let test_lv = LooseEvalExpr(test) in
-   for all mk_(test_v,m) in set test_lv do
-    if is_BOOL(test_v)
-    then let mk_BOOL(b) = test_v in
-         if b
-         then lval := lval union Consistent(LooseEvalExpr(cons),m)
-         else lval := lval union Consistent(LooseEvalExpr(altn),m)
-    else error;
-  return lval);
-                                                                                                                                                                                                                                                                                                                                                              
-  LooseEvalCasesExpr: CasesExpr ==> LVAL
-  LooseEvalCasesExpr (mk_CasesExpr(sel,altns,Others)) ==
-  (dcl lval : set of (VAL * Model) := {},
-       alt_l : seq of CaseAltn := altns,
-       cont : bool := true;
-
-   let sel_lv = LooseEvalExpr(sel)
-   in
-     for all mk_(sel_v,m) in set sel_lv do
-       (while alt_l <> [] and cont do
-        (let mk_CaseAltn(pat,body) = hd alt_l
-	 in
-	   let env_s = PatternMatch(pat,sel_v)
-	   in
-	     if env_s <> {}
-	     then (cont := false;
-	           for all env in set env_s do
-	            (PushBlkEnv(env);
-	             lval := lval union Consistent(LooseEvalExpr(body),m);
-		     PopBlkEnv()));
-	 alt_l := tl alt_l);
-      if not cont
-      then cont := true
-      elseif Others = nil
-      then error
-      else lval := lval union LooseEvalExpr(Others));
-    return lval);
-                                                                                                                                                                                                                                                                                                                                                                                                                                         
-  LooseEvalBinaryExpr: BinaryExpr ==> LVAL
-  LooseEvalBinaryExpr (mk_BinaryExpr(left_e, opr, right_e)) ==
-    let left_lv  = LooseEvalExpr(left_e),
-        right_lv = LooseEvalExpr(right_e)
-    in
-      if opr = <SETMINUS>
-      then LooseEvalSetBinaryExpr(left_lv, right_lv)
-      elseif opr = <EQ>
-      then LooseEvalEqBinaryExpr(left_lv, right_lv)
-      else LooseEvalNumBinaryExpr(left_lv, opr, right_lv);
-                                                                                                                                                                                                                                                                                                                                                                                                         
-  LooseEvalSetBinaryExpr: LVAL * LVAL ==> LVAL
-  LooseEvalSetBinaryExpr(l_lv, r_lv) ==
-   (dcl lval : LVAL := {};
-    for all mk_(mk_SET(lv),lm) in set l_lv do
-      for all mk_(mk_SET(rv),rm) in set Consistent(r_lv,lm) do
-        lval := lval union {mk_(mk_SET(lv \ rv),rm munion lm)};
-    return lval)
-  pre forall mk_(v,-) in set l_lv union r_lv & is_SET(v);
-
-  LooseEvalEqBinaryExpr: LVAL * LVAL ==> LVAL
-  LooseEvalEqBinaryExpr(l_lv, r_lv) ==
-   (dcl lval : LVAL := {};
-    for all mk_(lv,lm) in set l_lv do
-      for all mk_(rv,rm) in set Consistent(r_lv,lm) do
-        lval := lval union {mk_(mk_BOOL(lv = rv),rm munion lm)};
-    return lval);
-
-  LooseEvalNumBinaryExpr: LVAL * BinaryOp * LVAL ==> LVAL
-  LooseEvalNumBinaryExpr(l_lv, opr, r_lv) ==
-   (dcl lval : LVAL := {};
-    for all mk_(mk_NUM(lv),lm) in set l_lv do
-      for all mk_(mk_NUM(rv),rm) in set Consistent(r_lv,lm) do
-        cases opr:
-          <NUMMINUS> -> lval := lval union {mk_(mk_NUM(lv - rv),rm munion lm)},
-          <NUMPLUS>  -> lval := lval union {mk_(mk_NUM(lv + rv),rm munion lm)},
-          <NUMMULT>  -> lval := lval union {mk_(mk_NUM(lv * rv),rm munion lm)}
-    end;
-    return lval)
-  pre forall mk_(v,-) in set l_lv union r_lv & is_NUM(v);
-                                                                      
-  LooseEvalSetEnumerationExpr: SetEnumerationExpr ==> LVAL
-  LooseEvalSetEnumerationExpr(mk_SetEnumerationExpr(els)) ==
-    (dcl sm_s : set of ((set of VAL) * Model) := {};
-
-     if len els = 0
-     then return {mk_(mk_SET({}),{|->})}
-     else (sm_s := {mk_({elem},m) | mk_(elem,m) in set LooseEvalExpr(els(1))};
-     
-           for index = 2 to len els do
-            let elm_llv = LooseEvalExpr(els(index)) in
-              sm_s := {mk_(s union {e},m munion m2)
-	              | mk_(s,m) in set sm_s, mk_(e,m2) in set elm_llv &
-		        forall id in set (dom m inter dom m2) &
-			m(id) = m2(id)};
-           return {mk_(mk_SET(s),m) | mk_(s,m) in set sm_s})); 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-  LooseEvalApplyExpr: ApplyExpr ==> LVAL
-  LooseEvalApplyExpr(mk_ApplyExpr(fct_e, arg_e)) ==
-   (dcl lval: LVAL := {};
-   
-    let arg_lv = LooseEvalExpr(arg_e),
-        mk_(pat,body) = LookUpFn(fct_e)
-    in
-     (PushEmptyEnv();
-      for all mk_(arg_v,m) in set arg_lv do
-        let env_s = PatternMatch(pat,arg_v)
-	in
-	  (InstallCurFn(fct_e, arg_v, PatternIds(pat));
-	   for all env in set env_s do
-	     (PushBlkEnv(env);
-	      let ap_lv = LooseEvalExpr(body)
-	      in
-	        (PopBlkEnv();
-	         lval := lval union Consistent(ap_lv,m))));
-           LeaveCurFn());
-    PopEnvL();
-    return lval);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-  LooseEvalLiteral: Literal ==> LVAL
-  LooseEvalLiteral(lit) ==
-    return if is_NumLit(lit)
-           then {mk_(mk_NUM(lit.val),{|->})}
-	   else {mk_(mk_BOOL(lit.val),{|->})}
-
-  
-                                                                                                                                                                           
-~~~
-{% endraw %}
-
-### pat.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                       
-operations
-
-  PatternMatch : Pattern * VAL ==> set of BlkEnv
-  PatternMatch (pat_p, val_v) ==
-    cases true:
-     (is_PatternName(pat_p))     -> let mk_PatternName(id) = pat_p in
-                                       return { MkBlkEnv(id, val_v) },
-     (is_MatchVal(pat_p))        -> let lval = LooseEvalExpr(pat_p.val)
-                                    in
-				      (for all mk_(v,m) in set lval do
-				        if v = val_v
-					then return { MkEmptyBlkEnv()};
-			               return {}),
-     (is_SetEnumPattern(pat_p))  -> MatchSetEnumPattern(pat_p, val_v),
-     (is_SetUnionPattern(pat_p)) -> MatchSetUnionPattern(pat_p, val_v),
-     others -> error
-    end;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-
-MatchSetEnumPattern : SetEnumPattern * VAL ==> set of BlkEnv
-MatchSetEnumPattern ( mk_SetEnumPattern(elems_lp), val_v) ==
-if is_SET(val_v)
-then let mk_SET(val_sv) = val_v in
-       if card val_sv = card elems elems_lp
-       then let perm_slv = Permute(SetToSeq(val_sv)) in
-              return dunion { MatchLists(elems_lp, tmp_lv) | 
-                              tmp_lv in set perm_slv }
-       else return {}
-else return {};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-MatchSetUnionPattern : SetUnionPattern * VAL ==> set of BlkEnv
-MatchSetUnionPattern ( mk_SetUnionPattern(lp_p, rp_p), val_v) ==
-( dcl envres_sl : set of BlkEnv := {};
-  if is_SET(val_v)
-  then let mk_SET(val_sv) = val_v in
-       ( for all mk_(setl_sv, setr_sv) in set 
-               { mk_(setl_sv,setr_sv) |
-                 setl_sv ,setr_sv in set power val_sv &
-                   (setl_sv union setr_sv = val_sv ) and 
-                   (setl_sv inter setr_sv = {}) } do 
-           let envl_s = PatternMatch(lp_p, mk_SET(setl_sv)),
-               envr_s = PatternMatch(rp_p, mk_SET(setr_sv)) in
-             if envl_s <> {} and envr_s <> {}
-             then let tmpenv = { CombineBlkEnv(tmp1, tmp2) |
-                                 tmp1 in set envl_s, tmp2 in set envr_s } 
-                  in
-                    envres_sl := envres_sl union UnionMatch(tmpenv);
-         return envres_sl
-       )
-  else return {}
-);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-MatchLists : seq of Pattern * seq of VAL ==> set of BlkEnv
-MatchLists (els_lp, val_lv) ==
- let tmp_ls = [ PatternMatch(els_lp(i), val_lv(i)) |
-                i in set inds els_lp ] in
-   if {} not in set elems tmp_ls
-   then let perm_s = SeqOfSetOf2SetOfSeqOf(tmp_ls) in
-          UnionMatch({ conc l | l in set perm_s })
-   else return {};
-                                                                                                                                                                                                                                                                                                                                          
-UnionMatch : set of BlkEnv ==> set of BlkEnv
-UnionMatch (blk_sl) ==
-return { StripDoubles(blk_l) |
-         blk_l in set blk_sl &
-           forall mk_(id1,v1_v) in set elems blk_l,
-                  mk_(id2,v2_v) in set elems blk_l & 
-                  SelName(id1) = SelName(id2) => (v1_v = v2_v)};
-                                                                                          
-StripDoubles : BlkEnv ==> BlkEnv
-StripDoubles (blk_l) ==
-( dcl tmpblk_l : BlkEnv := blk_l,
-      res_l : BlkEnv := [];
-  while tmpblk_l <> [] do 
-    let mk_(id,val_v) = hd tmpblk_l in
-    ( if not exists mk_(id1 ,-) in set elems tl tmpblk_l & id1 = id
-      then res_l := CombineBlkEnv(res_l, MkBlkEnv(SelNameAndPos(id), val_v));
-      tmpblk_l := tl tmpblk_l
-    );
-  return res_l
-);
-                                                                                                                            
-EvalBind : Bind ==> set of (BlkEnv * Model)
-EvalBind (bind) ==
-EvalSetBind(bind);
-                                                                           
-EvalSetBind : SetBind ==> set of (BlkEnv * Model)
-EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
-( dcl env_s : set of (BlkEnv * Model) := {};
-  let set_lv = LooseEvalExpr(set_e) in
-   (for all mk_(set_v,m) in set set_lv do
-     (if is_SET(set_v)
-      then let mk_SET(set_sv) = set_v in
-           ( for all elm_v in set set_sv do 
-               (let new_envs = PatternMatch(pat_p, elm_v) in
-                env_s := env_s union {mk_(env,m) | env in set new_envs})
-           )
-      else error);
-    return env_s)
-)
-                                                                                                                                 
 ~~~
 {% endraw %}
 
