@@ -35,6 +35,8 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ
 
+Just one very small tweak to VDMJ (doesn't apply to Overture):
+* 3.2.0 Build 160914, Improvement to typechecking of traces.
 
 #### Overture
 
@@ -50,10 +52,7 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 #### Overture workshop
 
-
 ##  Strategic Research Agenda
-
-
 
 ##  Publications Status and Plans
 
