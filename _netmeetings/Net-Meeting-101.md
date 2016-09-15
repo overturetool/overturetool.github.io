@@ -41,8 +41,16 @@ Just one very small tweak to VDMJ (doesn't apply to Overture):
 #### Overture
 
 
+
 ##  Release Planning
 
+For the next release -- version 2.4.2 (due by October 9, 2016) -- we expect to include a first version of the auto-completion feature As usual a release candidate will be sent out one or two weeks before the release date.
+
+Furthermore, in response to the request for future release dates, the following milestones have been added to Github:
+
+* 2.4.4 Due by December 5, 2016
+* 2.4.6 Due by March 6, 2017
+* 2.4.8 Due by June 5, 2017
 
 ##  Community Development
 
