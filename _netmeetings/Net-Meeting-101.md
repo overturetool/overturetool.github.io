@@ -40,11 +40,15 @@ Just one very small tweak to VDMJ (doesn't apply to Overture):
 
 #### Overture
 
+The following fixes and enhancements have been made since the last core meeting:
+
+* Fixes to the concurrency extension of the Java code generator (feedback received from the [AGCO project](http://eng.au.dk/forskning/forskningsprojekter/mechanical-and-materials-engineering-research-projects/off-line-and-on-line-logistics-planning-of-harvesting-processes/))
+* Further work on the [auto-completion feature](https://github.com/overturetool/overture/issues/423)
 
 
 ##  Release Planning
 
-For the next release -- version 2.4.2 (due by October 9, 2016) -- we expect to include a first version of the auto-completion feature As usual a release candidate will be sent out one or two weeks before the release date.
+For the next release -- version 2.4.2 (due by October 9, 2016) -- we expect to include a first version of the auto-completion feature. As usual a release candidate will be sent out one or two weeks before the release date.
 
 Furthermore, in response to the request for future release dates, the following milestones have been added to Github:
 
