@@ -28,10 +28,13 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Status of VDMTools Development
 
+* still working on changing source files and documentation that refer SCSK as a responsible tool provider.
+* Binary distribution will be released before source code.
+
 ##  Status of the Overture Components
 
 #### ViennaTalk
-
+* migrated into Pharo 5.0 with a new Spur VM (generated codes run roughly 1.5 times faster)
 
 #### VDMJ
 
