@@ -1,15 +1,20 @@
+---
+layout: default
+title: Net Meeting 101
+date: 18 September 2016, 1200 CET
+---
+
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>
 
-# Overture Core Netmeeting 101
+# {{ page.title }}
 
 |||
 |---|---|
-| Date | 18th Sep 2016 |
+| Date | {{ page.date }} |
 | Participants | PGL, JF, MV, NP, TO  Minutes by NB |
-
 
 ## Review Status of the Action List
 
