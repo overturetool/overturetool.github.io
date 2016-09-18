@@ -1,9 +1,3 @@
----
-layout: default
-title: Net Meeting 101
-date: 18 September 2016, 1200 CEST
----
-
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/edit.js"></script>
@@ -13,7 +7,7 @@ date: 18 September 2016, 1200 CEST
 
 |||
 |---|---|
-| Date | {{ page.date }} |
+| Date | 18th Sep 2016 |
 | Participants | PGL, JF, MV, NP, TO  Minutes by NB |
 
 
