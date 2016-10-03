@@ -9,7 +9,7 @@ location: Cyprus, Greece
 * 09.00 – 10.00 **Session 1: Cyber-Physical Systems**
 
  * _Resilience Profiling in the Model-Based Design of Cyber-Physical Systems_, Mark Jackson and John Fitzgerald
- * _Considering Abstraction Levels on a Case Study_, Casper Thule and Rene Nilsson
+ * _Considering Abstraction Levels on a Case Study_, Casper Thule and René Nilsson
 
 * 10.00 – 10.30 **Coffee Break**
 
@@ -31,7 +31,7 @@ location: Cyprus, Greece
 * 15.30 – 16.00 **Coffee Break**
 * 16.00 – 18.00 **Special Session discussing what commercial offering Overture can provide using the Business Canvas process**
 
-## CALL FOR PAPERS
+## The Original CALL FOR PAPERS
 
 > The 14th Overture Workshop
 > will be held on the 7th of November 2016 in connection with the Formal Methods 2016 symposium
