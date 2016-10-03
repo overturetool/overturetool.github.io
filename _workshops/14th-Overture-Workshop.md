@@ -9,7 +9,7 @@ location: Cyprus, Greece
 * 09.00 – 10.00 **Session 1: Cyber-Physical Systems**
 
  * _Resilience Profiling in the Model-Based Design of Cyber-Physical Systems_, Mark Jackson and John Fitzgerald
- * _Considering Abstraction Levels on a Case Study_, Casper Thule and René Nilsson
+ * _Considering Abstraction Levels on a Case Study_, Casper Thule and Rene Nilsson
 
 * 10.00 – 10.30 **Coffee Break**
 
