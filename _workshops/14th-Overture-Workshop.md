@@ -7,7 +7,7 @@ location: Cyprus, Greece
 ### THE 14TH OVERTURE WORKSHOP: TOWARDS ANALYTICAL TOOL CHAINS
 ### SCHEDULE
 
-* 09.00 – 10.00 **Session 1: Cyber-Physical Systems (chaired: Peter Gorm Larsen)**
+* 09.00 – 10.00 **Session 1: Cyber-Physical Systems (chair: Peter Gorm Larsen)**
 
  * _Resilience Profiling in the Model-Based Design of Cyber-Physical Systems_, Mark Jackson and John Fitzgerald
  * _Considering Abstraction Levels on a Case Study_, Casper Thule and René Nilsson
