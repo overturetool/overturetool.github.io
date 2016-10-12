@@ -9,25 +9,25 @@ location: Cyprus, Greece
 
 * 09.00 – 10.00 **Session 1: Cyber-Physical Systems (chair: Peter Gorm Larsen)**
 
- * _Resilience Profiling in the Model-Based Design of Cyber-Physical Systems_, Mark Jackson and John Fitzgerald
- * _Considering Abstraction Levels on a Case Study_, Casper Thule and René Nilsson
+ * _Resilience Profiling in the Model-Based Design of Cyber-Physical Systems_, **Mark Jackson** and John Fitzgerald
+ * _Considering Abstraction Levels on a Case Study_, **Casper Thule and René Nilsson**
 
 * 10.00 – 10.30 **Coffee Break**
 
 * 10.30 – 12.30 **Session 2: Tool Enhancements (chair: Nico Plat)**
 
- * _Automated Generation of C# and .NET Code Contracts from VDM-SL Models_, Steffen Diswal, Peter W. V. Tran-Jørgensen and Peter Gorm Larsen
- * _Automated VDM-SL to Smalltalk Code Generators for Exploratory Modeling_, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
- * _Integrated Tool Chain for Model-based Design of Cyber-Physical Systems_, Peter Gorm Larsen, Casper Thule, Kenneth Lausdahl, Victor Bandur, Carl Gamble, Etienne Brosse, Andrey Sadovykh, Alessandra Bagnato and Luis Diogo Couto
- * _Using JML-based Code Generation to Enhance Test Automation for VDM Models_, Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Nick Battle
+ * _Automated Generation of C# and .NET Code Contracts from VDM-SL Models_, Steffen Diswal, **Peter W. V. Tran-Jørgensen** and Peter Gorm Larsen
+ * _Automated VDM-SL to Smalltalk Code Generators for Exploratory Modeling_, **Tomohiro Oda**, Keijiro Araki and Peter Gorm Larsen
+ * _Integrated Tool Chain for Model-based Design of Cyber-Physical Systems_, **Peter Gorm Larsen**, Casper Thule, Kenneth Lausdahl, Victor Bandur, Carl Gamble, Etienne Brosse, Andrey Sadovykh, Alessandra Bagnato and Luis Diogo Couto
+ * _Using JML-based Code Generation to Enhance Test Automation for VDM Models_, **Peter W. V. Tran-Jørgensen**, Peter Gorm Larsen and Nick Battle
 
 * 12.30 – 14.00 **Lunch**
 
 * 14.00 – 15.30 **Session 3: Using and Extending Overture (chair: John Fitzgerald)**
 
- * _Towards integration of Overture into TASTE_, Tommaso Fabbri, Marcel Verhoef, Victor Bandur, Maxime Perrotin, Thanassis Tsiodras and Peter Gorm Larsen
- * _Collaborative Modelling using Automated Negotiation in Traffic Management_, Nico Plat, Peter Gorm Larsen and Ken Pierce
- * _Extending Overture with Implicit Monitoring of Instance Variables_, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
+ * _Towards integration of Overture into TASTE_, Tommaso Fabbri, **Marcel Verhoef**, Victor Bandur, Maxime Perrotin, Thanassis Tsiodras and Peter Gorm Larsen
+ * _Collaborative Modelling using Automated Negotiation in Traffic Management_, **Nico Plat**, Peter Gorm Larsen and Ken Pierce
+ * _Extending Overture with Implicit Monitoring of Instance Variables_, Luis Diogo Couto, **Kenneth Lausdahl**, Nico Plat, Peter Gorm Larsen and Ken Pierce
 
 * 15.30 – 16.00 **Coffee Break**
 * 16.00 – 18.00 **Special Session discussing what commercial offering Overture can provide using the Business Canvas process**
