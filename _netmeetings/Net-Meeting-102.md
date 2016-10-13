@@ -49,10 +49,6 @@ The Java code generator now provides limited support for code generation of OO m
 
 [Overture 2.4.2](https://github.com/overturetool/overture/releases/tag/Release%2F2.4.2) was released 06 October 2016. Next release -- version 2.4.2 -- is due by December 5, 2016.
 
-#### topic 1
-
-some description
-
 
 ##  Community Development
 
