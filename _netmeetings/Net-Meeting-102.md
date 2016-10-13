@@ -43,11 +43,11 @@ some description
 
 ##  Status of the Overture Components
 
-The Java code generator now provides limited support for code generation of OO models that use multiple inheritance. Specifically, the Java code generator tries to represent VDM classes as interfaces whenever it can. This feature is used in one of the AU project that uses VDM/publish-subscribe to model harvest operations. A more detailed description of this feature can be found [here](https://github.com/overturetool/overture/issues/606). Other than that a few corrections have been made to some of the VDM examples that bundle with the tool.
+The Java code generator now provides limited support for code generation of OO models that use multiple inheritance. Specifically, the Java code generator tries to represent VDM classes as interfaces whenever it can. This feature is used in an AU project that uses VDM/publish-subscribe to model harvest operations. A more detailed description of this feature can be found [here](https://github.com/overturetool/overture/issues/606). Other than that a few corrections have been made to some of the VDM examples that bundle with the tool.
 
 ##  Release Planning
 
-[Overture 2.4.2](https://github.com/overturetool/overture/releases/tag/Release%2F2.4.2) was released 06 October 2016. Next release -- version 2.4.2 -- is due by December 5, 2016.
+[Overture 2.4.2](https://github.com/overturetool/overture/releases/tag/Release%2F2.4.2) was released 06 October, 2016. Next release -- version 2.4.2 -- is due by December 5, 2016.
 
 
 ##  Community Development
