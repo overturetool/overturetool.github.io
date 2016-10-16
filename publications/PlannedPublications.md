@@ -9,18 +9,6 @@ title: Overture Publications
 - Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur Kenneth Lausdahl and Miran Hasanagic
 - Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
 
-## Planned submissions for the Overture Workshop in connection with FM'2016
-- Resilience Profiling in the Model-based Design for Cyber-Physical Systems, Mark Jackson and John Fitzgerald
-- Drone Control using Crescendo and INTO-CPS, Casper Thule and René Nilsson
-- Towards VDM-SL to C#/.dot translation, Steffen Diswal, Peter Tran-Jørgensen and Peter Gorm Larsen
-- An Overture WebIDE for VDM-SL Models, Rasmus Reimer, Kasper Saaby, Tomohiro Oda and Peter Gorm Larsen
-- Automated VDM-SL to Smalltalk Code Generators for Exploratory Modeling, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
-- Extending Overture with Implicit Monitoring of Instance Variables, Luis Diogo Couto, Kenneth Lausdahl, Nico Plat, Peter Gorm Larsen and Ken Pierce
-- Collaborative Modelling Using Automated Negotiations, Nico Plat, Peter Gorm Larsen and Ken Pierce
-- Connecting TASTE with Overture using Code Generation Glue, Tommasso Fabri, Marcel Verhoef, Victor Bandur, M. Perrotin, A. Tsiodras and Peter Gorm Larsen
--   Using JML-based Code Generation to Enhance the Test Automation for VDM Models, Peter W. V. Tran-Jørgensen , Peter Gorm Larsen, and Nick Battle
--   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems, Peter Gorm Larsen, Casper Thule, Kenneth Lausdahl, Victor Bardur, Carl Gamble, Ken Pierce, Etienne Brosse, Andrey Sadovykh, Alessandra Bagnato and Luis Diogo Couto
-
 #### Conferences / Journals
 
 ## In preparation
