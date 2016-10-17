@@ -12,6 +12,11 @@ title: Overture Publications
 #### Conferences / Journals
 
 ## In preparation
+-   ViennaTalk: An Integrated Formal Specification Environment Focused 
+    on the Early Stage of the Formal Specification Phase (in Japanese),
+    Tomohiro Oda and Keijiro Araki, to be submitted to Computer Software,
+    Japan Society for Software Science and Technology, special issue on
+    "Software papers"
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
