@@ -5,6 +5,7 @@ date: 2016-11-07
 location: Cyprus, Greece
 ---
 ### THE 14TH OVERTURE WORKSHOP: TOWARDS ANALYTICAL TOOL CHAINS
+
 #### SCHEDULE
 
 * 09.00 – 10.00 **Session 1: Cyber-Physical Systems (chair: Peter Gorm Larsen)**
@@ -26,7 +27,7 @@ location: Cyprus, Greece
 * 14.00 – 15.30 **Session 3: Using and Extending Overture (chair: John Fitzgerald)**
 
  * _Towards integration of Overture into TASTE_, Tommaso Fabbri, **Marcel Verhoef**, Victor Bandur, Maxime Perrotin, Thanassis Tsiodras and Peter Gorm Larsen
- * _Collaborative Modelling using Automated Negotiation in Traffic Management_, **Nico Plat**, Peter Gorm Larsen and Ken Pierce
+ * _Modelling Collaborative Systems and Automated Negotiations_, **Nico Plat**, Peter Gorm Larsen and Ken Pierce
  * _Extending Overture with Implicit Monitoring of Instance Variables_, Luis Diogo Couto, **Kenneth Lausdahl**, Nico Plat, Peter Gorm Larsen and Ken Pierce
 
 * 15.30 – 16.00 **Coffee Break**
