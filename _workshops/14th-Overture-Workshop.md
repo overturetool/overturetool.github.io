@@ -6,6 +6,7 @@ location: Cyprus, Greece
 ---
 ### THE 14TH OVERTURE WORKSHOP: TOWARDS ANALYTICAL TOOL CHAINS
 
+Proceedings can be found as <http://ojs.statsbiblioteket.dk/index.php/ece/issue/view/3507>
 #### SCHEDULE
 
 * 09.00 – 10.00 **Session 1: Cyber-Physical Systems (chair: Peter Gorm Larsen)**
