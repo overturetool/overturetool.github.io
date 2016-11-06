@@ -12,11 +12,6 @@ title: Overture Publications
 #### Conferences / Journals
 
 ## In preparation
--   ViennaTalk: An Integrated Formal Specification Environment Focused 
-    on the Early Stage of the Formal Specification Phase (in Japanese),
-    Tomohiro Oda and Keijiro Araki, to be submitted to Computer Software,
-    Japan Society for Software Science and Technology, special issue on
-    "Software papers"
 -   The Execution Semantics of VDM Real-Time in a Co-Simulation
     Environment (Kenneth Lausdahl, Joey Coleman and Peter Gorm Larsen,
     new venue needs to be found)
@@ -27,6 +22,11 @@ title: Overture Publications
 
 ## In review
 
+-   ViennaTalk: An Integrated Formal Specification Environment Focused 
+    on the Early Stage of the Formal Specification Phase (in Japanese),
+    Tomohiro Oda and Keijiro Araki, to be submitted to Computer Software,
+    Japan Society for Software Science and Technology, special issue on
+    "Software papers"
 - A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
@@ -38,8 +38,6 @@ title: Overture Publications
 
 ## In press
 
-- ViennaTalk and Assertch: Building Lightweight Formal Methods Environments on Pharo 4, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To appear in Proc of IWST16 (International Workshop on Smalltalk Technologies)
--   Tomohiro Oda and Keijiro Araki, Automated Generation of Smalltalk programs from VDM-SL specifications, Proc. of Software Symposium 2016 (SS2016),Yonago, Japan, June 2016 (In Japanese) (Best Paper Award)
 -   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, presented at the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
 -   Claus Ballegaard Nielsen, Kenneth Lausdahl, Peter Gorm Larsen.
     Distributed Simulation of Formal Models in System of Systems
