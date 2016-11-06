@@ -29,7 +29,7 @@ Proceedings can be found as <http://ojs.statsbiblioteket.dk/index.php/ece/issue/
 
  * _Towards integration of Overture into TASTE_, Tommaso Fabbri, **Marcel Verhoef**, Victor Bandur, Maxime Perrotin, Thanassis Tsiodras and Peter Gorm Larsen
  * _Modelling Collaborative Systems and Automated Negotiations_, **Nico Plat**, Peter Gorm Larsen and Ken Pierce
- * _Extending Overture with Implicit Monitoring of Instance Variables_, Luis Diogo Couto, **Kenneth Lausdahl**, Nico Plat, Peter Gorm Larsen and Ken Pierce
+ * _Decoupling validation UIs using Publish-Subscribe binding of instance variables in Overture_, Luis Diogo Couto, **Kenneth Lausdahl**, Nico Plat, Peter Gorm Larsen and Ken Pierce
 
 * 15.30 – 16.00 **Coffee Break**
 * 16.00 – 18.00 **Special Session discussing what commercial offering Overture can provide using the Business Canvas process**
