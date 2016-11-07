@@ -11,7 +11,7 @@ Proceedings can be found as <http://ojs.statsbiblioteket.dk/index.php/ece/issue/
 
 * 09.00 – 10.00 **Session 1: Cyber-Physical Systems (chair: Peter Gorm Larsen)**
 
- * _Resilience Profiling in the Model-Based Design of Cyber-Physical Systems_, **Mark Jackson** and John Fitzgerald
+ * [_Resilience Profiling in the Model-Based Design of Cyber-Physical Systems_](14/2016-11-07OvertureWorkshopMarkJackson.pdf), **Mark Jackson** and John Fitzgerald
  * _Considering Abstraction Levels on a Case Study_, **Casper Thule and René Nilsson**
 
 * 10.00 – 10.30 **Coffee Break**
