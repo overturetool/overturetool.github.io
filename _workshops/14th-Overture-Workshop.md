@@ -27,7 +27,7 @@ Proceedings can be found as <http://ojs.statsbiblioteket.dk/index.php/ece/issue/
 
 * 14.00 – 15.30 **Session 3: Using and Extending Overture (chair: John Fitzgerald)**
 
- * _Towards integration of Overture into TASTE_, Tommaso Fabbri, **Marcel Verhoef**, Victor Bandur, Maxime Perrotin, Thanassis Tsiodras and Peter Gorm Larsen
+ * [_Towards integration of Overture into TASTE_](14/FabrriEtAl07112016_expanded.pdf), Tommaso Fabbri, **Marcel Verhoef**, Victor Bandur, Maxime Perrotin, Thanassis Tsiodras and Peter Gorm Larsen
  * _Modelling Collaborative Systems and Automated Negotiations_, **Nico Plat**, Peter Gorm Larsen and Ken Pierce
  * [_Decoupling validation UIs using Publish-Subscribe binding of instance variables in Overture_](14/Decoupling_validation_UIs_in_Overture.pdf), Luis Diogo Couto, **Kenneth Lausdahl**, Nico Plat, Peter Gorm Larsen and Ken Pierce
 
