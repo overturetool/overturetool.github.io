@@ -83,3 +83,6 @@ The organising committee can be reached via the following e-mail address:  <mail
 * M Verhoef, European Space Agency, Netherlands
 * S Wolff, Terma, Denmark
 
+### Participants
+
+![Front row: ...](14/Overture2016.JPG)
