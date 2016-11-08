@@ -19,7 +19,7 @@ Proceedings can be found as <http://ojs.statsbiblioteket.dk/index.php/ece/issue/
 * 10.30 – 12.30 **Session 2: Tool Enhancements (chair: Nico Plat)**
 
  * [_Automated Generation of C# and .NET Code Contracts from VDM-SL Models_](14/fm16-sl2cs-pvj.pdf), Steffen Diswal, **Peter W. V. Tran-Jørgensen** and Peter Gorm Larsen
- * _Automated VDM-SL to Smalltalk Code Generators for Exploratory Modeling_, **Tomohiro Oda**, Keijiro Araki and Peter Gorm Larsen
+ * [_Automated VDM-SL to Smalltalk Code Generators for Exploratory Modeling_](14/TomohiroOda-SmalltalkCG.pdf), **Tomohiro Oda**, Keijiro Araki and Peter Gorm Larsen
  * [_Integrated Tool Chain for Model-based Design of Cyber-Physical Systems_](14/14thOvertureINTOCPS_presentation.pdf), **Peter Gorm Larsen**, Casper Thule, Kenneth Lausdahl, Victor Bandur, Carl Gamble, Etienne Brosse, Andrey Sadovykh, Alessandra Bagnato and Luis Diogo Couto
  * [_Using JML-based Code Generation to Enhance Test Automation for VDM Models_](14/fm16-traces-pvj), **Peter W. V. Tran-Jørgensen**, Peter Gorm Larsen and Nick Battle
 
