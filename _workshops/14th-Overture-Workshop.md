@@ -85,4 +85,4 @@ The organising committee can be reached via the following e-mail address:  <mail
 
 ### Participants
 
-![Front row: ...](14/Overture2016.JPG)
+![Front row: ...](14/Overture2016.png)
