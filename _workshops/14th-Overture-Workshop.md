@@ -9,6 +9,8 @@ location: Cyprus, Greece
 Proceedings can be found as <http://ojs.statsbiblioteket.dk/index.php/ece/issue/view/3507>
 #### SCHEDULE
 
+[Opening slides](14/20161107OvertureWelcome.pdf)
+
 * 09.00 – 10.00 **Session 1: Cyber-Physical Systems (chair: Peter Gorm Larsen)**
 
  * [_Resilience Profiling in the Model-Based Design of Cyber-Physical Systems_](14/MarkJackson.pdf), **Mark Jackson** and John Fitzgerald
