@@ -9,6 +9,8 @@ title: The Overture Community
 
 # ViennaTalk
 
+![ViennaTalk logo](https://raw.githubusercontent.com/tomooda/ViennaTalk-doc/master/images/ViennaTalk-logo-150.png)
+
 [ViennaTalk](https://github.com/tomooda/ViennaTalk-doc/blob/master/README.md) is a VDM environment built upon [Pharo Smalltalk](http://pharo.org) system.
 
 Pre-built packages for MacOSX, Linux and Windows are available at [https://github.com/tomooda/ViennaTalk-doc/releases](https://github.com/tomooda/ViennaTalk-doc/releases).
