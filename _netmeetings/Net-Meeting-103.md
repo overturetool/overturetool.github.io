@@ -54,8 +54,8 @@ Github repository and community site for VDMTools are available.
 ## Status of ViennaTalk Development
 
 Code name "Cyprus" has been released.
-https://github.com/tomooda/ViennaTalk-doc/releases
 
+* https://github.com/tomooda/ViennaTalk-doc/releases
 * Drag&Dropping files from Finder/Desktop into a ViennaTalk environment opens corresponding tools.
 * ViennaAnimation to abstract execution mechanisms (now interpreter and transpiler) of animation.
 * The settings dialog has the Code Generator section to turn on/off runtime type checking and runtime assertion checking.
