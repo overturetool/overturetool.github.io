@@ -36,10 +36,19 @@ some description
 
 ## Status of VDMTools Development
 
-#### topic 1
+#### VDMTools site
 
-some description
+http://fmvdm.org/ 245 visits and 50 downloads
 
+## Status of ViennaTalk Development
+
+Code name "Cyprus" has been released.
+https://github.com/tomooda/ViennaTalk-doc/releases
+
+* Drag&Dropping files from Finder/Desktop into a ViennaTalk environment opens corresponding tools.
+* VDMC is renamed to ViennaAnimation to abstract execution mechanisms (now interpreter and transpiler) of animation.
+* The settings dialog has the Code Generator section to turn on/off runtime type checking and runtime assertion checking.
+* VDMBrowser and Lively Walk-Through provides options to use interpreter or transpiler.
 
 ##  Status of the Overture Components
 
