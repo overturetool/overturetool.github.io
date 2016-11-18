@@ -36,9 +36,20 @@ some description
 
 ## Status of VDMTools Development
 
+Github repository and community site for VDMTools is available
+
+#### Github repository
+
+* https://github.com/vdmtools/vdmtools
+* All source code and documentation including Japanese translations are available in this repository.
+* GPLv3, copylefted by Kyushu University
+
 #### VDMTools site
 
-http://fmvdm.org/ 245 visits and 50 downloads
+* http://fmvdm.org/
+* distributes binary packages for Mac, Linux and Windows
+* 245 visits to the front page
+* 50 downloads of binary packages
 
 ## Status of ViennaTalk Development
 
@@ -46,7 +57,7 @@ Code name "Cyprus" has been released.
 https://github.com/tomooda/ViennaTalk-doc/releases
 
 * Drag&Dropping files from Finder/Desktop into a ViennaTalk environment opens corresponding tools.
-* VDMC is renamed to ViennaAnimation to abstract execution mechanisms (now interpreter and transpiler) of animation.
+* ViennaAnimation to abstract execution mechanisms (now interpreter and transpiler) of animation.
 * The settings dialog has the Code Generator section to turn on/off runtime type checking and runtime assertion checking.
 * VDMBrowser and Lively Walk-Through provides options to use interpreter or transpiler.
 
