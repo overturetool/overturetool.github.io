@@ -36,7 +36,7 @@ some description
 
 ## Status of VDMTools Development
 
-Github repository and community site for VDMTools is available
+Github repository and community site for VDMTools are available.
 
 #### Github repository
 
