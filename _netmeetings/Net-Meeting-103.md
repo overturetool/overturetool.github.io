@@ -14,7 +14,7 @@ date: 20 November 2016, 1200 CET
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | PGL, NB, TO, NP, PJ, SH, JF.  Minutes by PJ. |
+| Participants | PGL, NB, TO, NP, PJ, SH, JF, SS.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -26,9 +26,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
+A new RM has been submitted by Paul Chisholm. This RM suggests to define a default order for types in VDM-SL. See https://github.com/overturetool/language/issues/39
 
 
 ## Status of VDMTools Development
@@ -60,16 +58,15 @@ Code name "Cyprus" has been released.
 
 ##  Status of the Overture Components
 
-#### Component 1
+The following issues have been addressed:
 
-details about it
+* Fixes to the standard libraries (see https://github.com/overturetool/overture/issues/586)
+* The release notes have been updates to include a link to the VDM-10 language manual (see https://github.com/overturetool/overture/issues/607)
 
 
 ##  Release Planning
 
-#### topic 1
-
-some description
+Next Overture release is due by December 5, 2016.
 
 
 ##  Community Development
@@ -78,9 +75,6 @@ some description
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
-
 
 ##  Follow up on the Business Canvas session from the Overture Workshop
 
@@ -88,20 +82,7 @@ What is the best way forward here?
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
