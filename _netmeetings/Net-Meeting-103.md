@@ -58,11 +58,12 @@ Code name "Cyprus" has been released.
 
 ##  Status of the Overture Components
 
-The following issues have been addressed:
+The following Overture-specific issues have been addressed:
 
 * Fixes to the standard libraries (see https://github.com/overturetool/overture/issues/586)
 * The release notes have been updates to include a link to the VDM-10 language manual (see https://github.com/overturetool/overture/issues/607)
 
+In addition the number of VDM constructs supported by the C code generator has been extended (work by PJ). Furthermore, Victor is looking into developing garbage collection support to address some of the issus we have with respect to memory management in the generated code. Lastly, Miran is looking into code generation of the distributed aspects of VDM-RT.
 
 ##  Release Planning
 
