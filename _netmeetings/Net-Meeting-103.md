@@ -36,14 +36,14 @@ Github repository and community site for VDMTools are available.
 #### Github repository
 
 * https://github.com/vdmtools/vdmtools
-* All source code and documentation including Japanese translations are available in this repository.
+* All source code and documentation (including Japanese translations) are available in this repository.
 * GPLv3, copylefted by Kyushu University
 
 #### VDMTools site
 
 * http://fmvdm.org/
-* distributes binary packages for Mac, Linux and Windows
-* 245 visits to the front page
+* distributed binary packages for Mac, Linux and Windows
+* 245 front page visits
 * 50 downloads of binary packages
 
 ## Status of ViennaTalk Development
@@ -94,10 +94,16 @@ NP has prepared a document that contains a number of "How can we?" questions. He
 See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
-## New actions
+## New Actions
+
+The following actions were added during the meeting:
 
 * 103-1: PGL to create a proposal for a meeting schedule for 2017 - see https://github.com/overturetool/overturetool.github.io/issues/29
 
-* 103-2: The December 18 meeting (2016) will be moved to January so more people can attend. See https://github.com/overturetool/overturetool.github.io/issues/30
+* 103-2: PGL to move December 18 meeting (2016) to January so more people can attend. See https://github.com/overturetool/overturetool.github.io/issues/30
+
+## Any Other Business
+
+None.
 
 <div id="edit_page_div"></div>
