@@ -18,7 +18,6 @@ title: Overture Publications
 -   Semantics for Generic Co-simulation of Heterogeneous Models (Kenneth
     Lausdahl, Joey Coleman and Peter Gorm Larsen, was rejected from Formal
     Aspects of Computing journal) new version in preparation with Victor Bandur, Jim Woodcock and Simon Foster
-- Modelling and Validating the properties of Scalar Variables in the FMI standard, Miran Hasanagic, Peter Gorm Larsen, Peter W. V. Tran-Jørgensen and Kenneth Lausdahl, to be submitted as short paper for FM'2016
 
 ## In review
 
@@ -31,13 +30,12 @@ title: Overture Publications
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
 -   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster, accepted for publication at Isola 2016
--   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, accepted as short paper for FM'2016
 -   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, submitted to Software - Practice and Experience journal
-
 
 
 ## In press
 
+-   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, FM'2016
 -   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, presented at the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
 -   Claus Ballegaard Nielsen, Kenneth Lausdahl, Peter Gorm Larsen.
     Distributed Simulation of Formal Models in System of Systems
