@@ -87,13 +87,17 @@ One way to proceed from here is to identify different subjects and discuss them 
 * Social media strategy
 * etc.
 
-NP has prepared a document that contains a number of "How can we?" questions. He will make it available on the Overture Github page. The photos of the business canvas still need to be summarised.
+NP has prepared a document that contains a number of "How can we?" questions. He will make the document available on the Overture Github page. The photos of the business canvas (the "sticky notes") still need to be summarised. Furthermore, NP will make a summary of the conclusion on the video so we can discuss it at the next meeting.
 
 ##  Publications Status and Plans
 
 See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
-##  Any Other Business
+## New actions
+
+* 103-1: PGL to create a proposal for a meeting schedule for 2017 - see https://github.com/overturetool/overturetool.github.io/issues/29
+
+* 103-2: The December 18 meeting (2016) will be moved to January so more people can attend. See https://github.com/overturetool/overturetool.github.io/issues/30
 
 <div id="edit_page_div"></div>
