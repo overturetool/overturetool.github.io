@@ -79,7 +79,15 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 ##  Follow up on the Business Canvas session from the Overture Workshop
 
-What is the best way forward here?
+One way to proceed from here is to identify different subjects and discuss them separately. For example,
+
+* The business model for Overture 
+* The video 
+* Next steps for Overture development
+* Social media strategy
+* etc.
+
+NP has prepared a document that contains a number of "How can we?" questions. He will make it available on the Overture Github page. The photos of the business canvas still need to be summarised.
 
 ##  Publications Status and Plans
 
