@@ -14,17 +14,14 @@ date: 20 November 2016, 1200 CET
 |||
 |---|---|
 | Date | {{ page.date }} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, NB, TO, NP, PJ, SH, JF.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 88-1 No progress on the video.
 
 
 ## Overture Language Board Status
