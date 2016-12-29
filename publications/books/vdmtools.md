@@ -6,10 +6,6 @@ title: VDM Tools
 
 <img src="{{site.url}}/publications/books/VDMToolsLogo.jpg"/>
 
-"Validated Designs for Object-oriented Systems" is supported by high quality industry-strength tools owned and marketed by CSK Systems Corporation of Japan. The full functionality includes model syntax- and type-checking, an interpreter, test coverage support, proof obligation generation, code generation for C++ and Java, the link to Rose, and much more. Platforms supported include Linux, Windows, MacG4?/5. For full details of the tools visit http://www.vdmtools.jp/en. The following versions are available for download:
+"Validated Designs for Object-oriented Systems" is supported by high quality industry-strength tools that previously was owned and marketed by CSK Systems Corporation of Japan. The full functionality includes model syntax- and type-checking, an interpreter, test coverage support, proof obligation generation, code generation for C++ and Java, the link to Rose, and much more. Platforms supported include Linux, Windows, MacOS. It has now been turned into open-source software. 
 
-* **VDMTools Lite**: This limited-functionality version is available for non-commercial use. It is designed for readers of the "Validated Designs" book wishing to attempt the exercises and those wishing to explore the tool support available for VDM models. Download directly from [http://www.vdmtools.jp/en](http://www.vdmtools.jp/en) (Free of charge, but you will need to register).
-* **Academic Version**: This full-functionality version is available free of charge to academic users, for non-commercial research and teaching purposes. To request this version, please email VDM.SP@csk.com.
-* **Commercial Version**: The full-functionality tools are available from CSK. To request this version, please email VDM.SP@csk.com.
-
-Documentation is available from [http://www.vdmtools.jp/en](http://www.vdmtools.jp/en)
+[VDMTools](http://fmvdm.org/) is a fully featured toolbox for VDM-family with a long history. It has both IDE with GUI and command line tools with features including syntax checkers, type checkers, interpreters, proof obligation generators and code generators. Binary packages (for Mac, Linux and Widnows) and documentation (in English and Japanese) are available at [fmvdm](http://fmvdm.org/) site, and all source code and documentation are now open-sourced under GPLv3 at [github repository](http://github.com/vdmtools/vdmtools/).
