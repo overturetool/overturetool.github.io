@@ -43,6 +43,10 @@ Github repository and community site for VDMTools are available.
 
 ##  Status of the Overture Components
 
+### VDMJ
+A new release 4.0 of VDMJ is available for alpha testing. This release does not add any new functionality, but it has a large scale restructuring of the internals of VDMJ.
+
+Version 3 and earlier of VDMJ have a monolithic structure, where the code for each type of analysis on a node type (for example, type checking, execution and PO generation) is included in the single AST node of that type. Version 4 onwards splits the functionality of the different analyses into separate classes. Before an analysis is performed, the system generates a new tree of objects specifically for that analysis (once only). This means we can keep new analyses independent of existing code and the AST, but without using visitors, which can become cumbersome for very large ASTs.
 ##  Release Planning
 
 
