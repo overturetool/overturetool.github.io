@@ -17,7 +17,7 @@ The Overture core group net meetings.
 * Net Meeting 109: 2nd July 2017, 1200 CST
 * Net Meeting 110: 27th August 2017, 1200 CST
 * Net Meeting 111: 8th October 2017, 1200 CST
-* Net Meeting 112: 15th November 2017, 1200 CST
+* Net Meeting 112: 12th November 2017, 1200 CST
 * Net Meeting 113: 17th December 2017, 1200 CST
 
 And we have a [meeting template](template.html)
