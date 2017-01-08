@@ -57,7 +57,7 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 ##  Follow up on the Business Canvas session from the Overture Workshop
 
-The business model for Overture 
+The business model for Overture see https://github.com/overturetool/overture/wiki/Business-model
 
 ##  Publications Status and Plans
 
