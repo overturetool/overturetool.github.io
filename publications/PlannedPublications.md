@@ -6,8 +6,6 @@ title: Overture Publications
 # Planned Publications
 
 ## Planned
-- Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur Kenneth Lausdahl and Miran Hasanagic
-- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
 
 #### Conferences / Journals
 
@@ -18,19 +16,20 @@ title: Overture Publications
 -   Semantics for Generic Co-simulation of Heterogeneous Models (Kenneth
     Lausdahl, Joey Coleman and Peter Gorm Larsen, was rejected from Formal
     Aspects of Computing journal) new version in preparation with Victor Bandur, Jim Woodcock and Simon Foster
+- Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur Kenneth Lausdahl and Miran Hasanagic
+- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
+-   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, to be submitted to IFM
 
 ## In review
 
 -   ViennaTalk: An Integrated Formal Specification Environment Focused 
     on the Early Stage of the Formal Specification Phase (in Japanese),
-    Tomohiro Oda and Keijiro Araki, to be submitted to Computer Software,
+    Tomohiro Oda and Keijiro Araki, submitted to Computer Software,
     Japan Society for Software Science and Technology, special issue on
     "Software papers"
-- A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. To be submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
+- A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. Submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
--   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted for the STTT journal)
--   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, submitted to Software - Practice and Experience journal
-
+-   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted in final form for the STTT journal)
 
 ## In press
 
