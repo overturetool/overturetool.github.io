@@ -26,20 +26,18 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Status of VDMTools Development
 
-Github repository and community site for VDMTools are available.
+#### https://github.com/vdmtools/vdmtools/
+* Dr. K is keep updating VDMTools. (changelog: https://github.com/vdmtools/vdmtools/commits/master)
 
-#### Github repository
-
-* https://github.com/vdmtools/vdmtools
-* All source code and documentation (including Japanese translations) are available in this repository.
-* GPLv3, copylefted by Kyushu University
-
-#### VDMTools site
-
-* http://fmvdm.org/
-* distributed binary packages for Mac, Linux and Windows
+#### http://fmvdm.org/
+* Binary package downloads (319 total)
+ - windows : 251
+ - mac : 47
+ - linux : 21
 
 ## Status of ViennaTalk Development
+
+* Only minor updates for bugfixes
 
 ##  Status of the Overture Components
 
