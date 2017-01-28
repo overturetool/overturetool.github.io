@@ -24,7 +24,7 @@ Template starts below this line (keep only the content between the triple-tildes
 ---
 layout: default
 title: Net Meeting XX
-date: 4 February 2007, 1200 CET
+date: 4 February 2007, 1200 CEST
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
@@ -36,7 +36,7 @@ date: 4 February 2007, 1200 CET
 
 |||
 |---|---|
-| Date | {{ page.date }} |
+| Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
 | Participants | AA, BB, ..., CC.  Minutes by DD. |
 
 
