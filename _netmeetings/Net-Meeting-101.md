@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Net Meeting 101
-date: 18 September 2016, 1200 CET
+date: 18 September 2016, 12:00 CET
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
