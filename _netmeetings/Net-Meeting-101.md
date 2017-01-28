@@ -13,7 +13,7 @@ date: 18 September 2016, 12:00 CET
 
 |||
 |---|---|
-| Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
+| Date | {{ page.date | date: "%-d %B %Y, %R CET"}} |
 | Participants | PGL, JF, MV, NP, TO  Minutes by NB |
 
 ## Review Status of the Action List
