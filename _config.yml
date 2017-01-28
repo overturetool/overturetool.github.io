@@ -1,4 +1,5 @@
 markdown: kramdown
+timezone: Europe/Copenhagen
 kramdown:
   input: GFM
   hard_wrap: false
