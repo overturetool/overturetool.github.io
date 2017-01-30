@@ -27,12 +27,12 @@ title: Overture Publications
     Tomohiro Oda and Keijiro Araki, submitted to Computer Software,
     Japan Society for Software Science and Technology, special issue on
     "Software papers"
-- A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen. Submitted to IEICE Transactions on Information and Systems, Special Section on Formal Approach
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Automated translation of VDM to JML annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted in final form for the STTT journal)
 
 ## In press
 
+- A Formal Modeling Tool for Exploratory Modeling in Software Development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen, IEICE Transactions on Information and Systems, Special Section on Formal Approach
 -   The 14th Overture Workshop: Towards Analytical Tool Chains, Peter Gorm Larsen,	Nico Plat,	Nick Battle (Eds), ECE-TR-28, Vol 4, (2016), Online ISSN 2245-2087, http://ojs.statsbiblioteket.dk/index.php/ece/issue/view/3507
 -   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, FM'2016
 -   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster, accepted for publication at Isola 2016
