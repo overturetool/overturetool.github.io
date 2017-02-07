@@ -1,5 +1,3 @@
-
-~~~
 ---
 layout: default
 title: Net Meeting 105
@@ -93,7 +91,5 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 ##  Any Other Business
 
 <div id="edit_page_div"></div>
-
-~~~
 
 
