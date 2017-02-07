@@ -43,10 +43,9 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
-
+A small change was made to VDMJ 4 (and ported to Overture) that can give a noticable interpreter performance improvement in specifications that internally throw a lot of exceptions. This occurs naturally in specs with complex union types or which perform a lot of complex pattern matching. The saving is to avoid building a Java native stack trace to attach to these exceptions, which is not needed because they are always caught and handled.
 
 ##  Release Planning
 
