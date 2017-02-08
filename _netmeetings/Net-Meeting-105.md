@@ -53,7 +53,7 @@ As part of implementing the performance improvement described above, Overture ha
 
 #### VDM2C
 
-Curently we're working on implementing a VDM2C garbage collector. Hopefully, we'll have a prototype version available quite soon.
+Curently, we're working on implementing a VDM2C garbage collector. Hopefully, we'll have a prototype version available soon.
 
 ##  Release Planning
 
