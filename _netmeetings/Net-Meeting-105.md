@@ -47,6 +47,14 @@ some description
 
 A small change was made to VDMJ 4 (and ported to Overture) that can give a noticable interpreter performance improvement in specifications that internally throw a lot of exceptions. This occurs naturally in specs with complex union types or which perform a lot of complex pattern matching. The saving is to avoid building a Java native stack trace to attach to these exceptions, which is not needed because they are always caught and handled.
 
+#### Overture
+
+As part of implementing the performance improvement described above, Overture has been updated to use AstCreator version 1.6.10. In addition, Casper Thule has started working on updating the VDM-to-Isabelle/HOL translation to support the newest Isabelle VDM medding.
+
+#### VDM2C
+
+Curently we're working on implementing a VDM2C garbage collector. Hopefully, we'll have a prototype version available quite soon.
+
 ##  Release Planning
 
 Next Overture release is due March 6, 2017.
