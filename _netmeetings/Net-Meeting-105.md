@@ -49,10 +49,7 @@ A small change was made to VDMJ 4 (and ported to Overture) that can give a notic
 
 ##  Release Planning
 
-#### topic 1
-
-some description
-
+Next Overture release is due March 6, 2017.
 
 ##  Community Development
 
