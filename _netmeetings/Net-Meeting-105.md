@@ -14,7 +14,7 @@ date: 12 February 2017, 1200 CET
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | PGL, CT, HM, KP, NB, MV, PJ, SH, SS, TO. Minutes by KP. |
+| Participants | PGL, CT, HM, KP, NB, MV, PJ, SH, SS, TO, JF. Minutes by KP. |
 
 
 ## Review Status of the Action List
