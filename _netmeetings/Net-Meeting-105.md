@@ -84,9 +84,9 @@ The VDMTools user manual is not up to date with respect to the categories used f
 
 HM identified that the UML translation and LaTeX generation secitons could be improved. PGL wrote these and KL wrote the UML translation. HM will try to improve these where possible in discussion with PGL and KL.
 
-## Differences Between Overture and VDMTools
+#### Differences Between Overture and VDMTools
 
-There's a subtle difference in pattern matching between Overture and VDMTools in traces. Both are legal behaviors by the LRM. NB and TO to discuss offline.
+There's a subtle difference in pattern matching between Overture and VDMTools in traces. Both are legal behaviors by the LRM. NB and TO to discuss offline. See also [this list](https://github.com/overturetool/language/wiki/Differences-between-Overture-and-VDMTools).
 
 ##  Release Planning
 
