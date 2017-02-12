@@ -47,6 +47,8 @@ Pretty printing implicit definitions and extended explicit definitions is also a
 #### LRM
 Translation of the Language Reference Manual is started to catch up updates and improve translation accuracy.
 
+It seems that the user manual is not up to date with respect to the categories used for proof obligations generated. We need someone to update this.
+
 ##  Status of the Overture Components
 
 #### VDMJ
