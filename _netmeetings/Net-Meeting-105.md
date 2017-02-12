@@ -50,16 +50,13 @@ Pretty printing implicit definitions and extended explicit definitions is also a
 
 ## Status of VDMTools Development
 
-#### LRM
-Translation of the Language Reference Manual is started to catch up updates and improve translation accuracy.
-
-It seems that the user manual is not up to date with respect to the categories used for proof obligations generated. We need someone to update this.
+See Documentation below.
 
 ##  Status of the Overture Components
 
 #### VDMJ
 
-A small change was made to VDMJ 4 (and ported to Overture) that can give a noticable interpreter performance improvement in specifications that internally throw a lot of exceptions. This occurs naturally in specs with complex union types or which perform a lot of complex pattern matching. The saving is to avoid building a Java native stack trace to attach to these exceptions, which is not needed because they are always caught and handled.
+A small change was made to VDMJ 4 (and ported to Overture) that can give a noticable interpreter performance improvement in specifications that internally throw a lot of exceptions. This occurs naturally in specs with complex union types or which perform a lot of complex pattern matching. The saving is to avoid building a Java native stack trace to attach to these exceptions, which is not needed because they are always caught and handled. In specifications with traces a 20% performance improvement has been seen.
 
 #### Overture
 
@@ -69,9 +66,31 @@ As part of implementing the performance improvement described above, Overture ha
 
 Curently, we're working on implementing a VDM2C garbage collector. Hopefully, we'll have a prototype version available soon.
 
+#### Definition Jumping
+
+NB identified that fixing the following bug would be of high value: [F3 Open Declaration sometimes fails](https://github.com/overturetool/overture/issues/608). PJ to look into increasing the priority of this fix.
+
+## Documentation
+
+#### Japanese LRM
+
+Japanese translation of the Language Reference Manual is started to catch up updates and improve translation accuracy.
+
+#### VDMTools User Manual
+
+The VDMTools user manual is not up to date with respect to the categories used for proof obligations generated. We need someone to update this. This was noted as useful input to the POG WG of the LB (see above). 
+
+#### Overture User Manual
+
+HM identified that the UML translation and LaTeX generation secitons could be improved. PGL wrote these and KL wrote the UML translation. HM will try to improve these where possible in discussion with PGL and KL.
+
+## Differences Between Overture and VDMTools
+
+There's a subtle difference in pattern matching between Overture and VDMTools in traces. Both are legal behaviors by the LRM. NB and TO to discuss offline.
+
 ##  Release Planning
 
-Next Overture release is due March 6, 2017.
+Next Overture release is due March 6, 2017. See [issue list](https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aclosed+milestone%3A2.4.6)
 
 ##  Community Development
 
@@ -79,32 +98,23 @@ Next Overture release is due March 6, 2017.
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
+#### Business Model
 
+NP and MV met and worked on the output from the business model workshop in Cyprus. Results are here [Business model](https://github.com/overturetool/overture/wiki/Business-model). JF approached the Business development Unit at Newcastle and got the following:
+
+> Summary: There appears to be an opportunity but the appetite to take this further needs to be tested by modelling a realistic first step and then looking at what resource technically, manually and financially will be estimated to achieve this. One thing to remember and as I get a feel for the user group, many are academic it would appear and a ‘soft start’ within the safety of the University community can be an option. This would not involve any great risk and most of the legal, insurance, process, governance structures exist in universities (and they often have commercial teams). An opportunity to test the market without jumping into the void. Would have to be with agreement of the University but could allow sanity check of models and viability prior to launching. Again there would need to be lead institution and pretty much all of the above applies but it may help to see what may be possible and then refine an approach.
+>
+> Main question is what do you want to achieve. Happy to talk further.
+
+MV to set up a Doodle to find time for a separate net-workshop on this matter.
 
 ##  Strategic Research Agenda
 
 The Strategic Research Agenda is reviewed every other NetMeeting.
 
-
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
