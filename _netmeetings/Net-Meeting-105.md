@@ -55,7 +55,7 @@ A small change was made to VDMJ 4 (and ported to Overture) that can give a notic
 
 #### Overture
 
-As part of implementing the performance improvement described above, Overture has been updated to use AstCreator version 1.6.10. In addition, Casper Thule has started working on updating the VDM-to-Isabelle/HOL translation to support the newest Isabelle VDM medding.
+As part of implementing the performance improvement described above, Overture has been updated to use AstCreator version 1.6.10. In addition, Casper Thule has started working on updating the VDM-to-Isabelle/HOL translation to support the newest Isabelle VDM embedding.
 
 #### VDM2C
 
