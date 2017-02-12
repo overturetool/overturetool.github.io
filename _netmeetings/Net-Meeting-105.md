@@ -34,12 +34,17 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 some description
 
 
+## Status of ViennaTalk
+#### support for implicit/extended explicit functions/operations
+
+Smalltalk code generators now generate codes for implicit functions/operations which simply signal ViennaImplicitEvaluation exception.
+This update will enable developers to handle the evaluation of implicit functions/operations by arbitrary handlers.
+Pretty printing implicit definitions and extended explicit definitions is also available.
+
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
-
+#### LRM
+Translation of the Language Reference Manual is started to catch up updates and improve translation accuracy.
 
 ##  Status of the Overture Components
 
