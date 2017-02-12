@@ -14,29 +14,35 @@ date: 12 February 2017, 1200 CET
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, CT, HM, KP, NB, MV, PJ, SH, SS, TO. Minutes by KP. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 88-1 (Consider input for video on VDM): No progress.
 
 
 ## Overture Language Board Status
 
-#### topic 1
+#### LB 2017
 
-some description
+Paul Chisholm agreed to join, so there are 7 members (KP, NB, JP, AH, TO, LDC, PC). KP remains Convener and PJ remains as Secretary.
 
+#### Working Groups
+
+The LB will form "working groups" around key issues that don't consititute RMs. Each group has a GitHub issue, a champion from the LB to lead it and a standing item on the agenda. 
+
+Initial working groups are for [Proof Obligation Generation](https://github.com/overturetool/language/issues/33) and for the [Working Groups](https://github.com/overturetool/language/issues/41). Once the latter is updated, another will form to look at the process of handling libraries from the Community.
+
+##### RMs
+
+There is one RM that is now open for community discussion [Equality and Order Clauses for Type Definitions](https://github.com/overturetool/language/issues/39)
 
 ## Status of ViennaTalk
 
-#### support for implicit/extended explicit functions/operations
+#### Support for implicit/extended explicit functions/operations
 
 Smalltalk code generators now generate codes for implicit functions/operations which simply signal ViennaImplicitEvaluation exception.
 This update will enable developers to handle the evaluation of implicit functions/operations by arbitrary handlers.
