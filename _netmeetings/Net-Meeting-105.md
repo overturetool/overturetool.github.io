@@ -35,6 +35,7 @@ some description
 
 
 ## Status of ViennaTalk
+
 #### support for implicit/extended explicit functions/operations
 
 Smalltalk code generators now generate codes for implicit functions/operations which simply signal ViennaImplicitEvaluation exception.
