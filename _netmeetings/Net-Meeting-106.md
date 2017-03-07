@@ -49,16 +49,15 @@ some description
 
 Support for command-line multi-threaded debugging in VDMJ has always been poor. This fix enables such debugging to be roughly the same as the remote debugging client (ie. Overture's debugger).
 
+#### VDM2C
+
+We (Victor, Peter and Miran) are happy to announce the first major release of the VDM to C code generator.  This version addresses the critical issue of RAM and flash usage on the embedded microcontrollers used in INTO-CPS.  The generated code makes use of a garbage collector, which must be called manually.  Instructions on how to do this are included in the [release notes](https://github.com/overturetool/vdm2c/releases/tag/Release%2F0.1.0).  This version does not yet include support for the distributed constructs of VDM-RT.  The next release of the Overture FMU exporter will include this release of VDM2C.
+
 ##  Release Planning
 
 Overture version 2.4.6 is out. See the [release notes](https://github.com/overturetool/overture/releases/tag/Release%2F2.4.6) for a description of what has changed since the last release.
 
 Next release of Overture, version 2.4.8, is due by June 5, 2017.
-
-#### topic 1
-
-some description
-
 
 ##  Community Development
 
