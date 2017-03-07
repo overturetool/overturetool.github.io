@@ -51,6 +51,10 @@ Support for command-line multi-threaded debugging in VDMJ has always been poor. 
 
 ##  Release Planning
 
+Overture version 2.4.6 is out. See the [release notes](https://github.com/overturetool/overture/releases/tag/Release%2F2.4.6) for a description of what has changed since the last release.
+
+Next release of Overture, version 2.4.8, is due by June 5, 2017.
+
 #### topic 1
 
 some description
