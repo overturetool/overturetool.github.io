@@ -45,7 +45,7 @@ some description
 
 #### VDMJ
 
-4.0.0 Build 170303, Improved support for multi-threaded debugging
+4.0.0 Build 170308, Improved support for multi-threaded debugging
 
 Support for command-line multi-threaded debugging in VDMJ has always been poor. This fix enables such debugging to be roughly the same as the remote debugging client (ie. Overture's debugger).
 
