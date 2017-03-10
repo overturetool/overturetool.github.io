@@ -51,7 +51,11 @@ Support for command-line multi-threaded debugging in VDMJ has always been poor. 
 
 #### VDM2C
 
-We (Victor, Peter and Miran) are happy to announce the first major release of the VDM to C code generator.  This version addresses the critical issue of RAM and flash usage on the embedded microcontrollers used in INTO-CPS.  The generated code makes use of a garbage collector, which must be called manually.  Instructions on how to do this are included in the [release notes](https://github.com/overturetool/vdm2c/releases/tag/Release%2F0.1.0).  This version does not yet include support for the distributed constructs of VDM-RT.  The next release of the Overture FMU exporter will include this release of VDM2C.
+We (VB, PJ and MH) are happy to announce the first major release of the VDM to C code generator.  This version addresses the critical issue of RAM and flash usage on the embedded microcontrollers used in INTO-CPS.  The generated code makes use of a garbage collector, which must be called manually.  Instructions on how to do this are included in the [release notes](https://github.com/overturetool/vdm2c/releases/tag/Release%2F0.1.0).  This version does not yet include support for the distributed constructs of VDM-RT.  The next release of the Overture FMU exporter will include this release of VDM2C.
+
+#### Overture
+
+We (KL and PJ) have added a [Frequently Asked Questions (FAQ) section](http://overturetool.org/faq/) to the overturetool.org website. Currently it addresses the issues that MacOS Sierra users may experience when they try to open a freshly downloaded version of Overture.
 
 ##  Release Planning
 
