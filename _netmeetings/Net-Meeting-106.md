@@ -21,25 +21,25 @@ date: 12 March 2017, 1200 CET
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
-
+* 88-1 (Consider input for video on VDM): No progress.
 
 ## Overture Language Board Status
 
-#### topic 1
+#### RM39: Equality and Order Clauses for Type Definitions
 
-some description
+There has been no Community input on RM39. Please join the discussion here https://github.com/overturetool/language/issues/39#issuecomment-267935090 before the next core meeting (April 23rd 2017).
 
+#### Working Groups
+
+The LB have established two working groups (WGs) to progress cross-cutting language and tool issues. The idea is to have a leader for each group and an issue on the tracker as the main place for dicsussion. LB and Community members can then join groups to help progress things. There will be a wiki page listing the groups, leaders, members and links to each issue. The first two WGs are POG led by NB and community libraries led by KP. 
+
+#### Wiki pages
+
+The LB will undertake a refresh of the wiki pages to reflect the new WG idea and tidy up some problems that occured in the move to github.
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
-
+No members from Japan could attend today so this item was not discussed.
 
 ##  Status of the Overture Components
 
@@ -69,32 +69,17 @@ Next release of Overture, version 2.4.8, is due by June 5, 2017.
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
+#### Business Model
 
+We welcomed the input from Graeme Young, but are not clear exactly what the next steps should be, nor exactly on the goal (making an income from Overture, update of formal modelling, etc.). The suggestion is to have a dedicated workshop, and perhaps ask Graeme to clarify what he would need us to present to him as a next iteration on the idea, to focus the outcome of such a workshop. KP will try to arrange to meet Graeme with NP and PGL via video link.
 
 ##  Strategic Research Agenda
 
 The Strategic Research Agenda is reviewed every other NetMeeting.
 
-
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
