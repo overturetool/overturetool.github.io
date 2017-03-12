@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Net Meeting XX
+title: Net Meeting 106
 date: 12 March 2017, 1200 CET
 ---
 
