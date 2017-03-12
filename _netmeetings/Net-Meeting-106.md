@@ -13,8 +13,8 @@ date: 12 March 2017, 1200 CET
 
 |||
 |---|---|
-| Date | 28 January 2015, 13:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Date | 12 March 2017, 13:00 CET |
+| Participants | PGL, LDC, HM, KP, NB, NP, SH, TO. Minutes by KP. |
 
 
 ## Review Status of the Action List
