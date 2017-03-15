@@ -6,7 +6,7 @@ title: Contact
 
 ## Contact
 
-[Stack Overflow](http://stackoverflow.com/) is the main venue for posting questions and discussions about VDM. Posts with tag ''vdm++'' are actively monitored by the developers of the language.
+[Stack Overflow](http://stackoverflow.com/questions/tagged/vdm%2b%2b) is the main venue for posting questions and discussions about VDM. Posts with tag ''vdm++'' are actively monitored by the developers of the language.
 
 ## Tool Issues
 
