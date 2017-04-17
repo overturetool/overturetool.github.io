@@ -43,10 +43,9 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
-
+I've re-added the DBGPReader interface to VDMJ version 4 (I had previously omitted this, since VDMJ is primarily command-line oriented. But now the debugging system is sensibly structured, it was easy to restore it). This means that the VDMJ jar can *almost* be slotted into Overture. That in turn means that there is usually a performance boost, and it gives access to the high-precision build of VDMJ (arbitrary precision arithmetic). There are some problems still, and it only covers execution and debugging, not POG and CT tests. But in principle we ought to be able to define the interfaces for these features too, which gives the possibility of implementing them in multiple VDM "engines".
 
 ##  Release Planning
 
