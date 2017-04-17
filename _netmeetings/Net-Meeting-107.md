@@ -47,6 +47,8 @@ some description
 
 I've re-added the DBGPReader interface to VDMJ version 4 (I had previously omitted this, since VDMJ is primarily command-line oriented. But now the debugging system is sensibly structured, it was easy to restore it). This means that the VDMJ jar can *almost* be slotted into Overture. That in turn means that there is usually a performance boost, and it gives access to the high-precision build of VDMJ (arbitrary precision arithmetic). There are some problems still, and it only covers execution and debugging, not POG and CT tests. But in principle we ought to be able to define the interfaces for these features too, which gives the possibility of implementing them in multiple VDM "engines".
 
+I also made a small change to Overture to give the execution time of an operation when started via a standard launcher - ie. as well as the result appearing in the Console view, it also says how long that result took to calculate.
+
 ##  Release Planning
 
 #### topic 1
