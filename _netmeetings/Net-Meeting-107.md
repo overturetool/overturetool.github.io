@@ -46,12 +46,17 @@ I've re-added the DBGPReader interface to VDMJ version 4 (I had previously omitt
 
 I also made a small change to Overture to give the execution time of an operation when started via a standard launcher - ie. as well as the result appearing in the Console view, it also says how long that result took to calculate.
 
+#### Overture
+
+I (PJ) have introduced a minor enhancement that affects generation of LaTeX reports on Mac OSX (see issue [625](https://github.com/overturetool/overture/issues/625)). Also, I've introduced some fixes in Java code-generator, one of them affecting code-generation of specifications that use concurrency constructs.
+
+#### VDM2C
+
+We (PJ and VB) are working on extending the coverage of the garbage collector (see issue [87](https://github.com/overturetool/vdm2c/issues/87). While doing so, VB has found a number of problems in the garbage collector that have already been fixed. We're working towards support the [Alarm example](https://github.com/overturetool/vdm2c/issues/89).
+
 ##  Release Planning
 
-#### topic 1
-
-some description
-
+The release of Overture 2.4.8 is due by June 5, 2017. If possible, I (PJ) would like suggestions for two future relase dates.
 
 ##  Community Development
 
