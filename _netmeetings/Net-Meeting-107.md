@@ -55,6 +55,10 @@ The release of Overture 2.4.8 is due by June 5, 2017. If possible, I (PJ) would 
 
 ##  Community Development
 
+#### 15th Overture workshop
+
+PGL and JF are suggesting to hold the 15th Overture workshop in Newcastle on September 15. Please note that this *date is not yet fixed*. So far PJ and TO have agreed to co-chair the PC.
+
 #### Overture Traffic
 
 See download stats on [the downloads page](http://overturetool.org/download/)
@@ -71,6 +75,8 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 
 ##  Any Other Business
+
+None.
 
 <div id="edit_page_div"></div>
 
