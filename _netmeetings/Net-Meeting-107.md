@@ -14,19 +14,20 @@ date: 23 April 2017, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, JF, NB, TO, PJ, NP.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 88-1 some progress...
+* 88-1 No progress.
 
 ## Overture Language Board Status
 
 #### RM #39 A Primitive Order Relation for Types in VDM-SL
-RM #39 is now in the Execution phase.
+
+At today's LB NM, all LB members agreed to move this RM to 'Execution'. The execution phase usually involves the development of a draft implementation of the tool feature for testing.
 
 ## Status of VDMTools Development
 
@@ -46,7 +47,7 @@ I (PJ) have introduced a minor enhancement that affects generation of LaTeX repo
 
 #### VDM2C
 
-We (PJ and VB) are working on extending the coverage of the garbage collector (see issue [87](https://github.com/overturetool/vdm2c/issues/87). While doing so, VB has found a number of problems in the garbage collector that have already been fixed. We're working towards support the [Alarm example](https://github.com/overturetool/vdm2c/issues/89).
+We (PJ and VB) are working on extending the coverage of the garbage collector (see issue [87](https://github.com/overturetool/vdm2c/issues/87)). While doing so, VB has found a number of problems in the garbage collector that have already been fixed. We're working towards support the [Alarm example](https://github.com/overturetool/vdm2c/issues/89).
 
 ##  Release Planning
 
