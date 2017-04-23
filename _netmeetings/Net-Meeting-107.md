@@ -29,10 +29,8 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
-
+#### RM #39 A Primitive Order Relation for Types in VDM-SL
+RM #39 is now in the Execution phase.
 
 ## Status of VDMTools Development
 
