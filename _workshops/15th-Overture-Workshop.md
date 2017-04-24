@@ -38,9 +38,9 @@ The scope of the workshop includes, but is not restricted to:
 
 ### Organisers
 
-* John S Fitzgerald, Newcastle University, UK <http://www.ncl.ac.uk/computing/people/profile/johnfitzgerald.html#background>
-* Peter W. V. Tran-Jørgensen, Aarhus University, Denmark <http://pure.au.dk/portal/en/persons/id(a092d23e-3660-4ca1-9996-bf2e62a72caf).html>
-* Tomohiro Oda, Software Research Associates, Inc., Japan <https://github.com/tomooda>
+* [John S Fitzgerald](http://www.ncl.ac.uk/computing/people/profile/johnfitzgerald.html#background), Newcastle University, UK 
+* [Peter W. V. Tran-Jørgensen](http://pure.au.dk/portal/en/persons/id(a092d23e-3660-4ca1-9996-bf2e62a72caf).html), Aarhus University, Denmark 
+* [Tomohiro Oda](https://github.com/tomooda), Software Research Associates, Inc., Japan 
 
 The organising committee can be reached via the following e-mail address:  <mailto:workshop-oc@overturetool.org>
 
