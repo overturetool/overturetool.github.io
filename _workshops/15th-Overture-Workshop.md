@@ -4,7 +4,7 @@ title: The 15th Overture Workshop
 date: 2017-09-15
 location: Newcastle University, UK
 ---
-### THE 15TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based Systems Engineering
+# THE 15TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based Systems Engineering
 
 
 ## CALL FOR PAPERS
