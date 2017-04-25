@@ -55,4 +55,5 @@ The organising committee can be reached via the following e-mail address:  <mail
 * Peter W. V. Tran-Jørgensen, Aarhus University, Denmark (Chair) 
 * Tomohiro Oda, Software Research Associates, Inc., Japan (Chair)
 * Paolo Masci, Universidade do Minho, Portugal
+* Marcel Verhoef, European Space Agency, The Netherlands
 * Sune Wolff, Unity, Denmark
