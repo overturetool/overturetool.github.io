@@ -42,7 +42,7 @@ The scope of the workshop includes, but is not restricted to:
 * [Peter W. V. Tran-Jørgensen](http://pure.au.dk/portal/en/persons/id(a092d23e-3660-4ca1-9996-bf2e62a72caf).html), Aarhus University, Denmark 
 * [Tomohiro Oda](https://github.com/tomooda), Software Research Associates, Inc., Japan 
 
-The organising committee can be reached via one of the following e-mail address:
+The organising committee can be reached via one of the following e-mail addresses:
 
   * <john.fitzgerald@newcastle.ac.uk>
   * <pvj@eng.au.dk>
