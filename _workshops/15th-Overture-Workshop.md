@@ -42,7 +42,11 @@ The scope of the workshop includes, but is not restricted to:
 * [Peter W. V. Tran-Jørgensen](http://pure.au.dk/portal/en/persons/id(a092d23e-3660-4ca1-9996-bf2e62a72caf).html), Aarhus University, Denmark 
 * [Tomohiro Oda](https://github.com/tomooda), Software Research Associates, Inc., Japan 
 
-The organising committee can be reached via the following e-mail address:  <mailto:workshop-oc@overturetool.org>
+The organising committee can be reached via one of the following e-mail address:
+
+  * <john.fitzgerald@newcastle.ac.uk>
+  * <pvj@eng.au.dk>
+  * <tomohiro.tomo.oda@gmail.com>  
 
 ### Program Committee (so far)
 
