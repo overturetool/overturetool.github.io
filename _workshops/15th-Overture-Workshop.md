@@ -56,6 +56,7 @@ The organising committee can be reached via one of the following e-mail addresse
 * John S Fitzgerald, Newcastle University, UK (Chair) 
 * Peter G Larsen, Aarhus University, DK
 * Fuyuki Ishikawa, National Institute of Informatics, Japan
+* Nico Plat, Thanos, The Netherlands
 * Peter W. V. Tran-Jørgensen, Aarhus University, Denmark (Chair) 
 * Tomohiro Oda, Software Research Associates, Inc., Japan (Chair)
 * Paolo Masci, Universidade do Minho, Portugal
