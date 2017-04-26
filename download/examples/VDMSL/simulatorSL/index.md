@@ -19,7 +19,7 @@ operations in the version contained in Section 3.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### simulator1.vdmsl
@@ -897,9 +897,8 @@ operations
           (((tc.constrainedevent.type = <INTERNAL>) and
 
             (SIMULATIONEVENTLIST =
-                                   [SIMULATIONEVENTLIST~(i) |
-                                       i in set inds SIMULATIONEVENTLIST~ &
-                                          SIMULATIONEVENTLIST~(i) <> se2])) or
+                                   [s | s in seq SIMULATIONEVENTLIST~ &
+                                          s <> se2])) or
 
            ((tc.constrainedevent.type = <OUTPUT>) and
 
@@ -914,10 +913,9 @@ operations
                se3 = get_enabled_simevent_synch(tromporttuple, tc) in
 
                SIMULATIONEVENTLIST =
-                                     [SIMULATIONEVENTLIST~(i) |
-                                       i in set inds SIMULATIONEVENTLIST~ &
-                                        SIMULATIONEVENTLIST~(i) <> se2 and
-                                        SIMULATIONEVENTLIST~(i) <> se3]))))));
+                                     [s | s in seq SIMULATIONEVENTLIST~ &
+                                          s <> se2 and
+                                          s <> se3]))))));
 
 
    enable_reaction(trom : Trom, se : SimulationEvent, 
@@ -983,7 +981,7 @@ operations
            (tc.constrainedevent.type = <INTERNAL>)))))));
 
 
-   get_enabled_simevent(trom : Trom, tc : TimeConstraint) 
+   pure get_enabled_simevent(trom : Trom, tc : TimeConstraint) 
                         se : SimulationEvent
 
    ext rd CLOCK : nat
@@ -1007,7 +1005,7 @@ operations
        (se.eventhistory = nil));
 
 
-   get_enabled_simevent_synch(tromporttuple : TromPortTuple, 
+   pure get_enabled_simevent_synch(tromporttuple : TromPortTuple, 
                               tc : TimeConstraint) se : SimulationEvent
 
    ext rd CLOCK : nat

@@ -17,7 +17,7 @@ University, Montreal, Canada, May 1996.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### graph-ed.vdmsl
@@ -384,7 +384,7 @@ functions
 
       len newobjs = len objs and
 
-      newobjs = [make_copy_object(objs(i), vector) | i in set inds objs]
+      newobjs = [make_copy_object(o, vector) | o in seq objs]
 
 
 operations
@@ -588,14 +588,12 @@ operations
    post
 
       let components : seq1 of Object =
-                [OBJECTS~(i) | i in set inds OBJECTS~ 
-                & object_within_box(OBJECTS~(i), 
-                                    mk_Box(corner1, corner2))] in
+                [o | o in seq OBJECTS~ 
+                & object_within_box(o, mk_Box(corner1, corner2))] in
 
       OBJECTS = [mk_Compound(mk_Box(corner1, corner2), components)] ^
-                [OBJECTS~(i) | i in set inds OBJECTS~ &
-                 not object_within_box(OBJECTS~(i), 
-                                       mk_Box(corner1, corner2))] and 
+                [o | o in seq OBJECTS~ &
+                 not object_within_box(o, mk_Box(corner1, corner2))] and 
       msg = <SUCCESS>
 
    errs
@@ -655,8 +653,7 @@ operations
    post
 
       OBJECTS = object.components ^
-              [OBJECTS~(i) | i in set inds OBJECTS~ 
-                           & OBJECTS~(i) <> object] and
+              [o | o in seq OBJECTS~ & o <> object] and
       msg = <SUCCESS>
 
    errs
@@ -677,8 +674,7 @@ operations
 
    post
 
-      OBJECTS = [OBJECTS~(i) | i in set inds OBJECTS~ 
-                             & OBJECTS~(i) <> object];
+      OBJECTS = [o | o in seq OBJECTS~ & o <> object];
 
 
    move_object(object : Object, vector : LineSegment) 
@@ -719,8 +715,7 @@ operations
    post
 
       OBJECTS = [make_copy_object(object, vector)] ^ 
-                 [OBJECTS~(i) | i in set inds OBJECTS~ 
-                              & OBJECTS~(i) <> object] and 
+                 [o | o in seq OBJECTS~ & o <> object] and 
       msg = <SUCCESS>
 
    errs
@@ -747,8 +742,7 @@ operations
    post
 
       OBJECTS = [make_copy_object(compound, vector)] ^ 
-                 [OBJECTS(i) | i in set inds OBJECTS 
-                             & OBJECTS(i) <> compound] and 
+                 [o | o in seq OBJECTS & o <> compound] and 
       msg = <SUCCESS>
 
    errs
@@ -850,8 +844,7 @@ operations
    post
 
       OBJECTS = [mk_Circle(circle.center, new_radius)] ^
-                [OBJECTS~(i) | i in set inds OBJECTS~ 
-                             & OBJECTS~(i) <> circle] and 
+                [o | o in seq OBJECTS~ & o <> circle] and 
       msg = <SUCCESS>
 
    errs
@@ -880,8 +873,7 @@ operations
    post
 
       OBJECTS = [mk_Ellipse(ellipse.center, new_xradius, new_yradius)] ^
-                [OBJECTS~(i) | i in set inds OBJECTS~ 
-                             & OBJECTS~(i) <> ellipse]
+                [o | o in seq OBJECTS~ & o <> ellipse]
  and msg = <SUCCESS>
 
    errs
@@ -911,8 +903,7 @@ operations
    post
 
       OBJECTS = [mk_Polygon(new_vertices)] ^
-                [OBJECTS~(i) | i in set inds OBJECTS~ 
-                             & OBJECTS~(i) <> polygon]
+                [o | o in seq OBJECTS~ & o <> polygon]
  and msg = <SUCCESS>
 
    errs
@@ -944,8 +935,7 @@ operations
    post
 
       OBJECTS = [mk_Polyline(new_vertices)] ^
-                [OBJECTS~(i) | i in set inds OBJECTS~ 
-                             & OBJECTS~(i) <> polyline] and 
+                [o | o in seq OBJECTS~ & o <> polyline] and 
       msg = <SUCCESS>
 
    errs
@@ -976,8 +966,7 @@ operations
    post
 
       OBJECTS = [mk_Box(new_corner1, new_corner2)] ^
-                [OBJECTS~(i) | i in set inds OBJECTS~ 
-                             & OBJECTS~(i) <> box] and 
+                [o | o in seq OBJECTS~ & o <> box] and 
       msg = <SUCCESS>
 
    errs
@@ -1006,8 +995,7 @@ operations
 
       OBJECTS = [mk_ArcBox(mk_Box(new_corner1, new_corner2), 
                            new_corner_radius)] ^
-                [OBJECTS~(i) | i in set inds OBJECTS~ 
-                             & OBJECTS~(i) <> arcbox] and 
+                [o | o in seq OBJECTS~ & o <> arcbox] and 
       msg = <SUCCESS>
 
    errs
@@ -1044,8 +1032,7 @@ operations
 
       OBJECTS = [mk_Text(mk_Box(new_corner1, new_corner2), 
                  new_start_point, new_string)] ^
-                [OBJECTS~(i) | i in set inds OBJECTS~ 
-                             & OBJECTS~(i) <> text] and msg = <SUCCESS>
+                [o | o in seq OBJECTS~ & o <> text] and msg = <SUCCESS>
 
    errs
 

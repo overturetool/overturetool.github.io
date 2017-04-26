@@ -44,7 +44,7 @@ Verlag, March 1996.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| DEFAULT`Occurs("topsecret","peter87topsecrethere next")|
 
 
@@ -115,18 +115,18 @@ functions
 
   Gateway2: seq of Message * Category -> Ports
   Gateway2(ms,cat) ==
-    mk_Ports([ms(i)|i in set inds ms & Classify(ms(i),cat) = <HI>],
-             [ms(i)|i in set inds ms & Classify(ms(i),cat) = <LO>]);
+    mk_Ports([m|m in seq ms & Classify(m,cat) = <HI>],
+             [m|m in seq ms & Classify(m,cat) = <LO>]);
 
 -- Functions illustrating other sequence operators. 
 
   AnyHighClass: seq of Message * Category -> bool
   AnyHighClass(ms,cat) ==
-    exists m in set elems ms & Classify(m,cat) = <HI>;
+    exists m in seq ms & Classify(m,cat) = <HI>;
 
   Censor: seq of Message * Category -> seq of Message
   Censor(ms,cat) ==
-    [ms(i) | i in set inds ms & Classify(ms(i),cat) = <LO>];
+    [m | m in seq ms & Classify(m,cat) = <LO>];
 
   FlattenMessages: seq of Message -> Message
   FlattenMessages(ms) ==

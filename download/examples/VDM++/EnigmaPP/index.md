@@ -432,13 +432,13 @@ instance variables
   protected config: inmap nat to nat;
 
 operations
-  protected Encode: nat ==> nat
+  pure protected Encode: nat ==> nat
   Encode (penc) ==
     if penc in set dom config
     then return config(penc)
     else return penc;
 
-  protected Decode: nat ==> nat
+  pure protected Decode: nat ==> nat
   Decode (pdec) ==
     let invcfg = inverse config in
       if pdec in set dom invcfg

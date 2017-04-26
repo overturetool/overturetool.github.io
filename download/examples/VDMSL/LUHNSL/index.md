@@ -76,10 +76,10 @@ functions
     
   strToSeq: seq1 of char -> seq1 of Digit
   strToSeq(s) ==
-    [ cases s(i) :
+    [ cases i :
       '0'  -> 0, '1' -> 1, '2' -> 2, '3' -> 3, '4' -> 4,
       '5'  -> 5, '6' -> 6, '7' -> 7, '8' -> 8, '9' -> 9
-      end | i in set inds s];
+      end | i in seq s];
 
   natToSeq: nat -> seq of Digit
   natToSeq(n) ==

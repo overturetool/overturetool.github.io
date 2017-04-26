@@ -4,14 +4,15 @@ title: HomeAutomationConcPP
 ---
 
 ## HomeAutomationConcPP
-Author: 
+Author: Sune Wolff
 
 
 
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
+|Entry point     :| new World().Run()|
 
 
 ### Environment.vdmpp
@@ -123,15 +124,15 @@ protected Env	: Surroundings;
 
 operations
 
-public GetID: () ==> nat
+pure public GetID: () ==> nat
 GetID() ==
   return ID;
 
-public GetType: () ==> NetworkTypes`nodeType
+pure public GetType: () ==> NetworkTypes`nodeType
 GetType() ==
   return Type;
 
-public ReadValue: () ==> nat
+pure public ReadValue: () ==> nat
 ReadValue() ==
   return Value;
 
@@ -259,7 +260,7 @@ public SetHumid: nat ==> ()
 SetHumid(h) ==
   envHumid := h;
 
-public ReadTemp: () ==> nat
+pure public ReadTemp: () ==> nat
 ReadTemp() ==
   return envTemp;
 
@@ -271,7 +272,7 @@ public DecTemp: () ==> ()
 DecTemp() ==
   envTemp := envTemp - 1;
 
-public ReadHumid: () ==> nat
+pure public ReadHumid: () ==> nat
 ReadHumid() ==
   return envHumid;
 
@@ -288,11 +289,11 @@ sync
   mutex(IncTemp);
   mutex(DecTemp);
   mutex(SetTemp);
-  mutex(ReadTemp, IncTemp, DecTemp, SetTemp);
+  mutex(IncTemp, DecTemp, SetTemp);
   mutex(IncHumid);
   mutex(DecHumid); 
   mutex(SetHumid);
-  mutex(ReadHumid, IncHumid, DecHumid, SetHumid);
+  mutex(IncHumid, DecHumid, SetHumid);
 
 end Surroundings
 ~~~
@@ -380,15 +381,15 @@ protected Env	: Surroundings;
 
 operations
 
-public GetID: () ==> nat
+pure public GetID: () ==> nat
 GetID() ==
   return ID;
 
-public GetType: () ==> NetworkTypes`nodeType
+pure public GetType: () ==> NetworkTypes`nodeType
 GetType() ==
   return Type;
 
-protected GetCorr: () ==> NetworkTypes`correction
+pure protected GetCorr: () ==> NetworkTypes`correction
 GetCorr() ==
   return Corr;
 

@@ -21,7 +21,7 @@ Springer-Verlag, 2009.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| DEFAULT`lupsmOp1Gries(DEFAULT`a1)|
 |Entry point     :| DEFAULT`lupsmOp1Gries(DEFAULT`a2)|
 |Entry point     :| DEFAULT`lupsmOp1Gries(DEFAULT`a3)|
@@ -62,7 +62,7 @@ a5 = [2,2,2,2];
 
 functions
 
-MaxOfSet: set of int -> int
+MaxOfSet: set1 of int -> int
 MaxOfSet(s) ==
  let e in set s in
    if card s = 1 then
@@ -70,7 +70,6 @@ MaxOfSet(s) ==
    else
       let mr = MaxOfSet(s\{e}) in
          if e > mr then e else mr
- pre s <> {}
  post RESULT in set s and forall e in set s & e <= RESULT
  measure CardInt;
 

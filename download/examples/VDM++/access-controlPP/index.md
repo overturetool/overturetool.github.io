@@ -239,15 +239,15 @@ public Resource = FExp`Id;
 
 operations
 
-public GetpolicyCombAlg: () ==> CombAlg
+pure public GetpolicyCombAlg: () ==> CombAlg
 GetpolicyCombAlg() ==
   return policyCombAlg;
 
-public Getpolicies: () ==> set of Policy
+pure public Getpolicies: () ==> set of Policy
 Getpolicies() ==
   return policies;
 
-public GetEffect: Rule ==> Effect
+pure public GetEffect: Rule ==> Effect
 GetEffect(r) ==
   return r.effect;
 
@@ -625,15 +625,15 @@ Request(s,r,aset) ==
   actions  := aset;
 ); 
 
-public GetSubject: () ==> PDP`Subject
+pure public GetSubject: () ==> PDP`Subject
 GetSubject() == 
   return subject;
 
-public GetResource: () ==> PDP`Resource
+pure public GetResource: () ==> PDP`Resource
 GetResource() == 
   return resource;
 
-public GetActions: () ==> set of PDP`Action
+pure public GetActions: () ==> set of PDP`Action
 GetActions() == 
   return actions;
 

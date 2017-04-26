@@ -66,7 +66,7 @@ addDispenser (pfldisp) ==
      );
 
 -- get the left hand-side start point and opening angle
-public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
+pure public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
 getAperture () == return mk_(aperture, FLARE_APERTURE);
 
 -- addThreat is a helper operation to modify the event
@@ -113,7 +113,7 @@ per getThreat => len threats > 0;
 per isFinished => len threats = 0 --not busy
 
 end FlareController
-                                                                                                      
+               
 ~~~
 {% endraw %}
 
@@ -171,7 +171,7 @@ FlareDispenser(ang, tDef) ==
   BaseThread(self);
  );
 
-public GetAngle: () ==> nat
+pure public GetAngle: () ==> nat
 GetAngle() ==
   return aperture;
 
@@ -229,7 +229,7 @@ mutex (addThreat);
 per isFinished => not busy
      
 end FlareDispenser
-                                                                                                   
+               
 ~~~
 {% endraw %}
 
@@ -378,7 +378,7 @@ mutex (createSignal);
 per isFinished => not busy;
 
 end Environment
-                                                                                           
+              
 ~~~
 {% endraw %}
 
@@ -473,7 +473,7 @@ per isFinished => not busy
 
 
 end MissileDetector
-                                                                                                   
+              
 ~~~
 {% endraw %}
 
@@ -521,7 +521,7 @@ canObserve (pangle, pleft, psize) ==
     else return (pangle >= pleft and pangle < pright);
 
 end GLOBAL
-                                                                              
+              
 ~~~
 {% endraw %}
 
@@ -638,7 +638,7 @@ Run () ==
    env.showResult())
 
 end World
-                                                                       
+              
 ~~~
 {% endraw %}
 
@@ -663,7 +663,7 @@ public Sensor: MissileDetector * Angle ==> Sensor
 Sensor (pmd, psa) == ( detector := pmd; aperture := psa);
 
 -- get the left hand-side start point and opening angle
-public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
+pure public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
 getAperture () == return mk_ (aperture, SENSOR_APERTURE);
 
 -- trip is called asynchronously from the environment to
@@ -677,7 +677,7 @@ trip (evid, pmt, pa) ==
 pre canObserve(pa, aperture, SENSOR_APERTURE)
 
 end Sensor
-                                                                               
+              
 ~~~
 {% endraw %}
 
@@ -710,7 +710,7 @@ TimeStamp() ==
 	skip;
 
 -- public operation to get the singleton instance
-public static GetInstance: () ==> TimeStamp
+pure public static GetInstance: () ==> TimeStamp
 GetInstance() ==
   return timeStamp;
 
@@ -778,7 +778,7 @@ public NotifyThread : nat ==> ()
 NotifyThread(tId) ==
  wakeUpMap := {tId} <-: wakeUpMap;
 
-public GetTime : () ==> nat
+pure public GetTime : () ==> nat
 GetTime() ==
   return currentTime;
 

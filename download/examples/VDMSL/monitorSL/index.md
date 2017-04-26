@@ -20,7 +20,7 @@ order in which they were received from the sensor.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| DEFAULT`OverLimit([4,2,8,555,123])|
 
 
@@ -56,7 +56,7 @@ functions
 
   OverLimit2: TempRead -> bool
   OverLimit2(temp) ==
-    exists i in set inds temp & temp(i) > 400;
+    exists t in seq temp & t > 400;
 
 -- all readings in a sample exceed 400 degrees
 
@@ -70,7 +70,7 @@ functions
 
   ContOverLimit2: TempRead -> bool
   ContOverLimit2(temp) ==
-    forall i in set inds temp & temp(i) > 400;
+    forall t in seq temp & t > 400;
 
 -- detecting whether a reactor can be considered safe
 

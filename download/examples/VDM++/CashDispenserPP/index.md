@@ -35,7 +35,7 @@ operations
   PostStatement(letter) == 
     statements := statements ^ [letter];
 
-  public GetLastStatement : () ==> Letter
+  pure public GetLastStatement : () ==> Letter
   GetLastStatement() == 
     return statements(len statements)
   pre statements <> [];
@@ -79,7 +79,7 @@ public Create : map Card`CardId to Cardholder * nat ==> Account
      balance := b;
      return self);
 
-  public GetBalance : () ==> nat
+  pure public GetBalance : () ==> nat
   GetBalance() ==
     return balance;
                                                                                                                     
@@ -123,12 +123,12 @@ public Create : map Card`CardId to Cardholder * nat ==> Account
 functions
   TransactionsInvariant: seq of Transaction +> bool
   TransactionsInvariant(ts) ==
-    forall date in set {ts(i).date | i in set inds ts} &
+    forall date in set {t.date | t in seq ts} &
       DateTotal(date,ts) <= dailyLimit;
                                                                                                                                                                                                    
   DateTotal : Clock`Date * seq of Transaction +> nat
   DateTotal(date,ts) ==
-    Sum([ts(i).amount | i in set inds ts & ts(i).date = date]);
+    Sum([t.amount | t in seq ts & t.date = date]);
 
   Sum: seq of real +> real
   Sum(rs) ==
@@ -216,7 +216,7 @@ operations
     (clock := c;
      letterbox := l);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-  public GetBalance : Account`AccountId ==> [nat]
+  pure public GetBalance : Account`AccountId ==> [nat]
   GetBalance(accountId) ==
     if accountId in set dom accounts then
       accounts(accountId).GetBalance()
@@ -239,14 +239,14 @@ operations
     else
       return false;
                                                                                                                                                  
-  public IsLegalCard : Account`AccountId * Card`CardId ==> bool
+  pure public IsLegalCard : Account`AccountId * Card`CardId ==> bool
   IsLegalCard(accountId,cardId) ==
     return
       cardId not in set illegalCards and
       accountId in set dom accounts and
       cardId in set accounts(accountId).GetCardIds();
 
-  public NumberOfTriesExceeded : Card`CardId ==> bool
+  pure public NumberOfTriesExceeded : Card`CardId ==> bool
   NumberOfTriesExceeded(cardId) ==
     return numberOfTries(cardId) >= maxNumberOfTries;
 
@@ -272,7 +272,7 @@ operations
     illegalCards := illegalCards union {cId};
 
 end CentralResource
-                
+             
 ~~~
 {% endraw %}
 
@@ -348,7 +348,7 @@ operations
     resource.PostStatement(curCard.GetAccountId(),curCard.GetCardId())
   pre CardValidated();
                                                                                                          
-  public IsLegalCard : () ==> bool
+  pure public IsLegalCard : () ==> bool
   IsLegalCard() ==
     return 
       resource.IsLegalCard(curCard.GetAccountId(),curCard.GetCardId())
@@ -397,15 +397,15 @@ operations
      cardId := cid;
      accountId := a);
 
-  public GetCode : () ==> Code
+  pure public GetCode : () ==> Code
   GetCode() ==
     return code;
 
-  public GetAccountId : () ==> Account`AccountId
+  pure public GetAccountId : () ==> Account`AccountId
   GetAccountId() ==
     return accountId;
 
-  public GetCardId : () ==> CardId
+  pure public GetCardId : () ==> CardId
   GetCardId() ==
     return cardId;
 
@@ -828,11 +828,11 @@ operations
      address := addr;
      return self);
 
-  public GetName : () ==> Name 
+  pure public GetName : () ==> Name 
   GetName () ==
     return name;
 
-  public GetAddress : () ==> Address 
+  pure public GetAddress : () ==> Address 
   GetAddress() ==
     return address;
 
@@ -860,7 +860,7 @@ operations
   SetDate(d) ==
     date := d;
 
-  public GetDate : () ==> Date
+  pure public GetDate : () ==> Date
   GetDate() ==
     return date;
 

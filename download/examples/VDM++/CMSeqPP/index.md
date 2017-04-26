@@ -70,7 +70,7 @@ Step() ==
      dispensers(id).Step());
  
 -- get the left hand-side start point and opening angle
-public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
+pure public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
 getAperture () == return mk_(aperture, FLARE_APERTURE);
 
 -- addThreat is a helper operation to modify the event
@@ -94,7 +94,7 @@ isFinished () ==
             dispensers(id).isFinished();
 
 end FlareController
-                                                                                                      
+               
 ~~~
 {% endraw %}
 
@@ -161,7 +161,7 @@ Step() ==
            )
     );
 
-public GetAngle: () ==> nat
+pure public GetAngle: () ==> nat
 GetAngle() ==
   return aperture;
 
@@ -194,11 +194,11 @@ public isFinished: () ==> bool
 isFinished () == 
   return not busy;
 
-public getAperture: () ==> Angle * Angle
+pure public getAperture: () ==> Angle * Angle
 getAperture () == return mk_(0,0);
 
 end FlareDispenser
-                                                                                                   
+               
 ~~~
 {% endraw %}
 
@@ -293,11 +293,11 @@ public isFinished : () ==> bool
 isFinished () == 
   return inlines = [] and not busy;
 
-public getAperture: () ==> Angle * Angle
+pure public getAperture: () ==> Angle * Angle
 getAperture () == return mk_(0,0);
 
 end Environment
-                                                                                           
+              
 ~~~
 {% endraw %}
 
@@ -323,7 +323,7 @@ private Timer: () ==> Timer
 Timer() ==
   skip;
   
-public static GetInstance: () ==> Timer
+pure public static GetInstance: () ==> Timer
 GetInstance() ==
   return timerInstance;
 
@@ -331,12 +331,12 @@ public StepTime : () ==> ()
 StepTime() ==
   currentTime := currentTime + stepLength;
 
-public GetTime : () ==> nat
+pure public GetTime : () ==> nat
 GetTime() ==
   return currentTime;
 
 end Timer
-                                                                         
+             
 ~~~
 {% endraw %}
 
@@ -409,11 +409,11 @@ isFinished () ==
   return forall id in set dom controllers &
             controllers(id).isFinished();
 
-public getAperture: () ==> Angle * Angle
+pure public getAperture: () ==> Angle * Angle
 getAperture () == return mk_(0,0);
 
 end MissileDetector
-                                                                                                   
+              
 ~~~
 {% endraw %}
 
@@ -460,7 +460,7 @@ canObserve (pangle, pleft, psize) ==
     -- check between [pleft, pright>
     else return (pangle >= pleft and pangle < pright);
        
-public getAperture: () ==> Angle * Angle
+pure public getAperture: () ==> Angle * Angle
 getAperture () == is subclass responsibility;
 
 end GLOBAL
@@ -562,7 +562,7 @@ Run () ==
   env.Run()
 
 end World
-                                                                       
+              
 ~~~
 {% endraw %}
 
@@ -587,7 +587,7 @@ public Sensor: MissileDetector * Angle ==> Sensor
 Sensor (pmd, psa) == ( detector := pmd; aperture := psa);
 
 -- get the left hand-side start point and opening angle
-public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
+pure public getAperture: () ==> GLOBAL`Angle * GLOBAL`Angle
 getAperture () == return mk_ (aperture, SENSOR_APERTURE);
 
 -- trip is called asynchronously from the environment to

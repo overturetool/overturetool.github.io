@@ -23,7 +23,7 @@ Kaisa Sere, May 2008.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### RateController.vdmsl
@@ -305,7 +305,7 @@ types
 Time = nat;
 
 SenseTimeline = seq of (Sense * [AccelerometerData] * Time)
-inv stl == let l = [stl(i).#2 | i in set inds stl & stl(i).#2 <> nil]
+inv stl == let l = [i.#2 | i in seq stl & i.#2 <> nil]
            in l(1) = HIGH and forall i in set inds l & l(i) < MED => l(i-1) > MED;
 
 AccelerometerData = nat

@@ -19,7 +19,7 @@ best-fit (or neither), produces the most memory fragmentation.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| M`main(5,100)|
 
 
@@ -34,7 +34,7 @@ types
 
 Quadrant = seq of M;
 --inv Q == 
---  forall a in set elems Q &
+--  forall a in seq Q &
 --    (not exists b in set elems Q \ {a} &
 --           (b.start >= a.start and b.start <= a.stop) or
 --           (b.stop  >= a.start and b.stop  <= a.stop));
@@ -145,7 +145,7 @@ MQuadrantLen(-,list) ==
 
 fragments: Quadrant -> nat
 fragments(Q) ==
-  card {x | x in set elems Q & x.type = <FREE>} - 1;
+  card {x | x in seq Q & x.type = <FREE>} - 1;
 
 operations
 
@@ -213,8 +213,8 @@ DeleteOne() ==
          then Q4 := delete(Q4(i), Q4)
          else DeleteOne()
  )
-pre (exists m in set elems Q3 & m.type = <USED>) or
-    (exists m in set elems Q4 & m.type = <USED>);
+pre (exists m in seq Q3 & m.type = <USED>) or
+    (exists m in seq Q4 & m.type = <USED>);
 
 TryFirst: nat ==> nat
 TryFirst(loops) ==

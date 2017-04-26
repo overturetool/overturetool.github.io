@@ -75,13 +75,19 @@ operations
   public
   runTests : seq of Event ==> seq of TestResult
   runTests (events) ==
-    return [events(i).execute(klv) | i in set inds events ];
+    return [e.execute(klv) | e in seq events ];
 
   public
   runOneTest : Event ==> TestResult
   runOneTest (event) ==
     return event.execute(klv)
---  pre isofclass() => ;
+pre ((isofclass(HeadMeetBeaconEvent,event) => 
+      let e1: HeadMeetBeaconEvent = event
+      in isofclass(TIV_E, e1.getBeacon())) => klv.getAnnouncements() <> []) and
+    ((isofclass(TailMeetBeaconEvent,event) =>
+      let e2: TailMeetBeaconEvent = event
+      in isofclass(TIV_E,e2.getBeacon())) => (klv.getFirstSpeedRestriction() or
+                                             klv.getSpeedRestrictions() <> []));
 
 end Test
              
@@ -207,8 +213,11 @@ tailMeetsBeacon (beacon) ==
                                   else firstspeedrestriction := false,
     (isofclass(TIV_A, beacon)) -> skip,
     (isofclass(FLTV, beacon))  -> ( firstspeedrestriction := true;
-                                    removeSpeedRestriction () )
-  end;
+                                    if not firstspeedrestriction
+                                    then removeSpeedRestriction () )
+  end
+pre isofclass(TIV_E, beacon) => (firstspeedrestriction or
+                                 speedrestrictions <> []);
                                                                                                                                                                                                              
 public
 announceSpeedRestriction : TIV_D ==> ()
@@ -274,12 +283,12 @@ checkSpeed (speed) ==
                                emergencybreak.setEmergencyBreak() )
   end;
                                                                                                                                                                                                                                                  
-public
+pure public
 getMaxSpeed : () ==> real
 getMaxSpeed () ==
   if speedrestrictions <> []
   then let speeds = { tiv_e.getSpeedRestriction()
-                    | tiv_e in set elems speedrestrictions } in
+                    | tiv_e in seq speedrestrictions } in
        let minspeed in set speeds be st forall sp in set speeds &
            minspeed <= sp in
        return minspeed
@@ -294,25 +303,30 @@ then ( cabdisplay.unsetEmergencyBreak ();
 pre let mk_(-,eb,-) = cabdisplay.getDisplay() in eb and
     emergencybreak.getEmergencyBreak();
                                                                                                       
-public
+pure public
 getCabDisplay : () ==> CabDisplay
 getCabDisplay () ==
   return cabdisplay;
 
-public
+pure public
 getEmergencyBreak : () ==> EmergencyBreak
 getEmergencyBreak () ==
   return emergencybreak;
 
-public
+pure public
 getAnnouncements: () ==> seq of TIV_D
 getAnnouncements () ==
   return announcements;
 
-public
+pure public
 getSpeedRestrictions: () ==> seq of TIV_E
 getSpeedRestrictions () ==
   return speedrestrictions;
+
+pure public
+getFirstSpeedRestriction: () ==> bool
+getFirstSpeedRestriction () ==
+  return firstspeedrestriction;
 
 end KLV
               
@@ -380,8 +394,14 @@ operations
             [ mk_Test`TIVD(anns(i).getTargetSpeed())  |
               i in set inds anns ],
             [ mk_Test`TIVE(restr(i).getSpeedRestriction()) |
-              i in set inds restr ]) );
+              i in set inds restr ]) )
+pre isofclass(TIV_E, beacon) => (klv.getFirstSpeedRestriction() or 
+                                 klv.getSpeedRestrictions() <> []);
 
+pure public getBeacon: () ==> Beacon
+getBeacon() ==
+  return beacon;
+ 
 end TailMeetBeaconEvent
             
 ~~~
@@ -631,7 +651,7 @@ operations
   setSpeedRestriction (s) ==
     speed := s;
 
-  public
+  pure public
   getSpeedRestriction : () ==> real
   getSpeedRestriction () ==
     return speed
@@ -689,11 +709,13 @@ operations
       let anns = klv.getAnnouncements(),
           restr = klv.getSpeedRestrictions() in
       return mk_Test`BeaconsMet(
-            [ mk_Test`TIVD(anns(i).getTargetSpeed())  | 
-              i in set inds anns ],
-            [ mk_Test`TIVE(restr(i).getSpeedRestriction()) |
-              i in set inds restr ]) );
+            [ mk_Test`TIVD(a.getTargetSpeed()) | a in seq anns ],
+            [ mk_Test`TIVE(r.getSpeedRestriction()) | r in seq restr ]) );
 
+pure public getBeacon: () ==> Beacon
+getBeacon() ==
+  return beacon;
+  
 end HeadMeetBeaconEvent
              
 ~~~

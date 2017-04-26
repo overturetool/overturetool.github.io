@@ -191,12 +191,12 @@ instance variables
   inv let stockIdentifiers = {si.Name | si in set elems stocks}
       in 
         forall stockIdentifier in set stockIdentifiers & 
-          let allEventsStock = [ actionLog(i) | i in set inds actionLog 
-                                              & actionLog(i).StockName = stockIdentifier]
+          let allEventsStock = [ e | e in seq actionLog 
+                                   & e.StockName = stockIdentifier]
           in 
-            (forall e in set inds allEventsStock & 
-               (e <> len allEventsStock) => 
-               (allEventsStock(e).Type <> allEventsStock(e+1).Type)); 
+            (forall i in set inds allEventsStock & 
+               (i <> len allEventsStock) => 
+               (allEventsStock(i).Type <> allEventsStock(i+1).Type)); 
        
   inv MaxOneOfEachActionTypePerTime(actionLog);    
   
@@ -218,7 +218,7 @@ AddStock(sRecord,priority) == (
   then stockWatchers(sRecord.Name) := new StockWatcher(sRecord)
   else stockWatchers(sRecord.Name) := new StockWatcher(sRecord,testValues(sRecord.Name));
 )
-pre sRecord.Name not in set { x.Name | x in set elems stocks}
+pre sRecord.Name not in set { x.Name | x in seq stocks}
 post (sRecord.Name in set dom stockWatchers) 
      and (sRecord = stocks(priority)); 
   
@@ -228,35 +228,35 @@ GetActionLog() ==
   
 public GetStocksWithActiveActionTrigger: StockState ==> seq of StockRecord
 GetStocksWithActiveActionTrigger(ss) == 
-  return [stocks(s) | s in set inds stocks  
-                    & (stockWatchers(stocks(s).Name).GetTriggeredAction() <> nil)
-                      and (stocks(s).State = ss)]
+  return [e | e in seq stocks  
+            & (stockWatchers(e.Name).GetTriggeredAction() <> nil)
+              and (e.State = ss)]
 post let res = RESULT in forall i in set inds res & res(i).State = ss;
   
-FindValidBuy: seq of StockRecord * nat ==> [StockRecord]
+pure FindValidBuy: seq of StockRecord * nat ==> [StockRecord]
 FindValidBuy(potBuys,time) ==  
   return let affordableStocks = 
-    [potBuys(x) | x in set inds potBuys & CanAfford(potBuys(x),balance)]
+    [x | x in seq potBuys & CanAfford(x,balance)]
      in 
      (
       if(len affordableStocks > 0)
-      then let x in set inds affordableStocks be st  
-       (forall y in set inds affordableStocks & (stockWatchers(affordableStocks(x).Name).GetStockValue(time)) >= 
-       (stockWatchers(affordableStocks(y).Name).GetStockValue(time)))
-       in affordableStocks(x)
+      then let x in seq affordableStocks be st  
+       (forall y in seq affordableStocks & (stockWatchers(x.Name).GetStockValue(time)) >= 
+       (stockWatchers(y.Name).GetStockValue(time)))
+       in x
       else nil 
      );
     
-FindValidSell: seq of StockRecord * nat ==> StockRecord
+pure FindValidSell: seq of StockRecord * nat ==> StockRecord
 FindValidSell(potSells,time) == 
-  return let x in set inds potSells be st  
-    (forall y in set inds potSells & 
-      (stockWatchers(potSells(x).Name).GetStockValue(time) - potSells(x).Cost) >= 
-      (stockWatchers(potSells(y).Name).GetStockValue(time) - potSells(y).Cost))
-    in potSells(x)  
+  return let x in seq potSells be st  
+    (forall y in seq potSells & 
+      (stockWatchers(x.Name).GetStockValue(time) - x.Cost) >= 
+      (stockWatchers(y.Name).GetStockValue(time) - y.Cost))
+    in x  
 pre len potSells > 0
 post IsGTAll(stockWatchers(RESULT.Name).GetStockValue(time) - RESULT.Cost,
-  {stockWatchers(x.Name).GetStockValue(time) - x.Cost | x in set elems potSells});
+  {stockWatchers(x.Name).GetStockValue(time) - x.Cost | x in seq potSells});
 
   PerformBuy: StockRecord * nat ==> ()
   PerformBuy(potAction,time) == 
@@ -379,7 +379,7 @@ class StockWatcher is subclass of GLOBAL
                   or eventHistory(e + 1).Type = <Peak>);
 
  operations
-  public StockWatcher: StockRecord * seq of Event ==> StockWatcher
+  public StockWatcher: StockRecord * seq1 of Event ==> StockWatcher
   StockWatcher(sr, predefinedEvents) == (
    eventHistory := predefinedEvents;
    sm := nil;
@@ -456,8 +456,7 @@ class StockWatcher is subclass of GLOBAL
   public ObserveStock : nat ==> ()
   ObserveStock(time) == (
    if (World`simulate)
-   then( UpdateEvents(time);)
-   else skip;
+   then UpdateEvents(time);
  
    UpdateAction(time);
   )
@@ -494,7 +493,8 @@ class StockWatcher is subclass of GLOBAL
   IsPeak(svs) == 
    let current = hd svs 
     in 
-     let indicesOneAbove = {i | i in set inds svs & current+1 = svs(i) and i <> len svs} 
+     let indicesOneAbove = {i | i in set inds svs 
+                              & current+1 = svs(i) and i <> len svs} 
       in
        exists i in set indicesOneAbove & 
         forall v in set {2,...,i} & current+1 = svs(v)
@@ -622,7 +622,7 @@ class Stock is subclass of GLOBAL
     else  
      other((MATH`rand(20) mod len other) + 1);
 
-  MakelistFromSet : set of RateOfChange ==> seq of RateOfChange
+  pure MakelistFromSet : set of RateOfChange ==> seq of RateOfChange
   MakelistFromSet(roc) ==
    return
    if( card roc > 0) then 

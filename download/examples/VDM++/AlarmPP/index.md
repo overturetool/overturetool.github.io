@@ -53,7 +53,7 @@ public Period = token;
 
 operations
 
-public ExpertToPage: Alarm * Period ==> Expert
+pure public ExpertToPage: Alarm * Period ==> Expert
 ExpertToPage(a, p) ==
   let expert in set schedule(p) be st
       a.GetReqQuali() in set expert.GetQuali()
@@ -66,12 +66,12 @@ post let expert = RESULT
        expert in set schedule(p) and
        a.GetReqQuali() in set expert.GetQuali();
                               
-public NumberOfExperts: Period ==> nat
+pure public NumberOfExperts: Period ==> nat
 NumberOfExperts(p) ==
   return card schedule(p)
 pre p in set dom schedule;
 
-public ExpertIsOnDuty: Expert ==> set of Period
+pure public ExpertIsOnDuty: Expert ==> set of Period
 ExpertIsOnDuty(ex) ==
   return {p | p in set dom schedule & 
               ex in set schedule(p)};
@@ -132,7 +132,7 @@ class Expert
 
 instance variables
 
-quali : set of Qualification;
+quali : set1 of Qualification;
                             
 types 
  
@@ -140,7 +140,7 @@ public Qualification = <Mech> | <Chem> | <Bio> | <Elec>;
                             
 operations
 
-public Expert: set of Qualification ==> Expert
+public Expert: set1 of Qualification ==> Expert
 Expert(qs) ==
   quali := qs;
                               
@@ -180,7 +180,7 @@ p4: Plant`Period = mk_token("Tuesday night");
 
 operations
 
-public Run: () ==> set of Plant`Period * Expert
+pure public Run: () ==> set of Plant`Period * Expert
 Run() == 
   let periods = plant.ExpertIsOnDuty(ex1),
       expert  = plant.ExpertToPage(a1,p1)

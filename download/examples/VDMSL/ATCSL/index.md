@@ -31,7 +31,7 @@ pp 169-174.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### digitalATCdb.vdmsl
@@ -289,7 +289,7 @@ pre Path_within_TrackC(trackcs, p);
 
 Path_Exists : Path_map * seq of Path_id * Direction -> bool
 Path_Exists(paths, route, dr) ==
-	forall pid in set elems route & 
+	forall pid in seq route & 
                 pid in set dom paths and
                 paths(pid).used(dr)
 ;
@@ -297,7 +297,7 @@ Path_Exists(paths, route, dr) ==
 -- next function is related with signal
 Exists_ATC_for_Route : TrackC_map * Path_map * Route -> bool
 Exists_ATC_for_Route(trackcs, paths, r) ==
-	forall pid in set elems r.paths &
+	forall pid in seq r.paths &
 		paths(pid).tc in set dom trackcs and
 		trackcs(paths(pid).tc).atc(r.dr).used
 pre	Path_Exists(paths, r.paths, r.dr);
@@ -956,7 +956,7 @@ Is_Plain_Area(ar, aid, connect) ==
         ar.trackcs(tcid).atc(dr).used =>
                 exists1 rid in set dom ar.routes &
                         ar.routes(rid).dr = dr and
-                        exists pid in set elems ar.routes(rid).paths &
+                        exists pid in seq ar.routes(rid).paths &
                         ar.paths(pid).tc = tcid) and
         (forall r in set rng ar.routes &
                 let p = ar.paths(r.paths(len r.paths)) in

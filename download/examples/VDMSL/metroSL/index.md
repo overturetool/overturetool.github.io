@@ -15,7 +15,7 @@ European research project called SPECTRUM.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### metro.vdmsl
@@ -174,21 +174,21 @@ types
 functions
   NotMovingAndOpen: LifeTime * LifeTime -> bool
   NotMovingAndOpen(train,doors) == 
-    forall i in set inds train, j in set inds doors &
-      not OverlappingIntervals(train(i),doors(j));
+    forall t in seq train, d in seq doors &
+      not OverlappingIntervals(t,d);
 
   CloseAssistAfter3Secs: LifeTime * LifeTime -> bool
   CloseAssistAfter3Secs(closeassist,bell) == 
-    forall i in set inds closeassist &
-      exists j in set inds bell &
-        bell(j).stop >= bell(j).start+3 and
-        closeassist(i).start = bell(j).start+3;
+    forall c in seq closeassist &
+      exists b in seq bell &
+        b.stop >= b.start+3 and
+        c.start = b.start+3;
 
   BellOnWhenCloseBut: LifeTime * LifeTime -> bool
   BellOnWhenCloseBut(bell,closebut) == 
-    forall i in set inds bell &
-      exists j in set inds closebut &
-        SubInterval(bell(i),closebut(j)) 
+    forall b in seq bell &
+      exists c in seq closebut &
+        SubInterval(b,c) 
   -- Too loose, correct?
 
 functions -- Auxiliary functions

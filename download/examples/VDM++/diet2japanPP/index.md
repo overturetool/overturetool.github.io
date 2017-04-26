@@ -63,7 +63,7 @@ static public Funtil[@T] : (@T -> bool) -> (@T -> @T) -> @T -> @T
 Funtil(p)(f)(x) == if p(x) then x else Funtil[@T](p)(f)(f(x));
                             
 end Diet
-                                                                        
+             
 ~~~
 {% endraw %}
 

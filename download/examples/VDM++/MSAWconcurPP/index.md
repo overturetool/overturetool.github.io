@@ -247,33 +247,33 @@ Scan(as) ==
   UpdatePriorityList()
  );
     
-private InRange : FO ==> bool
+pure private InRange : FO ==> bool
 InRange(fo) ==
   let foLocation = fo.getCoordinates()
   in 
     return isPointInRange(location,range,foLocation); 
    
-public getDetected : () ==> set of FO
+pure public getDetected : () ==> set of FO
 getDetected() == 
   return rng detected;
 
-public getDetectedMap : () ==> map FOId to FO
+pure public getDetectedMap : () ==> map FOId to FO
 getDetectedMap() ==
   return detected;
 
-public saturatedRadar : () ==> bool
+pure public saturatedRadar : () ==> bool
 saturatedRadar() == 
   return card dom detected > range / 4;
   
-public getSaturatingFOs : () ==> set of FOId
+pure public getSaturatingFOs : () ==> set of FOId
 getSaturatingFOs() ==
   return {priority(i).getId() | i in set inds priority & i > floor(range/4)};
 
-public getLocation : () ==> Coordinates
+pure public getLocation : () ==> Coordinates
 getLocation() == 
   return location;
 
-public getRange : () ==> nat1
+pure public getRange : () ==> nat1
 getRange() ==
   return range;
   
@@ -289,8 +289,7 @@ UpdatePriorityList() ==
 
 private removeNotDetected : set of FO ==> ()
 removeNotDetected(fos) == 
-  priority := [priority(i) | i in set inds priority 
-                           & priority(i) in set fos];    
+  priority := [p | p in seq priority & p in set fos];    
   
 private addNewlyDetected : map FOId to FO ==> ()
 addNewlyDetected(newlyDetect) == 
@@ -336,7 +335,7 @@ set2seqFOm(fos) == card fos;
 
 sync 
 mutex(Step);
-mutex(InRange);
+--mutex(InRange);
 mutex(UpdatePriorityList);
 
 per isFinished => not busy;
@@ -641,7 +640,7 @@ pure public getId : () ==> FOId
 getId() ==
   return id;
 
-public getCoordinates : () ==> Coordinates
+pure public getCoordinates : () ==> Coordinates
 getCoordinates() == 
   return coord;
 
@@ -649,7 +648,7 @@ public setCoordinates : Coordinates ==> ()
 setCoordinates(coordarg) ==
   coord := coordarg;
   
-public getAltitude : () ==> Altitude
+pure public getAltitude : () ==> Altitude
 getAltitude() ==
   return alt;
     
@@ -657,10 +656,9 @@ public setAltitude : Altitude ==> ()
 setAltitude(altarg) ==
   alt := altarg;
  
-public getPosition : () ==> Position
+pure public getPosition : () ==> Position
 getPosition() == 
-  return mk_Position(coord,alt); 
-  
+  return mk_Position(coord,alt);  
 
 end FO
 ~~~
@@ -977,7 +975,7 @@ UnRegisterThread() ==
   --registeredThreads := registeredThreads \ {t};
  );
  
-public IsInitialising: () ==> bool
+pure public IsInitialising: () ==> bool
 IsInitialising() ==
   return isInitialising;
  
@@ -1029,7 +1027,7 @@ public NotifyThread : nat ==> ()
 NotifyThread(tId) ==
  wakeUpMap := {tId} <-: wakeUpMap;
 
-public GetTime : () ==> nat
+pure public GetTime : () ==> nat
 GetTime() ==
   return currentTime;
 
@@ -1043,7 +1041,7 @@ ThreadDone() ==
 sync
   per Awake => threadid not in set dom wakeUpMap;
 
-mutex(IsInitialising);
+--mutex(IsInitialising);
 mutex(DoneInitialising);
   -- Is this really needed?
   mutex(AddToWakeUpMap);

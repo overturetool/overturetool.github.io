@@ -35,7 +35,7 @@ operations
   PostStatement(letter) == 
     statements := statements ^ [letter];
 
-  GetLastStatement : () ==> Letter
+  pure GetLastStatement : () ==> Letter
   GetLastStatement() == 
     return statements(len statements)
   pre statements <> [];
@@ -74,7 +74,7 @@ operations
     (cards := cs;
      balance := b);
 
-  public GetBalance : () ==> nat
+  pure public GetBalance : () ==> nat
   GetBalance() ==
     return balance;
                                                                                                                      
@@ -92,7 +92,7 @@ operations
         return false
   pre cardId in set dom cards;
 
-  public MakeStatement : Card`CardId * Clock`Date ==> Letter
+  pure public MakeStatement : Card`CardId * Clock`Date ==> Letter
   MakeStatement(cardId,date) ==
     let nm = cards(cardId).GetName(),
         addr = cards(cardId).GetAddress()
@@ -177,7 +177,7 @@ functions
 
 operations
 
-  public GetTill: TillId ==> Till
+  pure public GetTill: TillId ==> Till
   GetTill(tid) ==
     return tills(tid);
 
@@ -396,7 +396,7 @@ operations
     (clock := c;
      letterbox := l);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-  public GetBalance : Account`AccountId ==> [nat]
+  pure public GetBalance : Account`AccountId ==> [nat]
   GetBalance(accountId) ==
     if accountId in set dom accounts then
       accounts(accountId).GetBalance()
@@ -419,14 +419,14 @@ operations
     else 
       return false;
                                                                                                                                                    
-  public IsLegalCard : Account`AccountId * Card`CardId ==> bool
+  pure public IsLegalCard : Account`AccountId * Card`CardId ==> bool
   IsLegalCard(accountId,cardId) ==
     return 
       cardId not in set illegalCards and 
       accountId in set dom accounts and
       cardId in set accounts(accountId).GetCardIds();
 
-  public NumberOfTriesExceeded : Card`CardId ==> bool
+  pure public NumberOfTriesExceeded : Card`CardId ==> bool
   NumberOfTriesExceeded(cardId) == 
     return numberOfTries(cardId) >= maxNumberOfTries;
 
@@ -771,15 +771,15 @@ operations
      cardId := cid;
      accountId := a);
 
-  public GetCode : () ==> Code
+  pure public GetCode : () ==> Code
   GetCode() ==
     return code;
 
-  public GetAccountId : () ==> Account`AccountId
+  pure public GetAccountId : () ==> Account`AccountId
   GetAccountId() ==
     return accountId;
 
-  public GetCardId : () ==> CardId
+  pure public GetCardId : () ==> CardId
   GetCardId() ==
     return cardId;
 
@@ -838,11 +838,11 @@ operations
     (name := nm;
      address := addr);
 
-  public GetName : () ==> Name 
+  pure public GetName : () ==> Name 
   GetName () ==
     return name;
 
-  public GetAddress : () ==> Address 
+  pure public GetAddress : () ==> Address 
   GetAddress() ==
     return address;
 
@@ -869,7 +869,7 @@ operations
   SetDate(d) ==
     date := d;
 
-  public GetDate : () ==> Date
+  pure public GetDate : () ==> Date
   GetDate() ==
     return date;
 
@@ -899,7 +899,7 @@ operations
   Stop() ==
     active := false;
 
-  public GetTime : () ==> nat
+  pure public GetTime : () ==> nat
   GetTime() ==
     return curTime;
 

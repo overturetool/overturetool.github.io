@@ -4,7 +4,7 @@ title: ProgLangSL
 ---
 
 ## ProgLangSL
-Author: ernhard K. Aichernig and Andreas Kerschbaumer
+Author: Bernhard K. Aichernig and Andreas Kerschbaumer
 
 
 This example is made by Bernhard K. Aichernig and Andreas Kerschbaumer 
@@ -15,7 +15,7 @@ of the software technology course at the Technical University Graz, Austria.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| Test`RunTypeCheck()|
 |Entry point     :| Test`RunEval()|
 
@@ -54,7 +54,7 @@ functions
             elseif tp = <BoolType> 
             then mk_AST`BoolVal(false)
             else mk_AST`IntVal(0)  
-        | mk_AST`Declaration(id, tp, val) in set elems decls};
+        | mk_AST`Declaration(id, tp, val) in seq decls};
 
                                                                                                                                                                                                                                                                                                                                              
   EvalStmt : AST`Stmt * DynEnv -> DynEnv
@@ -233,14 +233,14 @@ wf_Declarations : seq of AST`Declaration -> bool
 wf_Declarations(decls) ==
   (forall i1, i2 in set inds decls & 
     i1 <> i2 => decls(i1).id <> decls(i2).id) and
-  (forall i in set inds decls & 
-    decls(i).val <> nil => 
-    ((is_AST`BoolVal(decls(i).val) and decls(i).tp = <BoolType>) or 
-     (is_AST`IntVal(decls(i).val) and decls(i).tp = <IntType>)));
+  (forall d in seq decls & 
+    d.val <> nil => 
+    ((is_AST`BoolVal(d.val) and d.tp = <BoolType>) or 
+     (is_AST`IntVal(d.val) and d.tp = <IntType>)));
 
 get_Declarations : seq of AST`Declaration -> StatEnv
 get_Declarations(decls) ==
-  {id |-> tp | mk_AST`Declaration(id, tp, -) in set elems decls};
+  {id |-> tp | mk_AST`Declaration(id, tp, -) in seq decls};
                                                                                                                           
 wf_Stmt : AST`Stmt * StatEnv -> bool
 wf_Stmt(stmt, senv) ==
@@ -262,7 +262,7 @@ wf_BlockStmt(mk_AST`BlockStmt(decls, stmts), senv) ==
 
 wf_Stmts : seq of AST`Stmt * StatEnv -> bool
 wf_Stmts(stmts, senv) ==
-  forall stmt in set elems stmts & wf_Stmt(stmt, senv);
+  forall stmt in seq stmts & wf_Stmt(stmt, senv);
                                                                                                                                                                                                                    
 wf_AssignStmt : AST`AssignStmt * StatEnv -> bool * [AST`Type]
 wf_AssignStmt(mk_AST`AssignStmt(lhs, rhs), senv) ==

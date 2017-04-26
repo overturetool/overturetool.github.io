@@ -24,7 +24,7 @@ In C. Sennett (ed), "High-Integrity Software", Pitman 1989.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| DEFAULT`max({3,1,5,8,3,2,5,4,22})|
 
 
@@ -581,21 +581,19 @@ int_eq(z1,z2,op) ==
      z1.type.range, j in set z2.type.range},{}));
 
 
-min: set of real -> real
+min: set1 of real -> real
 min(s) ==
   let m in set s in
   if card s = 1 then m 
   else let sm = min(s\{m}) in
-    if m < sm then m else sm
-pre s <> {};
+    if m < sm then m else sm;
 
-max: set of real -> real
+max: set1 of real -> real
 max(s) ==
   let m in set s in
   if card s = 1 then m 
   else let sm = max(s\{m}) in
-    if m > sm then m else sm
-pre s <> {};
+    if m > sm then m else sm;
 
 intbinop: Int * Int * NumOp -> Expressible_value
 intbinop(x,y,mk_NumOp(op)) ==
@@ -1094,7 +1092,7 @@ const_type(v) ==
     then v.type
   elseif is_Vector(v) 
     then mk_VectorType(v.type.lower,v.type.upper,
-              seqlub([const_type(v.val(i)) | i in set inds v.val]),v.type.fl)
+              seqlub([const_type(i) | i in seq v.val]),v.type.fl)
   elseif is_Structure(v) 
     then mk_StructureType([const_type(construct_ev(v.val(i),v.type.tps(i)))
                             | i in set inds v.val],v.type.fl)
@@ -1744,11 +1742,11 @@ eval_ConstantValue(mk_ConstantValue(cv))(ps) ==
         mk_EST_value(mk_Int(ascii(c),mk_IntType(<byte>,{ascii(c)},{})), 
                 ps.sto, ps.time),
     mk_Ascii_string(s) ->
-        mk_EST_value(mk_Vector([mk_Int(ascii(s(i)),
-                                       mk_IntType(<byte>,{ascii(s(i))}, {})) 
-                             |  i in set inds s],
+        mk_EST_value(mk_Vector([mk_Int(ascii(a),
+                                       mk_IntType(<byte>,{ascii(a)}, {})) 
+                             |  a in seq s],
                      mk_VectorType(1,len s, seqlub([mk_IntType(<byte>,
-                    {ascii(s(i))},{}) | i in set inds s]),{})),ps.sto,ps.time),
+                    {ascii(a)},{}) | a in seq s]),{})),ps.sto,ps.time),
     mk_Flavouring(fl) ->
   mk_EST_value(mk_Void(<nil>, mk_VoidType(eval_Flavouring(cv))), ps.sto, ps.time),
     <skip> -> mk_EST_value(mk_Void(<nil>,mk_VoidType({})), ps.sto,
@@ -1834,20 +1832,17 @@ eval_VectorTrimming(mk_VectorTrimming(name,to_p,ctv))(e)(ps)==
        then mk_EST_value(<err>,ps.sto,zerot)
        else let new_v = cases to_p:
                           <gtvalue> -> 
-                             [vec.val.val(i) | i in set inds vec.val.val &
-                                 vec.val.val(i) >= v.val.val],
+                             [i | i in seq vec.val.val & i >= v.val.val],
                           <ltvalue> -> 
-                             [vec.val.val(i) | i in set inds vec.val.val &
-                                 vec.val.val(i) <= v.val.val],
+                             [i | i in seq vec.val.val & i <= v.val.val],
                           <atvalue> -> 
-                             [vec.val.val(i) | i in set inds vec.val.val &
-                                 vec.val.val(i) = v.val.val]
+                             [i | i in seq vec.val.val & i = v.val.val]
                         end in
             if new_v = []
             then mk_EST_value(<err>,ps.sto,zerot)
             else let new_l = vec.val.type.lower,
                      new_u = vec.val.type.lower + len new_v - 1,
-                new_t = seqlub([const_type(new_v(i)) | i in set inds new_v]),
+                new_t = seqlub([const_type(v) | v in seq new_v]),
                      new_fl = vec.val.type.fl in
                  let new_vec = mk_Vector(new_v,mk_VectorType(new_l,new_u,new_t,
                                                    new_fl)),
@@ -1864,13 +1859,12 @@ eval_CompileTimeValue(mk_CompileTimeValue(op))(mk_(m,l)) ==
 
 eval_VectorVal : VectorVal -> Env -> PState -> EST_value
 eval_VectorVal(mk_VectorVal(ops))(e)(ps) ==
-  let vals = [ eval_Operation(ops(i))(e)(mk_PState(ps.sto,zerot)) | i
-                 in set inds ops] in
-  let val = [ vals(i).val | i in set inds vals],
-      time = dtplus([vals(i).time | i in set inds vals]) in
+  let vals = [ eval_Operation(o)(e)(mk_PState(ps.sto,zerot)) | o in seq ops] in
+  let val = [ v.val | v in seq vals],
+      time = dtplus([v.time | v in seq vals]) in
   if <err> in set elems val
   then mk_EST_value(<err>,ps.sto,zerot)
-  else let type = seqlub([val(i).type | i in set inds val]) in
+  else let type = seqlub([v.type | v in seq val]) in
        if type = <err> 
        then mk_EST_value(<err>,ps.sto,zerot)
        else let tp = mk_VectorType(1,len val, type, {}) in
@@ -1879,16 +1873,15 @@ eval_VectorVal(mk_VectorVal(ops))(e)(ps) ==
 
 eval_StructureValue: StructureValue -> Env -> PState -> EST_value
 eval_StructureValue(mk_StructureValue(ops))(e)(ps) ==
-  let vals = [ eval_Operation(ops(i))(e)(mk_PState(ps.sto,zerot)) | i
-                          in set inds ops] in
-  if (exists val in set elems vals & 
+  let vals = [ eval_Operation(o)(e)(mk_PState(ps.sto,zerot)) | o in seq ops] in
+  if (exists val in seq vals & 
         not (is_Tr(val.val) or is_Int(val.val) or is_Real(val.val)))
   then mk_EST_value(<err>,ps.sto,zerot)
-  elseif exists v1,v2 in set elems vals & fleq(v1.val.type,v2.val.type)
+  elseif exists v1,v2 in seq vals & fleq(v1.val.type,v2.val.type)
   then mk_EST_value(<err>,ps.sto, zerot)
-  else let tps = [vals(i).val.type | i in set inds vals],
-           time = dtplus([vals(i).time | i in set inds vals]),
-           comps = [vals(i).val.val | i in set inds vals] in
+  else let tps = [v.val.type | v in seq vals],
+           time = dtplus([v.time | v in seq vals]),
+           comps = [v.val.val | v in seq vals] in
        let type = mk_StructureType(tps,{}) in
        let val = mk_Structure(comps,type) in
        mk_EST_value(val,ps.sto,time);
@@ -1912,9 +1905,9 @@ eval_Call(mk_Call(id,acts))(mk_(m,l))(mk_PState(sto,time)) ==
        else let mk_Proc(p) = pp in
             let params =  eval_Acts(acts)(mk_(m,l))(
                           mk_PState(sto,time)) in
-              if <err> in set {x.val | x in set elems params}
+              if <err> in set {x.val | x in seq params}
               then mk_EST_value(<err>,sto,zerot)
-              else p([params(i).val | i in set inds params]) 
+              else p([m.val | m in seq params]) 
                     (mk_PState(sto, params(len params).time));
 
 eval_Acts: seq of Operation -> Env -> PState -> seq of EST_value
@@ -1959,7 +1952,7 @@ eval_PrimitiveType(mk_PrimitiveType(pt))(e) ==
 
 eval_Number : Number -> Env -> (Expressible_type | Errvalue)
 eval_Number(mk_Number(rep,range))(e) ==
-  let ranges = { eval_Range(r)(e) | r in set elems range} in
+  let ranges = { eval_Range(r)(e) | r in seq range} in
   if <err> in set ranges
   then <err>
   elseif rep = <bit>
@@ -1992,7 +1985,7 @@ eval_Range(mk_Range(lower,upper))(e) ==
 eval_FloatType : FloatType -> Env -> (Expressible_type | Errvalue)
 eval_FloatType(mk_FloatType(ranges,abserr,relerr))(e) ==
   if (abserr = nil and relerr = nil) or
-     (exists range in set elems ranges & (eval_Range(range)(e)) = <err>)
+     (exists range in seq ranges & (eval_Range(range)(e)) = <err>)
   then <err>
   else let abse = if abserr = nil
                   then mk_Real(0,mk_Float({mk_Floatrng(0,0)},0,0,{}))
@@ -2004,7 +1997,7 @@ eval_FloatType(mk_FloatType(ranges,abserr,relerr))(e) ==
        then <err>
        else mk_Float({mk_Floatrng(min(eval_Range(range)(e)),
                                   max(eval_Range(range)(e))) | range
-                        in set elems ranges}, abse.val,rele.val,{});
+                        in seq ranges}, abse.val,rele.val,{});
 
 eval_VoidValType : VoidValType -> (Env -> (Expressible_type | Errvalue))
 eval_VoidValType(fl) == 
@@ -2012,11 +2005,11 @@ eval_VoidValType(fl) ==
 
 eval_StrucType : StrucType -> Env -> (Expressible_type | Errvalue)
 eval_StrucType(mk_StrucType(tps))(e) ==
-  let typs = [ eval_Type(tps(i))(e) | i in set inds tps] in
-  if exists tp in set elems typs & 
+  let typs = [ eval_Type(t)(e) | t in seq tps] in
+  if exists tp in seq typs & 
          not (is_TrType(tp) or is_Float(tp) or is_IntType(tp))
   then <err>
-  elseif exists tp1,tp2 in set elems typs & 
+  elseif exists tp1,tp2 in seq typs & 
          tp1 <> tp2 and tp1.fl = tp2.fl
   then <err>
   else mk_StructureType(typs,{});
@@ -2048,7 +2041,7 @@ eval_FlavouredType(mk_FlavouredType(fl,tp))(e) ==
 
 eval_UnionTp : UnionTp -> Env -> (Expressible_type | Errvalue)
 eval_UnionTp(mk_UnionTp(tps))(e) ==
-  let typs = {eval_Type(tps(i))(e) | i in set inds tps} in
+  let typs = {eval_Type(t)(e) | t in seq tps} in
   if exists tp in set typs &  not (is_IntType(tp) or is_Float(tp) or 
                         is_TrType(tp) or is_VoidType(tp))
   then <err>
@@ -2194,7 +2187,7 @@ eval_NonLocals(mk_NonLocals(ids,decls))(mk_(m,l))(ps) ==
 
 eval_Formals : seq of Formal -> Env -> seq of Formal_elt
 eval_Formals(fls)(e) ==
-  [eval_Formal(fls(i))(e) | i in set inds fls];
+  [eval_Formal(f)(e) | f in seq fls];
 
 eval_Formal : Formal -> Env -> Formal_elt
 eval_Formal(mk_Formal(id,rep,fl))(e) ==
@@ -2222,7 +2215,7 @@ eval_PrimitiveRep(mk_PrimitiveRep(rep))(e) ==
 eval_NumRep : NumRep -> Env -> (Expressible_type | Errvalue)
 eval_NumRep(mk_NumRep(rep,range))(e) ==
   let ranges = if range = nil then {}
-               else {eval_Range(r)(e) | r in set elems range} in
+               else {eval_Range(r)(e) | r in seq range} in
   if <err> in set ranges
   then <err>
   elseif rep = <bit>
@@ -2247,7 +2240,7 @@ eval_NumRep(mk_NumRep(rep,range))(e) ==
 eval_FloatRep : FloatRep -> Env -> (Expressible_type | Errvalue)
 eval_FloatRep(mk_FloatRep(range,abserr,relerr))(e) ==
   let ranges = if range = nil then {} 
-               else {eval_Range(r)(e) | r in set elems range},
+               else {eval_Range(r)(e) | r in seq range},
       abse   = if abserr = nil 
                then mk_Real(maxint,
                             mk_Float({mk_Floatrng(maxint,maxint)},0,0,{}))
@@ -2265,11 +2258,11 @@ eval_FloatRep(mk_FloatRep(range,abserr,relerr))(e) ==
 
 eval_StrucRep : StrucRep -> Env -> (Expressible_type | Errvalue)
 eval_StrucRep(mk_StrucRep(reps))(e) ==
-  let tps = [ eval_Representation(reps(i))(e) | i in set inds reps] in
-  if exists tp in set elems tps & not(is_TrType(tp) or is_Float(tp) or
+  let tps = [ eval_Representation(r)(e) | r in seq reps] in
+  if exists tp in seq tps & not(is_TrType(tp) or is_Float(tp) or
                                       is_IntType(tp))
   then <err>
-  elseif exists tp1,tp2 in set elems tps & fleq(tp1,tp2)
+  elseif exists tp1,tp2 in seq tps & fleq(tp1,tp2)
   then <err>
   else mk_StructureType(tps,{});
 
@@ -2283,7 +2276,7 @@ eval_VecRep(mk_VecRep(range,rep))(e) ==
 
 eval_UnionRep : UnionRep -> Env -> (Expressible_type | Errvalue)
 eval_UnionRep(mk_UnionRep(reps))(e) ==
-  let tps = {eval_Representation(rep)(e) | rep in set elems reps} in
+  let tps = {eval_Representation(rep)(e) | rep in seq reps} in
   if exists tp in set tps & not (is_IntType(tp) or is_Float(tp) or
                                    is_TrType(tp) or is_VoidType(tp))
   then <err>
@@ -2446,20 +2439,19 @@ eval_CaseExpr(mk_CaseExpr(expr,limbs,outlimb))(e)(ps) ==
                      [mk_(type_x,eval_Sequence(outlimb)(e)(mu(ps,time
                            |-> v.time)))] in
        let pats = ls^os in
-       if exists mk_(t,v) in set elems pats & v.val = <err>
+       if exists mk_(t,v) in seq pats & v.val = <err>
        then mk_EST_value(<err>,ps.sto,zerot)
-       else let patlub = setlub({t | mk_(t,v) in set elems pats}) in
+       else let patlub = setlub({t | mk_(t,v) in seq pats}) in
             if patlub = <err>
             then mk_EST_value(<err>,ps.sto,zerot)
             elseif lub(type_x,patlub) <> patlub
             then mk_EST_value(<err>,ps.sto,zerot)
-            else let type = setlub({v.val.type | mk_(t,v) in set elems
-                                                           pats}) in
+            else let type = setlub({v.val.type | mk_(t,v) in seq pats}) in
                  if type = <err>
                  then mk_EST_value(<err>,ps.sto,zerot)
                  else let x_type = const_type(x.val) in
-                      let matches = [pats(i) | i in set inds pats &
-                                      let mk_(t,v) = pats(i) in
+                      let matches = [p | p in seq pats &
+                                      let mk_(t,v) = p in
                                       lub(x_type,t) = t] in
                       let mk_(mt,mv) = hd matches in
                       let time = 
@@ -2524,7 +2516,7 @@ eval_NumSkel(mk_NumSkel(ranges,errors))(x_type)(e) ==
                   then if is_Float(x_type) 
                        then {{l,...,u} | mk_Floatrng(l,u) in set x_type.range} 
                        else {x_type.range}
-                  else {eval_Range(r)(e) | r in set elems ranges} in
+                  else {eval_Range(r)(e) | r in seq ranges} in
        if <err> in set rngs
        then <err>
        else cases x_type:
@@ -2578,7 +2570,7 @@ eval_StrucSkel(mk_StrucSkel(comps))(x_type)(e) ==
                 then x_type.tps(i)
                 else eval_SkeletonType(comps(i))(x_type.tps(i))(e) |
                       i in set inds comps] in
-       if exists tp in set elems t & not (is_TrType(tp) or
+       if exists tp in seq t & not (is_TrType(tp) or
                    is_IntType(tp) or is_Float(tp))
        then <err>
        else mk_StructureType(t,x_type.fl);
@@ -2606,7 +2598,7 @@ eval_VecSkel(mk_VecSkel(skel))(x_type)(e) ==
 eval_UnionSkel : UnionSkel -> Expressible_type -> Env ->
                  (Expressible_type | Errvalue)
 eval_UnionSkel(mk_UnionSkel(skels))(x_type)(e) ==
-  let fls = { skel |-> fl | skel in set elems skels, fl : Flavdom & 
+  let fls = { skel |-> fl | skel in seq skels, fl : Flavdom & 
                    fl = cases skel:
                           mk_FlavSkel(skel,f) -> eval_Flavouring(f),
                           mk_FlavouredType(f,t) -> eval_Flavouring(f),
@@ -2631,7 +2623,7 @@ eval_UnionSkel(mk_UnionSkel(skels))(x_type)(e) ==
                   mk_FlavSkel(s,f)      ->  eval_FlavSkel(skel)(tp)(e),
                   mk_FlavouredType(f,t) -> eval_FlavouredType(skel)(e),
                   others                -> eval_VoidValType(skel)(e)
-                end | skel in set elems skels, tp in set x_type.tps &
+                end | skel in seq skels, tp in set x_type.tps &
                           fls(skel) = x_fls(tp)} in
             if exists tp in set tps & not (is_TrType(tp) or is_IntType(tp)
                    or is_Float(tp) or is_VoidType(tp))
@@ -2710,18 +2702,16 @@ eval_OuterIntLoop(mk_OuterIntLoop(mk_OverRange(id,range),actns))(e)(ps) ==
   else let vec_elems = [eval_Sequence(actns)(update_env(id)
             (mk_Storable_value(mk_Int(i,mk_IntType(<word>,{i},{}))))(e))
                             (mu(ps,time |-> zerot)) | i in set nrange] in
-       if <err> in set {x.val |x  in set elems vec_elems}
+       if <err> in set {x.val | x in seq vec_elems}
        then mk_EST_value(<err>,ps.sto,zerot)
-       else let type =seqlub([vec_elems(i).val.type |i in set inds vec_elems]),
-                time =dtplus([vec_elems(i).time | i in set inds vec_elems]) in
+       else let type = seqlub([i.val.type | i in seq vec_elems]),
+                time = dtplus([i.time | i in seq vec_elems]) in
             if type = <err>
             then mk_EST_value(<err>,ps.sto,zerot)
             else let vec_val = if is_StructureType(type) or
                                   is_VectorType(type) 
-                               then [ vec_elems(i).val.val | i in set
-                                      inds vec_elems]
-                               else [ vec_elems(i).val | i in set inds
-                                           vec_elems]  in
+                               then [ v.val.val | v in seq vec_elems]
+                               else [ v.val | v in seq vec_elems]  in
                     mk_EST_value(mk_Vector(vec_val,mk_VectorType(1,len
                     vec_val,type,{})),ps.sto, tplus(ps.time,time));
 
@@ -2730,41 +2720,36 @@ eval_OuterVecLoop(mk_OuterVecLoop(ovs,actions))(e)(ps) ==
   let idvs = eval_OverVectors(ovs)(e)(ps) in
   if idvs = <err>
   then mk_EST_value(<err>,ps.sto,zerot)
-  else let time1 = dtplus([ let mk_(id,v,t) = idvs(i) in t | i in set
-                      inds idvs]),
+  else let time1 = dtplus([ let mk_(id,v,t) = i in t | i in seq idvs]),
            new_env = lambda i:nat &
-                      (multi_update_env([ let mk_(id,v,t) = idvs(j) in
+                      (multi_update_env([ let mk_(id,v,t) = j in
                                         mk_(id,vector_extract(v,i)) |
-                                            j in set inds  idvs]^(
+                                            j in seq idvs]^(
                                         if ovs.cnt = nil then []
                                         else [mk_(ovs.cnt,i)]))(e)) in
        let vec_elems = [eval_Sequence(actions)(new_env(i))(mu(ps,time
                         |-> zerot)) | i in set let mk_(i1,v,t) =
                                  idvs(1) in inds (v.val)] in
-       if <err> in set {x.val | x in set elems vec_elems}
+       if <err> in set {x.val | x in seq vec_elems}
        then mk_EST_value(<err>,ps.sto,zerot)
-       else let type = seqlub([vec_elems(i).val.type | i in set inds
-                        vec_elems]),
-                time = dtplus([vec_elems(i).time | i in set inds
-                              vec_elems]^[time1])  in
+       else let type = seqlub([i.val.type | i in seq vec_elems]),
+                time = dtplus([i.time | i in seq vec_elems]^[time1]) in
             if type = <err>
             then mk_EST_value(<err>,ps.sto,zerot)
             else let new_tp = mk_VectorType(1,len vec_elems,type,{}) in
                  let vec_val = if is_StructureType(type) or
                                   is_VectorType(type) 
-                               then [ vec_elems(i).val.val | i in set
-                                      inds vec_elems]
-                               else [ vec_elems(i).val | i in set inds
-                                           vec_elems]  in
+                               then [i.val.val | i in seq vec_elems]
+                               else [i.val | i in seq vec_elems] in
                  let new_vec = mk_Vector(vec_val,new_tp) in
                  mk_EST_value(new_vec,ps.sto,tplus(ps.time,time));
 
 eval_OverVectors : OverVectors -> Env -> PState -> (seq1 of (Id * Vector *
                    Time) | Errvalue)
 eval_OverVectors(ovs)(e)(ps) ==
-  let indices = [ let mk_OverVector(id,val) = ovs.ovv(i) in
+  let indices = [ let mk_OverVector(id,val) = o in
                   let x = eval_Operation(val)(e)(mu(ps,time |-> zerot)) in
-                  mk_(id,x.val,x.time) | i in set inds ovs.ovv] in
+                  mk_(id,x.val,x.time) | o in seq ovs.ovv] in
   if exists i in set inds indices & let mk_(id,v,t) = indices(i) in
                                     not is_Vector(v)
   then <err>
@@ -2835,8 +2820,7 @@ eval_VecLoop(mk_VecLoop(ovs,actions))(e)(ps) ==
   let indices = eval_OverVectors(ovs)(e)(ps) in
   if indices = <err>
   then mk_EST_value(<err>,ps.sto,zerot)
-  else let time = dtplus([let mk_(id,v,t) = indices(i) in t | i in set
-                                inds indices]) in
+  else let time = dtplus([let mk_(id,v,t) = i in t | i in seq indices]) in
        let f:EST_Iterate -> EST_Iterate
             = lambda x:EST_Iterate &
              let env = multi_update_env(
@@ -2938,20 +2922,18 @@ eval_MultAssignment(mk_MultAssignment(dest,mult,expr))(e)(ps) ==
 
 eval_StrAssignment : StrAssignment -> Env -> PState -> EST_value
 eval_StrAssignment(mk_StrAssignment(dest,expr))(e)(ps) ==
-  let ls = [access_env(dest(i))(e) | i in set inds dest] in
-  if exists l in set elems ls & not is_Location(l)
+  let ls = [access_env(d)(e) | d in seq dest] in
+  if exists l in seq ls & not is_Location(l)
   then mk_EST_value(<err>,ps.sto,zerot)
   else let x = eval_Expression(expr)(e)(ps) in
        if not is_Structure(x.val)
        then mk_EST_value(<err>,ps.sto,zerot)
        elseif len ls <> struc_length(x.val.type)
        then mk_EST_value(<err>,ps.sto,zerot)
-       else let nvals = [ access(ls(i))(ps.sto) |
-                            i in set inds ls] in
-            let vals = [ let mk_Storable_value(v) = nvals(i) in v | i
-                           in set inds nvals] in
-            let dest_tps = [(vals(i)).type | i in set inds vals],
-                x_tps = [x.val.type.tps(i) | i in set inds x.val.type.tps] in
+       else let nvals = [ access(l)(ps.sto) | l in seq ls] in
+            let vals = [ let mk_Storable_value(v) = i in v | i in seq nvals] in
+            let dest_tps = [v.type | v in seq vals],
+                x_tps = [i | i in seq x.val.type.tps] in
             if exists i in set inds dest_tps & not gt(dest_tps(i),x_tps(i))
             then mk_EST_value(<err>,ps.sto,zerot)
             else let ys = [mk_Storable_value(construct_ev(x.val.val(i),

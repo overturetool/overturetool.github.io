@@ -23,7 +23,7 @@ H.Toetenel, Formal Aspects of Computing'' 1994, Vol 6, December
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### dfdexample.vdmsl
@@ -92,16 +92,15 @@ MakeType(fidl) ==
   cases len fidl:
     0 -> nil ,
     1 -> FlowIdTypeConf( hd fidl),
-  others -> mk_ProductType([ FlowIdTypeConf(fidl(i))
-                           | i in set inds fidl])
+  others -> mk_ProductType([ FlowIdTypeConf(i) | i in seq fidl])
   end;
   
 MakeOpState : Signature -> seq of Id
 MakeOpState(mk_(-,-,sl)) ==
-  [let mk_(s,-)=sl(i) 
+  [let mk_(s,-)=i 
    in
      StateVarConf(s)
-  |i in set inds sl];
+  |i in seq sl];
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 MakeDefinitions: DFDId * DSs * DFDTopo * DFDSig * MSs * 
                  (<EXPL>|<IMPL>) -> Definitions
@@ -162,9 +161,8 @@ MakeOp(msid,mk_(din,out,dst)) ==
   
 MakeInpPar : seq of FlowId -> seq of ParType
 MakeInpPar(fidl) ==
-  [mk_ParType(mk_PatternId(FlowIdVarConf(fidl(i))),
-                           FlowIdTypeConf(fidl(i)))
-  | i in set inds fidl];
+  [mk_ParType(mk_PatternId(FlowIdVarConf(i)), FlowIdTypeConf(i))
+  | i in seq fidl];
                                                                                                                                                                                                                                                                       
 MakeOutPair : seq of FlowId -> [IdType]
 MakeOutPair(fidl) ==
@@ -172,15 +170,14 @@ MakeOutPair(fidl) ==
     0 -> nil ,
     1 -> mk_IdType(FlowIdVarConf( hd fidl),
                    FlowIdTypeConf( hd fidl)),
-  others -> let t=mk_ProductType([FlowIdTypeConf(fidl(i))
-                                 |i in set inds fidl]) 
+  others -> let t=mk_ProductType([FlowIdTypeConf(i) | i in seq fidl])
             in
               mk_IdType(ResultIdConf(),t)
   end;
   
 MakeExt : State -> seq of ExtVarInf
 MakeExt(dst) ==
-  [MakeExtVar(dst(i))|i in set inds dst];
+  [MakeExtVar(i)|i in seq dst];
   
 MakeExtVar : (StId * Mode) -> ExtVarInf
 MakeExtVar(mk_(id,mode)) ==
@@ -341,15 +338,15 @@ MakeExistsBind: set of FlowId * State * IntM * IntM *
                (<PRE>|<POST>) -> MultTypeBind
 MakeExistsBind(fs,dst,intm,maxm,c) ==
   let outl = MakeTypeBindList(fs),
-      stl = [let mk_(s,-)=dst(i),
+      stl = [let mk_(s,-)=i,
                  p = MakePatternIds(s,intm(s)+1,maxm(s),c)
              in
                mk_TypeBind(p,StateTypeConf(s))
-            |i in set inds dst 
-            & let mk_(-,m)=dst(i) in m=<READWRITE>]
+            |i in seq dst 
+            & let mk_(-,m)=i in m=<READWRITE>]
   in
     mk_MultTypeBind(outl^stl)
-pre forall mk_(s,<READWRITE>) in set elems dst&
+pre forall mk_(s,<READWRITE>) in seq dst&
         s in set dom intm and s in set dom maxm;
                                                                                                                                                                                                                                                                                                                 
 ExecutionOrders: DFDTopo -> set of seq1 of ProcId
@@ -373,24 +370,24 @@ ExecutionOrders(dfdtopo) ==
 MakeQuotedApply: (DFDId|MSId) * Signature * IntM * IntM * 
                  (<PRE>|<POST>) * (<PRE>|<POST>) -> Apply
 MakeQuotedApply(id,mk_(din,out,dst),intm,maxm,c,c2) ==
-  let inarg = [FlowIdVarConf(din(i))|i in set inds din],
-      oldstarg = [let mk_(s,m)=dst(i) in
+  let inarg = [FlowIdVarConf(i)|i in seq din],
+      oldstarg = [let mk_(s,m)=i in
                     if m=<READ>
                     then StateVarIntConf(s,intm(s),
                                          maxm(s),c)
                     else StateVarIntConf(s,intm(s) - 1,
                                          maxm(s),c)
-                 |i in set inds dst],
-      outarg = [FlowIdVarConf(out(i))|i in set inds out],
-      starg = [let mk_(s,-)=dst(i) in
+                 |i in seq dst],
+      outarg = [FlowIdVarConf(i)|i in seq out],
+      starg = [let mk_(s,-)=i in
                StateVarIntConf(s,intm(s),maxm(s),c)
-              |i in set inds dst & 
-               let mk_(-,m)=dst(i) in m=<READWRITE>] in
+              |i in seq dst & 
+               let mk_(-,m)=i in m=<READWRITE>] in
    if c2=<PRE>
   then mk_Apply("pre_"^OpIdConf(id),inarg^oldstarg)
   else mk_Apply("post_"^OpIdConf(id),inarg^oldstarg^
                                      outarg^starg)
-pre forall mk_(s,m) in set elems dst&
+pre forall mk_(s,m) in seq dst&
         s in set dom intm and
         s in set dom maxm and 
         m=<READWRITE> => intm(s)>0;
@@ -406,8 +403,8 @@ MakeDFDExplOp(dfdid,dfdtopo,dfdsig) ==
              |mk_(stid,-) in set CollectStIds(rng dfdsig)} 
   in
   let optype = MakeOpType(dfdsig(dfdid)),
-      parms = [mk_PatternId(FlowIdVarConf(din(i)))
-              |i in set inds din],
+      parms = [mk_PatternId(FlowIdVarConf(i))
+              |i in seq din],
       bodys = {MakeStmtForEO(piseq,dfdid,dfdsig)
               |piseq in set eos},
       dpre  = MakePreExpr(dfdid,dfdtopo,dfdsig,intm,maxm) in
@@ -445,8 +442,8 @@ pre hd piseq in set dom dfdsig;
   
 MakeCallAndPat : (DFDId|MSId) * Signature -> Call * [Pattern]
 MakeCallAndPat(id,mk_(din,out,-)) ==
-  let inarg = [FlowIdVarConf(din(i))|i in set inds din],
-      outarg = [FlowIdVarConf(out(i))|i in set inds out] in
+  let inarg = [FlowIdVarConf(i)|i in seq din],
+      outarg = [FlowIdVarConf(i)|i in seq out] in
   mk_(mk_Call(OpIdConf(id),inarg),MakePattern(outarg));
   
 FindKind : Signature -> <OPRES>|<OPCALL>
@@ -461,24 +458,21 @@ MakePattern(idl) ==
   cases len idl:
     0 -> nil ,
     1 -> mk_PatternId( hd idl),
-  others -> mk_TuplePattern([mk_PatternId(idl(i)) 
-                            | i in set inds idl])
+  others -> mk_TuplePattern([mk_PatternId(i) | i in seq idl])
   end;
   
 MakeResult : seq1 of Id -> Expr
 MakeResult(idl) ==
   if len idl=1
   then FlowIdVarConf( hd idl)
-  else mk_TupleConstructor([FlowIdVarConf(idl(i))
-                           |i in set inds idl]);
+  else mk_TupleConstructor([FlowIdVarConf(i) | i in seq idl]);
                                                                                                                                                                                   
-DBinOp : BinaryOp * set of Expr -> Expr
+DBinOp : BinaryOp * set1 of Expr -> Expr
 DBinOp(op,es) ==
   let e in set es in
    if  card es=1
    then e
-   else mk_BinaryExpr(e,op,DBinOp(op, es \ {e}))
-pre es<>{};
+   else mk_BinaryExpr(e,op,DBinOp(op, es \ {e}));
                                                                                                                                                 
 CollectExtDFs : DFDTopo -> set of FlowId
 CollectExtDFs(dfdtopo) ==
@@ -509,10 +503,10 @@ QuantNec: seq of FlowId * State * set of FlowId *
            IntM * IntM -> bool 
 QuantNec(out,dst,fids,intm,maxm) ==
   fids <> {} or
-  -- (exists id in set elems out&  id in set fids) or 
-  (exists mk_(s,m) in set elems dst&
+  -- (exists id in seq out&  id in set fids) or 
+  (exists mk_(s,m) in seq dst&
        m=<READWRITE> and intm(s)<maxm(s))
-pre forall mk_(s,-) in set elems dst&
+pre forall mk_(s,-) in seq dst&
        s in set dom intm and s in set dom maxm;
   
 MakeTypeBindList : set of FlowId -> seq of TypeBind
@@ -703,7 +697,7 @@ ToLower(id) ==
                  others        -> id
                end
   in
-    [LowerChar(realid(i)) | i in set inds realid];
+    [LowerChar(i) | i in seq realid];
                                                                                                                                                             
 LowerChar: char -> char
 LowerChar(c) ==
@@ -748,7 +742,7 @@ ToUpper(id) ==
                  others        -> id
                end
   in
-    [UpperChar(realid(i)) | i in set inds realid];
+    [UpperChar(i) | i in seq realid];
   
 UpperChar: char -> char
 UpperChar(c) ==
@@ -818,8 +812,7 @@ DFDSig = map (DFDId|MSId) to Signature;
 Signature = Input * Output * State
 inv mk_(-,out,sta) == 
   (sta=[]) => (out<>[]) and 
-  (out=[]) => (exists mk_(-,m) in set elems sta & 
-                 m=<READWRITE>);
+  (out=[]) => (exists mk_(-,m) in seq sta & m=<READWRITE>);
   
 Input = seq of FlowId;
   
@@ -874,8 +867,8 @@ DSConnected : DSs * DFDSig -> bool
 DSConnected(dss,dfdsig) ==
   forall dsid in set dss&
    exists mk_(-,-,dst) in set rng dfdsig&
-   exists i in set inds dst&
-   let mk_(id,-)=dst(i) in
+   exists i in seq dst&
+   let mk_(id,-)=i in
     dsid=id;
   
 SigsAllRight : DFDTopo * DFDSig -> bool 

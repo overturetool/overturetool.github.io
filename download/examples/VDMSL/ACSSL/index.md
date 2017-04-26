@@ -26,7 +26,7 @@ does not have a main debug functionality.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| DEFAULT`sum({3,4,5})|
 
 
@@ -107,7 +107,7 @@ Site_label = token;
 Exposed_site:: building: Building
                vertices: Quad
                door: nat
-inv exs == (forall p in set elems exs.vertices(2,...,4) &
+inv exs == (forall p in seq exs.vertices(2,...,4) &
                 distance(mk_Point(0,0),exs.vertices(1)) <= 
                         distance(mk_Point(0,0),p)   and
                 distance(mk_Point(0,0),exs.vertices(1)) = 
@@ -124,7 +124,7 @@ inv exs == (forall p in set elems exs.vertices(2,...,4) &
 Pot_explosion_site:: mgzn: Magazine
                      vertices: seq of Point
                      door: nat
-inv pes == (forall p in set elems pes.vertices(2,...,4) &
+inv pes == (forall p in seq pes.vertices(2,...,4) &
                 distance(mk_Point(0,0),pes.vertices(1)) <= 
                         distance(mk_Point(0,0),p)   and
                 distance(mk_Point(0,0),pes.vertices(1)) = 
@@ -294,12 +294,10 @@ table_entry(pes,exs) ==
          o_pes = mk_(pes.mgzn.type,pes_ro) in
      mk_(o_exs,o_pes);    
 
-min(s: set of Realp) m: Realp
-pre s <> {}
+min(s: set1 of Realp) m: Realp
 post m in set s and forall x in set s & m <= x;
 
-max(s: set of Realp) m:Realp
-pre s <> {}
+max(s: set1 of Realp) m:Realp
 post m in set s and forall x in set s & m >= x;
 
 truncated: Realp -> bool
@@ -409,10 +407,9 @@ post (exists e in set exs & is_Storage_building(e.building.type))
      (exists e in set exs & e.building.type.kind = <TRAFFICROUTE>)
         => nearest_traffic_route(pes,exs) in set exset;
 
-find_max_neq:Pot_explosion_site * set of Exposed_site -> Kg
+find_max_neq:Pot_explosion_site * set1 of Exposed_site -> Kg
 find_max_neq(pes,exs) == 
-  min({qd(pes,e)|e in set nearest_buildings(pes,exs)})
-pre exs <> {};
+  min({qd(pes,e)|e in set nearest_buildings(pes,exs)});
 
 centre(v: Quad) p: Point
 post forall i in set {1,...,3} &
@@ -484,7 +481,7 @@ ext wr pes: inmap Site_label to Pot_explosion_site
     wr exs: inmap Site_label to Exposed_site
     rd xmax, ymax: Metre
 pre forall exp in set rng exs & min_separation(pex,exp) and
-    forall v in set elems pex.vertices &
+    forall v in seq pex.vertices &
         (0 <= v.x and v.x <= xmax and
          0 <= v.y and v.y <= ymax) and
     label not in set dom pes
@@ -506,7 +503,7 @@ ext wr exs: inmap Site_label to Exposed_site
     rd pes: inmap Site_label to Pot_explosion_site
     rd xmax, ymax: Metre
 pre not (is_Storage_building(ex.building.type)) and
-    forall v in set elems ex.vertices & 
+    forall v in seq ex.vertices & 
         (0<=v.x and v.x <= xmax and
          0<=v.y and v.y <= ymax) and
     label not in set dom exs and

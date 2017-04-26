@@ -349,8 +349,8 @@ where the VDMUnit testing approach was introduced.
 
 | | |
 |------|-------|
-|Author:||
-|Version:|VDM_PP - classic|
+|Author:|Sune Wolff|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](HomeAutomationConcPP/HomeAutomationConc.zip)  / [show specification](HomeAutomationConcPP/index.html)|
 
 

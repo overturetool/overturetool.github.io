@@ -108,7 +108,7 @@ operations
             );
     
     private States: () ==> seq of MetroUnit`MetroUnitState
-            States() == return [ units(i).GetState() | i in set inds units ];
+            States() == return [ u.GetState() | u in seq units ];
     
     -- // PrioritiseUnits //
     public testPrioritiseUnits1: () ==> ()
@@ -542,7 +542,7 @@ operations
     private Print: nat1 ==> ()
             Print(step) ==
                 def stepText = Pad(VDMUtil`val2seq_of_char[nat1](step));
-                    states = [ stateCharacters(units(i).GetState()) | i in set inds units ]
+                    states = [ stateCharacters(u.GetState()) | u in seq units ]
                 in 
                     IO`println(stepText ^ ": " ^ states);
     
@@ -604,8 +604,7 @@ operations
     public IsStuck: () ==> bool
            IsStuck() ==
                 return recentStates <> [] and
-                       not exists s in set elems recentStates &
-                           s = <Running>;
+                       not exists s in seq recentStates & s = <Running>;
     
     public Relocate: [InterlockingSystem`MetroLine] * nat1 ==> ()
            Relocate(newLine, startingTrackIndex) ==

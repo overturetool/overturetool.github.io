@@ -23,7 +23,7 @@ www.stadtools.com.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| relations`IsTransitive(relations`A5)|
 |Entry point     :| relations`IsTransitive(A7)|
 
@@ -357,15 +357,14 @@ IsSymmetrical(R)==
  pre n>0;
 
   
- max_set: set of int -> int
+ max_set: set1 of int -> int
  -- returns maximum of set 
  max_set(S) == 
    let x in set S
    in
      if card S = 1 
      then x
-     else max2(x,max_set(S\ {x}))
- pre S<>{};
+     else max2(x,max_set(S\ {x}));
 
 
  max2: int * int -> int
@@ -377,7 +376,7 @@ IsSymmetrical(R)==
 
 operations
 
-Warshall: BinRel ==> BinRel
+pure Warshall: BinRel ==> BinRel
 -- efficiently computes transitive closure of Q
 Warshall(Q) == 
  (dcl i: nat1, j: nat1, k: nat1, R: BinRel;

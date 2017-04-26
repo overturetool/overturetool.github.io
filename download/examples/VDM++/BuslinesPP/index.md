@@ -167,13 +167,13 @@ operations
 						( 
 							Printer`Out("Waypoints:");
 							let wps = b.GetWaypoints() in 
-								let wpsIds = [wps(i).GetId() | i in set inds wps] in 
+								let wpsIds = [wp.GetId() | wp in seq wps] in 
 									IO`print(wpsIds);
 
 							Printer`Out("\nStops:");
 
 							let wps = b.GetStops() in 
-								let wpsIds = [wps(i).GetId() | i in set inds wps] in 
+								let wpsIds = [wp.GetId() | wp in seq wps] in 
 									IO`print(wpsIds);
 							Printer`Out("\n");
 						);
@@ -449,17 +449,17 @@ class Busstop is subclass of Waypoint
 		);
 
 		--number of passenger waiting
-		public GetWaitingCount : () ==> nat
+		pure public GetWaitingCount : () ==> nat
 		GetWaitingCount() ==
 			return card waiting;
 		
 		--get passengers waiting
-		public GetWaiting : () ==> set of Passenger
+		pure public GetWaiting : () ==> set of Passenger
 		GetWaiting() ==
 			return waiting;
 
 		-- get passengers waiting on a bus which passes specific stops 
-		public GetWaitingOn : seq of Waypoint==> set of Passenger
+		pure public GetWaitingOn : seq of Waypoint==> set of Passenger
 		GetWaitingOn(stopsAt)==
 			let stops = elems stopsAt in
 			return  {p | p in set waiting & {p.GetDestination()} inter stops <> {}};
@@ -477,7 +477,7 @@ class Busstop is subclass of Waypoint
 
 sync
 	---protect waiting instance variable
-	mutex(GetWaitingCount, AddPassenger, PassengerLeft)
+	mutex(AddPassenger, PassengerLeft)
 
 end Busstop
 ~~~
@@ -629,7 +629,7 @@ class Passenger
 		)
 		pre destination.IsStop() = true;
 		
-		public GetDestination : () ==>  Waypoint
+		pure public GetDestination : () ==>  Waypoint
 		GetDestination()== 
 			return goal;
 
@@ -658,7 +658,7 @@ class Passenger
 			)
 		);
 
-		public Id : () ==> nat
+		pure public Id : () ==> nat
 		Id()== 
 			return passengerId;
 	
@@ -803,12 +803,11 @@ class City
 		and lineNumber not in set dom buses; --bus linenumber is not known
 
 
-		private findRoadsFromRoadNumber : seq of Road`RoadNumber ==> seq of Road
+		pure private findRoadsFromRoadNumber : seq of Road`RoadNumber ==> seq of Road
 		findRoadsFromRoadNumber(route)==  
-				return [roads(route(i)) | i in set inds route]; 
+				return [roads(elem) | elem in seq route]; 
 
-
-		public getCentralStation : () ==> Busstop
+		pure public getCentralStation : () ==> Busstop
 		getCentralStation()== 
 			return central;
 
@@ -820,11 +819,11 @@ class City
 			World`graphics.inflowChanged(inflow);
 		);
 
-		public getInflow : () ==> nat
+		pure public getInflow : () ==> nat
 		getInflow()==
 			return inflow;
 
-		public getBuses : () ==> set of Bus
+		pure public getBuses : () ==> set of Bus
 		getBuses()==
 			return rng buses;
 		
@@ -966,13 +965,13 @@ class Bus
 		)
 		pre p inter seats <> {};
 
-		public GetWaypoints : () ==> seq of Waypoint
+		pure public GetWaypoints : () ==> seq of Waypoint
 		GetWaypoints()== 
 			return wps;
 
-		public GetStops : () ==> seq of Busstop
+		pure public GetStops : () ==> seq of Busstop
 		GetStops()== 
-			return [wps(i) | i in set inds wps & wps(i).IsStop() ];
+			return [wp | wp in seq wps & wp.IsStop() ];
 		
 
 		private NextWaypoint : () ==> Waypoint
@@ -1109,7 +1108,7 @@ class Bus
 	);
 
 	operations
-		private SelectSubset : set of Passenger * nat ==> set of Passenger
+		pure private SelectSubset : set of Passenger * nat ==> set of Passenger
 		SelectSubset(ps, limit)==
 		(
 			--base case
@@ -1308,11 +1307,11 @@ class Road
 		Covers(waypoints) == 
 			 return {w.GetId() | w in set waypoints} = {w.GetId() | w in set wps};  --does road cover the waypoints in arg
 
-		public GetWaypoints : () ==> set of Waypoint
+		pure public GetWaypoints : () ==> set of Waypoint
 		GetWaypoints()==
 				return wps;
 
-		public OppositeEnd : Waypoint ==> Waypoint
+		pure public OppositeEnd : Waypoint ==> Waypoint
 		OppositeEnd(wp)==
 				 let opposite in set wps \ {wp} in return opposite
 		pre wp in set wps; 	-- if the waypoint is not found on the road
@@ -1320,19 +1319,19 @@ class Road
 						-- by the same waypoint
 
 		
-		public GetSpeedLimit : () ==> nat
+		pure public GetSpeedLimit : () ==> nat
 		GetSpeedLimit()==
 				return speedlimit;
 
-		public GetLength : () ==> nat
+		pure public GetLength : () ==> nat
 		GetLength() == 
 			return roadLength;
 
-		public GetRoadNumber : () ==> RoadNumber
+		pure public GetRoadNumber : () ==> RoadNumber
 		GetRoadNumber()== 
 				return roadNmbr;
 
-		public GetTimePenalty : () ==> nat
+		pure public GetTimePenalty : () ==> nat
 		GetTimePenalty()== 
 				return timePenalty;
 

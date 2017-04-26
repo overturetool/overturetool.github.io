@@ -22,7 +22,7 @@ Formal Methods
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 
 
 ### stv.vdmsl
@@ -174,8 +174,8 @@ defer_transfer_of_surplus:real * Stage -> bool
 defer_transfer_of_surplus(quota, stage) ==
          let lowest_value = (stage_bk(stage)).count,
              second_lowest_value = stage(len stage - 1).count in         
-         sum([stage(i).count - quota | i in set inds stage &
-                stage(i).count > quota]) <= second_lowest_value - lowest_value
+         sum([s.count - quota | s in seq stage &
+                s.count > quota]) <= second_lowest_value - lowest_value
 pre len stage > 1;
 
 sum: seq of real -> real
@@ -185,14 +185,14 @@ sum(s) ==
 
 sole_leader: Stage * Candidate_names * set of Candidate_names -> bool
 sole_leader(stage,name,leaders) ==
-  let cand = iota c in set elems stage & c.name = name in
+  let cand = iota c in seq stage & c.name = name in
   let leading_scores = 
-      {sc | sc in set elems stage & sc.name in set leaders} \ {cand} in
+      {sc | sc in seq stage & sc.name in set leaders} \ {cand} in
   forall sc in set leading_scores & cand.count > sc.count;
 
 greatest_value_at_earliest_stage: Candidate_names * seq of Stage -> bool
 greatest_value_at_earliest_stage(name,all_stages) ==
-        let leaders = {score.name | score in set elems hd all_stages &
+        let leaders = {score.name | score in seq hd all_stages &
                           score.count = (hd hd all_stages).count} in
         exists i in set inds all_stages &
           (sole_leader(all_stages(i), name,leaders)
@@ -335,12 +335,11 @@ construct_new_stage(old_stage,discontinuing, bundle) ==
      let unsorted_scores = 
          { mk_Score(name,old_count +  bundle.sub_parcels(name).value *
                            size(bundle.sub_parcels(name).votes)) |
-                  mk_Score(name,old_count) in set elems old_stage &
+                  mk_Score(name,old_count) in seq old_stage &
                   name in set cands_with_more_votes}
 
         union
-        {sc | sc in set elems old_stage &
-                 sc.name not in set cands_with_more_votes } in
+        {sc | sc in seq old_stage & sc.name not in set cands_with_more_votes } in
      score_sort(set_seq(unsorted_scores));
 
 
@@ -353,7 +352,7 @@ exists_non_deferable_surplus(stages,quota) ==
 trailing_candidate: Candidate_names * seq1 of Stage -> bool
 trailing_candidate(name,all_stages) ==
         let trailing_count = (stage_bk(hd all_stages)).count in
-        let lowest = { score.name | score in set elems hd all_stages &
+        let lowest = { score.name | score in seq hd all_stages &
                                 score.count = trailing_count} in
         exists i in set inds all_stages &
           (sole_trailer(all_stages(i),name,lowest) and
@@ -362,9 +361,8 @@ trailing_candidate(name,all_stages) ==
 
 sole_trailer: Stage * Candidate_names * set of Candidate_names -> bool
 sole_trailer(stage,name,lowest) ==
-	let cand = iota c in set elems stage & c.name = name in
-	let lowest_scores = 
-              {sc | sc in set elems stage & sc.name in set lowest} \ {cand} in
+	let cand = iota c in seq stage & c.name = name in
+	let lowest_scores =  {sc | sc in seq stage & sc.name in set lowest} \ {cand} in
 	forall sc in set lowest_scores & cand.count < sc.count;
 
 
@@ -383,8 +381,7 @@ total_value(sub_parcel) ==
 number_of_candidates_satisfying_quota: (set of Candidate) * (seq of Stage) * 
                                           real -> nat
 number_of_candidates_satisfying_quota(continuing,stages,quota) ==
-  let xs_quota_scs = { sc.name | sc in set elems hd stages & sc.count >=
-             quota} in
+  let xs_quota_scs = { sc.name | sc in seq hd stages & sc.count >= quota} in
   card { cand | cand in set continuing & cand.name in set xs_quota_scs};
 
 non_transferable_paper: Voting_paper * Candidate_names * 
@@ -398,27 +395,24 @@ non_transferable_paper(paper,discontinuing,continuing_names) ==
         or
    m - 1 not in set rng paper);
 
-min: set of real -> real
+min: set1 of real -> real
 min(s) ==
  let m in set s in
  if card s = 1 then m 
  else let sm = min (s \ {m}) in
-   if m < sm then m else sm
-pre s <> {};
+   if m < sm then m else sm;
 
 last_vacancy_fillable: (set of Candidate) * (seq of Stage) * real -> bool
 last_vacancy_fillable(continuing,stages, quota) ==
         let continuing_names = {c.name | c in set continuing} in
-        let continuing_scores = [(hd stages)(i) | i in set inds hd stages &
-                              (hd stages)(i).name in set continuing_names],
-            surplus_scores = [(hd stages)(i) | i in set inds hd stages &
-                                  (hd stages)(i).count > quota] in
+        let continuing_scores = [s | s in seq hd stages &
+                                     s.name in set continuing_names],
+            surplus_scores = [s | s in seq hd stages & s.count > quota] in
         exists i in set inds continuing_scores &
           continuing_scores(i).count >
             sum([continuing_scores(j).count | 
                     j in set (inds continuing_scores \ {i})]) +
-            sum([surplus_scores(j).count -quota | 
-                    j in set inds surplus_scores]);
+            sum([ss.count - quota | ss in seq surplus_scores]);
 
 
 
@@ -429,13 +423,13 @@ let result: nat1 -> Result
     result(i) == if len stages(i+1) > len stages(i)
                  then let excluded = iota ex in set Cand_names &
                                 ex in set { sc.name | 
-                                  sc in set elems stages(i+1) &
-                                 (forall osc in set elems stages(i) & 
+                                  sc in seq stages(i+1) &
+                                 (forall osc in seq stages(i) & 
                                              osc.name <> sc.name)} in
                       mk_Result(record(i+1).scores,nil,excluded)
                  else let transferred = iota tf in set Cand_names &
                               tf in set { sc.name | 
-                                   sc in set elems stages(i+1) & 
+                                   sc in seq stages(i+1) & 
                               mk_Score(sc.name,quota) in set elems stages(i) 
                                       and sc.count > quota} in
                       mk_Result(record(i+1).scores,transferred,nil) in
@@ -474,7 +468,7 @@ operations
 CHOOSE_SURPLUS_TO_TRANSFER:() ==> Candidate_names
 CHOOSE_SURPLUS_TO_TRANSFER() ==
   (dcl leaders:set of Candidate_names := 
-                {score.name | score in set elems hd stages &
+                {score.name | score in seq hd stages &
                         score.count = (hd hd stages).count};
        if card leaders = 1
        then let {n} = leaders in return(n)
@@ -488,7 +482,7 @@ CHOOSE_SURPLUS_TO_TRANSFER() ==
 CHOOSE_CANDIDATE_TO_EXCLUDE:() ==> Candidate_names
 CHOOSE_CANDIDATE_TO_EXCLUDE() ==
    (dcl lowest:set of Candidate_names := 
-              {score.name | score in set elems hd stages &
+              {score.name | score in seq hd stages &
                         score.count = (stage_bk(hd stages)).count};
        if card lowest = 1
        then let {n} = lowest in return(n)
@@ -550,7 +544,7 @@ PROCESS_SUB_PARCELS(ex_cand, sub_parcels) ==
 				[new_stage],quota) in
           (if 0 < no_cands and no_cands <= number_of_remaining_vacancies
                                              ({e.name | e in set elected})
-           then let  xs_quota_scs = {sc.name | sc in set elems
+           then let  xs_quota_scs = {sc.name | sc in seq
                                        new_stage & sc.count >= quota} in
                 let  new_elected = { cand | cand in set new_candidates &
 				   cand.name in set xs_quota_scs} in
@@ -563,12 +557,10 @@ PROCESS_SUB_PARCELS(ex_cand, sub_parcels) ==
                                   union
                                   {score|score in set (hd record).scores &
                                     score.name not in set 
-                                    {sc.name | sc in set elems 
-                                     new_stage}} union 
+                                    {sc.name | sc in seq new_stage}} union 
                                   {mk_Score(ex_cand.name,0)},
                                  non_trans_value,0)]^record;
-        stages:= [[new_stage(i) | i in set inds new_stage & 
-                          new_stage(i).name <> ex_cand.name]]^stages);
+        stages:= [[ns | ns in seq new_stage & ns.name <> ex_cand.name]]^stages);
 
 
 ELECT_LAST_CANDIDATE:() ==> ()
@@ -592,8 +584,7 @@ TRANSFER_SURPLUS() ==
                                    sub_parcel.votes,candidate,continuing) in
   def new_stage =  construct_new_stage(
             [mk_Score(name,quota)]^(
-            [(hd stages)(i) | i in set inds (hd stages) & (hd
-               stages)(i).name <> name]), candidate.name,
+            [s | s in seq (hd stages) & s.name <> name]), candidate.name,
             sub_parcel_bundle) in
   def curr_cont = redistribute_parcels(continuing \ {candidate}, 
                                       sub_parcel_bundle) in
@@ -601,7 +592,7 @@ TRANSFER_SURPLUS() ==
      record := [mk_Record_entry( 
                 elems new_stage union
                 {score| score in set (hd record).scores &
-                        score.name not in set {sc.name|sc in set elems
+                        score.name not in set {sc.name|sc in seq
                                           new_stage}},
                 sub_parcel_bundle.non_transferable.value,
                 sub_parcel_bundle.loss_of_value)]^record;
@@ -653,8 +644,7 @@ CONDUCT_ELECTION(votes) ==
 
 CHANGE_STATUS_OF_ELECTED_CANDIDATES:() ==> ()
 CHANGE_STATUS_OF_ELECTED_CANDIDATES() ==
-  let xs_quota_scs = {sc.name | sc in set elems hd stages & sc.count
-                        >= quota} in
+  let xs_quota_scs = {sc.name | sc in seq hd stages & sc.count >= quota} in
   def candidates_satisfying_quota = {candidate | candidate in set 
         continuing & candidate.name in set xs_quota_scs} in
      (elected := candidates_satisfying_quota union elected;

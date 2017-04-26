@@ -14,7 +14,7 @@ version using VDM-SL.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| DEFAULT`CounterMeasures(testval1)|
 |Entry point     :| DEFAULT`CounterMeasures(testval2)|
 |Entry point     :| DEFAULT`CounterMeasures(testval3)|
@@ -132,16 +132,15 @@ InterruptPlan(curTime,expOutput,plan,magid) ==
 LeavePrefixUnchanged: seq of OutputStep * nat -> 
                       seq of OutputStep
 LeavePrefixUnchanged(output_l, curTime) ==
-  [output_l(i) | i in set inds output_l
-               & let mk_(-,t) = output_l(i) in t <= curTime];
+  [o | o in seq output_l & let mk_(-,t) = o in t <= curTime];
 
 MakeOutputFromPlan : nat * seq of Response -> seq of OutputStep
 MakeOutputFromPlan(curTime, response) ==
   let output = OutputAtTimeZero(response) in
-    [let mk_(flare,t) = output(i)
+    [let mk_(flare,t) = o
      in
        mk_(flare,t+curTime)
-    | i in set inds output];
+    | o in seq output];
 
 OutputAtTimeZero : seq of Response -> seq of OutputStep
 OutputAtTimeZero(response) ==
@@ -159,9 +158,8 @@ RelativeToAbsoluteTimes(ts) ==
   then []
   else let mk_(f,t) = hd ts,
            ns = RelativeToAbsoluteTimes(tl ts) in
-         [mk_(f,t)] ^ [ let mk_(nf, nt) = ns(i)
-                        in mk_(nf, nt + t)
-                      | i in set inds ns]
+         [mk_(f,t)] ^
+         [ let mk_(nf, nt) = n in mk_(nf, nt + t) | n in seq ns]
 measure RespLen;
 
 RespLen: seq of Response -> nat

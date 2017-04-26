@@ -24,7 +24,7 @@ FACIT Series, 1998.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| DEFAULT`Permission(tracker_inital,cid1,mk_token("Unpacking"))|
 
 
@@ -49,10 +49,9 @@ Container :: fiss_mass : real
              material  : Material;
 
 Phase :: contents          : set of ContainerId
-         expected_materials: set of Material
-	 capacity          : nat
-inv p == card p.contents <= p.capacity and
-         p.expected_materials <> {};
+         expected_materials: set1 of Material
+      	 capacity          : nat
+inv p == card p.contents <= p.capacity;
 
 ContainerId = token;
 

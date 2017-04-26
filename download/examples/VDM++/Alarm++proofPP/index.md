@@ -53,8 +53,7 @@ types
 public Period = token;
 
   Expert :: expertid : ExpertId
-            quali    : set of Qualification
-  inv ex == ex.quali <> {};
+            quali    : set1 of Qualification;
 
   ExpertId = token;
 
@@ -86,7 +85,7 @@ static  QualificationOK: set of Expert * Qualification -> bool
   
 operations
 
-public RunTest : () ==> set of Period
+pure public RunTest : () ==> set of Period
 RunTest () ==
   let a1  : Alarm = mk_Alarm("Mechanical fault",<Mech>),
       a2  : Alarm = mk_Alarm("Tank overflow",<Chem>),

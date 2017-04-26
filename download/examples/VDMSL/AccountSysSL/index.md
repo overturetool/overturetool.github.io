@@ -12,7 +12,8 @@ This example comes from the book "Formal Software Development: From VDM to Java"
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
+|Entry point     :| DEFAULT`sum([1,2,3,4,5,6,7,8,9])|
 
 
 ### AccountSys.vdmsl
@@ -53,10 +54,8 @@ functions
 
 balanceOf: seq of Transaction -> real
 balanceOf(transln) ==
-  let dep = [transln(i).amount | i in set inds transln 
-                               & transln(i).transaction_type = <Deposit>],
-      withd = [transln(i).amount | i in set inds transln 
-                                 & transln(i).transaction_type = <Withdrawal>]
+  let dep   = [t.amount | t in seq transln & t.transaction_type = <Deposit>],
+      withd = [t.amount | t in seq transln & t.transaction_type = <Withdrawal>]
   in
     sum(dep) - sum(withd);
        

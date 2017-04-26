@@ -20,7 +20,7 @@ Springer Verlag, October 1994.
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
 |Entry point     :| DEFAULT`LooseEvalExpr(expr2)|
 |Entry point     :| DEFAULT`LooseEvalExpr(mk_NumLit(8))|
 |Entry point     :| DEFAULT`LooseEvalExpr(expr)|
@@ -96,8 +96,8 @@ UnionMatch : set of BlkEnv ==> set of BlkEnv
 UnionMatch (blk_sl) ==
 return { StripDoubles(blk_l) |
          blk_l in set blk_sl &
-           forall mk_(id1,v1_v) in set elems blk_l,
-                  mk_(id2,v2_v) in set elems blk_l & 
+           forall mk_(id1,v1_v) in seq blk_l,
+                  mk_(id2,v2_v) in seq blk_l & 
                   SelName(id1) = SelName(id2) => (v1_v = v2_v)};
                                                                                           
 StripDoubles : BlkEnv ==> BlkEnv
@@ -106,7 +106,7 @@ StripDoubles (blk_l) ==
       res_l : BlkEnv := [];
   while tmpblk_l <> [] do 
     let mk_(id,val_v) = hd tmpblk_l in
-    ( if not exists mk_(id1 ,-) in set elems tl tmpblk_l & id1 = id
+    ( if not exists mk_(id1 ,-) in seq tl tmpblk_l & id1 = id
       then res_l := CombineBlkEnv(res_l, MkBlkEnv(SelNameAndPos(id), val_v));
       tmpblk_l := tl tmpblk_l
     );
@@ -661,7 +661,7 @@ operations
     in
       return [ mk_(mk_(nm, pos, fninfo), val_v)];
 
-  FnInfo: () ==> [Name * VAL]
+  pure FnInfo: () ==> [Name * VAL]
   FnInfo() ==
     if len curfn = 0
     then return nil
@@ -704,7 +704,7 @@ functions
 
   SelDom: BlkEnv +> set of UniqueId
   SelDom(blkenv) ==
-    {id| mk_(id,-) in set elems blkenv};
+    {id| mk_(id,-) in seq blkenv};
 
   Look: BlkEnv * UniqueId +> VAL
   Look(env,id) ==
@@ -715,7 +715,7 @@ functions
 	   if nm = id
 	   then val
 	   else Look(tl env, id)
-  pre exists mk_(nm,-) in set elems env & nm = id;
+  pre exists mk_(nm,-) in seq env & nm = id;
 
   Extend: (map UniqueId to LVAL) * (map UniqueId to LVAL) +>
           (map UniqueId to LVAL)
@@ -725,7 +725,7 @@ functions
 		     else upd_m(id)
 	     | id in set dom upd_m}
     
-            
+             
 ~~~
 {% endraw %}
 

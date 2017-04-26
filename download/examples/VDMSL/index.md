@@ -25,7 +25,7 @@ This example comes from the book "Formal Software Development: From VDM to Java"
 | | |
 |------|-------|
 |Author:|Quentin Charatan and Aaron Kans|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](AccountSysSL/AccountSys.zip)  / [show specification](AccountSysSL/index.html)|
 
 
@@ -48,7 +48,7 @@ does not have a main debug functionality.
 | | |
 |------|-------|
 |Author:|Paul Mukherjee|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](ACSSL/ACS.zip)  / [show specification](ACSSL/index.html)|
 
 
@@ -132,7 +132,7 @@ pp 169-174.
 | | |
 |------|-------|
 |Author:|Natsuki Terada|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](ATCSL/ATC.zip)  / [show specification](ATCSL/index.html)|
 
 
@@ -188,7 +188,7 @@ version using VDM-SL.
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen and Marcel Verhoef|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](CMSL/CM.zip)  / [show specification](CMSL/index.html)|
 
 
@@ -286,7 +286,7 @@ H.Toetenel, Formal Aspects of Computing'' 1994, Vol 6, December
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](DFDexampleSL/DFDexample.zip)  / [show specification](DFDexampleSL/index.html)|
 
 
@@ -308,7 +308,7 @@ www.stadtools.com.
 | | |
 |------|-------|
 |Author:|Janusz Laski|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](DigraphSL/Digraph.zip)  / [show specification](DigraphSL/index.html)|
 
 
@@ -415,7 +415,7 @@ Verlag, March 1996.
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](gatewaySL/Gateway.zip)  / [show specification](gatewaySL/index.html)|
 
 
@@ -431,7 +431,7 @@ University, Montreal, Canada, May 1996.
 | | |
 |------|-------|
 |Author:|V. S. Alagar and D. Muthiayen and K. Periyasamy|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](graph-edSL/Graph-ed.zip)  / [show specification](graph-edSL/index.html)|
 
 
@@ -520,7 +520,7 @@ Springer Verlag, October 1994.
 | | |
 |------|-------|
 |Author:|Peter Gorm Larsen|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](looseSL/Loose.zip)  / [show specification](looseSL/index.html)|
 
 
@@ -563,7 +563,7 @@ Springer-Verlag, 2009.
 | | |
 |------|-------|
 |Author:|Lothar Schmitz|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](LUPSL/LUP.zip)  / [show specification](LUPSL/index.html)|
 
 
@@ -594,7 +594,7 @@ European research project called SPECTRUM.
 | | |
 |------|-------|
 |Author:|Sten Agerholm|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](metroSL/Metro.zip)  / [show specification](metroSL/index.html)|
 
 
@@ -613,7 +613,7 @@ order in which they were received from the sensor.
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](monitorSL/Monitor.zip)  / [show specification](monitorSL/index.html)|
 
 
@@ -666,7 +666,7 @@ In C. Sennett (ed), "High-Integrity Software", Pitman 1989.
 | | |
 |------|-------|
 |Author:|Paul Mukherjee|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](newspeakSL/Newspeak.zip)  / [show specification](newspeakSL/index.html)|
 
 
@@ -689,7 +689,7 @@ Kaisa Sere, May 2008.
 | | |
 |------|-------|
 |Author:|Hugo Macedo|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](pacemakerSL/Pacemaker.zip)  / [show specification](pacemakerSL/index.html)|
 
 
@@ -723,8 +723,8 @@ of the software technology course at the Technical University Graz, Austria.
 
 | | |
 |------|-------|
-|Author:|ernhard K. Aichernig and Andreas Kerschbaumer|
-|Version:|VDM_SL - classic|
+|Author:|Bernhard K. Aichernig and Andreas Kerschbaumer|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](ProgLangSL/ProgLang.zip)  / [show specification](ProgLangSL/index.html)|
 
 
@@ -833,7 +833,7 @@ best-fit (or neither), produces the most memory fragmentation.
 | | |
 |------|-------|
 |Author:|Nick Battle|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](shmemSL/Shmem.zip)  / [show specification](shmemSL/index.html)|
 
 
@@ -851,7 +851,7 @@ operations in the version contained in Section 3.
 | | |
 |------|-------|
 |Author:|V. S. Alagar \and D. Muthiayen|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](simulatorSL/Simulator.zip)  / [show specification](simulatorSL/index.html)|
 
 
@@ -889,7 +889,7 @@ Formal Methods
 | | |
 |------|-------|
 |Author:|Paul Mukherjee|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](STVSL/STV.zip)  / [show specification](STVSL/index.html)|
 
 
@@ -946,7 +946,7 @@ FACIT Series, 1998.
 | | |
 |------|-------|
 |Author:|John Fitzgerald and Peter Gorm Larsen|
-|Version:|VDM_SL - classic|
+|Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](TrackerSL/Tracker.zip)  / [show specification](TrackerSL/index.html)|
 
 

@@ -62,12 +62,12 @@ functions
 
   TransactionsInvariant : seq of Transaction +> bool
   TransactionsInvariant(ts) ==
-    forall date in set {ts(i).date | i in set inds ts} &
+    forall date in set {t.date | t in seq ts} &
       DateTotal(date,ts) <= dailyLimit;
 
   DateTotal : Date * seq of Transaction +> nat
   DateTotal(date,ts) ==
-    Sum([ts(i).amount | i in set inds ts & ts(i).date = date]);
+    Sum([t.amount | t in seq ts & t.date = date]);
 
 values
   dailyLimit : nat = 2000;
