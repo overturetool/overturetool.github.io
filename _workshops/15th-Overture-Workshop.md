@@ -40,9 +40,9 @@ The scope of the workshop includes, but is not restricted to:
 
 * [John S Fitzgerald](http://www.ncl.ac.uk/computing/people/profile/johnfitzgerald.html#background), Newcastle University, UK. 
   Email: <john.fitzgerald@newcastle.ac.uk>
-* [Peter W. V. Tran-Jørgensen](http://pure.au.dk/portal/en/persons/id(a092d23e-3660-4ca1-9996-bf2e62a72caf).html), Aarhus University, Denmark 
+* [Peter W. V. Tran-Jørgensen](http://pure.au.dk/portal/en/persons/id(a092d23e-3660-4ca1-9996-bf2e62a72caf).html), Aarhus University, Denmark. 
   Email: <pvj@eng.au.dk>
-* [Tomohiro Oda](https://github.com/tomooda), Software Research Associates, Inc., Japan
+* [Tomohiro Oda](https://github.com/tomooda), Software Research Associates, Inc., Japan.
   Email: <tomohiro.tomo.oda@gmail.com>
 
 ### Program Committee (so far)
