@@ -30,7 +30,7 @@ The scope of the workshop includes, but is not restricted to:
 
 ### Important Dates
 
-* 17 July 2017: submission of abstracts of papers (at Easychair, subject to confirmation)  
+* 17 July 2017: submission of abstracts of papers (at <https://easychair.org/conferences/?conf=overture15>)  
 * 24 July 2017: submission deadline for papers (PDF only, please)
 * 21 August 2017: notification to authors
 * 11 September 2017: final version of papers due
@@ -38,15 +38,12 @@ The scope of the workshop includes, but is not restricted to:
 
 ### Organisers
 
-* [John S Fitzgerald](http://www.ncl.ac.uk/computing/people/profile/johnfitzgerald.html#background), Newcastle University, UK 
+* [John S Fitzgerald](http://www.ncl.ac.uk/computing/people/profile/johnfitzgerald.html#background), Newcastle University, UK. 
+  Email: <john.fitzgerald@newcastle.ac.uk>
 * [Peter W. V. Tran-Jørgensen](http://pure.au.dk/portal/en/persons/id(a092d23e-3660-4ca1-9996-bf2e62a72caf).html), Aarhus University, Denmark 
-* [Tomohiro Oda](https://github.com/tomooda), Software Research Associates, Inc., Japan 
-
-The organising committee can be reached via one of the following e-mail addresses:
-
-  * <john.fitzgerald@newcastle.ac.uk>
-  * <pvj@eng.au.dk>
-  * <tomohiro.tomo.oda@gmail.com>  
+  Email: <pvj@eng.au.dk>
+* [Tomohiro Oda](https://github.com/tomooda), Software Research Associates, Inc., Japan
+  Email: <tomohiro.tomo.oda@gmail.com>
 
 ### Program Committee (so far)
 
