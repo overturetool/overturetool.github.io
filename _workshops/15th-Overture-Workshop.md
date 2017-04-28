@@ -13,11 +13,19 @@ Current projects on model-based design for cyber-physical systems (INTO-CPS and 
 
 Previous workshops have been invaluable in encouraging both new and established members of the community in their work, and in helping determine priorities and future directions. Proceedings of former workshops are available at http://www.overturetool.org/.
 
-**Location: Newcastle University, UK.**
+**Location: Newcastle University, United Kingdom.**
+
+### Important Dates
+
+* 17 July 2017: submission of abstracts of papers (at <https://easychair.org/conferences/?conf=overture15>)  
+* 24 July 2017: submission deadline for papers (PDF only, please)
+* 21 August 2017: notification to authors
+* 11 September 2017: final version of papers due
+* 15 September 2017: workshop
 
 ## CALL FOR PAPERS
 
-Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for as well as developments in foundations and reports of practical experience. Papers should use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in a Newcastle University Technical Report.  
+Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for as well as developments in foundations and reports of practical experience. Papers will be peer-reviewed by several members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in a Newcastle University Technical Report.  
 The scope of the workshop includes, but is not restricted to: 
 
 * Reports of applications of VDM technology, especially reports of industrial use.
@@ -28,31 +36,22 @@ The scope of the workshop includes, but is not restricted to:
 * Papers on extensions of Overture, including Crescendo, Symphony and ViennaTalk.
 
 
-### Important Dates
-
-* 17 July 2017: submission of abstracts of papers (at <https://easychair.org/conferences/?conf=overture15>)  
-* 24 July 2017: submission deadline for papers (PDF only, please)
-* 21 August 2017: notification to authors
-* 11 September 2017: final version of papers due
-* 15 September 2017: workshop
-
-
 ### Organisers
 
-* [John S Fitzgerald](http://www.ncl.ac.uk/computing/people/profile/johnfitzgerald.html#background), Newcastle University, UK. 
+* [John S Fitzgerald](http://www.ncl.ac.uk/computing/people/profile/johnfitzgerald.html#background), Newcastle University, United Kingdom. 
   Email: <john.fitzgerald@newcastle.ac.uk>
 * [Peter W. V. Tran-Jørgensen](http://pure.au.dk/portal/en/persons/id(a092d23e-3660-4ca1-9996-bf2e62a72caf).html), Aarhus University, Denmark. 
   Email: <pvj@eng.au.dk>
 * [Tomohiro Oda](https://github.com/tomooda), Software Research Associates, Inc., Japan.
   Email: <tomohiro.tomo.oda@gmail.com>
 
-### Program Committee (so far)
+### Program Committee
 
 * K Araki, Kyushu University, Japan
-* Nick Battle, Fujitsu, UK
+* Nick Battle, Fujitsu, United Kingdom
 * Luis Diogo Couto, UTRC, Ireland
-* John S Fitzgerald, Newcastle University, UK (Chair) 
-* Peter G Larsen, Aarhus University, DK
+* John S Fitzgerald, Newcastle University, United Kingdom (Chair) 
+* Peter G Larsen, Aarhus University, Denmark
 * Fuyuki Ishikawa, National Institute of Informatics, Japan
 * Nico Plat, Thanos, The Netherlands
 * Peter W. V. Tran-Jørgensen, Aarhus University, Denmark (Chair) 
