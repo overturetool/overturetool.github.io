@@ -25,7 +25,7 @@ Previous workshops have been invaluable in encouraging both new and established 
 
 ## CALL FOR PAPERS
 
-Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for as well as developments in foundations and reports of practical experience. Papers will be peer-reviewed by several members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in a Newcastle University Technical Report.  
+Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for as well as developments in foundations and reports of practical experience. Each paper will be peer-reviewed by three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in a Newcastle University Technical Report.  
 The scope of the workshop includes, but is not restricted to: 
 
 * Reports of applications of VDM technology, especially reports of industrial use.
