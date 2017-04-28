@@ -13,7 +13,7 @@ Current projects on model-based design for cyber-physical systems (INTO-CPS and 
 
 Previous workshops have been invaluable in encouraging both new and established members of the community in their work, and in helping determine priorities and future directions. Proceedings of former workshops are available at http://www.overturetool.org/.
 
-Location: Newcastle University, UK.
+**Location: Newcastle University, UK.**
 
 ## CALL FOR PAPERS
 
