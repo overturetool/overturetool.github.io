@@ -9,9 +9,10 @@ location: Newcastle University, UK
 
 We invite contributions to the 15th Overture Workshop on the Vienna Development (VDM), its foundations, tools, and applications. VDM is one of the best established formal methods for systems development. A lively community of researchers and practitioners in academia and industry has grown around the modelling languages (VDM-SL, VDM++, VDM-RT, CML) and tools (VDMTools, Overture, Crescendo, Symphony, and the INTO-CPS chain). Together, these provide a platform for work on modelling and analysis technology that includes static and dynamic analysis, test generation, execution support, and model checking. 
 
-Current projects on model-based design for cyber-physical systems (INTO-CPS and the CPSE Labs experiments TEMPO, CPSBuDi and IPP4CPPS) are generating real results. There are also important developments in Japan with the release of VDMTools as open source. It is thus timely to focus on the future of the methods and toolchain, improvements in capabilities, and potential applications. We also propose to hold a structured discussion on possible commercial futures. 
+Current projects on model-based design for cyber-physical systems (INTO-CPS and the CPSE Labs experiments TEMPO, CPSBuDi and IPP4CPPS) are generating real results. There are also important developments in Japan with the release of VDMTools under an
+open source licence. It is thus timely to focus on the future of the methods and toolchain, improvements in capabilities, and potential applications. We also propose to hold a structured discussion on possible commercial futures. 
 
-Previous workshops have been invaluable in encouraging both new and established members of the community in their work, and in helping determine priorities and future directions. Proceedings of former workshops are available at http://www.overturetool.org/.
+Previous workshops have been invaluable in encouraging both new and established members of the community in their work, and helping to determine priorities and future directions. Proceedings of former workshops are available at http://www.overturetool.org/.
 
 **Location: Newcastle University, United Kingdom.**
 
@@ -25,7 +26,7 @@ Previous workshops have been invaluable in encouraging both new and established 
 
 ## CALL FOR PAPERS
 
-Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for as well as developments in foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in a Newcastle University Technical Report.  
+Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in a Newcastle University Technical Report.  
 The scope of the workshop includes, but is not restricted to: 
 
 * Reports of applications of VDM technology, especially reports of industrial use.
