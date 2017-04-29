@@ -47,7 +47,7 @@ The scope of the workshop includes, but is not restricted to:
 
 ### Program Committee
 
-* K Araki, Kyushu University, Japan
+* Keijiro Araki, Kyushu University, Japan
 * Nick Battle, Fujitsu, United Kingdom
 * Luis Diogo Couto, UTRC, Ireland
 * John S Fitzgerald, Newcastle University, United Kingdom (Chair) 
