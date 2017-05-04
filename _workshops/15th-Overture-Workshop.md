@@ -58,5 +58,6 @@ The scope of the workshop includes, but is not restricted to:
 * Peter W. V. Tran-Jørgensen, Aarhus University, Denmark (Chair) 
 * Tomohiro Oda, Software Research Associates, Inc., Japan (Chair)
 * Paolo Masci, Universidade do Minho, Portugal
+* Kenneth Pierce, Newcastle University, United Kingdom
 * Marcel Verhoef, European Space Agency, The Netherlands
 * Sune Wolff, Unity, Denmark
