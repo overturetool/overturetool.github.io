@@ -43,17 +43,14 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
-
-details about it
+#### Overture
+ 
+Some of the Overture standard examples have been improved and updated to use pure operations and sequence binds. In addition, the Java code-generator Maven plugin has been [slightly improved]((https://github.com/overturetool/overture/issues/627)).
 
 
 ##  Release Planning
 
-#### topic 1
-
-some description
-
+Next release of Overture is due by June 5. A release candidate will be made available on May 24.
 
 ##  Community Development
 
