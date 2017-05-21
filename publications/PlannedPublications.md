@@ -7,6 +7,8 @@ title: Overture Publications
 
 ## Planned
 
+#### The 15th Overture workshop
+
 #### Conferences / Journals
 
 ## In preparation
