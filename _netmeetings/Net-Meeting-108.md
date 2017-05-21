@@ -45,7 +45,7 @@ some description
 
 #### Overture
  
-Some of the Overture standard examples have been improved and updated to use pure operations and sequence binds. In addition, the Java code-generator Maven plugin has been [slightly improved]((https://github.com/overturetool/overture/issues/627)).
+Some of the Overture standard examples have been improved and updated to use pure operations and sequence binds. In addition, the Java code-generator Maven plugin has been [slightly improved](https://github.com/overturetool/overture/issues/627).
 
 
 ##  Release Planning
