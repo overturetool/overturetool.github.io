@@ -8,6 +8,8 @@ title: Overture Publications
 ## Planned
 
 #### The 15th Overture workshop
+- The Mars-rover modelled using INTO-CPS, Sergio Feo Arenis, Marcel Verhoef and Peter Gorm Larsen
+- A VDM-RT to C Code Generator, AU team
 
 #### Conferences / Journals
 
