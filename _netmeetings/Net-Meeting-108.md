@@ -36,10 +36,12 @@ some description
 
 ## Status of VDMTools Development
 
-#### topic 1
+#### ord/eq clauses
 
-some description
-
+The interpreter on github can animate specs with eq/ord clauses.
+POG is not done, but will soon generate POs for ord and eq.
+The updates to LRM will also be translated to Japanese documentation.
+After stabilizing those updates, the binary packages will be released.
 
 ##  Status of the Overture Components
 
