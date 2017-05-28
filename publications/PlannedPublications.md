@@ -12,6 +12,7 @@ title: Overture Publications
 - A VDM-RT to C Code Generator, AU team
 - Discrete Event-first Modelling with CPSs, Mihai Neghina, Constantin-Bala Zamfirescu, Peter Gorm Larsen, Kenneth Lausdahl and Ken Pierce
 - Ether FMU, Luis Diogo Couto and Ken Pierce
+- Analysis separation without visitors, internal changes in VDMJ4, Nick Battle
 
 #### Conferences / Journals
 
