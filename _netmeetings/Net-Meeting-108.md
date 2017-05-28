@@ -21,7 +21,7 @@ date: 28 May 2017, 1200 CEST
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 88-1 TBD.
+* 88-1 No progress.
 
 
 ## Overture Language Board Status
@@ -47,6 +47,8 @@ Some of the Overture standard examples have been improved and updated to use pur
 ##  Release Planning
 
 Next release of Overture is due by June 5. A release candidate was made available on May 26.
+
+We hope to have RM #39 ("order relations") implemented in the August 14 release of Overture.
 
 ##  Community Development
 
