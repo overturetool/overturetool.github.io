@@ -46,7 +46,7 @@ Some of the Overture standard examples have been improved and updated to use pur
 
 ##  Release Planning
 
-Next release of Overture is due by June 5. A release candidate will be made available on May 24.
+Next release of Overture is due by June 5. A release candidate was made available on May 26.
 
 ##  Community Development
 
