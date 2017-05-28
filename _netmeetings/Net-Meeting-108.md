@@ -21,18 +21,12 @@ date: 28 May 2017, 1200 CEST
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 88-1 TBD.
 
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
-
+TBD.
 
 ## Status of VDMTools Development
 
@@ -60,9 +54,6 @@ Next release of Overture is due by June 5. A release candidate will be made avai
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
-
 
 ##  Strategic Research Agenda
 
@@ -71,20 +62,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
