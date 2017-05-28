@@ -26,7 +26,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-TBD.
+Work on RM39 [Equality and Order Clauses for Type Definitions](https://github.com/overturetool/language/issues/39) is continuing and Luis hopes that the feature will be available for the August release of Overture. We had a brief discussion about increasing version numbers, which we feel core should address at this NM. Working Groups: Regarding [Community Library Process](https://github.com/overturetool/language/issues/41) we hope to have a draft submission template and process for the next NM. Work on the [PO documentation](https://github.com/overturetool/language/issues/33) has been slow, we wondered if there will be any relevant output from student work at AU.
 
 ## Status of VDMTools Development
 
