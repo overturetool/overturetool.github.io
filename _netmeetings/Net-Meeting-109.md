@@ -43,9 +43,11 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-details about it
+A lot of work has been done on RM39 (eq and ord qualifiers for types). This is now in the late stages of testing for both VDMJ and Overture.
+
+VDMJ has a new experimental feature to identify cyclic dependencies in definitions, which should give more helpful errors than those annoying initialization failures. It's quite a lot of change (80 files) so it will take a while to move over to Overture, but it should be a useful enhancement.
 
 
 ##  Release Planning
