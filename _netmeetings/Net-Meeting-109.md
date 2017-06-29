@@ -42,6 +42,7 @@ some description
 
 #### new debugger
 A debugger for auto-genered Smalltalk code is implemented and integrated with the conventional Smalltalk debugger. The debugger shows the both Smalltalk code and VDM-SL source when debugging auto-generated Smalltalk code and highlights the current PC on the both sources.
+
 [![debugger demo](http://img.youtube.com/vi/NLnhBYM46Yc/1.jpg)](http://www.youtube.com/watch?v=NLnhBYM46Yc)
 
 ##  Status of the Overture Components
