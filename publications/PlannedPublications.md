@@ -8,7 +8,8 @@ title: Overture Publications
 ## Planned
 
 #### The 15th Overture workshop
-- Debugging Auto-Generated Code with Source Specification in Exploratory Modeling, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen.
+- Automated Generation of Boundary Values and Decision Tables from VDM++ Specification, Hiroki Tachiyama, Tetsuro Katayama and Tomohiro Oda
+- Debugging Auto-Generated Code with Source Specification in Exploratory Modeling, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
 - The Mars-rover modelled using INTO-CPS, Sergio Feo Arenis, Marcel Verhoef and Peter Gorm Larsen
 - A VDM-RT to C Code Generator, AU team
 - Discrete Event-first Modelling with CPSs, Mihai Neghina, Constantin-Bala Zamfirescu, Peter Gorm Larsen, Kenneth Lausdahl and Ken Pierce
