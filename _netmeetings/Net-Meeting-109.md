@@ -4,12 +4,12 @@ title: Net Meeting 109
 date: 2 July 2017, 1200 CEST
 ---
 
-# {{ page.title }}
+# Net Meeting 109
 
 |||
 |---|---|
-| Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | PTJ, NB, NP, TO, LDC, .  Minutes by NB. |
+| Date | {{page.date | date: "%-d %B %Y, %R %Z"}} |
+| Participants | PTJ, NB, NP, TO, LDC.  Minutes by NB. |
 
 ## Review Status of the Action List
 
