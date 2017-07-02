@@ -4,39 +4,33 @@ title: Net Meeting 109
 date: 2 July 2017, 1200 CEST
 ---
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js">
-</script>
-<script src="/javascripts/edit.js"></script>
-<script>setEditButonNm();</script>
-
 # {{ page.title }}
 
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
-
+| Participants | PTJ, NB, NP, TO, LDC, .  Minutes by NB. |
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 88-1 This is ongoing via the Business Development initiative, and was discussed under Community Development. We need to make sure that Business Development has its own item on the standing agenda.
 
 
 ## Overture Language Board Status
 
-#### topic 1
+(1): NB and LC have implemented the "order relation" feature in Overture. Next step is to build a standalone version of Overture that contains this feature and make it available for testing
 
-some description
+(2) We are working on preparing a process for submitting extensions/changes to the standard librard libraries (similar to what we have for RMs)
 
+With regards to (1), hopefully we can include this feature in the August 14 release of Overture. There will also be some tidy-up changes made to the parser and LRM grammar to make them consistent.
 
 ## Status of VDMTools Development
 
-#### no major change
+A new release is to be made soon (no other details).
+
+There was a brief discussion about whether it would now be possible to move VDMTools' "external tests" out of a GitHub repository in Aarhus to GitHub, now that VDMTools is open source. PJ and LDC will look at this.
 
 ## Status of ViennaTalk Development
 
@@ -56,10 +50,9 @@ Overture has a new experimental feature to identify cyclic dependencies in defin
 
 ##  Release Planning
 
-#### topic 1
+#### August Release 2.5.0
 
-some description
-
+This is on track and should contain the RM39 eq/ord language changes, as well as the development changes mentioned above.
 
 ##  Community Development
 
@@ -67,33 +60,22 @@ some description
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
+#### Business Development
 
+Without KP or JF on the call, we were unsure of the status of Business Development discussions at NCL. NP will ask for progress, though clearly the workshop in September would be an ideal opportunity to discuss matters face to face.
 
 ##  Strategic Research Agenda
 
-The Strategic Research Agenda is reviewed every other NetMeeting.
-
+The Strategic Research Agenda was not reviewed.
 
 ##  Publications Status and Plans
 
+Luis and PJ are planning to submit a paper to SAC 2018 about the AGCO project (harvesting). There have not yet been any EasyChair submissions for Workshop 15, and we were reminded of the deadlines - abstracts by 14th July, papers by 24th July.
+
 Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
 
 ##  Any Other Business
 
-<div id="edit_page_div"></div>
+No AOB was discussed.
+
+Meeting closed at 12:39 CET.
