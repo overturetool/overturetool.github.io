@@ -17,6 +17,39 @@ and traversing over abstract threes and queues.
 |Language Version:| vdm10|
 
 
+### queue.vdmpp
+
+{% raw %}
+~~~
+class Queue
+
+  instance variables
+    vals : seq of Tree`node := [];
+
+  operations
+
+    public
+    Enqueue : Tree`node ==> ()
+    Enqueue (x) ==
+      vals := vals ^ [x];
+
+    public
+    Dequeue : () ==> Tree`node
+    Dequeue () ==
+      def x = hd vals
+      in ( vals := tl vals;
+           return x)
+    pre not isEmpty();
+
+    pure public
+    isEmpty : () ==> bool
+    isEmpty () == 
+      return(vals = [])
+
+end Queue
+~~~
+{% endraw %}
+
 ### usetree.vdmpp
 
 {% raw %}
@@ -213,39 +246,6 @@ class BalancedBST is subclass of BinarySearchTree
   v = 1
 
 end BalancedBST
-~~~
-{% endraw %}
-
-### queue.vdmpp
-
-{% raw %}
-~~~
-class Queue
-
-  instance variables
-    vals : seq of Tree`node := [];
-
-  operations
-
-    public
-    Enqueue : Tree`node ==> ()
-    Enqueue (x) ==
-      vals := vals ^ [x];
-
-    public
-    Dequeue : () ==> Tree`node
-    Dequeue () ==
-      def x = hd vals
-      in ( vals := tl vals;
-           return x)
-    pre not isEmpty();
-
-    pure public
-    isEmpty : () ==> bool
-    isEmpty () == 
-      return(vals = [])
-
-end Queue
 ~~~
 {% endraw %}
 

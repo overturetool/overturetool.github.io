@@ -19,13 +19,76 @@ code automatically generated using VDMTools.
 |Language Version:| vdm10|
 
 
-### square.vdmpp
+### workspace.vdmpp
 
 {% raw %}
 ~~~
-class Square is subclass of Rhombus, Rectangle
+class WorkSpace is subclass of Vector
  
-end Square
+  types
+    Token = nat;
+
+  instance variables
+    screen: map Token to Quadrilateral := {|->};
+ 
+  operations
+
+    LookUp: Token ==> Quadrilateral
+    LookUp(qid) ==
+      return screen (qid)
+    pre qid in set dom screen;
+
+    GetAngle: Token ==> real
+    GetAngle(qid) ==
+      def scrn: Parallelogram = screen(qid) in
+        return scrn.GetAngle()
+    pre qid in set dom screen 
+        and isofclass (Parallelogram, screen(qid));
+ 
+    Display: Token * Quadrilateral ==> ()
+    Display(qid, q) == 
+      ( screen := screen munion { qid |-> q };
+        q.Display() )
+    pre q not in set rng screen;
+
+    UnDisplay: Token ==> ()
+    UnDisplay(qid) == 
+      screen := {qid} <-: screen
+    pre qid in set dom screen;
+
+    Move: Token * (nat * nat) * (nat * nat) ==> ()
+    Move(qid, p1, p2) ==
+    ( dcl scrn : Quadrilateral := screen(qid);
+      UnDisplay (qid);
+      scrn.Move (p1,p2);
+      Display (qid, scrn)
+    )
+    pre qid in set dom screen
+  
+end WorkSpace
+
+~~~
+{% endraw %}
+
+### parallelogram.vdmpp
+
+{% raw %}
+~~~
+class Parallelogram is subclass of Quadrilateral
+ 
+   instance variables
+      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
+ 
+   operations
+      public
+      GetAngle: () ==> real
+      GetAngle() ==
+        let math = new MATH() 
+        in
+        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
+ 
+end Parallelogram
+
 ~~~
 {% endraw %}
 
@@ -112,76 +175,26 @@ end Vector
 ~~~
 {% endraw %}
 
-### parallelogram.vdmpp
+### rectangle.vdmpp
 
 {% raw %}
 ~~~
-class Parallelogram is subclass of Quadrilateral
+class Rectangle is subclass of Parallelogram
  
-   instance variables
-      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
+  instance variables
+  inv inproduct (v1 , v2) = 0 
  
-   operations
-      public
-      GetAngle: () ==> real
-      GetAngle() ==
-        let math = new MATH() 
-        in
-        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
- 
-end Parallelogram
-
+end Rectangle
 ~~~
 {% endraw %}
 
-### workspace.vdmpp
+### square.vdmpp
 
 {% raw %}
 ~~~
-class WorkSpace is subclass of Vector
+class Square is subclass of Rhombus, Rectangle
  
-  types
-    Token = nat;
-
-  instance variables
-    screen: map Token to Quadrilateral := {|->};
- 
-  operations
-
-    LookUp: Token ==> Quadrilateral
-    LookUp(qid) ==
-      return screen (qid)
-    pre qid in set dom screen;
-
-    GetAngle: Token ==> real
-    GetAngle(qid) ==
-      def scrn: Parallelogram = screen(qid) in
-        return scrn.GetAngle()
-    pre qid in set dom screen 
-        and isofclass (Parallelogram, screen(qid));
- 
-    Display: Token * Quadrilateral ==> ()
-    Display(qid, q) == 
-      ( screen := screen munion { qid |-> q };
-        q.Display() )
-    pre q not in set rng screen;
-
-    UnDisplay: Token ==> ()
-    UnDisplay(qid) == 
-      screen := {qid} <-: screen
-    pre qid in set dom screen;
-
-    Move: Token * (nat * nat) * (nat * nat) ==> ()
-    Move(qid, p1, p2) ==
-    ( dcl scrn : Quadrilateral := screen(qid);
-      UnDisplay (qid);
-      scrn.Move (p1,p2);
-      Display (qid, scrn)
-    )
-    pre qid in set dom screen
-  
-end WorkSpace
-
+end Square
 ~~~
 {% endraw %}
 
@@ -220,19 +233,6 @@ class Quadrilateral is subclass of Vector
  
 end Quadrilateral
 
-~~~
-{% endraw %}
-
-### rectangle.vdmpp
-
-{% raw %}
-~~~
-class Rectangle is subclass of Parallelogram
- 
-  instance variables
-  inv inproduct (v1 , v2) = 0 
- 
-end Rectangle
 ~~~
 {% endraw %}
 

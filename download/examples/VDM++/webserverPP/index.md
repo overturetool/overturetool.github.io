@@ -17,27 +17,6 @@ server.
 |Language Version:| vdm10|
 
 
-### file.vdmpp
-
-{% raw %}
-~~~
-class File
-
-  instance variables
-
-    data: seq of char := ""
-
-  operations 
-
-    public
-    write : seq of char ==> ()
-    write(chs) == 
-      data := chs
-
-end File
-~~~
-{% endraw %}
-
 ### url.vdmpp
 
 {% raw %}
@@ -141,6 +120,27 @@ class Filename
    put_file (f) == is not yet specified; 
 
 end Filename
+~~~
+{% endraw %}
+
+### file.vdmpp
+
+{% raw %}
+~~~
+class File
+
+  instance variables
+
+    data: seq of char := ""
+
+  operations 
+
+    public
+    write : seq of char ==> ()
+    write(chs) == 
+      data := chs
+
+end File
 ~~~
 {% endraw %}
 

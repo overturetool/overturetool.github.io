@@ -20,31 +20,6 @@ in 1999 in connection with FM'99.
 |Entry point     :| new SimpleTest().Run()|
 
 
-### Letterbox.vdmpp
-
-{% raw %}
-~~~
-                                                                                                         
-class Letterbox
-
-instance variables
-  statements : seq of Letter := [];
-
-operations
-  public PostStatement : Letter ==> ()
-  PostStatement(letter) == 
-    statements := statements ^ [letter];
-
-  pure public GetLastStatement : () ==> Letter
-  GetLastStatement() == 
-    return statements(len statements)
-  pre statements <> [];
-
-end Letterbox
-                
-~~~
-{% endraw %}
-
 ### Account.vdmpp
 
 {% raw %}
@@ -134,9 +109,103 @@ functions
   Sum(rs) ==
     if rs = [] then 0
     else
-      hd rs + Sum(tl rs);
+      hd rs + Sum(tl rs)
+  measure Len;
+ 
+ Len: seq of real -> nat
+ Len(list) == len list;
  
 end Account
+                
+~~~
+{% endraw %}
+
+### Letter.vdmpp
+
+{% raw %}
+~~~
+                                                                                                      
+class Letter
+
+instance variables
+  public name : Cardholder`Name;
+  public address : Cardholder`Address;
+  public date : Clock`Date;
+  public transactions : seq of Account`Transaction;
+  public balance : nat
+
+operations
+  public Create: Cardholder`Name * Cardholder`Address * Clock`Date *
+          seq of Account`Transaction * nat ==> Letter
+  Create(nm,addr,d,ts,b) ==
+    (name := nm;
+     address := addr;
+     date := d;
+     transactions := ts;
+     balance:= b;
+     return self);
+
+end Letter
+                 
+~~~
+{% endraw %}
+
+### CardHolder.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                            
+class Cardholder
+
+types
+  public Address = seq of char;
+  public Name = seq of char;
+
+instance variables
+  name : Name;
+  address : Address;
+
+operations
+  public Create : Name * Address ==> Cardholder
+  Create(nm,addr) ==
+    (name := nm;
+     address := addr;
+     return self);
+
+  pure public GetName : () ==> Name 
+  GetName () ==
+    return name;
+
+  pure public GetAddress : () ==> Address 
+  GetAddress() ==
+    return address;
+
+end Cardholder
+                 
+~~~
+{% endraw %}
+
+### Letterbox.vdmpp
+
+{% raw %}
+~~~
+                                                                                                         
+class Letterbox
+
+instance variables
+  statements : seq of Letter := [];
+
+operations
+  public PostStatement : Letter ==> ()
+  PostStatement(letter) == 
+    statements := statements ^ [letter];
+
+  pure public GetLastStatement : () ==> Letter
+  GetLastStatement() == 
+    return statements(len statements)
+  pre statements <> [];
+
+end Letterbox
                 
 ~~~
 {% endraw %}
@@ -276,6 +345,75 @@ end CentralResource
 ~~~
 {% endraw %}
 
+### Card.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                    
+class Card
+
+types
+  public CardId = nat;
+  public Code = nat;
+  public PinCode = nat;
+
+instance variables
+  code : Code;
+  cardId : CardId;
+  accountId : Account`AccountId;
+
+operations
+  public Card : Code * CardId * Account`AccountId ==> Card
+  Card(c,cid,a) ==
+    (code := c;
+     cardId := cid;
+     accountId := a);
+
+  pure public GetCode : () ==> Code
+  GetCode() ==
+    return code;
+
+  pure public GetAccountId : () ==> Account`AccountId
+  GetAccountId() ==
+    return accountId;
+
+  pure public GetCardId : () ==> CardId
+  GetCardId() ==
+    return cardId;
+
+end Card
+                
+~~~
+{% endraw %}
+
+### Clock.vdmpp
+
+{% raw %}
+~~~
+                                                                                             
+class Clock
+
+types
+  public Date = seq of char;
+
+instance variables
+
+  date : Date := "";
+
+operations
+  public SetDate : Date ==> ()
+  SetDate(d) ==
+    date := d;
+
+  pure public GetDate : () ==> Date
+  GetDate() ==
+    return date;
+
+end Clock
+                
+~~~
+{% endraw %}
+
 ### Till.vdmpp
 
 {% raw %}
@@ -370,215 +508,6 @@ functions
 
 end Till
                
-~~~
-{% endraw %}
-
-### Card.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                    
-class Card
-
-types
-  public CardId = nat;
-  public Code = nat;
-  public PinCode = nat;
-
-instance variables
-  code : Code;
-  cardId : CardId;
-  accountId : Account`AccountId;
-
-operations
-  public Card : Code * CardId * Account`AccountId ==> Card
-  Card(c,cid,a) ==
-    (code := c;
-     cardId := cid;
-     accountId := a);
-
-  pure public GetCode : () ==> Code
-  GetCode() ==
-    return code;
-
-  pure public GetAccountId : () ==> Account`AccountId
-  GetAccountId() ==
-    return accountId;
-
-  pure public GetCardId : () ==> CardId
-  GetCardId() ==
-    return cardId;
-
-end Card
-                
-~~~
-{% endraw %}
-
-### Letter.vdmpp
-
-{% raw %}
-~~~
-                                                                                                      
-class Letter
-
-instance variables
-  public name : Cardholder`Name;
-  public address : Cardholder`Address;
-  public date : Clock`Date;
-  public transactions : seq of Account`Transaction;
-  public balance : nat
-
-operations
-  public Create: Cardholder`Name * Cardholder`Address * Clock`Date *
-          seq of Account`Transaction * nat ==> Letter
-  Create(nm,addr,d,ts,b) ==
-    (name := nm;
-     address := addr;
-     date := d;
-     transactions := ts;
-     balance:= b;
-     return self);
-
-end Letter
-                 
-~~~
-{% endraw %}
-
-### Test.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-class Test
-types
-
-  public TestResult = [bool | nat | <PinOk> | <PinNotOk> | <Retained>]
-
-instance variables
-
-  system : System := new System();
-
-operations
-  public runTests : seq of Event ==> seq of TestResult
-  runTests(events) ==
- (return [events(i).execute(system)
-         | i in set inds events ]);
-
-  public runOneTest : Event ==> TestResult
-  runOneTest(event) ==
-  return event.execute(system);
-
-end Test
-            
-~~~
-{% endraw %}
-
-### SendStatement.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                    
-class SendStatement is subclass of Event
-
-instance variables
-
-  tillid : System`TillId;
-
-operations
-  public Init : System`TillId ==> SendStatement
-  Init(tid) ==
-    (tillid := tid;
-     return self);
-
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    let till = sys.GetTill(tillid)
-    in
-      if till.CardValidated()
-      then till.RequestStatement()
-      else return false;
-
-end SendStatement
-             
-~~~
-{% endraw %}
-
-### InsertCard.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                
-class InsertCard is subclass of Event
-
-instance variables
-
-  tillid : System`TillId;
-  mycard : Card;
-
-operations
-
-  public Init : System`TillId * Card ==> InsertCard
-  Init(tid, c) ==
-    (tillid := tid;
-     mycard := c;
-     return self);
-
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    (sys.GetTill(tillid).InsertCard(mycard);
-     return true);
-
-end InsertCard
-             
-~~~
-{% endraw %}
-
-### Event.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                        
-class Event
-
-operations 
-  public execute : System ==> Test`TestResult
-  execute(system) ==
-    is subclass responsibility;
-
-end Event
-             
-~~~
-{% endraw %}
-
-### Withdrawal.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                     
-class Withdrawal is subclass of Event
-
-instance variables
-
-  tillid : System`TillId;
-  amount : nat;
-
-operations
-  public Init : System`TillId * nat ==> Withdrawal
-  Init(t, a) ==
-    (tillid := t;
-     amount := a;
-     return self);
-
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    let till = sys.GetTill(tillid)
-    in
-      if till.CardValidated()
-      then till.MakeWithdrawal(amount)
-      else return false;
-
-end Withdrawal
-             
 ~~~
 {% endraw %}
 
@@ -687,35 +616,32 @@ end System
 ~~~
 {% endraw %}
 
-### ReturnCard.vdmpp
+### Test.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                          
-class ReturnCard is subclass of Event
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+class Test
+types
+
+  public TestResult = [bool | nat | <PinOk> | <PinNotOk> | <Retained>]
 
 instance variables
 
-  tillid : System`TillId;
+  system : System := new System();
 
 operations
+  public runTests : seq of Event ==> seq of TestResult
+  runTests(events) ==
+ (return [events(i).execute(system)
+         | i in set inds events ]);
 
-  public Init : System`TillId ==> ReturnCard
-  Init(tid) ==
-    (tillid := tid;
-     return self);
+  public runOneTest : Event ==> TestResult
+  runOneTest(event) ==
+  return event.execute(system);
 
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    (let till = sys.GetTill(tillid)
-     in
-       if till.CardInside()
-       then till.ReturnCard()
-       else return false;
-     return true);
-
-end ReturnCard
-             
+end Test
+            
 ~~~
 {% endraw %}
 
@@ -778,6 +704,147 @@ end IllegalCard
 ~~~
 {% endraw %}
 
+### Event.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                        
+class Event
+
+operations 
+  public execute : System ==> Test`TestResult
+  execute(system) ==
+    is subclass responsibility;
+
+end Event
+             
+~~~
+{% endraw %}
+
+### SendStatement.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                    
+class SendStatement is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+
+operations
+  public Init : System`TillId ==> SendStatement
+  Init(tid) ==
+    (tillid := tid;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    let till = sys.GetTill(tillid)
+    in
+      if till.CardValidated()
+      then till.RequestStatement()
+      else return false;
+
+end SendStatement
+             
+~~~
+{% endraw %}
+
+### ReturnCard.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                          
+class ReturnCard is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+
+operations
+
+  public Init : System`TillId ==> ReturnCard
+  Init(tid) ==
+    (tillid := tid;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    (let till = sys.GetTill(tillid)
+     in
+       if till.CardInside()
+       then till.ReturnCard()
+       else return false;
+     return true);
+
+end ReturnCard
+             
+~~~
+{% endraw %}
+
+### Withdrawal.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                     
+class Withdrawal is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+  amount : nat;
+
+operations
+  public Init : System`TillId * nat ==> Withdrawal
+  Init(t, a) ==
+    (tillid := t;
+     amount := a;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    let till = sys.GetTill(tillid)
+    in
+      if till.CardValidated()
+      then till.MakeWithdrawal(amount)
+      else return false;
+
+end Withdrawal
+             
+~~~
+{% endraw %}
+
+### InsertCard.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                
+class InsertCard is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+  mycard : Card;
+
+operations
+
+  public Init : System`TillId * Card ==> InsertCard
+  Init(tid, c) ==
+    (tillid := tid;
+     mycard := c;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    (sys.GetTill(tillid).InsertCard(mycard);
+     return true);
+
+end InsertCard
+             
+~~~
+{% endraw %}
+
 ### Validate.vdmpp
 
 {% raw %}
@@ -803,69 +870,6 @@ operations
 
 end Validate
              
-~~~
-{% endraw %}
-
-### CardHolder.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                            
-class Cardholder
-
-types
-  public Address = seq of char;
-  public Name = seq of char;
-
-instance variables
-  name : Name;
-  address : Address;
-
-operations
-  public Create : Name * Address ==> Cardholder
-  Create(nm,addr) ==
-    (name := nm;
-     address := addr;
-     return self);
-
-  pure public GetName : () ==> Name 
-  GetName () ==
-    return name;
-
-  pure public GetAddress : () ==> Address 
-  GetAddress() ==
-    return address;
-
-end Cardholder
-                 
-~~~
-{% endraw %}
-
-### Clock.vdmpp
-
-{% raw %}
-~~~
-                                                                                             
-class Clock
-
-types
-  public Date = seq of char;
-
-instance variables
-
-  date : Date := "";
-
-operations
-  public SetDate : Date ==> ()
-  SetDate(d) ==
-    date := d;
-
-  pure public GetDate : () ==> Date
-  GetDate() ==
-    return date;
-
-end Clock
-                
 ~~~
 {% endraw %}
 

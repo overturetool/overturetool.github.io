@@ -22,6 +22,210 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 |Entry point     :| new TestComplete().Execute()|
 
 
+### TemperatureSensor.vdmpp
+
+{% raw %}
+~~~
+--The TemperatureSensor Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		20/4 - 2008
+-- Updated:
+-- Description: 	TemperatureSensor subclass for HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TemperatureSensor is subclass of Sensor
+
+--
+-- Operations definition section
+--
+operations
+
+public TemperatureSensor: nat * NetworkTypes`nodeType * nat ==> TemperatureSensor
+	TemperatureSensor (id, type, val) ==
+		(ID := id;
+		Type := type;
+		Value := val;
+		);
+
+public Step: () ==> ()
+	Step() ==
+		(Value := World`env.ReadTemp();
+		);
+
+end TemperatureSensor
+~~~
+{% endraw %}
+
+### Test.vdmpp
+
+{% raw %}
+~~~
+--The Test Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		14/5 - 2008
+-- Updated:
+-- Description: 	Test class
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Test
+
+--
+-- Operations definition section
+--
+operations
+
+public Run: TestResult ==> ()
+	Run(-) == is subclass responsibility
+
+end Test
+~~~
+{% endraw %}
+
+### Surroundings.vdmpp
+
+{% raw %}
+~~~
+--The Surroundings Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		21/4 - 2008
+-- Updated:
+-- Description: 	Class containing surrounding variables
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Surroundings
+
+--
+-- instance variables
+--
+instance variables
+
+private envTemp	: nat;
+private envHumid	: nat;
+
+--
+-- Operations definition section
+--
+operations
+
+public Surroundings: () ==> Surroundings
+	Surroundings() ==
+		(envTemp := 20;
+		envHumid := 85;
+		);
+
+public ReadTemp: () ==> nat
+	ReadTemp() ==
+		return envTemp;
+
+public IncTemp: () ==> ()
+	IncTemp() ==
+		envTemp := envTemp + 1;
+
+public DecTemp: () ==> ()
+	DecTemp() ==
+		envTemp := envTemp - 1;
+
+public SetTemp: nat ==> ()
+	SetTemp(t) ==
+		envTemp := t;
+
+public ReadHumid: () ==> nat
+	ReadHumid() ==
+		return envHumid;
+
+public IncHumid: () ==> ()
+	IncHumid() ==
+		envHumid := envHumid + 1;
+
+public DecHumid: () ==> ()
+	DecHumid() ==
+		envHumid := envHumid - 1;
+
+public SetHumid: nat ==> ()
+	SetHumid(h) ==
+		envHumid := h;
+
+end Surroundings
+~~~
+{% endraw %}
+
+### TestSensor.vdmpp
+
+{% raw %}
+~~~
+--The TestSensor Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		14/5 - 2008
+-- Updated:
+-- Description: 	Test class to test Sensors
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TestSensor is subclass of TestCase
+
+--
+-- instance variables
+--
+instance variables
+
+tempSensor 	: TemperatureSensor;
+humidSensor	: HumidSensor;
+
+--
+-- Operations definition section
+--
+operations
+
+public TestSensor: seq of char ==> TestSensor
+	TestSensor(nm) == name := nm;
+
+protected SetUp: () ==> ()
+	SetUp() ==
+	(tempSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0);
+humidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0);
+	);
+
+protected Test: () ==> ()
+	Test() ==
+		(AssertTrue(tempSensor.GetID() = 1);
+		AssertTrue(tempSensor.GetType() = <TEMPSENSOR>);
+		AssertTrue(tempSensor.ReadValue() = 0);
+
+		AssertTrue(humidSensor.GetID() = 2);
+		AssertTrue(humidSensor.GetType() = <HUMIDSENSOR>);
+		AssertTrue(humidSensor.ReadValue() = 0);		
+		);
+
+protected RunTest: () ==> ()
+	RunTest() == Test();
+
+protected TearDown: () ==> ()
+	TearDown() == skip;
+
+
+end TestSensor
+~~~
+{% endraw %}
+
 ### TestHostController.vdmpp
 
 {% raw %}
@@ -208,33 +412,471 @@ end TestHostController
 ~~~
 {% endraw %}
 
-### Test.vdmpp
+### TestSurroundings.vdmpp
 
 {% raw %}
 ~~~
---The Test Class
+--The TestSurroundings Class
 
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		14/5 - 2008
 -- Updated:
--- Description: 	Test class
+-- Description: 	Testing the Surroundings class
 -----------------------------------------------
 
 --
 -- class definition
 --
-class Test
+class TestSurroundings is subclass of TestCase
+
+--
+-- instance variables
+--
+instance variables
+
+env		: Environment;
 
 --
 -- Operations definition section
 --
 operations
 
-public Run: TestResult ==> ()
-	Run(-) == is subclass responsibility
+public TestSurroundings: seq of char ==> TestSurroundings
+	TestSurroundings(nm) == name := nm;
 
-end Test
+protected SetUp: () ==> ()
+	SetUp() ==
+env := new Environment();
+
+protected Test: () ==> ()
+	Test() ==
+		(AssertTrue(env.ReadTemp() = 20);
+		AssertTrue(env.ReadHumid() = 85);
+
+		env.IncTemp();
+		AssertTrue(env.ReadTemp() = 21);
+		env.DecTemp();
+		AssertTrue(env.ReadTemp() = 20);		
+		env.SetTemp(23);
+		AssertTrue(env.ReadTemp() = 23);
+
+		env.IncHumid();
+		AssertTrue(env.ReadHumid() = 86);
+		env.DecHumid();
+		AssertTrue(env.ReadHumid() = 85);		
+		env.SetHumid(71);
+		AssertTrue(env.ReadHumid() = 71);
+		);
+
+protected RunTest: () ==> ()
+	RunTest() == Test();
+
+protected TearDown: () ==> ()
+	TearDown() == skip;
+
+end TestSurroundings
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+--The World Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		20/4 - 2008
+-- Updated:	
+-- Description: 	World class in the HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class World
+
+instance variables
+
+static public env : Environment := new Environment("scenario.txt");
+static public timerRef : Timer := new Timer();
+  
+operations
+
+public Run: () ==> ()
+Run() ==
+ (-- start environment creating input
+  env.Run();
+ );
+
+end World
+~~~
+{% endraw %}
+
+### NetworkTypes.vdmpp
+
+{% raw %}
+~~~
+--The NetworkTypes Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		15/4 - 2008
+-- Updated:
+-- Description: 	NetworkTypes class for NetworkModel project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class NetworkTypes
+
+--
+-- instance variables
+--
+instance variables
+
+--
+-- Types definition section
+--
+types   
+
+public nodeType 	= <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
+public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
+
+--
+-- Operations definition section
+--
+operations
+
+--
+-- Functions definition section
+--
+functions
+
+--
+-- Values definition section
+--
+values
+
+end NetworkTypes
+~~~
+{% endraw %}
+
+### TestActuator.vdmpp
+
+{% raw %}
+~~~
+--The TestActuator Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		14/5 - 2008
+-- Updated:
+-- Description: 	Testing all actuator classes
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TestActuator is subclass of TestCase
+
+--
+-- instance variables
+--
+instance variables
+
+win 		: Window;
+therm		: Thermostat;
+
+--
+-- Operations definition section
+--
+operations
+
+public TestActuator: seq of char ==> TestActuator
+	TestActuator(nm) == name := nm;
+
+protected SetUp: () ==> ()
+	SetUp() ==
+	(win := new Window(3, <WINDOW>);
+therm := new Thermostat(4, <THERMOSTAT>);
+	);
+
+protected Test: () ==> ()
+	Test() ==
+		(AssertTrue(win.GetID() = 3);
+		AssertTrue(win.GetType() = <WINDOW>);
+
+		AssertTrue(therm.GetID() = 4);
+		AssertTrue(therm.GetType() = <THERMOSTAT>);
+		);
+
+protected RunTest: () ==> ()
+	RunTest() == Test();
+
+protected TearDown: () ==> ()
+	TearDown() == skip;
+
+end TestActuator
+~~~
+{% endraw %}
+
+### TestResult.vdmpp
+
+{% raw %}
+~~~
+--The TestResult Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		14/5 - 2008
+-- Updated:
+-- Description: 	TestResult class
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TestResult
+
+--
+-- instance variables
+--
+instance variables
+
+failures : seq of TestCase := []
+
+--
+-- Operations definition section
+--
+operations
+
+public AddFailure: TestCase ==> ()
+	AddFailure(ptst) == failures := failures ^ [ptst];
+
+public Print: seq of char ==> ()
+	Print(pstr) ==
+		def - = new IO().echo(pstr ^ "\n") in skip;
+
+public Show: () ==> ()
+	Show() ==
+		if failures = [] then
+			Print("No failures detected")
+		else 
+			for failure in failures do
+				Print(failure.GetName() ^ " failed");
+
+end TestResult
+~~~
+{% endraw %}
+
+### TestCase.vdmpp
+
+{% raw %}
+~~~
+--The TestCase Class
+
+-----------------------------------------------
+-- Author:
+-- Created:
+-- Updated:
+-- Description: 
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TestCase is subclass of Test
+
+--
+-- instance variables
+--
+instance variables
+
+protected name : seq of char
+
+--
+-- Operations definition section
+--
+operations
+
+public TestCase: seq of char ==> TestCase
+	TestCase(nm) == name := nm;
+
+public GetName: () ==> seq of char
+	GetName() == return name;
+
+protected AssertTrue: bool ==> ()
+	AssertTrue(pb) == if not pb then exit <FAILURE>;
+
+protected AssertFalse: bool ==> ()
+	AssertFalse(pb) == if pb then exit <FAILURE>;
+
+public Run: TestResult ==> ()
+	Run(ptr) ==
+		trap <FAILURE>
+			with 
+				ptr.AddFailure(self)
+			in
+				(SetUp();
+				RunTest();
+				TearDown();
+				);
+
+protected SetUp: () ==> ()
+	SetUp() == is subclass responsibility;
+
+protected RunTest: () ==> ()
+	RunTest() == is subclass responsibility;
+
+protected TearDown: () ==> ()
+	TearDown() == is subclass responsibility;
+
+end TestCase
+~~~
+{% endraw %}
+
+### timer.vdmpp
+
+{% raw %}
+~~~
+              
+class Timer
+
+instance variables
+
+currentTime : nat := 0;
+
+values
+
+stepLength : nat = 10;
+
+operations
+
+public StepTime : () ==> ()
+StepTime() ==
+  currentTime := currentTime + stepLength;
+
+public GetTime : () ==> nat
+GetTime() ==
+  return currentTime;
+
+end Timer
+                                                                         
+~~~
+{% endraw %}
+
+### Window.vdmpp
+
+{% raw %}
+~~~
+--The Window Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		21/4 - 2008
+-- Updated:
+-- Description: 	Window actuator sub class
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Window is subclass of Actuator
+
+--
+-- Operations definition section
+--
+operations
+
+public Window: nat * NetworkTypes`nodeType ==> Window
+	Window (id, type) ==
+		(ID := id;
+		Type := type;
+		Corr := <CLOSE>;
+		);
+
+public Step: () ==> ()
+	Step() ==
+		(if (Corr = <OPEN>)
+		then (World`env.DecHumid();
+		      World`env.DecTemp();
+			);
+		);
+
+public SetCorrection: NetworkTypes`correction ==> ()
+	SetCorrection(cor) ==
+		Corr := cor
+pre (cor = <OPEN>) or (cor = <CLOSE>);
+
+public GetCorrection: () ==> NetworkTypes`correction
+	GetCorrection() ==
+		return Corr;
+
+end Window
+~~~
+{% endraw %}
+
+### HomeAutomation.vdmpp
+
+{% raw %}
+~~~
+--The HA Class
+
+-----------------------------------------------
+-- Author:		Sune Wolf - 20022462
+-- Created:		20/4 - 2008
+-- Updated:
+-- Description: 	System class in the HomeAutomation project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class HA
+
+--
+-- instance variables
+--
+instance variables
+
+public static Host	: HostController := new HostController(22, 75);
+public static TempNode	: TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0);
+public static HumidNode	: HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0);
+public static ThermNode	: Thermostat := new Thermostat(3, <THERMOSTAT>);
+public static WinNode	: Window := new Window(4, <WINDOW>);
+
+--
+-- Types definition section
+--
+types   
+
+--
+-- Operations definition section
+--
+operations
+
+public HA: () ==> HA
+	HA() ==
+		(Host.AddNode(TempNode.GetID(), TempNode.GetType());
+		Host.AddNode(HumidNode.GetID(), HumidNode.GetType());
+		Host.AddNode(ThermNode.GetID(), ThermNode.GetType());
+		Host.AddNode(WinNode.GetID(), WinNode.GetType());
+		);
+
+--
+-- Functions definition section
+--
+functions
+
+--
+-- Values definition section
+--
+values
+
+end HA
 ~~~
 {% endraw %}
 
@@ -369,68 +1011,6 @@ end Environment
 ~~~
 {% endraw %}
 
-### TestSensor.vdmpp
-
-{% raw %}
-~~~
---The TestSensor Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		14/5 - 2008
--- Updated:
--- Description: 	Test class to test Sensors
------------------------------------------------
-
---
--- class definition
---
-class TestSensor is subclass of TestCase
-
---
--- instance variables
---
-instance variables
-
-tempSensor 	: TemperatureSensor;
-humidSensor	: HumidSensor;
-
---
--- Operations definition section
---
-operations
-
-public TestSensor: seq of char ==> TestSensor
-	TestSensor(nm) == name := nm;
-
-protected SetUp: () ==> ()
-	SetUp() ==
-	(tempSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0);
-humidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0);
-	);
-
-protected Test: () ==> ()
-	Test() ==
-		(AssertTrue(tempSensor.GetID() = 1);
-		AssertTrue(tempSensor.GetType() = <TEMPSENSOR>);
-		AssertTrue(tempSensor.ReadValue() = 0);
-
-		AssertTrue(humidSensor.GetID() = 2);
-		AssertTrue(humidSensor.GetType() = <HUMIDSENSOR>);
-		AssertTrue(humidSensor.ReadValue() = 0);		
-		);
-
-protected RunTest: () ==> ()
-	RunTest() == Test();
-
-protected TearDown: () ==> ()
-	TearDown() == skip;
-
-
-end TestSensor
-~~~
-{% endraw %}
-
 ### Sensor.vdmpp
 
 {% raw %}
@@ -484,233 +1064,6 @@ end Sensor
 ~~~
 {% endraw %}
 
-### timer.vdmpp
-
-{% raw %}
-~~~
-              
-class Timer
-
-instance variables
-
-currentTime : nat := 0;
-
-values
-
-stepLength : nat = 10;
-
-operations
-
-public StepTime : () ==> ()
-StepTime() ==
-  currentTime := currentTime + stepLength;
-
-public GetTime : () ==> nat
-GetTime() ==
-  return currentTime;
-
-end Timer
-                                                                         
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
---The World Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		20/4 - 2008
--- Updated:	
--- Description: 	World class in the HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class World
-
-instance variables
-
-static public env : Environment := new Environment("scenario.txt");
-static public timerRef : Timer := new Timer();
-  
-operations
-
-public Run: () ==> ()
-Run() ==
- (-- start environment creating input
-  env.Run();
- );
-
-end World
-~~~
-{% endraw %}
-
-### TemperatureSensor.vdmpp
-
-{% raw %}
-~~~
---The TemperatureSensor Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		20/4 - 2008
--- Updated:
--- Description: 	TemperatureSensor subclass for HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class TemperatureSensor is subclass of Sensor
-
---
--- Operations definition section
---
-operations
-
-public TemperatureSensor: nat * NetworkTypes`nodeType * nat ==> TemperatureSensor
-	TemperatureSensor (id, type, val) ==
-		(ID := id;
-		Type := type;
-		Value := val;
-		);
-
-public Step: () ==> ()
-	Step() ==
-		(Value := World`env.ReadTemp();
-		);
-
-end TemperatureSensor
-~~~
-{% endraw %}
-
-### Surroundings.vdmpp
-
-{% raw %}
-~~~
---The Surroundings Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		21/4 - 2008
--- Updated:
--- Description: 	Class containing surrounding variables
------------------------------------------------
-
---
--- class definition
---
-class Surroundings
-
---
--- instance variables
---
-instance variables
-
-private envTemp	: nat;
-private envHumid	: nat;
-
---
--- Operations definition section
---
-operations
-
-public Surroundings: () ==> Surroundings
-	Surroundings() ==
-		(envTemp := 20;
-		envHumid := 85;
-		);
-
-public ReadTemp: () ==> nat
-	ReadTemp() ==
-		return envTemp;
-
-public IncTemp: () ==> ()
-	IncTemp() ==
-		envTemp := envTemp + 1;
-
-public DecTemp: () ==> ()
-	DecTemp() ==
-		envTemp := envTemp - 1;
-
-public SetTemp: nat ==> ()
-	SetTemp(t) ==
-		envTemp := t;
-
-public ReadHumid: () ==> nat
-	ReadHumid() ==
-		return envHumid;
-
-public IncHumid: () ==> ()
-	IncHumid() ==
-		envHumid := envHumid + 1;
-
-public DecHumid: () ==> ()
-	DecHumid() ==
-		envHumid := envHumid - 1;
-
-public SetHumid: nat ==> ()
-	SetHumid(h) ==
-		envHumid := h;
-
-end Surroundings
-~~~
-{% endraw %}
-
-### TestSuite.vdmpp
-
-{% raw %}
-~~~
---The TestSuite Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		14/5 - 2008
--- Updated:
--- Description: 	TestSuite class
------------------------------------------------
-
---
--- class definition
---
-class TestSuite is subclass of Test
-
---
--- instance variables
---
-instance variables
-
-tests : seq of Test := [];
-
---
--- Operations definition section
---
-operations
-
-public Run: () ==> ()
-	Run () ==
-		(dcl ntr : TestResult := new TestResult();
-		Run(ntr);
-		ntr.Show();
-		);
-
-public Run: TestResult ==> ()
-	Run(result) ==
-		for test in tests do
-			test.Run(result);
-
-public AddTest: Test ==> ()
-	AddTest(test) ==
-		tests := tests ^ [test];
-
-end TestSuite
-~~~
-{% endraw %}
-
 ### HumidSensor.vdmpp
 
 {% raw %}
@@ -750,164 +1103,6 @@ end HumidSensor
 ~~~
 {% endraw %}
 
-### NetworkTypes.vdmpp
-
-{% raw %}
-~~~
---The NetworkTypes Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		15/4 - 2008
--- Updated:
--- Description: 	NetworkTypes class for NetworkModel project
------------------------------------------------
-
---
--- class definition
---
-class NetworkTypes
-
---
--- instance variables
---
-instance variables
-
---
--- Types definition section
---
-types   
-
-public nodeType 	= <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
-public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
-
---
--- Operations definition section
---
-operations
-
---
--- Functions definition section
---
-functions
-
---
--- Values definition section
---
-values
-
-end NetworkTypes
-~~~
-{% endraw %}
-
-### TestActuator.vdmpp
-
-{% raw %}
-~~~
---The TestActuator Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		14/5 - 2008
--- Updated:
--- Description: 	Testing all actuator classes
------------------------------------------------
-
---
--- class definition
---
-class TestActuator is subclass of TestCase
-
---
--- instance variables
---
-instance variables
-
-win 		: Window;
-therm		: Thermostat;
-
---
--- Operations definition section
---
-operations
-
-public TestActuator: seq of char ==> TestActuator
-	TestActuator(nm) == name := nm;
-
-protected SetUp: () ==> ()
-	SetUp() ==
-	(win := new Window(3, <WINDOW>);
-therm := new Thermostat(4, <THERMOSTAT>);
-	);
-
-protected Test: () ==> ()
-	Test() ==
-		(AssertTrue(win.GetID() = 3);
-		AssertTrue(win.GetType() = <WINDOW>);
-
-		AssertTrue(therm.GetID() = 4);
-		AssertTrue(therm.GetType() = <THERMOSTAT>);
-		);
-
-protected RunTest: () ==> ()
-	RunTest() == Test();
-
-protected TearDown: () ==> ()
-	TearDown() == skip;
-
-end TestActuator
-~~~
-{% endraw %}
-
-### Actuator.vdmpp
-
-{% raw %}
-~~~
---The Actuator Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		21/4 - 2008
--- Updated:
--- Description: 	Actuator super class
------------------------------------------------
-
---
--- class definition
---
-class Actuator
-
---
--- instance variables
---
-instance variables
-
-protected ID	: nat;
-protected Type	: NetworkTypes`nodeType;
-protected Corr	: NetworkTypes`correction;
-protected Env	: Environment;
-
---
--- Operations definition section
---
-operations
-
-public GetID: () ==> nat
-	GetID() ==
-		return ID;
-
-public GetType: () ==> NetworkTypes`nodeType
-	GetType() ==
-		return Type;
-
-public Step: () ==> ()
-	Step() ==
-		is subclass responsibility
-
-end Actuator
-~~~
-{% endraw %}
-
 ### TestComplete.vdmpp
 
 {% raw %}
@@ -942,73 +1137,6 @@ public Execute: () ==> ()
 		);
 
 end TestComplete
-~~~
-{% endraw %}
-
-### TestSurroundings.vdmpp
-
-{% raw %}
-~~~
---The TestSurroundings Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		14/5 - 2008
--- Updated:
--- Description: 	Testing the Surroundings class
------------------------------------------------
-
---
--- class definition
---
-class TestSurroundings is subclass of TestCase
-
---
--- instance variables
---
-instance variables
-
-env		: Environment;
-
---
--- Operations definition section
---
-operations
-
-public TestSurroundings: seq of char ==> TestSurroundings
-	TestSurroundings(nm) == name := nm;
-
-protected SetUp: () ==> ()
-	SetUp() ==
-env := new Environment();
-
-protected Test: () ==> ()
-	Test() ==
-		(AssertTrue(env.ReadTemp() = 20);
-		AssertTrue(env.ReadHumid() = 85);
-
-		env.IncTemp();
-		AssertTrue(env.ReadTemp() = 21);
-		env.DecTemp();
-		AssertTrue(env.ReadTemp() = 20);		
-		env.SetTemp(23);
-		AssertTrue(env.ReadTemp() = 23);
-
-		env.IncHumid();
-		AssertTrue(env.ReadHumid() = 86);
-		env.DecHumid();
-		AssertTrue(env.ReadHumid() = 85);		
-		env.SetHumid(71);
-		AssertTrue(env.ReadHumid() = 71);
-		);
-
-protected RunTest: () ==> ()
-	RunTest() == Test();
-
-protected TearDown: () ==> ()
-	TearDown() == skip;
-
-end TestSurroundings
 ~~~
 {% endraw %}
 
@@ -1251,6 +1379,55 @@ end HostController
 ~~~
 {% endraw %}
 
+### Actuator.vdmpp
+
+{% raw %}
+~~~
+--The Actuator Class
+
+-----------------------------------------------
+-- Author:		Sune Wolff - 20022462
+-- Created:		21/4 - 2008
+-- Updated:
+-- Description: 	Actuator super class
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Actuator
+
+--
+-- instance variables
+--
+instance variables
+
+protected ID	: nat;
+protected Type	: NetworkTypes`nodeType;
+protected Corr	: NetworkTypes`correction;
+protected Env	: Environment;
+
+--
+-- Operations definition section
+--
+operations
+
+public GetID: () ==> nat
+	GetID() ==
+		return ID;
+
+public GetType: () ==> NetworkTypes`nodeType
+	GetType() ==
+		return Type;
+
+public Step: () ==> ()
+	Step() ==
+		is subclass responsibility
+
+end Actuator
+~~~
+{% endraw %}
+
 ### Thermostat.vdmpp
 
 {% raw %}
@@ -1302,230 +1479,53 @@ end Thermostat
 ~~~
 {% endraw %}
 
-### Window.vdmpp
+### TestSuite.vdmpp
 
 {% raw %}
 ~~~
---The Window Class
-
------------------------------------------------
--- Author:		Sune Wolff - 20022462
--- Created:		21/4 - 2008
--- Updated:
--- Description: 	Window actuator sub class
------------------------------------------------
-
---
--- class definition
---
-class Window is subclass of Actuator
-
---
--- Operations definition section
---
-operations
-
-public Window: nat * NetworkTypes`nodeType ==> Window
-	Window (id, type) ==
-		(ID := id;
-		Type := type;
-		Corr := <CLOSE>;
-		);
-
-public Step: () ==> ()
-	Step() ==
-		(if (Corr = <OPEN>)
-		then (World`env.DecHumid();
-		      World`env.DecTemp();
-			);
-		);
-
-public SetCorrection: NetworkTypes`correction ==> ()
-	SetCorrection(cor) ==
-		Corr := cor
-pre (cor = <OPEN>) or (cor = <CLOSE>);
-
-public GetCorrection: () ==> NetworkTypes`correction
-	GetCorrection() ==
-		return Corr;
-
-end Window
-~~~
-{% endraw %}
-
-### HomeAutomation.vdmpp
-
-{% raw %}
-~~~
---The HA Class
-
------------------------------------------------
--- Author:		Sune Wolf - 20022462
--- Created:		20/4 - 2008
--- Updated:
--- Description: 	System class in the HomeAutomation project
------------------------------------------------
-
---
--- class definition
---
-class HA
-
---
--- instance variables
---
-instance variables
-
-public static Host	: HostController := new HostController(22, 75);
-public static TempNode	: TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0);
-public static HumidNode	: HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0);
-public static ThermNode	: Thermostat := new Thermostat(3, <THERMOSTAT>);
-public static WinNode	: Window := new Window(4, <WINDOW>);
-
---
--- Types definition section
---
-types   
-
---
--- Operations definition section
---
-operations
-
-public HA: () ==> HA
-	HA() ==
-		(Host.AddNode(TempNode.GetID(), TempNode.GetType());
-		Host.AddNode(HumidNode.GetID(), HumidNode.GetType());
-		Host.AddNode(ThermNode.GetID(), ThermNode.GetType());
-		Host.AddNode(WinNode.GetID(), WinNode.GetType());
-		);
-
---
--- Functions definition section
---
-functions
-
---
--- Values definition section
---
-values
-
-end HA
-~~~
-{% endraw %}
-
-### TestCase.vdmpp
-
-{% raw %}
-~~~
---The TestCase Class
-
------------------------------------------------
--- Author:
--- Created:
--- Updated:
--- Description: 
------------------------------------------------
-
---
--- class definition
---
-class TestCase is subclass of Test
-
---
--- instance variables
---
-instance variables
-
-protected name : seq of char
-
---
--- Operations definition section
---
-operations
-
-public TestCase: seq of char ==> TestCase
-	TestCase(nm) == name := nm;
-
-public GetName: () ==> seq of char
-	GetName() == return name;
-
-protected AssertTrue: bool ==> ()
-	AssertTrue(pb) == if not pb then exit <FAILURE>;
-
-protected AssertFalse: bool ==> ()
-	AssertFalse(pb) == if pb then exit <FAILURE>;
-
-public Run: TestResult ==> ()
-	Run(ptr) ==
-		trap <FAILURE>
-			with 
-				ptr.AddFailure(self)
-			in
-				(SetUp();
-				RunTest();
-				TearDown();
-				);
-
-protected SetUp: () ==> ()
-	SetUp() == is subclass responsibility;
-
-protected RunTest: () ==> ()
-	RunTest() == is subclass responsibility;
-
-protected TearDown: () ==> ()
-	TearDown() == is subclass responsibility;
-
-end TestCase
-~~~
-{% endraw %}
-
-### TestResult.vdmpp
-
-{% raw %}
-~~~
---The TestResult Class
+--The TestSuite Class
 
 -----------------------------------------------
 -- Author:		Sune Wolff - 20022462
 -- Created:		14/5 - 2008
 -- Updated:
--- Description: 	TestResult class
+-- Description: 	TestSuite class
 -----------------------------------------------
 
 --
 -- class definition
 --
-class TestResult
+class TestSuite is subclass of Test
 
 --
 -- instance variables
 --
 instance variables
 
-failures : seq of TestCase := []
+tests : seq of Test := [];
 
 --
 -- Operations definition section
 --
 operations
 
-public AddFailure: TestCase ==> ()
-	AddFailure(ptst) == failures := failures ^ [ptst];
+public Run: () ==> ()
+	Run () ==
+		(dcl ntr : TestResult := new TestResult();
+		Run(ntr);
+		ntr.Show();
+		);
 
-public Print: seq of char ==> ()
-	Print(pstr) ==
-		def - = new IO().echo(pstr ^ "\n") in skip;
+public Run: TestResult ==> ()
+	Run(result) ==
+		for test in tests do
+			test.Run(result);
 
-public Show: () ==> ()
-	Show() ==
-		if failures = [] then
-			Print("No failures detected")
-		else 
-			for failure in failures do
-				Print(failure.GetName() ^ " failed");
+public AddTest: Test ==> ()
+	AddTest(test) ==
+		tests := tests ^ [test];
 
-end TestResult
+end TestSuite
 ~~~
 {% endraw %}
 

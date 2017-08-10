@@ -20,6 +20,31 @@ and later used and adjusted by Peter Gorm Larsen also.
 |Entry point     :| new Pacemaker().Pace(Pacemaker`wrongTR,5,2)|
 
 
+### Pacemaker.vdmpp
+
+{% raw %}
+~~~
+class Pacemaker
+
+values
+
+public wrongTR: Heart`Trace = 
+                [<A>, nil, <V>, nil, nil, <A>, nil, nil, nil, nil ];
+  
+operations
+
+public Pace: Heart`Trace * nat1 * nat1 ==> Heart`Trace
+Pace(tr,aperi,vdel) ==
+  return [nil] ^
+         [ if (i mod aperi = vdel + 1) and tr(i) <> <V> 
+           then <V>
+           else nil
+         | i in set inds tl tr];
+
+end Pacemaker
+~~~
+{% endraw %}
+
 ### Heart.vdmpp
 
 {% raw %}
@@ -74,31 +99,6 @@ Periodic(tr,e,p) ==
        forall i in set {t+1, ..., len tr} & tr(i) <> e));
 
 end Heart
-~~~
-{% endraw %}
-
-### Pacemaker.vdmpp
-
-{% raw %}
-~~~
-class Pacemaker
-
-values
-
-public wrongTR: Heart`Trace = 
-                [<A>, nil, <V>, nil, nil, <A>, nil, nil, nil, nil ];
-  
-operations
-
-public Pace: Heart`Trace * nat1 * nat1 ==> Heart`Trace
-Pace(tr,aperi,vdel) ==
-  return [nil] ^
-         [ if (i mod aperi = vdel + 1) and tr(i) <> <V> 
-           then <V>
-           else nil
-         | i in set inds tl tr];
-
-end Pacemaker
 ~~~
 {% endraw %}
 

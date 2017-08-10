@@ -20,61 +20,66 @@ coherent application in a distributed application.
 |Entry point     :| new Testing().Test()|
 
 
-### mmi.vdmrt
+### World.vdmrt
 
 {% raw %}
 ~~~
-class MMI
+class World
+ 
+types
+  public perfdata = nat * nat * real
+
+instance variables
+ 
 
 operations
-  async 
-  public HandleKeyPress: nat ==> ()
-  HandleKeyPress (pn) ==
-    ( cycles (1E5) skip;
-      --duration (1E5) skip;
-      cases (pn):
-        1 -> RadNavSys`radio.AdjustVolumeUp(),
-        2 -> RadNavSys`radio.AdjustVolumeDown(),
-        3 -> RadNavSys`navigation.DatabaseLookup()
-      end ); 
+  	
+  public RunScenario1 : () ==> ()
+  RunScenario1 () ==
+    ( RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+      RadNavSys`mmi.HandleKeyPress(1);
+    );
 
-  async 
-  public UpdateScreen: nat ==> ()
-  UpdateScreen (pn) ==
-    ( cycles (5E5) skip;
-      --duration (5E5) skip;
-      cases (pn):
-        1 -> IO`println("Screen Update: Volume Knob"),
-        2 -> IO`println("Screen Update: InsertAddress"), --World`envTasks("InsertAddress").HandleEvent(pno),
-        3 -> IO`println("Screen Update: TransmitTMC") -- World`envTasks("TransmitTMC").HandleEvent(pno)
-      end )
+ 
 
-end MMI
+end World
 ~~~
 {% endraw %}
 
-### Navigation.vdmrt
+### Test.vdmrt
 
 {% raw %}
 ~~~
-class Navigation
+class Testing
 
 operations
-  async 
-  public DatabaseLookup: () ==> ()
-  DatabaseLookup () ==
-    ( cycles (5E6) skip;
-      --duration (5E6) skip;
-      RadNavSys`mmi.UpdateScreen(2) );
+  public Test: () ==> ()
+  Test () ==
+  (
+    new World().RunScenario1();
+		start(self);
+    block();
+  );
 
-  async 
-  public DecodeTMC: () ==> ()
-  DecodeTMC () ==
-    ( cycles (5E5) skip;
-      --duration (5E6) skip;
-      RadNavSys`mmi.UpdateScreen(3) )
 
-end Navigation
+  private block : () ==> ()
+  block () == skip;
+
+  private op : () ==> ()
+  op () == skip;
+
+sync
+
+per block => time > 5000000
+
+
+thread
+
+  periodic(1000E6,0,0,0)(op)
+
+end Testing
+
 ~~~
 {% endraw %}
 
@@ -124,33 +129,6 @@ end RadNavSys
 ~~~
 {% endraw %}
 
-### World.vdmrt
-
-{% raw %}
-~~~
-class World
- 
-types
-  public perfdata = nat * nat * real
-
-instance variables
- 
-
-operations
-  	
-  public RunScenario1 : () ==> ()
-  RunScenario1 () ==
-    ( RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-      RadNavSys`mmi.HandleKeyPress(1);
-    );
-
- 
-
-end World
-~~~
-{% endraw %}
-
 ### Radio.vdmrt
 
 {% raw %}
@@ -191,39 +169,61 @@ end Radio
 ~~~
 {% endraw %}
 
-### Test.vdmrt
+### Navigation.vdmrt
 
 {% raw %}
 ~~~
-class Testing
+class Navigation
 
 operations
-  public Test: () ==> ()
-  Test () ==
-  (
-    new World().RunScenario1();
-		start(self);
-    block();
-  );
+  async 
+  public DatabaseLookup: () ==> ()
+  DatabaseLookup () ==
+    ( cycles (5E6) skip;
+      --duration (5E6) skip;
+      RadNavSys`mmi.UpdateScreen(2) );
 
+  async 
+  public DecodeTMC: () ==> ()
+  DecodeTMC () ==
+    ( cycles (5E5) skip;
+      --duration (5E6) skip;
+      RadNavSys`mmi.UpdateScreen(3) )
 
-  private block : () ==> ()
-  block () == skip;
+end Navigation
+~~~
+{% endraw %}
 
-  private op : () ==> ()
-  op () == skip;
+### mmi.vdmrt
 
-sync
+{% raw %}
+~~~
+class MMI
 
-per block => time > 5000000
+operations
+  async 
+  public HandleKeyPress: nat ==> ()
+  HandleKeyPress (pn) ==
+    ( cycles (1E5) skip;
+      --duration (1E5) skip;
+      cases (pn):
+        1 -> RadNavSys`radio.AdjustVolumeUp(),
+        2 -> RadNavSys`radio.AdjustVolumeDown(),
+        3 -> RadNavSys`navigation.DatabaseLookup()
+      end ); 
 
+  async 
+  public UpdateScreen: nat ==> ()
+  UpdateScreen (pn) ==
+    ( cycles (5E5) skip;
+      --duration (5E5) skip;
+      cases (pn):
+        1 -> IO`println("Screen Update: Volume Knob"),
+        2 -> IO`println("Screen Update: InsertAddress"), --World`envTasks("InsertAddress").HandleEvent(pno),
+        3 -> IO`println("Screen Update: TransmitTMC") -- World`envTasks("TransmitTMC").HandleEvent(pno)
+      end )
 
-thread
-
-  periodic(1000E6,0,0,0)(op)
-
-end Testing
-
+end MMI
 ~~~
 {% endraw %}
 

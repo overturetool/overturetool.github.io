@@ -20,152 +20,66 @@ of the software technology course at the Technical University Graz, Austria.
 |Entry point     :| Test`RunEval()|
 
 
-### dynsem.vdmsl
+### ast.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                         
-module DYNSEM
+                                                                                                                                                                                                                                                                             
+module AST
 
-imports
- from AST all,
- from STATSEM all
- 
 exports all
 
 definitions
 
 types
 
-  DynEnv = map AST`Identifier to AST`Value;
-                                                                                                                                                                                                                                                                                                                                                                                                                                     
-functions
+  Program :: decls : seq of Declaration
+             stmt  : Stmt;
+                                                                                                                                   
+  Declaration :: id  : Identifier
+                 tp  : Type
+                 val : [Value];
+                                                                                                                                                                                                                                                   
+  Identifier = seq1 of char;
 
-  EvalProgram : AST`Program -> DynEnv
-  EvalProgram(mk_AST`Program(decls, stmt)) ==
-    EvalStmt(stmt, EvalDeclarations(decls))
-  pre STATSEM`wf_Program(mk_AST`Program(decls, stmt)) and 
-      pre_EvalStmt(stmt, EvalDeclarations(decls));
-                                                                                                                                                                             
-  EvalDeclarations : seq of AST`Declaration -> DynEnv
-  EvalDeclarations(decls) ==
-    {id |-> if val <> nil
-            then val 
-            elseif tp = <BoolType> 
-            then mk_AST`BoolVal(false)
-            else mk_AST`IntVal(0)  
-        | mk_AST`Declaration(id, tp, val) in seq decls};
+  Type = <BoolType> | <IntType> ;
 
-                                                                                                                                                                                                                                                                                                                                             
-  EvalStmt : AST`Stmt * DynEnv -> DynEnv
-  EvalStmt(stmt, denv) ==
-    cases true :
-      (is_AST`BlockStmt(stmt))  -> EvalBlockStmt(stmt, denv),
-      (is_AST`AssignStmt(stmt)) -> EvalAssignStmt(stmt, denv),
-      (is_AST`CondStmt(stmt))   -> EvalCondStmt(stmt, denv),
-      (is_AST`ForStmt(stmt))    -> EvalForStmt(stmt, denv),
-      (is_AST`RepeatStmt(stmt)) -> EvalRepeatStmt(stmt, denv)
-    end
-  pre (is_AST`BlockStmt(stmt)   => pre_EvalBlockStmt(stmt, denv)) and
-      (is_AST`AssignStmt(stmt)  => pre_EvalAssignStmt(stmt, denv)) and
-      (is_AST`CondStmt(stmt)    => pre_EvalCondStmt(stmt, denv)) and
-      (is_AST`ForStmt(stmt)     => pre_EvalForStmt(stmt, denv)) and
-      (is_AST`RepeatStmt(stmt)  => pre_EvalRepeatStmt(stmt, denv));
+  Value = BoolVal | IntVal;
 
-  EvalBlockStmt : AST`BlockStmt * DynEnv -> DynEnv
-  EvalBlockStmt(mk_AST`BlockStmt(decls, stmts), denv) ==
-    let ldenv = EvalDeclarations(decls) in
-      let denv' = EvalStmts(stmts, denv ++ ldenv) in
-        denv ++ dom ldenv <-: denv'
-  pre let ldenv = EvalDeclarations(decls) 
-      in pre_EvalStmts(stmts, denv ++ ldenv);
+  BoolVal :: val : bool;
 
-  EvalStmts : seq of AST`Stmt * DynEnv -> DynEnv
-  EvalStmts(stmts, denv) ==
-    cases stmts :
-      [] -> denv,
-      others -> EvalStmts(tl stmts, EvalStmt(hd stmts, denv))
-    end
-  pre stmts <> [] => pre_EvalStmt(hd stmts, denv)
-  measure LenStmt;
-  
-  LenStmt: seq of AST`Stmt * DynEnv -> nat
-  LenStmt(l,-) ==
-    len l;
+  IntVal :: val : int;
+                                                                                                                                                                                                                                                                                                                                                                   
+  Stmt = BlockStmt | AssignStmt | CondStmt | ForStmt | RepeatStmt;
+                                                                                                                                
+  BlockStmt :: decls : seq of Declaration
+               stmts : seq1 of Stmt;
+                                                                                                                                                                 
+  AssignStmt :: lhs : Variable
+                rhs : Expr;
 
-  EvalAssignStmt : AST`AssignStmt * DynEnv -> DynEnv
-  EvalAssignStmt(mk_AST`AssignStmt(lhs, rhs), denv) ==
-    denv ++ {lhs.id |-> EvalExpr(rhs, denv)}
-  pre pre_EvalExpr(rhs, denv);
+  Variable :: id : Identifier;
+                                                                                                                                                                                                
+  Expr = BinaryExpr | Value | Variable;
 
-  EvalCondStmt : AST`CondStmt * DynEnv -> DynEnv
-  EvalCondStmt(mk_AST`CondStmt(guard, thenst, elsest), denv) ==
-    if EvalExpr(guard, denv).val
-    then EvalStmt(thenst, denv) 
-    else EvalStmt(elsest, denv)
-  pre pre_EvalExpr(guard, denv) and
-      if EvalExpr(guard, denv).val
-      then pre_EvalStmt(thenst, denv) 
-      else pre_EvalStmt(elsest, denv);
-
-  EvalRepeatStmt : AST`RepeatStmt * DynEnv -> DynEnv
-  EvalRepeatStmt(mk_AST`RepeatStmt(repeat, until), denv) ==
-    let denv' = EvalStmt(repeat, denv) in
-    if EvalExpr(until, denv').val
-      then denv'
-      else EvalRepeatStmt(mk_AST`RepeatStmt(repeat, until), denv')
-  pre pre_EvalStmt(repeat, denv) and
-      pre_EvalExpr(until, EvalStmt(repeat, denv));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-  EvalForStmt : AST`ForStmt * DynEnv -> DynEnv
-  EvalForStmt(mk_AST`ForStmt(start, stop, stmt), denv) ==
-    let denv' = EvalAssignStmt(start, denv) in
-    EvalForLoop(start.lhs, EvalExpr(stop, denv'), stmt, denv')
-  pre pre_EvalAssignStmt(start, denv) and
-      pre_EvalExpr(stop, EvalAssignStmt(start, denv));
-
-  EvalForLoop : AST`Variable * AST`Value * AST`Stmt * DynEnv -> DynEnv
-  EvalForLoop(mk_AST`Variable(id), val, stmt, denv) ==
-    if denv(id).val <= val.val
-      then let denv' = EvalStmt(stmt, denv)
-           in EvalForLoop(mk_AST`Variable(id), val, stmt, 
-                          denv' ++ {id |-> mk_AST`IntVal(denv'(id).val + 1)})
-      else denv
-  pre pre_EvalStmt(stmt, denv)
-  measure LoopParInc;
-  
-  LoopParInc: AST`Variable * AST`Value * AST`Stmt * DynEnv -> nat
-  LoopParInc(mk_AST`Variable(id), val, -, denv) ==
-    val.val - denv(id).val;
-                                                                                                                                                                                                                                                                                                                                                      
-  EvalExpr : AST`Expr * DynEnv -> AST`Value
-  EvalExpr(ex, denv) ==
-    cases ex :
-      mk_AST`BoolVal(-),
-      mk_AST`IntVal(-)         -> ex,
-      mk_AST`Variable(id)      -> denv(id),
-      mk_AST`BinaryExpr(-,-,-) -> EvalBinaryExpr(ex, denv)
-    end
-  pre is_AST`BinaryExpr(ex) => pre_EvalBinaryExpr(ex, denv);
-
-  EvalBinaryExpr : AST`BinaryExpr * DynEnv -> AST`Value
-  EvalBinaryExpr(mk_AST`BinaryExpr(lhs, op, rhs), denv) ==
-    let v1 = EvalExpr(lhs, denv).val,
-        v2 = EvalExpr(rhs, denv).val 
-    in cases op :
-       <Add> -> mk_AST`IntVal(v1 + v2),
-       <Sub> -> mk_AST`IntVal(v1 - v2),
-       <Div> -> mk_AST`IntVal(v1 div v2),
-       <Mul> -> mk_AST`IntVal(v1 * v2),
-       <Lt> ->  mk_AST`BoolVal(v1 < v2),
-       <Gt> ->  mk_AST`BoolVal(v1 > v2),
-       <Eq> ->  mk_AST`BoolVal(v1 = v2),
-       <And> -> mk_AST`BoolVal(v1 and v2),
-       <Or> ->  mk_AST`BoolVal(v1 or v2)
-    end
-  pre op = <Div> => EvalExpr(rhs, denv).val <> 0;
-
-end DYNSEM
+  BinaryExpr :: lhs : Expr
+                op  : Operator
+                rhs : Expr;
+                                                                                                                                                                                                                                        
+  Operator = <Add> | <Sub> | <Div> | <Mul> | <Lt> | <Gt> | <Eq> | <And> | <Or>;
+                                                                                                                   
+  CondStmt :: guard  : Expr
+              thenst : Stmt
+              elsest : Stmt;
+                                                                                                                                                                                                                                                                                            
+  ForStmt :: start : AssignStmt
+             stop  : Expr
+             stmt  : Stmt;
+                                                                                                                       
+  RepeatStmt :: repeat : Stmt
+                until  : Expr;
+                
+end AST
              
 ~~~
 {% endraw %}
@@ -329,66 +243,152 @@ end STATSEM
 ~~~
 {% endraw %}
 
-### ast.vdmsl
+### dynsem.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                             
-module AST
+                                                                                                                                                                                                                                                                                                                                                                                                                         
+module DYNSEM
 
+imports
+ from AST all,
+ from STATSEM all
+ 
 exports all
 
 definitions
 
 types
 
-  Program :: decls : seq of Declaration
-             stmt  : Stmt;
-                                                                                                                                   
-  Declaration :: id  : Identifier
-                 tp  : Type
-                 val : [Value];
-                                                                                                                                                                                                                                                   
-  Identifier = seq1 of char;
+  DynEnv = map AST`Identifier to AST`Value;
+                                                                                                                                                                                                                                                                                                                                                                                                                                     
+functions
 
-  Type = <BoolType> | <IntType> ;
+  EvalProgram : AST`Program -> DynEnv
+  EvalProgram(mk_AST`Program(decls, stmt)) ==
+    EvalStmt(stmt, EvalDeclarations(decls))
+  pre STATSEM`wf_Program(mk_AST`Program(decls, stmt)) and 
+      pre_EvalStmt(stmt, EvalDeclarations(decls));
+                                                                                                                                                                             
+  EvalDeclarations : seq of AST`Declaration -> DynEnv
+  EvalDeclarations(decls) ==
+    {id |-> if val <> nil
+            then val 
+            elseif tp = <BoolType> 
+            then mk_AST`BoolVal(false)
+            else mk_AST`IntVal(0)  
+        | mk_AST`Declaration(id, tp, val) in seq decls};
 
-  Value = BoolVal | IntVal;
+                                                                                                                                                                                                                                                                                                                                             
+  EvalStmt : AST`Stmt * DynEnv -> DynEnv
+  EvalStmt(stmt, denv) ==
+    cases true :
+      (is_AST`BlockStmt(stmt))  -> EvalBlockStmt(stmt, denv),
+      (is_AST`AssignStmt(stmt)) -> EvalAssignStmt(stmt, denv),
+      (is_AST`CondStmt(stmt))   -> EvalCondStmt(stmt, denv),
+      (is_AST`ForStmt(stmt))    -> EvalForStmt(stmt, denv),
+      (is_AST`RepeatStmt(stmt)) -> EvalRepeatStmt(stmt, denv)
+    end
+  pre (is_AST`BlockStmt(stmt)   => pre_EvalBlockStmt(stmt, denv)) and
+      (is_AST`AssignStmt(stmt)  => pre_EvalAssignStmt(stmt, denv)) and
+      (is_AST`CondStmt(stmt)    => pre_EvalCondStmt(stmt, denv)) and
+      (is_AST`ForStmt(stmt)     => pre_EvalForStmt(stmt, denv)) and
+      (is_AST`RepeatStmt(stmt)  => pre_EvalRepeatStmt(stmt, denv));
 
-  BoolVal :: val : bool;
+  EvalBlockStmt : AST`BlockStmt * DynEnv -> DynEnv
+  EvalBlockStmt(mk_AST`BlockStmt(decls, stmts), denv) ==
+    let ldenv = EvalDeclarations(decls) in
+      let denv' = EvalStmts(stmts, denv ++ ldenv) in
+        denv ++ dom ldenv <-: denv'
+  pre let ldenv = EvalDeclarations(decls) 
+      in pre_EvalStmts(stmts, denv ++ ldenv);
 
-  IntVal :: val : int;
-                                                                                                                                                                                                                                                                                                                                                                   
-  Stmt = BlockStmt | AssignStmt | CondStmt | ForStmt | RepeatStmt;
-                                                                                                                                
-  BlockStmt :: decls : seq of Declaration
-               stmts : seq1 of Stmt;
-                                                                                                                                                                 
-  AssignStmt :: lhs : Variable
-                rhs : Expr;
+  EvalStmts : seq of AST`Stmt * DynEnv -> DynEnv
+  EvalStmts(stmts, denv) ==
+    cases stmts :
+      [] -> denv,
+      others -> EvalStmts(tl stmts, EvalStmt(hd stmts, denv))
+    end
+  pre stmts <> [] => pre_EvalStmt(hd stmts, denv)
+  measure LenStmt;
+  
+  LenStmt: seq of AST`Stmt * DynEnv -> nat
+  LenStmt(l,-) ==
+    len l;
 
-  Variable :: id : Identifier;
-                                                                                                                                                                                                
-  Expr = BinaryExpr | Value | Variable;
+  EvalAssignStmt : AST`AssignStmt * DynEnv -> DynEnv
+  EvalAssignStmt(mk_AST`AssignStmt(lhs, rhs), denv) ==
+    denv ++ {lhs.id |-> EvalExpr(rhs, denv)}
+  pre pre_EvalExpr(rhs, denv);
 
-  BinaryExpr :: lhs : Expr
-                op  : Operator
-                rhs : Expr;
-                                                                                                                                                                                                                                        
-  Operator = <Add> | <Sub> | <Div> | <Mul> | <Lt> | <Gt> | <Eq> | <And> | <Or>;
-                                                                                                                   
-  CondStmt :: guard  : Expr
-              thenst : Stmt
-              elsest : Stmt;
-                                                                                                                                                                                                                                                                                            
-  ForStmt :: start : AssignStmt
-             stop  : Expr
-             stmt  : Stmt;
-                                                                                                                       
-  RepeatStmt :: repeat : Stmt
-                until  : Expr;
-                
-end AST
+  EvalCondStmt : AST`CondStmt * DynEnv -> DynEnv
+  EvalCondStmt(mk_AST`CondStmt(guard, thenst, elsest), denv) ==
+    if EvalExpr(guard, denv).val
+    then EvalStmt(thenst, denv) 
+    else EvalStmt(elsest, denv)
+  pre pre_EvalExpr(guard, denv) and
+      if EvalExpr(guard, denv).val
+      then pre_EvalStmt(thenst, denv) 
+      else pre_EvalStmt(elsest, denv);
+
+  EvalRepeatStmt : AST`RepeatStmt * DynEnv -> DynEnv
+  EvalRepeatStmt(mk_AST`RepeatStmt(repeat, until), denv) ==
+    let denv' = EvalStmt(repeat, denv) in
+    if EvalExpr(until, denv').val
+      then denv'
+      else EvalRepeatStmt(mk_AST`RepeatStmt(repeat, until), denv')
+  pre pre_EvalStmt(repeat, denv) and
+      pre_EvalExpr(until, EvalStmt(repeat, denv));
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+  EvalForStmt : AST`ForStmt * DynEnv -> DynEnv
+  EvalForStmt(mk_AST`ForStmt(start, stop, stmt), denv) ==
+    let denv' = EvalAssignStmt(start, denv) in
+    EvalForLoop(start.lhs, EvalExpr(stop, denv'), stmt, denv')
+  pre pre_EvalAssignStmt(start, denv) and
+      pre_EvalExpr(stop, EvalAssignStmt(start, denv));
+
+  EvalForLoop : AST`Variable * AST`Value * AST`Stmt * DynEnv -> DynEnv
+  EvalForLoop(mk_AST`Variable(id), val, stmt, denv) ==
+    if denv(id).val <= val.val
+      then let denv' = EvalStmt(stmt, denv)
+           in EvalForLoop(mk_AST`Variable(id), val, stmt, 
+                          denv' ++ {id |-> mk_AST`IntVal(denv'(id).val + 1)})
+      else denv
+  pre pre_EvalStmt(stmt, denv)
+  measure LoopParInc;
+  
+  LoopParInc: AST`Variable * AST`Value * AST`Stmt * DynEnv -> nat
+  LoopParInc(mk_AST`Variable(id), val, -, denv) ==
+    val.val - denv(id).val;
+                                                                                                                                                                                                                                                                                                                                                      
+  EvalExpr : AST`Expr * DynEnv -> AST`Value
+  EvalExpr(ex, denv) ==
+    cases ex :
+      mk_AST`BoolVal(-),
+      mk_AST`IntVal(-)         -> ex,
+      mk_AST`Variable(id)      -> denv(id),
+      mk_AST`BinaryExpr(-,-,-) -> EvalBinaryExpr(ex, denv)
+    end
+  pre is_AST`BinaryExpr(ex) => pre_EvalBinaryExpr(ex, denv);
+
+  EvalBinaryExpr : AST`BinaryExpr * DynEnv -> AST`Value
+  EvalBinaryExpr(mk_AST`BinaryExpr(lhs, op, rhs), denv) ==
+    let v1 = EvalExpr(lhs, denv).val,
+        v2 = EvalExpr(rhs, denv).val 
+    in cases op :
+       <Add> -> mk_AST`IntVal(v1 + v2),
+       <Sub> -> mk_AST`IntVal(v1 - v2),
+       <Div> -> mk_AST`IntVal(v1 div v2),
+       <Mul> -> mk_AST`IntVal(v1 * v2),
+       <Lt> ->  mk_AST`BoolVal(v1 < v2),
+       <Gt> ->  mk_AST`BoolVal(v1 > v2),
+       <Eq> ->  mk_AST`BoolVal(v1 = v2),
+       <And> -> mk_AST`BoolVal(v1 and v2),
+       <Or> ->  mk_AST`BoolVal(v1 or v2)
+    end
+  pre op = <Div> => EvalExpr(rhs, denv).val <> 0;
+
+end DYNSEM
              
 ~~~
 {% endraw %}

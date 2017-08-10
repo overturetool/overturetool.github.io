@@ -20,97 +20,158 @@ to the conveyer belt
 |Entry point     :| new World().Run()|
 
 
-### Tray.vdmpp
+### AllocatorTwoTray.vdmpp
 
 {% raw %}
 ~~~
 -- ===============================================================================================================
--- Tray in tray allocation for a sortation system
+-- AllocatorTwoTray in tray allocation for a sortation system
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
+-- (strategy pattern)
+-- ===============================================================================================================
+
+class AllocatorTwoTray is subclass of AllocatorStrategy
+
+	operations
+		
+		-- AllocatorTwoTray constructor
+		public AllocatorTwoTray: TrayAllocator==> AllocatorTwoTray
+		AllocatorTwoTray(ta) ==
+		(
+			trayAllocator := ta;
+		);
+	
+		-- Allocates trays if empty at induction offset and offset + 1
+		public AllocateTray: nat ==> set of Tray
+		AllocateTray (icid) ==
+			let posTray = InductionOffset(trayAllocator.trayAtCardReader, icid),
+			    posTrayNext = if (posTray - 1) = 0 then TrayAllocator`NumOfTrays else posTray - 1
+			in 
+				if trayAllocator.sorterRing(posTray).IsTrayEmpty() and  -- Tray at induction
+				   trayAllocator.sorterRing(posTrayNext).IsTrayEmpty()	-- Tray at induction-1
+				then return {trayAllocator.sorterRing(posTray), trayAllocator.sorterRing(posTrayNext)} -- Return the set of 2 empty trays
+				else return {}
+		pre icid in set inds trayAllocator.inductionGroup;
+
+        -- Returns true if higher priority inductions in induction group
+		public InductionsWithHigherPriority: InductionController ==> bool
+		InductionsWithHigherPriority(ic) ==
+			return exists i in set elems trayAllocator.inductionGroup(1,...,len  trayAllocator.inductionGroup) 
+					        & i.GetId() <> ic.GetId() 
+					        and i.GetPriority() > ic.GetPriority()
+            -- Waiting with items of same size (two tray items)
+			--				and i.GetSizeOfWaitingItem() = ic.GetSizeOfWaitingItem()	
+			--  Looking at induction infront this ic causes starvation of the first induction in group
+			--  return exists i in set elems inductionGroup(ic.GetId()+1,...,len inductionGroup) & i.GetPriority() > ic.GetPriority()
+		pre ic in set elems trayAllocator.inductionGroup;
+
+
+end AllocatorTwoTray
+~~~
+{% endraw %}
+
+### InductionController.vdmpp
+
+{% raw %}
+~~~
+-- ===============================================================================================================
+-- InductionController in tray allocation for a sortation system
 -- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
-class Tray
+class InductionController
 	types
-		public State = <Empty> | <Full>;
-	    public UID = nat
-	    inv u == u <= TrayAllocator`NumOfTrays;  	-- Limitation on UID 
 
 	values
-		public TraySize    : nat1 = 600    			-- Size of any tray mm 
+		public InductionRate : nat = 2;    	-- trays between each item
 
 	instance variables
-	    
-		-- It is allowed for a tray to be <Full> with no item associated 
-		-- in this case an unknown item is detected by the card reader
-		state : State := <Empty>;
-		item : [Item] := nil;
-		
-		-- If an item is associated with a tray the state must be <Full>
-		inv item <> nil => state = <Full>;
-		
-		id : UID;									 -- Tray UID
-
+		priority : nat := 0;				-- priotity of induction, incremented each time wait to induct item
+		id : nat1;							-- Induction ID 
+		allocator : TrayAllocator; 			-- TrayAllocator
+		items : seq of Item := [];			-- set of items ready to be inducted
+		stepCount: nat := 0; 				-- Counts the number of steps between inducting items
+	
+		-- If induction is waiting there must be items in sequence
+		inv priority > 0 => len items > 0;
+	
 	operations
 
-    -- Tray constructor
-	public Tray: UID ==> Tray
-	Tray(i) ==
+    -- InductionController constructor
+	public InductionController: TrayAllocator * nat ==> InductionController
+	InductionController(a, n) ==
 	(
-		id := i;
+		allocator := a;
+		id := n;
 	);
-
- 	-- Return tray id
+	
+	-- Returns induction controller UID
 	pure public GetId: () ==> nat
 	GetId() == 
 		return id;
-		
-    -- Returns true if tray is empty
-	pure public IsTrayEmpty: () ==> bool
-	IsTrayEmpty () ==
-		return state = <Empty>;
-
-    -- Returns true if tray is full
-	pure public IsTrayFull: () ==> bool
-	IsTrayFull () ==
-		return state = <Full>;
 	
-	-- Returns item on tray
-	pure public GetItem: () ==> [Item]
-	GetItem () ==
-		return item;
-		
-	-- Set state of tray	
-	public SetState: State ==> ()
-	SetState (s) ==
-	(
-		if s = <Empty> 
-		then -- Remove item if tray is empty
-			item := nil;
-		state := s;
-	);
+	-- Returns priority of induction controller	
+	public GetPriority: () ==> nat
+	GetPriority() == 
+		return priority;
 	
-	-- Returns state of tray ==> <empty> or <full>	
-	public GetState: () ==> State
-	GetState () ==
-		return state;
+	-- Returns true if induction is wating with an item
+	public IsItemWaiting: () ==> bool
+	IsItemWaiting() ==
+		return priority > 0;
+		
+	-- Get size of waiting item in number of trays
+	public GetSizeOfWaitingItem: () ==> nat
+	GetSizeOfWaitingItem() ==
+		if not IsItemWaiting()
+		then
+			return 0 -- No waiting items
+		else
+			let item = hd items
+				in item.GetSizeOfTrays();
+		  		
+    -- Enviroment feeds a new item on induction
+	public FeedItem: Item ==> ()
+	FeedItem(i) ==
+		items := items ^ [i];
 
-    -- Puts an item on the tray and creates association between tray and item 
-	public ItemOnTray: Item ==> ()
-	ItemOnTray (i) ==
+    -- Simulate sorter-ring moved one tray step
+	public TrayStep: () ==> ()
+	TrayStep() ==
 	(
-		atomic -- Only needed if item is assigned before state
+		-- Induct next item based on InductionRate
+		stepCount := stepCount + 1;
+		if IsItemWaiting() or (stepCount >= InductionRate)
+		then
 		(
-			item := i;
-			state := <Full>;
-		);
-		item.AssignItemToTray(self);
+			InductNextItem();
+			stepCount := 0;
+		)
+	);
 
-		IO`print("-> Item id " ^ String`NatToStr(item.GetId()) ^ 
-		         "size " ^ String`NatToStr(item.GetSize()) ^ 
-		         "on tray id " ^ String`NatToStr(id) ^ "\n");
-	)
-	pre state = <Empty> and item = nil;
-		
+	-- It any items on induction then induct next item
+	-- If next item could be inducted then removed it from the head of item sequence
+	-- If item could not be inducted then increment priority
+    private InductNextItem: () ==> ()
+    InductNextItem() ==
+		let n = len items  
+		in
+			if n > 0
+			then
+				let item = hd items
+			  	in
+			  		if allocator.InductItem(self, item)
+			  		then
+			    	(
+						atomic -- Due to invariant
+						(
+			    			items := tl items;
+			    			priority := 0
+			    		);
+			    	)
+			  		else 
+			    		priority := priority + 1; -- Increment priority wait counter			  		
+    
 	functions
 
 	sync
@@ -119,51 +180,121 @@ class Tray
 
 	traces
 
-end Tray
+end InductionController
 ~~~
 {% endraw %}
 
-### String.vdmpp
+### World.vdmpp
 
 {% raw %}
 ~~~
 -- ===============================================================================================================
--- String helper class for converting numbers
+-- World in tray allocation for a sortation system
 -- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
-class String
+class World
 	types
 
 	values
 
 	instance variables
-		static numeric : seq1 of char := "0123456789"; 
-
+		env : [SorterEnviroment] := nil;
+		loader : [ItemLoader] := nil;
+		
+		-- Test files that contains test scenarios 
+		---     of items to be feeded on inductions
+	    testfile1 : seq1 of char := "scenario1.txt";
+	    testfile2 : seq1 of char := "scenario2.txt";
+	    testfile3 : seq1 of char := "scenario3.txt";
+	    testfile4 : seq1 of char := "scenario4.txt";
+	    testfile5 : seq1 of char := "scenario5.txt";
+	    
+	    testfiles : seq of seq1 of char := [testfile1,
+	    									testfile2,
+	    									testfile3,
+	    									testfile4,
+	    									testfile5];
 	operations
+	
+   -- World constructor
+--	public World: () ==> World
+--	World() ==
+--	(
+--	);
 
-	static public NatToStr: nat ==> seq1 of char
-	NatToStr (val) ==
-	(	
-		dcl string : seq1 of char := " ";
-		dcl x1 : nat := val;
-		dcl x2 : nat;
-		
-		if val = 0 then string := "0";
-		
-		while x1 > 0 do
-		( 
-			x2 := (x1 mod 10) + 1;
-			string := [numeric(x2)] ^ string;
-			x1 := x1 div 10;
+    -- Prints configuration and result of tray allocation model simulation
+    public PrintSimulationResult: () ==> ()
+    PrintSimulationResult() ==
+    (
+		-- Prints configuration of simulation
+		IO`print("---------------------------------------------\n");
+		IO`print("Simulation completed for sorter configuration\n");
+		IO`print("---------------------------------------------\n");
+        IO`print("Specified throughput [items/hour]: " ^ String`NatToStr(SorterEnviroment`Throughput) ^ "\n");
+        IO`print("Sorter speed             [mm/sec]: " ^ String`NatToStr(SorterEnviroment`Speed) ^ "\n");
+        IO`print("Item max size                [mm]: " ^ String`NatToStr(Item`ItemMaxSize) ^ "\n");
+        IO`print("Item min size                [mm]: " ^ String`NatToStr(Item`ItemMinSize) ^ "\n");
+        IO`print("Tray size                    [mm]: " ^ String`NatToStr(Tray`TraySize) ^ "\n");
+        IO`print("Number of trays                  : " ^ String`NatToStr(TrayAllocator`NumOfTrays) ^ "\n");
+        IO`print("Number of inductions             : " ^ String`NatToStr(TrayAllocator`NumOfInductions) ^ "\n");
+        IO`print("Induction rate                   : " ^ String`NatToStr(InductionController`InductionRate) ^ "\n");
+        IO`print("Induction separation      [trays]: " ^ String`NatToStr(TrayAllocator`InductionSeperation) ^ "\n");
+		IO`print("----------------------------------------------\n");
+	
+		-- Prints result of simulation
+		let r : TrayAllocator`ThroughputResult = env.sc.allocator.GetThroughput()
+		in
+		(
+			IO`print("Number of trays with items       : " ^ String`NatToStr(r.traysWithItemOnSorter) ^ "\n");
+			IO`print("Two tray items on sorter         : " ^ String`NatToStr(r.twoTrayItemsOnSorter) ^ "\n");
+			IO`print("Number of tray steps             : " ^ String`NatToStr(r.traySteps) ^ "\n");
+			IO`print("Number of inducted items         : " ^ String`NatToStr(r.inductedItems) ^ "\n");
+			IO`print("Calculated throughput[items/hour]: " ^ String`NatToStr(floor(r.calcThroughput)) ^ "\n");
+		);    
+
+		IO`print("----------------------------------------------\n");
+		if env.sc.allocator.IsSorterFull() = true
+		then
+			IO`print("      ****    Sorter is full   *****\n")
+	    else
+			IO`print("      ****  Sorter is not full  ****\n");
+		IO`print("----------------------------------------------\n");
+    );
+    
+	public Run: () ==> ()
+	Run() ==
+	(
+		-- Performs model testing for each scenarios specified in test file
+		for all test in set {1,...,len testfiles}
+		do	
+		(	
+			env := new SorterEnviroment();
+			loader := new ItemLoader(testfiles(test));
+			env.AssignItemLoader(loader);
+			
+			IO`print("---------------------------------------------\n");
+			IO`print("Tray allocation model test #" ^ String`NatToStr(test)^ ": " ^ testfiles(test) ^ "\n");
+			IO`print("---------------------------------------------\n");
+			
+			-- Performs simulation based on time steps	
+			for all t in set {0,...,loader.GetNumTimeSteps()} 
+			do 
+				env.TimeStep(t);
+				
+			PrintSimulationResult();
 		);
-		
-		return string;
 	);
 
 	functions
 
-end String
+	sync
+
+	--thread
+
+	traces
+
+end World
 ~~~
 {% endraw %}
 
@@ -335,6 +466,145 @@ end TrayAllocator
 ~~~
 {% endraw %}
 
+### SC.vdmpp
+
+{% raw %}
+~~~
+-- ===============================================================================================================
+-- SorterController in tray allocation for a sortation system
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
+-- ===============================================================================================================
+
+class SC
+	types
+
+	values
+		
+	instance variables
+		public allocator : TrayAllocator;
+	
+	operations
+	
+    -- SystemController constructor
+	public SC: SorterEnviroment ==> SC
+	SC(e) ==
+	(
+        allocator := new TrayAllocator(e); 
+	);
+
+	
+	-- Notified each time sorter-ring has moved one tray step
+	public TrayStep: Tray`UID * Tray`State  ==> ()
+	TrayStep(uid, state) ==
+	(
+		IO`print("Card reader tray id " ^ String`NatToStr(uid) ^ "\n");
+		allocator.CardReader(uid, state);
+	);
+
+	functions
+
+	sync
+
+	--thread
+
+	traces
+
+end SC
+~~~
+{% endraw %}
+
+### ItemLoader.vdmpp
+
+{% raw %}
+~~~
+-- ===============================================================================================================
+-- ItemLoader in tray allocation for a sortation system
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
+-- ===============================================================================================================
+
+class ItemLoader
+	types
+
+		inline  =  nat * nat * nat;
+		InputTP = int * seq of inline;
+	
+	values
+
+	instance variables
+   	    -- Not working in Overture version 0.1.9
+		io : IO := new IO(); 
+		
+		-- Test with mix of 1 and 2 tray items 
+	    inlines  : seq of inline := [mk_(0,1,100), --  mk_(timeStep, icid, itemSize)
+        							 mk_(0,2,800),
+        							 mk_(0,3,200),
+        							 mk_(2,1,200),
+        							 mk_(2,2,400),
+        							 mk_(2,3,700),
+        							 mk_(4,1,800),
+        							 mk_(4,2,300),
+        							 mk_(4,3,400),
+        							 mk_(6,1,600),
+        							 mk_(6,2,400),
+        							 mk_(6,3,300),
+        							 mk_(8,1,900),
+        							 mk_(8,2,300),
+        							 mk_(8,3,200),
+        							 mk_(10,1,500),
+        							 mk_(10,2,300),
+        							 mk_(10,3,200)
+        							 ];
+        							 
+	    numTimeSteps : nat := 21;
+		
+	operations
+	
+	-- Loads test scenario from file
+	public ItemLoader : seq1 of char ==> ItemLoader
+	ItemLoader(fname) ==
+	(
+	  -- Not working in Overture version 0.1.9
+	  def mk_(-,mk_(timeval,input)) = io.freadval[InputTP](fname) 
+	  in
+	    (
+	   		numTimeSteps := timeval;
+	     	inlines := input
+	     );    
+	); 
+	
+	-- Returns number of time steps to simulate
+	public GetNumTimeSteps : () ==> nat
+	GetNumTimeSteps() ==
+		return numTimeSteps;
+	
+	-- Returns size of item if found in test scenario
+	-- Returns zero if no item is found for time step and induction id
+	public GetItemAtTimeStep : nat * nat1 ==> nat
+	GetItemAtTimeStep(timeStep, icid) ==
+	(
+		-- {size | mk_(time, id, size) in set elems inlines & time = timestep and id = icid};
+		let elm = {e | e in set elems inlines & e.#1 = timeStep and e.#2 = icid}
+		in
+	 		if elm = {}
+	 		then return 0
+	 		else
+	 			let {mk_(-,-,size)} = elm
+	 			in 
+	 				return size;
+	);
+			
+	functions
+
+	sync
+
+	--thread
+
+	traces
+
+end ItemLoader
+~~~
+{% endraw %}
+
 ### TestSenarios.vdmpp
 
 {% raw %}
@@ -423,155 +693,87 @@ end AllocatorStrategy
 ~~~
 {% endraw %}
 
-### World.vdmpp
+### SorterEnviroment.vdmpp
 
 {% raw %}
 ~~~
 -- ===============================================================================================================
--- World in tray allocation for a sortation system
+-- SorterEnvironment in tray allocation for a sortation system
 -- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
-class World
+class SorterEnviroment
 	types
 
 	values
-
-	instance variables
-		env : [SorterEnviroment] := nil;
-		loader : [ItemLoader] := nil;
-		
-		-- Test files that contains test scenarios 
-		---     of items to be feeded on inductions
-	    testfile1 : seq1 of char := "scenario1.txt";
-	    testfile2 : seq1 of char := "scenario2.txt";
-	    testfile3 : seq1 of char := "scenario3.txt";
-	    testfile4 : seq1 of char := "scenario4.txt";
-	    testfile5 : seq1 of char := "scenario5.txt";
-	    
-	    testfiles : seq of seq1 of char := [testfile1,
-	    									testfile2,
-	    									testfile3,
-	    									testfile4,
-	    									testfile5];
-	operations
-	
-   -- World constructor
---	public World: () ==> World
---	World() ==
---	(
---	);
-
-    -- Prints configuration and result of tray allocation model simulation
-    public PrintSimulationResult: () ==> ()
-    PrintSimulationResult() ==
-    (
-		-- Prints configuration of simulation
-		IO`print("---------------------------------------------\n");
-		IO`print("Simulation completed for sorter configuration\n");
-		IO`print("---------------------------------------------\n");
-        IO`print("Specified throughput [items/hour]: " ^ String`NatToStr(SorterEnviroment`Throughput) ^ "\n");
-        IO`print("Sorter speed             [mm/sec]: " ^ String`NatToStr(SorterEnviroment`Speed) ^ "\n");
-        IO`print("Item max size                [mm]: " ^ String`NatToStr(Item`ItemMaxSize) ^ "\n");
-        IO`print("Item min size                [mm]: " ^ String`NatToStr(Item`ItemMinSize) ^ "\n");
-        IO`print("Tray size                    [mm]: " ^ String`NatToStr(Tray`TraySize) ^ "\n");
-        IO`print("Number of trays                  : " ^ String`NatToStr(TrayAllocator`NumOfTrays) ^ "\n");
-        IO`print("Number of inductions             : " ^ String`NatToStr(TrayAllocator`NumOfInductions) ^ "\n");
-        IO`print("Induction rate                   : " ^ String`NatToStr(InductionController`InductionRate) ^ "\n");
-        IO`print("Induction separation      [trays]: " ^ String`NatToStr(TrayAllocator`InductionSeperation) ^ "\n");
-		IO`print("----------------------------------------------\n");
-	
-		-- Prints result of simulation
-		let r : TrayAllocator`ThroughputResult = env.sc.allocator.GetThroughput()
-		in
-		(
-			IO`print("Number of trays with items       : " ^ String`NatToStr(r.traysWithItemOnSorter) ^ "\n");
-			IO`print("Two tray items on sorter         : " ^ String`NatToStr(r.twoTrayItemsOnSorter) ^ "\n");
-			IO`print("Number of tray steps             : " ^ String`NatToStr(r.traySteps) ^ "\n");
-			IO`print("Number of inducted items         : " ^ String`NatToStr(r.inductedItems) ^ "\n");
-			IO`print("Calculated throughput[items/hour]: " ^ String`NatToStr(floor(r.calcThroughput)) ^ "\n");
-		);    
-
-		IO`print("----------------------------------------------\n");
-		if env.sc.allocator.IsSorterFull() = true
-		then
-			IO`print("      ****    Sorter is full   *****\n")
-	    else
-			IO`print("      ****  Sorter is not full  ****\n");
-		IO`print("----------------------------------------------\n");
-    );
-    
-	public Run: () ==> ()
-	Run() ==
-	(
-		-- Performs model testing for each scenarios specified in test file
-		for all test in set {1,...,len testfiles}
-		do	
-		(	
-			env := new SorterEnviroment();
-			loader := new ItemLoader(testfiles(test));
-			env.AssignItemLoader(loader);
-			
-			IO`print("---------------------------------------------\n");
-			IO`print("Tray allocation model test #" ^ String`NatToStr(test)^ ": " ^ testfiles(test) ^ "\n");
-			IO`print("---------------------------------------------\n");
-			
-			-- Performs simulation based on time steps	
-			for all t in set {0,...,loader.GetNumTimeSteps()} 
-			do 
-				env.TimeStep(t);
+		public Speed	   : nat = 2000;  -- Sorter speed mm/sec
+		public Throughput  : nat = 10000;  -- Required items/hour
 				
-			PrintSimulationResult();
-		);
-	);
 
-	functions
-
-	sync
-
-	--thread
-
-	traces
-
-end World
-~~~
-{% endraw %}
-
-### SC.vdmpp
-
-{% raw %}
-~~~
--- ===============================================================================================================
--- SorterController in tray allocation for a sortation system
--- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
--- ===============================================================================================================
-
-class SC
-	types
-
-	values
-		
 	instance variables
-		public allocator : TrayAllocator;
-	
+		public sc : SC;
+		public inductionGroup : seq of InductionController := [];
+		itemId : nat := 0;
+		itemLoader : [ItemLoader] := nil;
+				
 	operations
 	
-    -- SystemController constructor
-	public SC: SorterEnviroment ==> SC
-	SC(e) ==
+    -- SorterEnviroment constructor
+	public SorterEnviroment: () ==> SorterEnviroment
+	SorterEnviroment() ==
 	(
-        allocator := new TrayAllocator(e); 
+		sc := new SC(self);
 	);
-
 	
-	-- Notified each time sorter-ring has moved one tray step
-	public TrayStep: Tray`UID * Tray`State  ==> ()
-	TrayStep(uid, state) ==
+    -- Assigning item loader to SorterEnviroment
+	public AssignItemLoader: (ItemLoader) ==> ()
+	AssignItemLoader(il) ==
 	(
-		IO`print("Card reader tray id " ^ String`NatToStr(uid) ^ "\n");
-		allocator.CardReader(uid, state);
+		itemLoader := il;
+	);	
+	
+    -- Assigning induction group to SorterEnviroment
+	public AssignInductionGroup: seq of InductionController ==> ()
+	AssignInductionGroup(ig) ==
+	(
+		inductionGroup := ig;
 	);
+	
+	-- Used by traces in TestSernarios
+	public FeedItemOnInduction: nat * Item ==> ()
+	FeedItemOnInduction(ic, item) ==
+		  inductionGroup(ic).FeedItem(item);
+	
+	-- Called by world each time sorter ring moves one tray step 
+	public TimeStep: nat ==> ()
+	TimeStep(t) ==
+	(
 
+	 	for all i in set {1,...,TrayAllocator`NumOfInductions} 
+		do 
+		(
+			-- Check for item to feed induction at time step
+			let size = itemLoader.GetItemAtTimeStep(t, i)
+			in
+				if (size > 0)
+				then 
+				(
+			  		itemId := itemId + 1;
+			  		inductionGroup(i).FeedItem(new Item(size, itemId));
+				);
+ 		);
+
+    	-- Enviroment simulate sorter moved one tray step
+		sc.TrayStep(t mod TrayAllocator`NumOfTrays + 1, <Empty>);
+
+ 		-- Performs tray step for each induction
+	 	for all i in set {1,...,TrayAllocator`NumOfInductions} 
+		do 
+		   inductionGroup(i).TrayStep();
+
+	);
+	
+	
 	functions
 
 	sync
@@ -579,8 +781,8 @@ class SC
 	--thread
 
 	traces
-
-end SC
+	
+end SorterEnviroment
 ~~~
 {% endraw %}
 
@@ -701,343 +903,97 @@ end Item
 ~~~
 {% endraw %}
 
-### AllocatorTwoTray.vdmpp
+### Tray.vdmpp
 
 {% raw %}
 ~~~
 -- ===============================================================================================================
--- AllocatorTwoTray in tray allocation for a sortation system
--- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
--- (strategy pattern)
--- ===============================================================================================================
-
-class AllocatorTwoTray is subclass of AllocatorStrategy
-
-	operations
-		
-		-- AllocatorTwoTray constructor
-		public AllocatorTwoTray: TrayAllocator==> AllocatorTwoTray
-		AllocatorTwoTray(ta) ==
-		(
-			trayAllocator := ta;
-		);
-	
-		-- Allocates trays if empty at induction offset and offset + 1
-		public AllocateTray: nat ==> set of Tray
-		AllocateTray (icid) ==
-			let posTray = InductionOffset(trayAllocator.trayAtCardReader, icid),
-			    posTrayNext = if (posTray - 1) = 0 then TrayAllocator`NumOfTrays else posTray - 1
-			in 
-				if trayAllocator.sorterRing(posTray).IsTrayEmpty() and  -- Tray at induction
-				   trayAllocator.sorterRing(posTrayNext).IsTrayEmpty()	-- Tray at induction-1
-				then return {trayAllocator.sorterRing(posTray), trayAllocator.sorterRing(posTrayNext)} -- Return the set of 2 empty trays
-				else return {}
-		pre icid in set inds trayAllocator.inductionGroup;
-
-        -- Returns true if higher priority inductions in induction group
-		public InductionsWithHigherPriority: InductionController ==> bool
-		InductionsWithHigherPriority(ic) ==
-			return exists i in set elems trayAllocator.inductionGroup(1,...,len  trayAllocator.inductionGroup) 
-					        & i.GetId() <> ic.GetId() 
-					        and i.GetPriority() > ic.GetPriority()
-            -- Waiting with items of same size (two tray items)
-			--				and i.GetSizeOfWaitingItem() = ic.GetSizeOfWaitingItem()	
-			--  Looking at induction infront this ic causes starvation of the first induction in group
-			--  return exists i in set elems inductionGroup(ic.GetId()+1,...,len inductionGroup) & i.GetPriority() > ic.GetPriority()
-		pre ic in set elems trayAllocator.inductionGroup;
-
-
-end AllocatorTwoTray
-~~~
-{% endraw %}
-
-### SorterEnviroment.vdmpp
-
-{% raw %}
-~~~
--- ===============================================================================================================
--- SorterEnvironment in tray allocation for a sortation system
+-- Tray in tray allocation for a sortation system
 -- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
 -- ===============================================================================================================
 
-class SorterEnviroment
+class Tray
 	types
+		public State = <Empty> | <Full>;
+	    public UID = nat
+	    inv u == u <= TrayAllocator`NumOfTrays;  	-- Limitation on UID 
 
 	values
-		public Speed	   : nat = 2000;  -- Sorter speed mm/sec
-		public Throughput  : nat = 10000;  -- Required items/hour
-				
+		public TraySize    : nat1 = 600    			-- Size of any tray mm 
 
 	instance variables
-		public sc : SC;
-		public inductionGroup : seq of InductionController := [];
-		itemId : nat := 0;
-		itemLoader : [ItemLoader] := nil;
-				
-	operations
-	
-    -- SorterEnviroment constructor
-	public SorterEnviroment: () ==> SorterEnviroment
-	SorterEnviroment() ==
-	(
-		sc := new SC(self);
-	);
-	
-    -- Assigning item loader to SorterEnviroment
-	public AssignItemLoader: (ItemLoader) ==> ()
-	AssignItemLoader(il) ==
-	(
-		itemLoader := il;
-	);	
-	
-    -- Assigning induction group to SorterEnviroment
-	public AssignInductionGroup: seq of InductionController ==> ()
-	AssignInductionGroup(ig) ==
-	(
-		inductionGroup := ig;
-	);
-	
-	-- Used by traces in TestSernarios
-	public FeedItemOnInduction: nat * Item ==> ()
-	FeedItemOnInduction(ic, item) ==
-		  inductionGroup(ic).FeedItem(item);
-	
-	-- Called by world each time sorter ring moves one tray step 
-	public TimeStep: nat ==> ()
-	TimeStep(t) ==
-	(
-
-	 	for all i in set {1,...,TrayAllocator`NumOfInductions} 
-		do 
-		(
-			-- Check for item to feed induction at time step
-			let size = itemLoader.GetItemAtTimeStep(t, i)
-			in
-				if (size > 0)
-				then 
-				(
-			  		itemId := itemId + 1;
-			  		inductionGroup(i).FeedItem(new Item(size, itemId));
-				);
- 		);
-
-    	-- Enviroment simulate sorter moved one tray step
-		sc.TrayStep(t mod TrayAllocator`NumOfTrays + 1, <Empty>);
-
- 		-- Performs tray step for each induction
-	 	for all i in set {1,...,TrayAllocator`NumOfInductions} 
-		do 
-		   inductionGroup(i).TrayStep();
-
-	);
-	
-	
-	functions
-
-	sync
-
-	--thread
-
-	traces
-	
-end SorterEnviroment
-~~~
-{% endraw %}
-
-### ItemLoader.vdmpp
-
-{% raw %}
-~~~
--- ===============================================================================================================
--- ItemLoader in tray allocation for a sortation system
--- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
--- ===============================================================================================================
-
-class ItemLoader
-	types
-
-		inline  =  nat * nat * nat;
-		InputTP = int * seq of inline;
-	
-	values
-
-	instance variables
-   	    -- Not working in Overture version 0.1.9
-		io : IO := new IO(); 
+	    
+		-- It is allowed for a tray to be <Full> with no item associated 
+		-- in this case an unknown item is detected by the card reader
+		state : State := <Empty>;
+		item : [Item] := nil;
 		
-		-- Test with mix of 1 and 2 tray items 
-	    inlines  : seq of inline := [mk_(0,1,100), --  mk_(timeStep, icid, itemSize)
-        							 mk_(0,2,800),
-        							 mk_(0,3,200),
-        							 mk_(2,1,200),
-        							 mk_(2,2,400),
-        							 mk_(2,3,700),
-        							 mk_(4,1,800),
-        							 mk_(4,2,300),
-        							 mk_(4,3,400),
-        							 mk_(6,1,600),
-        							 mk_(6,2,400),
-        							 mk_(6,3,300),
-        							 mk_(8,1,900),
-        							 mk_(8,2,300),
-        							 mk_(8,3,200),
-        							 mk_(10,1,500),
-        							 mk_(10,2,300),
-        							 mk_(10,3,200)
-        							 ];
-        							 
-	    numTimeSteps : nat := 21;
+		-- If an item is associated with a tray the state must be <Full>
+		inv item <> nil => state = <Full>;
 		
-	operations
-	
-	-- Loads test scenario from file
-	public ItemLoader : seq1 of char ==> ItemLoader
-	ItemLoader(fname) ==
-	(
-	  -- Not working in Overture version 0.1.9
-	  def mk_(-,mk_(timeval,input)) = io.freadval[InputTP](fname) 
-	  in
-	    (
-	   		numTimeSteps := timeval;
-	     	inlines := input
-	     );    
-	); 
-	
-	-- Returns number of time steps to simulate
-	public GetNumTimeSteps : () ==> nat
-	GetNumTimeSteps() ==
-		return numTimeSteps;
-	
-	-- Returns size of item if found in test scenario
-	-- Returns zero if no item is found for time step and induction id
-	public GetItemAtTimeStep : nat * nat1 ==> nat
-	GetItemAtTimeStep(timeStep, icid) ==
-	(
-		-- {size | mk_(time, id, size) in set elems inlines & time = timestep and id = icid};
-		let elm = {e | e in set elems inlines & e.#1 = timeStep and e.#2 = icid}
-		in
-	 		if elm = {}
-	 		then return 0
-	 		else
-	 			let {mk_(-,-,size)} = elm
-	 			in 
-	 				return size;
-	);
-			
-	functions
+		id : UID;									 -- Tray UID
 
-	sync
-
-	--thread
-
-	traces
-
-end ItemLoader
-~~~
-{% endraw %}
-
-### InductionController.vdmpp
-
-{% raw %}
-~~~
--- ===============================================================================================================
--- InductionController in tray allocation for a sortation system
--- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
--- ===============================================================================================================
-
-class InductionController
-	types
-
-	values
-		public InductionRate : nat = 2;    	-- trays between each item
-
-	instance variables
-		priority : nat := 0;				-- priotity of induction, incremented each time wait to induct item
-		id : nat1;							-- Induction ID 
-		allocator : TrayAllocator; 			-- TrayAllocator
-		items : seq of Item := [];			-- set of items ready to be inducted
-		stepCount: nat := 0; 				-- Counts the number of steps between inducting items
-	
-		-- If induction is waiting there must be items in sequence
-		inv priority > 0 => len items > 0;
-	
 	operations
 
-    -- InductionController constructor
-	public InductionController: TrayAllocator * nat ==> InductionController
-	InductionController(a, n) ==
+    -- Tray constructor
+	public Tray: UID ==> Tray
+	Tray(i) ==
 	(
-		allocator := a;
-		id := n;
+		id := i;
 	);
-	
-	-- Returns induction controller UID
+
+ 	-- Return tray id
 	pure public GetId: () ==> nat
 	GetId() == 
 		return id;
-	
-	-- Returns priority of induction controller	
-	public GetPriority: () ==> nat
-	GetPriority() == 
-		return priority;
-	
-	-- Returns true if induction is wating with an item
-	public IsItemWaiting: () ==> bool
-	IsItemWaiting() ==
-		return priority > 0;
 		
-	-- Get size of waiting item in number of trays
-	public GetSizeOfWaitingItem: () ==> nat
-	GetSizeOfWaitingItem() ==
-		if not IsItemWaiting()
-		then
-			return 0 -- No waiting items
-		else
-			let item = hd items
-				in item.GetSizeOfTrays();
-		  		
-    -- Enviroment feeds a new item on induction
-	public FeedItem: Item ==> ()
-	FeedItem(i) ==
-		items := items ^ [i];
+    -- Returns true if tray is empty
+	pure public IsTrayEmpty: () ==> bool
+	IsTrayEmpty () ==
+		return state = <Empty>;
 
-    -- Simulate sorter-ring moved one tray step
-	public TrayStep: () ==> ()
-	TrayStep() ==
+    -- Returns true if tray is full
+	pure public IsTrayFull: () ==> bool
+	IsTrayFull () ==
+		return state = <Full>;
+	
+	-- Returns item on tray
+	pure public GetItem: () ==> [Item]
+	GetItem () ==
+		return item;
+		
+	-- Set state of tray	
+	public SetState: State ==> ()
+	SetState (s) ==
 	(
-		-- Induct next item based on InductionRate
-		stepCount := stepCount + 1;
-		if IsItemWaiting() or (stepCount >= InductionRate)
-		then
-		(
-			InductNextItem();
-			stepCount := 0;
-		)
+		if s = <Empty> 
+		then -- Remove item if tray is empty
+			item := nil;
+		state := s;
 	);
+	
+	-- Returns state of tray ==> <empty> or <full>	
+	public GetState: () ==> State
+	GetState () ==
+		return state;
 
-	-- It any items on induction then induct next item
-	-- If next item could be inducted then removed it from the head of item sequence
-	-- If item could not be inducted then increment priority
-    private InductNextItem: () ==> ()
-    InductNextItem() ==
-		let n = len items  
-		in
-			if n > 0
-			then
-				let item = hd items
-			  	in
-			  		if allocator.InductItem(self, item)
-			  		then
-			    	(
-						atomic -- Due to invariant
-						(
-			    			items := tl items;
-			    			priority := 0
-			    		);
-			    	)
-			  		else 
-			    		priority := priority + 1; -- Increment priority wait counter			  		
-    
+    -- Puts an item on the tray and creates association between tray and item 
+	public ItemOnTray: Item ==> ()
+	ItemOnTray (i) ==
+	(
+		atomic -- Only needed if item is assigned before state
+		(
+			item := i;
+			state := <Full>;
+		);
+		item.AssignItemToTray(self);
+
+		IO`print("-> Item id " ^ String`NatToStr(item.GetId()) ^ 
+		         "size " ^ String`NatToStr(item.GetSize()) ^ 
+		         "on tray id " ^ String`NatToStr(id) ^ "\n");
+	)
+	pre state = <Empty> and item = nil;
+		
 	functions
 
 	sync
@@ -1046,7 +1002,51 @@ class InductionController
 
 	traces
 
-end InductionController
+end Tray
+~~~
+{% endraw %}
+
+### String.vdmpp
+
+{% raw %}
+~~~
+-- ===============================================================================================================
+-- String helper class for converting numbers
+-- By Jos� Antonio Esparza and Kim Bjerge - spring 2010
+-- ===============================================================================================================
+
+class String
+	types
+
+	values
+
+	instance variables
+		static numeric : seq1 of char := "0123456789"; 
+
+	operations
+
+	static public NatToStr: nat ==> seq1 of char
+	NatToStr (val) ==
+	(	
+		dcl string : seq1 of char := " ";
+		dcl x1 : nat := val;
+		dcl x2 : nat;
+		
+		if val = 0 then string := "0";
+		
+		while x1 > 0 do
+		( 
+			x2 := (x1 mod 10) + 1;
+			string := [numeric(x2)] ^ string;
+			x1 := x1 div 10;
+		);
+		
+		return string;
+	);
+
+	functions
+
+end String
 ~~~
 {% endraw %}
 

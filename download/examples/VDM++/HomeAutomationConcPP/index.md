@@ -15,6 +15,428 @@ Author: Sune Wolff
 |Entry point     :| new World().Run()|
 
 
+### TemperatureSensor.vdmpp
+
+{% raw %}
+~~~
+class TemperatureSensor is subclass of Sensor, BaseThread
+
+instance variables
+
+finished	: bool := false;
+
+operations
+
+public TemperatureSensor: nat * NetworkTypes`nodeType * nat * Surroundings * nat1 * bool ==> TemperatureSensor
+TemperatureSensor (id, type, val, envir, p, isP) ==
+ (ID := id;
+  Type := type;
+  Value := val;
+  Env := envir;
+  period := p;
+  isPeriodic := isP;
+ );
+
+public Finish: () ==> ()
+Finish() ==
+  finished := true;
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+protected Step: () ==> ()
+Step() ==
+  Value := Env.ReadTemp();
+
+sync
+	
+  per IsFinished => finished;
+
+--thread
+-- (--World`timerRef.RegisterThread();
+ 
+--  while true 
+--  do
+--   (Value := Env.ReadTemp();
+--    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);
+--   )
+-- )
+
+end TemperatureSensor
+~~~
+{% endraw %}
+
+### Surroundings.vdmpp
+
+{% raw %}
+~~~
+class Surroundings
+
+instance variables
+
+private envTemp	 : nat;
+private envHumid : nat;
+
+operations
+
+public Surroundings: () ==> Surroundings
+Surroundings() ==
+ (envTemp := 20;
+  envHumid := 75;
+ );
+
+public SetTemp: nat ==> ()
+SetTemp(t) ==
+  envTemp := t;
+
+public SetHumid: nat ==> ()
+SetHumid(h) ==
+  envHumid := h;
+
+pure public ReadTemp: () ==> nat
+ReadTemp() ==
+  return envTemp;
+
+public IncTemp: () ==> ()
+IncTemp() ==
+  envTemp := envTemp + 1;
+
+public DecTemp: () ==> ()
+DecTemp() ==
+  envTemp := envTemp - 1;
+
+pure public ReadHumid: () ==> nat
+ReadHumid() ==
+  return envHumid;
+
+public IncHumid: () ==> ()
+IncHumid() ==
+  envHumid := envHumid + 1;
+
+public DecHumid: () ==> ()
+DecHumid() ==
+  envHumid := envHumid - 1;
+
+sync
+
+  mutex(IncTemp);
+  mutex(DecTemp);
+  mutex(SetTemp);
+  mutex(IncTemp, DecTemp, SetTemp);
+  mutex(IncHumid);
+  mutex(DecHumid); 
+  mutex(SetHumid);
+  mutex(IncHumid, DecHumid, SetHumid);
+
+end Surroundings
+~~~
+{% endraw %}
+
+### TimeStamp.vdmpp
+
+{% raw %}
+~~~
+              
+class TimeStamp
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+values
+
+public stepLength : nat = 1;
+
+instance variables
+
+currentTime  : nat   := 0;
+wakeUpMap    : map nat to [nat] := {|->};
+barrierCount : nat := 0;
+registeredThreads : set of BaseThread := {};
+isInitialising : bool := true;
+
+operations
+
+public TimeStamp : nat ==> TimeStamp
+TimeStamp(count) ==
+	barrierCount := count;
+
+public RegisterThread : BaseThread ==> ()
+RegisterThread(t) ==
+ (barrierCount := barrierCount + 1;
+  registeredThreads := registeredThreads union {t};  
+ );
+ 
+public UnRegisterThread : () ==> ()
+UnRegisterThread() ==
+ (barrierCount := barrierCount - 1;
+  --registeredThreads := registeredThreads \ {t};
+ );
+ 
+public IsInitialising: () ==> bool
+IsInitialising() ==
+  return isInitialising;
+ 
+public DoneInitialising: () ==> ()
+DoneInitialising() ==
+ (if isInitialising
+  then (isInitialising := false;
+        for all t in set registeredThreads 
+        do
+          start(t);
+       );
+ );
+
+public WaitRelative : nat ==> ()
+WaitRelative(val) ==
+ (WaitAbsolute(currentTime + val);  
+ );
+ 
+public WaitAbsolute : nat ==> ()
+WaitAbsolute(val) == (
+  AddToWakeUpMap(threadid, val);
+  -- Last to enter the barrier notifies the rest.
+  BarrierReached();
+  -- Wait till time is up
+  Awake();
+);
+
+BarrierReached : () ==> ()
+BarrierReached() == 
+(
+	while (card dom wakeUpMap = barrierCount) do
+  	(
+  		currentTime := currentTime + stepLength;
+  		let threadSet : set of nat = {th | th in set dom wakeUpMap 
+  										 & wakeUpMap(th) <> nil and wakeUpMap(th) <= currentTime }
+		in
+			for all t in set threadSet 
+			do
+				wakeUpMap := {t} <-: wakeUpMap;
+	);
+)
+post forall x in set rng wakeUpMap & x = nil or x >= currentTime;
+
+AddToWakeUpMap : nat * [nat] ==> ()
+AddToWakeUpMap(tId, val) ==
+   wakeUpMap := wakeUpMap ++ { tId |-> val };
+
+public NotifyThread : nat ==> ()
+NotifyThread(tId) ==
+ wakeUpMap := {tId} <-: wakeUpMap;
+
+public GetTime : () ==> nat
+GetTime() ==
+  return currentTime;
+
+Awake: () ==> ()
+Awake() == skip;
+
+public ThreadDone : () ==> ()
+ThreadDone() == 
+	AddToWakeUpMap(threadid, nil);
+
+sync
+  per Awake => threadid not in set dom wakeUpMap;
+
+mutex(IsInitialising);
+mutex(DoneInitialising);
+  -- Is this really needed?
+  mutex(AddToWakeUpMap);
+  mutex(NotifyThread);
+  mutex(BarrierReached);
+  
+  mutex(AddToWakeUpMap, NotifyThread);
+  mutex(AddToWakeUpMap, BarrierReached);
+  mutex(NotifyThread, BarrierReached);
+  
+  mutex(AddToWakeUpMap, NotifyThread, BarrierReached);
+
+end TimeStamp
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+class World
+
+instance variables
+
+private env				: Environment;
+public static timerRef	: TimeStamp := new TimeStamp(); --(6);
+private ha : HA;
+
+operations
+
+public World: () ==> World
+World() ==
+ (ha := new HA();  
+  env := new Environment("scenario.txt", 1, true);
+  
+  ha.Host.AddNode(ha.TempNode.GetID(), ha.TempNode.GetType());
+  ha.Host.AddNode(ha.HumidNode.GetID(), ha.HumidNode.GetType());
+  ha.Host.AddNode(ha.ThermNode.GetID(), ha.ThermNode.GetType());
+  ha.Host.AddNode(ha.WinNode.GetID(), ha.WinNode.GetType());
+
+  -- End the initialisation phase of system threads
+  World`timerRef.DoneInitialising();  
+ );
+
+public Run: () ==> ()
+Run() ==
+ (-- wait til environment has finished creating input
+  env.IsFinished();
+  -- print simulation finishing message
+  IO`print("Test run finished at time: ");
+  IO`print(timerRef.GetTime());
+ );
+
+end World
+~~~
+{% endraw %}
+
+### NetworkTypes.vdmpp
+
+{% raw %}
+~~~
+class NetworkTypes
+
+types   
+
+public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
+public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
+
+end NetworkTypes
+~~~
+{% endraw %}
+
+### Window.vdmpp
+
+{% raw %}
+~~~
+class Window is subclass of Actuator, BaseThread
+
+instance variables
+
+finished	: bool := false;
+
+operations
+
+public Window: nat * NetworkTypes`nodeType * Surroundings * nat1 * bool ==> Window
+Window (id, type, envir, p, isP) ==
+ (ID := id;
+  Type := type;
+  Corr := <CLOSE>;
+  Env := envir;
+  period := p;
+  isPeriodic := isP;
+ );
+
+public SetCorrection: NetworkTypes`correction ==> ()
+SetCorrection(cor) ==
+  Corr := cor
+pre (cor = <OPEN>) or (cor = <CLOSE>);
+
+public Finish: () ==> ()
+Finish() ==
+  finished := true;
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+protected Step: () ==> ()
+Step() ==
+ (if (GetCorr() = <OPEN>)
+  then (HA`Sur.DecHumid();
+        HA`Sur.DecTemp();
+       );
+ );
+
+sync
+	
+  per IsFinished => finished;
+
+--thread
+-- (--World`timerRef.RegisterThread();
+ 
+--  while true 
+--  do
+--   (if (GetCorr() = <OPEN>)
+--    then (HA`Env.DecHumid();
+--          HA`Env.DecTemp();
+--         );
+--    World`timerRef.WaitRelative(5);--World`timerRef.stepLength);
+--   )
+-- )
+
+end Window
+~~~
+{% endraw %}
+
+### HomeAutomation.vdmpp
+
+{% raw %}
+~~~
+
+class HA
+
+instance variables
+
+public static Sur		: Surroundings := new Surroundings();
+public static TempNode	: TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0, Sur, 3, true);
+public static HumidNode	: HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0, Sur, 3, true);
+public static ThermNode	: Thermostat := new Thermostat(3, <THERMOSTAT>, Sur, 5, true);
+public static WinNode	: Window := new Window(4, <WINDOW>, Sur, 5, true);
+public static Host		: HostController := new HostController(22, 75, 3, true);
+
+end HA
+~~~
+{% endraw %}
+
+### BaseThread.vdmpp
+
+{% raw %}
+~~~
+class BaseThread
+	
+instance variables
+
+protected period : nat1 := 1;
+protected isPeriodic : bool := true;
+
+operations
+
+protected BaseThread : () ==> BaseThread
+BaseThread() ==
+ (World`timerRef.RegisterThread(self);
+  if(not World`timerRef.IsInitialising())
+  then start(self);  
+ );
+
+protected Step : () ==> ()
+Step() ==
+  is subclass responsibility
+
+thread
+ (if isPeriodic
+  then (while true
+        do 
+         (Step();
+          World`timerRef.WaitRelative(period);
+         )
+       )
+  else (Step();
+        World`timerRef.WaitRelative(0);
+        World`timerRef.UnRegisterThread();
+       )
+ );
+
+end BaseThread
+~~~
+{% endraw %}
+
 ### Environment.vdmpp
 
 {% raw %}
@@ -140,165 +562,6 @@ end Sensor
 ~~~
 {% endraw %}
 
-### World.vdmpp
-
-{% raw %}
-~~~
-class World
-
-instance variables
-
-private env				: Environment;
-public static timerRef	: TimeStamp := new TimeStamp(); --(6);
-private ha : HA;
-
-operations
-
-public World: () ==> World
-World() ==
- (ha := new HA();  
-  env := new Environment("scenario.txt", 1, true);
-  
-  ha.Host.AddNode(ha.TempNode.GetID(), ha.TempNode.GetType());
-  ha.Host.AddNode(ha.HumidNode.GetID(), ha.HumidNode.GetType());
-  ha.Host.AddNode(ha.ThermNode.GetID(), ha.ThermNode.GetType());
-  ha.Host.AddNode(ha.WinNode.GetID(), ha.WinNode.GetType());
-
-  -- End the initialisation phase of system threads
-  World`timerRef.DoneInitialising();  
- );
-
-public Run: () ==> ()
-Run() ==
- (-- wait til environment has finished creating input
-  env.IsFinished();
-  -- print simulation finishing message
-  IO`print("Test run finished at time: ");
-  IO`print(timerRef.GetTime());
- );
-
-end World
-~~~
-{% endraw %}
-
-### TemperatureSensor.vdmpp
-
-{% raw %}
-~~~
-class TemperatureSensor is subclass of Sensor, BaseThread
-
-instance variables
-
-finished	: bool := false;
-
-operations
-
-public TemperatureSensor: nat * NetworkTypes`nodeType * nat * Surroundings * nat1 * bool ==> TemperatureSensor
-TemperatureSensor (id, type, val, envir, p, isP) ==
- (ID := id;
-  Type := type;
-  Value := val;
-  Env := envir;
-  period := p;
-  isPeriodic := isP;
- );
-
-public Finish: () ==> ()
-Finish() ==
-  finished := true;
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-protected Step: () ==> ()
-Step() ==
-  Value := Env.ReadTemp();
-
-sync
-	
-  per IsFinished => finished;
-
---thread
--- (--World`timerRef.RegisterThread();
- 
---  while true 
---  do
---   (Value := Env.ReadTemp();
---    World`timerRef.WaitRelative(3);--World`timerRef.stepLength);
---   )
--- )
-
-end TemperatureSensor
-~~~
-{% endraw %}
-
-### Surroundings.vdmpp
-
-{% raw %}
-~~~
-class Surroundings
-
-instance variables
-
-private envTemp	 : nat;
-private envHumid : nat;
-
-operations
-
-public Surroundings: () ==> Surroundings
-Surroundings() ==
- (envTemp := 20;
-  envHumid := 75;
- );
-
-public SetTemp: nat ==> ()
-SetTemp(t) ==
-  envTemp := t;
-
-public SetHumid: nat ==> ()
-SetHumid(h) ==
-  envHumid := h;
-
-pure public ReadTemp: () ==> nat
-ReadTemp() ==
-  return envTemp;
-
-public IncTemp: () ==> ()
-IncTemp() ==
-  envTemp := envTemp + 1;
-
-public DecTemp: () ==> ()
-DecTemp() ==
-  envTemp := envTemp - 1;
-
-pure public ReadHumid: () ==> nat
-ReadHumid() ==
-  return envHumid;
-
-public IncHumid: () ==> ()
-IncHumid() ==
-  envHumid := envHumid + 1;
-
-public DecHumid: () ==> ()
-DecHumid() ==
-  envHumid := envHumid - 1;
-
-sync
-
-  mutex(IncTemp);
-  mutex(DecTemp);
-  mutex(SetTemp);
-  mutex(IncTemp, DecTemp, SetTemp);
-  mutex(IncHumid);
-  mutex(DecHumid); 
-  mutex(SetHumid);
-  mutex(IncHumid, DecHumid, SetHumid);
-
-end Surroundings
-~~~
-{% endraw %}
-
 ### HumidSensor.vdmpp
 
 {% raw %}
@@ -348,94 +611,6 @@ sync
 -- )
 
 end HumidSensor
-~~~
-{% endraw %}
-
-### NetworkTypes.vdmpp
-
-{% raw %}
-~~~
-class NetworkTypes
-
-types   
-
-public nodeType   = <TEMPSENSOR> | <HUMIDSENSOR> | <WINDOW> | <THERMOSTAT> | <HOSTCONTROL> | <NONE>;
-public correction = <INC> | <DEC> | <OPEN> | <CLOSE> | <NONE>;
-
-end NetworkTypes
-~~~
-{% endraw %}
-
-### Actuator.vdmpp
-
-{% raw %}
-~~~
-class Actuator
-
-instance variables
-
-protected ID   : nat;
-protected Type : NetworkTypes`nodeType;
-protected Corr : NetworkTypes`correction;
-protected Env	: Surroundings;
-
-operations
-
-pure public GetID: () ==> nat
-GetID() ==
-  return ID;
-
-pure public GetType: () ==> NetworkTypes`nodeType
-GetType() ==
-  return Type;
-
-pure protected GetCorr: () ==> NetworkTypes`correction
-GetCorr() ==
-  return Corr;
-
-end Actuator
-~~~
-{% endraw %}
-
-### BaseThread.vdmpp
-
-{% raw %}
-~~~
-class BaseThread
-	
-instance variables
-
-protected period : nat1 := 1;
-protected isPeriodic : bool := true;
-
-operations
-
-protected BaseThread : () ==> BaseThread
-BaseThread() ==
- (World`timerRef.RegisterThread(self);
-  if(not World`timerRef.IsInitialising())
-  then start(self);  
- );
-
-protected Step : () ==> ()
-Step() ==
-  is subclass responsibility
-
-thread
- (if isPeriodic
-  then (while true
-        do 
-         (Step();
-          World`timerRef.WaitRelative(period);
-         )
-       )
-  else (Step();
-        World`timerRef.WaitRelative(0);
-        World`timerRef.UnRegisterThread();
-       )
- );
-
-end BaseThread
 ~~~
 {% endraw %}
 
@@ -673,6 +848,37 @@ end HostController
 ~~~
 {% endraw %}
 
+### Actuator.vdmpp
+
+{% raw %}
+~~~
+class Actuator
+
+instance variables
+
+protected ID   : nat;
+protected Type : NetworkTypes`nodeType;
+protected Corr : NetworkTypes`correction;
+protected Env	: Surroundings;
+
+operations
+
+pure public GetID: () ==> nat
+GetID() ==
+  return ID;
+
+pure public GetType: () ==> NetworkTypes`nodeType
+GetType() ==
+  return Type;
+
+pure protected GetCorr: () ==> NetworkTypes`correction
+GetCorr() ==
+  return Corr;
+
+end Actuator
+~~~
+{% endraw %}
+
 ### Thermostat.vdmpp
 
 {% raw %}
@@ -741,212 +947,6 @@ sync
 -- )
 
 end Thermostat
-~~~
-{% endraw %}
-
-### TimeStamp.vdmpp
-
-{% raw %}
-~~~
-              
-class TimeStamp
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-
-values
-
-public stepLength : nat = 1;
-
-instance variables
-
-currentTime  : nat   := 0;
-wakeUpMap    : map nat to [nat] := {|->};
-barrierCount : nat := 0;
-registeredThreads : set of BaseThread := {};
-isInitialising : bool := true;
-
-operations
-
-public TimeStamp : nat ==> TimeStamp
-TimeStamp(count) ==
-	barrierCount := count;
-
-public RegisterThread : BaseThread ==> ()
-RegisterThread(t) ==
- (barrierCount := barrierCount + 1;
-  registeredThreads := registeredThreads union {t};  
- );
- 
-public UnRegisterThread : () ==> ()
-UnRegisterThread() ==
- (barrierCount := barrierCount - 1;
-  --registeredThreads := registeredThreads \ {t};
- );
- 
-public IsInitialising: () ==> bool
-IsInitialising() ==
-  return isInitialising;
- 
-public DoneInitialising: () ==> ()
-DoneInitialising() ==
- (if isInitialising
-  then (isInitialising := false;
-        for all t in set registeredThreads 
-        do
-          start(t);
-       );
- );
-
-public WaitRelative : nat ==> ()
-WaitRelative(val) ==
- (WaitAbsolute(currentTime + val);  
- );
- 
-public WaitAbsolute : nat ==> ()
-WaitAbsolute(val) == (
-  AddToWakeUpMap(threadid, val);
-  -- Last to enter the barrier notifies the rest.
-  BarrierReached();
-  -- Wait till time is up
-  Awake();
-);
-
-BarrierReached : () ==> ()
-BarrierReached() == 
-(
-	while (card dom wakeUpMap = barrierCount) do
-  	(
-  		currentTime := currentTime + stepLength;
-  		let threadSet : set of nat = {th | th in set dom wakeUpMap 
-  										 & wakeUpMap(th) <> nil and wakeUpMap(th) <= currentTime }
-		in
-			for all t in set threadSet 
-			do
-				wakeUpMap := {t} <-: wakeUpMap;
-	);
-)
-post forall x in set rng wakeUpMap & x = nil or x >= currentTime;
-
-AddToWakeUpMap : nat * [nat] ==> ()
-AddToWakeUpMap(tId, val) ==
-   wakeUpMap := wakeUpMap ++ { tId |-> val };
-
-public NotifyThread : nat ==> ()
-NotifyThread(tId) ==
- wakeUpMap := {tId} <-: wakeUpMap;
-
-public GetTime : () ==> nat
-GetTime() ==
-  return currentTime;
-
-Awake: () ==> ()
-Awake() == skip;
-
-public ThreadDone : () ==> ()
-ThreadDone() == 
-	AddToWakeUpMap(threadid, nil);
-
-sync
-  per Awake => threadid not in set dom wakeUpMap;
-
-mutex(IsInitialising);
-mutex(DoneInitialising);
-  -- Is this really needed?
-  mutex(AddToWakeUpMap);
-  mutex(NotifyThread);
-  mutex(BarrierReached);
-  
-  mutex(AddToWakeUpMap, NotifyThread);
-  mutex(AddToWakeUpMap, BarrierReached);
-  mutex(NotifyThread, BarrierReached);
-  
-  mutex(AddToWakeUpMap, NotifyThread, BarrierReached);
-
-end TimeStamp
-~~~
-{% endraw %}
-
-### Window.vdmpp
-
-{% raw %}
-~~~
-class Window is subclass of Actuator, BaseThread
-
-instance variables
-
-finished	: bool := false;
-
-operations
-
-public Window: nat * NetworkTypes`nodeType * Surroundings * nat1 * bool ==> Window
-Window (id, type, envir, p, isP) ==
- (ID := id;
-  Type := type;
-  Corr := <CLOSE>;
-  Env := envir;
-  period := p;
-  isPeriodic := isP;
- );
-
-public SetCorrection: NetworkTypes`correction ==> ()
-SetCorrection(cor) ==
-  Corr := cor
-pre (cor = <OPEN>) or (cor = <CLOSE>);
-
-public Finish: () ==> ()
-Finish() ==
-  finished := true;
-
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-protected Step: () ==> ()
-Step() ==
- (if (GetCorr() = <OPEN>)
-  then (HA`Sur.DecHumid();
-        HA`Sur.DecTemp();
-       );
- );
-
-sync
-	
-  per IsFinished => finished;
-
---thread
--- (--World`timerRef.RegisterThread();
- 
---  while true 
---  do
---   (if (GetCorr() = <OPEN>)
---    then (HA`Env.DecHumid();
---          HA`Env.DecTemp();
---         );
---    World`timerRef.WaitRelative(5);--World`timerRef.stepLength);
---   )
--- )
-
-end Window
-~~~
-{% endraw %}
-
-### HomeAutomation.vdmpp
-
-{% raw %}
-~~~
-
-class HA
-
-instance variables
-
-public static Sur		: Surroundings := new Surroundings();
-public static TempNode	: TemperatureSensor := new TemperatureSensor(1, <TEMPSENSOR>, 0, Sur, 3, true);
-public static HumidNode	: HumidSensor := new HumidSensor(2, <HUMIDSENSOR>, 0, Sur, 3, true);
-public static ThermNode	: Thermostat := new Thermostat(3, <THERMOSTAT>, Sur, 5, true);
-public static WinNode	: Window := new Window(4, <WINDOW>, Sur, 5, true);
-public static Host		: HostController := new HostController(22, 75, 3, true);
-
-end HA
 ~~~
 {% endraw %}
 

@@ -15,115 +15,6 @@ Author:
 |Entry point     :| new TestClass().Run()|
 
 
-### TestClass.vdmpp
-
-{% raw %}
-~~~
-
-class TestClass
-
-instance variables
-
-B : Buffer;
-
-operations
-
-public Run: () ==> ()
-Run() ==
-(
-    B := new Buffer();
-
-    def - = new IO().echo("Going to fire writer" ^ "\n") in skip;
-    start(new Writer(B));
-    
-    def - = new IO().echo("Going to fire reader"^ "\n") in skip;
-    start(new Reader(B));
-
-   def - = new IO().echo("TestClass is now going to wait"^"\n") in skip;
-   B.IsFinished();
-
-)
-
-end TestClass
-
-
-
-~~~
-{% endraw %}
-
-### Reader.vdmpp
-
-{% raw %}
-~~~
-
-class Reader
-
-instance variables
-
-b : Buffer
-
-operations
-
-public Reader: Buffer ==> Reader
-Reader(buf) ==
-	b := buf;
-
---public Read: nat ==> ()
---Read(d) == skip;
-
-thread
-  while true do
-  ( let x = b.Read() in
-     (skip;
-    --Read(x);
-    )
-  )
-end Reader
-
-
-~~~
-{% endraw %}
-
-### Writer.vdmpp
-
-{% raw %}
-~~~
-class Writer
-
-instance variables
-
-b : Buffer;
-
-index : nat := 0;
-
-operations
-
-public Writer: Buffer ==> Writer
-Writer(buf) == 
-	b := buf;
-
-public Write: () ==> nat
-Write() == 
- ( 
-   index := index + 1;
-   return index;
- )
-
-thread
- ( while true do
-  ( let x = Write() in
-     ( b.Write(x);
-       
-     )
-  )
- )
-
-end Writer
-
-
-~~~
-{% endraw %}
-
 ### Buffer.vdmpp
 
 {% raw %}
@@ -255,6 +146,115 @@ printf(format, args) ==
 	is not yet specified;
 
 end IO
+~~~
+{% endraw %}
+
+### TestClass.vdmpp
+
+{% raw %}
+~~~
+
+class TestClass
+
+instance variables
+
+B : Buffer;
+
+operations
+
+public Run: () ==> ()
+Run() ==
+(
+    B := new Buffer();
+
+    def - = new IO().echo("Going to fire writer" ^ "\n") in skip;
+    start(new Writer(B));
+    
+    def - = new IO().echo("Going to fire reader"^ "\n") in skip;
+    start(new Reader(B));
+
+   def - = new IO().echo("TestClass is now going to wait"^"\n") in skip;
+   B.IsFinished();
+
+)
+
+end TestClass
+
+
+
+~~~
+{% endraw %}
+
+### Writer.vdmpp
+
+{% raw %}
+~~~
+class Writer
+
+instance variables
+
+b : Buffer;
+
+index : nat := 0;
+
+operations
+
+public Writer: Buffer ==> Writer
+Writer(buf) == 
+	b := buf;
+
+public Write: () ==> nat
+Write() == 
+ ( 
+   index := index + 1;
+   return index;
+ )
+
+thread
+ ( while true do
+  ( let x = Write() in
+     ( b.Write(x);
+       
+     )
+  )
+ )
+
+end Writer
+
+
+~~~
+{% endraw %}
+
+### Reader.vdmpp
+
+{% raw %}
+~~~
+
+class Reader
+
+instance variables
+
+b : Buffer
+
+operations
+
+public Reader: Buffer ==> Reader
+Reader(buf) ==
+	b := buf;
+
+--public Read: nat ==> ()
+--Read(d) == skip;
+
+thread
+  while true do
+  ( let x = b.Read() in
+     (skip;
+    --Read(x);
+    )
+  )
+end Reader
+
+
 ~~~
 {% endraw %}
 

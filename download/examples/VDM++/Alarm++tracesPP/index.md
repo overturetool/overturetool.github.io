@@ -24,6 +24,125 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 |Entry point     :| new Test1().Run()|
 
 
+### test1.vdmpp
+
+{% raw %}
+~~~
+              
+class Test1
+
+instance variables
+
+a1   : Alarm  := new Alarm(<Mech>,"Mechanical fault");
+a2   : Alarm  := new Alarm(<Chem>,"Tank overflow");
+ex1  : Expert := new Expert({<Mech>,<Bio>});
+ex2  : Expert := new Expert({<Elec>});
+ex3  : Expert := new Expert({<Chem>,<Bio>,<Mech>});
+ex4  : Expert := new Expert({<Elec>,<Chem>});
+plant: Plant  := new Plant({a1},{p1 |-> {ex1,ex4},
+                                 p2 |-> {ex2,ex3}});
+exs : set of Expert := {ex1,ex2,ex3,ex4};
+
+values
+
+p1: Plant`Period = mk_token("Monday day");
+p2: Plant`Period = mk_token("Monday night");
+p3: Plant`Period = mk_token("Tuesday day");
+p4: Plant`Period = mk_token("Tuesday night");
+ps : set of Plant`Period = {p1,p2,p3,p4};
+
+operations
+
+pure public Run: () ==> set of Plant`Period * Expert
+Run() == 
+  let periods = plant.ExpertIsOnDuty(ex1),
+      expert  = plant.ExpertToPage(a1,p1)
+  in 
+    return mk_(periods,expert);
+
+traces
+
+  AddingAndDeleting: let myex in set exs
+                     in
+                       let myex2 in set exs \ {myex}
+                       in
+                         let p in set ps 
+                         in
+                          (plant.AddExpertToSchedule(p,myex);
+                           plant.AddExpertToSchedule(p,myex2);
+                           plant.RemoveExpertFromSchedule(p,myex);
+                           plant.RemoveExpertFromSchedule(p,myex2))
+                           
+                       
+end Test1
+             
+~~~
+{% endraw %}
+
+### alarm.vdmpp
+
+{% raw %}
+~~~
+              
+class Alarm
+types
+                            
+types
+  
+public String = seq of char;
+
+instance variables 
+
+descr    : String;
+reqQuali : Expert`Qualification;
+                            
+operations
+
+public Alarm: Expert`Qualification * String ==> Alarm
+Alarm(quali,str) ==
+( descr := str;
+  reqQuali := quali
+);
+                               
+pure public GetReqQuali: () ==> Expert`Qualification
+GetReqQuali() ==
+  return reqQuali;
+  
+end Alarm
+             
+~~~
+{% endraw %}
+
+### expert.vdmpp
+
+{% raw %}
+~~~
+              
+class Expert
+
+instance variables
+
+quali : set1 of Qualification;
+                            
+types
+ 
+public Qualification = <Mech> | <Chem> | <Bio> | <Elec>;
+                            
+operations
+
+public Expert: set1 of Qualification ==> Expert
+Expert(qs) ==
+  quali := qs;
+                              
+pure public GetQuali: () ==> set of Qualification
+GetQuali() ==
+  return quali;
+  
+end Expert
+             
+~~~
+{% endraw %}
+
 ### plant.vdmpp
 
 {% raw %}
@@ -102,125 +221,6 @@ RemoveExpertFromSchedule(p,ex) ==
 pre p in set dom schedule;
                 
 end Plant
-             
-~~~
-{% endraw %}
-
-### alarm.vdmpp
-
-{% raw %}
-~~~
-              
-class Alarm
-types
-                            
-types
-  
-public String = seq of char;
-
-instance variables 
-
-descr    : String;
-reqQuali : Expert`Qualification;
-                            
-operations
-
-public Alarm: Expert`Qualification * String ==> Alarm
-Alarm(quali,str) ==
-( descr := str;
-  reqQuali := quali
-);
-                               
-pure public GetReqQuali: () ==> Expert`Qualification
-GetReqQuali() ==
-  return reqQuali;
-  
-end Alarm
-             
-~~~
-{% endraw %}
-
-### expert.vdmpp
-
-{% raw %}
-~~~
-              
-class Expert
-
-instance variables
-
-quali : set1 of Qualification;
-                            
-types
- 
-public Qualification = <Mech> | <Chem> | <Bio> | <Elec>;
-                            
-operations
-
-public Expert: set1 of Qualification ==> Expert
-Expert(qs) ==
-  quali := qs;
-                              
-pure public GetQuali: () ==> set of Qualification
-GetQuali() ==
-  return quali;
-  
-end Expert
-             
-~~~
-{% endraw %}
-
-### test1.vdmpp
-
-{% raw %}
-~~~
-              
-class Test1
-
-instance variables
-
-a1   : Alarm  := new Alarm(<Mech>,"Mechanical fault");
-a2   : Alarm  := new Alarm(<Chem>,"Tank overflow");
-ex1  : Expert := new Expert({<Mech>,<Bio>});
-ex2  : Expert := new Expert({<Elec>});
-ex3  : Expert := new Expert({<Chem>,<Bio>,<Mech>});
-ex4  : Expert := new Expert({<Elec>,<Chem>});
-plant: Plant  := new Plant({a1},{p1 |-> {ex1,ex4},
-                                 p2 |-> {ex2,ex3}});
-exs : set of Expert := {ex1,ex2,ex3,ex4};
-
-values
-
-p1: Plant`Period = mk_token("Monday day");
-p2: Plant`Period = mk_token("Monday night");
-p3: Plant`Period = mk_token("Tuesday day");
-p4: Plant`Period = mk_token("Tuesday night");
-ps : set of Plant`Period = {p1,p2,p3,p4};
-
-operations
-
-pure public Run: () ==> set of Plant`Period * Expert
-Run() == 
-  let periods = plant.ExpertIsOnDuty(ex1),
-      expert  = plant.ExpertToPage(a1,p1)
-  in 
-    return mk_(periods,expert);
-
-traces
-
-  AddingAndDeleting: let myex in set exs
-                     in
-                       let myex2 in set exs \ {myex}
-                       in
-                         let p in set ps 
-                         in
-                          (plant.AddExpertToSchedule(p,myex);
-                           plant.AddExpertToSchedule(p,myex2);
-                           plant.RemoveExpertFromSchedule(p,myex);
-                           plant.RemoveExpertFromSchedule(p,myex2))
-                           
-                       
-end Test1
              
 ~~~
 {% endraw %}

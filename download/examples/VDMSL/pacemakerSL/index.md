@@ -81,47 +81,6 @@ end RateController
 ~~~
 {% endraw %}
 
-### PacemakerAAT.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-module PacemakerAAT
-
-definitions 
-
-values 
-LRL     : nat = 60;
-ARP     : nat = 250;
-                                                                                               
-types 
-SenseTimeline = seq of Sense ;
-
-Sense = <NONE> | <PULSE>;
-
-Time = nat1;
-                                                                                                                                                                               
-ReactionTimeline = seq of Reaction;
-
-Reaction = <NONE> | <PULSE>;
-   
-functions
-                                                                                                                                                                                                                                                                                                                            
-Pacemaker (inp : SenseTimeline) r : ReactionTimeline
-post let m = {i | i in set inds r & r(i) = <PULSE>}
-     in len r = len inp 
-        and
-        forall x in set m & (
-           (exists y in set m & y > x) => 
-                 (exists z in set m &  z >= x and z - x <= 60000/LRL)
-           );
-
-
-end PacemakerAAT
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-~~~
-{% endraw %}
-
 ### PacemakerAOO.vdmsl
 
 {% raw %}
@@ -162,44 +121,44 @@ end PacemakerAOO
 ~~~
 {% endraw %}
 
-### PacemakerDOO.vdmsl
+### PacemakerAAT.vdmsl
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-module PacemakerDOO
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+module PacemakerAAT
 
 definitions 
 
+values 
+LRL     : nat = 60;
+ARP     : nat = 250;
+                                                                                               
 types 
+SenseTimeline = seq of Sense ;
 
-Time = nat;
+Sense = <NONE> | <PULSE>;
 
-SensedTimeline = set of (Chamber * Time);
+Time = nat1;
+                                                                                                                                                                               
+ReactionTimeline = seq of Reaction;
 
-Chamber = <ATRIA> | <VENTRICLE>;
-                                                                                                        
-ReactionTimeline = set of (Chamber * Time);
-
-                                                                                
-values
-   LRL     : nat = 60;
-   URL     : nat = 120;
-   FixedAV : nat = 150;
-                                                                                                                                                                                                                                                                                                
+Reaction = <NONE> | <PULSE>;
+   
 functions
+                                                                                                                                                                                                                                                                                                                            
+Pacemaker (inp : SenseTimeline) r : ReactionTimeline
+post let m = {i | i in set inds r & r(i) = <PULSE>}
+     in len r = len inp 
+        and
+        forall x in set m & (
+           (exists y in set m & y > x) => 
+                 (exists z in set m &  z >= x and z - x <= 60000/LRL)
+           );
 
-Pacemaker (mk_(inp,n) : SensedTimeline * nat1) r : ReactionTimeline
-post let nPulsesAtria = card {i | i in set r & i.#1 = <ATRIA>}, 
-         nPulsesVentricle = card {i | i in set r & i.#1 = <VENTRICLE>}
-     in  nPulsesAtria / n >= (LRL / 60) / 1000
-         and
-         nPulsesVentricle / n <= (URL / 60) / 1000
-         and
-         forall mk_(<ATRIA>,ta) in set r & (exists mk_(<VENTRICLE>,tv) in set r & tv = ta + FixedAV) ;
-	                             
-end PacemakerDOO
-                                                                                                                                                                      
+
+end PacemakerAAT
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 ~~~
 {% endraw %}
 
@@ -386,6 +345,47 @@ sensedData : seq of (Sense * [AccelerometerData] * Time) =
 
 end PacemakerAOOR
              
+~~~
+{% endraw %}
+
+### PacemakerDOO.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+module PacemakerDOO
+
+definitions 
+
+types 
+
+Time = nat;
+
+SensedTimeline = set of (Chamber * Time);
+
+Chamber = <ATRIA> | <VENTRICLE>;
+                                                                                                        
+ReactionTimeline = set of (Chamber * Time);
+
+                                                                                
+values
+   LRL     : nat = 60;
+   URL     : nat = 120;
+   FixedAV : nat = 150;
+                                                                                                                                                                                                                                                                                                
+functions
+
+Pacemaker (mk_(inp,n) : SensedTimeline * nat1) r : ReactionTimeline
+post let nPulsesAtria = card {i | i in set r & i.#1 = <ATRIA>}, 
+         nPulsesVentricle = card {i | i in set r & i.#1 = <VENTRICLE>}
+     in  nPulsesAtria / n >= (LRL / 60) / 1000
+         and
+         nPulsesVentricle / n <= (URL / 60) / 1000
+         and
+         forall mk_(<ATRIA>,ta) in set r & (exists mk_(<VENTRICLE>,tv) in set r & tv = ta + FixedAV) ;
+	                             
+end PacemakerDOO
+                                                                                                                                                                      
 ~~~
 {% endraw %}
 

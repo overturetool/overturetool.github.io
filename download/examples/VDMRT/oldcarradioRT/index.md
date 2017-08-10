@@ -21,387 +21,6 @@ multiple CPUs connected with BUSses.
 |Entry point     :| new RadNavSys(2).Run()|
 
 
-### NetworkEvent.vdmrt
-
-{% raw %}
-~~~
-              
-class NetworkEvent is subclass of Event
-
-operations
-  public NetworkEvent: nat ==> NetworkEvent
-  NetworkEvent (pne) == Event(pne)
-
-end NetworkEvent
-             
-~~~
-{% endraw %}
-
-### TransmitTMC.vdmrt
-
-{% raw %}
-~~~
-              
-class TransmitTMC is subclass of EnvironmentTask
-
-operations
-  public TransmitTMC: EventDispatcher * nat ==> TransmitTMC
-  TransmitTMC (ped, pno) == EnvironmentTask("TransmitTMC", ped, pno);
-
-  -- handleEvent receives the responses from the system
-  -- and checks whether the response time for the matching
-  -- stimulus was less than or equal to 10000 time units
-  protected handleEvent: Event ==> ()
-  handleEvent (pev) == duration (0) logSysToEnv(pev.getEvent())
-  post checkResponseTimes(e2s,s2e,10000);
-
-  -- createSignal generates the stimuli for the system
-  createSignal: () ==> ()
-  createSignal () ==
-    duration (0)
-      if (card dom e2s < max_stimuli) then
-        ( dcl num : nat := getNum();
-          logEnvToSys(num);
-          raiseInterrupt("HandleTMC", num) );
-
-  -- start the thread of the task
-  public Run: () ==> ()
-  Run () == start(self)
-
-thread
-  periodic (1000,0,0,0) (createSignal)
-
-end TransmitTMC
-             
-~~~
-{% endraw %}
-
-### MMIUpdateScreenVolume.vdmrt
-
-{% raw %}
-~~~
-              
-class MMIUpdateScreenVolume is subclass of BasicTask
-
-operations
-  public MMIUpdateScreenVolume: EventDispatcher ==> MMIUpdateScreenVolume
-  MMIUpdateScreenVolume (pde) == BasicTask("UpdateScreenVolume",pde);
-
-  -- we do not specify *what* the operation does
-  -- we only specify its execution time
-  public UpdateScreen: () ==> ()
-  UpdateScreen () == duration (500) skip;
-
-  protected handleEvent: Event ==> ()
-  handleEvent (pe) ==
-    ( UpdateScreen();
-	-- scenario finished. signal response back to the environment
-      raiseInterrupt("VolumeKnob", pe.getEvent()) )
-
-end MMIUpdateScreenVolume
-             
-~~~
-{% endraw %}
-
-### RadioAdjustVolume.vdmrt
-
-{% raw %}
-~~~
-              
-class RadioAdjustVolume is subclass of BasicTask
-
-operations
-  public RadioAdjustVolume: EventDispatcher ==> RadioAdjustVolume
-  RadioAdjustVolume (pde) == BasicTask("AdjustVolume",pde);
-
-  -- we do not specify *what* the operation does
-  -- we only specify its execution time
-  public AdjustVolume: () ==> ()
-  AdjustVolume () == duration (100) skip;
-
-  protected handleEvent: Event ==> ()
-  handleEvent (pe) ==
-    ( AdjustVolume();
-      -- send message to next task in this scenario
-      sendMessage("UpdateScreenVolume", pe.getEvent()) )
-
-end RadioAdjustVolume
-             
-~~~
-{% endraw %}
-
-### Event.vdmrt
-
-{% raw %}
-~~~
-              
-class Event
-
-instance variables
-  val : nat
-
-operations
-  public Event: nat ==> Event
-  Event (pv) == val := pv;
-
-  public getEvent: () ==> nat
-  getEvent () == return val
-
-end Event
-             
-~~~
-{% endraw %}
-
-### MMIUpdateScreenTMC.vdmrt
-
-{% raw %}
-~~~
-              
-class MMIUpdateScreenTMC is subclass of BasicTask
-
-operations
-  public MMIUpdateScreenTMC: EventDispatcher ==> MMIUpdateScreenTMC
-  MMIUpdateScreenTMC (pde) == BasicTask("UpdateScreenTMC",pde);
-
-  -- we do not specify *what* the operation does
-  -- we only specify its execution time
-  public UpdateScreen: () ==> ()
-  UpdateScreen () == duration (500) skip;
-
-  protected handleEvent: Event ==> ()
-  handleEvent (pe) ==
-    ( UpdateScreen();
-	-- scenario finished. signal response back to the environment
-      raiseInterrupt("TransmitTMC", pe.getEvent()) )
-
-end MMIUpdateScreenTMC
-             
-~~~
-{% endraw %}
-
-### NavigationDatabaseLookup.vdmrt
-
-{% raw %}
-~~~
-              
-class NavigationDatabaseLookup is subclass of BasicTask
-
-operations
-  public NavigationDatabaseLookup: EventDispatcher ==> NavigationDatabaseLookup
-  NavigationDatabaseLookup (pde) == BasicTask("DatabaseLookup",pde);
-
-  -- we do not specify *what* the operation does
-  -- we only specify its execution time
-  public DatabaseLookup: () ==> ()
-  DatabaseLookup() == duration (5000) skip;
-
-  protected handleEvent: Event ==> ()
-  handleEvent (pe) ==
-    ( DatabaseLookup();
-	-- send message to next task in this scenario
-      sendMessage("UpdateScreenAddress", pe.getEvent()) )
-
-end NavigationDatabaseLookup
-             
-~~~
-{% endraw %}
-
-### MMIHandleKeyPressOne.vdmrt
-
-{% raw %}
-~~~
-              
-class MMIHandleKeyPressOne is subclass of BasicTask
-
-operations
-  public MMIHandleKeyPressOne: EventDispatcher ==> MMIHandleKeyPressOne
-  MMIHandleKeyPressOne (pde) ==  BasicTask("HandleKeyPress",pde);
-
-  -- we do not specify *what* the operation does
-  -- we only specify its execution time
-  public HandleKeyPress: () ==> ()
-  HandleKeyPress () == duration (100) skip;
-
-  protected handleEvent: Event ==> ()
-  handleEvent (pe) ==
-    ( HandleKeyPress();
-      -- send message to next task in this scenario
-      sendMessage("AdjustVolume", pe.getEvent()) )
-
-end MMIHandleKeyPressOne
-             
-~~~
-{% endraw %}
-
-### NavigationDecodeTMC.vdmrt
-
-{% raw %}
-~~~
-              
-class NavigationDecodeTMC is subclass of BasicTask
-
-operations
-  public NavigationDecodeTMC: EventDispatcher ==> NavigationDecodeTMC
-  NavigationDecodeTMC (pde) == BasicTask("DecodeTMC",pde);
-
-  -- we do not specify *what* the operation does
-  -- we only specify its execution time
-  public DecodeTMC: () ==> ()
-  DecodeTMC () == duration (500) skip;
-
-  protected handleEvent: Event ==> ()
-  handleEvent (pe) ==
-    ( DecodeTMC();
-      -- send message to next task in this scenario
-      sendMessage("UpdateScreenTMC", pe.getEvent()) )
-
-end NavigationDecodeTMC
-             
-~~~
-{% endraw %}
-
-### VolumeKnob.vdmrt
-
-{% raw %}
-~~~
-              
-class VolumeKnob is subclass of EnvironmentTask
-
-operations
-  public VolumeKnob: EventDispatcher * nat ==> VolumeKnob
-  VolumeKnob (ped, pno) == EnvironmentTask("VolumeKnob", ped, pno);
-
-  -- handleEvent receives the responses from the system
-  -- and checks whether the response time for the matching
-  -- stimulus was less than or equal to 1500 time units
-  protected handleEvent: Event ==> ()
-  handleEvent (pev) == duration (0) logSysToEnv(pev.getEvent())
-  post checkResponseTimes(e2s,s2e,1500);
-
-  -- createSignal generates the stimuli for the system
-  createSignal: () ==> ()
-  createSignal () ==
-    duration (0)
-      if (card dom e2s < max_stimuli) then
-        ( dcl num : nat := getNum();
-          logEnvToSys(num);
-          raiseInterrupt("HandleKeyPress", num) );
-
-  -- start the thread of the task
-  public Run: () ==> ()
-  Run () == start(self)
-
-thread
-  periodic (1000,0,0,0) (createSignal)
-  
-end VolumeKnob
-             
-~~~
-{% endraw %}
-
-### AbstractTask.vdmrt
-
-{% raw %}
-~~~
-              
-class AbstractTask
-
-instance variables
-  -- keep the name of the task for easy logging
-  name : seq of char := [];
-
-  -- the queue for normal events to be handled by this task
-  events : seq of NetworkEvent := [];
-  -- the queue of high-priority events to be handled by this task
-  interrupts : seq of InterruptEvent := [];
-
-  -- a link to the dispatcher for out-going messages (events)
-  dispatcher : EventDispatcher
-
-operations
-  public AbstractTask: seq of char * EventDispatcher ==> AbstractTask
-  AbstractTask (pnm, ped) == atomic ( name := pnm; dispatcher := ped; );
-
-  pure public getName: () ==> seq of char
-  getName () == return name;
-
-  -- setEvent is a call-back used by the EventDispatcher to insert
-  -- events into the appropriate event queue of this AbstractTask instance
-  public setEvent: Event ==> ()
-  setEvent (pe) == 
-    if isofclass(NetworkEvent,pe)
-    then events := events ^ [pe]
-    else interrupts := interrupts ^ [pe];
-
-  -- getEvent is called by the event loop of this AbstractTask instance to 
-  -- process incoming events when they are available. note that getEvent 
-  -- is blocked by a permission predicate (see sync) when no events are 
-  -- available and also note that getEvent gives interrupts priority over 
-  -- other events
-  protected getEvent: () ==> Event
-  getEvent () ==
-    if len interrupts > 0
-    then ( dcl res: Event := hd interrupts;
-           interrupts := tl interrupts;
-           return res )
-    else ( dcl res: Event := hd events;
-           events := tl events;
-           return res );
-
-  -- handleEvent shall be overloaded by the derived classes to implement
-  -- the actual event loop handling. a typical event loop handler would be
-  -- thread while (true) do handleEvent(getEvent())
-  --protected handleEvent: Event ==> ()
-  --handleEvent (-) == is subclass responsibility;
-
-  -- sendMessage is used to send a message to another task
-  -- typically used for inter process communication
-  protected sendMessage: seq of char * nat ==> ()
-  sendMessage (pnm, pid) == dispatcher.SendNetwork(name, pnm, pid);
-
-  -- raiseInterrupt is used to send a high-priority message
-  -- typically used to communicate from environment to the system or vice versa
-  protected raiseInterrupt: seq of char * nat ==> ()
-  raiseInterrupt (pnm, pid) == dispatcher.SendInterrupt(name, pnm, pid)
-
-sync
-  -- setEvent and getEvent are mutually exclusive
-  mutex (setEvent, getEvent);
-  -- getEvent is blocked until at least one message is available
-  per getEvent => len events > 0 or len interrupts > 0
-
-end AbstractTask
-             
-~~~
-{% endraw %}
-
-### MMIUpdateScreenAddress.vdmrt
-
-{% raw %}
-~~~
-              
-class MMIUpdateScreenAddress is subclass of BasicTask
-
-operations
-  public MMIUpdateScreenAddress: EventDispatcher ==> MMIUpdateScreenAddress
-  MMIUpdateScreenAddress (pde) == BasicTask("UpdateScreenAddress",pde);
-
-  public UpdateScreen: () ==> ()
-  UpdateScreen () == duration (500) skip;
-
-  -- we do not specify *what* the operation does
-  -- we only specify its execution time
-  protected handleEvent: Event ==> ()
-  handleEvent (pe) ==
-    ( UpdateScreen();
-	-- scenario finished. signal response back to the environment
-      raiseInterrupt("InsertAddress", pe.getEvent()) )
-
-end MMIUpdateScreenAddress
-             
-~~~
-{% endraw %}
-
 ### RadNavSys.vdmrt
 
 {% raw %}
@@ -493,116 +112,208 @@ end RadNavSys
 ~~~
 {% endraw %}
 
-### RadioHandleTMC.vdmrt
+### MMIHandleKeyPressTwo.vdmrt
 
 {% raw %}
 ~~~
               
-class RadioHandleTMC is subclass of BasicTask
+class MMIHandleKeyPressTwo is subclass of BasicTask
 
 operations
-  public RadioHandleTMC: EventDispatcher ==> RadioHandleTMC
-  RadioHandleTMC (pde) == BasicTask("HandleTMC",pde);
+  public MMIHandleKeyPressTwo: EventDispatcher ==> MMIHandleKeyPressTwo
+  MMIHandleKeyPressTwo (pde) == BasicTask("HandleKeyPress",pde);
 
   -- we do not specify *what* the operation does
   -- we only specify its execution time
-  public HandleTMC: () ==> ()
-  HandleTMC () == duration (1000) skip;
+  public HandleKeyPress: () ==> ()
+  HandleKeyPress () == duration (100) skip;
 
   protected handleEvent: Event ==> ()
   handleEvent (pe) ==
-    ( HandleTMC();
-      -- send message to the next task in this scenario
-      sendMessage("DecodeTMC", pe.getEvent()) )
+    ( HandleKeyPress();
+	-- send message to next task in this scenario
+      sendMessage("DatabaseLookup", pe.getEvent()) )
 
-end RadioHandleTMC
+end MMIHandleKeyPressTwo
              
 ~~~
 {% endraw %}
 
-### BasicTask.vdmrt
+### MMIHandleKeyPressOne.vdmrt
 
 {% raw %}
 ~~~
               
-class BasicTask is subclass of AbstractTask
+class MMIHandleKeyPressOne is subclass of BasicTask
 
 operations
-  public BasicTask: seq of char * EventDispatcher ==> BasicTask
-  BasicTask (pnm, ped) == AbstractTask(pnm, ped);
+  public MMIHandleKeyPressOne: EventDispatcher ==> MMIHandleKeyPressOne
+  MMIHandleKeyPressOne (pde) ==  BasicTask("HandleKeyPress",pde);
 
-protected handleEvent: Event ==> ()
-handleEvent (e) == skip;
+  -- we do not specify *what* the operation does
+  -- we only specify its execution time
+  public HandleKeyPress: () ==> ()
+  HandleKeyPress () == duration (100) skip;
 
--- BasicTask just implements the standard event handling loop
--- handleEvent is still left to the responsibility of the subclass of BasicTask
-thread
-  while (true) do
-    handleEvent(getEvent())
+  protected handleEvent: Event ==> ()
+  handleEvent (pe) ==
+    ( HandleKeyPress();
+      -- send message to next task in this scenario
+      sendMessage("AdjustVolume", pe.getEvent()) )
 
-end BasicTask
+end MMIHandleKeyPressOne
              
 ~~~
 {% endraw %}
 
-### AbstractTaskEvent.vdmrt
+### RadioAdjustVolume.vdmrt
 
 {% raw %}
 ~~~
               
-class AbstractTaskEvent
+class RadioAdjustVolume is subclass of BasicTask
+
+operations
+  public RadioAdjustVolume: EventDispatcher ==> RadioAdjustVolume
+  RadioAdjustVolume (pde) == BasicTask("AdjustVolume",pde);
+
+  -- we do not specify *what* the operation does
+  -- we only specify its execution time
+  public AdjustVolume: () ==> ()
+  AdjustVolume () == duration (100) skip;
+
+  protected handleEvent: Event ==> ()
+  handleEvent (pe) ==
+    ( AdjustVolume();
+      -- send message to next task in this scenario
+      sendMessage("UpdateScreenVolume", pe.getEvent()) )
+
+end RadioAdjustVolume
+             
+~~~
+{% endraw %}
+
+### Event.vdmrt
+
+{% raw %}
+~~~
+              
+class Event
 
 instance variables
-  abstask : AbstractTask;
-  ev : Event
+  val : nat
 
 operations
-  public AbstractTaskEvent: AbstractTask * Event ==> AbstractTaskEvent
-  AbstractTaskEvent (pat, pev) == (abstask := pat; ev := pev);
+  public Event: nat ==> Event
+  Event (pv) == val := pv;
 
-  public getFields: () ==> AbstractTask * Event
-  getFields () == return mk_ (abstask, ev)
+  public getEvent: () ==> nat
+  getEvent () == return val
 
-end AbstractTaskEvent
+end Event
              
 ~~~
 {% endraw %}
 
-### InsertAddress.vdmrt
+### AbstractTask.vdmrt
 
 {% raw %}
 ~~~
               
-class InsertAddress is subclass of EnvironmentTask
+class AbstractTask
+
+instance variables
+  -- keep the name of the task for easy logging
+  name : seq of char := [];
+
+  -- the queue for normal events to be handled by this task
+  events : seq of NetworkEvent := [];
+  -- the queue of high-priority events to be handled by this task
+  interrupts : seq of InterruptEvent := [];
+
+  -- a link to the dispatcher for out-going messages (events)
+  dispatcher : EventDispatcher
 
 operations
-  public InsertAddress: EventDispatcher * nat ==> InsertAddress
-  InsertAddress (ped, pno) == EnvironmentTask("InsertAddress", ped, pno);
+  public AbstractTask: seq of char * EventDispatcher ==> AbstractTask
+  AbstractTask (pnm, ped) == atomic ( name := pnm; dispatcher := ped; );
 
-  -- handleEvent receives the responses from the system
-  -- and checks whether the response time for the matching
-  -- stimulus was less than or equal to 2000 time units
+  pure public getName: () ==> seq of char
+  getName () == return name;
+
+  -- setEvent is a call-back used by the EventDispatcher to insert
+  -- events into the appropriate event queue of this AbstractTask instance
+  public setEvent: Event ==> ()
+  setEvent (pe) == 
+    if isofclass(NetworkEvent,pe)
+    then events := events ^ [pe]
+    else interrupts := interrupts ^ [pe];
+
+  -- getEvent is called by the event loop of this AbstractTask instance to 
+  -- process incoming events when they are available. note that getEvent 
+  -- is blocked by a permission predicate (see sync) when no events are 
+  -- available and also note that getEvent gives interrupts priority over 
+  -- other events
+  protected getEvent: () ==> Event
+  getEvent () ==
+    if len interrupts > 0
+    then ( dcl res: Event := hd interrupts;
+           interrupts := tl interrupts;
+           return res )
+    else ( dcl res: Event := hd events;
+           events := tl events;
+           return res );
+
+  -- handleEvent shall be overloaded by the derived classes to implement
+  -- the actual event loop handling. a typical event loop handler would be
+  -- thread while (true) do handleEvent(getEvent())
+  --protected handleEvent: Event ==> ()
+  --handleEvent (-) == is subclass responsibility;
+
+  -- sendMessage is used to send a message to another task
+  -- typically used for inter process communication
+  protected sendMessage: seq of char * nat ==> ()
+  sendMessage (pnm, pid) == dispatcher.SendNetwork(name, pnm, pid);
+
+  -- raiseInterrupt is used to send a high-priority message
+  -- typically used to communicate from environment to the system or vice versa
+  protected raiseInterrupt: seq of char * nat ==> ()
+  raiseInterrupt (pnm, pid) == dispatcher.SendInterrupt(name, pnm, pid)
+
+sync
+  -- setEvent and getEvent are mutually exclusive
+  mutex (setEvent, getEvent);
+  -- getEvent is blocked until at least one message is available
+  per getEvent => len events > 0 or len interrupts > 0
+
+end AbstractTask
+             
+~~~
+{% endraw %}
+
+### NavigationDecodeTMC.vdmrt
+
+{% raw %}
+~~~
+              
+class NavigationDecodeTMC is subclass of BasicTask
+
+operations
+  public NavigationDecodeTMC: EventDispatcher ==> NavigationDecodeTMC
+  NavigationDecodeTMC (pde) == BasicTask("DecodeTMC",pde);
+
+  -- we do not specify *what* the operation does
+  -- we only specify its execution time
+  public DecodeTMC: () ==> ()
+  DecodeTMC () == duration (500) skip;
+
   protected handleEvent: Event ==> ()
-  handleEvent (pev) == duration (0) logSysToEnv(pev.getEvent());
- -- post checkResponseTimes(e2s,s2e,6000);
+  handleEvent (pe) ==
+    ( DecodeTMC();
+      -- send message to next task in this scenario
+      sendMessage("UpdateScreenTMC", pe.getEvent()) )
 
-  -- createSignal generates the stimuli for the system
-  createSignal: () ==> ()
-  createSignal () ==
-    duration (0)
-      if (card dom e2s < max_stimuli) then
-        ( dcl num : nat := getNum();
-          logEnvToSys(num);
-          raiseInterrupt("HandleKeyPress", num) );
-
-  -- start the thread of the task
-  public Run: () ==> ()
-  Run () == start(self)
-
-thread
-  periodic (1000,0,0,0) (createSignal)
-  
-end InsertAddress
+end NavigationDecodeTMC
              
 ~~~
 {% endraw %}
@@ -705,33 +416,6 @@ end EnvironmentTask
 ~~~
 {% endraw %}
 
-### MMIHandleKeyPressTwo.vdmrt
-
-{% raw %}
-~~~
-              
-class MMIHandleKeyPressTwo is subclass of BasicTask
-
-operations
-  public MMIHandleKeyPressTwo: EventDispatcher ==> MMIHandleKeyPressTwo
-  MMIHandleKeyPressTwo (pde) == BasicTask("HandleKeyPress",pde);
-
-  -- we do not specify *what* the operation does
-  -- we only specify its execution time
-  public HandleKeyPress: () ==> ()
-  HandleKeyPress () == duration (100) skip;
-
-  protected handleEvent: Event ==> ()
-  handleEvent (pe) ==
-    ( HandleKeyPress();
-	-- send message to next task in this scenario
-      sendMessage("DatabaseLookup", pe.getEvent()) )
-
-end MMIHandleKeyPressTwo
-             
-~~~
-{% endraw %}
-
 ### EventDispatcher.vdmrt
 
 {% raw %}
@@ -821,6 +505,142 @@ end EventDispatcher
 ~~~
 {% endraw %}
 
+### InsertAddress.vdmrt
+
+{% raw %}
+~~~
+              
+class InsertAddress is subclass of EnvironmentTask
+
+operations
+  public InsertAddress: EventDispatcher * nat ==> InsertAddress
+  InsertAddress (ped, pno) == EnvironmentTask("InsertAddress", ped, pno);
+
+  -- handleEvent receives the responses from the system
+  -- and checks whether the response time for the matching
+  -- stimulus was less than or equal to 2000 time units
+  protected handleEvent: Event ==> ()
+  handleEvent (pev) == duration (0) logSysToEnv(pev.getEvent());
+ -- post checkResponseTimes(e2s,s2e,6000);
+
+  -- createSignal generates the stimuli for the system
+  createSignal: () ==> ()
+  createSignal () ==
+    duration (0)
+      if (card dom e2s < max_stimuli) then
+        ( dcl num : nat := getNum();
+          logEnvToSys(num);
+          raiseInterrupt("HandleKeyPress", num) );
+
+  -- start the thread of the task
+  public Run: () ==> ()
+  Run () == start(self)
+
+thread
+  periodic (1000,0,0,0) (createSignal)
+  
+end InsertAddress
+             
+~~~
+{% endraw %}
+
+### MMIUpdateScreenTMC.vdmrt
+
+{% raw %}
+~~~
+              
+class MMIUpdateScreenTMC is subclass of BasicTask
+
+operations
+  public MMIUpdateScreenTMC: EventDispatcher ==> MMIUpdateScreenTMC
+  MMIUpdateScreenTMC (pde) == BasicTask("UpdateScreenTMC",pde);
+
+  -- we do not specify *what* the operation does
+  -- we only specify its execution time
+  public UpdateScreen: () ==> ()
+  UpdateScreen () == duration (500) skip;
+
+  protected handleEvent: Event ==> ()
+  handleEvent (pe) ==
+    ( UpdateScreen();
+	-- scenario finished. signal response back to the environment
+      raiseInterrupt("TransmitTMC", pe.getEvent()) )
+
+end MMIUpdateScreenTMC
+             
+~~~
+{% endraw %}
+
+### NavigationDatabaseLookup.vdmrt
+
+{% raw %}
+~~~
+              
+class NavigationDatabaseLookup is subclass of BasicTask
+
+operations
+  public NavigationDatabaseLookup: EventDispatcher ==> NavigationDatabaseLookup
+  NavigationDatabaseLookup (pde) == BasicTask("DatabaseLookup",pde);
+
+  -- we do not specify *what* the operation does
+  -- we only specify its execution time
+  public DatabaseLookup: () ==> ()
+  DatabaseLookup() == duration (5000) skip;
+
+  protected handleEvent: Event ==> ()
+  handleEvent (pe) ==
+    ( DatabaseLookup();
+	-- send message to next task in this scenario
+      sendMessage("UpdateScreenAddress", pe.getEvent()) )
+
+end NavigationDatabaseLookup
+             
+~~~
+{% endraw %}
+
+### InterruptEvent.vdmrt
+
+{% raw %}
+~~~
+              
+class InterruptEvent is subclass of Event
+
+operations
+  public InterruptEvent: nat ==> InterruptEvent
+  InterruptEvent (pne) == Event(pne)
+
+end InterruptEvent
+             
+~~~
+{% endraw %}
+
+### MMIUpdateScreenVolume.vdmrt
+
+{% raw %}
+~~~
+              
+class MMIUpdateScreenVolume is subclass of BasicTask
+
+operations
+  public MMIUpdateScreenVolume: EventDispatcher ==> MMIUpdateScreenVolume
+  MMIUpdateScreenVolume (pde) == BasicTask("UpdateScreenVolume",pde);
+
+  -- we do not specify *what* the operation does
+  -- we only specify its execution time
+  public UpdateScreen: () ==> ()
+  UpdateScreen () == duration (500) skip;
+
+  protected handleEvent: Event ==> ()
+  handleEvent (pe) ==
+    ( UpdateScreen();
+	-- scenario finished. signal response back to the environment
+      raiseInterrupt("VolumeKnob", pe.getEvent()) )
+
+end MMIUpdateScreenVolume
+             
+~~~
+{% endraw %}
+
 ### Logger.vdmrt
 
 {% raw %}
@@ -855,18 +675,198 @@ end Logger
 ~~~
 {% endraw %}
 
-### InterruptEvent.vdmrt
+### MMIUpdateScreenAddress.vdmrt
 
 {% raw %}
 ~~~
               
-class InterruptEvent is subclass of Event
+class MMIUpdateScreenAddress is subclass of BasicTask
 
 operations
-  public InterruptEvent: nat ==> InterruptEvent
-  InterruptEvent (pne) == Event(pne)
+  public MMIUpdateScreenAddress: EventDispatcher ==> MMIUpdateScreenAddress
+  MMIUpdateScreenAddress (pde) == BasicTask("UpdateScreenAddress",pde);
 
-end InterruptEvent
+  public UpdateScreen: () ==> ()
+  UpdateScreen () == duration (500) skip;
+
+  -- we do not specify *what* the operation does
+  -- we only specify its execution time
+  protected handleEvent: Event ==> ()
+  handleEvent (pe) ==
+    ( UpdateScreen();
+	-- scenario finished. signal response back to the environment
+      raiseInterrupt("InsertAddress", pe.getEvent()) )
+
+end MMIUpdateScreenAddress
+             
+~~~
+{% endraw %}
+
+### TransmitTMC.vdmrt
+
+{% raw %}
+~~~
+              
+class TransmitTMC is subclass of EnvironmentTask
+
+operations
+  public TransmitTMC: EventDispatcher * nat ==> TransmitTMC
+  TransmitTMC (ped, pno) == EnvironmentTask("TransmitTMC", ped, pno);
+
+  -- handleEvent receives the responses from the system
+  -- and checks whether the response time for the matching
+  -- stimulus was less than or equal to 10000 time units
+  protected handleEvent: Event ==> ()
+  handleEvent (pev) == duration (0) logSysToEnv(pev.getEvent())
+  post checkResponseTimes(e2s,s2e,10000);
+
+  -- createSignal generates the stimuli for the system
+  createSignal: () ==> ()
+  createSignal () ==
+    duration (0)
+      if (card dom e2s < max_stimuli) then
+        ( dcl num : nat := getNum();
+          logEnvToSys(num);
+          raiseInterrupt("HandleTMC", num) );
+
+  -- start the thread of the task
+  public Run: () ==> ()
+  Run () == start(self)
+
+thread
+  periodic (1000,0,0,0) (createSignal)
+
+end TransmitTMC
+             
+~~~
+{% endraw %}
+
+### BasicTask.vdmrt
+
+{% raw %}
+~~~
+              
+class BasicTask is subclass of AbstractTask
+
+operations
+  public BasicTask: seq of char * EventDispatcher ==> BasicTask
+  BasicTask (pnm, ped) == AbstractTask(pnm, ped);
+
+protected handleEvent: Event ==> ()
+handleEvent (e) == skip;
+
+-- BasicTask just implements the standard event handling loop
+-- handleEvent is still left to the responsibility of the subclass of BasicTask
+thread
+  while (true) do
+    handleEvent(getEvent())
+
+end BasicTask
+             
+~~~
+{% endraw %}
+
+### VolumeKnob.vdmrt
+
+{% raw %}
+~~~
+              
+class VolumeKnob is subclass of EnvironmentTask
+
+operations
+  public VolumeKnob: EventDispatcher * nat ==> VolumeKnob
+  VolumeKnob (ped, pno) == EnvironmentTask("VolumeKnob", ped, pno);
+
+  -- handleEvent receives the responses from the system
+  -- and checks whether the response time for the matching
+  -- stimulus was less than or equal to 1500 time units
+  protected handleEvent: Event ==> ()
+  handleEvent (pev) == duration (0) logSysToEnv(pev.getEvent())
+  post checkResponseTimes(e2s,s2e,1500);
+
+  -- createSignal generates the stimuli for the system
+  createSignal: () ==> ()
+  createSignal () ==
+    duration (0)
+      if (card dom e2s < max_stimuli) then
+        ( dcl num : nat := getNum();
+          logEnvToSys(num);
+          raiseInterrupt("HandleKeyPress", num) );
+
+  -- start the thread of the task
+  public Run: () ==> ()
+  Run () == start(self)
+
+thread
+  periodic (1000,0,0,0) (createSignal)
+  
+end VolumeKnob
+             
+~~~
+{% endraw %}
+
+### NetworkEvent.vdmrt
+
+{% raw %}
+~~~
+              
+class NetworkEvent is subclass of Event
+
+operations
+  public NetworkEvent: nat ==> NetworkEvent
+  NetworkEvent (pne) == Event(pne)
+
+end NetworkEvent
+             
+~~~
+{% endraw %}
+
+### RadioHandleTMC.vdmrt
+
+{% raw %}
+~~~
+              
+class RadioHandleTMC is subclass of BasicTask
+
+operations
+  public RadioHandleTMC: EventDispatcher ==> RadioHandleTMC
+  RadioHandleTMC (pde) == BasicTask("HandleTMC",pde);
+
+  -- we do not specify *what* the operation does
+  -- we only specify its execution time
+  public HandleTMC: () ==> ()
+  HandleTMC () == duration (1000) skip;
+
+  protected handleEvent: Event ==> ()
+  handleEvent (pe) ==
+    ( HandleTMC();
+      -- send message to the next task in this scenario
+      sendMessage("DecodeTMC", pe.getEvent()) )
+
+end RadioHandleTMC
+             
+~~~
+{% endraw %}
+
+### AbstractTaskEvent.vdmrt
+
+{% raw %}
+~~~
+              
+class AbstractTaskEvent
+
+instance variables
+  abstask : AbstractTask;
+  ev : Event
+
+operations
+  public AbstractTaskEvent: AbstractTask * Event ==> AbstractTaskEvent
+  AbstractTaskEvent (pat, pev) == (abstask := pat; ev := pev);
+
+  public getFields: () ==> AbstractTask * Event
+  getFields () == return mk_ (abstask, ev)
+
+end AbstractTaskEvent
              
 ~~~
 {% endraw %}

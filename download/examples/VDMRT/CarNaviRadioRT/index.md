@@ -22,152 +22,6 @@ coherent application in a distributed application.
 |Entry point     :| new World().RunScenario2()|
 
 
-### TransmitTMC.vdmrt
-
-{% raw %}
-~~~
-class TransmitTMC
-  is subclass of EnvironmentTask
-
-operations
-  public TransmitTMC: nat ==> TransmitTMC
-  TransmitTMC (pno) == max_stimuli := pno;
-
-  public HandleEvent: nat ==> ()
-  HandleEvent (pev) == logSysToEnv(pev)
-  post checkResponseTimes(e2s,s2e,40000000000);
-
-  public Run: () ==> ()
-  Run () == start(self); --,TransmitTMCT);
-
-  createSignal: () ==> ()
-  createSignal () ==
-    ( dcl num2 : nat := getNum();
-      logEnvToSys(num2);
-      RadNavSys`radio.HandleTMC(num2) )
-
-thread
-  periodic (4000E6,400,3910,0) 
-    (createSignal)
-
-end TransmitTMC
-~~~
-{% endraw %}
-
-### radio.vdmrt
-
-{% raw %}
-~~~
-class Radio
-
-operations
-  async 
-  public AdjustVolume: nat ==> ()
-  AdjustVolume (pno) ==
-    ( cycles (1E5) skip;
-      --duration (1E5) skip;
-      RadNavSys`mmi.UpdateScreen(1, pno) );
-
-  async 
-  public HandleTMC: nat ==> ()
-  HandleTMC (pno) ==
-    ( cycles (1E6) skip;
-      --duration (1E6) skip;
-      RadNavSys`navigation.DecodeTMC(pno) )
-
-end Radio
-~~~
-{% endraw %}
-
-### navigation.vdmrt
-
-{% raw %}
-~~~
-class Navigation
-
-operations
-  async 
-  public DatabaseLookup: nat ==> ()
-  DatabaseLookup (pno) ==
-    ( cycles (5E6) skip;
-      --duration (5E6) skip;
-      RadNavSys`mmi.UpdateScreen(2, pno) );
-
-  async 
-  public DecodeTMC: nat ==> ()
-  DecodeTMC (pno) ==
-    ( cycles (5E5) skip;
-      --duration (5E6) skip;
-      RadNavSys`mmi.UpdateScreen(3, pno) )
-
-end Navigation
-~~~
-{% endraw %}
-
-### mmi.vdmrt
-
-{% raw %}
-~~~
-class MMI
-
-operations
-  async 
-  public HandleKeyPress: nat * nat ==> ()
-  HandleKeyPress (pn, pno) ==
-    ( cycles (1E5) skip;
-      --duration (1E5) skip;
-      cases (pn):
-        1 -> RadNavSys`radio.AdjustVolume(pno),
-        2 -> RadNavSys`navigation.DatabaseLookup(pno)
-      end );
-
-  async 
-  public UpdateScreen: nat * nat ==> ()
-  UpdateScreen (pn, pno) ==
-    ( cycles (5E5) skip;
-      --duration (5E5) skip;
-      cases (pn):
-        1 -> World`envTasks("VolumeKnob").HandleEvent(pno),
-        2 -> World`envTasks("InsertAddress").HandleEvent(pno),
-        3 -> World`envTasks("TransmitTMC").HandleEvent(pno)
-      end )
-
-end MMI
-~~~
-{% endraw %}
-
-### VolumeKnob.vdmrt
-
-{% raw %}
-~~~
-class VolumeKnob
-  is subclass of EnvironmentTask
-
-operations
-  public VolumeKnob: nat ==> VolumeKnob
-  VolumeKnob (pno) == max_stimuli := pno;
-
-  public HandleEvent: nat ==> ()
-  HandleEvent (pev) == logSysToEnv(pev)
-  post checkResponseTimes(e2s,s2e,22000000000);
-
-  public Run: () ==> ()
-  Run () == start(self); --,VolumeKnobT);
-
-  createSignal: () ==> ()
-  createSignal () ==
-    ( dcl num2 : nat := getNum();
-      logEnvToSys(num2);
-      RadNavSys`mmi.HandleKeyPress(1,num2) )
-
-thread
-  periodic (1000E6,50,500,0) 
-    (createSignal)
-
-end VolumeKnob
-~~~
-{% endraw %}
-
 ### radhavsys.vdmrt
 
 {% raw %}
@@ -251,35 +105,30 @@ end World
 ~~~
 {% endraw %}
 
-### InsertAdress.vdmrt
+### Test.vdmrt
 
 {% raw %}
 ~~~
-class InsertAddress
-  is subclass of EnvironmentTask
+class Test
 
-operations
-  public InsertAddress: nat ==> InsertAddress
-  InsertAddress (pno) == max_stimuli := pno;
+instance variables
 
-  public HandleEvent: nat ==> ()
-  HandleEvent (pev) == logSysToEnv(pev)
-  post checkResponseTimes(e2s,s2e,24000000000);
+mmi   : MMI        := new MMI();
+radio : Radio      := new Radio();
+nav   : Navigation := new Navigation();
 
-  public Run: () ==> ()
-  Run () == start(self); 
+traces
 
-  createSignal: () ==> ()
-  createSignal () ==
-    ( dcl num2 : nat := getNum();
-      logEnvToSys(num2);
-      RadNavSys`mmi.HandleKeyPress(2,num2) )
-
-thread
-  periodic (2000E6,100,1000,0) 
-    (createSignal)
-
-end InsertAddress
+TT: let x in set {1,2,3}
+    in
+      ((mmi.HandleKeyPress(x,x) | 
+       mmi.UpdateScreen(x,x) | 
+       radio.AdjustVolume(x) |
+       radio.HandleTMC(x) |
+       nav.DatabaseLookup(x) |
+       nav.DecodeTMC(x)))
+ 
+end Test
 ~~~
 {% endraw %}
 
@@ -377,30 +226,181 @@ end EnvironmentTask
 ~~~
 {% endraw %}
 
-### Test.vdmrt
+### InsertAdress.vdmrt
 
 {% raw %}
 ~~~
-class Test
+class InsertAddress
+  is subclass of EnvironmentTask
 
-instance variables
+operations
+  public InsertAddress: nat ==> InsertAddress
+  InsertAddress (pno) == max_stimuli := pno;
 
-mmi   : MMI        := new MMI();
-radio : Radio      := new Radio();
-nav   : Navigation := new Navigation();
+  public HandleEvent: nat ==> ()
+  HandleEvent (pev) == logSysToEnv(pev)
+  post checkResponseTimes(e2s,s2e,24000000000);
 
-traces
+  public Run: () ==> ()
+  Run () == start(self); 
 
-TT: let x in set {1,2,3}
-    in
-      ((mmi.HandleKeyPress(x,x) | 
-       mmi.UpdateScreen(x,x) | 
-       radio.AdjustVolume(x) |
-       radio.HandleTMC(x) |
-       nav.DatabaseLookup(x) |
-       nav.DecodeTMC(x)))
- 
-end Test
+  createSignal: () ==> ()
+  createSignal () ==
+    ( dcl num2 : nat := getNum();
+      logEnvToSys(num2);
+      RadNavSys`mmi.HandleKeyPress(2,num2) )
+
+thread
+  periodic (2000E6,100,1000,0) 
+    (createSignal)
+
+end InsertAddress
+~~~
+{% endraw %}
+
+### navigation.vdmrt
+
+{% raw %}
+~~~
+class Navigation
+
+operations
+  async 
+  public DatabaseLookup: nat ==> ()
+  DatabaseLookup (pno) ==
+    ( cycles (5E6) skip;
+      --duration (5E6) skip;
+      RadNavSys`mmi.UpdateScreen(2, pno) );
+
+  async 
+  public DecodeTMC: nat ==> ()
+  DecodeTMC (pno) ==
+    ( cycles (5E5) skip;
+      --duration (5E6) skip;
+      RadNavSys`mmi.UpdateScreen(3, pno) )
+
+end Navigation
+~~~
+{% endraw %}
+
+### mmi.vdmrt
+
+{% raw %}
+~~~
+class MMI
+
+operations
+  async 
+  public HandleKeyPress: nat * nat ==> ()
+  HandleKeyPress (pn, pno) ==
+    ( cycles (1E5) skip;
+      --duration (1E5) skip;
+      cases (pn):
+        1 -> RadNavSys`radio.AdjustVolume(pno),
+        2 -> RadNavSys`navigation.DatabaseLookup(pno)
+      end );
+
+  async 
+  public UpdateScreen: nat * nat ==> ()
+  UpdateScreen (pn, pno) ==
+    ( cycles (5E5) skip;
+      --duration (5E5) skip;
+      cases (pn):
+        1 -> World`envTasks("VolumeKnob").HandleEvent(pno),
+        2 -> World`envTasks("InsertAddress").HandleEvent(pno),
+        3 -> World`envTasks("TransmitTMC").HandleEvent(pno)
+      end )
+
+end MMI
+~~~
+{% endraw %}
+
+### TransmitTMC.vdmrt
+
+{% raw %}
+~~~
+class TransmitTMC
+  is subclass of EnvironmentTask
+
+operations
+  public TransmitTMC: nat ==> TransmitTMC
+  TransmitTMC (pno) == max_stimuli := pno;
+
+  public HandleEvent: nat ==> ()
+  HandleEvent (pev) == logSysToEnv(pev)
+  post checkResponseTimes(e2s,s2e,40000000000);
+
+  public Run: () ==> ()
+  Run () == start(self); --,TransmitTMCT);
+
+  createSignal: () ==> ()
+  createSignal () ==
+    ( dcl num2 : nat := getNum();
+      logEnvToSys(num2);
+      RadNavSys`radio.HandleTMC(num2) )
+
+thread
+  periodic (4000E6,400,3910,0) 
+    (createSignal)
+
+end TransmitTMC
+~~~
+{% endraw %}
+
+### VolumeKnob.vdmrt
+
+{% raw %}
+~~~
+class VolumeKnob
+  is subclass of EnvironmentTask
+
+operations
+  public VolumeKnob: nat ==> VolumeKnob
+  VolumeKnob (pno) == max_stimuli := pno;
+
+  public HandleEvent: nat ==> ()
+  HandleEvent (pev) == logSysToEnv(pev)
+  post checkResponseTimes(e2s,s2e,22000000000);
+
+  public Run: () ==> ()
+  Run () == start(self); --,VolumeKnobT);
+
+  createSignal: () ==> ()
+  createSignal () ==
+    ( dcl num2 : nat := getNum();
+      logEnvToSys(num2);
+      RadNavSys`mmi.HandleKeyPress(1,num2) )
+
+thread
+  periodic (1000E6,50,500,0) 
+    (createSignal)
+
+end VolumeKnob
+~~~
+{% endraw %}
+
+### radio.vdmrt
+
+{% raw %}
+~~~
+class Radio
+
+operations
+  async 
+  public AdjustVolume: nat ==> ()
+  AdjustVolume (pno) ==
+    ( cycles (1E5) skip;
+      --duration (1E5) skip;
+      RadNavSys`mmi.UpdateScreen(1, pno) );
+
+  async 
+  public HandleTMC: nat ==> ()
+  HandleTMC (pno) ==
+    ( cycles (1E6) skip;
+      --duration (1E6) skip;
+      RadNavSys`navigation.DecodeTMC(pno) )
+
+end Radio
 ~~~
 {% endraw %}
 

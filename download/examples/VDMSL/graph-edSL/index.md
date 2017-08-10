@@ -689,12 +689,14 @@ operations
       object in set elems OBJECTS
 
    post
-
+      let stold = mk_GraphEditor(DRAWING_AREA,OBJECTS~),
+          stnew = mk_GraphEditor(DRAWING_AREA,OBJECTS)
+      in
       is_Compound(object) and 
-      msg = move_compound_object(object, vector) or
+      post_move_compound_object(object,vector,msg,stold,stnew) or
 
       not is_Compound(object) and 
-      msg = move_simple_object(object, vector);
+      post_move_simple_object(object,vector,msg,stold,stnew);
 
 
    move_simple_object(object : Object, vector : LineSegment) 
@@ -765,12 +767,14 @@ operations
       object in set elems OBJECTS
 
    post
-
+      let stold = mk_GraphEditor(DRAWING_AREA,OBJECTS~),
+          stnew = mk_GraphEditor(DRAWING_AREA,OBJECTS)
+      in      
       is_Compound(object) and 
-      msg = copy_compound_object(object, vector) or
+      post_copy_compound_object(object,vector,msg,stold,stnew) or
 
       not is_Compound(object) and 
-      msg = copy_simple_object(object, vector);
+      post_copy_simple_object(object,vector,msg,stold,stnew);
 
 
    copy_simple_object(object : Object, vector : LineSegment) 

@@ -105,50 +105,6 @@ from there the entire simulation can be started up.
 |Entry point     :| new World().runwithoutcollab()|
 
 
-### Environment.vdmpp
-
-{% raw %}
-~~~
-class Environment
-
-types
-
-public Performance ::            
-  pol : map Network`EdgeId to Polution
-  veh_traveldist : nat;
-
-public EdgeSit = CarDensity * AvgSpeed * Polution * Incident * BridgeOpen;
-public TrafficSituation = map Network`EdgeId to EdgeSit;
-  
-public CarDensity = nat;
-public AvgSpeed = nat;
-public Polution = nat;
-public Incident = bool;
-public BridgeOpen = bool
-  
-instance variables
-
-protected network : Network := new Network({|->});
-protected tms_m : map World`TMSId to TMS := {|->};  
-  
-operations
-
-public Environment: Network * map World`TMSId to TMS ==> Environment 
-Environment(net, tms) == (
-	network := net;
-	tms_m := tms
-);
-
-public Run: bool * seq of char * seq1 of char ==> ()
-Run(-,-,-) == skip;
-
-protected isFinished: () ==> bool
-isFinished() == return false;
-
-end Environment
-~~~
-{% endraw %}
-
 ### AWorld.vdmpp
 
 {% raw %}
@@ -254,112 +210,276 @@ end World
 ~~~
 {% endraw %}
 
-### SimulatorEnvironment.vdmpp
+### Network.vdmpp
 
 {% raw %}
 ~~~
-class SimulatorEnvironment is subclass of Environment
+	class Network
 
-instance variables 
+types
 
-simtime : [nat];
-time : nat;
+public EdgeId = seq of char;
+  
+public Request ::
+   originator : EdgeId
+   service : TMS`ServiceId
+   severity: real
+   cost : real
+   accepted : bool;
+  
+instance variables
 
-operations 
+  connections : map EdgeId to Edge := {|->};
+  requests: map EdgeId to set of Request := {|->};
+  offers: map EdgeId to set of Request := {|->};
+  notproblematic : map World`TMSId to set of EdgeId := {|->};
+  
+operations
 
-public SimulatorEnvironment: Network * map World`TMSId to TMS * [nat] ==> SimulatorEnvironment 
-SimulatorEnvironment(net, tms, t) == (
-	let - = Environment(net, tms) in skip;
-	simtime := t;
-	time := 0;
-);
+  public Network: map EdgeId to Edge ==> Network
+  Network(conn) ==
+    connections := conn;
+   
+  public MakeOffer: EdgeId * real ==> () 
+  MakeOffer (eid, cost) ==
+  (  let reqs = {mu(r,accepted |-> false, cost |-> cost) | r in set requests(eid)}
+    in
+    offers(eid) := (if eid in set dom offers 
+                    then offers(eid)
+                    else {}) union reqs;
+                    IO`printf("The following offers are made: %s", [offers(eid)])
+  )
+  pre eid in set dom requests;
+  
+  public AddRequests: map EdgeId to set of Request ==> ()
+  AddRequests(req_m) ==
+    requests := requests ++ {id |-> req_m(id) union
+                                    if id in set dom requests
+                                    then requests(id)
+                                    else {} 
+                            | id in set dom req_m};
+                            
+  pure public GetNotProblematic: () ==> set of EdgeId
+  GetNotProblematic() ==
+    return dunion rng notproblematic;
+    
+  pure public GetRequests: EdgeId ==> set of Request
+  GetRequests(eid) ==
+    return if eid in set dom requests
+           then requests(eid)
+           else {};
+           
+ pure public GetOffers: EdgeId ==> map EdgeId to set of Request
+ GetOffers(requestor) ==
+    return { provider |->{offer |offer in set offers(provider)}
+           | provider in set dom offers & provider = requestor};
+               
+  public AcceptOffers: EdgeId * set of Request ==> ()
+  AcceptOffers(eid, accepted) ==
+     offers(eid) := (if eid in set dom offers
+                     then offers(eid) 
+                     else {}) union accepted;
+                
+  pure public GetAcceptedOffers: EdgeId ==> set of Request
+  GetAcceptedOffers(eid) ==
+    return if eid in set dom offers 
+           then {offer | offer in set offers(eid) & offer.accepted} 
+           else {};
+  
+  public ResetOffers: () ==> ()
+  ResetOffers() ==
+    (requests := {|->};
+     offers := {|->});
 
-public Run: bool * seq of char * seq1 of char ==> ()
-Run(colab,network_file,tms_file) == (
-	dcl path: seq of char := tempo_vdm_SimulatorIO`initialize(network_file,tms_file);
-	tempo_vdm_SimulatorIO`fastForwardSimulator(20 * 60);
-	while not isFinished() do (
-		dcl trafsit: TrafficSituation;
-		dcl control: TMS`Control := {|->};
-		tempo_vdm_SimulatorIO`runSimulator(10);
-		trafsit := UpdateSit();
-		for all id in set dom tms_m do tms_m(id).Step(trafsit);
-	  if colab 
-	  then for all id in set dom tms_m do tms_m(id).MakeOffers();
-		for all id in set dom tms_m do tms_m(id).EvaluateOffers();
-	  for all id in set dom tms_m do 
-	    let c = tms_m(id).FinaliseOffers() 
-		  in 
-		    (control := control ++ c;
-		     network.ResetNotproblematic(id));
-		IO`printf("%s\nEdge situation: %s\nControl measures: %s\n", [time, trafsit, control]);
-		for all e in set dom control do
-			for all m in set control(e) do
-				if is_TMS`HardShoulder(m) then
-					tempo_vdm_SimulatorIO`applyHardShoulder(e, m.open)
-				elseif is_TMS`MaxSpeed(m) then
-					if m.speed <> nil
-					then tempo_vdm_SimulatorIO`applyMaxSpeed(e, m.speed)
-					else tempo_vdm_SimulatorIO`applyMaxSpeed(e, 0)
-				elseif is_TMS`TrafficLight(m) then
-					tempo_vdm_SimulatorIO`applyTrafficLight(e, m.greentime)
-				elseif is_TMS`RampMeter(m) then
-				  tempo_vdm_SimulatorIO`applyRampMeter(e, m.redtime)
-				elseif is_TMS`Diversion(m) then
-					if m.route <> nil
-					then tempo_vdm_SimulatorIO`applyDiversion(e, m.route)
-					else tempo_vdm_SimulatorIO`applyDiversion(e, "")
-				elseif is_TMS`LaneClosure(m) then
-				  tempo_vdm_SimulatorIO`applyLaneClosure(e, m.closed);
-		network.ResetOffers();
-		time := time+1;
-	);
-);
-
-private UpdateSit: () ==> TrafficSituation
-UpdateSit() == (
-	dcl sit: EdgeSit;
-	dcl trafsit: TrafficSituation := {|->};
-	for all e in set network.GetEdgeIds() do (
-		sit := tempo_vdm_SimulatorIO`getSituation(e);
-		trafsit(e) := sit;
-	);
-	return trafsit
-);
-
-protected isFinished: () ==> bool
-isFinished() == return if simtime <> nil then time >= simtime else false;
-
-end SimulatorEnvironment
+  public CancelOldProblematicEdges: World`TMSId * set of Network`EdgeId ==> ()
+  CancelOldProblematicEdges(tmsid,edges) ==
+    notproblematic(tmsid) := edges union if tmsid in set dom notproblematic
+                                         then notproblematic(tmsid)
+                                         else {};
+     
+  public ResetNotproblematic: World`TMSId ==> ()
+  ResetNotproblematic(tmsid) ==
+    notproblematic(tmsid) := {};
+    
+  pure public OfInterestTo: EdgeId ==> set of EdgeId
+  OfInterestTo(edgeid) ==
+    let s = connections(edgeid).GetStartNode(),
+        e = connections(edgeid).GetEndNode()
+    in 
+      return {eid | eid in set dom connections
+                  & connections(eid).GetEndNode() = s or connections(eid).GetStartNode() = e}
+  pre edgeid in set dom connections;
+                  
+  public LeadsToInNSteps: EdgeId * nat1 ==> set of EdgeId
+  LeadsToInNSteps(edgeid,n) ==
+    let s = connections(edgeid).GetStartNode(),
+        leadsto = {eid | eid in set dom connections
+                       & connections(eid).GetEndNode() = s} 
+    in
+      if n = 1
+      then return leadsto
+      else let starts = {connections(eid).GetEndNode()
+                        | eid in set leadsto},
+               rest = dunion {LeadsToInNSteps(eid,n-1)
+                             | eid in set leadsto
+                             & connections(eid).GetEndNode() in set starts}
+           in 
+             return leadsto union rest
+  pre edgeid in set dom connections;
+  
+  pure public GetMaxSpeed: EdgeId ==> nat
+  GetMaxSpeed(edgeid) ==
+     return connections(edgeid).maxSpeed
+  pre edgeid in set dom connections;
+  
+  pure public GetOpenLanes: EdgeId ==> nat
+  GetOpenLanes(edgeid) ==
+     return connections(edgeid).laneCount
+  pre edgeid in set dom connections;
+  
+  
+  public GetEdgeIds: () ==> set of EdgeId
+  GetEdgeIds() == return dom connections;
+  
+  pure public IsInputEdge: EdgeId * EdgeId ==> bool
+  IsInputEdge (eid1, eid2) ==
+    return connections(eid1).GetEndNode() = connections(eid2).GetStartNode()  
+  pre {eid1,eid2} subset dom connections;    
+  -- Test if eid1 is an input edge to eid2
+  
+  pure public IsOutputEdge: EdgeId * EdgeId ==> bool
+  IsOutputEdge (eid1, eid2) ==
+    return connections(eid1).GetStartNode() = connections(eid2).GetEndNode() 
+  pre {eid1,eid2} subset dom connections;    
+  -- Test if eid1 is an output edge of eid2
+  
+--public AddDiversionRoutes: EdgeId * set of seq of EdgeId ==> ()
+--AddDiversionRoutes(eid,routes) ==
+--  div_routes(eid) := routes;
+  
+  pure public GetConnections: () ==> map EdgeId to Edge
+ GetConnections() ==
+   return connections;
+   
+           
+end Network
 ~~~
 {% endraw %}
 
-### EdgeCommand.vdmpp
+### SimulatorIO.vdmpp
 
 {% raw %}
 ~~~
-class EdgeCommand
-
-	instance variables
-		public curSpeed     : nat := 0;
-		public openNumLanes : nat := 0;
-		
-		-- blocked due to traffic-lights / accidents
-		public isBlocked    : bool := false;
-
-	  -- weather
-		public minTimeBetweenCars: real := 0.0;
+class tempo_vdm_SimulatorIO
 
 operations
 
-public Update: nat * nat * bool * real ==> ()
-Update(cs,onl,ib,mtbc) ==
-  (curSpeed := cs;
-   openNumLanes := onl;
-   isBlocked := ib;
-   minTimeBetweenCars := mtbc);
+	public static
+		initialize : (seq of char) * (seq of char) ==> (seq of char)
+		initialize( networkFile, tmsFile ) == 
+			is not yet specified;
+
+	public static
+		runSimulator : (nat1) ==> ()
+		runSimulator( time ) ==
+			is not yet specified;
+
+	public static
+		fastForwardSimulator : (nat1) ==> ()
+		fastForwardSimulator( time ) ==
+			is not yet specified;
+
+	public static
+		applyHardShoulder : seq of char * bool ==> ()
+		applyHardShoulder( edgeId, enable) ==
+			is not yet specified;
+			
+	public static
+		applyTrafficLight : seq of char * nat ==> ()
+		applyTrafficLight( edgeId, greenTime) ==
+			is not yet specified;
+			
+	public static
+		applyRampMeter : seq of char * nat ==> ()
+		applyRampMeter( edgeId, redTime) ==
+			is not yet specified;
+			
+	public static
+		applyDiversion : seq of char * seq of char ==> ()
+		applyDiversion( edgeId, message) ==
+			is not yet specified;
+			
+	public static
+		applyMaxSpeed : seq of char * nat ==> ()
+		applyMaxSpeed( edgeId, maxSpeed) ==
+			is not yet specified;
+
+	public static
+		applyLaneClosure : seq of char * nat ==> ()
+		applyLaneClosure( edgeId, closed) ==
+			is not yet specified;
+
+	public static
+		getSituation : seq of char ==> Environment`EdgeSit
+		getSituation( edge_id ) ==
+			is not yet specified;
+
+end tempo_vdm_SimulatorIO
+~~~
+{% endraw %}
+
+### EdgeStats.vdmpp
+
+{% raw %}
+~~~
+class EdgeStats
+
+	instance variables
+		public avgSpeed      : nat1 := 1; -- speed of last N cars
+		public carCount      : nat  := 0; -- cars / edge
+		public carDensity    : nat  := 0; -- cars / distance
+		public carThroughput : nat  := 0; -- cars / period
+
+end EdgeStats
+~~~
+{% endraw %}
+
+### Edge.vdmpp
+
+{% raw %}
+~~~
+class Edge
+
+types
+
+public NodeId = token;
+
+	instance variables
+		public maxSpeed  : nat1 := 1;
+		public laneCount : nat1 := 1;
+		public length    : nat1 := 1;
+    startN : NodeId;
+    endN : NodeId;
+  
+operations
+
+public Edge: nat * nat1 * nat1 * NodeId * NodeId ==> Edge
+Edge(ms,lc,l,sn,en) ==
+  (maxSpeed := ms;
+   laneCount := lc;
+   length := l;
+   startN := sn;
+   endN := en);
+    
+pure public GetEndNode: () ==> NodeId
+GetEndNode() ==
+  return endN;
    
-end EdgeCommand
+pure public GetStartNode: () ==> NodeId
+GetStartNode() ==
+  return startN;
+    
+end Edge
 ~~~
 {% endraw %}
 
@@ -997,221 +1117,156 @@ end TMS
 ~~~
 {% endraw %}
 
-### Network.vdmpp
+### EdgeCommand.vdmpp
 
 {% raw %}
 ~~~
-	class Network
+class EdgeCommand
 
-types
+	instance variables
+		public curSpeed     : nat := 0;
+		public openNumLanes : nat := 0;
+		
+		-- blocked due to traffic-lights / accidents
+		public isBlocked    : bool := false;
 
-public EdgeId = seq of char;
-  
-public Request ::
-   originator : EdgeId
-   service : TMS`ServiceId
-   severity: real
-   cost : real
-   accepted : bool;
-  
-instance variables
+	  -- weather
+		public minTimeBetweenCars: real := 0.0;
 
-  connections : map EdgeId to Edge := {|->};
-  requests: map EdgeId to set of Request := {|->};
-  offers: map EdgeId to set of Request := {|->};
-  notproblematic : map World`TMSId to set of EdgeId := {|->};
-  
 operations
 
-  public Network: map EdgeId to Edge ==> Network
-  Network(conn) ==
-    connections := conn;
+public Update: nat * nat * bool * real ==> ()
+Update(cs,onl,ib,mtbc) ==
+  (curSpeed := cs;
+   openNumLanes := onl;
+   isBlocked := ib;
+   minTimeBetweenCars := mtbc);
    
-  public MakeOffer: EdgeId * real ==> () 
-  MakeOffer (eid, cost) ==
-  (  let reqs = {mu(r,accepted |-> false, cost |-> cost) | r in set requests(eid)}
-    in
-    offers(eid) := (if eid in set dom offers 
-                    then offers(eid)
-                    else {}) union reqs;
-                    IO`printf("The following offers are made: %s", [offers(eid)])
-  )
-  pre eid in set dom requests;
-  
-  public AddRequests: map EdgeId to set of Request ==> ()
-  AddRequests(req_m) ==
-    requests := requests ++ {id |-> req_m(id) union
-                                    if id in set dom requests
-                                    then requests(id)
-                                    else {} 
-                            | id in set dom req_m};
-                            
-  pure public GetNotProblematic: () ==> set of EdgeId
-  GetNotProblematic() ==
-    return dunion rng notproblematic;
-    
-  pure public GetRequests: EdgeId ==> set of Request
-  GetRequests(eid) ==
-    return if eid in set dom requests
-           then requests(eid)
-           else {};
-           
- pure public GetOffers: EdgeId ==> map EdgeId to set of Request
- GetOffers(requestor) ==
-    return { provider |->{offer |offer in set offers(provider)}
-           | provider in set dom offers & provider = requestor};
-               
-  public AcceptOffers: EdgeId * set of Request ==> ()
-  AcceptOffers(eid, accepted) ==
-     offers(eid) := (if eid in set dom offers
-                     then offers(eid) 
-                     else {}) union accepted;
-                
-  pure public GetAcceptedOffers: EdgeId ==> set of Request
-  GetAcceptedOffers(eid) ==
-    return if eid in set dom offers 
-           then {offer | offer in set offers(eid) & offer.accepted} 
-           else {};
-  
-  public ResetOffers: () ==> ()
-  ResetOffers() ==
-    (requests := {|->};
-     offers := {|->});
-
-  public CancelOldProblematicEdges: World`TMSId * set of Network`EdgeId ==> ()
-  CancelOldProblematicEdges(tmsid,edges) ==
-    notproblematic(tmsid) := edges union if tmsid in set dom notproblematic
-                                         then notproblematic(tmsid)
-                                         else {};
-     
-  public ResetNotproblematic: World`TMSId ==> ()
-  ResetNotproblematic(tmsid) ==
-    notproblematic(tmsid) := {};
-    
-  pure public OfInterestTo: EdgeId ==> set of EdgeId
-  OfInterestTo(edgeid) ==
-    let s = connections(edgeid).GetStartNode(),
-        e = connections(edgeid).GetEndNode()
-    in 
-      return {eid | eid in set dom connections
-                  & connections(eid).GetEndNode() = s or connections(eid).GetStartNode() = e}
-  pre edgeid in set dom connections;
-                  
-  public LeadsToInNSteps: EdgeId * nat1 ==> set of EdgeId
-  LeadsToInNSteps(edgeid,n) ==
-    let s = connections(edgeid).GetStartNode(),
-        leadsto = {eid | eid in set dom connections
-                       & connections(eid).GetEndNode() = s} 
-    in
-      if n = 1
-      then return leadsto
-      else let starts = {connections(eid).GetEndNode()
-                        | eid in set leadsto},
-               rest = dunion {LeadsToInNSteps(eid,n-1)
-                             | eid in set leadsto
-                             & connections(eid).GetEndNode() in set starts}
-           in 
-             return leadsto union rest
-  pre edgeid in set dom connections;
-  
-  pure public GetMaxSpeed: EdgeId ==> nat
-  GetMaxSpeed(edgeid) ==
-     return connections(edgeid).maxSpeed
-  pre edgeid in set dom connections;
-  
-  pure public GetOpenLanes: EdgeId ==> nat
-  GetOpenLanes(edgeid) ==
-     return connections(edgeid).laneCount
-  pre edgeid in set dom connections;
-  
-  
-  public GetEdgeIds: () ==> set of EdgeId
-  GetEdgeIds() == return dom connections;
-  
-  pure public IsInputEdge: EdgeId * EdgeId ==> bool
-  IsInputEdge (eid1, eid2) ==
-    return connections(eid1).GetEndNode() = connections(eid2).GetStartNode()  
-  pre {eid1,eid2} subset dom connections;    
-  -- Test if eid1 is an input edge to eid2
-  
-  pure public IsOutputEdge: EdgeId * EdgeId ==> bool
-  IsOutputEdge (eid1, eid2) ==
-    return connections(eid1).GetStartNode() = connections(eid2).GetEndNode() 
-  pre {eid1,eid2} subset dom connections;    
-  -- Test if eid1 is an output edge of eid2
-  
---public AddDiversionRoutes: EdgeId * set of seq of EdgeId ==> ()
---AddDiversionRoutes(eid,routes) ==
---  div_routes(eid) := routes;
-  
-  pure public GetConnections: () ==> map EdgeId to Edge
- GetConnections() ==
-   return connections;
-   
-           
-end Network
+end EdgeCommand
 ~~~
 {% endraw %}
 
-### SimulatorIO.vdmpp
+### SimulatorEnvironment.vdmpp
 
 {% raw %}
 ~~~
-class tempo_vdm_SimulatorIO
+class SimulatorEnvironment is subclass of Environment
 
+instance variables 
+
+simtime : [nat];
+time : nat;
+
+operations 
+
+public SimulatorEnvironment: Network * map World`TMSId to TMS * [nat] ==> SimulatorEnvironment 
+SimulatorEnvironment(net, tms, t) == (
+	let - = Environment(net, tms) in skip;
+	simtime := t;
+	time := 0;
+);
+
+public Run: bool * seq of char * seq1 of char ==> ()
+Run(colab,network_file,tms_file) == (
+	dcl path: seq of char := tempo_vdm_SimulatorIO`initialize(network_file,tms_file);
+	tempo_vdm_SimulatorIO`fastForwardSimulator(20 * 60);
+	while not isFinished() do (
+		dcl trafsit: TrafficSituation;
+		dcl control: TMS`Control := {|->};
+		tempo_vdm_SimulatorIO`runSimulator(10);
+		trafsit := UpdateSit();
+		for all id in set dom tms_m do tms_m(id).Step(trafsit);
+	  if colab 
+	  then for all id in set dom tms_m do tms_m(id).MakeOffers();
+		for all id in set dom tms_m do tms_m(id).EvaluateOffers();
+	  for all id in set dom tms_m do 
+	    let c = tms_m(id).FinaliseOffers() 
+		  in 
+		    (control := control ++ c;
+		     network.ResetNotproblematic(id));
+		IO`printf("%s\nEdge situation: %s\nControl measures: %s\n", [time, trafsit, control]);
+		for all e in set dom control do
+			for all m in set control(e) do
+				if is_TMS`HardShoulder(m) then
+					tempo_vdm_SimulatorIO`applyHardShoulder(e, m.open)
+				elseif is_TMS`MaxSpeed(m) then
+					if m.speed <> nil
+					then tempo_vdm_SimulatorIO`applyMaxSpeed(e, m.speed)
+					else tempo_vdm_SimulatorIO`applyMaxSpeed(e, 0)
+				elseif is_TMS`TrafficLight(m) then
+					tempo_vdm_SimulatorIO`applyTrafficLight(e, m.greentime)
+				elseif is_TMS`RampMeter(m) then
+				  tempo_vdm_SimulatorIO`applyRampMeter(e, m.redtime)
+				elseif is_TMS`Diversion(m) then
+					if m.route <> nil
+					then tempo_vdm_SimulatorIO`applyDiversion(e, m.route)
+					else tempo_vdm_SimulatorIO`applyDiversion(e, "")
+				elseif is_TMS`LaneClosure(m) then
+				  tempo_vdm_SimulatorIO`applyLaneClosure(e, m.closed);
+		network.ResetOffers();
+		time := time+1;
+	);
+);
+
+private UpdateSit: () ==> TrafficSituation
+UpdateSit() == (
+	dcl sit: EdgeSit;
+	dcl trafsit: TrafficSituation := {|->};
+	for all e in set network.GetEdgeIds() do (
+		sit := tempo_vdm_SimulatorIO`getSituation(e);
+		trafsit(e) := sit;
+	);
+	return trafsit
+);
+
+protected isFinished: () ==> bool
+isFinished() == return if simtime <> nil then time >= simtime else false;
+
+end SimulatorEnvironment
+~~~
+{% endraw %}
+
+### Environment.vdmpp
+
+{% raw %}
+~~~
+class Environment
+
+types
+
+public Performance ::            
+  pol : map Network`EdgeId to Polution
+  veh_traveldist : nat;
+
+public EdgeSit = CarDensity * AvgSpeed * Polution * Incident * BridgeOpen;
+public TrafficSituation = map Network`EdgeId to EdgeSit;
+  
+public CarDensity = nat;
+public AvgSpeed = nat;
+public Polution = nat;
+public Incident = bool;
+public BridgeOpen = bool
+  
+instance variables
+
+protected network : Network := new Network({|->});
+protected tms_m : map World`TMSId to TMS := {|->};  
+  
 operations
 
-	public static
-		initialize : (seq of char) * (seq of char) ==> (seq of char)
-		initialize( networkFile, tmsFile ) == 
-			is not yet specified;
+public Environment: Network * map World`TMSId to TMS ==> Environment 
+Environment(net, tms) == (
+	network := net;
+	tms_m := tms
+);
 
-	public static
-		runSimulator : (nat1) ==> ()
-		runSimulator( time ) ==
-			is not yet specified;
+public Run: bool * seq of char * seq1 of char ==> ()
+Run(-,-,-) == skip;
 
-	public static
-		fastForwardSimulator : (nat1) ==> ()
-		fastForwardSimulator( time ) ==
-			is not yet specified;
+protected isFinished: () ==> bool
+isFinished() == return false;
 
-	public static
-		applyHardShoulder : seq of char * bool ==> ()
-		applyHardShoulder( edgeId, enable) ==
-			is not yet specified;
-			
-	public static
-		applyTrafficLight : seq of char * nat ==> ()
-		applyTrafficLight( edgeId, greenTime) ==
-			is not yet specified;
-			
-	public static
-		applyRampMeter : seq of char * nat ==> ()
-		applyRampMeter( edgeId, redTime) ==
-			is not yet specified;
-			
-	public static
-		applyDiversion : seq of char * seq of char ==> ()
-		applyDiversion( edgeId, message) ==
-			is not yet specified;
-			
-	public static
-		applyMaxSpeed : seq of char * nat ==> ()
-		applyMaxSpeed( edgeId, maxSpeed) ==
-			is not yet specified;
-
-	public static
-		applyLaneClosure : seq of char * nat ==> ()
-		applyLaneClosure( edgeId, closed) ==
-			is not yet specified;
-
-	public static
-		getSituation : seq of char ==> Environment`EdgeSit
-		getSituation( edge_id ) ==
-			is not yet specified;
-
-end tempo_vdm_SimulatorIO
+end Environment
 ~~~
 {% endraw %}
 
@@ -1267,61 +1322,6 @@ protected isFinished: () ==> bool
 isFinished() == return if simtime <> nil then time >= simtime else false;
 
 end TestEnvironment
-~~~
-{% endraw %}
-
-### Edge.vdmpp
-
-{% raw %}
-~~~
-class Edge
-
-types
-
-public NodeId = token;
-
-	instance variables
-		public maxSpeed  : nat1 := 1;
-		public laneCount : nat1 := 1;
-		public length    : nat1 := 1;
-    startN : NodeId;
-    endN : NodeId;
-  
-operations
-
-public Edge: nat * nat1 * nat1 * NodeId * NodeId ==> Edge
-Edge(ms,lc,l,sn,en) ==
-  (maxSpeed := ms;
-   laneCount := lc;
-   length := l;
-   startN := sn;
-   endN := en);
-    
-pure public GetEndNode: () ==> NodeId
-GetEndNode() ==
-  return endN;
-   
-pure public GetStartNode: () ==> NodeId
-GetStartNode() ==
-  return startN;
-    
-end Edge
-~~~
-{% endraw %}
-
-### EdgeStats.vdmpp
-
-{% raw %}
-~~~
-class EdgeStats
-
-	instance variables
-		public avgSpeed      : nat1 := 1; -- speed of last N cars
-		public carCount      : nat  := 0; -- cars / edge
-		public carDensity    : nat  := 0; -- cars / distance
-		public carThroughput : nat  := 0; -- cars / period
-
-end EdgeStats
 ~~~
 {% endraw %}
 
