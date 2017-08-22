@@ -6,27 +6,9 @@ location: Newcastle University, UK
 ---
 # THE 15TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based Systems Engineering
 
-
-We invite contributions to the 15th Overture Workshop on the Vienna Development (VDM), its foundations, tools, and applications. VDM is one of the best established formal methods for systems development. A lively community of researchers and practitioners in academia and industry has grown around the modelling languages (VDM-SL, VDM++, VDM-RT, CML) and tools (VDMTools, Overture, Crescendo, Symphony, and the INTO-CPS chain). Together, these provide a platform for work on modelling and analysis technology that includes static and dynamic analysis, test generation, execution support, and model checking. 
-
-Current projects on model-based design for cyber-physical systems (INTO-CPS and the CPSE Labs experiments TEMPO, CPSBuDi and IPP4CPPS) are generating real results. There are also important developments in Japan with the release of VDMTools under an
-open source licence. It is thus timely to focus on the future of the methods and toolchain, improvements in capabilities, and potential applications. We also propose to hold a structured discussion on possible commercial futures. 
-
-Previous workshops have been invaluable in encouraging both new and established members of the community in their work, and helping to determine priorities and future directions. Proceedings of former workshops are available at http://www.overturetool.org/.
-
-**Location: Newcastle University, United Kingdom.**
-
-### Important Dates
-
-* ~~17 July 2017~~ 24 July 2017 (extended): submission of abstracts of papers (at <https://easychair.org/conferences/?conf=overture15>)  
-* ~~24 July 2017~~ 31 July 2017 (extended): submission deadline for papers (PDF only, please)
-* 21 August 2017: notification to authors
-* 11 September 2017: final version of papers due
-* 15 September 2017: workshop
-
 ## REGISTRATION
 
-To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what dates you intend to arrive and leave (provisionally is fine), and if you have any dietary requirements.
+To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what dates you intend to arrive and leave (provisionally is fine), and if you have any dietary requirements. Registration is free of charge.
 
 ## LOCAL ARRANGEMENTS
 
@@ -42,6 +24,25 @@ There are a range of city centre hotels that are convenient for the new building
 
 ## CALL FOR PAPERS
 
+We invite contributions to the 15th Overture Workshop on the Vienna Development (VDM), its foundations, tools, and applications. VDM is one of the best established formal methods for systems development. A lively community of researchers and practitioners in academia and industry has grown around the modelling languages (VDM-SL, VDM++, VDM-RT, CML) and tools (VDMTools, Overture, Crescendo, Symphony, and the INTO-CPS chain). Together, these provide a platform for work on modelling and analysis technology that includes static and dynamic analysis, test generation, execution support, and model checking. 
+
+Current projects on model-based design for cyber-physical systems (INTO-CPS and the CPSE Labs experiments TEMPO, CPSBuDi and IPP4CPPS) are generating real results. There are also important developments in Japan with the release of VDMTools under an
+open source licence. It is thus timely to focus on the future of the methods and toolchain, improvements in capabilities, and potential applications. We also propose to hold a structured discussion on possible commercial futures. 
+
+Previous workshops have been invaluable in encouraging both new and established members of the community in their work, and helping to determine priorities and future directions. Proceedings of former workshops are available at http://www.overturetool.org/.
+
+**Location: Newcastle University, United Kingdom.**
+
+### Important Dates
+
+* ~~17 July 2017~~ 24 July 2017 (extended): submission of abstracts of papers (at <https://easychair.org/conferences/?conf=overture15>)  
+* ~~24 July 2017~~ 31 July 2017 (extended): submission deadline for papers (PDF only, please)
+* ~~21 August 2017~~: notification to authors
+* 11 September 2017: final version of papers due
+* 15 September 2017: workshop
+
+### Call
+
 Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in a Newcastle University Technical Report.  
 The scope of the workshop includes, but is not restricted to: 
 
@@ -51,7 +52,6 @@ The scope of the workshop includes, but is not restricted to:
 * Papers combining VDM with other notations and tools.
 * Position papers on VDM and its promotion in industry practice.
 * Papers on extensions of Overture, including Crescendo, Symphony and ViennaTalk.
-
 
 ### Organisers
 
