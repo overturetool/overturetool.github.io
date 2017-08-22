@@ -24,6 +24,22 @@ Previous workshops have been invaluable in encouraging both new and established 
 * 11 September 2017: final version of papers due
 * 15 September 2017: workshop
 
+## REGISTRATION
+
+To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what dates you intend to arrive and leave (provisionally is fine), and if you have any dietary requirements.
+
+## LOCAL ARRANGEMENTS
+
+The workshop will be held in the brand new Urban Sciences Building, the new of the School of Computing and other research labs.  For those of you familiar with Newcastle, this is further downtown than the old building, next to the football stadium. The building appears on this [Campus Map](http://www.ncl.ac.uk/media/wwwnclacuk/abouttheuniversity/files/campus-map.pdf) at location 66, though does not have a number itself yet. It is also marked on this [Google Maps link](https://goo.gl/maps/eHPYfTsbWbs).
+
+There are a range of city centre hotels that are convenient for the new building:
+
+* [Sandman Signature](http://www.sandmansignature.co.uk/find-hotels/newcastle/) [3 mins walk] 
+* [Sleeperz](https://sleeperz.com/newcastle) [12 mins walk]
+* [Hotel Motel One](https://www.motel-one.com/en/hotels/newcastle/) [12 mins walk]
+* [Jurys Inn](https://www.jurysinns.com/hotels/newcastle/newcastle) [12 mins walk]
+* [Crowne Plaza](https://www.ihg.com/crowneplaza/hotels/gb/en/newcastle-upon-tyne/nclsq/hoteldetail) [14 mins walk]
+
 ## CALL FOR PAPERS
 
 Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in a Newcastle University Technical Report.  
