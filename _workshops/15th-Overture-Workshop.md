@@ -12,7 +12,7 @@ To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what d
 
 ## LOCAL ARRANGEMENTS
 
-The workshop will be held in the brand new Urban Sciences Building, the new of the School of Computing and other research labs.  For those of you familiar with Newcastle, this is further downtown than the old building, next to the football stadium. The building appears on this [Campus Map](http://www.ncl.ac.uk/media/wwwnclacuk/abouttheuniversity/files/campus-map.pdf) at location 66, though does not have a number itself yet. It is also marked on this [Google Maps link](https://goo.gl/maps/eHPYfTsbWbs).
+The workshop will be held in the brand new Urban Sciences Building, the new home of the School of Computing and other research labs.  For those of you familiar with Newcastle, this is further downtown than the old building, next to the football stadium. The building appears on this [Campus Map](http://www.ncl.ac.uk/media/wwwnclacuk/abouttheuniversity/files/campus-map.pdf) at location 66, though does not have a number itself yet. It is also marked on this [Google Maps link](https://goo.gl/maps/eHPYfTsbWbs).
 
 There are a range of city centre hotels that are convenient for the new building:
 
