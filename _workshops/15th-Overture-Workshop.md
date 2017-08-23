@@ -24,7 +24,20 @@ There are a range of city centre hotels that are convenient for the new building
 * [Jurys Inn](https://www.jurysinns.com/hotels/newcastle/newcastle) [12 mins walk]
 * [Crowne Plaza](https://www.ihg.com/crowneplaza/hotels/gb/en/newcastle-upon-tyne/nclsq/hoteldetail) [14 mins walk]
 
-## CALL FOR PAPERS
+## ACCEPTED PAPERS
+
+*	Nick Battle, _Analysis Separation without Visitors_
+*	Victor Bandur, Peter W. V. Tran-Jørgensen, Miran Hasanagić, and Kenneth Lausdahl, _Code-generating VDM for Embedded Devices_
+*	Kenneth Lausdahl, Kim Bjerge, Tom Bokhove, Frank Groen, and Peter Gorm Larsen, _Transitioning from Crescendo to INTO-CPS_
+*	Mihai Neghina, Constantin-Bala Zamfirescu, Peter Gorm Larsen, Kenneth Lausdahl, and Ken Pierce, _A Discrete Event-first Approach to Collaborative Modelling of Cyber-Physical Systems_
+*	Tomohiro Oda, Keijiro Araki, and Peter Gorm Larsen, _Debugging Auto-Generated Code with Source Specification in Exploratory Modeling_
+*	Tomoyuki Myojin and Fuyuki Ishikawa, _Automated Test Procedure Generation from Formal Specifications_
+*	Hiroki Tachiyama, Tetsuro Katayama, and Tomohiro Oda, _Automated Generation of Decision Table and Boundary Values from VDM++ Specification_ 
+*	Luis Diogo Couto and Ken Pierce, _Modelling Network Connections in FMI with an Explicit Network Model_
+*	Sergio Feo-Arenis, Marcel Verhoef, and Peter Gorm Larsen, _The Mars-Rover Case Study Modelled Using INTO-CPS_
+*	Hansen Salim and John Fitzgerald, _Towards Multi-Models for Self-* Cyber-Physical Systems_
+
+## Original CALL FOR PAPERS
 
 We invite contributions to the 15th Overture Workshop on the Vienna Development (VDM), its foundations, tools, and applications. VDM is one of the best established formal methods for systems development. A lively community of researchers and practitioners in academia and industry has grown around the modelling languages (VDM-SL, VDM++, VDM-RT, CML) and tools (VDMTools, Overture, Crescendo, Symphony, and the INTO-CPS chain). Together, these provide a platform for work on modelling and analysis technology that includes static and dynamic analysis, test generation, execution support, and model checking. 
 
