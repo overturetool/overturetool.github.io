@@ -10,6 +10,43 @@ location: Newcastle University, UK
 
 To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what dates you intend to arrive and leave (provisionally is fine), and if you have any dietary requirements. Registration is free of charge.
 
+## PROGRAMME
+
+* 0830-0900	__Arrivals Refreshments__
+
+* 0900-0910 	__Welcome__
+
+* 0910-0930	Victor Bandur, Peter W. V. Tran-Jørgensen, Miran Hasanagić, and Kenneth Lausdahl, _Code-generating VDM for Embedded Devices_
+
+* 0930-0950 	Kenneth Lausdahl, Kim Bjerge, Tom Bokhove, Frank Groen, and Peter Gorm Larsen, _Transitioning from Crescendo to INTO-CPS_
+
+* 0950-1010 	Luis Diogo Couto and Ken Pierce, _Modelling Network Connections in FMI with an Explicit Network Model_
+
+* 1010-1030	Hansen Salim and John Fitzgerald, _Towards Multi-Models for Self-* Cyber-Physical Systems_
+
+* 1030-1100 	__Break__
+
+* 1100-1120 	Tomohiro Oda, Keijiro Araki, and Peter Gorm Larsen, _Debugging Auto-Generated Code with Source Specification in Exploratory Modeling_
+
+* 1120-1140 	Tomoyuki Myojin and Fuyuki Ishikawa, _Automated Test Procedure Generation from Formal Specifications_
+
+* 1140-1200 	Hiroki Tachiyama, Tetsuro Katayama, and Tomohiro Oda, _Automated Generation of Decision Table and Boundary Values from VDM++ Specification_
+
+* 1200-1220	Nick Battle, _Analysis Separation without Visitors_
+
+* 1220-1330 	__Lunch__
+
+* 1330-1350 	Mihai Neghina, Constantin-Bala Zamfirescu, Peter Gorm Larsen, Kenneth Lausdahl, and Ken Pierce, _A Discrete Event-first Approach to Collaborative Modelling of Cyber-Physical Systems_
+
+* 1350-1410 	Sergio Feo-Arenis, Marcel Verhoef, and Peter Gorm Larsen, _The Mars-Rover Case Study Modelled Using INTO-CPS_
+
+* 1410-1630 	__Overture Futures:__ a structured discussion on future exploitation of Overture technology, led by Graeme Young, Business Development Manager in Science, Agriculture & Engineering, Newcastle University (includes a break).
+
+* 1630 __Close__
+
+__A “pay-your-own” workshop dinner will be held at a central Newcastle location, starting at 1900__
+
+
 ## LOCAL ARRANGEMENTS
 
 The workshop will be held in the brand new Urban Sciences Building, the new home of the School of Computing and other research labs.  For those of you familiar with Newcastle, this is further downtown than the old building, next to the football stadium. The building appears on this [Campus Map](http://www.ncl.ac.uk/media/wwwnclacuk/abouttheuniversity/files/campus-map.pdf) at location 66, though does not have a number itself yet. It is also marked on this [Google Maps link](https://goo.gl/maps/eHPYfTsbWbs).
