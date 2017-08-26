@@ -36,12 +36,20 @@ TBD.
 
 TBD.
 
+#### Overture
+
+Several tool enhancements has been made since the last meeting:
+
+* Performance improvements for the code coverage feature.
+* Several fixes for the debugger.
 
 ##  Release Planning
 
-TBD.
+Next Overture release is due by September 11.
 
-##  Community Development
+##  Community Development / Overture workshop status
+
+Check out the [Overture 15 workshop page](http://overturetool.org/workshops/15th-Overture-Workshop.html), for the latest information about the upcoming workshop in Newcastle.
 
 #### Overture Traffic
 
