@@ -9,7 +9,7 @@ date: 27 August 2017, 1200 CEST
 |||
 |---|---|
 | Date | 27 August 2017, 1200 CEST |
-| Participants | PGL, NP, NB, PC Minutes by TO. |
+| Participants | PGL, NP, NB, PC, HM Minutes by TO. |
 
 ## Review Status of the Action List
 
