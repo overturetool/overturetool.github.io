@@ -24,11 +24,16 @@ TBD.
 
 ## Status of VDMTools Development
 
-TBD.
+Working on refactoring and support for ord/eq clauses.
+A new release will be made when the current features get stabilized.
 
 ## Status of ViennaTalk Development
 
-TBD.
+### New major version "Maribor" is released.
+https://github.com/tomooda/ViennaTalk-doc/releases/tag/20170827
+
+* Migrated to Pharo 6.1 base (the current up-to-date Pharo system).
+* VDMDebugger with step execution in the granularity of the source VDM spec.
 
 ##  Status of the Overture Components
 
