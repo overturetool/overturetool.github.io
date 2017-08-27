@@ -9,18 +9,19 @@ date: 27 August 2017, 1200 CEST
 |||
 |---|---|
 | Date | 27 August 2017, 1200 CEST |
-| Participants | AA, BB, CC.  Minutes by CC. |
+| Participants | PGL, NP, NB, PC Minutes by TO. |
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 88-1 Status TBD.
-
+* 88-1 Status: No progress.
 
 ## Overture Language Board Status
 
-TBD.
+* RM#42: Generalise Measure Clause
+* RM#43: More flexible syntax for function arguments
+* Standard Library WG
 
 ## Status of VDMTools Development
 
@@ -39,7 +40,7 @@ https://github.com/tomooda/ViennaTalk-doc/releases/tag/20170827
 
 #### VDMJ
 
-TBD.
+Some minor fixes has been done.
 
 #### Overture
 
@@ -60,20 +61,14 @@ Check out the [Overture 15 workshop page](http://overturetool.org/workshops/15th
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-TBD.
-
-##  Strategic Research Agenda
-
-TBD.
-
 ##  Publications Status and Plans
 
-TBD.
+TO will make updates.
 
 Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
-TBD.
+No AOB was discussed.
 
-Meeting closed at ??
+Meeting closed at 12:38
