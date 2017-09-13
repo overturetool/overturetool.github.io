@@ -16,7 +16,7 @@ The Urban Sciences Building is the new home of the School of Computing and other
 
 ![Urban Sciences Building, Newcastle upon Tyne](15/USB.jpg)
 
-**Room 4.005** is located on the fourth floor. The main entrance to the building is on the south side, leading to the atrium. The atrium has a reception desk on the right along with a cafe. The main lifts are through the doors to the left of the grand staircase. There is also a reception on the second floor.
+**Room 4.005** is located on the fourth floor. The main entrance to the building is on the south east side, leading to the atrium. The atrium has a reception desk on the right along with a cafe. The main lifts are through the doors to the left of the grand staircase, take the lift to the fourth floor and turn left. 
 
 ![Ground and first floors of the Urban Sciences Building, Newcastle upon Tyne](15/USB2.png)
 
