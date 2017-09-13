@@ -6,9 +6,17 @@ location: Newcastle University, UK
 ---
 # THE 15TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based Systems Engineering
 
-## REGISTRATION
+## LOCATION
 
-To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what dates you intend to arrive and leave (provisionally is fine), and if you have any dietary requirements. Registration is free of charge.
+**Room 4.005, Urban Sciences Building, Science Central, Newcastle upon Tyne, UK**
+
+The Urban Sciences Building is the new home of the School of Computing and other research labs.  For those of you familiar with Newcastle, this is further downtown than the old building, next to the football stadium. The building appears on this [Campus Map](http://www.ncl.ac.uk/media/wwwnclacuk/abouttheuniversity/files/campus-map.pdf) at location 66, though does not have a number itself yet. It is also marked on this [Google Maps link](https://goo.gl/maps/eHPYfTsbWbs).
+
+![Urban Sciences Building, Newcastle upon Tyne](15/USB.jpg)
+
+**Room 4.005** is located on the fourth floor. The main entrance to the building is on the south side, leading to the atrium. The atrium has a reception desk on the right along with a cafe. The main lifts are through the doors to the left of the grand staircase. There is also a reception on the second floor.
+
+![Ground and first floors of the Urban Sciences Building, Newcastle upon Tyne](15/USB2.png)
 
 ## PROGRAMME
 
@@ -44,8 +52,9 @@ To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what d
 
 * 1630 __Close__
 
-__A “pay-your-own” workshop dinner will be held at a central Newcastle location, starting at 1900__
+__A “pay-your-own” workshop dinner will be held at [Piccolino](http://individualrestaurants.com/piccolino/newcastle/), starting at 1900__. Piccolino is a modern Italian restauraunt near the river in Newcastle's Quayside area [(main menu PDF)](http://individualrestaurants.com/wp-content/uploads/2017/08/PICCNewcastleMainNoFishPlatterSummer17.pdf). 
 
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2290.122757156474!2d-1.607506283443489!3d54.970946380351506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487e70b8365f5537%3A0x4b258a459c038a1b!2sPiccolino!5e0!3m2!1sen!2suk!4v1505297611214" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 
 ## LOCAL ARRANGEMENTS
 
@@ -60,6 +69,10 @@ There are a range of city centre hotels that are convenient for the new building
 * [Hotel Motel One](https://www.motel-one.com/en/hotels/newcastle/) [12 mins walk]
 * [Jurys Inn](https://www.jurysinns.com/hotels/newcastle/newcastle) [12 mins walk]
 * [Crowne Plaza](https://www.ihg.com/crowneplaza/hotels/gb/en/newcastle-upon-tyne/nclsq/hoteldetail) [14 mins walk]
+
+## REGISTRATION
+
+To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what dates you intend to arrive and leave (provisionally is fine), and if you have any dietary requirements. Registration is free of charge.
 
 ## ACCEPTED PAPERS
 
