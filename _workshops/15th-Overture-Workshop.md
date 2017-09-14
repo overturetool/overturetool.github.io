@@ -85,7 +85,7 @@ To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what d
 *	Sergio Feo-Arenis, Marcel Verhoef, and Peter Gorm Larsen, _The Mars-Rover Case Study Modelled Using INTO-CPS_
 *	Hansen Salim and John Fitzgerald, _Towards Multi-Models for Self-* Cyber-Physical Systems_
 
-A zip containing all the accepted papers can be downloaded from ![here](15/overture15-papers.zip).
+A zip file containing all the accepted papers can be downloaded from [here](15/overture15-papers.zip).
 
 ## Original CALL FOR PAPERS
 
