@@ -74,6 +74,8 @@ To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what d
 
 ## ACCEPTED PAPERS
 
+The following papers have been accepted:
+
 *	Nick Battle, _Analysis Separation without Visitors_
 *	Victor Bandur, Peter W. V. Tran-Jørgensen, Miran Hasanagić, and Kenneth Lausdahl, _Code-generating VDM for Embedded Devices_
 *	Kenneth Lausdahl, Kim Bjerge, Tom Bokhove, Frank Groen, and Peter Gorm Larsen, _Transitioning from Crescendo to INTO-CPS_
@@ -84,8 +86,6 @@ To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what d
 *	Luis Diogo Couto and Ken Pierce, _Modelling Network Connections in FMI with an Explicit Network Model_
 *	Sergio Feo-Arenis, Marcel Verhoef, and Peter Gorm Larsen, _The Mars-Rover Case Study Modelled Using INTO-CPS_
 *	Hansen Salim and John Fitzgerald, _Towards Multi-Models for Self-* Cyber-Physical Systems_
-
-A zip file containing all the accepted papers can be downloaded from [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/15/overture15-papers.zip).
 
 ## Original CALL FOR PAPERS
 
