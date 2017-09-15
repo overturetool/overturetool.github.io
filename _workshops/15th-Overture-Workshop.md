@@ -85,6 +85,8 @@ To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what d
 *	Sergio Feo-Arenis, Marcel Verhoef, and Peter Gorm Larsen, _The Mars-Rover Case Study Modelled Using INTO-CPS_
 *	Hansen Salim and John Fitzgerald, _Towards Multi-Models for Self-* Cyber-Physical Systems_
 
+A zip file containing all the papers is available [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/15/overture15-papers.zip).
+
 ## Original CALL FOR PAPERS
 
 We invite contributions to the 15th Overture Workshop on the Vienna Development (VDM), its foundations, tools, and applications. VDM is one of the best established formal methods for systems development. A lively community of researchers and practitioners in academia and industry has grown around the modelling languages (VDM-SL, VDM++, VDM-RT, CML) and tools (VDMTools, Overture, Crescendo, Symphony, and the INTO-CPS chain). Together, these provide a platform for work on modelling and analysis technology that includes static and dynamic analysis, test generation, execution support, and model checking. 
