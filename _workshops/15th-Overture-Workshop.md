@@ -145,4 +145,4 @@ The scope of the workshop includes, but is not restricted to:
 
 ### Participants
 
-![Front row (left to right): Ken Pierce, Leo Freitas, Kenneth Lausdahl, Luis Diogo Cuoto; second row: Carl Schultz, Peter Würtz Vinther Tran-Jørgensen,Sergio Feo-Arenis; third row: Andres Toom, Tammaso Fabbri, Tomohiro Oda; fourth row: Hansen Salim, Tomoyuki Myojin, Hiroki Tachiyama; fifth row: Peter Gorm Larsen, Nick Battle, Graeme Young; back row: Martin Mansfield, Mark Jackson, Richie Jenkins, John Fiztgeralz]](15/participants.jpg)
+![Front row (left to right): Ken Pierce, Leo Freitas, Kenneth Lausdahl, Luis Diogo Cuoto; second row: Carl Schultz, Peter Würtz Vinther Tran-Jørgensen,Sergio Feo-Arenis; third row: Andres Toom, Tammaso Fabbri, Tomohiro Oda; fourth row: Hansen Salim, Tomoyuki Myojin, Hiroki Tachiyama; fifth row: Peter Gorm Larsen, Nick Battle, Graeme Young; back row: Martin Mansfield, Mark Jackson, Richie Jenkins, John Fiztgeralz](15/participants.jpg)
