@@ -5,7 +5,7 @@ date: 2017-09-15
 location: Newcastle University, UK
 ---
 # THE 15TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based Systems Engineering
-test
+
 ## LOCATION
 
 The workshop will be held in:
@@ -73,8 +73,6 @@ There are a range of city centre hotels that are convenient for the new building
 To register, email [Ken Pierce](kenneth.pierce@ncl.ac.uk) with your name, what dates you intend to arrive and leave (provisionally is fine), and if you have any dietary requirements. Registration is free of charge.
 
 ## ACCEPTED PAPERS
-
-The following papers have been accepted:
 
 *	Nick Battle, _Analysis Separation without Visitors_
 *	Victor Bandur, Peter W. V. Tran-Jørgensen, Miran Hasanagić, and Kenneth Lausdahl, _Code-generating VDM for Embedded Devices_
