@@ -142,3 +142,7 @@ The scope of the workshop includes, but is not restricted to:
 * Kenneth Pierce, Newcastle University, United Kingdom
 * Marcel Verhoef, European Space Agency, The Netherlands
 * Sune Wolff, Unity, Denmark
+
+### Participants
+
+![Participants](15/2017-09-15 13.21.13-1.jpg)
