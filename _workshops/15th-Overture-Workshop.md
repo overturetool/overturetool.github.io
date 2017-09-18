@@ -26,13 +26,13 @@ The Urban Sciences Building is the new home of the School of Computing and other
 
 * 0900-0910 	__Welcome__
 
-* 0910-0930	Victor Bandur, Peter W. V. Tran-Jørgensen, Miran Hasanagić, and Kenneth Lausdahl, _Code-generating VDM for Embedded Devices_
+* 0910-0930	Victor Bandur, Peter W. V. Tran-Jørgensen, Miran Hasanagić, and Kenneth Lausdahl, [_Code-generating VDM for Embedded Devices_](15/slides/bandur.pdf)
 
-* 0930-0950 	Kenneth Lausdahl, Kim Bjerge, Tom Bokhove, Frank Groen, and Peter Gorm Larsen, _Transitioning from Crescendo to INTO-CPS_
+* 0930-0950 	Kenneth Lausdahl, Kim Bjerge, Tom Bokhove, Frank Groen, and Peter Gorm Larsen, [_Transitioning from Crescendo to INTO-CPS_](15/slides/lausdahl.pdf)
 
-* 0950-1010 	Luis Diogo Couto and Ken Pierce, _Modelling Network Connections in FMI with an Explicit Network Model_
+* 0950-1010 	Luis Diogo Couto and Ken Pierce, [_Modelling Network Connections in FMI with an Explicit Network Model_](15/slides/couto.pdf)
 
-* 1010-1030	Hansen Salim and John Fitzgerald, _Towards Multi-Models for Self-* Cyber-Physical Systems_
+* 1010-1030	Hansen Salim and John Fitzgerald, [_Towards Multi-Models for Self-* Cyber-Physical Systems_](15/slides/salim.pdf)
 
 * 1030-1100 	__Break__
 
@@ -48,7 +48,7 @@ The Urban Sciences Building is the new home of the School of Computing and other
 
 * 1330-1350 	Mihai Neghina, Constantin-Bala Zamfirescu, Peter Gorm Larsen, Kenneth Lausdahl, and Ken Pierce, _A Discrete Event-first Approach to Collaborative Modelling of Cyber-Physical Systems_
 
-* 1350-1410 	Sergio Feo-Arenis, Marcel Verhoef, and Peter Gorm Larsen, _The Mars-Rover Case Study Modelled Using INTO-CPS_
+* 1350-1410 	Sergio Feo-Arenis, Marcel Verhoef, and Peter Gorm Larsen, [_The Mars-Rover Case Study Modelled Using INTO-CPS_](15/slides/feo-arenis.pdf)
 
 * 1410-1630 	__Overture Futures:__ a structured discussion on future exploitation of Overture technology, led by Graeme Young, Business Development Manager in Science, Agriculture & Engineering, Newcastle University (includes a break).
 
