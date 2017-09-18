@@ -42,7 +42,7 @@ The Urban Sciences Building is the new home of the School of Computing and other
 
 * 1140-1200 	Hiroki Tachiyama, Tetsuro Katayama, and Tomohiro Oda, _Automated Generation of Decision Table and Boundary Values from VDM++ Specification_
 
-* 1200-1220	Nick Battle, _Analysis Separation without Visitors_
+* 1200-1220	Nick Battle, [_Analysis Separation without Visitors_](15/slides/battle.pdf)
 
 * 1220-1330 	__Lunch__
 
