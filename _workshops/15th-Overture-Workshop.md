@@ -36,7 +36,7 @@ The Urban Sciences Building is the new home of the School of Computing and other
 
 * 1030-1100 	__Break__
 
-* 1100-1120 	Tomohiro Oda, Keijiro Araki, and Peter Gorm Larsen, _Debugging Auto-Generated Code with Source Specification in Exploratory Modeling_
+* 1100-1120 	Tomohiro Oda, Keijiro Araki, and Peter Gorm Larsen, [_Debugging Auto-Generated Code with Source Specification in Exploratory Modeling_](15/slides/oda.pdf)
 
 * 1120-1140 	Tomoyuki Myojin and Fuyuki Ishikawa, _Automated Test Procedure Generation from Formal Specifications_
 
