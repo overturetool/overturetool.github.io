@@ -24,7 +24,7 @@ Previous workshops have been invaluable in encouraging both new and established 
 * 8 April 2018: Submission of abstracts of papers  
 * 15 April 2018: Submission deadline for papers (PDF only, please)
 * 15 May 2018: notification to authors
-* 1 June 2018 (TBC): Final version of papers due
+* 31 May 2018 (TBC): Final version of papers due
 * 14 July 2018: Workshop
 
 ## CALL FOR PAPERS
