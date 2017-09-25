@@ -1,12 +1,12 @@
 ---
 layout: default
 title: The 16th Overture Workshop
-date: 2018-07-18
+date: 2018-07-14
 location: Oxford, UK
 ---
 # THE 16TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based Systems Engineering
 
-The 16th Overture Workshop will be held on 18 or 19 July 2018 (TBC) in association with the [Federated Logic Conference (FLoC) 2018](http://www.floc2018.org/) and the [22nd International Symposium on Formal Methods (FM 2018)](http://www.fmeurope.org/?p=613).
+The 16th Overture Workshop will be held on Saturday 14 July 2018 in association with the [Federated Logic Conference (FLoC) 2018](http://www.floc2018.org/) and the [22nd International Symposium on Formal Methods (FM 2018)](http://www.fmeurope.org/?p=613).
 
 The  16th Overture Workshop is the latest in a
 series of workshops around the Vienna Development Method (VDM), the open-source project
@@ -25,7 +25,7 @@ Previous workshops have been invaluable in encouraging both new and established 
 * 15 April 2018: Submission deadline for papers (PDF only, please)
 * 15 May 2018: notification to authors
 * 1 June 2018 (TBC): Final version of papers due
-* 18 or 19 July 2018 (TBC): Workshop
+* 14 July 2018: Workshop
 
 ## CALL FOR PAPERS
 
