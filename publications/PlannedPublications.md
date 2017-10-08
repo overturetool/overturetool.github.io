@@ -13,7 +13,7 @@ title: Overture Publications
 
 - Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur, Kenneth Lausdahl, Peter W. V. Tran-Jørgensen and Miran Hasanagic
 - Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
--   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, to be submitted to ACM SAC
+
 
 ## In review
 
@@ -21,6 +21,8 @@ title: Overture Publications
     Lausdahl, Victor Bandur, Joey Coleman, Peter Gorm Larsen and Jim Woodcock, submitted to the Formal
     Aspects of Computing journal)
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
+-   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, submitted to ACM SAC
+- Model-based Development of a Multi-algorithm Harvest Planning System, Luis Diogo Couto, Peter W. V. Tran-Jørgensen and Gareth T. C. Edwards, Advances in Intelligent Systems and Computing series
 
 
 ## In press
