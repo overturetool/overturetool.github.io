@@ -14,46 +14,35 @@ date: 8 October 2017, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | Hugo, Ken Pierce, Luís, Nick, PGL.  Minutes by Hugo. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
+* 88-1 No progress.
 
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
-
+The LB meeting was canceled due to low atendance.
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
+Nothing to report.
 
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDM2C 
 
-details about it
+TBA
 
 
 ##  Release Planning
 
-#### topic 1
-
-some description
-
+#### Overture 2.5.2 is out!
 
 ##  Community Development
 
@@ -61,13 +50,13 @@ some description
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
+#### 16th Overture Workshop
 
+Please check the [call for papers](http://overturetool.org/workshops/16th-Overture-Workshop.html)
 
 ##  Strategic Research Agenda
 
-The Strategic Research Agenda is reviewed every other NetMeeting.
+No discussion this meeting.
 
 
 ##  Publications Status and Plans
@@ -76,16 +65,16 @@ Also see [Planned Publications](http://overturetool.org/publications/PlannedPubl
 
 #### In preparation:
 
-* Item 1
-* Item 2
+* Proceedings of the 15th workshop
+* TBA
 
 #### In review:
 
-* Item 1
+* TBA
 
 #### In press:
 
-* Item 1
+* TBA
 
 
 ##  Any Other Business
