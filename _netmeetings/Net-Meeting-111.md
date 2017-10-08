@@ -13,7 +13,7 @@ date: 8 October 2017, 1200 CEST
 
 |||
 |---|---|
-| Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
+| Date | 8 October 2017, 1200 CEST  |
 | Participants | Hugo, Ken Pierce, Luís, Nick, PGL.  Minutes by Hugo. |
 
 
