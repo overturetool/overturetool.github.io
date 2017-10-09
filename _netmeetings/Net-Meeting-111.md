@@ -26,7 +26,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-The LB meeting was canceled due to low atendance.
+The LB meeting was canceled due to low attendance.
 
 ## Status of VDMTools Development
 
@@ -37,12 +37,12 @@ Nothing to report.
 
 #### VDM2C 
 
-TBA
+VDM2C version 0.1.16 now contains support for the distributed aspects of VDM-RT. More information about this feature is available in the [release notes](https://github.com/overturetool/vdm2c/releases).
 
 
 ##  Release Planning
 
-#### Overture 2.5.2 is out!
+Next release of Overture, version 2.5.4, is due by November 11, 2017.
 
 ##  Community Development
 
@@ -61,21 +61,7 @@ No discussion this meeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Proceedings of the 15th workshop
-* TBA
-
-#### In review:
-
-* TBA
-
-#### In press:
-
-* TBA
-
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
