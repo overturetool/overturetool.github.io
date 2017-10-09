@@ -22,8 +22,6 @@ title: Overture Publications
     Aspects of Computing journal)
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, submitted to ACM SAC 2018
-- Model-based Development of a Multi-algorithm Harvest Planning System, Luis Diogo Couto, Peter W. V. Tran-Jørgensen and Gareth T. C. Edwards, to appear in Advances in Intelligent Systems and Computing series
-
 
 ## In press
 
