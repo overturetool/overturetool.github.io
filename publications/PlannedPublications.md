@@ -32,7 +32,6 @@ title: Overture Publications
     Tomohiro Oda and Keijiro Araki, submitted to Computer Software,
     Japan Society for Software Science and Technology, special issue on
     "Software papers"
-- Automated translation of VDM to JML-annotated Java, (Peter W. V. Tran-Jørgensen, Peter Gorm Larsen and Gary T. Leavens, submitted in final form for the STTT journal)
 -   The 14th Overture Workshop: Towards Analytical Tool Chains, Peter Gorm Larsen,	Nico Plat,	Nick Battle (Eds), ECE-TR-28, Vol 4, (2016), Online ISSN 2245-2087, http://ojs.statsbiblioteket.dk/index.php/ece/issue/view/3507
 -   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, FM'2016
 -   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster, accepted for publication at Isola 2016
@@ -50,3 +49,4 @@ title: Overture Publications
     Lausdahl for WICSA 2015)
 -   The Evolution of VDM Tools from the 1990s to 2015 and the Influence of CAMILA, (Peter Gorm Larsen and John Fitzgerald, published by the Journal of Logical and Algebraic Methods in Programming in connection with the Festscrift for José Nuno Oliveira) See http://www.sciencedirect.com/science/article/pii/S2352220815000954.
 -   Principles for Reuse in Formal Language Tools, (Luis Diogo Couto, Peter Tran-Jørgensen and Kenneth Lausdahl, presented at SAC by Victor Bandur)
+-   Model-based Development of a Multi-algorithm Harvest Planning System, Luis Diogo Couto, Peter W. V. Tran-Jørgensen, and Gareth T. C. Edwards, due to appear in Volume 676 of the Advances in Intelligent Systems and Computing series (invited paper).
