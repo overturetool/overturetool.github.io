@@ -100,9 +100,9 @@ Previous workshops have been invaluable in encouraging both new and established 
 
 ### Important Dates
 
-* ~~17 July 2017~~ 24 July 2017 (extended): submission of abstracts of papers (at <https://easychair.org/conferences/?conf=overture15>)  
-* ~~24 July 2017~~ 31 July 2017 (extended): submission deadline for papers (PDF only, please)
-* ~~21 August 2017~~: notification to authors
+* 24 July 2017 (extended): submission of abstracts of papers (at <https://easychair.org/conferences/?conf=overture15>)  
+* 31 July 2017 (extended): submission deadline for papers (PDF only, please)
+* 21 August 2017: notification to authors
 * 11 September 2017: final version of papers due
 * 15 September 2017: workshop
 
