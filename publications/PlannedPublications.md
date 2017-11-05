@@ -17,9 +17,6 @@ title: Overture Publications
 
 ## In review
 
--   Semantic Characterization of Co-simulation with Crescendo (Kenneth
-    Lausdahl, Victor Bandur, Joey Coleman, Peter Gorm Larsen and Jim Woodcock, submitted to the Formal
-    Aspects of Computing journal)
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, submitted to ACM SAC 2018
 -   Proceedings of the 15th Overture workshop. John Fitzgerald, Peter W. V. Tran-Jørgensen and Tomohiro Oda.
