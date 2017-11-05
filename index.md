@@ -30,16 +30,6 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 
 <div id="current-release"></div>
 
-#### UPCOMING EVENT: The 15th Overture workshop
-
-We are happy to announce the [15th Overture workshop]({{ site.url }}/workshops/15th-Overture-Workshop.html) on VDM, its foundations, tools, and applications. The workshop will take place in Newcastle, the United Kingdom. Please consider contributing.
-
-* __24 July 2017__ (extended): submission of abstracts
-* __31 July 2017__ (extended): submission deadline for papers (PDF only, please)
-* __21 August 2017__: notification to authors
-* __11 September 2017__: final version of papers due
-* __15 September 2017__: workshop
-
 #### Overture Tool Extensions:
 <table>
         <thead>
