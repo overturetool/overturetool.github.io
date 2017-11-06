@@ -50,10 +50,9 @@ details about it
 
 ##  Release Planning
 
-#### topic 1
+The Overture version 2.5.4 release candidate has been sent out. The release is due by November 11.
 
-some description
-
+[This release](https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aclosed+milestone%3A%22+v2.5.4%22) contains several bug fixes and enhancements for the core features, and increased coverage of constructs that can be code-generated to Java.
 
 ##  Community Development
 
@@ -72,21 +71,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
