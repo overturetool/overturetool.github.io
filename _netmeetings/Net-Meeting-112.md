@@ -36,9 +36,7 @@ some description
 
 ## Status of VDMTools Development
 
-#### topic 1
-
-some description
+no major change
 
 
 ##  Status of the Overture Components
