@@ -50,4 +50,17 @@ including the description of real-time and distributed systems.
 
 ### Program Committee
 
-TBC
+* K. Araki, Kyushu University, Japan
+* V. Bandur, Aarhus University, Denmark
+* N. Battle, Fujitsu, UK
+* L. Diogo Couto, UTRC, Ireland
+* J. Fitzgerald, Newcastle University, UK
+* L. Freitas, Newcastle University, UK
+* F. Ishikawa, NII, Japan
+* P.W.V. Tran-Jørgensen, Aarhus University, Denmark
+* P.G. Larsen, Aarhus University, Denmark 
+* P. Masci, Universidade do Minho, Portugal
+* T. Oda, Software Research Associates, Inc., Japan
+* J.N. Oliveira, Minho University, Portugal
+* N. Plat, Thanos, The Netherlands 
+
