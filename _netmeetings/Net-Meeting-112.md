@@ -39,13 +39,11 @@ See release planning for recent Overture changes.
 
 #### VDM2C
 
-We plan to release a new version of VDM2C that uses Overture 2.5.4.
+We soon plan to release a new version of VDM2C that uses Overture 2.5.4.
 
 ##  Release Planning
 
-The Overture version 2.5.4 release candidate has been sent out. The release is due by November 11.
-
-[This release](https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aclosed+milestone%3A%22+v2.5.4%22) contains several bug fixes and enhancements for the core features, and increased coverage of constructs that can be code-generated to Java.
+Overture version 2.5.4 was released on November 10. [This release](https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aclosed+milestone%3A%22+v2.5.4%22) contains several bug fixes and enhancements for the core features, and increased coverage of constructs that can be code-generated to Java.
 
 Next release is due by December 11, 2017.
 
@@ -71,6 +69,6 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
-
+It was discussed how many core meeting we should have in 2018. There will probably be around five, in the hope that we can get more people to attend these meetings.
 
 <div id="edit_page_div"></div>
