@@ -25,7 +25,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-The mintues from today's LB NM are available [here](https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM,-12th-November-2017).
+The mintues of today's LB NM are available [here](https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM,-12th-November-2017).
 
 
 ## Status of VDMTools Development
@@ -51,7 +51,7 @@ PGL will find new release dates for 2018.
 
 ##  Community Development
 
-PGL is trying to reach out to guys from Taiwan who are working on proving POs using model checking. They use Overture as part of their work, so there is definitely a chance that we could get some collaboration going.
+PGL is trying to reach out to the guys from Taiwan who are working on proving POs using model checking. They use Overture as part of their work, so there is definitely a chance that we could get some collaboration going.
 
 PGL and Tomo (among others) will be attending a INTO-CPS tutorial in Japan.
 
