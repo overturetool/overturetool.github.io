@@ -30,7 +30,7 @@ Previous workshops have been invaluable in encouraging both new and established 
 ## CALL FOR PAPERS
 
 The workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms. We strongly
-welcome contributions addressing the development of tools for VDM, developments in foundations, and reports on practical experience. The scope of the workshop includes, but is not restricted to: 
+welcome contributions addressing the development of tools for VDM, developments in foundations, and reports on practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be available at the workshop on a memory stick and published in a Newcastle University Technical Report. The scope of the workshop includes, but is not restricted to: 
 
 * Reports on applications of VDM technology, especially reports of industrial use.
 * Papers describing requirements, designs, implementations and case studies of support
