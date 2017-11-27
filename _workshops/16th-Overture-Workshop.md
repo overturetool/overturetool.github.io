@@ -53,7 +53,7 @@ including the description of real-time and distributed systems.
 * K. Araki, Kyushu University, Japan
 * V. Bandur, Aarhus University, Denmark
 * N. Battle, Fujitsu, UK
-* L. Diogo Couto, UTRC, Ireland
+* L.D. Couto, UTRC, Ireland
 * J. Fitzgerald, Newcastle University, UK
 * L. Freitas, Newcastle University, UK
 * F. Ishikawa, NII, Japan
