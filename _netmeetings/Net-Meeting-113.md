@@ -43,12 +43,24 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDM2C
 
-details about it
-
+We're mostly working on addressing some memory leak issues in the generated code. Hopefully we'll have these issues fixed by the end of the next week.
 
 ##  Release Planning
+
+### Overture
+
+[Overture 2.5.6](https://github.com/overturetool/overture/releases/tag/Release%2F2.5.6) was released on December 11. The release dates for 2018 are as follows:
+
+- February 16
+- May 18
+- July 6
+- October 19
+
+### VDM2C
+
+The plan is to release a new version of VDM2C early January (2018).
 
 #### topic 1
 
@@ -72,21 +84,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
