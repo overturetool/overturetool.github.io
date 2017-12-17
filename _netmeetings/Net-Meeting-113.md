@@ -27,7 +27,7 @@ A Request for Clarification (of the LRM) has also been received, regarding the s
 
 * http://fmvdm.org/ will be operating another year.
 * We agreed to try to keep the Wiki page about Overture/VDMTools differences up to date.
-* NB will look at whether the VDM specs (ie. specs of the language/tools from VDMTools) can be processed by VDNJ/Overture.
+* NB will look at whether the VDM specs (ie. specs of the language/tools from VDMTools) can be processed by VDMJ/Overture.
 
 ### ViennaTalk
 
@@ -59,7 +59,7 @@ The plan is to release a new version of VDM2C early January (2018).
 
 ##  Community Development
 
-### Core NM Dates
+#### Core NM Dates
 
 Four meetings are proposed for 2018 to encourage more people to attend. Meeting invites will be sent out with electronic invites attached (PGL) and more reminders will be given (NB).
 
