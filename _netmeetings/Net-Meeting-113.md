@@ -23,6 +23,7 @@ RM#43 modifies function application syntax to dispense with brackets and commas 
 A Request for Clarification (of the LRM) has also been received, regarding the syntax of function signatures and the use of the total function indicator (+>). Advice will be sought from PGL.
 
 ## Status of VDMTools Development
+### VDMTools
 
 * http://fmvdm.org/ will be operating another year.
 * We agreed to try to keep the Wiki page about Overture/VDMTools differences up to date.
