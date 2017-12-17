@@ -23,11 +23,6 @@ title: Overture Publications
 
 ## In press
 
--   ViennaTalk: An Integrated Formal Specification Environment Focused 
-    on the Early Stage of the Formal Specification Phase (in Japanese),
-    Tomohiro Oda and Keijiro Araki, submitted to Computer Software,
-    Japan Society for Software Science and Technology, special issue on
-    "Software papers"
 -   The 14th Overture Workshop: Towards Analytical Tool Chains, Peter Gorm Larsen,	Nico Plat,	Nick Battle (Eds), ECE-TR-28, Vol 4, (2016), Online ISSN 2245-2087, http://ojs.statsbiblioteket.dk/index.php/ece/issue/view/3507
 -   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, FM'2016
 -   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster, accepted for publication at Isola 2016
