@@ -36,10 +36,11 @@ some description
 
 ## Status of VDMTools Development
 
-#### topic 1
+* http://fmvdm.org/ will be operating another year.
 
-some description
+### ViennaTalk
 
+* Incorporated RM#42 except code generation
 
 ##  Status of the Overture Components
 
