@@ -1,19 +1,7 @@
----
-layout: default
-title: Net Meeting 113
-date: 17 December 2017, 1200 CST
----
+# Net Meeting 113
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js">
-</script>
-<script src="/javascripts/edit.js"></script>
-<script>setEditButonNm();</script>
-
-# {{ page.title }}
-
-|||
 |---|---|
-| Date | {{ page.date | date: "%-d %B %Y, %R %Z" }} |
+| Date | 17th Dec 2017 |
 | Participants | PGL, NP, NB, TO.  Minutes by NB. |
 
 
