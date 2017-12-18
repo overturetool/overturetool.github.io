@@ -1,10 +1,20 @@
-# Net Meeting 113
+---
+layout: default
+title: Net Meeting 113
+date: 17 December 2017, 1200 CET
+---
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+</script>
+<script src="/javascripts/edit.js"></script>
+<script>setEditButonNm();</script>
+
+# {{ page.title }}
 
 |||
 |---|---|
-| Date | 17th Dec 2017 |
+| Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
 | Participants | PGL, NP, NB, TO.  Minutes by NB. |
-
 
 ## Review Status of the Action List
 
