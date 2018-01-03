@@ -24,11 +24,11 @@ This mailing list is the main channel of communication of the user
 community.
 
 To post a message to this mailing list, send a mail to
-[overture-users@overturetool.org](mailto:overture-users@overturetool.org).
+[overture-users.eng@MailList.au.dk](mailto:overture-users.eng@MailList.au.dk).
 
 To see the mailing list archives go to
 [Overture-Users archives](http://overturetool.hosting.west.nl/mailman/private/overture-users/).
 
 To subscribe to this mailing list please fill the
-[subscription form](http://overturetool.hosting.west.nl/mailman/listinfo/overture-users).
+[subscription form](http://maillist.au.dk/mailman/listinfo/overture-users.eng).
 
