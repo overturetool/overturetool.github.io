@@ -26,14 +26,14 @@ date: 25 February 2018, 1200 CET
 ### VDMTools
 
 * 49 commits since the last NM (Dec 17)
- - measure functions
- - other brush-ups
+  - measure functions
+  - other brush-ups
 
 ### ViennaTalk
 
 * Released Viennatalk "Harajuku"
- - VDM Directory Browser: a file-based Browser to be used in conjunction with other tools, such as git, the Overture tool and VDMTools.
- - ViennaUnit: a unit testing framework for VDM Browser
+  - VDM Directory Browser: a file-based Browser to be used in conjunction with other tools, such as git, the Overture tool and VDMTools.
+  - ViennaUnit: a unit testing framework for VDM Browser
 
 ##  Status of the Overture Components
 #### VDMJ
