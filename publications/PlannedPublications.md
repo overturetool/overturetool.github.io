@@ -19,11 +19,9 @@ title: Overture Publications
 
 -   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, submitted to ACM SAC 2018
--   Proceedings of the 15th Overture workshop. John Fitzgerald, Peter W. V. Tran-Jørgensen and Tomohiro Oda.
 
 ## In press
 
--   The 14th Overture Workshop: Towards Analytical Tool Chains, Peter Gorm Larsen,	Nico Plat,	Nick Battle (Eds), ECE-TR-28, Vol 4, (2016), Online ISSN 2245-2087, http://ojs.statsbiblioteket.dk/index.php/ece/issue/view/3507
 -   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, FM'2016
 -   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster, accepted for publication at Isola 2016
 -   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, presented at the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
@@ -33,8 +31,6 @@ title: Overture Publications
 -   José Antonio Esparza Isasa, Peter Gorm Larsen and Finn Overgaard
     Hansen. Energy-Aware Model-Driven Development of a Wearable Health
     Care Device. In preparation for the 6th FHIES/SEHC. June 2014
--   John Fitzgerald and Nick Battle, Proceedings of the 12th Overture
-    VDM workshop, Newcastle University, June 2014
 -   Migrating to an Extensible Architecture for Abstract Syntax Trees
     (Luis Diogo Couto, Peter W. V. Jorgensen, Joey W. Coleman, Kenneth
     Lausdahl for WICSA 2015)
