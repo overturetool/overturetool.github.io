@@ -62,7 +62,7 @@ A few things to note:
 ### Overture
 
 Overture 2.6.0 is out. For details, see the [release notes](https://github.com/overturetool/overture/releases/tag/Release%2F2.6.0).
- Since the release of 2.6.0, the Overture IDE has been updated to [sort classes alphabetically](https://github.com/overturetool/overture/issues/665) in the launch configuration view.
+ Since the release of 2.6.0, the Overture IDE has been updated to [sort classes alphabetically](https://github.com/overturetool/overture/issues/665) in the launch configuration view. Also, [issue 666](https://github.com/overturetool/overture/issues/666) has been fixed.
  
 Leo from Newcastle has experienced that some of the recent Overture releases, specifically 2.5.6 and 2.6.0, do not cope well with big models on MAC. We haven't had complaints from Windows and Linux users though. PJ and Leo are currently looking into this. Originally, PJ was thinking that this issue might be caused by the particular version of Eclipse that Overture builds against (2.5.4 onward build against Eclipse Neon, previous releases build against Eclipse Neon). We tried to build a 2.6.1-SNAPSHOT version of Overture based on Eclipse Neon, which seems to perform better on MAC Sierra. After spending more time looking into this, it looks like the issue is MAC Sierra itself.
 
