@@ -68,6 +68,10 @@ Leo from Newcastle has experienced that some of the recent Overture releases, sp
 
 The Overture release we have planned for 2018 are listed [here](https://github.com/overturetool/overture/milestones).
 
+### VDM2C
+
+[VDM2C 0.2.0](https://github.com/overturetool/vdm2c/releases) was released on February 14.
+
 ##  Community Development
 
 #### Core NM Dates
