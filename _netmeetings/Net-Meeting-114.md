@@ -76,6 +76,7 @@ The Overture release we have planned for 2018 are listed [here](https://github.c
 
 #### Core NM Dates
 
+Upcoming core meetings are listed [here](http://overturetool.org/netmeetings/).
 
 #### Overture Traffic
 
