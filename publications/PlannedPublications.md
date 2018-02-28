@@ -7,9 +7,10 @@ title: Overture Publications
 
 ## Planned
 
-#### Conferences / Journals
 
-## Overture Workshop (Abstracts 08/04; Submissions 15/04)
+
+## Overture Workshop (Abstracts 08/04; Subs. 15/04)
+
 
 
 ## In preparation
