@@ -9,7 +9,7 @@ title: Overture Publications
 
 #### Conferences / Journals
 
-## 16th Overture Workshop (Abstracts 08/04; Submissions 15/04)
+## Overture Workshop (Abstracts 08/04; Submissions 15/04)
 
 
 ## In preparation
