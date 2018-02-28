@@ -10,8 +10,8 @@ title: Overture Publications
 
 
 ## Overture Workshop (Abstracts 08/04; Subs. 15/04)
-
-
+- Adding a FMU export capability to Overture, Casper Thule, Kenneth Lausdahl and Peter Gorm Larsen
+- Using VDM-SL for a family of agricultural products, Rene Nilsson, Kenneth Lausdahl, Hugo Macedo and Peter Gorm Larsen
 
 ## In preparation
 
