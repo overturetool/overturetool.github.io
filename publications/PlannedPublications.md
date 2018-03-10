@@ -10,7 +10,7 @@ title: Overture Publications
 
 
 ## Overture Workshop (Abstracts 08/04; Subs. 15/04)
-- ViennaVDM: a Virtual Machine for VDM-SL development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
+- ViennaVM: a Virtual Machine for VDM-SL development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
 - Adding a FMU export capability to Overture, Casper Thule, Kenneth Lausdahl and Peter Gorm Larsen
 - Using VDM-SL for a family of agricultural products, Rene Nilsson, Kenneth Lausdahl, Hugo Macedo and Peter Gorm Larsen
 - Enhancing Testing for VDM-SL models, Peter W. V. Tran-Jørgensen and Kenneth Lausdahl
