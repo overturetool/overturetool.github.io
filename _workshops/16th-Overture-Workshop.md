@@ -19,6 +19,10 @@ Previous workshops have been invaluable in encouraging both new and established 
 
 **Location: Oxford University, United Kingdom**
 
+### Submission
+
+Submission of abstracts and papers is through EasyChair: https://easychair.org/conferences/?conf=overture16.
+
 ### Important Dates
 
 * 8 April 2018: Submission of abstracts of papers  
