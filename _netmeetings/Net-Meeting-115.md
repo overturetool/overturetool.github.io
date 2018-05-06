@@ -44,15 +44,15 @@ date: 13 May 2018, 1200 CET
 
 ##  Community Development
 
+#### Core NM Dates
+
+Upcoming core meetings are listed [here](http://overturetool.org/netmeetings/).
+
 ## The Overture workshop
 
 
 ## Reviving the Overture Strategic Research Agenda
 
-
-#### Core NM Dates
-
-Upcoming core meetings are listed [here](http://overturetool.org/netmeetings/).
 
 ##  Publications Status and Plans
 
