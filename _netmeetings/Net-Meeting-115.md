@@ -38,9 +38,11 @@ date: 13 May 2018, 1200 CET
 
 ### Overture
 
+Next release of Overture, version 2.6.2, is due by May 18. A release candidate will be send out on May 9. A list of issues addressed since the last release can be found [here](https://github.com/overturetool/overture/milestone/39?closed=1). In addition, Andres Toom has reported a bug in the VDM-SL-to-Java/JML generator that has also been [fixed](https://github.com/overturetool/overture/commit/ed9f962e23926c112482ea81ea068bb1ade27a68).
 
 ### VDM2C
 
+No releases planned.
 
 ##  Community Development
 
