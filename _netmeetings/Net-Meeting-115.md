@@ -25,9 +25,11 @@ date: 13 May 2018, 1200 CET
 ## Status of VDMTools Development
 ### VDMTools
 
+preparing for the next release
 
 ### ViennaTalk
 
+no plan of new release
 
 ##  Status of the Overture Components
 #### VDMJ
