@@ -14,7 +14,7 @@ date: 13 May 2018, 1200 CET
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants |  |
+| Participants | PGL, MV, TO, SS, PJ, JF.  Minutes by PJ. |
 
 ## Review Status of the Action List
 
