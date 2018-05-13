@@ -69,7 +69,7 @@ Please see the [workshop page](http://overturetool.org/workshops/16th-Overture-W
 
 ## Reviving the Overture Strategic Research Agenda
 
-The workshop organisers will prepare ahead of time, by email and other means so people not present can contribute. The SRA will bring together results from previous two workshops. Specifically, the we intend to explore 5 themes:
+The workshop organisers will prepare ahead of time, by email and other means so people not present can contribute. The SRA will bring together results from the previous two workshops. Specifically, the we intend to explore 5 themes:
 
 * 1 - Language and semantics
 * 2 - Tool support
@@ -83,6 +83,6 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
-
+Feedback on the workshop is appreciated. Please send your input to Marcel.
 
 
