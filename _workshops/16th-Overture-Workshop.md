@@ -44,7 +44,7 @@ Please register for the workshop via <http://www.floc2018.org/register/> and con
 
    __PERSPECTIVES AND METHODS__ 
 
-* 1400-1450  __Leo Freitas__, Warts and All - _Analysing the EMV Next Generation Kernel Specifications_ (shared keynote with F-IDE workshop)
+* 1400-1450  __Leo Freitas__, _VDM at large: analysing the EMV Next Generation Kernel_ (shared keynote with F-IDE workshop)
 
 * 1450-1510  __René Søndergaard Nilsson__, Kenneth Lausdahl, Hugo Daniel Macedo and Peter Gorm Larsen, _Transforming an industrial case study from VDM++ to VDM-SL_
 
