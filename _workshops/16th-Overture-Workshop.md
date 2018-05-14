@@ -6,6 +6,58 @@ location: Oxford, UK
 ---
 # THE 16TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based Systems Engineering
 
+## LOCATION AND REGISTRATION
+
+**Location: Oxford University, United Kingdom**
+Room TBC (either the Maths and Blavatnik buildings): http://www.floc2018.org/venues/
+
+Please register for the workshop via http://www.floc2018.org/register/ and consider booking your travel and accommodation early as the workshop is in the busy tourist season in Oxford. Acoomodation details can be found at http://www.floc2018.org/accommodation/.
+
+## PROGRAMME
+
+* 0830-0900	__Registration__
+
+  __OPENING SESSION__
+
+* 0900-1000 __Jean-Christophe Fillatre__, _Auto-active Verification using Why3's IDE_ (shared keynote F-IDE workshop)
+
+* 1000-1010 _Welcome to the Overture Workshop_ (Ken Pierce and Marcel Verhoef)
+
+   __TOOLS SESSION__
+
+* 1010-1030	Peter W. V. Tran-Jørgensen, René Nilsson and __Kenneth Lausdahl__, _Enhancing Testing of VDM-SL Models_
+
+* 1030-1100 __COFFEE__
+
+* 1100-1120  __Casper Thule__, Kenneth Lausdahl and Peter Gorm Larsen, _Overture FMU: VDM-RT as FMU Controller_
+
+* 1120-1140  __Tomohiro Oda__, Keijiro Araki and Peter Larsen, _ViennaVM: a Virtual Machine for VDM-SL development_
+ 
+   __APPLICATIONS SESSION__
+
+* 1140-1200  __Georgios Zervakis__ and __Ken Pierce__, _Multi-modelling of Cooperative Swarms_
+
+* 1200-1220  Martin Mansfield, Charles Morisset, Carl Gamble, John Mace, Ken Pierce and John Fitzgerald, _Design Space Exploration for Secure Building Control_
+
+* 1230-1400  __LUNCH__
+
+   __PERSPECTIVES AND METHODS__ 
+
+* 1400-1450  __Leo Freitas__, Warts and All - _Analysing the EMV Next Generation Kernel Specifications_ (shared keynote with F-IDE workshop)
+
+* 1450-1510  __René Søndergaard Nilsson__, Kenneth Lausdahl, Hugo Daniel Macedo and Peter Gorm Larsen, _Transforming an industrial case study from VDM++ to VDM-SL_
+
+* 1510-1530  __Simon Fraser__, _Integrating VDM-SL into the Continuous Delivery Pipelines of Cloud-based Software_
+
+* 1530-1600  __COFFEE__
+
+  __CLOSING SESSION - SRA WORKSHOP__
+
+* 1600-1730  _Strategic Research Agenda for Overture_
+
+
+## Original CALL FOR PAPERS
+
 The 16th Overture Workshop will be held on Saturday 14 July 2018 in association with the [Federated Logic Conference (FLoC) 2018](http://www.floc2018.org/) and the [22nd International Symposium on Formal Methods (FM 2018)](http://www.fmeurope.org/?p=613).
 
 The  16th Overture Workshop is the latest in a
@@ -28,10 +80,10 @@ Submission of abstracts and papers is through EasyChair: https://easychair.org/c
 * 8 April 2018: Submission of abstracts of papers  
 * 15 April 2018: Submission deadline for papers (PDF only, please)
 * 15 May 2018: notification to authors
-* 31 May 2018 (TBC): Final version of papers due
+* 25 May 2018: Final version of papers due
 * 14 July 2018: Workshop
 
-## CALL FOR PAPERS
+### Call
 
 The workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms. We strongly
 welcome contributions addressing the development of tools for VDM, developments in foundations, and reports on practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be available at the workshop on a memory stick and published in a Newcastle University Technical Report. The scope of the workshop includes, but is not restricted to: 
