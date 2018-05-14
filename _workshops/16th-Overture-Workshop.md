@@ -4,14 +4,15 @@ title: The 16th Overture Workshop
 date: 2018-07-14
 location: Oxford, UK
 ---
-# THE 16TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based Systems Engineering
+# THE 16TH OVERTURE WORKSHOP
 
 ## LOCATION AND REGISTRATION
 
 **Location: Oxford University, United Kingdom**
-Room TBC (either the Maths and Blavatnik buildings): http://www.floc2018.org/venues/
 
-Please register for the workshop via http://www.floc2018.org/register/ and consider booking your travel and accommodation early as the workshop is in the busy tourist season in Oxford. Acoomodation details can be found at http://www.floc2018.org/accommodation/.
+_Room TBC_ (either the Maths and Blavatnik buildings): <http://www.floc2018.org/venues/>
+
+Please register for the workshop via <http://www.floc2018.org/register/> and consider booking your travel and accommodation early as the workshop is in the busy tourist season in Oxford. Acoomodation details can be found at <http://www.floc2018.org/accommodation/>.
 
 ## PROGRAMME
 
