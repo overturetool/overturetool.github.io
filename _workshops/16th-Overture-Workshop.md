@@ -8,6 +8,8 @@ location: Oxford, UK
 
 ## LOCATION AND REGISTRATION
 
+Preliminary proceedings are available [here](16/https://github.com/overturetool/overturetool.github.io/blob/master/workshops/16/floc_overture16_proceedings_collated.pdf).
+
 **Location: Oxford University, United Kingdom**
 
 _Room TBC_ (either the Maths and Blavatnik buildings): <http://www.floc2018.org/venues/>
@@ -38,7 +40,7 @@ Please register for the workshop via <http://www.floc2018.org/register/> and con
 
 * 1140-1200  __Georgios Zervakis__ and __Ken Pierce__, _Multi-modelling of Cooperative Swarms_
 
-* 1200-1220  Martin Mansfield, Charles Morisset, Carl Gamble, John Mace, Ken Pierce and John Fitzgerald, _Design Space Exploration for Secure Building Control_
+* 1200-1220  Martin Mansfield, Charles Morisset, Carl Gamble, __John Mace__, Ken Pierce and John Fitzgerald, _Design Space Exploration for Secure Building Control_
 
 * 1230-1400  __LUNCH__
 
