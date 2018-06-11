@@ -8,7 +8,7 @@ location: Oxford, UK
 
 ## LOCATION AND REGISTRATION
 
-Preliminary proceedings are available [here](16/https://github.com/overturetool/overturetool.github.io/blob/master/workshops/16/floc_overture16_proceedings_collated.pdf).
+Preliminary proceedings are available [here](16/floc_overture16_proceedings_collated.pdf).
 
 **Location: Oxford University, United Kingdom**
 
