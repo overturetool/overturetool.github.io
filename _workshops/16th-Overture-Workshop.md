@@ -26,8 +26,8 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
 
   __OPENING SESSION__
 
-* 0900-1000 __Jean-Christophe Filliâtre__, _Auto-active Verification using Why3's IDE_ (shared keynote F-IDE workshop)
-<details style="margin-left: 2em"><summary><i>Abstract</i></summary><p>Why3 is a platform for deductive program verification.  It features a rich language for specification and programming, called WhyML, and relies on external theorem provers, both automated and interactive, to discharge verification conditions. Why3 comes with a dedicated IDE where users edit source files and build proofs interactively using a blend of logical transformations and calls to external theorem provers.  In this talk, I will illustrate the typical workflow of program verification using Why3's IDE, focusing on the key features of WhyML, auto-active verification, and proof maintenance.</p>
+* 0900-1000 __Jean-Christophe Filliâtre__ 
+<details><summary><i>Auto-active Verification using Why3's IDE_</i>(shared keynote F-IDE workshop)</summary><p>Why3 is a platform for deductive program verification.  It features a rich language for specification and programming, called WhyML, and relies on external theorem provers, both automated and interactive, to discharge verification conditions. Why3 comes with a dedicated IDE where users edit source files and build proofs interactively using a blend of logical transformations and calls to external theorem provers.  In this talk, I will illustrate the typical workflow of program verification using Why3's IDE, focusing on the key features of WhyML, auto-active verification, and proof maintenance.</p>
 </details>
                               
 * 1000-1010 _Welcome to the Overture Workshop_ (Ken Pierce and Marcel Verhoef)
