@@ -6,15 +6,19 @@ location: Oxford, UK
 ---
 # THE 16TH OVERTURE WORKSHOP
 
-## LOCATION AND REGISTRATION
+The 16th Overture Workshop will be held on Saturday 14 July 2018 in association with the [Federated Logic Conference (FLoC) 2018](http://www.floc2018.org/) and the [22nd International Symposium on Formal Methods (FM 2018)](http://www.fmeurope.org/?p=613).
 
-Preliminary proceedings are available [here](16/floc_overture16_proceedings_collated.pdf).
+## LOCATION AND REGISTRATION
 
 **Location: Oxford University, United Kingdom**
 
 _Room TBC_ (either the Maths and Blavatnik buildings): <http://www.floc2018.org/venues/>
 
-Please register for the workshop via <http://www.floc2018.org/register/> and consider booking your travel and accommodation early as the workshop is in the busy tourist season in Oxford. Acoomodation details can be found at <http://www.floc2018.org/accommodation/>.
+Please register for the workshop via <http://www.floc2018.org/register/> Early registration is now closed, but you can still register for £110 / £95 (regular / student) until Monday 25, or £165 / £150 on the day. Accomodation details can be found at <http://www.floc2018.org/accommodation/>.
+
+Preliminary proceedings are available [here](16/floc_overture16_proceedings_collated.pdf).
+
+
 
 ## PROGRAMME
 
@@ -22,8 +26,10 @@ Please register for the workshop via <http://www.floc2018.org/register/> and con
 
   __OPENING SESSION__
 
-* 0900-1000 __Jean-Christophe Fillatre__, _Auto-active Verification using Why3's IDE_ (shared keynote F-IDE workshop)
-
+* 0900-1000 __Jean-Christophe Filliâtre__, _Auto-active Verification using Why3's IDE_ (shared keynote F-IDE workshop)
+<details><summary><i>Abstract</i></summary><p>Why3 is a platform for deductive program verification.  It features a rich language for specification and programming, called WhyML, and relies on external theorem provers, both automated and interactive, to discharge verification conditions. Why3 comes with a dedicated IDE where users edit source files and build proofs interactively using a blend of logical transformations and calls to external theorem provers.  In this talk, I will illustrate the typical workflow of program verification using Why3's IDE, focusing on the key features of WhyML, auto-active verification, and proof maintenance.</p>
+</details>
+                              
 * 1000-1010 _Welcome to the Overture Workshop_ (Ken Pierce and Marcel Verhoef)
 
    __TOOLS SESSION__
@@ -56,12 +62,12 @@ Please register for the workshop via <http://www.floc2018.org/register/> and con
 
   __CLOSING SESSION - SRA WORKSHOP__
 
-* 1600-1730  _Strategic Research Agenda for Overture_
+* 1600-1800  _Strategic Research Agenda for Overture_
 
 
 ## Original CALL FOR PAPERS
 
-The 16th Overture Workshop will be held on Saturday 14 July 2018 in association with the [Federated Logic Conference (FLoC) 2018](http://www.floc2018.org/) and the [22nd International Symposium on Formal Methods (FM 2018)](http://www.fmeurope.org/?p=613).
+
 
 The  16th Overture Workshop is the latest in a
 series of workshops around the Vienna Development Method (VDM), the open-source project
