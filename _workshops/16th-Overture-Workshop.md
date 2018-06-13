@@ -22,47 +22,214 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
 
 ## PROGRAMME
 
-* 0830-0900	__Registration__
+<ul>
+  <li>
+    <p>0830-0900	<strong>Registration</strong></p>
 
-  __OPENING SESSION__
+    <p><strong>OPENING SESSION</strong></p>
+  </li>
+  <li>
+    <p>0900-1000 <strong>Jean-Christophe Filliâtre</strong>
+    <details><summary><i>Auto-active Verification using Why3's IDE_</i>(shared keynote F-IDE workshop)</summary>
+    Why3 is a platform for deductive program verification. It features a
+    rich language for specification and programming, called WhyML, and 
+    relies on external theorem provers, both automated and interactive, 
+    to discharge verification conditions. Why3 comes with a dedicated 
+    IDE where users edit source files and build proofs interactively 
+    using a blend of logical transformations and calls to external 
+    theorem provers.  In this talk, I will illustrate the typical 
+    workflow of program verification using Why3's IDE, focusing on the 
+    key features of WhyML, auto-active verification, and proof 
+    maintenance.
+    </details></p>
+  </li>
+  <li>
+    <p>1000-1010 <em>Welcome to the Overture Workshop</em> (Ken Pierce and Marcel Verhoef)</p>
 
-* 0900-1000 __Jean-Christophe Filliâtre__ 
-<details><summary><i>Auto-active Verification using Why3's IDE_</i>(shared keynote F-IDE workshop)</summary>Why3 is a platform for deductive program verification.  It features a rich language for specification and programming, called WhyML, and relies on external theorem provers, both automated and interactive, to discharge verification conditions. Why3 comes with a dedicated IDE where users edit source files and build proofs interactively using a blend of logical transformations and calls to external theorem provers.  In this talk, I will illustrate the typical workflow of program verification using Why3's IDE, focusing on the key features of WhyML, auto-active verification, and proof maintenance.
-</details>
-                              
-* 1000-1010 _Welcome to the Overture Workshop_ (Ken Pierce and Marcel Verhoef)
+    <p><strong>TOOLS SESSION</strong></p>
+  </li>
+  <li>
+    <p>1010-1030 Peter W. V. Tran-Jørgensen, René Nilsson and <strong>Kenneth Lausdahl</strong>
+    <details><summary><em>Enhancing Testing of VDM-SL Models</em></summary>
+    We find that testing of VDM-SL models is currently a tedious and
+    error-prone task due to lack of tool support for conveniently
+    defining tests, executing tests automatically, and validating test
+    results. In VDM++, test-driven development is supported by the
+    VDMUnit framework, which offers many of the features one would
+    expect from a modern testing framework. However, since VDMUnit
+    relies on object-orientation and exception handling, this framework
+    does not work for testing VDM-SL models. In this paper, we discuss
+    the challenges of testing VDM-SL models, and propose a library
+    extension of Overture/VDMUnit that improves this situation. We
+    demonstrate usage of this library extension, and show how it also
+    enables one to reuse tests to validate code-generated VDM-SL models.
+    </details></p>    
+  </li>
+  <li>
+    <p>1030-1100 <strong>COFFEE</strong></p>
+  </li>
+  <li>
+  <li>
+    <p>1100-1120 <strong>Casper Thule</strong>, Kenneth Lausdahl and Peter Gorm Larsen
+    <details><summary><em>Overture FMU: VDM-RT as FMU Controller</em></summary>
+    The Functional Mock-up Interface is a standard for co-simulation, 
+    which both defines and describes a set of C interfaces that a 
+    simulation unit, a Functional Mock-up Unit (FMU), must adhere to in
+    order to participate in such a co-simulation. To avoid the effort of
+    implementing the low level details of the C interface when 
+    developing an FMU, one can use the Overture tool and the language 
+    VDM-RT. VDM-RT is a VDM dialect used for modelling real-time and 
+    potentially distributed systems. By using the Overture extension, 
+    called Overture FMU, the VDM-RT dialect can be used to develop FMUs.
+    This raises the abstraction level of the implementation language and
+    avoids implementation details of the FMI-interface thereby 
+    supporting rapid prototyping of FMUs. Furthermore, it enables 
+    precise time detection of changes in outputs, as every expression 
+    and statement in VDM-RT is associated with a ``timing cost''. The 
+    Overture FMU has been used in several industrial case studies, and 
+    this paper describes how the Overture tool-wrapper FMU engages in a
+    co-simulation in terms of architecture, synchronisation and 
+    execution. Furthermore, a small example is presented.
+    </details>    
+    </p> 
+  </li>
+  <li>
+    <p>1120-1140 <strong>Tomohiro Oda</strong>, Keijiro Araki and Peter Larsen
+    <details><summary><em>ViennaVM: a Virtual Machine for VDM-SL development</em></summary>
+    The executable subset of VDM allows code generators to automatically
+    produce program code. A lot of research have been conducted on 
+    automated code generators. Virtual machines are common platforms of 
+    executing program code. Those virtual machines demand rigorous 
+    implementation and in return give portability among different 
+    operating systems and CPUs. This paper introduces a virtual machine 
+    called ViennaVM which is formally defined in VDM-SL and still under 
+    development. The objective of ViennaVM is to serve as a target 
+    platform of code generators from VDM specifications.
+    </details></p>    
+    
+    <p><strong>APPLICATIONS SESSION</strong></p>
+  </li>
+  <li>
+    <p>1140-1200 <strong>Georgios Zervakis</strong> and <strong>Ken Pierce</strong>
+    <details><summary><em>Multi-modelling of Cooperative Swarms</em></summary>
+    A major challenge in multi-modelling and co-simulation of 
+    cyber-physical systems (CPSs) using distributed control, such as 
+    swarms of autonomous Unmanned Aerial Vehicles (UAVs), is the need to
+    model distributed controller-hardware pairs where communication 
+    between controllers using complex types is required. Co-simulation 
+    standards such as the Functional Mock-up Interface (FMI) only 
+    supports simple scalar types. This makes the protocol easy to adopt 
+    for new tools, but is limiting where a richer form of data exchange
+    is required, such as distributed controllers. This paper applies 
+    previous work on adding an explicit network VDM model, called an 
+    ether, to a multi-model by deploying it to a more complex
+    multi-model, specifically  swarm of UAVs.
+    </details></p>
+  </li>
+  <li>
+    <p>1200-1220 Martin Mansfield, Charles Morisset, Carl Gamble, <strong>John Mace</strong>, Ken Pierce and John Fitzgerald
+    <details><summary> <em>Design Space Exploration for Secure Building Control</em></summary>
+    By automation of their critical systems, modern buildings are 
+    becoming increasingly intelligent, but also increasingly vulnerable 
+    to both cyber and physical attacks. We propose that multi-models can
+    be used not only to assess the security weaknesses of smart 
+    buildings, but also to optimise their control to be resilient to 
+    malicious use. The proposed approach makes use of the INTO-CPS 
+    toolchain to model both building systems and the behaviour of
+    adversaries, and utilises design space exploration to analyse the 
+    impact of security on usability. By separation of standard control 
+    and security monitoring, the approach is suitable for both the 
+    design of new controllers and the improvement of legacy systems. A 
+    case study of a fan coil unit demonstrates how a controller can be 
+    augmented to be more secure, and how the trade-off between security 
+    and usability can be explored to find an optimal design. We propose 
+    that the suggested use of multi-models can aid building managers and
+    security engineers to build systems which are both secure and user 
+    friendly.
+    </details></p>
+    </li>
+  <li>
+    <p>1230-1400 <strong>LUNCH</strong></p>
 
-   __TOOLS SESSION__
+    <p><strong>PERSPECTIVES AND METHODS</strong></p>
+  </li>
+  <li>
+    <p>1400-1450 <strong>Leo Freitas</strong>
+    <details><summary><em>VDM at large: analysing the EMV Next Generation Kernel</em> (shared keynote with F-IDE workshop)</summary>
+    The EMV consortium protocols facilitate worldwide interoperability 
+    of secure electronic payments. In this paper, we describe our 
+    experience in using VDM to model EMV 2nd Generation Kernel.
+    </details></p>   
+  </li>
+  <li>
+    <p>1450-1510 <strong>René Søndergaard Nilsson</strong>, Kenneth Lausdahl, Hugo Daniel Macedo and Peter Gorm Larsen
+    <details><summary><em>Transforming an industrial case study from VDM++ to VDM-SL</em></summary>
+    Normally transitions between different VDM dialects go from VDM-SL 
+    towards VDM++ or VDM-RT. In this paper we would like to demonstrate 
+    that it actually can make sense to move in the opposite direction.
+    We present a case study where a requirement change late in the 
+    project deemed the need for distribution and concurrency aspects 
+    unnecessary. Consequently, the developed VDM-RT model was 
+    transformed to VDM++ and later to VDM-SL. The advantage of this 
+    transformation is to reduce complexity and prepare the model for a 
+    combined commercial and research setting.
+    </details></p>       
+  </li>
+  <li>
+    <p>1510-1530 <strong>Simon Fraser</strong> 
+    <details><summary><em>Integrating VDM-SL into the Continuous Delivery Pipelines of Cloud-based Software</em></summary>
+    The cloud is quickly becoming the principle means by which software 
+    is delivered into the hands of users. This has not only changed the 
+    shipping mechanism, but the whole process by which software is 
+    developed. The application of lean manufacturing principles to 
+    software engineering, and the growth of continuous integration and 
+    delivery, have contributed to the end-to-end automation of the 
+    development lifecycle. Gone are the days of quarterly releases of 
+    monolithic systems; the cloud-based, software as a service is formed
+    of hundred or even thousands of microservices with new versions 
+    available to the end user on a daily basis. If formal methods are to
+    be relevant in the world of cloud computing, we must be able to 
+    apply the same principles; enabling easy componentization of 
+    specifications and the integration of the processes around those 
+    specifications into the fully mechanized process. In this paper we 
+    present tools that enable VDM-SL specifications to be constructed, 
+    tested and documented in the same way as their implementation 
+    through the use of a VDM Gradle plugin. By taking advantage of 
+    existing binary repository systems we will show that known 
+    dependency resolution instruments can be used to facilitate the 
+    breakdown of specifications and enable the easy re-use of 
+    foundational components. We also suggest that the deployment of 
+    those components to central repositories could reduce the learning 
+    curve of formal methods and concentrate efforts on the innovative.
+    Furthermore, we propose a number of additional tools and 
+    integrations that we believe could increase the use of VDM-SL in the
+    development of cloud software.
+    </details></p>     
+  </li>
+  <li>
+    <p>1530-1600  <strong>COFFEE</strong></p>
 
-* 1010-1030	Peter W. V. Tran-Jørgensen, René Nilsson and __Kenneth Lausdahl__, _Enhancing Testing of VDM-SL Models_
-
-* 1030-1100 __COFFEE__
-
-* 1100-1120  __Casper Thule__, Kenneth Lausdahl and Peter Gorm Larsen, _Overture FMU: VDM-RT as FMU Controller_
-
-* 1120-1140  __Tomohiro Oda__, Keijiro Araki and Peter Larsen, _ViennaVM: a Virtual Machine for VDM-SL development_
- 
-   __APPLICATIONS SESSION__
-
-* 1140-1200  __Georgios Zervakis__ and __Ken Pierce__, _Multi-modelling of Cooperative Swarms_
-
-* 1200-1220  Martin Mansfield, Charles Morisset, Carl Gamble, __John Mace__, Ken Pierce and John Fitzgerald, _Design Space Exploration for Secure Building Control_
-
-* 1230-1400  __LUNCH__
-
-   __PERSPECTIVES AND METHODS__ 
-
-* 1400-1450  __Leo Freitas__, _VDM at large: analysing the EMV Next Generation Kernel_ (shared keynote with F-IDE workshop)
-
-* 1450-1510  __René Søndergaard Nilsson__, Kenneth Lausdahl, Hugo Daniel Macedo and Peter Gorm Larsen, _Transforming an industrial case study from VDM++ to VDM-SL_
-
-* 1510-1530  __Simon Fraser__, _Integrating VDM-SL into the Continuous Delivery Pipelines of Cloud-based Software_
-
-* 1530-1600  __COFFEE__
-
-  __CLOSING SESSION - SRA WORKSHOP__
-
-* 1600-1800  _Strategic Research Agenda for Overture_
+    <p><strong>CLOSING SESSION - SRA WORKSHOP</strong>
+    We will organise the final session ahead of time (using the 
+    overtture-core and users mailing lists), such that we have 
+    sufficient inputs to guide the discussion in the closing session. 
+    The intent is to provide structure to the future development of 
+    Overture; taking into account key points from the presentations and 
+    discussions. The SRA should, from our point of view, address the 
+    following points:
+    <ol>
+      <li>Language and semantics</li>
+      <li>Tool support</li>
+      <li>Applications</li>
+      <li>Community building</li>
+      <li>Business offerings</li>      
+    </ol>
+    </p>
+  </li>
+  <li>
+    <p>1600-1800 <em>Strategic Research Agenda for Overture</em></p>
+  </li>
+</ul>
 
 
 ## Original CALL FOR PAPERS
