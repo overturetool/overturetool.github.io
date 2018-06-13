@@ -22,14 +22,14 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
 
 ## PROGRAMME
 
-<ul style="list-style-type: none; padding: 0 and margin: 0">
+<ul style="list-style-type: none; padding: 0; margin: 0">
   <li style="list-style-type:none">
     <p>0830-0900	<strong>Registration</strong></p>
     <p><strong>OPENING SESSION</strong></p>
   </li>
   <li style="list-style-type:none">
     <p><details><summary>0900-1000 <strong>Jean-Christophe Filliâtre</strong>
-    <i>Auto-active Verification using Why3's IDE_</i>(shared keynote F-IDE workshop)</summary>
+    <i>Auto-active Verification using Why3's IDE</i>(shared keynote F-IDE workshop)</summary>
     Why3 is a platform for deductive program verification. It features a
     rich language for specification and programming, called WhyML, and 
     relies on external theorem provers, both automated and interactive, 
