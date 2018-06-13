@@ -22,7 +22,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
 
 ## PROGRAMME
 
-<ul>
+<ul style="list-style-type: none">
   <li>
     <p>0830-0900	<strong>Registration</strong></p>
     <p><strong>OPENING SESSION</strong></p>
