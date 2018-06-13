@@ -25,7 +25,6 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
 <ul>
   <li>
     <p>0830-0900	<strong>Registration</strong></p>
-
     <p><strong>OPENING SESSION</strong></p>
   </li>
   <li>
@@ -45,7 +44,6 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
   </li>
   <li>
     <p>1000-1010 <em>Welcome to the Overture Workshop</em> (Ken Pierce and Marcel Verhoef)</p>
-
     <p><strong>TOOLS SESSION</strong></p>
   </li>
   <li>
@@ -105,8 +103,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     called ViennaVM which is formally defined in VDM-SL and still under 
     development. The objective of ViennaVM is to serve as a target 
     platform of code generators from VDM specifications.
-    </details></p>    
-    
+    </details></p>      
     <p><strong>APPLICATIONS SESSION</strong></p>
   </li>
   <li>
@@ -150,7 +147,6 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     </li>
   <li>
     <p>1230-1400 <strong>LUNCH</strong></p>
-
     <p><strong>PERSPECTIVES AND METHODS</strong></p>
   </li>
   <li>
@@ -208,8 +204,10 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
   </li>
   <li>
     <p>1530-1600  <strong>COFFEE</strong></p>
-
-    <p><strong>CLOSING SESSION - SRA WORKSHOP</strong>
+    <p><strong>CLOSING SESSION - SRA WORKSHOP</strong></p>
+  </li>
+  <li>
+    <p>1600-1800 <em>Strategic Research Agenda for Overture</em><br/>
     We will organise the final session ahead of time (using the 
     overtture-core and users mailing lists), such that we have 
     sufficient inputs to guide the discussion in the closing session. 
@@ -217,7 +215,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     Overture; taking into account key points from the presentations and 
     discussions. The SRA should, from our point of view, address the 
     following points:
-    <ol>
+    <ol type="1">
       <li>Language and semantics</li>
       <li>Tool support</li>
       <li>Applications</li>
@@ -226,11 +224,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     </ol>
     </p>
   </li>
-  <li>
-    <p>1600-1800 <em>Strategic Research Agenda for Overture</em></p>
-  </li>
 </ul>
-
 
 ## Original CALL FOR PAPERS
 
