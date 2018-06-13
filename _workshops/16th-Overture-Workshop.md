@@ -22,12 +22,12 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
 
 ## PROGRAMME
 
-<ul style="list-style-type: none">
-  <li>
+<ul style="list-style-type: none; padding: 0 and margin: 0">
+  <li style="list-style-type:none">
     <p>0830-0900	<strong>Registration</strong></p>
     <p><strong>OPENING SESSION</strong></p>
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>0900-1000 <strong>Jean-Christophe Filliâtre</strong>
     <i>Auto-active Verification using Why3's IDE_</i>(shared keynote F-IDE workshop)</summary>
     Why3 is a platform for deductive program verification. It features a
@@ -42,11 +42,11 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     maintenance.
     </details></p>
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p>1000-1010 <em>Welcome to the Overture Workshop</em> (Ken Pierce and Marcel Verhoef)</p>
     <p><strong>TOOLS SESSION</strong></p>
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>1010-1030 Peter W. V. Tran-Jørgensen, René Nilsson and <strong>Kenneth Lausdahl</strong>
     <em>Enhancing Testing of VDM-SL Models</em></summary>
     We find that testing of VDM-SL models is currently a tedious and
@@ -63,10 +63,10 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     enables one to reuse tests to validate code-generated VDM-SL models.
     </details></p>    
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p>1030-1100 <strong>COFFEE</strong></p>
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>1100-1120 <strong>Casper Thule</strong>, Kenneth Lausdahl and Peter Gorm Larsen
     <em>Overture FMU: VDM-RT as FMU Controller</em></summary>
     The Functional Mock-up Interface is a standard for co-simulation, 
@@ -90,7 +90,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     </details>    
     </p> 
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>1120-1140 <strong>Tomohiro Oda</strong>, Keijiro Araki and Peter Larsen
     <em>ViennaVM: a Virtual Machine for VDM-SL development</em></summary>
     The executable subset of VDM allows code generators to automatically
@@ -105,7 +105,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     </details></p>      
     <p><strong>APPLICATIONS SESSION</strong></p>
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>1140-1200 <strong>Georgios Zervakis</strong> and <strong>Ken Pierce</strong>
     <em>Multi-modelling of Cooperative Swarms</em></summary>
     A major challenge in multi-modelling and co-simulation of 
@@ -122,7 +122,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     multi-model, specifically  swarm of UAVs.
     </details></p>
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>1200-1220 Martin Mansfield, Charles Morisset, Carl Gamble, <strong>John Mace</strong>, Ken Pierce and John Fitzgerald 
     <em>Design Space Exploration for Secure Building Control</em></summary>
     By automation of their critical systems, modern buildings are 
@@ -144,11 +144,11 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     friendly.
     </details></p>
     </li>
-  <li>
+  <li style="list-style-type:none">
     <p>1230-1400 <strong>LUNCH</strong></p>
     <p><strong>PERSPECTIVES AND METHODS</strong></p>
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>1400-1450 <strong>Leo Freitas</strong>
     <em>VDM at large: analysing the EMV Next Generation Kernel</em> (shared keynote with F-IDE workshop)</summary>
     The EMV consortium protocols facilitate worldwide interoperability 
@@ -156,7 +156,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     experience in using VDM to model EMV 2nd Generation Kernel.
     </details></p>   
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>1450-1510 <strong>René Søndergaard Nilsson</strong>, Kenneth Lausdahl, Hugo Daniel Macedo and Peter Gorm Larsen
     <em>Transforming an industrial case study from VDM++ to VDM-SL</em></summary>
     Normally transitions between different VDM dialects go from VDM-SL 
@@ -170,7 +170,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     combined commercial and research setting.
     </details></p>       
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p><details><summary>1510-1530 <strong>Simon Fraser</strong> 
     <em>Integrating VDM-SL into the Continuous Delivery Pipelines of Cloud-based Software</em></summary>
     The cloud is quickly becoming the principle means by which software 
@@ -201,11 +201,11 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     development of cloud software.
     </details></p>     
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p>1530-1600  <strong>COFFEE</strong></p>
     <p><strong>CLOSING SESSION - SRA WORKSHOP</strong></p>
   </li>
-  <li>
+  <li style="list-style-type:none">
     <p>1600-1800 <em>Strategic Research Agenda for Overture</em><br/>
     We will organise the final session ahead of time (using the 
     overtture-core and users mailing lists), such that we have 
@@ -215,11 +215,11 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     discussions. The SRA should, from our point of view, address the 
     following points:
     <ol type="1">
-      <li>Language and semantics</li>
-      <li>Tool support</li>
-      <li>Applications</li>
-      <li>Community building</li>
-      <li>Business offerings</li>      
+      <li style="list-style-type:none">Language and semantics</li>
+      <li style="list-style-type:none">Tool support</li>
+      <li style="list-style-type:none">Applications</li>
+      <li style="list-style-type:none">Community building</li>
+      <li style="list-style-type:none">Business offerings</li>      
     </ol>
     </p>
   </li>
