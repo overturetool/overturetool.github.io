@@ -215,11 +215,11 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     discussions. The SRA should, from our point of view, address the 
     following points:
     <ol type="1">
-      <li style="list-style-type:none">Language and semantics</li>
-      <li style="list-style-type:none">Tool support</li>
-      <li style="list-style-type:none">Applications</li>
-      <li style="list-style-type:none">Community building</li>
-      <li style="list-style-type:none">Business offerings</li>      
+      <li>Language and semantics</li>
+      <li>Tool support</li>
+      <li>Applications</li>
+      <li>Community building</li>
+      <li>Business offerings</li>      
     </ol>
     </p>
   </li>
