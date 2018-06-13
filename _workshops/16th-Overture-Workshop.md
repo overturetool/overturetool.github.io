@@ -28,8 +28,8 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     <p><strong>OPENING SESSION</strong></p>
   </li>
   <li>
-    <p>0900-1000 <strong>Jean-Christophe Filliâtre</strong>
-    <details><summary><i>Auto-active Verification using Why3's IDE_</i>(shared keynote F-IDE workshop)</summary>
+    <p><details><summary>0900-1000 <strong>Jean-Christophe Filliâtre</strong>
+    <i>Auto-active Verification using Why3's IDE_</i>(shared keynote F-IDE workshop)</summary>
     Why3 is a platform for deductive program verification. It features a
     rich language for specification and programming, called WhyML, and 
     relies on external theorem provers, both automated and interactive, 
@@ -47,8 +47,8 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     <p><strong>TOOLS SESSION</strong></p>
   </li>
   <li>
-    <p>1010-1030 Peter W. V. Tran-Jørgensen, René Nilsson and <strong>Kenneth Lausdahl</strong>
-    <details><summary><em>Enhancing Testing of VDM-SL Models</em></summary>
+    <p><details><summary>1010-1030 Peter W. V. Tran-Jørgensen, René Nilsson and <strong>Kenneth Lausdahl</strong>
+    <em>Enhancing Testing of VDM-SL Models</em></summary>
     We find that testing of VDM-SL models is currently a tedious and
     error-prone task due to lack of tool support for conveniently
     defining tests, executing tests automatically, and validating test
@@ -67,8 +67,8 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     <p>1030-1100 <strong>COFFEE</strong></p>
   </li>
   <li>
-    <p>1100-1120 <strong>Casper Thule</strong>, Kenneth Lausdahl and Peter Gorm Larsen
-    <details><summary><em>Overture FMU: VDM-RT as FMU Controller</em></summary>
+    <p><details><summary>1100-1120 <strong>Casper Thule</strong>, Kenneth Lausdahl and Peter Gorm Larsen
+    <em>Overture FMU: VDM-RT as FMU Controller</em></summary>
     The Functional Mock-up Interface is a standard for co-simulation, 
     which both defines and describes a set of C interfaces that a 
     simulation unit, a Functional Mock-up Unit (FMU), must adhere to in
@@ -91,8 +91,8 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     </p> 
   </li>
   <li>
-    <p>1120-1140 <strong>Tomohiro Oda</strong>, Keijiro Araki and Peter Larsen
-    <details><summary><em>ViennaVM: a Virtual Machine for VDM-SL development</em></summary>
+    <p><details><summary>1120-1140 <strong>Tomohiro Oda</strong>, Keijiro Araki and Peter Larsen
+    <em>ViennaVM: a Virtual Machine for VDM-SL development</em></summary>
     The executable subset of VDM allows code generators to automatically
     produce program code. A lot of research have been conducted on 
     automated code generators. Virtual machines are common platforms of 
@@ -106,8 +106,8 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     <p><strong>APPLICATIONS SESSION</strong></p>
   </li>
   <li>
-    <p>1140-1200 <strong>Georgios Zervakis</strong> and <strong>Ken Pierce</strong>
-    <details><summary><em>Multi-modelling of Cooperative Swarms</em></summary>
+    <p><details><summary>1140-1200 <strong>Georgios Zervakis</strong> and <strong>Ken Pierce</strong>
+    <em>Multi-modelling of Cooperative Swarms</em></summary>
     A major challenge in multi-modelling and co-simulation of 
     cyber-physical systems (CPSs) using distributed control, such as 
     swarms of autonomous Unmanned Aerial Vehicles (UAVs), is the need to
@@ -123,8 +123,8 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     </details></p>
   </li>
   <li>
-    <p>1200-1220 Martin Mansfield, Charles Morisset, Carl Gamble, <strong>John Mace</strong>, Ken Pierce and John Fitzgerald
-    <details><summary> <em>Design Space Exploration for Secure Building Control</em></summary>
+    <p><details><summary>1200-1220 Martin Mansfield, Charles Morisset, Carl Gamble, <strong>John Mace</strong>, Ken Pierce and John Fitzgerald 
+    <em>Design Space Exploration for Secure Building Control</em></summary>
     By automation of their critical systems, modern buildings are 
     becoming increasingly intelligent, but also increasingly vulnerable 
     to both cyber and physical attacks. We propose that multi-models can
@@ -149,16 +149,16 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     <p><strong>PERSPECTIVES AND METHODS</strong></p>
   </li>
   <li>
-    <p>1400-1450 <strong>Leo Freitas</strong>
-    <details><summary><em>VDM at large: analysing the EMV Next Generation Kernel</em> (shared keynote with F-IDE workshop)</summary>
+    <p><details><summary>1400-1450 <strong>Leo Freitas</strong>
+    <em>VDM at large: analysing the EMV Next Generation Kernel</em> (shared keynote with F-IDE workshop)</summary>
     The EMV consortium protocols facilitate worldwide interoperability 
     of secure electronic payments. In this paper, we describe our 
     experience in using VDM to model EMV 2nd Generation Kernel.
     </details></p>   
   </li>
   <li>
-    <p>1450-1510 <strong>René Søndergaard Nilsson</strong>, Kenneth Lausdahl, Hugo Daniel Macedo and Peter Gorm Larsen
-    <details><summary><em>Transforming an industrial case study from VDM++ to VDM-SL</em></summary>
+    <p><details><summary>1450-1510 <strong>René Søndergaard Nilsson</strong>, Kenneth Lausdahl, Hugo Daniel Macedo and Peter Gorm Larsen
+    <em>Transforming an industrial case study from VDM++ to VDM-SL</em></summary>
     Normally transitions between different VDM dialects go from VDM-SL 
     towards VDM++ or VDM-RT. In this paper we would like to demonstrate 
     that it actually can make sense to move in the opposite direction.
@@ -171,8 +171,8 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     </details></p>       
   </li>
   <li>
-    <p>1510-1530 <strong>Simon Fraser</strong> 
-    <details><summary><em>Integrating VDM-SL into the Continuous Delivery Pipelines of Cloud-based Software</em></summary>
+    <p><details><summary>1510-1530 <strong>Simon Fraser</strong> 
+    <em>Integrating VDM-SL into the Continuous Delivery Pipelines of Cloud-based Software</em></summary>
     The cloud is quickly becoming the principle means by which software 
     is delivered into the hands of users. This has not only changed the 
     shipping mechanism, but the whole process by which software is 
