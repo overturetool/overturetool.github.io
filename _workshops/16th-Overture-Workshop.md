@@ -67,7 +67,6 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     <p>1030-1100 <strong>COFFEE</strong></p>
   </li>
   <li>
-  <li>
     <p>1100-1120 <strong>Casper Thule</strong>, Kenneth Lausdahl and Peter Gorm Larsen
     <details><summary><em>Overture FMU: VDM-RT as FMU Controller</em></summary>
     The Functional Mock-up Interface is a standard for co-simulation, 
