@@ -12,7 +12,7 @@ The 16th Overture Workshop will be held on Saturday 14 July 2018 in association 
 
 **Location: Oxford University, United Kingdom**
 
-_Room TBC_ (either the Maths and Blavatnik buildings): <http://www.floc2018.org/venues/>
+_Seminar Room 2, Blavatnik Building_: <http://www.floc2018.org/speaker/blavatnik/>
 
 Please register for the workshop via <http://www.floc2018.org/register/>. Early registration is now closed, but you can still register for £110 / £95 (regular / student) until Monday 25, or £165 / £150 on the day. Accomodation details can be found at <http://www.floc2018.org/accommodation/>.
 
@@ -29,7 +29,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
   </li>
   <li style="list-style-type:none">
     <p><details><summary>0900-1000 <strong>Jean-Christophe Filliâtre</strong>
-    <i>Auto-active Verification using Why3's IDE</i>(shared keynote F-IDE workshop)</summary>
+    <i>Auto-active Verification using Why3's IDE</i> (Seminar Room 2, Blavatnik; shared keynote F-IDE workshop)</summary>
     Why3 is a platform for deductive program verification. It features a
     rich language for specification and programming, called WhyML, and 
     relies on external theorem provers, both automated and interactive, 
