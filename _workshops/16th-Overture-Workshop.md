@@ -68,7 +68,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
   </li>
   <li style="list-style-type:none">
     <p><details><summary>1100-1120 <strong>Casper Thule</strong>, Kenneth Lausdahl and Peter Gorm Larsen
-    <em>Overture FMU: VDM-RT as FMU Controller</em></summary>
+    <em>Overture FMU: Export VDM-RT Models as Tool-Wrapper FMUs</em></summary>
     The Functional Mock-up Interface is a standard for co-simulation, 
     which both defines and describes a set of C interfaces that a 
     simulation unit, a Functional Mock-up Unit (FMU), must adhere to in
