@@ -12,7 +12,7 @@ The 16th Overture Workshop will be held on Saturday 14 July 2018 in association 
 
 **Location: Oxford University, United Kingdom**
 
-_Seminar Room 2, Blavatnik Building_: <http://www.floc2018.org/speaker/blavatnik/>
+**Seminar Room 2, [Blavatnik Building](http://www.floc2018.org/speaker/blavatnik/)**
 
 Registration is now closed, but you can still join us for £165 / £150 on the day (see <http://www.floc2018.org/register/>).
 
