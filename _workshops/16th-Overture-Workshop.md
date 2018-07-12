@@ -22,7 +22,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
 
 <ul style="list-style-type: none; padding: 0; margin: 0">
   <li style="list-style-type:none">
-    <p>0830-0900	<strong>Registration</strong></p>
+    <p>0830-0900	<strong>Registration</strong> (in the <a href="http://wordpress.floc2018.org/speaker/maths/">Mathematical Institute</a>)</p>
     <p><strong>OPENING SESSION</strong></p>
   </li>
   <li style="list-style-type:none">
