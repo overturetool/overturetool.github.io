@@ -16,9 +16,7 @@ _Seminar Room 2, Blavatnik Building_: <http://www.floc2018.org/speaker/blavatnik
 
 Please register for the workshop via <http://www.floc2018.org/register/>. Early registration is now closed, but you can still register for £110 / £95 (regular / student) until Monday 25, or £165 / £150 on the day. Accomodation details can be found at <http://www.floc2018.org/accommodation/>.
 
-Preliminary proceedings are available [here](16/floc_overture16_proceedings_collated.pdf).
-
-
+Preliminary proceedings are available [here](16/floc_overture16_proceedings_collated.pdf). The raw responses to the SRA quentionnaire are available [here](16/questionaire_responses.pdf).
 
 ## PROGRAMME
 
