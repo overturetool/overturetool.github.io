@@ -104,7 +104,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
     <p><strong>APPLICATIONS SESSION</strong></p>
   </li>
   <li style="list-style-type:none">
-    <p><details><summary>1140-1200 <strong>Georgios Zervakis</strong> and <strong>Ken Pierce</strong>
+    <p><details><summary>1140-1200 <strong>Georgios Zervakis</strong>, <strong>Ken Pierce</strong> and Carl Gamble
     <em>Multi-modelling of Cooperative Swarms</em></summary>
     A major challenge in multi-modelling and co-simulation of 
     cyber-physical systems (CPSs) using distributed control, such as 
