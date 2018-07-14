@@ -46,7 +46,7 @@ Preliminary proceedings are available [here](16/floc_overture16_proceedings_coll
   </li>
   <li style="list-style-type:none">
     <p><details><summary>1010-1030 Peter W. V. Tran-Jørgensen, René Nilsson and <strong>Kenneth Lausdahl</strong>
-    <em>Enhancing Testing of VDM-SL Models</em></summary>
+    <a href="16/Enhancing%20Testing%20of%20VDM-SL%20Models.pdf"><em>Enhancing Testing of VDM-SL Models</em></a></summary>
     We find that testing of VDM-SL models is currently a tedious and
     error-prone task due to lack of tool support for conveniently
     defining tests, executing tests automatically, and validating test
