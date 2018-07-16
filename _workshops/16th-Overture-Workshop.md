@@ -16,7 +16,7 @@ The 16th Overture Workshop will be held on Saturday 14 July 2018 in association 
 
 Registration is now closed, but you can still join us for £165 / £150 on the day (see <http://www.floc2018.org/register/>).
 
-Preliminary proceedings are available [here](16/floc_overture16_proceedings_collated.pdf). Responses to the SRA quentionnaire and raw inputs from the day are available [here](16/questionaire_responses.pdf).
+Preliminary proceedings are available [here](16/floc_overture16_proceedings_collated.pdf). Responses to the SRA quentionnaire and raw inputs from the day are available [here](16/questionaire_responses_16072018.pdf).
 
 ## PROGRAMME
 
@@ -241,11 +241,11 @@ Previous workshops have been invaluable in encouraging both new and established 
 
 ### Participants
 
-![Front row (left to right): Fuyuki Ishikawa, Simon Fraser, Leo Freitas, Tomohiro Oda, Marcel Verhoef, Randell; 
+![Front row (left to right): Fuyuki Ishikawa, Simon Fraser, Leo Freitas, Tomohiro Oda, Marcel Verhoef, Randolph D. Johnson; 
   back row: Kenneth Lausdahl, Casper Thule, René S. Nilsson, Nick Battle, Bernhard Aichernig, John Fitzgerald. Peter Gorm Larsen, 
   John Mace, Ken Pierce](15/26.jpg)
 
-Front row (left to right): Fuyuki Ishikawa, Simon Fraser, Leo Freitas, Tomohiro Oda, Marcel Verhoef, Randell; 
+Front row (left to right): Fuyuki Ishikawa, Simon Fraser, Leo Freitas, Tomohiro Oda, Marcel Verhoef, Randolph D. Johnson; 
   back row: Kenneth Lausdahl, Casper Thule, René S. Nilsson, Nick Battle, Bernhard Aichernig, John Fitzgerald. Peter Gorm Larsen, 
   John Mace, Ken Pierce.
 
