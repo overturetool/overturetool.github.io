@@ -241,11 +241,11 @@ Previous workshops have been invaluable in encouraging both new and established 
 
 ### Participants
 
-![Back row (left to right): Kenneth Lausdahl, Casper Thule, René S. Nilsson, Nick Battle, Bernhard Aichernig, John Fitzgerald, Peter Gorm Larsen, John Mace, Ken Pierce; front row: Fuyuki Ishikawa, Simon Fraser, Leo Freitas, Tomohiro Oda, Marcel Verhoef, Randolph D. Johnson](16/16.jpg)
+![Back row (left to right): Kenneth Lausdahl, Casper Thule, René S. Nilsson, Nick Battle, Bernhard Aichernig, John Fitzgerald, Peter Gorm Larsen, John Mace, Ken Pierce; front row: Fuyuki Ishikawa, Simon Fraser, Leo Freitas, Tomohiro Oda, Marcel Verhoef, Randolph D. Johnson](16/16.jpeg)
 
 Back row (left to right): Kenneth Lausdahl, Casper Thule, René S. Nilsson, Nick Battle, Bernhard Aichernig, John Fitzgerald, Peter Gorm Larsen, John Mace, Ken Pierce; front row: Fuyuki Ishikawa, Simon Fraser, Leo Freitas, Tomohiro Oda, Marcel Verhoef, Randolph D. Johnson.
 
-![Back row (left to right): John Mace, René S. Nilsson, Kenneth Lausdahl, Bernhard Aichernig, Nick Battle, Peter Gorm Larsen, Simon Fraser, Casper Thule, Ken Pierce, John Fitzgerald, Fuyuki Ishikawa; front row: Randolph D. Johnson, Marcel Verhoef, Leo Freitas, Tomohiro Oda](16/16_2.jpg)
+![Back row (left to right): John Mace, René S. Nilsson, Kenneth Lausdahl, Bernhard Aichernig, Nick Battle, Peter Gorm Larsen, Simon Fraser, Casper Thule, Ken Pierce, John Fitzgerald, Fuyuki Ishikawa; front row: Randolph D. Johnson, Marcel Verhoef, Leo Freitas, Tomohiro Oda](16/16_2.jpeg)
 
 ### Submission
 
