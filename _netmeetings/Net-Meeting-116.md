@@ -60,10 +60,9 @@ details about it
 
 ##  Release Planning
 
-#### topic 1
+#### Overture
 
-some description
-
+Next release of Overture, version 2.6.4 is due October 19.
 
 ##  Community Development
 
