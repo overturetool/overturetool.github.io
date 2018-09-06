@@ -62,7 +62,7 @@ details about it
 
 #### Overture
 
-Next release of Overture, version 2.6.4 is due October 19.
+Next release of Overture, [version 2.6.4](https://github.com/overturetool/overture/milestone/40), is due October 19.
 
 ##  Community Development
 
