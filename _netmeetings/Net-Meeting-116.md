@@ -14,14 +14,14 @@ date: 9 September 2018, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, TO, PJ, NP.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* [88-1](https://github.com/overturetool/overturetool.github.io/issues/18) TBD.
+* [88-1](https://github.com/overturetool/overturetool.github.io/issues/18) No progress.
 
 ## Overture Language Board Status
 
