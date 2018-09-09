@@ -82,6 +82,8 @@ The license change process is roughly as follows:
   * if all authors have agreed, we make a final archive of the current version (that will be available as GPLv3 for eternity as we cannot revoke what is out there)
   * we make a new release of Overture, under the new license regime
 
+Based on the discussion, people seem to lean towards a more permissive license. Concretely, it was proposed to consider BSD two-clause and the impact that has on the community.
+
 ##  Publications Status and Plans
 
 See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
