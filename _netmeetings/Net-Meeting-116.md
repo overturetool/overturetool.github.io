@@ -21,11 +21,7 @@ date: 9 September 2018, 1200 CEST
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* 10-1 some progress...
-* 11-4 no progress...
-* 15-2 is now closed.
-* ...
-
+* [88-1](https://github.com/overturetool/overturetool.github.io/issues/18) TBD.
 
 ## Overture Language Board Status
 
@@ -40,7 +36,7 @@ some description
 
 ##  Status of the Overture Components
 
-- [Issue 686](https://github.com/overturetool/overture/issues/686) has been fixed.
+[Issue 686](https://github.com/overturetool/overture/issues/686) has been fixed.
 
 In addition, some type-checker/interpreter issues have been reported recently. Nick will look into this when he returns to the UK.
 
@@ -54,7 +50,6 @@ In addition, some type-checker/interpreter issues have been reported recently. N
   * Integration with VDMJ and Overture
 * VDM YASnippets
 
-
 ##  Release Planning
 
 #### Overture
@@ -67,10 +62,6 @@ Next release of Overture, [version 2.6.4](https://github.com/overturetool/overtu
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-#### topic 1
-...
-
-
 ##  Licensing of Overture source code
 
 The Strategic Research Agenda is reviewed every other NetMeeting.
@@ -78,21 +69,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
-
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
+See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
