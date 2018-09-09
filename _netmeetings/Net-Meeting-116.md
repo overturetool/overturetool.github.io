@@ -14,7 +14,7 @@ date: 9 September 2018, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | PGL, TO, PJ, NP.  Minutes by PJ. |
+| Participants | PGL, TO, PJ, NP, KP, MV, HM.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -29,10 +29,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Status of VDMTools/Viennatalk Development
 
-#### topic 1
-
-some description
-
+None.
 
 ##  Status of the Overture Components
 
