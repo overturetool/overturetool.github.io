@@ -40,9 +40,9 @@ some description
 
 ##  Status of the Overture Components
 
-#### Component 1
+- [Issue 686](https://github.com/overturetool/overture/issues/686) has been fixed.
 
-details about it
+In addition, some type-checker/interpreter issues have been reported recently. Nick will look into this when he returns to the UK.
 
 ## vdm-mode.el *NEW TOOL*
 
