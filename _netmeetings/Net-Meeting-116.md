@@ -61,21 +61,34 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 ##  Licensing of Overture source code
 
-Based a recent email sent to the core mailing list by MV, there was a discussion about the best licensing strategy to use for Overture in the future. The problem is that GPL v3 might be too restrictive for our purposes: GPL v3 is quite specific about what you can do (and cannot do) when you build applications that include other code. For example, formally we cannot use libraries and plugins that are not compliant to GPLv3 in any applications built with Overture code. Also, most of Eclipse is released under EPL (a weak copyleft license) that is NOT compatible with GPL.
+Based a recent email sent to the core mailing list by MV, there was a discussion about the best licensing strategy to use for Overture in the future. The problem is that GPL v3 might be too restrictive for our purposes: GPL v3 is quite specific about what you can do (and cannot do) when you build applications that include other code. For example, formally we cannot use libraries and plugins that are not compliant to GPLv3 in any applications built with Overture code. Furthermore, most of Eclipse is released under EPL (a weak copyleft license) that is NOT compatible with GPL.
 
-We switched to GPLv3 roughly when we moved from sourceforge to Github with the argument that it would ensure that downstream users that either modify Overture or build tools on top of it would be required to open source these changes or derived products. However, we never considered the Eclipse impact properly and ignored it, until it was spotted by a third party.
+We switched to GPLv3 roughly when we moved from sourceforge to Github with the argument that it would ensure that downstream users that either modify Overture or build tools on top of would be required to open source these changes or derived products. However, we never considered the Eclipse impact properly and ignored it, until it was spotted by a third party.
 
 There are to ways to address this. Either we
 
-* we can change the GPLv3 licences to add a clause that this tainting of libraries used does not apply. but (1) this requires to keep an explicit list of all libraries used - every time the tool changes! and (2) all copy right holders (people that actually wrote the code) must agree to this licence change (yes, each time!) or
+* change the GPLv3 licences to add a clause that this tainting of libraries used does not apply. but (1) this requires to keep an explicit list of all libraries used - every time the tool changes! and (2) all copy right holders (people that actually wrote the code) must agree to this licence change (yes, each time!) or
 
-* we move away from GPLv3 towards another (open source) license agreement. This also requires the same iteration with all copyright holders, but if we do it correctly, we only have to do it once. Caveat: this also applies to VDMJ, for which FUJITSU is the copyright holder. Regarding this option there's a big catch: ALL copyright holders must agree to the change, you cannot make a partial move. Alternative licenses would be EPL (weak copyleft - implictly compatible with Eclipse but not necessarily other tool frameworks) or BSD two-clause.
+* move away from GPLv3 towards another (open source) license agreement. This also requires the same iteration with all copyright holders, but if we do it correctly, we only have to do it once. Caveat: this also applies to VDMJ, for which FUJITSU is the copyright holder. Regarding this option there's a big catch: ALL copyright holders must agree to the change, you cannot make a partial move. Alternative licenses would be EPL (weak copyleft - implictly compatible with Eclipse but not necessarily other tool frameworks) or BSD two-clause.
+
+The license change process is roughly as follows:
+
+* we make up our mind on our license policy
+
+* we open a discussion phase to allow community feedback on the proposed change
+
+* if there is no opposition, we implement the change, as follows
+  * we ask all copyright authors for written permission (i.e. via a git tracker) that they agree to the license change
+  * if all authors have agreed, we make a final archive of the current version (that will be available as GPLv3 for eternity as we cannot revoke what is out there)
+  * we make a new release of Overture, under the new license regime
 
 ##  Publications Status and Plans
 
 See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
+
+None.
 
 <div id="edit_page_div"></div>
 
