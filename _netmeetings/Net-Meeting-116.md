@@ -29,10 +29,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
-
-some description
-
+[RC 44, "Total Functions"](https://github.com/overturetool/language/issues/44) was discussed at today's Language Board net meeting. A summary of the discussion is available [here](https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM,-9th-September-2018).
 
 ## Status of VDMTools/Viennatalk Development
 
