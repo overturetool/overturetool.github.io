@@ -3,10 +3,6 @@ layout: default
 title: The Overture Community
 ---
 
-# WedIDE for VDM-SL
-
-[A WebIDE for Overture](http://ide.overturetool.org/) is a VDM-SL environment that you can access if you login using a Google account. It has been developed by two Masters thesis students (Rasmus Reimer and Kasper Saaby) at Aarhus University (AU) and its backend is installed at one of the AU servers. It has functionality for managing multiple VDM-SL projects. For each project there is debugging functionality where one also can set breakpoints and inspect different things while debugging. It also supports both outline of the definitions of a model as well as proof obligation generation and browsing. It also contains a Read-Eval-Print-Loop functionality being able to make use of the different definitions and in a fast manner evaluate different expressions. Finally, it is also possible to import existing VDM-SL examples in order to easily see how one can gain value in using this tool support.
-
 # ViennaTalk
 
 ![ViennaTalk logo](https://raw.githubusercontent.com/tomooda/ViennaTalk-doc/master/images/ViennaTalk-logo-150.png)
