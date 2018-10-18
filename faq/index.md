@@ -31,3 +31,7 @@ sudo spctl --master-disable
 sudo spctl --master-enable
 ```
 [Source](http://osxdaily.com/2016/09/27/allow-apps-from-anywhere-macos-gatekeeper/)
+
+### Q: Why can't I open Overture using the latest versions of Java?
+
+The latest versions of Overture (e.g. 2.6.2 and 2.6.4) require Java 8. If you're using more recent versions of Java (e.g. version 10) you may experience errors when you launch Overture. Overture, currently builds against Eclipse Oxygen, which is known to have issues related to recent versions of Java. However, it should still be possible to get Overture to work with these versions of Java. In case you experience issues try to follow the suggestions in [this](https://stackoverflow.com/questions/52825229/how-to-install-overture-on-windows) Stack Exchange thread. In particular, adding `--add-modules=ALL-SYSTEM` to the `Overture.ini` file (which is located in the root of your Overture installation directory) may solve the problem.
