@@ -27,7 +27,7 @@ To post a message to this mailing list, send a mail to
 [overture-users.eng@MailList.au.dk](mailto:overture-users.eng@MailList.au.dk).
 
 To see the mailing list archives go to
-[Overture-Users archives](http://overturetool.hosting.west.nl/mailman/private/overture-users/).
+[Overture-Users archives](http://maillist.au.dk/mailman/private/overture-users.eng/).
 
 To subscribe to this mailing list please fill the
 [subscription form](http://maillist.au.dk/mailman/listinfo/overture-users.eng).
