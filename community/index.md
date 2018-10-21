@@ -19,7 +19,6 @@ The Overture tools are being developed by volunteers from industry,
 research scientists and students, currently from Denmark, England, The
 Netherlands and Japan.  You can find an overview of us at our wiki
 page
-[The Community](http://overturetool.org/community/).
 
 Anyone interested (from both industry and academia) is welcome to join
 the project as an active member.  You might be interested in
