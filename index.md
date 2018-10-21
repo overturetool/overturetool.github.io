@@ -41,7 +41,7 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
         <tbody>
             <tr>
                <td><a href="http://crescendotool.org"> <img src="{{ site.url }}/images/crescendo.png" width="128" alt="Cresendo Tool"> </a></td>
-			   <td>The <a href="http://crescendotool.org">Cresendo Tool</a> uses the Overture platform and <a href="http://www.controllab.nl/en/products/20-sim.html">Controllab's 20-sim</a> to perform co-simulations that can be used in the analysis and development of cyber-physical systems.</td>
+			   <td>The <a href="http://crescendotool.org">Cresendo Tool</a> uses the Overture platform and <a href="http://www.20sim.com/">Controllab's 20-sim</a> to perform co-simulations that can be used in the analysis and development of cyber-physical systems.</td>
             </tr>
 			<tr>
 				<td><a href="http://symphonytool.org"> <img src="{{ site.url }}/images/symphony.png" width="128" alt="Symphony Tool"> </a></td>
