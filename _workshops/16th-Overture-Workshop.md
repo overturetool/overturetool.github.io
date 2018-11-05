@@ -8,7 +8,7 @@ location: Oxford, UK
 
 The 16th Overture Workshop was held on Saturday 14 July 2018 in association with the [Federated Logic Conference (FLoC) 2018](http://www.floc2018.org/) and the [22nd International Symposium on Formal Methods (FM 2018)](http://www.fmeurope.org/?p=613). The proceedings can be found at https://www.ncl.ac.uk/media/wwwnclacuk/schoolofcomputingscience/files/trs/1524.pdf and should be cited as: 
 
-Ken Pierce and Marcel (Editors), The 16th Overture Workshop. Technical Report 1523, School of Computing, Newcastle University, UK, October 2018. 
+Ken Pierce and Marcel (Editors), The 16th Overture Workshop. Technical Report 1524, School of Computing, Newcastle University, UK, October 2018. 
 
 Responses to the SRA quentionnaire and raw inputs from the day are available [here](16/questionaire_responses_16072018.pdf). These will be processed at a later date.
 
