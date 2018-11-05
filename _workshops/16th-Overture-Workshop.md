@@ -6,7 +6,7 @@ location: Oxford, UK
 ---
 # THE 16TH OVERTURE WORKSHOP
 
-The 16th Overture Workshop was held on Saturday 14 July 2018 in association with the [Federated Logic Conference (FLoC) 2018](http://www.floc2018.org/) and the [22nd International Symposium on Formal Methods (FM 2018)](http://www.fmeurope.org/?p=613). The proceedings can be found [here][https://www.ncl.ac.uk/media/wwwnclacuk/schoolofcomputingscience/files/trs/1524.pdf] and should be cited as: 
+The 16th Overture Workshop was held on Saturday 14 July 2018 in association with the [Federated Logic Conference (FLoC) 2018](http://www.floc2018.org/) and the [22nd International Symposium on Formal Methods (FM 2018)](http://www.fmeurope.org/?p=613). The proceedings can be found [here](https://www.ncl.ac.uk/media/wwwnclacuk/schoolofcomputingscience/files/trs/1524.pdf) and should be cited as: 
 
 Ken Pierce and Marcel (Editors), The 16th Overture Workshop. Technical Report 1524, School of Computing, Newcastle University, UK, October 2018. 
 
