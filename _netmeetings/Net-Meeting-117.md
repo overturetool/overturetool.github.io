@@ -44,7 +44,7 @@ In addition to that several issues with the code-generator, identified by Leo Fr
 
 ## vdm-mode
 
-REPL support for vdm-mode is under development. The package, called `vdm-comint`, has been submitted to [MELPA](https://melpa.org/) and is currently in review.
+REPL support for [vdm-mode](https://github.com/peterwvj/vdm-mode) is under development. The package, called `vdm-comint`, has been submitted to [MELPA](https://melpa.org/) and is currently in review.
 
 ##  Release Planning
 
