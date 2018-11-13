@@ -35,7 +35,12 @@ TBA.
 
 Next release of Overture [version 2.6.4](https://github.com/overturetool/overture/releases/tag/Release%2F2.6.4) was released on October 29.
 
-Java CG: TBA.
+Overture's VDM-to-Java code-generator has been updated to support
+
+* VDM-SL's `renamed` construct, see [issue 690](https://github.com/overturetool/overture/issues/690) and
+* Polymorphic types (simple cases), see ([issue 691](https://github.com/overturetool/overture/issues/691).
+
+In addition to that several issues with the code-generator, identified by Leo Freitas, have been fixed.
 
 ## vdm-mode.el
 
