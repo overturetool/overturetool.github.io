@@ -7,24 +7,15 @@ title: Overture Publications
 
 ## Planned
 
-
-
-## Overture Workshop (Abstracts 08/04; Subs. 15/04)
-- ViennaVM: a Virtual Machine for VDM-SL development, Tomohiro Oda, Keijiro Araki and Peter Gorm Larsen
-- Adding a FMU export capability to Overture, Casper Thule, Kenneth Lausdahl and Peter Gorm Larsen
-- Using VDM-SL for a family of agricultural products, Rene Nilsson, Kenneth Lausdahl, Hugo Macedo and Peter Gorm Larsen
-- Enhancing Testing for VDM-SL models, Peter W. V. Tran-Jørgensen and Kenneth Lausdahl
-
 ## In preparation
 
-- Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur, Kenneth Lausdahl, Peter W. V. Tran-Jørgensen and Miran Hasanagic
-- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, to be submitted for the Software - Practice and Experience journal
 
 
 ## In review
 
--   Peter Gorm Larsen, José Antonio Esparza Isasa, John Fitzgerald, Stefan Hallerstede, Ole Green, Modelling and Simulating an Agricultural Robot, rejected at ICCPS at CPS Week in April 2016 in Vienna (new venue to be found)
 -   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen, submitted to ACM SAC 2018
+- Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur, Kenneth Lausdahl, Peter W. V. Tran-Jørgensen and Miran Hasanagic
+- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, accepted for publication by the Software - Practice and Experience journal
 
 ## In press
 
