@@ -53,7 +53,7 @@ REPL support for [vdm-mode](https://github.com/peterwvj/vdm-mode) is under devel
 
 #### Overture
 
-We have the fol
+Release dates for 2019 can be found [here](https://github.com/overturetool/overture/milestones).
 
 ##  Community Development
 
@@ -61,7 +61,7 @@ We have the fol
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-The proposal for the next Overture workshop, which is chaired by Luis Couto and Carl Gamble has been subitted. Once confirmation has been received Luis and Carl will start to look for a invited speaker. We expect to know the decision about the proposal by the next core meeting.
+The proposal for the next Overture workshop, which is chaired by Luis Couto and Carl Gamble, has been subitted to FM. Once confirmation has been received Luis and Carl will start to look for an invited speaker. We expect to know the decision about the proposal by the next core meeting.
 
 ##  Licensing of Overture source code
 
@@ -73,7 +73,7 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
-TBA.
+None.
 
 <div id="edit_page_div"></div>
 
