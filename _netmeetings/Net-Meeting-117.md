@@ -14,7 +14,7 @@ date: 18 November 2018, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | ??.  Minutes by ??. |
+| Participants | PGL, NB, TO, HM, LC, PJ, LF, KP.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -61,9 +61,11 @@ We have the fol
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
+The proposal for the next Overture workshop, which is chaired by Luis Couto and Carl Gamble has been subitted. Once confirmation has been received Luis and Carl will start to look for a invited speaker. We expect to know the decision about the proposal by the next core meeting.
+
 ##  Licensing of Overture source code
 
-TBA.
+We're awaiting MV's input on this.
 
 ##  Publications Status and Plans
 
