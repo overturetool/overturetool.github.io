@@ -14,7 +14,7 @@ date: 18 November 2018, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants | PGL, NB, TO, HM, LC, PJ, LF, KP.  Minutes by PJ. |
+| Participants | PGL, NB, TO, HM, LC, PJ, LF, KP, GK.  Minutes by PJ. |
 
 
 ## Review Status of the Action List
