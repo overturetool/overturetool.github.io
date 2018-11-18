@@ -29,7 +29,10 @@ TBA.
 
 ## Status of VDMTools/Viennatalk Development
 
-TBA.
+* VDMPad server is moved to http://vdmpad.viennatalk.org/
+* The code repository of ViennaTalk is moved to https://github.com/tomooda/ViennaTalk/
+* ViennaTalk Oxford has been released. https://github.com/tomooda/ViennaTalk/releases/tag/Oxford-1
+* The source code of ViennaVM is available at https://github.com/tomooda/ViennaVM
 
 ##  Status of the Overture Components
 
