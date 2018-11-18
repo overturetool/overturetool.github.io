@@ -21,16 +21,16 @@ date: 18 November 2018, 1200 CEST
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* [88-1](https://github.com/overturetool/overturetool.github.io/issues/18) ?.
+* [88-1](https://github.com/overturetool/overturetool.github.io/issues/18) No progress.
 
 ## Overture Language Board Status
 
-TBA.
+The minutes from today's Language Board net meeting are available [here](https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM,-18th-November-2018).
 
 ## Status of VDMTools/Viennatalk Development
 
-* VDMPad server is moved to http://vdmpad.viennatalk.org/
-* The code repository of ViennaTalk is moved to https://github.com/tomooda/ViennaTalk/
+* VDMPad server has been moved to http://vdmpad.viennatalk.org/
+* The code repository of ViennaTalk has been moved to https://github.com/tomooda/ViennaTalk/
 * ViennaTalk Oxford has been released. https://github.com/tomooda/ViennaTalk/releases/tag/Oxford-1
 * The source code of ViennaVM is available at https://github.com/tomooda/ViennaVM
 
@@ -53,7 +53,7 @@ REPL support for [vdm-mode](https://github.com/peterwvj/vdm-mode) is under devel
 
 #### Overture
 
-TBA.
+We have the fol
 
 ##  Community Development
 
