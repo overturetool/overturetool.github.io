@@ -61,7 +61,9 @@ Release dates for 2019 can be found [here](https://github.com/overturetool/overt
 
 See download stats on [the downloads page](http://overturetool.org/download/)
 
-The proposal for the next Overture workshop, which is chaired by Luis Couto and Carl Gamble, has been subitted to FM. Once confirmation has been received Luis and Carl will start to look for an invited speaker. We expect to know the decision about the proposal by the next core meeting.
+#### The next Overture workshop
+
+The proposal for the next Overture workshop, which is chaired by Luis Couto and Carl Gamble, has been subitted to FM. Once the confirmation has been received, Luis and Carl will start to look for an invited speaker. We expect to know the decision about the proposal by the next core meeting.
 
 ##  Licensing of Overture source code
 
