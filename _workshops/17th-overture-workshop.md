@@ -4,8 +4,8 @@ title: The 17th Overture Workshop
 date: October 2019
 location: Porto, Portugal
 ---
-# THE 17TH OVERTURE WORKSHOP: New Capabilities and Applications for Model-based
-# Systems Engineering
+# THE 17TH OVERTURE WORKSHOP
+
 The 17th Overture Workshop will be held between 7-11 of October 2019 (TBC) in
 association with the the [3rd World Congress on Formal Methods
 (FM2019)](http://formalmethods2019.inesctec.pt/).
