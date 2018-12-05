@@ -1,6 +1,6 @@
 ---
 layout: default
-title: The 76th Overture Workshop
+title: The 17th Overture Workshop
 date: October 2019
 location: Porto, Portugal
 ---
