@@ -37,8 +37,8 @@ TBC
 
 ### Organisers
 
-* [Luis Diogo Couto], United Technologies Research Center, Ireland (<CoutoLD@utrc.utc.com>)
-* [Carl Gamble], Newcastle University, United Kingdom (<Carl.Gamble@newcastle.ac.u>)
+* Luis Diogo Couto, United Technologies Research Center, Ireland (<CoutoLD@utrc.utc.com>)
+* Carl Gamble, Newcastle University, United Kingdom (<Carl.Gamble@newcastle.ac.u>)
 
 ### Program Committee
 
