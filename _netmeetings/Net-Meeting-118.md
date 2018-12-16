@@ -40,11 +40,7 @@ The following issues have been fixed:
 
 ## vdm-mode
 
-vdm-mode 0.0.4 has been released.
-
-In addition to a few bug fixes related to syntax highlighting and templates this versions adds REPL support (interpreter integration).
-
-The second GIF on the [landing page](https://github.com/peterwvj/vdm-mode) demonstrates basic REPL usage:
+vdm-mode 0.0.4 has been released. In addition to a few bug fixes related to syntax highlighting and templates this versions adds REPL support (interpreter integration). The second GIF on the [landing page](https://github.com/peterwvj/vdm-mode) demonstrates basic REPL usage:
 
 ##  Release Planning
 
@@ -72,7 +68,7 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
-None.
+TBD.
 
 <div id="edit_page_div"></div>
 
