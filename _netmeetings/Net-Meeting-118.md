@@ -35,7 +35,8 @@ TBD.
 
 The following issues have been fixed:
 
-TBD.
+* [Issue #693 "Warning for unused state variable"](https://github.com/overturetool/overture/issues/693)
+* [Issue #694 "JODTool update site is not working"](https://github.com/overturetool/overture/issues/694)
 
 ## vdm-mode
 
