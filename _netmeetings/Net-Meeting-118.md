@@ -19,6 +19,7 @@ date: 10 February 2019, 1200 CEST
 
 ## Review Status of the Action List
 
+A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22)
 
 ## Overture Language Board Status
 
@@ -31,10 +32,13 @@ date: 10 February 2019, 1200 CEST
 
 ## vdm-mode
 
+REPL support for [vdm-mode](https://github.com/peterwvj/vdm-mode) is now available. The package, called `vdm-comint` and is also available via [MELPA](https://melpa.org/).
 
 ##  Release Planning
 
 #### Overture
+
+We're currently working on implementing the [annotations feature](https://github.com/overturetool/language/issues/46) in Overture, but getting it to work with the IDE is causing a lot of problems that we're currently looking into.
 
 Release dates for 2019 can be found [here](https://github.com/overturetool/overture/milestones).
 
