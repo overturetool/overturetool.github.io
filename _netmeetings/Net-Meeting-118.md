@@ -14,7 +14,7 @@ date: 10 February 2019, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants NB, PGL, TO, LF, JF, K |   Minutes by PJ. |
+| Participants NB, PGL, TO, LF, JF, KP, PJ |   Minutes by PJ. |
 
 
 ## Review Status of the Action List
