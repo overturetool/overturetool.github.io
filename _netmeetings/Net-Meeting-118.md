@@ -21,9 +21,11 @@ date: 10 February 2019, 1200 CEST
 
 A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22)
 
+No progress.
+
 ## Overture Language Board Status
 
-The following people were running for election:
+The following people were standing for election:
 
 * Peter W. V. Tran-Jørgensen
 * Luís Diogo Couto
@@ -36,8 +38,13 @@ The following people were running for election:
 
 The LB is aiming for an odd number of members for votings reasons. As AH was willing to give up voting rights all eight members were accepted as Language Board members for 2019.
 
-## Status of VDMTools/Viennatalk Development
+## Status of VDMTools
 
+Some recent bug fixes (December 15).
+
+## Viennatalk Development
+
+A new version of [ViennaTalk](https://github.com/tomooda/ViennaTalk/releases/tag/lille) has been released.
 
 ##  Status of the Overture Components
 
@@ -70,7 +77,7 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 #### The next Overture workshop
 
-
+We need input from CG and LC. KP will follow up on this. The workshop page is available [here](http://overturetool.org/workshops/17th-overture-workshop.html).
 
 ##  Licensing of Overture source code
 
@@ -82,6 +89,7 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
+None.
 
 <div id="edit_page_div"></div>
 
