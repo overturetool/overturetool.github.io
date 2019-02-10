@@ -14,7 +14,7 @@ date: 10 February 2019, 1200 CEST
 |||
 |---|---|
 | Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants |   Minutes by . |
+| Participants NB, PGL, TO, LF, JF, K |   Minutes by PJ. |
 
 
 ## Review Status of the Action List
@@ -23,6 +23,18 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ## Overture Language Board Status
 
+The following people were running for election:
+
+* Peter W. V. Tran-Jørgensen
+* Luís Diogo Couto
+* Tomohiro Oda
+* Leo Freitas
+* Nick Battle
+* Ken Pierce
+* Anne Haxthausen
+* Paul Chisholm
+
+The LB is aiming for an odd number of members for votings reasons. As AH was willing to give up voting rights all eight members were accepted as Language Board members for 2019.
 
 ## Status of VDMTools/Viennatalk Development
 
