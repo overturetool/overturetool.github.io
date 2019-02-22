@@ -6,7 +6,7 @@ location: Porto, Portugal
 ---
 # THE 17TH OVERTURE WORKSHOP
 
-The 17th Overture Workshop will be held between 7-11 of October 2019 (TBC) in
+The 17th Overture Workshop will be held on **08 October 2019** in
 association with the the [3rd World Congress on Formal Methods
 (FM2019)](http://formalmethods2019.inesctec.pt/).
 
@@ -23,13 +23,13 @@ and dynamic analysis, test generation, execution support, and model checking.
 Previous workshops have been invaluable in encouraging both new and
 established members of the community in their work, and helping to determine
 priorities and future directions. Proceedings of former workshops are
-available at http://www.overturetool.org/.
+available at <http://www.overturetool.org/>.
 
 **Location: Alfandega Porto Congress Centre, Portugal**
 
 ## Submission
 
-Submission of abstracts and papers is through EasyChair: [[https://easychair.org/conferences/?conf=ovt17]].
+Submission of abstracts and papers is through EasyChair: <https://easychair.org/conferences/?conf=ovt17>.
 
 ### Important Dates
 
