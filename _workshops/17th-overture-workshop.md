@@ -1,7 +1,7 @@
 ---
 layout: default
 title: The 17th Overture Workshop
-date: October 2019
+date: 08 October 2019
 location: Porto, Portugal
 ---
 # THE 17TH OVERTURE WORKSHOP
@@ -26,14 +26,33 @@ priorities and future directions. Proceedings of former workshops are
 available at http://www.overturetool.org/.
 
 **Location: Alfandega Porto Congress Centre, Portugal**
+**Date: 08 October 2019**
+
+## Submission
+
+Submission of abstracts and papers is through EasyChair: https://easychair.org/conferences/?conf=ovt17.
 
 ### Important Dates
 
-TBC
+* Abstracts: Tuesday 9th July
+* Full Papers: Tuesday 16th July
+* Notifications: Thursday 15th August
+* Camera ready version of papers: Tuesday 27th August
+* Pre-proceedings due: Monday 2nd September
+* Workshop: Tuesday, 8th October
 
 ## CALL FOR PAPERS
 
-TBC
+Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. Accepted papers will be published in pre-proceedings as a Newcastle University Technical Report. Post-proceedings for FM workshops will be published by Springer as a special volume of LNCS.
+
+The scope of the workshop includes, but is not restricted to:
+* Reports of applications of VDM technology, especially reports of industrial use.
+* Papers describing requirements, designs, implementations and case studies of support tools for VDM, whether or not implemented on the Overture platform.
+* Papers on the foundations and methodology associated with VDM and its extensions, including the description of real-time, cyber-physical systems and systems-of-systems.
+* Papers combining VDM with other notations and tools.
+Position papers on VDM and its promotion in industry practice.
+* Papers on extensions of Overture, including INTO-CPS and ViennaTalk.
+
 
 ### Organisers
 
@@ -42,4 +61,4 @@ TBC
 
 ### Program Committee
 
-TBC
+TBA
