@@ -61,3 +61,6 @@ Position papers on VDM and its promotion in industry practice.
 ### Program Committee
 
 TBA
+
+
+For more information, including up to date announcements, visit <http://overturetool.org/workshops/17th-overture-workshop.html>
