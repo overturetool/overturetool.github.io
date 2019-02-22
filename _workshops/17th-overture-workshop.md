@@ -1,7 +1,7 @@
 ---
 layout: default
 title: The 17th Overture Workshop
-date: 2019-08-08
+date: 2019-10-08
 location: Porto, Portugal
 ---
 # THE 17TH OVERTURE WORKSHOP
