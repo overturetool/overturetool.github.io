@@ -25,7 +25,7 @@ established members of the community in their work, and helping to determine
 priorities and future directions. Proceedings of former workshops are
 available at <http://www.overturetool.org/>.
 
-**Location: Alfandega Porto Congress Centre, Portugal**
+**Location: Alfandega Porto Congress Centre, Portugal** See http://formalmethods2019.inesctec.pt/?page_id=140
 
 ## Submission
 
