@@ -26,11 +26,10 @@ priorities and future directions. Proceedings of former workshops are
 available at http://www.overturetool.org/.
 
 **Location: Alfandega Porto Congress Centre, Portugal**
-**Date: 08 October 2019**
 
 ## Submission
 
-Submission of abstracts and papers is through EasyChair: https://easychair.org/conferences/?conf=ovt17.
+Submission of abstracts and papers is through EasyChair: [[https://easychair.org/conferences/?conf=ovt17]].
 
 ### Important Dates
 
