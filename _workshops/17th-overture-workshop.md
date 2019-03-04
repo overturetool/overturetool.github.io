@@ -58,9 +58,19 @@ Position papers on VDM and its promotion in industry practice.
 * Luis Diogo Couto, United Technologies Research Center, Ireland (<CoutoLD@utrc.utc.com>)
 * Carl Gamble, Newcastle University, United Kingdom (<Carl.Gamble@newcastle.ac.u>)
 
-### Program Committee
+### Program Committee (Confirmed)
 
 TBA
 
+<!--
+* N. Battle, Newcastle University, UK
+* L. Freitas, Newcastle University, UK
+* F. Ishikawa, NII, Japan
+* P.W.V. Tran-Jørgensen, Aarhus University, Denmark
+* P.G. Larsen, Aarhus University, Denmark
+* P. Masci, National Institute of Aerospace (NIA), USA
+* Ken Pierce, Newcastle University, UK
+
+ !-->
 
 For latest  information and announcements, visit <http://overturetool.org/workshops/17th-overture-workshop.html>
