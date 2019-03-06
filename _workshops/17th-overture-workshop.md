@@ -60,9 +60,6 @@ Position papers on VDM and its promotion in industry practice.
 
 ### Program Committee (Confirmed)
 
-TBA
-
-<!--
 * N. Battle, Newcastle University, UK
 * L. Freitas, Newcastle University, UK
 * J. Fitzgerald, Newcastle University, UK
@@ -71,6 +68,5 @@ TBA
 * P. Masci, National Institute of Aerospace (NIA), USA
 * Ken Pierce, Newcastle University, UK
 * P.W.V. Tran-Jørgensen, Aarhus University, Denmark
- !-->
-
+ 
 For latest  information and announcements, visit <http://overturetool.org/workshops/17th-overture-workshop.html>
