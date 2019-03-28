@@ -25,7 +25,7 @@ established members of the community in their work, and helping to determine
 priorities and future directions. Proceedings of former workshops are
 available at <http://www.overturetool.org/>.
 
-**Location: Alfandega Porto Congress Centre, Portugal** See http://formalmethods2019.inesctec.pt/?page_id=140
+**Location: Alfandega Porto Congress Centre, Portugal** See <http://formalmethods2019.inesctec.pt/?page_id=140>
 
 ## Submission
 
@@ -45,6 +45,8 @@ Submission of abstracts and papers is through EasyChair: <https://easychair.org/
 Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. 
 
 Accepted papers will be published in pre-proceedings as a Newcastle University Technical Report. Revised, selected papers will be included in a LNCS post-proceedings for FM workshops, as part of Springer's [Lecture Notes in Computer Science](https://www.springer.com/lncs).
+
+
 
 The scope of the workshop includes, but is not restricted to:
 * Reports of applications of VDM technology, especially reports of industrial use.
@@ -72,3 +74,5 @@ Position papers on VDM and its promotion in industry practice.
 * P.W.V. Tran-Jørgensen, Aarhus University, Denmark
  
 For latest  information and announcements, visit <http://overturetool.org/workshops/17th-overture-workshop.html>
+
+![](lncs.png)
