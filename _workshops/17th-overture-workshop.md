@@ -75,4 +75,4 @@ Position papers on VDM and its promotion in industry practice.
  
 For latest  information and announcements, visit <http://overturetool.org/workshops/17th-overture-workshop.html>
 
-![](lncs.png)
+![](17/lncs.png)
