@@ -34,7 +34,7 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ##  Release Planning
 
-The next release, which is due June 03, includes several new features and bug fixes (described above). For this reason, we will send out the release candidate (RC) three weeks in advance. This will give us some extra time for testing and possibly send out a second RC, if needed.
+The next release, which is due June 03, includes several new features and bug fixes (described above). For this reason, we will send out the release candidate (RC) three weeks in advance. This will give us some extra time for testing and possibly send out a second RC, if needed. The release version will be 2.7.0.
 
 ##  Community Development
 
