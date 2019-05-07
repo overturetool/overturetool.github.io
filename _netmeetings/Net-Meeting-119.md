@@ -40,6 +40,20 @@ The next release of Overture will include
   - Support for [renamed constructs](https://github.com/overturetool/overture/issues/690) (VDM-SL only)
   - Several bug fixes for the code-generator based on LF's work.
 
+### The website (overturetool.org)
+
+Updating the overturetool.org website, by pushing changes to the [overturetool.github.io](https://github.com/overturetool/overturetool.github.io) repository, produces the following rather critical warning:
+
+> The page build completed successfully, but returned the following warning for the `master` branch:
+> The custom domain for your GitHub Pages site is pointed at an outdated
+> IP address. You must update your site's DNS records if you'd like it
+> to be available via your custom domain. For more information, see
+> https://help.github.com/en/articles/using-a-custom-domain-with-github-pages.
+> For information on troubleshooting Jekyll see:
+>  https://help.github.com/articles/troubleshooting-jekyll-builds
+
+In order to fix this we'd have to go to the company where we purchased the domain and update the DNS settings. However, it is currently unclear who has the power to do this.
+
 ##  Release Planning
 
 The next release, which is due June 03, includes several new features and bug fixes (described above). For this reason, we will send out the release candidate (RC) three weeks in advance. This will give us some extra time for testing and possibly send out a second RC, if needed. The release version will be 2.7.0.
