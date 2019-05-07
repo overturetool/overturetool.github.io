@@ -31,6 +31,14 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ##  Status of the Overture Components
 
+The next release of Overture will include
+
+* Support for [VDM annotations](https://github.com/overturetool/language/issues/46) (currently limited to the Overture command-line interface)
+* Improved type checking of struct import/export (VDM-SL only)
+* Improved Java code-generation support
+  - Limited support for [polymorphic types](https://github.com/overturetool/overture/issues/691)
+  - Support for [renamed constructs](https://github.com/overturetool/overture/issues/690) (VDM-SL only)
+  - Several bug fixes for the code-generator based on LF's work.
 
 ##  Release Planning
 
