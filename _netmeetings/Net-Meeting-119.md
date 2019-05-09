@@ -27,7 +27,11 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ## Status of VDMTools/ViennaTalk
 
+* [v9.0.9](https://github.com/vdmtools/vdmtools/releases/tag/v9.0.9) is released.
 
+### The website
+* SSLized https://viennatalk.org/ . http://viennatalk.org/ is redirected to https://viennatalk.org/
+* SSLized https://viennatalk.org/vdmpad/. http://viennatalk.org/vdmpad/ is still accessible by the conventional HTTP so that it can still serve as a cloud VDM-SL interpreter server.
 
 ##  Status of the Overture Components
 
