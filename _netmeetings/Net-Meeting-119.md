@@ -14,7 +14,7 @@ date: 12 May 2019, 1200 CEST
 |||
 |---|---|
 | Date | 12 May 2019 |
-| Participants PGL, NB, KP, LF |   Minutes by NB. |
+| Participants PGL, NB, KP, LF, TO |   Minutes by NB. |
 
 ## Review Status of the Action List
 
