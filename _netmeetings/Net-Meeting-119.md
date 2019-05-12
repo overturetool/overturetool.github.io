@@ -13,17 +13,22 @@ date: 12 May 2019, 1200 CEST
 
 |||
 |---|---|
-| Date | {{ page.date | date: "%-d %B %Y, %R %Z"}} |
-| Participants TBD |   Minutes by TBD. |
-
+| Date | 12 May 2019 |
+| Participants PGL, NB, KP, LF |   Minutes by NB. |
 
 ## Review Status of the Action List
 
-A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22)
+A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22). No progress reported.
 
+New action for PGL to investigate the ownership of the overturetool.org domain name.
+
+New action for PGL to contact MV (cc NB) about the approach to updating the licensing of Fujitsu's VDMJ.
 
 ## Overture Language Board Status
 
+The PO working group has a plan of action going forward. Next step is to draft the PO documentation, to agree its structure.
+
+The open RMs are both stuck. The Annotations RM currently only works with command line Overture, and needs input on how best to proceed. The total function RM just needs some help to complete the Overture PO generation.
 
 ## Status of VDMTools/ViennaTalk
 
@@ -56,7 +61,7 @@ Updating the overturetool.org website, by pushing changes to the [overturetool.g
 > For information on troubleshooting Jekyll see:
 >  https://help.github.com/articles/troubleshooting-jekyll-builds
 
-In order to fix this we'd have to go to the company where we purchased the domain and update the DNS settings. However, it is currently unclear who has the power to do this.
+In order to fix this we'd have to go to the company where we purchased the domain and update the DNS settings. However, it is currently unclear who has the power to do this. See actions.
 
 ##  Release Planning
 
@@ -70,9 +75,11 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 #### The next Overture workshop
 
+The INTO-CPS General Assembly is expected to be held in Porto at the end of the Overture Workshop. Papers are in the process of being planned: likely one from AU about the EMACS interface for VDM, one from NCL about sensitivity analysis, possibly something about Overture annotations, and some more potential contributions from INTO-CPS.
 
 ##  Licensing of Overture source code
 
+No progress. See new action.
 
 ##  Publications Status and Plans
 
@@ -80,7 +87,10 @@ See [Planned Publications](http://overturetool.org/publications/PlannedPublicati
 
 ##  Any Other Business
 
+The Centre for Digital Twins was opened formally on 6th May. The presentation slides will be available on the site shortly:
 
+* http://eng.au.dk/en/research/research-programs-and-centres/centre-for-digital-twins/
+* http://eng.au.dk/en/news-and-events/news/show/artikel/opening-of-the-au-digital-twin-center/
 
 <div id="edit_page_div"></div>
 
