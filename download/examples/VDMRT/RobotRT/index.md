@@ -482,7 +482,7 @@ Util`PrintDebug("not");
  
  public GetNextPoint : set of Grid`Point * Grid`Point ==> [Grid`Point]
  GetNextPoint(neighbours, dest) ==
-   let tmp={p| p in set neighbours 
+   let tmp : set1 of Grid`Point ={p| p in set neighbours 
              & not exists q in set neighbours & 
                       Distance(p, dest) > Distance(q, dest)}
     in

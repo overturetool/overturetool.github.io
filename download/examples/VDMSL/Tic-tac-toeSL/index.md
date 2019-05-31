@@ -78,9 +78,9 @@ end XOTests
 
 {% raw %}
 ~~~
---
--- A simple model of a tic-tac-toe game (noughts and crosses)
---
+/*********************************************************************
+ * A simple model of a tic-tac-toe game (noughts and crosses)
+ *********************************************************************/
 
 module XO
 exports all
@@ -89,7 +89,7 @@ values
 	SIZE:nat1	= 3;						-- The size of the board (3x3)
 	MAX:nat1	= SIZE * SIZE;				-- The maximum number of moves
 
-types
+types										-- Types composed of primitives, plus invariants
 	Player = <NOUGHT> | <CROSS>;			-- Just two players
 
 	Pos ::									-- A position for a move
@@ -116,7 +116,8 @@ values
 	};
 
 
-functions
+functions		-- Definition of various play "states" of a game or a player.
+
 	hasWon: Game * Player -> bool
 	hasWon(g, p) ==
 		let moves = movesForPlayer(g, p) in
@@ -168,7 +169,7 @@ functions
 values
 	PLAYERS	= { p | p:Player };		-- The set of all Players
 
-types
+types								-- These types are to do with moves and playing
 	Moves = seq of Pos				-- A legal game play sequence
 	inv moves ==
 		len moves = card elems moves and			-- Has no duplicated moves
@@ -181,12 +182,13 @@ types
 		elems order = PLAYERS				-- Order contains all players
 
 
-state Sigma of
+state Sigma of		-- Sigma is just a convention for the name of a system state
 	game : Game		-- The game board, initialized by the play operation
 end
 
 
-operations
+operations			-- Processes that use the functions above to define how to play
+
 	move: Player * Pos ==> ()
 	move(p, pos) ==
 		game(pos) := p
