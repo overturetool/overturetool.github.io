@@ -34,7 +34,7 @@ Submission of abstracts and papers is through EasyChair: <https://easychair.org/
 ### Important Dates
 
 * Abstracts: Tuesday 9th July
-* Full Papers: Tuesday 16th July
+* Full Papers: ~~Tuesday 16th July~~ Tuesday, July 23
 * Notifications: Thursday 15th August
 * Camera ready version of papers: Tuesday 27th August
 * Pre-proceedings due: Monday 2nd September
