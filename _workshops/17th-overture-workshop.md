@@ -1,12 +1,12 @@
 ---
 layout: default
 title: The 17th Overture Workshop
-date: 2019-10-08
+date: 2019-10-07
 location: Porto, Portugal
 ---
 # THE 17TH OVERTURE WORKSHOP
 
-The 17th Overture Workshop will be held on **08 October 2019** in
+The 17th Overture Workshop will be held on **07 October 2019** in
 association with the the [3rd World Congress on Formal Methods
 (FM2019)](http://formalmethods2019.inesctec.pt/).
 
@@ -38,7 +38,7 @@ Submission of abstracts and papers is through EasyChair: <https://easychair.org/
 * Notifications: Thursday 15th August
 * Camera ready version of papers: Tuesday 27th August
 * Pre-proceedings due: Monday 2nd September
-* Workshop: Tuesday, 8th October
+* Workshop: Monday, 7th October
 
 ## CALL FOR PAPERS
 
