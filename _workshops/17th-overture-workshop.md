@@ -59,7 +59,7 @@ Position papers on VDM and its promotion in industry practice.
 
 ### Organisers
 
-* Luis Diogo Couto, United Technologies Research Center, Ireland (<CoutoLD@utrc.utc.com>)
+* Luis Diogo Couto, United Technologies Research Center, Ireland (<ldcouto@gmail.com>)
 * Carl Gamble, Newcastle University, United Kingdom (<Carl.Gamble@newcastle.ac.uk>)
 
 ### Program Committee (Confirmed)
