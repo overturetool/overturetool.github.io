@@ -27,6 +27,10 @@ available at <http://www.overturetool.org/>.
 
 **Location: Alfandega Porto Congress Centre, Portugal** See <http://formalmethods2019.inesctec.pt/?page_id=140>
 
+## Registration
+
+The 17th Overture Workshop is part of FM 2019. To register for FM 2019, go to: <http://formalmethods2019.inesctec.pt/?page_id=2221>. Be sure to include 1-day workshop -- OVT.
+
 ## Submission
 
 Submission of abstracts and papers is through EasyChair: <https://easychair.org/conferences/?conf=ovt17>.
