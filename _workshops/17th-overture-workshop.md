@@ -10,6 +10,32 @@ The 17th Overture Workshop will be held on **07 October 2019** in
 association with the the [3rd World Congress on Formal Methods
 (FM2019)](http://formalmethods2019.inesctec.pt/).
 
+**Location: Alfandega Porto Congress Centre, Portugal** See <http://formalmethods2019.inesctec.pt/?page_id=140>
+
+## Registration
+
+The 17th Overture Workshop is part of FM 2019. To register for FM 2019, go to: <http://formalmethods2019.inesctec.pt/?page_id=2221>. Be sure to include 1-day workshop -- OVT.
+
+## Accepted Papers
+
+* Christian Legaard, Casper Thule and Peter Gorm Larsen. "Towards Graphical Configuration in the INTO-CPS Application"
+* Nick Battle, Casper Thule, Cláudio Gomes, Hugo Daniel Macedo and Peter Gorm Larsen. "Towards Static Check of FMUs in VDM-SL"
+* Peter W. V. Tran-Jørgensen and Tomas Kulik. "Migrating Overture to a different IDE"
+* Mikkel Bayard Rasmussen, Peter Gorm Larsen, Casper Thule and Hugo Daniel Macedo. "Moving the INTO-CPS Application to the Cloud"
+* Ken Pierce, Carl Gamble, David Golightly and Roberto Palacín. "Exploring Human Behaviour in Cyber-Physical Systems with Multi-modelling and Co-simulation"
+* Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Hiroshi Sako, Han-Myung Chang and Peter Larsen. "ViennaDoc: An Animatable and Testable Specification Documentation Tool"
+
+## Programme
+
+Coming soon.
+
+
+# ORIGINAL CALL FOR PAPERS
+
+The 17th Overture Workshop will be held on **07 October 2019** in
+association with the the [3rd World Congress on Formal Methods
+(FM2019)](http://formalmethods2019.inesctec.pt/).
+
 The 17th Overture Workshop is the latest in a series of workshops around the
 Vienna Development Method (VDM), the open-source project Overture, and
 related tools and formalisms. VDM is one of the best established formal
@@ -44,7 +70,7 @@ Submission of abstracts and papers is through EasyChair: <https://easychair.org/
 * Pre-proceedings due: Monday 2nd September
 * Workshop: Monday, 7th October
 
-## CALL FOR PAPERS
+## Call
 
 Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. 
 
