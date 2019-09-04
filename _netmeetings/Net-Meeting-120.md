@@ -29,9 +29,14 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ##  Status of the Overture Components
 
+### Overture
+
+- New standard annotation [@OnFail](https://github.com/overturetool/documentation/blob/editing/documentation/UserGuideOvertureIDE/OvertureIDEUserGuide.pdf)
+- Small fix to `mu` error reporting locations
 
 ##  Release Planning
 
+Next release of Overture, version 2.7.2, is due [October 1](https://github.com/overturetool/overture/milestone/42). A release candidate will be send out on October 16.
 
 ##  Community Development
 
