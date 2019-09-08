@@ -26,6 +26,9 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ## Status of VDMTools/ViennaTalk
 
+* ViennaTalk "Cologne" is released
+    - ViennaClient.js (JavaScript library to use VDMPad/ViennaServer as a VDM interpreting engine)
+    - ViennaDoc support
 
 ##  Status of the Overture Components
 
