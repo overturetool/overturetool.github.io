@@ -14,7 +14,7 @@ date: 8 September 2019, 1200 CEST
 |||
 |---|---|
 | Date | 8 September 2019 |
-| Participants  |   Minutes by . |
+| Participants PGL, KP, LC, LF, TO |   Minutes by TO. |
 
 ## Review Status of the Action List
 
@@ -42,7 +42,7 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ##  Release Planning
 
-Next release of Overture, version 2.7.2, is due [October 1](https://github.com/overturetool/overture/milestone/42). A release candidate will be send out on October 16.
+Next release of Overture, version 2.7.2, is due [October 1](https://github.com/overturetool/overture/milestone/42). A release candidate will be send out on September 16.
 
 ##  Community Development
 
@@ -52,6 +52,9 @@ See download stats on [the downloads page](http://overturetool.org/download/)
 
 #### The next Overture workshop
 
+Program is in place, pre-proceedings are almost ready for release.
+FM is still trying to sort out the venues. The website will be updated once where the workshop will take place is confirmed.
+The pre-proceedings will be a UNEW TR.
 
 ##  Licensing of Overture source code
 
