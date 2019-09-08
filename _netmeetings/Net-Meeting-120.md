@@ -23,6 +23,9 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ## Overture Language Board Status
 
+* No open actions at this time.
+
+* We have two open RMs (total functions and annotations), which we need to integrated to the Overture tool.
 
 ## Status of VDMTools/ViennaTalk
 
