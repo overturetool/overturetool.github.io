@@ -27,7 +27,7 @@ The 17th Overture Workshop is part of FM 2019. To register for FM 2019, go to: <
 
 ## Programme
 
-Coming soon.
+https://easychair.org/smart-program/OVT17/
 
 
 # ORIGINAL CALL FOR PAPERS
