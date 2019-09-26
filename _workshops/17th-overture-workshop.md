@@ -18,7 +18,10 @@ The 17th Overture Workshop is part of FM 2019. To register for FM 2019, go to: <
 
 ## Accepted Papers
 
-Workshop pre-proceedings are available as a [University of Newcastle Technical Report] (17/lncs.png).
+Workshop pre-proceedings are available as a University of Newcastle Technical Report. They can be downloaded [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/17/overture-2019-pre-proceedings.pdf) and should be cited as:
+
+Luis Diogo Couto and Carl Gamble (Editors),  Proceedings of the 17th Overture Workshop of. Technical Report 1530, School of Computing, Newcastle University, UK, September 2019. 
+
 
 * Christian Legaard, Casper Thule and Peter Gorm Larsen. "Towards Graphical Configuration in the INTO-CPS Application"
 * Nick Battle, Casper Thule, Cláudio Gomes, Hugo Daniel Macedo and Peter Gorm Larsen. "Towards Static Check of FMUs in VDM-SL"
