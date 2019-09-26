@@ -18,6 +18,8 @@ The 17th Overture Workshop is part of FM 2019. To register for FM 2019, go to: <
 
 ## Accepted Papers
 
+Workshop pre-proceedings are available as a [University of Newcastle Technical Report] (17/lncs.png).
+
 * Christian Legaard, Casper Thule and Peter Gorm Larsen. "Towards Graphical Configuration in the INTO-CPS Application"
 * Nick Battle, Casper Thule, Cláudio Gomes, Hugo Daniel Macedo and Peter Gorm Larsen. "Towards Static Check of FMUs in VDM-SL"
 * Peter W. V. Tran-Jørgensen and Tomas Kulik. "Migrating Overture to a different IDE"
