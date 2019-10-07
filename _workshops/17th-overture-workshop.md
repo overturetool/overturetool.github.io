@@ -16,14 +16,17 @@ association with the the [3rd World Congress on Formal Methods
 
 The 17th Overture Workshop is part of FM 2019. To register for FM 2019, go to: <http://formalmethods2019.inesctec.pt/?page_id=2221>. Be sure to include 1-day workshop -- OVT.
 
-## Accepted Papers
+## Presentations
 
-* Christian Legaard, Casper Thule and Peter Gorm Larsen. "Towards Graphical Configuration in the INTO-CPS Application"
-* Nick Battle, Casper Thule, Cláudio Gomes, Hugo Daniel Macedo and Peter Gorm Larsen. "Towards Static Check of FMUs in VDM-SL"
-* Peter W. V. Tran-Jørgensen and Tomas Kulik. "Migrating Overture to a different IDE"
-* Mikkel Bayard Rasmussen, Peter Gorm Larsen, Casper Thule and Hugo Daniel Macedo. "Moving the INTO-CPS Application to the Cloud"
-* Ken Pierce, Carl Gamble, David Golightly and Roberto Palacín. "Exploring Human Behaviour in Cyber-Physical Systems with Multi-modelling and Co-simulation"
-* Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Hiroshi Sako, Han-Myung Chang and Peter Larsen. "ViennaDoc: An Animatable and Testable Specification Documentation Tool"
+* Anna Paiva. [_Teaching VDM_](17/slides/paiva.pdf) (keynote)
+* Christian Legaard, Casper Thule and Peter Gorm Larsen. [_Towards Graphical Configuration in the INTO-CPS Application_](17/slides/legaard.pdf)
+* Nick Battle, Casper Thule, Cláudio Gomes, Hugo Daniel Macedo and Peter Gorm Larsen. [_Towards Static Check of FMUs in VDM-SL_](17/slides/battle.pdf)
+* Peter W. V. Tran-Jørgensen and Tomas Kulik. [_Migrating Overture to a different IDE_](17/slides/kulik.pdf)
+* Mikkel Bayard Rasmussen, Peter Gorm Larsen, Casper Thule and Hugo Daniel Macedo. [_Moving the INTO-CPS Application to the Cloud_](17/slides/macedo.pdf)
+* Ken Pierce, Carl Gamble, David Golightly and Roberto Palacín. [_Exploring Human Behaviour in Cyber-Physical Systems with Multi-modelling and Co-simulation_](17/slides/pierce.pdf)
+* Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Hiroshi Sako, Han-Myung Chang and Peter Larsen. [_ViennaDoc: An Animatable and Testable Specification Documentation Tool_](17/slides/oda.pdf)
+* Michael Dono and Ken Pierce. [_Building a System-Identified FMU in VDM
+_](17/slides/dono.pdf) (bonus presentation)
 
 Workshop pre-proceedings are available as a University of Newcastle Technical Report. They can be downloaded [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/17/overture-2019-pre-proceedings.pdf) and should be cited as:
 
