@@ -25,8 +25,7 @@ The 17th Overture Workshop is part of FM 2019. To register for FM 2019, go to: <
 * Mikkel Bayard Rasmussen, Peter Gorm Larsen, Casper Thule and Hugo Daniel Macedo. [_Moving the INTO-CPS Application to the Cloud_](17/slides/macedo.pdf)
 * Ken Pierce, Carl Gamble, David Golightly and Roberto Palacín. [_Exploring Human Behaviour in Cyber-Physical Systems with Multi-modelling and Co-simulation_](17/slides/pierce.pdf)
 * Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Hiroshi Sako, Han-Myung Chang and Peter Larsen. [_ViennaDoc: An Animatable and Testable Specification Documentation Tool_](17/slides/oda.pdf)
-* Michael Dono and Ken Pierce. [_Building a System-Identified FMU in VDM
-_](17/slides/dono.pdf) (bonus presentation)
+* Michael Dono and Ken Pierce. [_Building a System-Identified FMU in VDM_](17/slides/dono.pdf) (bonus presentation)
 
 Workshop pre-proceedings are available as a University of Newcastle Technical Report. They can be downloaded [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/17/overture-2019-pre-proceedings.pdf) and should be cited as:
 
