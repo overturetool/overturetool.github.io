@@ -113,4 +113,4 @@ For latest  information and announcements, visit <http://overturetool.org/worksh
 
 ### Participants
 
-![](17/overture19.jpg)
+![](17/overture2019.jpg)
