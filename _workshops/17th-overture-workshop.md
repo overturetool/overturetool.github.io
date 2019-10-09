@@ -115,4 +115,6 @@ For latest  information and announcements, visit <http://overturetool.org/worksh
 
 ### Participants
 
+The participants of the 17th Overture workshop.
+
 ![](17/overture2019.jpg)
