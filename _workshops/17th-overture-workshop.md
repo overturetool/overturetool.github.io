@@ -18,7 +18,7 @@ The 17th Overture Workshop is part of FM 2019. To register for FM 2019, go to: <
 
 ## Presentations
 
-* Anna Paiva. [_Teaching VDM_](17/slides/paiva.pdf) (keynote)
+* Ana Paiva. [_Teaching VDM_](17/slides/paiva.pdf) (keynote)
 * Christian Legaard, Casper Thule and Peter Gorm Larsen. [_Towards Graphical Configuration in the INTO-CPS Application_](17/slides/legaard.pdf)
 * Nick Battle, Casper Thule, Cláudio Gomes, Hugo Daniel Macedo and Peter Gorm Larsen. [_Towards Static Check of FMUs in VDM-SL_](17/slides/battle.pdf)
 * Peter W. V. Tran-Jørgensen and Tomas Kulik. [_Migrating Overture to a different IDE_](17/slides/kulik.pdf)
