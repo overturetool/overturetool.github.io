@@ -30,7 +30,8 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 ##  Status of the Overture Components
 
 ### Overture
-
+* A couple of minor bugs fixed, one to do with parsing of specification statements, and another to do with the calculation of when record types are "infinite".
+* Same problems fixed in VDMJ.
 
 ##  Release Planning
 
