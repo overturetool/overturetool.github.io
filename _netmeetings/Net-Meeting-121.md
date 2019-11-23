@@ -26,6 +26,18 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ## Status of VDMTools/ViennaTalk
 
+### Viennatalk
+
+* Fix release of ViennaTalk "Cologne"
+  - bugfix on VDMPad (diagram presentation)
+
+* Public ViennaDoc example at https://viennatalk.org/ViennaDoc/counter.html
+
+### VDMTools
+
+* Released version 9.0.10 https://github.com/vdmtools/vdmtools/tree/v9.0.10
+  - bugfix on inst var invariants
+  - java 11 support
 
 ##  Status of the Overture Components
 
