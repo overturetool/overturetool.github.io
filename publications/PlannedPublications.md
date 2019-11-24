@@ -9,16 +9,14 @@ title: Overture Publications
 
 ## In preparation
 
--   Integrating Real System Components in Model-Based Development, Luis Diogo Couto and Peter W. V. Tran-Jørgensen. Being reworked with a focus on enabling VDM for DevOps. Targetting STTT.
 
 ## In review
 
-- Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur, Kenneth Lausdahl, Peter W. V. Tran-Jørgensen and Miran Hasanagic
-- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, accepted for publication by the Software - Practice and Experience journal
 - Applying ergonomics within the multi-modelling paradigm with an example from multiple UAV control, David Golightly, Carl Gamble, Roberto Palacin, Ken Pierce, accepted subject to minor correction in Ergonomics 
 
 ## In press
 
+- Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, accepted for publication by the Software - Practice and Experience journal
 -   Formalising and Validating the Interface Description in the FMI standard, Miran Hasanagic, Peter W. V. Tran-Jørgensen, Kenneth Lausdahl and Peter Gorm Larsen, FM'2016
 -   Towards Semantically Integrated Models and Tools for Cyber-Physical Systems Design, Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, René Nilsson, Carl Gamble and Simon Foster, accepted for publication at Isola 2016
 -   Integrated Tool Chain for Model-based Design of Cyber-Physical Systems: The INTO-CPS Project, (Peter Gorm Larsen, John Fitzgerald, Jim Woodcock, Peter Fritzson, Jörg Brauer, Christian Kleijn, Thierry Lecomte, Markus Pfeil, Ole Green, Stylianos Basagiannis and Andrey Sadovykh, presented at the CPS Data workshop held in connection with the CPSWeek, Vienna, Austria, April 2016.
