@@ -14,7 +14,7 @@ date: 24 November 2019, 1200 CET
 |||
 |---|---|
 | Date | 24 September 2019 |
-| Participants  |   Minutes by . |
+| Participants PGL, MV, NB, JF, KP, LDC, TO |   Minutes by LDC |
 
 ## Review Status of the Action List
 
