@@ -50,9 +50,11 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 ### Overture
 * A couple of minor bugs fixed, one to do with parsing of specification statements, and another to do with the calculation of when record types are "infinite".
 * Same problems fixed in VDMJ.
+* Discussed which versions of Java Overture currently supports (7+?)
 
 ##  Release Planning
 
+* 
 
 ##  Community Development
 
