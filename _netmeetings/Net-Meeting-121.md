@@ -26,7 +26,8 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ## Overture Language Board Status
 
-* RMs RMs readu for annotations and proof obligation generation from total functions. Both need some work with Overture integration
+* RMs RMs ready for annotations and proof obligation generation from total functions. Both need some work with Overture integration. Kenneth may be able to help in a couple of weeks. PGL also has has 2 students investigating if VDM can work with Language Server Protocol
+* Clarified Ordering of operators in LRM
 * LB Minutes: 
 
 ## Status of VDMTools/ViennaTalk
