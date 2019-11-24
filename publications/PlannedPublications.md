@@ -15,6 +15,7 @@ title: Overture Publications
 
 - Toward a Well-Founded Code Generator with a Focus on Object Orientation Semantics, Victor Bandur, Kenneth Lausdahl, Peter W. V. Tran-Jørgensen and Miran Hasanagic
 - Transformation of a Formal Model to a Distributed Setting with Code Generation and Validation. Miran Hasanagic, Peter W. V. Tran-Jørgensen, René Nilsson, Luis Diogo Couto and Peter Gorm Larsen, accepted for publication by the Software - Practice and Experience journal
+- Applying ergonomics within the multi-modelling paradigm with an example from multiple UAV control, David Golightly, Carl Gamble, Roberto Palacin, Ken Pierce, accepted subject to minor correction in Ergonomics 
 
 ## In press
 
