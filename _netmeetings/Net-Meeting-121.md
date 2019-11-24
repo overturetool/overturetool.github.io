@@ -18,11 +18,16 @@ date: 24 November 2019, 1200 CET
 
 ## Review Status of the Action List
 
-A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22). No progress reported.
+A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22).
+
+* https://github.com/overturetool/overturetool.github.io/issues/18 - no progress. Peter/Nick to discuss f2f in January
+* https://github.com/overturetool/overturetool.github.io/issues/32 - to be discussed under Licensing section below
 
 
 ## Overture Language Board Status
 
+* RMs RMs readu for annotations and proof obligation generation from total functions. Both need some work with Overture integration
+* LB Minutes: 
 
 ## Status of VDMTools/ViennaTalk
 
