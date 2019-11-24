@@ -54,25 +54,31 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ##  Release Planning
 
-* 
+* PVJ has proposed dates for 2020
 
 ##  Community Development
 
-#### Overture Traffic
-
-
-#### The next Overture workshop
-
+* Overture 2019 Workshop was successful but small bumber of participants.
+* A couple papers from the workshop will go for the LNCS post-proceedings
 
 ##  Licensing of Overture source code
 
+* Progress has stalled. Best overview of status is here https://github.com/overturetool/overture/issues/705#issuecomment-545606478
+* New actions:
+ - https://github.com/overturetool/overturetool.github.io/issues/34
+ - https://github.com/overturetool/overturetool.github.io/issues/35
+* Task 2 remains TBD
 
 ##  Publications Status and Plans
 
 See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
 
+* Most published papers have been moved over. Some minor cleanup is still needed.
+
 ##  Any Other Business
 
+- Overture workshop will stay in Europe and will be held at the next FM in China. Once idea is to hold it in
+connection with one of the HUBCAP project plenary evets.
 
 <div id="edit_page_div"></div>
 
