@@ -37,7 +37,7 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ### Overture and VDMJ
 
-I've managed to make some progress on some of the very old bugs that we've had on the Overture buglist for a few years. A complete list of mergable fixes is: https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aopen+label%3AMergable
+I've (NB) managed to make some progress on some of the very old bugs that we've had on the Overture buglist for a few years. A complete list of mergable fixes is: https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aopen+label%3AMergable
 
 Of particular note:
 
@@ -57,6 +57,9 @@ I've also tidied the bug list, rationalised the labels and closed a few issues w
 
 ##  Licensing of Overture source code
 
+I (NB) completed a review of the copyright-origin of the files that comprise the Overture source tree and put the results in the IPR issue (https://github.com/overturetool/overture/issues/705). The analysis makes some simplifying assumptions (see the issue), but I believe the result is essentially correct.
+
+One possible way forward - perhaps some way away - is the work that Hugo is doing with the Language Server Protocol implementation. I've discussed this with him while I was in Aarhus. The advantage for us is that having an LPS server independent of the IDE means that we can separate the IPR concerns, I believe.
 
 ##  Publications Status and Plans
 
