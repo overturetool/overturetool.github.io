@@ -37,7 +37,7 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ### Overture and VDMJ
 
-I've (NB) managed to make some progress on some of the very old bugs that we've had on the Overture buglist for a few years. A complete list of mergable fixes is: https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aopen+label%3AMergable
+I've (NB) managed to make some progress on some of the very old bugs that we've had on the Overture buglist for a few years. A complete list of mergable fixes is [here](https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aopen+label%3AMergable).
 
 Of particular note:
 
