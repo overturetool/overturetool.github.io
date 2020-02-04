@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Net Meeting 121
-date: 24 November 2019, 1200 CET
+title: Net Meeting 122
+date: 9 February 2020, 1200 CET
 ---
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js">
