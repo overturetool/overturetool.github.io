@@ -35,7 +35,17 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ##  Status of the Overture Components
 
-### Overture
+### Overture and VDMJ
+
+I've managed to make some progress on some of the very old bugs that we've had on the Overture buglist for a few years. A complete list of mergable fixes is: https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aopen+label%3AMergable
+
+Of particular note:
+
+The POG and missing measures warnings now deal with mutual recursion. This is currently limited to a mutual "depth" of 8 calls in a loop (eg. a calls b, b calls c, c ... and h calls a) to avoid excessive TC computation.
+
+Stack overflow errors are now caught and reported sensibly at runtime, rather than just crashing the JVM.
+
+#ifdef processing is now working, and more flexible.
 
 ##  Release Planning
 
