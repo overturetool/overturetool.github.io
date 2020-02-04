@@ -47,6 +47,8 @@ Stack overflow errors are now caught and reported sensibly at runtime, rather th
 
 #ifdef processing is now working, and more flexible.
 
+I've also tidied the bug list, rationalised the labels and closed a few issues where we could.
+
 ##  Release Planning
 
 
