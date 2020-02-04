@@ -51,6 +51,7 @@ I've also tidied the bug list, rationalised the labels and closed a few issues w
 
 ##  Release Planning
 
+I (NB) would recommend we consider a bug fix release to pick up the mergable fixes mentioned above.
 
 ##  Community Development
 
