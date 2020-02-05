@@ -37,7 +37,7 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ### Overture and VDMJ
 
-I've (NB) managed to make some progress on some of the very old bugs that we've had on the Overture buglist for a few years. A complete list of mergable fixes is [here](https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aopen+label%3AMergable).
+NB managed to make progress on some of the very old bugs that we've had on the Overture buglist for a few years. A complete list of mergable fixes is [here](https://github.com/overturetool/overture/issues?q=is%3Aissue+is%3Aopen+label%3AMergable).
 
 Of particular note:
 
@@ -47,20 +47,20 @@ Stack overflow errors are now caught and reported sensibly at runtime, rather th
 
 #ifdef processing is now working, and more flexible.
 
-I've also tidied the bug list, rationalised the labels and closed a few issues where we could.
+NB also tidied the bug list, rationalised the labels and closed a few issues where we could.
 
 ##  Release Planning
 
-I (NB) would recommend we consider a bug fix release to pick up the mergable fixes mentioned above.
+NB: would recommend we consider a bug fix release to pick up the mergable fixes mentioned above.
 
 ##  Community Development
 
 
 ##  Licensing of Overture source code
 
-I (NB) completed a review of the copyright-origin of the files that comprise the Overture source tree and put the results in the IPR issue (https://github.com/overturetool/overture/issues/705). The analysis makes some simplifying assumptions (see the issue), but I believe the result is essentially correct.
+NB completed a review of the copyright-origin of the files that comprise the Overture source tree and put the results in the IPR issue (https://github.com/overturetool/overture/issues/705). The analysis makes some simplifying assumptions (see the issue), but we believe the result is essentially correct.
 
-One possible way forward - perhaps some way away - is the work that Hugo is doing with the Language Server Protocol implementation. I've discussed this with him while I was in Aarhus. The advantage for us is that having an LPS server independent of the IDE means that we can separate the IPR concerns, I believe.
+One possible way forward - perhaps some way away - is the work that Hugo is doing with the Language Server Protocol implementation. NB discussed this with Hugo while in Aarhus. The advantage for us is that having an LPS server independent of the IDE means that we can separate the IPR concerns.
 
 ##  Publications Status and Plans
 
