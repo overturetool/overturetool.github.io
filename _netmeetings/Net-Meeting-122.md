@@ -28,10 +28,10 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 ## Status of VDMTools/ViennaTalk
 
 ### Viennatalk
-
+[ViennaTalk "Porto"](https://github.com/tomooda/ViennaTalk/releases/tag/Porto) released on Feb 5 2020.
 
 ### VDMTools
-
+Dr. K keeps maintaining the code.
 
 ##  Status of the Overture Components
 
