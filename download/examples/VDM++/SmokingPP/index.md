@@ -14,282 +14,55 @@ Author: Claus Ballegaard Nielsen
 |Language Version:| vdm10|
 
 
-### Agent.vdmpp
+### VDMUtil.vdmpp
 
 {% raw %}
 ~~~
-class Agent
+class VDMUtil
 
-values
-  thing_l = [<Tobacco>, <Paper>, <Match>]
+-- 	Overture STANDARD LIBRARY: MiscUtils
+--      --------------------------------------------
+-- Version 1.0.0 
+-- 
+-- Standard library for the Overture Interpreter. When the interpreter
+-- evaluates the preliminary functions/operations in this file,
+-- corresponding internal functions is called instead of issuing a run
+-- time error. Signatures should not be changed, as well as name of
+-- module (VDM-SL) or class (VDM++). Pre/post conditions is 
+-- fully user customisable. 
+-- Dont care's may NOT be used in the parameter lists.
 
-instance variables
-  timer : nat := 0;
-  table : Table;
+functions
+-- Converts a set argument into a sequence in non-deterministic order.
+static public set2seq[@T] : set of @T +> seq of @T
+set2seq(x) == is not yet specified;
 
-operations
+-- Returns a context information tuple which represents
+-- (fine_name * line_num * column_num * class_name * fnop_name) of corresponding source text
+static public get_file_pos : () +> [ seq of char * nat * nat * seq of char * seq of char ]
+get_file_pos() == is not yet specified;
 
-public Agent: Table ==> Agent
-Agent(tab) ==
-  table := tab;
+-- Converts a VDM value into a seq of char.
+static public val2seq_of_char[@T] : @T +> seq of char
+val2seq_of_char(x) == is not yet specified;
 
-public GetTime: () ==> nat
-GetTime() ==
-  return timer;
+-- converts VDM value in ASCII format into a VDM value
+-- RESULT.#1 = false implies a conversion failure
+static public seq_of_char2val[@p]:seq1 of char -> bool * [@p]
+seq_of_char2val(s) ==
+let mk_(b, v) = seq_of_char2val_(s) in
+if is_(v, @p) then mk_(b, v) else mk_(false, nil)
+post let mk_(b,t) = RESULT in not b => t = nil;
 
-public AddTobacco : () ==> bool
-AddTobacco() == 
-(
-  if table.AddElement(thing_l(1)) then
-  (
- 	World`graphics.tobaccoAdded();
-	return true;
-  );
+static private seq_of_char2val_:seq1 of char -> bool * ?
+seq_of_char2val_(s) == is not yet specified;
 
-  return false;
-);
+static public classname[@T] : @T -> [seq1 of char]
+    classname(s) == is not yet specified;
 
-public AddPaper : () ==> bool
-AddPaper() == 
-(
-  if table.AddElement(thing_l(2)) then
-  (
- 	World`graphics.paperAdded();
-	return true;
-  );
+end VDMUtil
 
-  return false;
-);
 
-public AddMatch : () ==> bool
-AddMatch() == 
-(
-  if table.AddElement(thing_l(3)) then
-  (
- 	World`graphics.matchAdded();
-	return true;
-  );
-
-  return false;
-);
-
-end Agent
-~~~
-{% endraw %}
-
-### Table.vdmpp
-
-{% raw %}
-~~~
-class Table
-
-types
-
-public Element = <Tobacco> | <Paper> | <Match>;
-
-instance variables
-  elements : set of Element := {};
-  inv card elements <= 3 
-
-operations
-
-public AddElement:  Element ==> bool
-AddElement(es) ==
-  if(es not in set elements) then
-  (
-   	elements := elements union {es};
- 	return true;
-  )
-  else
- 	return false;
-
-private ExtraElement: () ==> set of Element
-ExtraElement() ==   
-let es = elements
-  in (
-       elements := {};
-        World`graphics.tableCleared();
-        IO`print("table clear");
-       return es);
-
-public TakeElements: set of Element ==> set of Element
-TakeElements(es) == (
-
-  let e in set es
-    in 
-      cases e:   
-        <Tobacco> -> MissingPM(),
-        <Paper> -> MissingTM(),
-        <Match> -> MissingTP()
-       end;
-
-    ExtraElement();)
-pre card es = 1;
-
-MissingPM : () ==> ()
-MissingPM() == skip;
-
-MissingTM : () ==> ()
-MissingTM() == skip;
-
-MissingTP : () ==> ()
-MissingTP() == skip;
-
-sync
-per MissingPM => elements = {<Paper>,<Match>};  
-per MissingTM => elements = {<Tobacco>,<Match>};    
-per MissingTP => elements = {<Tobacco>, <Paper>};  
-
---per AddElements => elements = {};
---per TakeElements => card elements = 2;
-
-end Table
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
-class World
-
-instance variables
-public static graphics : gui_Graphics:= new gui_Graphics();
-
-table: Table := new Table();
-public agent: Agent := new Agent(table);
-smokers : set of Smoker := {new Smoker("Smoker 1", <Tobacco>, table),
-                            new Smoker("Smoker 2", <Paper>, table),
-                            new Smoker("Smoker 3", <Match>, table)};
-limit : nat;
-finished : bool := false;
-
-operations
-
-public World: nat ==> World
-World(simtime) ==
-(
-  IO`print("World Ctor");
-  limit := simtime;
-  
-);
-
-public Yield: () ==> ()
-Yield() == skip;
-
-Finished: () ==> nat
-Finished() ==
-  agent.GetTime();
-
-public Run: () ==> ()
-Run() ==
-(
-   startlist(smokers);
-    graphics.init();
- )
-
-thread
-(
-while agent.GetTime() <= limit do
-  skip; 
-  finished := true)
-
-sync
-
-per Finished => finished;
-end World
-~~~
-{% endraw %}
-
-### gui_Graphics.vdmpp
-
-{% raw %}
-~~~
-class gui_Graphics
-	operations
-
-    public init : () ==> ()
-	init() == is not yet specified;
-
-	public tobaccoAdded : () ==> ()
-	tobaccoAdded() == is not yet specified; 
-
-	public paperAdded : () ==> ()
-	paperAdded() == is not yet specified; 
-
-	public matchAdded : () ==> ()
-	matchAdded() == is not yet specified; 
-
-	public tableCleared : () ==> ()
-	tableCleared() == is not yet specified;  
-
-	public nowSmoking : nat ==> ()
-	nowSmoking(smokerNumber) == is not yet specified;
-
-	functions
-	public static ElementToNat : Table`Element -> nat
-    ElementToNat(elm) == 
-		cases elm:
-			<Tobacco> -> 1,
-			<Paper> -> 2,
-			<Match> -> 3
-	 	end;
-
-end gui_Graphics
-
-~~~
-{% endraw %}
-
-### Smoker.vdmpp
-
-{% raw %}
-~~~
-class Smoker
-
-instance variables
-  smokerName : seq of char; 
-  elements: set of Table`Element;
-  orig_element : Table`Element;
-  cigarettes : nat := 0;
-  --inv cigarettes in set {0,1};
-  table : Table;
-
-operations
-
-public Smoker: seq of char * Table`Element * Table ==> Smoker
-Smoker(name ,element,tab) == (
-  smokerName := name;
-  elements := {element};
-  orig_element := element;
-  table := tab);
-
-Roll: () ==> ()
-Roll() == (
-  World`graphics.nowSmoking(gui_Graphics`ElementToNat(orig_element));
-  IO`print(smokerName ^ " rolling ");  
-  elements := {};
-  cigarettes := cigarettes + 1
-  )
-pre card elements = 3;
-
-Smoke: () ==> ()
-Smoke() ==(
-  IO`print("and smoking \n"); 
-  cigarettes := cigarettes - 1;
-  elements := {orig_element};
-);
-
-thread
-  while true do (
-    elements := elements union table.TakeElements(elements);
-    Roll();
-    Smoke()
-  )
-
-sync
-per Smoke => cigarettes > 0;
-
-end Smoker
 ~~~
 {% endraw %}
 
@@ -566,54 +339,281 @@ end IO
 ~~~
 {% endraw %}
 
-### VDMUtil.vdmpp
+### Smoker.vdmpp
 
 {% raw %}
 ~~~
-class VDMUtil
+class Smoker
 
--- 	Overture STANDARD LIBRARY: MiscUtils
---      --------------------------------------------
--- Version 1.0.0 
--- 
--- Standard library for the Overture Interpreter. When the interpreter
--- evaluates the preliminary functions/operations in this file,
--- corresponding internal functions is called instead of issuing a run
--- time error. Signatures should not be changed, as well as name of
--- module (VDM-SL) or class (VDM++). Pre/post conditions is 
--- fully user customisable. 
--- Dont care's may NOT be used in the parameter lists.
+instance variables
+  smokerName : seq of char; 
+  elements: set of Table`Element;
+  orig_element : Table`Element;
+  cigarettes : nat := 0;
+  --inv cigarettes in set {0,1};
+  table : Table;
 
-functions
--- Converts a set argument into a sequence in non-deterministic order.
-static public set2seq[@T] : set of @T +> seq of @T
-set2seq(x) == is not yet specified;
+operations
 
--- Returns a context information tuple which represents
--- (fine_name * line_num * column_num * class_name * fnop_name) of corresponding source text
-static public get_file_pos : () +> [ seq of char * nat * nat * seq of char * seq of char ]
-get_file_pos() == is not yet specified;
+public Smoker: seq of char * Table`Element * Table ==> Smoker
+Smoker(name ,element,tab) == (
+  smokerName := name;
+  elements := {element};
+  orig_element := element;
+  table := tab);
 
--- Converts a VDM value into a seq of char.
-static public val2seq_of_char[@T] : @T +> seq of char
-val2seq_of_char(x) == is not yet specified;
+Roll: () ==> ()
+Roll() == (
+  World`graphics.nowSmoking(gui_Graphics`ElementToNat(orig_element));
+  IO`print(smokerName ^ " rolling ");  
+  elements := {};
+  cigarettes := cigarettes + 1
+  )
+pre card elements = 3;
 
--- converts VDM value in ASCII format into a VDM value
--- RESULT.#1 = false implies a conversion failure
-static public seq_of_char2val[@p]:seq1 of char -> bool * [@p]
-seq_of_char2val(s) ==
-let mk_(b, v) = seq_of_char2val_(s) in
-if is_(v, @p) then mk_(b, v) else mk_(false, nil)
-post let mk_(b,t) = RESULT in not b => t = nil;
+Smoke: () ==> ()
+Smoke() ==(
+  IO`print("and smoking \n"); 
+  cigarettes := cigarettes - 1;
+  elements := {orig_element};
+);
 
-static private seq_of_char2val_:seq1 of char -> bool * ?
-seq_of_char2val_(s) == is not yet specified;
+thread
+  while true do (
+    elements := elements union table.TakeElements(elements);
+    Roll();
+    Smoke()
+  )
 
-static public classname[@T] : @T -> [seq1 of char]
-    classname(s) == is not yet specified;
+sync
+per Smoke => cigarettes > 0;
 
-end VDMUtil
+end Smoker
+~~~
+{% endraw %}
 
+### World.vdmpp
+
+{% raw %}
+~~~
+class World
+
+instance variables
+public static graphics : gui_Graphics:= new gui_Graphics();
+
+table: Table := new Table();
+public agent: Agent := new Agent(table);
+smokers : set of Smoker := {new Smoker("Smoker 1", <Tobacco>, table),
+                            new Smoker("Smoker 2", <Paper>, table),
+                            new Smoker("Smoker 3", <Match>, table)};
+limit : nat;
+finished : bool := false;
+
+operations
+
+public World: nat ==> World
+World(simtime) ==
+(
+  IO`print("World Ctor");
+  limit := simtime;
+  
+);
+
+public Yield: () ==> ()
+Yield() == skip;
+
+Finished: () ==> nat
+Finished() ==
+  agent.GetTime();
+
+public Run: () ==> ()
+Run() ==
+(
+   startlist(smokers);
+    graphics.init();
+ )
+
+thread
+(
+while agent.GetTime() <= limit do
+  skip; 
+  finished := true)
+
+sync
+
+per Finished => finished;
+end World
+~~~
+{% endraw %}
+
+### Agent.vdmpp
+
+{% raw %}
+~~~
+class Agent
+
+values
+  thing_l = [<Tobacco>, <Paper>, <Match>]
+
+instance variables
+  timer : nat := 0;
+  table : Table;
+
+operations
+
+public Agent: Table ==> Agent
+Agent(tab) ==
+  table := tab;
+
+public GetTime: () ==> nat
+GetTime() ==
+  return timer;
+
+public AddTobacco : () ==> bool
+AddTobacco() == 
+(
+  if table.AddElement(thing_l(1)) then
+  (
+ 	World`graphics.tobaccoAdded();
+	return true;
+  );
+
+  return false;
+);
+
+public AddPaper : () ==> bool
+AddPaper() == 
+(
+  if table.AddElement(thing_l(2)) then
+  (
+ 	World`graphics.paperAdded();
+	return true;
+  );
+
+  return false;
+);
+
+public AddMatch : () ==> bool
+AddMatch() == 
+(
+  if table.AddElement(thing_l(3)) then
+  (
+ 	World`graphics.matchAdded();
+	return true;
+  );
+
+  return false;
+);
+
+end Agent
+~~~
+{% endraw %}
+
+### Table.vdmpp
+
+{% raw %}
+~~~
+class Table
+
+types
+
+public Element = <Tobacco> | <Paper> | <Match>;
+
+instance variables
+  elements : set of Element := {};
+  inv card elements <= 3 
+
+operations
+
+public AddElement:  Element ==> bool
+AddElement(es) ==
+  if(es not in set elements) then
+  (
+   	elements := elements union {es};
+ 	return true;
+  )
+  else
+ 	return false;
+
+private ExtraElement: () ==> set of Element
+ExtraElement() ==   
+let es = elements
+  in (
+       elements := {};
+        World`graphics.tableCleared();
+        IO`print("table clear");
+       return es);
+
+public TakeElements: set of Element ==> set of Element
+TakeElements(es) == (
+
+  let e in set es
+    in 
+      cases e:   
+        <Tobacco> -> MissingPM(),
+        <Paper> -> MissingTM(),
+        <Match> -> MissingTP()
+       end;
+
+    ExtraElement();)
+pre card es = 1;
+
+MissingPM : () ==> ()
+MissingPM() == skip;
+
+MissingTM : () ==> ()
+MissingTM() == skip;
+
+MissingTP : () ==> ()
+MissingTP() == skip;
+
+sync
+per MissingPM => elements = {<Paper>,<Match>};  
+per MissingTM => elements = {<Tobacco>,<Match>};    
+per MissingTP => elements = {<Tobacco>, <Paper>};  
+
+--per AddElements => elements = {};
+--per TakeElements => card elements = 2;
+
+end Table
+~~~
+{% endraw %}
+
+### gui_Graphics.vdmpp
+
+{% raw %}
+~~~
+class gui_Graphics
+	operations
+
+    public init : () ==> ()
+	init() == is not yet specified;
+
+	public tobaccoAdded : () ==> ()
+	tobaccoAdded() == is not yet specified; 
+
+	public paperAdded : () ==> ()
+	paperAdded() == is not yet specified; 
+
+	public matchAdded : () ==> ()
+	matchAdded() == is not yet specified; 
+
+	public tableCleared : () ==> ()
+	tableCleared() == is not yet specified;  
+
+	public nowSmoking : nat ==> ()
+	nowSmoking(smokerNumber) == is not yet specified;
+
+	functions
+	public static ElementToNat : Table`Element -> nat
+    ElementToNat(elm) == 
+		cases elm:
+			<Tobacco> -> 1,
+			<Paper> -> 2,
+			<Match> -> 3
+	 	end;
+
+end gui_Graphics
 
 ~~~
 {% endraw %}

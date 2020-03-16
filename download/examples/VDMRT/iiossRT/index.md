@@ -92,104 +92,36 @@ end World
 ~~~
 {% endraw %}
 
-### StableController.vdmrt
+### Actuator.vdmrt
 
 {% raw %}
 ~~~
                
-class StableController is subclass of IIOSSTYPES
+class Actuator is subclass of IIOSSTYPES
 
 instance variables
-	private parent: Server;
-
-	private sensors: map Sensor to PigStyId := {|->}; --map sensor to grisesti
-	private actuators: inmap Actuator to PigStyId := {|->}; --map actuator to grisesti
-	
-	private busy : bool := false;
-
-	private pigsInSty : map PigPosition to PigStyId := {|->}; --map pigID to pigsty;
-	
+	actuatorID : nat;
 operations
-	public StableController : Server ==> StableController
-	StableController(srv) ==
+	public Actuator: (nat) ==> Actuator
+	Actuator(actID) ==
 	(
-		parent := srv;
-		return self;
+	  actuatorID := actID;
+	  return self;
 	);
-	
-	-- Add a Pig to pigSty and inform the server
-	public AddPig: PigId * Sensor * Position ==> ()
-	AddPig(pigID, sensor, position) ==
-	(
-		dcl pigStyId: PigStyId := sensors(sensor);  
-		dcl pigPos : PigPosition := mk_PigPosition(pigID,position);
-		pigsInSty := pigsInSty munion {pigPos |-> pigStyId};
-		parent.AddPig(pigID, self);
-	)
-	pre sensor in set dom sensors; 
 
-	
-	-- Remove a Pig from pigSty and inform the server
-	public RemovePig: PigId ==> ()
-	RemovePig(pigID) ==
+	public SetValues : EventId * PigPosition ==> ()
+	SetValues(eventId, val) == 
 	(
-		--dcl pigStyId: PigStyId := sensors(sensor);
-		dcl pigPosition : PigPosition := mk_PigPosition(pigID, mk_Position(0,0));
-		pigsInSty := {pigPosition} <-: pigsInSty;
-		parent.RemovePig(pigID);
- 	)
- 	pre exists pp in set dom pigsInSty & pp.id = pigID;
-	
-	
-	async public PointAtPig: EventId * PigId ==> ()
-	PointAtPig(eventId, pigId) == 
-	(
-		-- find pig
-		let pigPos in set dom pigsInSty be st pigPos.id = pigId in 
-		(
-			-- find pigStyID
-			for all pigStyID in set rng pigsInSty do
-			(  
-				if (pigPos.id = pigId) then
-				(
-					let invActuators = inverse actuators in
-					(
-						--World`env.handleEvent(1, <SHOW_PIG>, " " ^ [pigId], time);
-						invActuators( pigStyID ).SetValues(eventId, pigPos);
-						return;
-					);
-				);
-			);
-		);
+							-- eventID, eventType, text, eventTime
+		World`env.handleEvent(eventId, <SHOW_PIG>, 
+                              " PigPosition " ^ VDMUtil`val2seq_of_char[PigPosition](val), 
+                              time);
 	);
-	--Pre inmap TODO
-
-	public AddActuator: Actuator * PigStyId ==> ()
-	AddActuator(act, sti) ==
-	(
-		actuators := actuators munion {act |-> sti};
-	)
-	pre act not in set dom actuators; 
-
-	public AddSensor: Sensor * PigStyId ==> ()
-	AddSensor(sens, sti) ==
-	(
-		sensors := sensors munion {sens |-> sti};
-	)
-	pre sens not in set dom sensors;
-
-
 sync
-	mutex(AddSensor);
-	mutex(AddActuator);
-	mutex(RemovePig,AddPig);
-	mutex(AddPig);
-	mutex(RemovePig);
-	--mutex(PointAtPig);
+	mutex(SetValues);
+end Actuator
 
-end StableController
-
-                                                                                    
+                                                                            
 ~~~
 {% endraw %}
 
@@ -347,39 +279,6 @@ end Environment
 ~~~
 {% endraw %}
 
-### Actuator.vdmrt
-
-{% raw %}
-~~~
-               
-class Actuator is subclass of IIOSSTYPES
-
-instance variables
-	actuatorID : nat;
-operations
-	public Actuator: (nat) ==> Actuator
-	Actuator(actID) ==
-	(
-	  actuatorID := actID;
-	  return self;
-	);
-
-	public SetValues : EventId * PigPosition ==> ()
-	SetValues(eventId, val) == 
-	(
-							-- eventID, eventType, text, eventTime
-		World`env.handleEvent(eventId, <SHOW_PIG>, 
-                              " PigPosition " ^ VDMUtil`val2seq_of_char[PigPosition](val), 
-                              time);
-	);
-sync
-	mutex(SetValues);
-end Actuator
-
-                                                                            
-~~~
-{% endraw %}
-
 ### iiosstypes.vdmrt
 
 {% raw %}
@@ -416,242 +315,6 @@ operations
 end IIOSSTYPES
 
                                                                                
-~~~
-{% endraw %}
-
-### TestResult.vdmrt
-
-{% raw %}
-~~~
-              
---The class \vdmstyle{TestResult} maintains a collection
---of references to test cases that have failed. The
---exception handler defined in the operation \vdmstyle{Run}
---of class \vdmstyle{TestCase} calls the operation
---\vdmstyle{AddResult}, which will append the object
---reference of the test case to the tail of the sequence
---\vdmstyle{failures}. The operation \vdmstyle{Show} is used
---to print a list of test cases that have failed or
---provide a message to indicate that no failures were
---found. Note that the standard I/O library, which is
---supplied with \vdmtools, is used here. \vdmstyle{IO.echo}
---prints a string on the standard output, just like 
---\vdmstyle{System.out.println} in Java. The \emph{def
---statement} is used to suppress the boolean value 
---returned by \vdmstyle{IO.echo}:\sindex{IO standard library}
-
-class TestResult
-
-instance variables
-  failures : seq of TestCase := []
-  
-operations
-	public AddFailure: TestCase ==> ()
-	AddFailure (ptst) == failures := failures ^ [ptst];
-
-	public Print: seq of char ==> ()
-	Print (pstr) ==
-		def - = new IO().echo(pstr ^ "\n") in skip;
-    
-	public Show: () ==> ()
-	Show () ==
-	    if failures = [] then
-	      Print ("No failures detected")
-	    else
-	      for failure in failures do
-	        Print (failure.GetName() ^ " failed")
-  
-end TestResult
-             
-~~~
-{% endraw %}
-
-### IIOSSTest.vdmrt
-
-{% raw %}
-~~~
-              
-class IIOSSTest
-operations
-	public Execute: () ==> ()
-	Execute () ==
-	    (dcl ts : TestSuite := new TestSuite();
-	     ts.AddTest(new IIOSSTestCase2("Unit test"));
-	     ts.Run()
-		)
-     
-end IIOSSTest
-              
-~~~
-{% endraw %}
-
-### Test.vdmrt
-
-{% raw %}
-~~~
-               
-class Test
-
-operations
-	public Run: TestResult ==> ()
-	Run (-) == is subclass responsibility
-
-end Test
-             
-~~~
-{% endraw %}
-
-### IIOSSTestCase2.vdmrt
-
-{% raw %}
-~~~
-              
-class IIOSSTestCase2 is subclass of TestCase
-instance variables
-	world : World;
-	stbCtr : StableController;
-
-operations
-	public IIOSSTestCase2: seq of char ==> IIOSSTestCase2
-	IIOSSTestCase2(nm) == name := nm;
-
-	protected SetUp: () ==> ()
-	SetUp () == --skip;
-	(
-		world := new World();
-		stbCtr := new StableController(IIOSS`server);
-	);
-
-	-- inline = EventId * EventType * PigId * [Position] * PigStyId * Time;
-	protected RunTest: () ==> ()
-	RunTest () == 
-    (
-    	ServerTest();
-    	EnvTest();
-    );
-    
-    private ServerTest : () ==> ()
-    ServerTest() ==
-    (
-    	(dcl serv : Server := new Server();
-    		serv.PointAtPig(1,1);    	    	
-    		world.env.showResult();
-    	
-    	let reaction = world.env.GetAndPurgeOutlines()
-  		in 
-  			AssertTrue(len reaction = 1);  		    	
-  		
-  			serv.AddPig(1, stbCtr);
-  			AssertTrue(serv.GetNoPigs() = 1);  			  			
-  		
-  			serv.RemovePig(3);
-  			AssertFalse(serv.GetNoPigs() = 0);
-  			
-  			serv.RemovePig(1);
-  			AssertTrue(serv.GetNoPigs() = 0);
-  		)
-  		
-    );
-    
-    private EnvTest: () ==> ()
-    EnvTest() ==
-    (
-    	let env = world.env
-    	in
-    	(
-    		--env.addServer(serv);
-    		AssertTrue(IIOSS`server = env.getServer());
-    		    	    	
-    		AssertTrue(env.getNoSensors() = 4);
-    	)
-    );
-       
-
-	protected TearDown: () ==> ()
-	TearDown () == skip
-
-end IIOSSTestCase2
-             
-~~~
-{% endraw %}
-
-### TestSuite.vdmrt
-
-{% raw %}
-~~~
-              
-class TestSuite
-  is subclass of Test
-
-instance variables
-  tests : seq of Test := [];
-
-operations
-public Run: () ==> ()
-  Run () ==
-    (dcl ntr : TestResult := new TestResult();
-     Run(ntr);
-     ntr.Show());
-
-public Run: TestResult ==> ()
-  Run (result) ==
-    for test in tests do
-      test.Run(result);
-
-public AddTest: Test ==> ()
-  AddTest(test) ==
-    tests := tests ^ [test];
-
-end TestSuite
-              
-~~~
-{% endraw %}
-
-### TestCase.vdmrt
-
-{% raw %}
-~~~
-              
-class TestCase
-  is subclass of Test
-
-instance variables
-  protected name : seq of char
-
-operations
-	public TestCase: seq of char ==> TestCase
-	TestCase(nm) == name := nm;
-
-	public GetName: () ==> seq of char
-	GetName () == return name;
-
-	protected AssertTrue: bool ==> ()
-	AssertTrue (pb) == if not pb then exit <FAILURE>;
-
-	protected AssertFalse: bool ==> ()
-	AssertFalse (pb) == if pb then exit <FAILURE>;
-
-	public Run: TestResult ==> ()
-	Run (ptr) == 
-	    trap <FAILURE>
-	      with 
-	        ptr.AddFailure(self)
-	      in
-	        (SetUp();
-		 RunTest();
-		 TearDown());
-
-	protected SetUp: () ==> ()
-	SetUp () == is subclass responsibility;
-
-	protected RunTest: () ==> ()
-	RunTest () == is subclass responsibility;
-
-	protected TearDown: () ==> ()
-	TearDown () == is subclass responsibility
-
-end TestCase
-             
 ~~~
 {% endraw %}
 
@@ -749,6 +412,45 @@ IIOSS () ==
 end IIOSS
 
                
+~~~
+{% endraw %}
+
+### Sensor.vdmrt
+
+{% raw %}
+~~~
+               
+class Sensor is subclass of IIOSSTYPES 
+instance variables
+	private stableController : StableController;
+	private pigs: set of PigId := {}; 
+	
+
+operations
+	public Sensor: StableController ==> Sensor
+	Sensor(controller) == 
+	(	
+		stableController := controller;
+		return self;
+	);
+
+
+	async public trip : EventType * PigId * [Position] ==> ()
+	trip(eventType,pigId, position) == 
+	(
+		if (eventType = <PIG_NEW>) then
+		(
+			stableController.AddPig(pigId, self, position);
+		) 
+		elseif (eventType = <PIG_MOVED>) then
+		(
+			stableController.RemovePig(pigId);
+		);
+	); 
+	 
+end Sensor
+
+                                                                          
 ~~~
 {% endraw %}
 
@@ -856,42 +558,340 @@ end Server
 ~~~
 {% endraw %}
 
-### Sensor.vdmrt
+### StableController.vdmrt
 
 {% raw %}
 ~~~
                
-class Sensor is subclass of IIOSSTYPES 
-instance variables
-	private stableController : StableController;
-	private pigs: set of PigId := {}; 
-	
+class StableController is subclass of IIOSSTYPES
 
+instance variables
+	private parent: Server;
+
+	private sensors: map Sensor to PigStyId := {|->}; --map sensor to grisesti
+	private actuators: inmap Actuator to PigStyId := {|->}; --map actuator to grisesti
+	
+	private busy : bool := false;
+
+	private pigsInSty : map PigPosition to PigStyId := {|->}; --map pigID to pigsty;
+	
 operations
-	public Sensor: StableController ==> Sensor
-	Sensor(controller) == 
-	(	
-		stableController := controller;
+	public StableController : Server ==> StableController
+	StableController(srv) ==
+	(
+		parent := srv;
 		return self;
 	);
-
-
-	async public trip : EventType * PigId * [Position] ==> ()
-	trip(eventType,pigId, position) == 
+	
+	-- Add a Pig to pigSty and inform the server
+	public AddPig: PigId * Sensor * Position ==> ()
+	AddPig(pigID, sensor, position) ==
 	(
-		if (eventType = <PIG_NEW>) then
-		(
-			stableController.AddPig(pigId, self, position);
-		) 
-		elseif (eventType = <PIG_MOVED>) then
-		(
-			stableController.RemovePig(pigId);
-		);
-	); 
-	 
-end Sensor
+		dcl pigStyId: PigStyId := sensors(sensor);  
+		dcl pigPos : PigPosition := mk_PigPosition(pigID,position);
+		pigsInSty := pigsInSty munion {pigPos |-> pigStyId};
+		parent.AddPig(pigID, self);
+	)
+	pre sensor in set dom sensors; 
 
-                                                                          
+	
+	-- Remove a Pig from pigSty and inform the server
+	public RemovePig: PigId ==> ()
+	RemovePig(pigID) ==
+	(
+		--dcl pigStyId: PigStyId := sensors(sensor);
+		dcl pigPosition : PigPosition := mk_PigPosition(pigID, mk_Position(0,0));
+		pigsInSty := {pigPosition} <-: pigsInSty;
+		parent.RemovePig(pigID);
+ 	)
+ 	pre exists pp in set dom pigsInSty & pp.id = pigID;
+	
+	
+	async public PointAtPig: EventId * PigId ==> ()
+	PointAtPig(eventId, pigId) == 
+	(
+		-- find pig
+		let pigPos in set dom pigsInSty be st pigPos.id = pigId in 
+		(
+			-- find pigStyID
+			for all pigStyID in set rng pigsInSty do
+			(  
+				if (pigPos.id = pigId) then
+				(
+					let invActuators = inverse actuators in
+					(
+						--World`env.handleEvent(1, <SHOW_PIG>, " " ^ [pigId], time);
+						invActuators( pigStyID ).SetValues(eventId, pigPos);
+						return;
+					);
+				);
+			);
+		);
+	);
+	--Pre inmap TODO
+
+	public AddActuator: Actuator * PigStyId ==> ()
+	AddActuator(act, sti) ==
+	(
+		actuators := actuators munion {act |-> sti};
+	)
+	pre act not in set dom actuators; 
+
+	public AddSensor: Sensor * PigStyId ==> ()
+	AddSensor(sens, sti) ==
+	(
+		sensors := sensors munion {sens |-> sti};
+	)
+	pre sens not in set dom sensors;
+
+
+sync
+	mutex(AddSensor);
+	mutex(AddActuator);
+	mutex(RemovePig,AddPig);
+	mutex(AddPig);
+	mutex(RemovePig);
+	--mutex(PointAtPig);
+
+end StableController
+
+                                                                                    
+~~~
+{% endraw %}
+
+### IIOSSTestCase2.vdmrt
+
+{% raw %}
+~~~
+              
+class IIOSSTestCase2 is subclass of TestCase
+instance variables
+	world : World;
+	stbCtr : StableController;
+
+operations
+	public IIOSSTestCase2: seq of char ==> IIOSSTestCase2
+	IIOSSTestCase2(nm) == name := nm;
+
+	protected SetUp: () ==> ()
+	SetUp () == --skip;
+	(
+		world := new World();
+		stbCtr := new StableController(IIOSS`server);
+	);
+
+	-- inline = EventId * EventType * PigId * [Position] * PigStyId * Time;
+	protected RunTest: () ==> ()
+	RunTest () == 
+    (
+    	ServerTest();
+    	EnvTest();
+    );
+    
+    private ServerTest : () ==> ()
+    ServerTest() ==
+    (
+    	(dcl serv : Server := new Server();
+    		serv.PointAtPig(1,1);    	    	
+    		world.env.showResult();
+    	
+    	let reaction = world.env.GetAndPurgeOutlines()
+  		in 
+  			AssertTrue(len reaction = 1);  		    	
+  		
+  			serv.AddPig(1, stbCtr);
+  			AssertTrue(serv.GetNoPigs() = 1);  			  			
+  		
+  			serv.RemovePig(3);
+  			AssertFalse(serv.GetNoPigs() = 0);
+  			
+  			serv.RemovePig(1);
+  			AssertTrue(serv.GetNoPigs() = 0);
+  		)
+  		
+    );
+    
+    private EnvTest: () ==> ()
+    EnvTest() ==
+    (
+    	let env = world.env
+    	in
+    	(
+    		--env.addServer(serv);
+    		AssertTrue(IIOSS`server = env.getServer());
+    		    	    	
+    		AssertTrue(env.getNoSensors() = 4);
+    	)
+    );
+       
+
+	protected TearDown: () ==> ()
+	TearDown () == skip
+
+end IIOSSTestCase2
+             
+~~~
+{% endraw %}
+
+### Test.vdmrt
+
+{% raw %}
+~~~
+               
+class Test
+
+operations
+	public Run: TestResult ==> ()
+	Run (-) == is subclass responsibility
+
+end Test
+             
+~~~
+{% endraw %}
+
+### TestCase.vdmrt
+
+{% raw %}
+~~~
+              
+class TestCase
+  is subclass of Test
+
+instance variables
+  protected name : seq of char
+
+operations
+	public TestCase: seq of char ==> TestCase
+	TestCase(nm) == name := nm;
+
+	public GetName: () ==> seq of char
+	GetName () == return name;
+
+	protected AssertTrue: bool ==> ()
+	AssertTrue (pb) == if not pb then exit <FAILURE>;
+
+	protected AssertFalse: bool ==> ()
+	AssertFalse (pb) == if pb then exit <FAILURE>;
+
+	public Run: TestResult ==> ()
+	Run (ptr) == 
+	    trap <FAILURE>
+	      with 
+	        ptr.AddFailure(self)
+	      in
+	        (SetUp();
+		 RunTest();
+		 TearDown());
+
+	protected SetUp: () ==> ()
+	SetUp () == is subclass responsibility;
+
+	protected RunTest: () ==> ()
+	RunTest () == is subclass responsibility;
+
+	protected TearDown: () ==> ()
+	TearDown () == is subclass responsibility
+
+end TestCase
+             
+~~~
+{% endraw %}
+
+### TestResult.vdmrt
+
+{% raw %}
+~~~
+              
+--The class \vdmstyle{TestResult} maintains a collection
+--of references to test cases that have failed. The
+--exception handler defined in the operation \vdmstyle{Run}
+--of class \vdmstyle{TestCase} calls the operation
+--\vdmstyle{AddResult}, which will append the object
+--reference of the test case to the tail of the sequence
+--\vdmstyle{failures}. The operation \vdmstyle{Show} is used
+--to print a list of test cases that have failed or
+--provide a message to indicate that no failures were
+--found. Note that the standard I/O library, which is
+--supplied with \vdmtools, is used here. \vdmstyle{IO.echo}
+--prints a string on the standard output, just like 
+--\vdmstyle{System.out.println} in Java. The \emph{def
+--statement} is used to suppress the boolean value 
+--returned by \vdmstyle{IO.echo}:\sindex{IO standard library}
+
+class TestResult
+
+instance variables
+  failures : seq of TestCase := []
+  
+operations
+	public AddFailure: TestCase ==> ()
+	AddFailure (ptst) == failures := failures ^ [ptst];
+
+	public Print: seq of char ==> ()
+	Print (pstr) ==
+		def - = new IO().echo(pstr ^ "\n") in skip;
+    
+	public Show: () ==> ()
+	Show () ==
+	    if failures = [] then
+	      Print ("No failures detected")
+	    else
+	      for failure in failures do
+	        Print (failure.GetName() ^ " failed")
+  
+end TestResult
+             
+~~~
+{% endraw %}
+
+### IIOSSTest.vdmrt
+
+{% raw %}
+~~~
+              
+class IIOSSTest
+operations
+	public Execute: () ==> ()
+	Execute () ==
+	    (dcl ts : TestSuite := new TestSuite();
+	     ts.AddTest(new IIOSSTestCase2("Unit test"));
+	     ts.Run()
+		)
+     
+end IIOSSTest
+              
+~~~
+{% endraw %}
+
+### TestSuite.vdmrt
+
+{% raw %}
+~~~
+              
+class TestSuite
+  is subclass of Test
+
+instance variables
+  tests : seq of Test := [];
+
+operations
+public Run: () ==> ()
+  Run () ==
+    (dcl ntr : TestResult := new TestResult();
+     Run(ntr);
+     ntr.Show());
+
+public Run: TestResult ==> ()
+  Run (result) ==
+    for test in tests do
+      test.Run(result);
+
+public AddTest: Test ==> ()
+  AddTest(test) ==
+    tests := tests ^ [test];
+
+end TestSuite
+              
 ~~~
 {% endraw %}
 

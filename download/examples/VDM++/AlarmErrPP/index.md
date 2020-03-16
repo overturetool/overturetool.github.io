@@ -25,6 +25,38 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 |Language Version:| vdm10|
 
 
+### alarm.vdmpp
+
+{% raw %}
+~~~
+class Alarm
+
+types
+
+public String = seq of char;
+
+instance variables 
+
+descr    : String;
+reqQuali : Expert`Qualification;
+
+operations
+
+public Alarm: Expert`Qualification * String ==> Alarm
+Alarm(quali,str) ==
+( descr := str;
+  reqQuali := quali;
+  return 7
+);
+
+pure public GetReqQuali: () ==> Expert`Qualification
+GetReqQuali() ==
+  return reqQuali;
+  
+end Alarm
+~~~
+{% endraw %}
+
 ### test1.vdmpp
 
 {% raw %}
@@ -59,38 +91,6 @@ Run() ==
     return mk_(periods,expert);
 
 end Test1
-~~~
-{% endraw %}
-
-### alarm.vdmpp
-
-{% raw %}
-~~~
-class Alarm
-
-types
-
-public String = seq of char;
-
-instance variables 
-
-descr    : String;
-reqQuali : Expert`Qualification;
-
-operations
-
-public Alarm: Expert`Qualification * String ==> Alarm
-Alarm(quali,str) ==
-( descr := str;
-  reqQuali := quali;
-  return 7
-);
-
-pure public GetReqQuali: () ==> Expert`Qualification
-GetReqQuali() ==
-  return reqQuali;
-  
-end Alarm
 ~~~
 {% endraw %}
 

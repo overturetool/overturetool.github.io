@@ -22,406 +22,6 @@ Master's thesis, Aarhus University (December 2010).
 |Entry point     :| new World().Run()|
 
 
-### TestResult.vdmrt
-
-{% raw %}
-~~~
-              
-class TestResult
-
-instance variables
-  failures : seq of TestCase := []
-  
-operations
-  public AddFailure: TestCase ==> ()
-  AddFailure (ptst) == failures := failures ^ [ptst];
-
-  public Print: seq of char ==> ()
-  Print (pstr) ==
-    -- include IO.vpp from the VDMTools distribution (stdlib directory)
-    -- if you are getting a type error while checking this specification
-    def - = new IO().echo(pstr ^ "\n") in skip;
-    
-  public Show: () ==> ()
-  Show () ==
-    if failures = [] then
-      Print ("No failures detected")
-    else
-      for failure in failures do
-        Print (failure.GetName() ^ " failed")
-  
-end TestResult
-
-                                                                               
-~~~
-{% endraw %}
-
-### Vehicle.vdmrt
-
-{% raw %}
-~~~
-                                       
------------------------------------------------
--- Class:			Vehicle
--- Description: 	Vehicle class describes the physical moving 
---					elements in the system
------------------------------------------------
-
---
--- class definition
---
-class Vehicle
-
---
--- instance variables
---
-instance variables
-
-private dir: Types`Direction;
-private speed : nat;
-private lowgrip : bool;
-private turnIndicator : Indicator := <NONE>;
-private pos : Position;
-private id : nat;
---
--- Types definition section
---
-types  
-public Indicator = <LEFT> | <RIGHT> | <NONE>;
---
--- Operations definition section
---
-operations
-
-public Vehicle:  nat * Position * nat * Types`Direction ==> Vehicle
-Vehicle(identifier, p, s, d) ==
-(
-  pos := p;
-  speed := s;
-  dir := d;
-  id := identifier;
-  lowgrip := false;
-);
-
-
-public Vehicle:  VehicleData ==> Vehicle
-Vehicle(vdDTO) ==
-(
-  pos := vdDTO.GetPosition();
-  speed := vdDTO.GetSpeed();
-  dir := vdDTO.GetDirection();
-  id := vdDTO.GetID();
-  lowgrip := vdDTO.getLowGrip();
-);
-
-
-pure public GetDirection: () ==> Types`Direction 
-GetDirection() ==
-return dir;
-
-async public SetDirection: Types`Direction  ==> ()
-SetDirection(d) ==
-(
-dir := d;
-);
-
-public GetSpeed: () ==> nat 
-GetSpeed() ==
-return speed;
-	
-async public SetSpeed: nat ==> () 
-SetSpeed(s) ==
-speed := s;
-
-public getLowGrip: () ==> bool 
-getLowGrip() ==
-(
-return lowgrip
-);
-
-async public setLowGrip: bool ==> () 
-setLowGrip(lg) ==
-(
-lowgrip := lg;
-);
-	
-public TurnIndicator: () ==> Indicator 
-TurnIndicator() ==
-return turnIndicator;	
-	
-async public setTurnIndicator: Indicator ==> () 
-setTurnIndicator(indicator) ==
-( 
- turnIndicator := indicator;
-);
-	
-pure public GetPosition: () ==> Position 
-GetPosition() ==
---return pos.deepCopy();
-return pos;
-
-async public SetPosition: Position ==> () 
-SetPosition(p) ==
-pos := p;
-
-pure public GetID: () ==> nat
-GetID() ==
-return id;
-
-public Move : () ==> ()
-Move() ==
-( 
- cases dir:
- <NORTH> -> pos.setY(pos.Y() + speed),  
- <SOUTH> -> pos.setY(pos.Y() - speed),  
- <EAST>  -> pos.setX(pos.X() + speed), 
- <WEST>  -> pos.setX(pos.X() - speed) 
- end;
-
- Printer`OutWithTS("Vehicle " ^ Printer`natToString(id) ^ " moved " 
-    ^ Types`DirectionToString(dir)  ^ " to  " ^ pos.toString() ^ " with speed " 
-    ^ Printer`natToString(speed));
-);
-  
-public getDTO : () ==> VehicleData
-getDTO() ==
-(
- let vd = new VehicleData(id, pos.deepCopy(), speed, dir, lowgrip) in 
- return vd;
-)
-  
---
--- Functions definition section
---
-functions
-  
-public static IndicatorToString : Indicator -> seq of char 
-IndicatorToString(i) ==
-(
-cases i:
-<LEFT>-> "LEFT",
-<RIGHT>-> "RIGHT",
-<NONE>-> "NONE"
-end
-)
-
-
-
---
--- Values definition section
---
-values
-
---
--- sync definition section
---
-sync
- mutex(Move);
- mutex(Move, SetPosition); --, GetPosition);
- mutex(SetPosition);
- mutex(SetDirection);
- --mutex(GetDirection, SetDirection);
- mutex(SetSpeed);
- mutex(GetSpeed, SetSpeed);
- mutex(setLowGrip);
- mutex(getLowGrip, setLowGrip);
- mutex(setTurnIndicator);
- mutex(TurnIndicator,setTurnIndicator);
-
-end Vehicle
-
-
-                                                                           
-~~~
-{% endraw %}
-
-### TestTrafficData.vdmrt
-
-{% raw %}
-~~~
-                                             
------------------------------------------------
--- Class:			TestTrafficData
--- Description: 	Test the TrafficData class 
------------------------------------------------
-
---
--- class definition
---
-class TestTrafficData is subclass of TestCase
-
---
--- instance variables
---
-instance variables
-private pos : Position;
---
--- Operations definition section
---
-operations
-public TestTrafficData: seq of char ==> TestTrafficData
-TestTrafficData(s) ==
-(
-	TestCase(s);
-);
-
-protected SetUp: () ==> ()
-SetUp () == pos := new Position(5,1); 
-
-protected RunTest: () ==> ()
-RunTest () ==
-(
- dcl td : TrafficData := new TrafficData(<Congestion>, pos, <NORTH>),
- td2 : TrafficData := new TrafficData(<LeftTurn>, pos, <WEST>),
- td3 : TrafficData := new TrafficData(<RedLight>, pos, <EAST>);
-
- AssertTrue(td.GetPosition().X() = 5);
- AssertTrue(td.GetPosition().Y() = 1); 
- AssertTrue(td.GetDirection() = <NORTH>);
- AssertTrue(td.GetMessage() = <Congestion>);
- AssertTrue(TrafficData`MessageTypeToString(td.GetMessage()) = "Congestion ");
- 
- AssertTrue(td2.GetPosition().X() = 5);
- AssertTrue(td2.GetPosition().Y() = 1); 
- AssertTrue(td2.GetDirection() = <WEST>);
- AssertTrue(td2.GetMessage() = <LeftTurn>);
- AssertTrue(TrafficData`MessageTypeToString(td2.GetMessage()) = "Left Turn");
- 
- AssertTrue(td3.GetPosition().X() = 5);
- AssertTrue(td3.GetPosition().Y() = 1); 
- AssertTrue(td3.GetDirection() = <EAST>);
- AssertTrue(td3.GetMessage() = <RedLight>);
- AssertTrue(TrafficData`MessageTypeToString(td3.GetMessage()) = "Red Light");
- 
- testExpired();
-);
-  
-protected TearDown: () ==> ()
-TearDown () == skip;
-
-public testExpired : () ==> ()
-testExpired() ==
-( 
-  dcl td : TrafficData := new TrafficData(<LowGrip>, pos, <NORTH>);
-  AssertFalse(td.Expired());
-  duration(15000) --should depend on Config to ensure we are above threshold
-  AssertFalse(td.Expired());
-  duration(15000) --should depend on Config to ensure we are above threshold
-  AssertTrue(td.Expired());
-);
-
-end TestTrafficData
-
-                                                                                   
-~~~
-{% endraw %}
-
-### TestPosition.vdmrt
-
-{% raw %}
-~~~
-                                          
------------------------------------------------
--- Class:			TestPosition
--- Description: 	Test the Position class 
------------------------------------------------
-
---
--- class definition
---
-class TestPosition is subclass of TestCase
-
---
--- instance variables
---
-instance variables
-
---
--- Operations definition section
---
-operations
-public TestPosition: seq of char ==> TestPosition
-TestPosition(s) ==
-(
-	TestCase(s);
-);
-
-protected SetUp: () ==> ()
-SetUp () == skip;
-
-protected RunTest: () ==> ()
-RunTest () ==
-(
- dcl pos : Position := new Position(2, 1);
-
- AssertTrue(pos.X() = 2);
- AssertTrue(pos.Y() = 1); 
-
- pos.setX(10);
- AssertTrue(pos.X() = 10); 
- 
- pos.setY(4);
- AssertTrue(pos.Y() = 4); 
- 							 
- AssertTrue(pos.toString() = "position X: 10 Y: 4");
- 
- testInRange();
- testDeepCopy();
- testCompare();
-);
-  
-protected TearDown: () ==> ()
-TearDown () == skip;
-
-
-public testInRange : () ==> ()
-testInRange() ==
-(
- dcl p  : Position := new Position(0, 0),
- p2 : Position := new Position(1, 0);
- 
-  AssertTrue(p.inRange(p2 , 1));
-  AssertFalse(p.inRange(p2, 0));
-  p2.setY(4);
-  p2.setX(4);
-  AssertTrue(p.inRange(p2 , 5));
-);
-
-
-public testDeepCopy : () ==> ()
-testDeepCopy() ==
-(
- dcl p  : Position := new Position(5, 3),
- p2 : Position := p.deepCopy();
- 
- AssertFalse(p = p2);
- AssertTrue(p.X() = p2.X());
- AssertTrue(p.Y() = p2.Y());
- p.setX(10);
- AssertTrue(p.X() <> p2.X());
-);
-
-
-public testCompare : () ==> ()
-testCompare() ==
-(
- dcl p  : Position := new Position(5, 3),
- p2 : Position := p.deepCopy();
- 
- AssertTrue(Position`Compare(p,p2));
- AssertTrue(Position`Compare(p2,p));
- p.setX(10);
- AssertFalse(Position`Compare(p,p2));
-);
-
-
-
-end TestPosition
-
-                                                                                
-~~~
-{% endraw %}
-
 ### World.vdmrt
 
 {% raw %}
@@ -511,110 +111,6 @@ end World
 
 
                                                                          
-~~~
-{% endraw %}
-
-### Types.vdmrt
-
-{% raw %}
-~~~
-                               
------------------------------------------------
--- Class:			Types
--- Description: 	Defines simple types
------------------------------------------------
-
---
--- class definition
---
-class Types
-
-types   
-public Time = nat;
-public Direction = <NORTH> | <SOUTH> | <EAST> | <WEST>;
-
-public Event = VechicleRun | TrafficLightRun | VehicleUpdateSpeed 
-			   | VehicleUpdatePosition | VehicleUpdateDirection 
-			   | VehicleLowGrip | VehicleTurnIndication | WasteTime;
-
-public VechicleRun ::
-        ID : nat
-        t : Time; 
-        
-public TrafficLightRun ::
-        ID : nat
-        t : Time; 
-        
-public VehicleUpdateSpeed ::
-        ID : nat
-        speed : real
-        t : Time;     
-        
-public VehicleUpdatePosition ::
-		ID : nat
-   		posX : nat
-        posY : nat
-        t : Time;
-        
-public VehicleUpdateDirection ::
-		ID : nat
-		direction : Direction
-        t : Time;
-
-public VehicleLowGrip ::
-        ID : nat
-        lowGrip : bool
-        t : Time;
-
-public VehicleTurnIndication ::
-        ID : nat
-        turn : Vehicle`Indicator
-        t : Time;
-public WasteTime ::
-        t : Time;
-            
-functions
-  public static DirectionToString : Direction -> seq of char 
-  DirectionToString(d) ==
-  (
-  	cases d:
-  	<NORTH>-> "NORTH",
-  	<SOUTH>-> "SOUTH",
-  	<EAST>-> "EAST",
-  	<WEST>-> "WEST"
-  	end
-  );
-  
-  public static DirectionToGraphics : Direction -> nat
-  DirectionToGraphics(d) ==
-  (
-    cases d:
-    <NORTH>-> 1,
-    <SOUTH>-> 5,
-    <EAST>->  3,
-    <WEST>->  7
-    end
-  );
-  
-end Types
-
-
-                                                                         
-~~~
-{% endraw %}
-
-### Test.vdmrt
-
-{% raw %}
-~~~
-class Test
-
-operations
-  public Run: TestResult ==> ()
-  Run (-) == is subclass responsibility
-
-end Test
-
 ~~~
 {% endraw %}
 
@@ -945,59 +441,21 @@ end TestVehicle
 ~~~
 {% endraw %}
 
-### TestSuite.vdmrt
+### Vehicle.vdmrt
 
 {% raw %}
 ~~~
-              
-class TestSuite
-  is subclass of Test
-
-instance variables
-  tests : seq of Test := [];
-
-types
-
-public
-  TestKinds = TestVehicle | TestPosition | TestTrafficLight | TestTrafficData |
-              TestTraffic | TestController | TestVeMoController;
-  
-operations
-  public Run: () ==> ()
-  Run () ==
-    (dcl ntr : TestResult := new TestResult();
-     Run(ntr);
-     ntr.Show());
-
-  public Run: TestResult ==> ()
-  Run (result) ==
-    for test in tests do
-      test.Run(result);
-
-  public AddTest: TestKinds ==> ()
-  AddTest(test) ==
-    tests := tests ^ [test];
-
-end TestSuite
-
-                                                                               
-~~~
-{% endraw %}
-
-### VehicleData.vdmrt
-
-{% raw %}
-~~~
-                                           
+                                       
 -----------------------------------------------
 -- Class:			Vehicle
--- Description: 	DTO representing the data in the Vehicle class
+-- Description: 	Vehicle class describes the physical moving 
+--					elements in the system
 -----------------------------------------------
 
 --
 -- class definition
 --
-class VehicleData
+class Vehicle
 
 --
 -- instance variables
@@ -1020,42 +478,118 @@ public Indicator = <LEFT> | <RIGHT> | <NONE>;
 --
 operations
 
-public VehicleData : nat * Position * nat * Types`Direction * bool 
-	==> VehicleData
-VehicleData(identifier, p, s, d, grip) ==
+public Vehicle:  nat * Position * nat * Types`Direction ==> Vehicle
+Vehicle(identifier, p, s, d) ==
 (
   pos := p;
   speed := s;
   dir := d;
   id := identifier;
-  lowgrip := grip;
+  lowgrip := false;
 );
 
-public GetDirection: () ==> Types`Direction 
+
+public Vehicle:  VehicleData ==> Vehicle
+Vehicle(vdDTO) ==
+(
+  pos := vdDTO.GetPosition();
+  speed := vdDTO.GetSpeed();
+  dir := vdDTO.GetDirection();
+  id := vdDTO.GetID();
+  lowgrip := vdDTO.getLowGrip();
+);
+
+
+pure public GetDirection: () ==> Types`Direction 
 GetDirection() ==
 return dir;
+
+async public SetDirection: Types`Direction  ==> ()
+SetDirection(d) ==
+(
+dir := d;
+);
 
 public GetSpeed: () ==> nat 
 GetSpeed() ==
 return speed;
 	
+async public SetSpeed: nat ==> () 
+SetSpeed(s) ==
+speed := s;
+
 public getLowGrip: () ==> bool 
 getLowGrip() ==
 (
 return lowgrip
+);
+
+async public setLowGrip: bool ==> () 
+setLowGrip(lg) ==
+(
+lowgrip := lg;
 );
 	
 public TurnIndicator: () ==> Indicator 
 TurnIndicator() ==
 return turnIndicator;	
 	
-public GetPosition: () ==> Position 
+async public setTurnIndicator: Indicator ==> () 
+setTurnIndicator(indicator) ==
+( 
+ turnIndicator := indicator;
+);
+	
+pure public GetPosition: () ==> Position 
 GetPosition() ==
-return pos.deepCopy();
+--return pos.deepCopy();
+return pos;
 
-public GetID: () ==> nat
+async public SetPosition: Position ==> () 
+SetPosition(p) ==
+pos := p;
+
+pure public GetID: () ==> nat
 GetID() ==
 return id;
+
+public Move : () ==> ()
+Move() ==
+( 
+ cases dir:
+ <NORTH> -> pos.setY(pos.Y() + speed),  
+ <SOUTH> -> pos.setY(pos.Y() - speed),  
+ <EAST>  -> pos.setX(pos.X() + speed), 
+ <WEST>  -> pos.setX(pos.X() - speed) 
+ end;
+
+ Printer`OutWithTS("Vehicle " ^ Printer`natToString(id) ^ " moved " 
+    ^ Types`DirectionToString(dir)  ^ " to  " ^ pos.toString() ^ " with speed " 
+    ^ Printer`natToString(speed));
+);
+  
+public getDTO : () ==> VehicleData
+getDTO() ==
+(
+ let vd = new VehicleData(id, pos.deepCopy(), speed, dir, lowgrip) in 
+ return vd;
+)
+  
+--
+-- Functions definition section
+--
+functions
+  
+public static IndicatorToString : Indicator -> seq of char 
+IndicatorToString(i) ==
+(
+cases i:
+<LEFT>-> "LEFT",
+<RIGHT>-> "RIGHT",
+<NONE>-> "NONE"
+end
+)
+
 
 
 --
@@ -1066,11 +600,104 @@ values
 --
 -- sync definition section
 --
+sync
+ mutex(Move);
+ mutex(Move, SetPosition); --, GetPosition);
+ mutex(SetPosition);
+ mutex(SetDirection);
+ --mutex(GetDirection, SetDirection);
+ mutex(SetSpeed);
+ mutex(GetSpeed, SetSpeed);
+ mutex(setLowGrip);
+ mutex(getLowGrip, setLowGrip);
+ mutex(setTurnIndicator);
+ mutex(TurnIndicator,setTurnIndicator);
+
+end Vehicle
+
+
+                                                                           
+~~~
+{% endraw %}
+
+### TestTrafficData.vdmrt
+
+{% raw %}
+~~~
+                                             
+-----------------------------------------------
+-- Class:			TestTrafficData
+-- Description: 	Test the TrafficData class 
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TestTrafficData is subclass of TestCase
+
+--
+-- instance variables
+--
+instance variables
+private pos : Position;
+--
+-- Operations definition section
+--
+operations
+public TestTrafficData: seq of char ==> TestTrafficData
+TestTrafficData(s) ==
+(
+	TestCase(s);
+);
+
+protected SetUp: () ==> ()
+SetUp () == pos := new Position(5,1); 
+
+protected RunTest: () ==> ()
+RunTest () ==
+(
+ dcl td : TrafficData := new TrafficData(<Congestion>, pos, <NORTH>),
+ td2 : TrafficData := new TrafficData(<LeftTurn>, pos, <WEST>),
+ td3 : TrafficData := new TrafficData(<RedLight>, pos, <EAST>);
+
+ AssertTrue(td.GetPosition().X() = 5);
+ AssertTrue(td.GetPosition().Y() = 1); 
+ AssertTrue(td.GetDirection() = <NORTH>);
+ AssertTrue(td.GetMessage() = <Congestion>);
+ AssertTrue(TrafficData`MessageTypeToString(td.GetMessage()) = "Congestion ");
  
-end VehicleData
+ AssertTrue(td2.GetPosition().X() = 5);
+ AssertTrue(td2.GetPosition().Y() = 1); 
+ AssertTrue(td2.GetDirection() = <WEST>);
+ AssertTrue(td2.GetMessage() = <LeftTurn>);
+ AssertTrue(TrafficData`MessageTypeToString(td2.GetMessage()) = "Left Turn");
+ 
+ AssertTrue(td3.GetPosition().X() = 5);
+ AssertTrue(td3.GetPosition().Y() = 1); 
+ AssertTrue(td3.GetDirection() = <EAST>);
+ AssertTrue(td3.GetMessage() = <RedLight>);
+ AssertTrue(TrafficData`MessageTypeToString(td3.GetMessage()) = "Red Light");
+ 
+ testExpired();
+);
+  
+protected TearDown: () ==> ()
+TearDown () == skip;
 
+public testExpired : () ==> ()
+testExpired() ==
+( 
+  dcl td : TrafficData := new TrafficData(<LowGrip>, pos, <NORTH>);
+  AssertFalse(td.Expired());
+  duration(15000) --should depend on Config to ensure we are above threshold
+  AssertFalse(td.Expired());
+  duration(15000) --should depend on Config to ensure we are above threshold
+  AssertTrue(td.Expired());
+);
 
-                                                                                
+end TestTrafficData
+
+                                                                                   
 ~~~
 {% endraw %}
 
@@ -1352,6 +979,112 @@ end Environment
 ~~~
 {% endraw %}
 
+### TestPosition.vdmrt
+
+{% raw %}
+~~~
+                                          
+-----------------------------------------------
+-- Class:			TestPosition
+-- Description: 	Test the Position class 
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TestPosition is subclass of TestCase
+
+--
+-- instance variables
+--
+instance variables
+
+--
+-- Operations definition section
+--
+operations
+public TestPosition: seq of char ==> TestPosition
+TestPosition(s) ==
+(
+	TestCase(s);
+);
+
+protected SetUp: () ==> ()
+SetUp () == skip;
+
+protected RunTest: () ==> ()
+RunTest () ==
+(
+ dcl pos : Position := new Position(2, 1);
+
+ AssertTrue(pos.X() = 2);
+ AssertTrue(pos.Y() = 1); 
+
+ pos.setX(10);
+ AssertTrue(pos.X() = 10); 
+ 
+ pos.setY(4);
+ AssertTrue(pos.Y() = 4); 
+ 							 
+ AssertTrue(pos.toString() = "position X: 10 Y: 4");
+ 
+ testInRange();
+ testDeepCopy();
+ testCompare();
+);
+  
+protected TearDown: () ==> ()
+TearDown () == skip;
+
+
+public testInRange : () ==> ()
+testInRange() ==
+(
+ dcl p  : Position := new Position(0, 0),
+ p2 : Position := new Position(1, 0);
+ 
+  AssertTrue(p.inRange(p2 , 1));
+  AssertFalse(p.inRange(p2, 0));
+  p2.setY(4);
+  p2.setX(4);
+  AssertTrue(p.inRange(p2 , 5));
+);
+
+
+public testDeepCopy : () ==> ()
+testDeepCopy() ==
+(
+ dcl p  : Position := new Position(5, 3),
+ p2 : Position := p.deepCopy();
+ 
+ AssertFalse(p = p2);
+ AssertTrue(p.X() = p2.X());
+ AssertTrue(p.Y() = p2.Y());
+ p.setX(10);
+ AssertTrue(p.X() <> p2.X());
+);
+
+
+public testCompare : () ==> ()
+testCompare() ==
+(
+ dcl p  : Position := new Position(5, 3),
+ p2 : Position := p.deepCopy();
+ 
+ AssertTrue(Position`Compare(p,p2));
+ AssertTrue(Position`Compare(p2,p));
+ p.setX(10);
+ AssertFalse(Position`Compare(p,p2));
+);
+
+
+
+end TestPosition
+
+                                                                                
+~~~
+{% endraw %}
+
 ### Controller.vdmrt
 
 {% raw %}
@@ -1619,6 +1352,840 @@ end Controller
 ~~~
 {% endraw %}
 
+### VeMo.vdmrt
+
+{% raw %}
+~~~
+                                     
+
+-----------------------------------------------
+-- Class:			VeMo
+-- Description: 	VeMo is the system class in the VeMo project
+-----------------------------------------------
+
+--
+-- class definition
+--
+system VeMo
+
+--
+-- instance variables
+--
+instance variables
+
+public  cpu0 : CPU := new CPU (<FP>,1E6);		-- changed for setPriority to work
+public  cpu1 : CPU := new CPU (<FCFS>,1E6);
+public  cpu2 : CPU := new CPU (<FCFS>,1E6);
+public  cpu9 : CPU := new CPU (<FCFS>,1E6);
+
+public bus1 : BUS := new BUS (<FCFS>,1E6,{cpu0, cpu1, cpu2, cpu9});
+
+static e : Environment := World`env;
+
+-- Vehicles
+public static ctrl1 : Controller := new Controller(
+									new Vehicle(1, 
+									new Position(17, -20), 1, <NORTH>));
+
+public static ctrl2 : Controller := new Controller(
+									new Vehicle(2, 
+									new Position(-4, 25), 3, <SOUTH>));
+
+public static ctrl9 : Controller := new Controller(
+									new Vehicle(9, 
+									new Position(23, 20), 1, <SOUTH>));
+
+
+--traffic lights
+public static tl1 : TrafficLight := new TrafficLight(20 
+													,new Position(1, 1)
+													, 100);
+
+public static vemoCtrl : VeMoController := new VeMoController();
+
+--
+-- Operations definition section
+--
+operations
+
+public VeMo: () ==> VeMo
+ VeMo() ==
+ (
+ cpu1.deploy(ctrl1); 
+ cpu2.deploy(ctrl2);
+ cpu9.deploy(ctrl9);
+ );
+
+
+end VeMo
+
+
+                                                                        
+~~~
+{% endraw %}
+
+### TrafficData.vdmrt
+
+{% raw %}
+~~~
+                                            
+-----------------------------------------------
+-- Class:			TrafficData
+-- Description: 	TrafficData is the base for different types of 
+--					messages in the system.
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TrafficData
+
+--
+-- instance variables
+--
+instance variables
+private dir: Types`Direction;
+private pos: Position;
+private message: MessageType;
+private timeToLive : nat;
+
+--
+-- Types definition section
+--
+types   
+public MessageType = <LowGrip> | <Congestion> | <LeftTurn> | <RedLight>;
+
+--
+-- Operations definition section
+--
+operations
+public TrafficData: MessageType * Position * Types`Direction ==> TrafficData
+	TrafficData(m,p,d) ==
+		(
+		pos := p ;
+		message := m;
+		dir := d;
+		timeToLive := time + Config`TrafficDataLifeTime;
+		);
+
+public GetPosition: () ==> Position 
+	GetPosition() ==
+	return pos;
+	
+public GetMessage: () ==> MessageType
+	GetMessage() ==
+	return message;
+
+public GetDirection: () ==> Types`Direction 
+GetDirection() ==
+return dir;
+	
+public Expired : () ==> bool
+Expired() ==
+return time >= timeToLive;
+
+public ToString : () ==> seq of char 
+ToString() ==
+return "traffic data reporting " 
+		^ MessageTypeToString(message) 
+		^ " moved " ^ Types`DirectionToString(dir) 
+		^ " at " ^ pos.toString()  
+		^ " with lifetime " 
+		^ Printer`intToString(timeToLive - time);
+
+--
+-- Functions definition section
+--
+functions
+
+public static MessageTypeToString : MessageType -> seq of char 
+MessageTypeToString(m) ==
+(
+cases m:
+<LowGrip>-> "Low Grip",
+<Congestion>-> "Congestion ",
+<LeftTurn>-> "Left Turn",
+<RedLight> -> "Red Light"
+end
+)
+
+--
+-- Values definition section
+--
+values
+
+end TrafficData
+
+
+                                                                               
+~~~
+{% endraw %}
+
+### Config.vdmrt
+
+{% raw %}
+~~~
+                                      
+-----------------------------------------------
+-- Class:			Config
+-- Description: 	Config contains configuration values
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Config
+
+--
+-- instance variables
+--
+instance variables
+--
+-- Types definition section
+--
+types   
+
+--
+-- Operations definition section
+--
+operations
+	
+--
+-- Functions definition section
+--
+functions
+
+--
+-- Values definition section
+--
+values
+--indicates the range in which units in the system can see each other
+public static Range : nat = 12;   				
+--indicates the periode for which a TrafficData Message is valid
+public static TrafficDataLifeTime : nat = 300000; 
+--indicates the number of TrafficData Message held by the vdm units	
+public static TrafficDataKeeptNumber : nat = 5; 
+--indicates the number of vehicles held for calculation congestion
+public static TrafficCongestionTrack : nat = 5; 
+--indicates the vehicle range for congestion
+public static TrafficCongestionRange : nat = 1; 
+ --indicates the threshold speed for congestion
+public static TrafficCongestionThreshold : nat = 2;
+end Config
+
+
+                                                                          
+~~~
+{% endraw %}
+
+### gui_Graphics.vdmrt
+
+{% raw %}
+~~~
+class gui_Graphics
+
+	instance variables
+-- TODO Define instance variables here
+	operations
+    
+    public init : () ==> ()
+    init()== is not yet specified;
+
+    public sleep: () ==> ()
+    sleep()== is not yet specified;
+
+    public addVehicle: int ==> ()
+    addVehicle(vecID)== is not yet specified;
+
+    public connectVehicles: int * int ==> ()
+    connectVehicles(vecID, vecID2)== is not yet specified;
+
+    public disconnectVehicles: int * int ==> ()
+    disconnectVehicles(vecID, vecID2)== is not yet specified;
+
+    public updatePosition: int * int * int ==> ()
+    updatePosition(vecID, x, y)== is not yet specified;
+
+    public updateDirection: int * int ==> ()
+    updateDirection(vecID, dir)== is not yet specified;
+
+    public receivedMessage : int ==> ()
+    receivedMessage(vecID) == is not yet specified;
+
+end gui_Graphics
+~~~
+{% endraw %}
+
+### Traffic.vdmrt
+
+{% raw %}
+~~~
+                                       
+-----------------------------------------------
+-- Class:			Traffic
+-- Description: 	Traffic contains the vehicles known by VeMo
+-----------------------------------------------
+
+--
+-- class definition
+--
+class Traffic
+
+--
+-- instance variables
+--
+instance variables
+
+private vehicles: seq of Vehicle := [];
+inv len vehicles <= 5;
+--
+-- Types definition section
+--
+types   
+
+--
+-- Operations definition section
+--
+operations
+
+public AddVehicle: Vehicle ==> () 
+AddVehicle(vehicle) ==
+(
+ if(len vehicles < Config`TrafficCongestionTrack)
+ then 
+ vehicles := vehicles ^ [vehicle]
+ else
+ vehicles :=  tl vehicles ^ [vehicle]
+)
+pre vehicle not in set elems vehicles; 
+  
+ 
+public ExistVehicle : Vehicle ==> bool
+ExistVehicle(v) == 
+(
+return {vec | vec in set elems vehicles & v.GetID() = vec.GetID()} <> {};
+);
+
+
+public ExistVehicleData : VehicleData ==> bool
+ExistVehicleData(v) == 
+(
+return {vec | vec in set elems vehicles & v.GetID() = vec.GetID()} <> {};
+);
+
+
+public GetVehicles: () ==> seq of Vehicle 
+GetVehicles() ==
+return vehicles;
+	
+	
+public Congestion: () ==> bool
+Congestion() ==
+(	
+ dcl inrange : set of Vehicle := {};
+ 
+ for v in vehicles do
+ (
+  let vs = FindInRangeWithSameDirection(v,vehicles)
+  in
+  inrange := inrange union vs;
+ ); 
+ 
+ if card inrange = 0
+ then return false;
+ 
+ let avgspeed = AverageSpeed(inrange) 
+ in 
+ (
+ return avgspeed < Config`TrafficCongestionThreshold;
+ )
+);
+	
+	
+private AverageSpeed: set of Vehicle ==> nat
+AverageSpeed(vs) ==
+( 
+  dcl sumSpeed: nat := 0;
+  for all v in set vs do
+      sumSpeed := sumSpeed + v.GetSpeed();
+    return (sumSpeed/card vs)
+)
+pre card vs <> 0;
+--
+-- Functions definition section
+--
+functions
+
+ -- compare the range of two vehicles
+public InRange : Vehicle * Vehicle -> bool
+InRange(v1,v2) ==
+let pos1 = v1.GetPosition(), pos2 = v2.GetPosition()
+in
+pos1.inRange(pos2, Config`TrafficCongestionRange);
+
+
+-- compare the range of a single vehicle to a set of vehicles moving in 
+-- the same direction
+public FindInRangeWithSameDirection : Vehicle * seq of Vehicle 
+	 -> set of Vehicle
+FindInRangeWithSameDirection(v ,vs) ==
+let dir = v.GetDirection() in
+ { ir | ir in set elems vs & v <> ir 
+ 						   and dir = ir.GetDirection() 
+ 						   and InRange(v,ir) = true }
+
+
+--
+-- Values definition section
+--
+values
+
+--
+-- sync definition section
+--
+sync
+mutex(Congestion, AddVehicle);
+mutex(ExistVehicle, AddVehicle);
+mutex(GetVehicles, AddVehicle);
+mutex(AddVehicle);
+
+end Traffic
+
+
+                                                                           
+~~~
+{% endraw %}
+
+### TestTraffic.vdmrt
+
+{% raw %}
+~~~
+                                          
+------------------------------------------------
+-- Class:			TestTraffic
+-- Description: 	Test the Traffic class 
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TestTraffic is subclass of TestCase
+
+--
+-- instance variables
+--
+instance variables
+private pos : Position;
+--
+-- Operations definition section
+--
+operations
+public TestTraffic: seq of char ==> TestTraffic
+TestTraffic(s) ==
+(
+	TestCase(s);
+);
+
+protected SetUp: () ==> ()
+SetUp () == pos := new Position(1,1); 
+
+protected RunTest: () ==> ()
+RunTest () ==
+(
+  dcl traf : Traffic := new Traffic(),
+  vec : Vehicle := new Vehicle(2, pos, 1, <NORTH>),
+  vec2 : Vehicle := new Vehicle(3, pos, 1, <NORTH>),
+  vec3 : Vehicle := new Vehicle(4, pos, 1, <NORTH>),
+  vec4 : Vehicle := new Vehicle(5, pos, 1, <NORTH>),
+  vec5 : Vehicle := new Vehicle(6, pos, 1, <NORTH>),
+  vec6 : Vehicle := new Vehicle(7, pos, 1, <NORTH>);
+ 
+  AssertFalse(traf.ExistVehicle(vec));
+  traf.AddVehicle(vec);
+  AssertTrue(traf.ExistVehicle(vec));
+  traf.AddVehicle(vec2);
+  
+  let vs = traf.GetVehicles() in
+  (
+   AssertTrue(len vs = 2);
+   AssertTrue(vs(1) = vec);
+  );
+  
+   traf.AddVehicle(vec3);
+   traf.AddVehicle(vec4);
+   traf.AddVehicle(vec5);
+   
+   let vs = traf.GetVehicles() in
+   AssertTrue(len vs = 5);
+   
+   traf.AddVehicle(vec6);
+   let vs = traf.GetVehicles() in
+   AssertTrue(len vs = 5);
+   
+   testCongestion();
+);
+  
+protected TearDown: () ==> ()
+TearDown () == skip;
+
+--public Step: () ==> ()
+--Step() == skip;
+--timeToLive := timeToLive -1;
+
+public testCongestion : () ==> ()
+testCongestion() ==
+(
+ dcl pos2 : Position := new Position(1,2),
+ pos3 : Position := new Position(1,3),
+ pos4 : Position := new Position(1,5);
+
+ dcl traf : Traffic := new Traffic(),
+ vec : Vehicle := new Vehicle(2, pos, 1, <NORTH>),
+ vec2 : Vehicle := new Vehicle(3, pos2, 1, <NORTH>),
+ vec3 : Vehicle := new Vehicle(4, pos3, 1, <NORTH>),
+ vec4 : Vehicle := new Vehicle(5, pos4, 1, <SOUTH>);
+ 
+ dcl traf : Traffic := new Traffic();
+ 
+ let vs = [vec,vec2,vec3,vec4] in
+ (
+  for v in vs do 
+  (
+  traf.AddVehicle(v);
+  );
+
+--start vehicle
+
+--sequential model only
+--  for v in vs do 
+--  (
+--   v.Step();
+--   v.Step();
+--  );
+ 
+  AssertTrue(traf.Congestion());
+ );
+ 
+)
+end TestTraffic
+
+                                                                               
+~~~
+{% endraw %}
+
+### Test.vdmrt
+
+{% raw %}
+~~~
+class Test
+
+operations
+  public Run: TestResult ==> ()
+  Run (-) == is subclass responsibility
+
+end Test
+
+~~~
+{% endraw %}
+
+### TrafficLight.vdmrt
+
+{% raw %}
+~~~
+                                             
+-----------------------------------------------
+-- Class:			TrafficLight
+-- Description: 	TrafficLight the VeMo project
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TrafficLight
+
+--
+-- instance variables
+--
+instance variables
+
+private pos: Position;
+private greenLightTime : nat1;
+private greenDir: Types`Direction;
+private id : nat;
+--
+-- Types definition section
+--
+types   
+
+--
+-- Operations definition section
+--
+operations
+
+public TrafficLight: nat * Position * nat1 ==> TrafficLight
+TrafficLight(identifier ,p, t) ==
+(
+	pos := p ;
+	greenLightTime := t;
+	id := identifier;
+	
+	greenDir := <NORTH>
+);
+
+public AddTrafficData: TrafficData ==> ()
+AddTrafficData(data) ==
+is not yet specified;
+
+public GetTrafficData: () ==> set of TrafficData 
+GetTrafficData() ==
+is not yet specified;
+
+public GetPosition: () ==> Position 
+GetPosition() ==
+ return pos;
+	
+public GreenLightPath: () ==> Types`Direction 
+GreenLightPath() ==
+ return greenDir;
+
+pure public GetID: () ==> nat
+GetID() ==
+ return id;
+	
+private Step: () ==> ()
+Step() ==
+(
+    if (time mod greenLightTime) = 0
+    then 
+    (
+	 greenDir := CrossDirection(greenDir);  
+    )
+);
+	
+--
+-- Functions definition section
+--
+functions
+
+public static CrossDirection : Types`Direction -> Types`Direction
+CrossDirection(d) ==
+cases d:
+<NORTH> -> <EAST>,  
+<SOUTH> -> <WEST>,  
+<EAST>  -> <NORTH>, 
+<WEST>  -> <SOUTH>
+end;
+
+--
+-- Values definition section
+--
+values
+
+--
+-- Thread definition section
+--
+thread
+ periodic (1000E6,10,900E6,0) (Step)
+    
+
+--
+-- sync definition section
+--
+sync
+mutex(GreenLightPath);
+mutex(Step,GreenLightPath);
+
+end TrafficLight
+
+
+                                                                                
+~~~
+{% endraw %}
+
+### TestController.vdmrt
+
+{% raw %}
+~~~
+                                            
+------------------------------------------------
+-- Class:			TestController
+-- Description: 	Test the Controller class 
+-----------------------------------------------
+
+--
+-- class definition
+--
+class TestController is subclass of TestCase
+
+--
+-- instance variables
+--
+instance variables
+private pos : Position;
+--
+-- Operations definition section
+--
+operations
+public TestController: seq of char ==> TestController
+TestController(s) ==
+(
+	TestCase(s);
+);
+
+protected SetUp: () ==> ()
+SetUp () == pos := new Position(1,1); 
+
+protected RunTest: () ==> ()
+RunTest () ==
+(
+  dcl vec : Vehicle := new Vehicle(2, pos, 1, <NORTH>),
+  ctrl : Controller := new Controller(vec),
+  vec2 : Vehicle := new Vehicle(3, pos.deepCopy(), 1, <NORTH>),
+  ctrl2 : Controller := new Controller(vec2),
+  vec3 : Vehicle := new Vehicle(4, pos.deepCopy(), 1, <NORTH>),
+  ctrl3 : Controller := new Controller(vec3);
+
+  AssertTrue(ctrl.getVehicle() = vec);
+  AssertTrue(ctrl.GetDirection() = <NORTH>);
+  AssertTrue(ctrl.GetVehicleID() = 2);
+  AssertTrue(ctrl.GetPosition().X() = pos.X());
+  AssertTrue(ctrl.GetPosition().Y() = pos.Y());
+ 
+  --test get traffic data
+  vec.setLowGrip(true);
+  vec.setTurnIndicator(<LEFT>);
+  ctrl.Step();
+  let vs = ctrl.GetTrafficData() in
+  (
+   let v = vs(1) in
+   (
+   AssertTrue(v.GetPosition().X() = 1);
+   AssertTrue(v.GetPosition().Y() = 2);
+   AssertTrue(v.GetMessage() = <LowGrip>);
+   AssertTrue(v.GetDirection() = <NORTH>);
+   );
+   let v = vs(2) in
+   (
+   AssertTrue(v.GetPosition().X() = 1);
+   AssertTrue(v.GetPosition().Y() = 2);
+   AssertTrue(v.GetMessage() = <LeftTurn>);
+   AssertTrue(v.GetDirection() = <NORTH>);
+
+   )
+  );
+  
+  vec.SetSpeed(0);
+  vec.setTurnIndicator(<LEFT>);
+  ctrl.Step();
+  let vs = ctrl.GetTrafficData() in
+  (
+   let v = vs(1) in
+   (
+   AssertTrue(v.GetPosition().X() = 1);
+   AssertTrue(v.GetPosition().Y() = 2);
+   AssertTrue(v.GetMessage() = <LowGrip>);
+   AssertTrue(v.GetDirection() = <NORTH>);
+   );
+   let v = vs(2) in
+   (
+   AssertTrue(v.GetPosition().X() = 1);
+   AssertTrue(v.GetPosition().Y() = 2);
+   AssertTrue(v.GetMessage() = <LeftTurn>);
+   AssertTrue(v.GetDirection() = <NORTH>);
+   )
+  );
+  
+  ctrl.AddOncomingVehicle(ctrl2.getVehicleDTO());
+  ctrl.AddOncomingVehicle(ctrl3.getVehicleDTO());
+  ctrl.Step();
+  let vs = ctrl.GetTrafficData() in
+  let v = vs(3) in
+  (
+   AssertTrue(v.GetMessage() = <Congestion>);
+  );
+  
+  --  --test add of traffic data. Test that adding loops when more than five
+  ctrl.AddTrafficData(21, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(22, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(23, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(24, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(25, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(26, [new TrafficData(<LeftTurn>, pos , <NORTH>)]);
+
+  --test that the same vehicle can't communicate until pass threshold. 
+  ctrl.AddTrafficData(31, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(32, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(33, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(34, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(31, [new TrafficData(<LeftTurn>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(35, [new TrafficData(<Congestion>, pos , <NORTH>)]);
+  ctrl.AddTrafficData(31, [new TrafficData(<LeftTurn>, pos , <NORTH>)]);
+  
+  -- actually this can't be automatically tested. 
+  -- The added data is internal only. The test can only be verified  
+  -- by checking the handled events in environment. 
+  
+);
+  
+protected TearDown: () ==> ()
+TearDown () == skip;
+
+end TestController
+
+                                                                                  
+~~~
+{% endraw %}
+
+### TestCase.vdmrt
+
+{% raw %}
+~~~
+              
+
+class TestCase
+  is subclass of Test
+
+instance variables
+  name : seq of char
+
+operations
+  public TestCase: seq of char ==> TestCase
+  TestCase(nm) == name := nm;
+
+  public GetName: () ==> seq of char
+  GetName () == return name;
+
+  protected AssertTrue: bool ==> ()
+  AssertTrue (pb) == if not pb then exit <FAILURE>;
+
+  protected AssertFalse: bool ==> ()
+  AssertFalse (pb) == if pb then exit <FAILURE>;
+
+  public Run: TestResult ==> ()
+  Run (ptr) ==
+    trap <FAILURE>
+      with 
+        ptr.AddFailure(self)
+      in
+        (SetUp();
+	 RunTest();
+	 TearDown());
+
+  protected SetUp: () ==> ()
+  SetUp () == is subclass responsibility;
+
+  protected RunTest: () ==> ()
+  RunTest () == is subclass responsibility;
+
+  protected TearDown: () ==> ()
+  TearDown () == is subclass responsibility
+
+end TestCase
+
+                                                                             
+~~~
+{% endraw %}
+
 ### VeMoController.vdmrt
 
 {% raw %}
@@ -1839,25 +2406,29 @@ end VeMoController
 ~~~
 {% endraw %}
 
-### Config.vdmrt
+### Position.vdmrt
 
 {% raw %}
 ~~~
-                                      
+                                        
 -----------------------------------------------
--- Class:			Config
--- Description: 	Config contains configuration values
+-- Class:			Position
+-- Description: 	Defines a X,Y position
 -----------------------------------------------
 
 --
 -- class definition
 --
-class Config
+class Position
 
 --
 -- instance variables
 --
 instance variables
+
+private x: int;
+private y: int;
+
 --
 -- Types definition section
 --
@@ -1867,122 +2438,284 @@ types
 -- Operations definition section
 --
 operations
-	
+
+public Position: int * int ==> Position
+Position(x_, y_) ==
+(
+ x := x_;
+ y := y_;
+);
+		
+pure public X: () ==> int
+X() ==
+(
+	return x;
+);
+
+pure public Y: () ==> int
+Y() ==
+(
+	return y;
+);
+
+public setX : int ==> ()
+setX(newX) ==
+(
+  x := newX
+
+);
+
+public setY: int ==> ()
+setY(newY) ==
+(
+y := newY
+
+);
+
+public toString : () ==> seq of char
+toString() == 
+(
+	return "position X: " 
+	^ VDMUtil`val2seq_of_char[int](x) 
+	 ^ " Y: " ^ VDMUtil`val2seq_of_char[int](y) -- Printer`intToString(y) 
+);
+
+pure public inRange : Position * int ==> bool
+inRange(p, range) ==
+(
+    let xd = x - p.X(), yd = y -p.Y() in 
+    (
+        let d = MATH`sqrt((xd * xd) + (yd * yd)) in
+        (
+            return d <= range;   
+        )
+    )
+);
+
+public deepCopy : () ==> Position
+deepCopy() ==
+(
+ let newPos = new Position(x,y)
+ in 
+ return newPos;  
+)
+
 --
 -- Functions definition section
 --
 functions
+public static Compare: Position * Position -> bool
+Compare(a,b) ==
+a.X() = b.X() and a.Y() = b.Y() 
+
 
 --
 -- Values definition section
 --
 values
---indicates the range in which units in the system can see each other
-public static Range : nat = 12;   				
---indicates the periode for which a TrafficData Message is valid
-public static TrafficDataLifeTime : nat = 300000; 
---indicates the number of TrafficData Message held by the vdm units	
-public static TrafficDataKeeptNumber : nat = 5; 
---indicates the number of vehicles held for calculation congestion
-public static TrafficCongestionTrack : nat = 5; 
---indicates the vehicle range for congestion
-public static TrafficCongestionRange : nat = 1; 
- --indicates the threshold speed for congestion
-public static TrafficCongestionThreshold : nat = 2;
-end Config
 
+end Position
 
-                                                                          
+                                                                            
 ~~~
 {% endraw %}
 
-### TrafficLight.vdmrt
+### TestResult.vdmrt
 
 {% raw %}
 ~~~
-                                             
+              
+class TestResult
+
+instance variables
+  failures : seq of TestCase := []
+  
+operations
+  public AddFailure: TestCase ==> ()
+  AddFailure (ptst) == failures := failures ^ [ptst];
+
+  public Print: seq of char ==> ()
+  Print (pstr) ==
+    -- include IO.vpp from the VDMTools distribution (stdlib directory)
+    -- if you are getting a type error while checking this specification
+    def - = new IO().echo(pstr ^ "\n") in skip;
+    
+  public Show: () ==> ()
+  Show () ==
+    if failures = [] then
+      Print ("No failures detected")
+    else
+      for failure in failures do
+        Print (failure.GetName() ^ " failed")
+  
+end TestResult
+
+                                                                               
+~~~
+{% endraw %}
+
+### Types.vdmrt
+
+{% raw %}
+~~~
+                               
 -----------------------------------------------
--- Class:			TrafficLight
--- Description: 	TrafficLight the VeMo project
+-- Class:			Types
+-- Description: 	Defines simple types
 -----------------------------------------------
 
 --
 -- class definition
 --
-class TrafficLight
+class Types
+
+types   
+public Time = nat;
+public Direction = <NORTH> | <SOUTH> | <EAST> | <WEST>;
+
+public Event = VechicleRun | TrafficLightRun | VehicleUpdateSpeed 
+			   | VehicleUpdatePosition | VehicleUpdateDirection 
+			   | VehicleLowGrip | VehicleTurnIndication | WasteTime;
+
+public VechicleRun ::
+        ID : nat
+        t : Time; 
+        
+public TrafficLightRun ::
+        ID : nat
+        t : Time; 
+        
+public VehicleUpdateSpeed ::
+        ID : nat
+        speed : real
+        t : Time;     
+        
+public VehicleUpdatePosition ::
+		ID : nat
+   		posX : nat
+        posY : nat
+        t : Time;
+        
+public VehicleUpdateDirection ::
+		ID : nat
+		direction : Direction
+        t : Time;
+
+public VehicleLowGrip ::
+        ID : nat
+        lowGrip : bool
+        t : Time;
+
+public VehicleTurnIndication ::
+        ID : nat
+        turn : Vehicle`Indicator
+        t : Time;
+public WasteTime ::
+        t : Time;
+            
+functions
+  public static DirectionToString : Direction -> seq of char 
+  DirectionToString(d) ==
+  (
+  	cases d:
+  	<NORTH>-> "NORTH",
+  	<SOUTH>-> "SOUTH",
+  	<EAST>-> "EAST",
+  	<WEST>-> "WEST"
+  	end
+  );
+  
+  public static DirectionToGraphics : Direction -> nat
+  DirectionToGraphics(d) ==
+  (
+    cases d:
+    <NORTH>-> 1,
+    <SOUTH>-> 5,
+    <EAST>->  3,
+    <WEST>->  7
+    end
+  );
+  
+end Types
+
+
+                                                                         
+~~~
+{% endraw %}
+
+### VehicleData.vdmrt
+
+{% raw %}
+~~~
+                                           
+-----------------------------------------------
+-- Class:			Vehicle
+-- Description: 	DTO representing the data in the Vehicle class
+-----------------------------------------------
+
+--
+-- class definition
+--
+class VehicleData
 
 --
 -- instance variables
 --
 instance variables
 
-private pos: Position;
-private greenLightTime : nat1;
-private greenDir: Types`Direction;
+private dir: Types`Direction;
+private speed : nat;
+private lowgrip : bool;
+private turnIndicator : Indicator := <NONE>;
+private pos : Position;
 private id : nat;
 --
 -- Types definition section
 --
-types   
-
+types  
+public Indicator = <LEFT> | <RIGHT> | <NONE>;
 --
 -- Operations definition section
 --
 operations
 
-public TrafficLight: nat * Position * nat1 ==> TrafficLight
-TrafficLight(identifier ,p, t) ==
+public VehicleData : nat * Position * nat * Types`Direction * bool 
+	==> VehicleData
+VehicleData(identifier, p, s, d, grip) ==
 (
-	pos := p ;
-	greenLightTime := t;
-	id := identifier;
-	
-	greenDir := <NORTH>
+  pos := p;
+  speed := s;
+  dir := d;
+  id := identifier;
+  lowgrip := grip;
 );
 
-public AddTrafficData: TrafficData ==> ()
-AddTrafficData(data) ==
-is not yet specified;
+public GetDirection: () ==> Types`Direction 
+GetDirection() ==
+return dir;
 
-public GetTrafficData: () ==> set of TrafficData 
-GetTrafficData() ==
-is not yet specified;
-
+public GetSpeed: () ==> nat 
+GetSpeed() ==
+return speed;
+	
+public getLowGrip: () ==> bool 
+getLowGrip() ==
+(
+return lowgrip
+);
+	
+public TurnIndicator: () ==> Indicator 
+TurnIndicator() ==
+return turnIndicator;	
+	
 public GetPosition: () ==> Position 
 GetPosition() ==
- return pos;
-	
-public GreenLightPath: () ==> Types`Direction 
-GreenLightPath() ==
- return greenDir;
+return pos.deepCopy();
 
-pure public GetID: () ==> nat
+public GetID: () ==> nat
 GetID() ==
- return id;
-	
-private Step: () ==> ()
-Step() ==
-(
-    if (time mod greenLightTime) = 0
-    then 
-    (
-	 greenDir := CrossDirection(greenDir);  
-    )
-);
-	
---
--- Functions definition section
---
-functions
+return id;
 
-public static CrossDirection : Types`Direction -> Types`Direction
-CrossDirection(d) ==
-cases d:
-<NORTH> -> <EAST>,  
-<SOUTH> -> <WEST>,  
-<EAST>  -> <NORTH>, 
-<WEST>  -> <SOUTH>
-end;
 
 --
 -- Values definition section
@@ -1990,153 +2723,52 @@ end;
 values
 
 --
--- Thread definition section
---
-thread
- periodic (1000E6,10,900E6,0) (Step)
-    
-
---
 -- sync definition section
 --
-sync
-mutex(GreenLightPath);
-mutex(Step,GreenLightPath);
-
-end TrafficLight
+ 
+end VehicleData
 
 
                                                                                 
 ~~~
 {% endraw %}
 
-### TestTrafficLight.vdmrt
+### TestSuite.vdmrt
 
 {% raw %}
 ~~~
-                                              
------------------------------------------------
--- Class:			TestTrafficLight
--- Description: 	Test the TrafficLight class 
------------------------------------------------
+              
+class TestSuite
+  is subclass of Test
 
---
--- class definition
---
-class TestTrafficLight is subclass of TestCase
-
---
--- instance variables
---
 instance variables
-private pos : Position;
---
--- Operations definition section
---
-operations
-public TestTrafficLight: seq of char ==> TestTrafficLight
-TestTrafficLight(s) ==
-(
-	TestCase(s);
-);
+  tests : seq of Test := [];
 
-protected SetUp: () ==> ()
-SetUp () == pos := new Position(5,1); 
+types
 
-protected RunTest: () ==> ()
-RunTest () ==
-(
- dcl trfLgt : TrafficLight := new TrafficLight(1, pos, 5);
- AssertTrue(trfLgt.GetID() = 1);
- AssertTrue(trfLgt.GetPosition().X() = 5);
- AssertTrue(trfLgt.GetPosition().Y() = 1); 
- AssertTrue(trfLgt.GreenLightPath() = <NORTH>);
- 
- testGreenLightPath();
- testCrossDirection();
-);
+public
+  TestKinds = TestVehicle | TestPosition | TestTrafficLight | TestTrafficData |
+              TestTraffic | TestController | TestVeMoController;
   
-protected TearDown: () ==> ()
-TearDown () == skip;
+operations
+  public Run: () ==> ()
+  Run () ==
+    (dcl ntr : TestResult := new TestResult();
+     Run(ntr);
+     ntr.Show());
 
+  public Run: TestResult ==> ()
+  Run (result) ==
+    for test in tests do
+      test.Run(result);
 
---sequential model only
---public testGreenLightPath : () ==> ()
---testGreenLightPath() ==
---(
---  dcl trfLgt : TrafficLight := new TrafficLight(1, pos, 2);
--- 
---  AssertTrue(trfLgt.GreenLightPath() = <NORTH>);
---  trfLgt.Step();
---  trfLgt.Step();
---  AssertTrue(trfLgt.GreenLightPath() = <NORTH>);
---  Timer`Tick();
---  Timer`Tick();
---  trfLgt.Step();
---  AssertTrue(trfLgt.GreenLightPath() = <EAST>);
---);
+  public AddTest: TestKinds ==> ()
+  AddTest(test) ==
+    tests := tests ^ [test];
 
-public testGreenLightPath : () ==> ()
-testGreenLightPath() ==
-(
-  dcl trfLgt : TrafficLight := new TrafficLight(1, pos, 2);
-  start(trfLgt);
-  AssertTrue(trfLgt.GreenLightPath() = <NORTH>);
-);
+end TestSuite
 
-
-public testCrossDirection : () ==> ()
-testCrossDirection() ==
-(
-  AssertTrue(TrafficLight`CrossDirection(<NORTH>) = <EAST>);
-  AssertTrue(TrafficLight`CrossDirection(<SOUTH>) = <WEST>);
-  AssertTrue(TrafficLight`CrossDirection(<EAST>) = <NORTH>);
-  AssertTrue(TrafficLight`CrossDirection(<WEST>) = <SOUTH>);
-
-);
-
-
-end TestTrafficLight
-
-                                                                                    
-~~~
-{% endraw %}
-
-### gui_Graphics.vdmrt
-
-{% raw %}
-~~~
-class gui_Graphics
-
-	instance variables
--- TODO Define instance variables here
-	operations
-    
-    public init : () ==> ()
-    init()== is not yet specified;
-
-    public sleep: () ==> ()
-    sleep()== is not yet specified;
-
-    public addVehicle: int ==> ()
-    addVehicle(vecID)== is not yet specified;
-
-    public connectVehicles: int * int ==> ()
-    connectVehicles(vecID, vecID2)== is not yet specified;
-
-    public disconnectVehicles: int * int ==> ()
-    disconnectVehicles(vecID, vecID2)== is not yet specified;
-
-    public updatePosition: int * int * int ==> ()
-    updatePosition(vecID, x, y)== is not yet specified;
-
-    public updateDirection: int * int ==> ()
-    updateDirection(vecID, dir)== is not yet specified;
-
-    public receivedMessage : int ==> ()
-    receivedMessage(vecID) == is not yet specified;
-
-end gui_Graphics
+                                                                               
 ~~~
 {% endraw %}
 
@@ -2255,20 +2887,20 @@ end TestVeMoController
 ~~~
 {% endraw %}
 
-### TestTraffic.vdmrt
+### TestTrafficLight.vdmrt
 
 {% raw %}
 ~~~
-                                          
-------------------------------------------------
--- Class:			TestTraffic
--- Description: 	Test the Traffic class 
+                                              
+-----------------------------------------------
+-- Class:			TestTrafficLight
+-- Description: 	Test the TrafficLight class 
 -----------------------------------------------
 
 --
 -- class definition
 --
-class TestTraffic is subclass of TestCase
+class TestTrafficLight is subclass of TestCase
 
 --
 -- instance variables
@@ -2279,703 +2911,71 @@ private pos : Position;
 -- Operations definition section
 --
 operations
-public TestTraffic: seq of char ==> TestTraffic
-TestTraffic(s) ==
+public TestTrafficLight: seq of char ==> TestTrafficLight
+TestTrafficLight(s) ==
 (
 	TestCase(s);
 );
 
 protected SetUp: () ==> ()
-SetUp () == pos := new Position(1,1); 
+SetUp () == pos := new Position(5,1); 
 
 protected RunTest: () ==> ()
 RunTest () ==
 (
-  dcl traf : Traffic := new Traffic(),
-  vec : Vehicle := new Vehicle(2, pos, 1, <NORTH>),
-  vec2 : Vehicle := new Vehicle(3, pos, 1, <NORTH>),
-  vec3 : Vehicle := new Vehicle(4, pos, 1, <NORTH>),
-  vec4 : Vehicle := new Vehicle(5, pos, 1, <NORTH>),
-  vec5 : Vehicle := new Vehicle(6, pos, 1, <NORTH>),
-  vec6 : Vehicle := new Vehicle(7, pos, 1, <NORTH>);
+ dcl trfLgt : TrafficLight := new TrafficLight(1, pos, 5);
+ AssertTrue(trfLgt.GetID() = 1);
+ AssertTrue(trfLgt.GetPosition().X() = 5);
+ AssertTrue(trfLgt.GetPosition().Y() = 1); 
+ AssertTrue(trfLgt.GreenLightPath() = <NORTH>);
  
-  AssertFalse(traf.ExistVehicle(vec));
-  traf.AddVehicle(vec);
-  AssertTrue(traf.ExistVehicle(vec));
-  traf.AddVehicle(vec2);
-  
-  let vs = traf.GetVehicles() in
-  (
-   AssertTrue(len vs = 2);
-   AssertTrue(vs(1) = vec);
-  );
-  
-   traf.AddVehicle(vec3);
-   traf.AddVehicle(vec4);
-   traf.AddVehicle(vec5);
-   
-   let vs = traf.GetVehicles() in
-   AssertTrue(len vs = 5);
-   
-   traf.AddVehicle(vec6);
-   let vs = traf.GetVehicles() in
-   AssertTrue(len vs = 5);
-   
-   testCongestion();
+ testGreenLightPath();
+ testCrossDirection();
 );
   
 protected TearDown: () ==> ()
 TearDown () == skip;
 
---public Step: () ==> ()
---Step() == skip;
---timeToLive := timeToLive -1;
-
-public testCongestion : () ==> ()
-testCongestion() ==
-(
- dcl pos2 : Position := new Position(1,2),
- pos3 : Position := new Position(1,3),
- pos4 : Position := new Position(1,5);
-
- dcl traf : Traffic := new Traffic(),
- vec : Vehicle := new Vehicle(2, pos, 1, <NORTH>),
- vec2 : Vehicle := new Vehicle(3, pos2, 1, <NORTH>),
- vec3 : Vehicle := new Vehicle(4, pos3, 1, <NORTH>),
- vec4 : Vehicle := new Vehicle(5, pos4, 1, <SOUTH>);
- 
- dcl traf : Traffic := new Traffic();
- 
- let vs = [vec,vec2,vec3,vec4] in
- (
-  for v in vs do 
-  (
-  traf.AddVehicle(v);
-  );
-
---start vehicle
 
 --sequential model only
---  for v in vs do 
---  (
---   v.Step();
---   v.Step();
---  );
- 
-  AssertTrue(traf.Congestion());
- );
- 
-)
-end TestTraffic
+--public testGreenLightPath : () ==> ()
+--testGreenLightPath() ==
+--(
+--  dcl trfLgt : TrafficLight := new TrafficLight(1, pos, 2);
+-- 
+--  AssertTrue(trfLgt.GreenLightPath() = <NORTH>);
+--  trfLgt.Step();
+--  trfLgt.Step();
+--  AssertTrue(trfLgt.GreenLightPath() = <NORTH>);
+--  Timer`Tick();
+--  Timer`Tick();
+--  trfLgt.Step();
+--  AssertTrue(trfLgt.GreenLightPath() = <EAST>);
+--);
 
-                                                                               
-~~~
-{% endraw %}
-
-### Traffic.vdmrt
-
-{% raw %}
-~~~
-                                       
------------------------------------------------
--- Class:			Traffic
--- Description: 	Traffic contains the vehicles known by VeMo
------------------------------------------------
-
---
--- class definition
---
-class Traffic
-
---
--- instance variables
---
-instance variables
-
-private vehicles: seq of Vehicle := [];
-inv len vehicles <= 5;
---
--- Types definition section
---
-types   
-
---
--- Operations definition section
---
-operations
-
-public AddVehicle: Vehicle ==> () 
-AddVehicle(vehicle) ==
+public testGreenLightPath : () ==> ()
+testGreenLightPath() ==
 (
- if(len vehicles < Config`TrafficCongestionTrack)
- then 
- vehicles := vehicles ^ [vehicle]
- else
- vehicles :=  tl vehicles ^ [vehicle]
-)
-pre vehicle not in set elems vehicles; 
-  
- 
-public ExistVehicle : Vehicle ==> bool
-ExistVehicle(v) == 
-(
-return {vec | vec in set elems vehicles & v.GetID() = vec.GetID()} <> {};
+  dcl trfLgt : TrafficLight := new TrafficLight(1, pos, 2);
+  start(trfLgt);
+  AssertTrue(trfLgt.GreenLightPath() = <NORTH>);
 );
 
 
-public ExistVehicleData : VehicleData ==> bool
-ExistVehicleData(v) == 
+public testCrossDirection : () ==> ()
+testCrossDirection() ==
 (
-return {vec | vec in set elems vehicles & v.GetID() = vec.GetID()} <> {};
+  AssertTrue(TrafficLight`CrossDirection(<NORTH>) = <EAST>);
+  AssertTrue(TrafficLight`CrossDirection(<SOUTH>) = <WEST>);
+  AssertTrue(TrafficLight`CrossDirection(<EAST>) = <NORTH>);
+  AssertTrue(TrafficLight`CrossDirection(<WEST>) = <SOUTH>);
+
 );
 
 
-public GetVehicles: () ==> seq of Vehicle 
-GetVehicles() ==
-return vehicles;
-	
-	
-public Congestion: () ==> bool
-Congestion() ==
-(	
- dcl inrange : set of Vehicle := {};
- 
- for v in vehicles do
- (
-  let vs = FindInRangeWithSameDirection(v,vehicles)
-  in
-  inrange := inrange union vs;
- ); 
- 
- if card inrange = 0
- then return false;
- 
- let avgspeed = AverageSpeed(inrange) 
- in 
- (
- return avgspeed < Config`TrafficCongestionThreshold;
- )
-);
-	
-	
-private AverageSpeed: set of Vehicle ==> nat
-AverageSpeed(vs) ==
-( 
-  dcl sumSpeed: nat := 0;
-  for all v in set vs do
-      sumSpeed := sumSpeed + v.GetSpeed();
-    return (sumSpeed/card vs)
-)
-pre card vs <> 0;
---
--- Functions definition section
---
-functions
+end TestTrafficLight
 
- -- compare the range of two vehicles
-public InRange : Vehicle * Vehicle -> bool
-InRange(v1,v2) ==
-let pos1 = v1.GetPosition(), pos2 = v2.GetPosition()
-in
-pos1.inRange(pos2, Config`TrafficCongestionRange);
-
-
--- compare the range of a single vehicle to a set of vehicles moving in 
--- the same direction
-public FindInRangeWithSameDirection : Vehicle * seq of Vehicle 
-	 -> set of Vehicle
-FindInRangeWithSameDirection(v ,vs) ==
-let dir = v.GetDirection() in
- { ir | ir in set elems vs & v <> ir 
- 						   and dir = ir.GetDirection() 
- 						   and InRange(v,ir) = true }
-
-
---
--- Values definition section
---
-values
-
---
--- sync definition section
---
-sync
-mutex(Congestion, AddVehicle);
-mutex(ExistVehicle, AddVehicle);
-mutex(GetVehicles, AddVehicle);
-mutex(AddVehicle);
-
-end Traffic
-
-
-                                                                           
-~~~
-{% endraw %}
-
-### TrafficData.vdmrt
-
-{% raw %}
-~~~
-                                            
------------------------------------------------
--- Class:			TrafficData
--- Description: 	TrafficData is the base for different types of 
---					messages in the system.
------------------------------------------------
-
---
--- class definition
---
-class TrafficData
-
---
--- instance variables
---
-instance variables
-private dir: Types`Direction;
-private pos: Position;
-private message: MessageType;
-private timeToLive : nat;
-
---
--- Types definition section
---
-types   
-public MessageType = <LowGrip> | <Congestion> | <LeftTurn> | <RedLight>;
-
---
--- Operations definition section
---
-operations
-public TrafficData: MessageType * Position * Types`Direction ==> TrafficData
-	TrafficData(m,p,d) ==
-		(
-		pos := p ;
-		message := m;
-		dir := d;
-		timeToLive := time + Config`TrafficDataLifeTime;
-		);
-
-public GetPosition: () ==> Position 
-	GetPosition() ==
-	return pos;
-	
-public GetMessage: () ==> MessageType
-	GetMessage() ==
-	return message;
-
-public GetDirection: () ==> Types`Direction 
-GetDirection() ==
-return dir;
-	
-public Expired : () ==> bool
-Expired() ==
-return time >= timeToLive;
-
-public ToString : () ==> seq of char 
-ToString() ==
-return "traffic data reporting " 
-		^ MessageTypeToString(message) 
-		^ " moved " ^ Types`DirectionToString(dir) 
-		^ " at " ^ pos.toString()  
-		^ " with lifetime " 
-		^ Printer`intToString(timeToLive - time);
-
---
--- Functions definition section
---
-functions
-
-public static MessageTypeToString : MessageType -> seq of char 
-MessageTypeToString(m) ==
-(
-cases m:
-<LowGrip>-> "Low Grip",
-<Congestion>-> "Congestion ",
-<LeftTurn>-> "Left Turn",
-<RedLight> -> "Red Light"
-end
-)
-
---
--- Values definition section
---
-values
-
-end TrafficData
-
-
-                                                                               
-~~~
-{% endraw %}
-
-### TestCase.vdmrt
-
-{% raw %}
-~~~
-              
-
-class TestCase
-  is subclass of Test
-
-instance variables
-  name : seq of char
-
-operations
-  public TestCase: seq of char ==> TestCase
-  TestCase(nm) == name := nm;
-
-  public GetName: () ==> seq of char
-  GetName () == return name;
-
-  protected AssertTrue: bool ==> ()
-  AssertTrue (pb) == if not pb then exit <FAILURE>;
-
-  protected AssertFalse: bool ==> ()
-  AssertFalse (pb) == if pb then exit <FAILURE>;
-
-  public Run: TestResult ==> ()
-  Run (ptr) ==
-    trap <FAILURE>
-      with 
-        ptr.AddFailure(self)
-      in
-        (SetUp();
-	 RunTest();
-	 TearDown());
-
-  protected SetUp: () ==> ()
-  SetUp () == is subclass responsibility;
-
-  protected RunTest: () ==> ()
-  RunTest () == is subclass responsibility;
-
-  protected TearDown: () ==> ()
-  TearDown () == is subclass responsibility
-
-end TestCase
-
-                                                                             
-~~~
-{% endraw %}
-
-### Position.vdmrt
-
-{% raw %}
-~~~
-                                        
------------------------------------------------
--- Class:			Position
--- Description: 	Defines a X,Y position
------------------------------------------------
-
---
--- class definition
---
-class Position
-
---
--- instance variables
---
-instance variables
-
-private x: int;
-private y: int;
-
---
--- Types definition section
---
-types   
-
---
--- Operations definition section
---
-operations
-
-public Position: int * int ==> Position
-Position(x_, y_) ==
-(
- x := x_;
- y := y_;
-);
-		
-pure public X: () ==> int
-X() ==
-(
-	return x;
-);
-
-pure public Y: () ==> int
-Y() ==
-(
-	return y;
-);
-
-public setX : int ==> ()
-setX(newX) ==
-(
-  x := newX
-
-);
-
-public setY: int ==> ()
-setY(newY) ==
-(
-y := newY
-
-);
-
-public toString : () ==> seq of char
-toString() == 
-(
-	return "position X: " 
-	^ VDMUtil`val2seq_of_char[int](x) 
-	 ^ " Y: " ^ VDMUtil`val2seq_of_char[int](y) -- Printer`intToString(y) 
-);
-
-pure public inRange : Position * int ==> bool
-inRange(p, range) ==
-(
-    let xd = x - p.X(), yd = y -p.Y() in 
-    (
-        let d = MATH`sqrt((xd * xd) + (yd * yd)) in
-        (
-            return d <= range;   
-        )
-    )
-);
-
-public deepCopy : () ==> Position
-deepCopy() ==
-(
- let newPos = new Position(x,y)
- in 
- return newPos;  
-)
-
---
--- Functions definition section
---
-functions
-public static Compare: Position * Position -> bool
-Compare(a,b) ==
-a.X() = b.X() and a.Y() = b.Y() 
-
-
---
--- Values definition section
---
-values
-
-end Position
-
-                                                                            
-~~~
-{% endraw %}
-
-### TestController.vdmrt
-
-{% raw %}
-~~~
-                                            
-------------------------------------------------
--- Class:			TestController
--- Description: 	Test the Controller class 
------------------------------------------------
-
---
--- class definition
---
-class TestController is subclass of TestCase
-
---
--- instance variables
---
-instance variables
-private pos : Position;
---
--- Operations definition section
---
-operations
-public TestController: seq of char ==> TestController
-TestController(s) ==
-(
-	TestCase(s);
-);
-
-protected SetUp: () ==> ()
-SetUp () == pos := new Position(1,1); 
-
-protected RunTest: () ==> ()
-RunTest () ==
-(
-  dcl vec : Vehicle := new Vehicle(2, pos, 1, <NORTH>),
-  ctrl : Controller := new Controller(vec),
-  vec2 : Vehicle := new Vehicle(3, pos.deepCopy(), 1, <NORTH>),
-  ctrl2 : Controller := new Controller(vec2),
-  vec3 : Vehicle := new Vehicle(4, pos.deepCopy(), 1, <NORTH>),
-  ctrl3 : Controller := new Controller(vec3);
-
-  AssertTrue(ctrl.getVehicle() = vec);
-  AssertTrue(ctrl.GetDirection() = <NORTH>);
-  AssertTrue(ctrl.GetVehicleID() = 2);
-  AssertTrue(ctrl.GetPosition().X() = pos.X());
-  AssertTrue(ctrl.GetPosition().Y() = pos.Y());
- 
-  --test get traffic data
-  vec.setLowGrip(true);
-  vec.setTurnIndicator(<LEFT>);
-  ctrl.Step();
-  let vs = ctrl.GetTrafficData() in
-  (
-   let v = vs(1) in
-   (
-   AssertTrue(v.GetPosition().X() = 1);
-   AssertTrue(v.GetPosition().Y() = 2);
-   AssertTrue(v.GetMessage() = <LowGrip>);
-   AssertTrue(v.GetDirection() = <NORTH>);
-   );
-   let v = vs(2) in
-   (
-   AssertTrue(v.GetPosition().X() = 1);
-   AssertTrue(v.GetPosition().Y() = 2);
-   AssertTrue(v.GetMessage() = <LeftTurn>);
-   AssertTrue(v.GetDirection() = <NORTH>);
-
-   )
-  );
-  
-  vec.SetSpeed(0);
-  vec.setTurnIndicator(<LEFT>);
-  ctrl.Step();
-  let vs = ctrl.GetTrafficData() in
-  (
-   let v = vs(1) in
-   (
-   AssertTrue(v.GetPosition().X() = 1);
-   AssertTrue(v.GetPosition().Y() = 2);
-   AssertTrue(v.GetMessage() = <LowGrip>);
-   AssertTrue(v.GetDirection() = <NORTH>);
-   );
-   let v = vs(2) in
-   (
-   AssertTrue(v.GetPosition().X() = 1);
-   AssertTrue(v.GetPosition().Y() = 2);
-   AssertTrue(v.GetMessage() = <LeftTurn>);
-   AssertTrue(v.GetDirection() = <NORTH>);
-   )
-  );
-  
-  ctrl.AddOncomingVehicle(ctrl2.getVehicleDTO());
-  ctrl.AddOncomingVehicle(ctrl3.getVehicleDTO());
-  ctrl.Step();
-  let vs = ctrl.GetTrafficData() in
-  let v = vs(3) in
-  (
-   AssertTrue(v.GetMessage() = <Congestion>);
-  );
-  
-  --  --test add of traffic data. Test that adding loops when more than five
-  ctrl.AddTrafficData(21, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(22, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(23, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(24, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(25, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(26, [new TrafficData(<LeftTurn>, pos , <NORTH>)]);
-
-  --test that the same vehicle can't communicate until pass threshold. 
-  ctrl.AddTrafficData(31, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(32, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(33, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(34, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(31, [new TrafficData(<LeftTurn>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(35, [new TrafficData(<Congestion>, pos , <NORTH>)]);
-  ctrl.AddTrafficData(31, [new TrafficData(<LeftTurn>, pos , <NORTH>)]);
-  
-  -- actually this can't be automatically tested. 
-  -- The added data is internal only. The test can only be verified  
-  -- by checking the handled events in environment. 
-  
-);
-  
-protected TearDown: () ==> ()
-TearDown () == skip;
-
-end TestController
-
-                                                                                  
-~~~
-{% endraw %}
-
-### VeMo.vdmrt
-
-{% raw %}
-~~~
-                                     
-
------------------------------------------------
--- Class:			VeMo
--- Description: 	VeMo is the system class in the VeMo project
------------------------------------------------
-
---
--- class definition
---
-system VeMo
-
---
--- instance variables
---
-instance variables
-
-public  cpu0 : CPU := new CPU (<FP>,1E6);		-- changed for setPriority to work
-public  cpu1 : CPU := new CPU (<FCFS>,1E6);
-public  cpu2 : CPU := new CPU (<FCFS>,1E6);
-public  cpu9 : CPU := new CPU (<FCFS>,1E6);
-
-public bus1 : BUS := new BUS (<FCFS>,1E6,{cpu0, cpu1, cpu2, cpu9});
-
-static e : Environment := World`env;
-
--- Vehicles
-public static ctrl1 : Controller := new Controller(
-									new Vehicle(1, 
-									new Position(17, -20), 1, <NORTH>));
-
-public static ctrl2 : Controller := new Controller(
-									new Vehicle(2, 
-									new Position(-4, 25), 3, <SOUTH>));
-
-public static ctrl9 : Controller := new Controller(
-									new Vehicle(9, 
-									new Position(23, 20), 1, <SOUTH>));
-
-
---traffic lights
-public static tl1 : TrafficLight := new TrafficLight(20 
-													,new Position(1, 1)
-													, 100);
-
-public static vemoCtrl : VeMoController := new VeMoController();
-
---
--- Operations definition section
---
-operations
-
-public VeMo: () ==> VeMo
- VeMo() ==
- (
- cpu1.deploy(ctrl1); 
- cpu2.deploy(ctrl2);
- cpu9.deploy(ctrl9);
- );
-
-
-end VeMo
-
-
-                                                                        
+                                                                                    
 ~~~
 {% endraw %}
 

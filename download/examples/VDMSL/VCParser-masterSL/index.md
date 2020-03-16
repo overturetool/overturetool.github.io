@@ -23,170 +23,6 @@ VDM AST representation.
 |Entry point     :| MMParser`eval("1+1+4+0")|
 
 
-### Char.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose types, constants and functions over
-   characters and strings (sequences of characters).
-
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
-*/
-module Char
-imports from Seq all
-exports types struct Upper
-              struct Lower
-              struct Letter
-              struct Digit
-              struct Octal
-              struct Hex
-              struct AlphaNumUpper
-              struct AlphaNumLower
-              struct AlphaNum
-              struct Space
-              struct WhiteSpace
-              struct Phrase
-              struct PhraseUpper
-              struct PhraseLower
-              struct Text
-              struct TextUpper
-              struct TextLower
-        values SP, TB, CR, LF: char
-               WHITE_SPACE, UPPER, LOWER, LETTER, DIGIT, OCTAL, HEX, ALPHANUMUPPER, ALPHANUMLOWER, ALPHANUM, PUNCTUATION: set of char
-               UPPERS, LOWERS, LETTERS, DIGITS, OCTALS, HEXS, ALPHANUMUPPERS, ALPHANUMLOWERS, ALPHANUMS, PUNCTUATIONS: seq of char
-        functions toLower: Upper +> Lower
-                  toUpper: Lower +> Upper
-                  isDigit: char +> bool
-                  isDigits: seq of char +> bool
-                  isWhiteSpace: char +> bool
-                  isWhiteSpaces: seq of char +> bool
-                  trimWhite: seq of char +> seq of char
-                  filterWhite: seq of char +> seq of char
-
-definitions
-
-types
-
-  Upper = char
-  inv c == c in set UPPER;
-
-  Lower = char
-  inv c == c in set LOWER;
-
-  Letter = char
-  inv c == c in set LETTER;
-
-  Digit = char
-  inv c == c in set DIGIT;
-  
-  Octal = char
-  inv c == c in set OCTAL;
-
-  Hex = char
-  inv c == c in set HEX;
-
-  AlphaNumUpper = char
-  inv c == c in set ALPHANUMUPPER;
-
-  AlphaNumLower = char
-  inv c == c in set ALPHANUMLOWER;
-
-  AlphaNum = char
-  inv c == c in set ALPHANUM;
-
-  Space = char
-  inv c == c = SP;
-
-  WhiteSpace = char
-  inv ws == ws in set WHITE_SPACE;
-
-  Punctuation = char
-  inv c == c in set PUNCTUATION;
-
-  Phrase = seq1 of (AlphaNum|Space);
-
-  PhraseUpper = seq1 of (AlphaNumUpper|Space);
-
-  PhraseLower = seq1 of (AlphaNumLower|Space);
-
-  Text = seq1 of (AlphaNum|WhiteSpace|Punctuation);
-
-  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace|Punctuation);
-
-  TextLower = seq1 of (AlphaNumLower|WhiteSpace|Punctuation);
-
-values
-
-  SP:char = ' ';
-  TB:char = '\t';
-  CR:char = '\r';
-  LF:char = '\n';
-  WHITE_SPACE:set of char = {SP,TB,CR,LF};
-  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
-                       'R','S','T','U','V','W','X','Y','Z'};
-  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
-                       'r','s','t','u','v','w','x','y','z'};
-  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
-  LETTER:set of char = UPPER union LOWER;
-  LETTERS:seq of char = UPPERS ^ LOWERS;
-  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
-  DIGITS:seq of Digit = "0123456789";
-  ALPHANUMUPPER:set of char = UPPER union DIGIT;
-  ALPHANUMUPPERS:seq of char = UPPERS ^ DIGITS;
-  ALPHANUMLOWER:set of char = LOWER union DIGIT;
-  ALPHANUMLOWERS:seq of char = LOWERS ^ DIGITS;
-  ALPHANUM:set of char = LETTER union DIGIT;
-  ALPHANUMS:seq of char = LETTERS ^ DIGITS;
-  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
-  OCTALS:seq of Octal = "01234567";
-  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-  HEXS:seq of Hex = "0123456789ABCDEF";
-  PUNCTUATION:set of char = {',','.',';',':','-','/'};
-  PUNCTUATIONS: seq of Punctuation = ",.;:-/";
-
-functions
-
-  -- Convert upper case letter to lower case.
-  toLower: Upper +> Lower
-  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
-  post toUpper(RESULT) = c;
-
-  -- Convert lower case letter to upper case.
-  toUpper: Lower +> Upper
-  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
-  --post toLower(RESULT) = c;
-
-  -- Is a character a decimal digit?
-  isDigit: char +> bool
-  isDigit(c) == c in set DIGIT;
-
-  -- Are all characters in a sequence decimal digits?
-  isDigits: seq of char +> bool
-  isDigits(sc) == forall c in set elems sc & isDigit(c);
-
-  -- Is a character white space?
-  isWhiteSpace: char +> bool
-  isWhiteSpace(c) == c in set WHITE_SPACE;
-
-  -- Are all characters in a sequence white space?
-  isWhiteSpaces: seq of char +> bool
-  isWhiteSpaces(sc) == forall c in set elems sc & isWhiteSpace(c);
-
-  -- Trim white space from the front and back of a string.
-  trimWhite: seq of char +> seq of char
-  trimWhite(s) == Seq`dropWhile[char](isWhiteSpace, reverse(Seq`dropWhile[char](isWhiteSpace, reverse(s))));
-
-  -- Filter white space from a string.
-  filterWhite: seq of char +> seq of char
-  filterWhite(s) == [ c | c in seq s & not isWhiteSpace(c) ];
-
-end Char
-~~~
-{% endraw %}
-
 ### Seq.vdmsl
 
 {% raw %}
@@ -422,264 +258,167 @@ end Seq
 ~~~
 {% endraw %}
 
-### VCParserTest.vdmsl
+### Char.vdmsl
 
 {% raw %}
 ~~~
-module VCParserTest
-imports from VCParser
-    types
-        ERROR renamed ERROR;
-        PARSED renamed PARSED;
-        TREE renamed TREE;
-    functions
-        takeChar renamed takeChar;
-        takeString renamed takeString;
-        series renamed series;
-        either renamed either;
-        star renamed star;
-        plus renamed plus;
-        option renamed option;
-        trimBlanks renamed trimBlanks;
-        fail renamed fail;
-        concat renamed concat;
-        pass renamed pass;
-        label renamed label;
-        trans renamed trans;
-        transtree renamed transtree;
-        iferror renamed iferror;
-    values
-        any renamed any;
-        digit renamed digit;
-        natnum renamed natnum;
-        integer renamed integer;
-exports all
+/*
+   A module that specifies and defines general purpose types, constants and functions over
+   characters and strings (sequences of characters).
+
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
+*/
+module Char
+imports from Seq all
+exports types struct Upper
+              struct Lower
+              struct Letter
+              struct Digit
+              struct Octal
+              struct Hex
+              struct AlphaNumUpper
+              struct AlphaNumLower
+              struct AlphaNum
+              struct Space
+              struct WhiteSpace
+              struct Phrase
+              struct PhraseUpper
+              struct PhraseLower
+              struct Text
+              struct TextUpper
+              struct TextLower
+        values SP, TB, CR, LF: char
+               WHITE_SPACE, UPPER, LOWER, LETTER, DIGIT, OCTAL, HEX, ALPHANUMUPPER, ALPHANUMLOWER, ALPHANUM, PUNCTUATION: set of char
+               UPPERS, LOWERS, LETTERS, DIGITS, OCTALS, HEXS, ALPHANUMUPPERS, ALPHANUMLOWERS, ALPHANUMS, PUNCTUATIONS: seq of char
+        functions toLower: Upper +> Lower
+                  toUpper: Lower +> Upper
+                  isDigit: char +> bool
+                  isDigits: seq of char +> bool
+                  isWhiteSpace: char +> bool
+                  isWhiteSpaces: seq of char +> bool
+                  trimWhite: seq of char +> seq of char
+                  filterWhite: seq of char +> seq of char
+
 definitions
+
+types
+
+  Upper = char
+  inv c == c in set UPPER;
+
+  Lower = char
+  inv c == c in set LOWER;
+
+  Letter = char
+  inv c == c in set LETTER;
+
+  Digit = char
+  inv c == c in set DIGIT;
+  
+  Octal = char
+  inv c == c in set OCTAL;
+
+  Hex = char
+  inv c == c in set HEX;
+
+  AlphaNumUpper = char
+  inv c == c in set ALPHANUMUPPER;
+
+  AlphaNumLower = char
+  inv c == c in set ALPHANUMLOWER;
+
+  AlphaNum = char
+  inv c == c in set ALPHANUM;
+
+  Space = char
+  inv c == c = SP;
+
+  WhiteSpace = char
+  inv ws == ws in set WHITE_SPACE;
+
+  Punctuation = char
+  inv c == c in set PUNCTUATION;
+
+  Phrase = seq1 of (AlphaNum|Space);
+
+  PhraseUpper = seq1 of (AlphaNumUpper|Space);
+
+  PhraseLower = seq1 of (AlphaNumLower|Space);
+
+  Text = seq1 of (AlphaNum|WhiteSpace|Punctuation);
+
+  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace|Punctuation);
+
+  TextLower = seq1 of (AlphaNumLower|WhiteSpace|Punctuation);
+
 values
-    a = takeChar('a');
-    b = takeChar('b');
-    c = takeChar('c');
+
+  SP:char = ' ';
+  TB:char = '\t';
+  CR:char = '\r';
+  LF:char = '\n';
+  WHITE_SPACE:set of char = {SP,TB,CR,LF};
+  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                       'R','S','T','U','V','W','X','Y','Z'};
+  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+                       'r','s','t','u','v','w','x','y','z'};
+  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
+  LETTER:set of char = UPPER union LOWER;
+  LETTERS:seq of char = UPPERS ^ LOWERS;
+  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
+  DIGITS:seq of Digit = "0123456789";
+  ALPHANUMUPPER:set of char = UPPER union DIGIT;
+  ALPHANUMUPPERS:seq of char = UPPERS ^ DIGITS;
+  ALPHANUMLOWER:set of char = LOWER union DIGIT;
+  ALPHANUMLOWERS:seq of char = LOWERS ^ DIGITS;
+  ALPHANUM:set of char = LETTER union DIGIT;
+  ALPHANUMS:seq of char = LETTERS ^ DIGITS;
+  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
+  OCTALS:seq of Octal = "01234567";
+  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+  HEXS:seq of Hex = "0123456789ABCDEF";
+  PUNCTUATION:set of char = {',','.',';',':','-','/'};
+  PUNCTUATIONS: seq of Punctuation = ",.;:-/";
+
 functions
-    id : PARSED -> PARSED
-    id(parsed) == parsed;
-operations
-    test : PARSED * (PARSED->bool) ==> ()
-    test(parsed, result) == skip
-    pre result(parsed);
 
-    /* any */
-    test_any : () ==> ()
-    test_any() == (
-        test(any("a"), lambda p:PARSED & p.parsed.contents = "a");
-        test(any("1"), lambda p:PARSED & p.parsed.contents = "1");
-        test(any(""), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Convert upper case letter to lower case.
+  toLower: Upper +> Lower
+  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
+  post toUpper(RESULT) = c;
 
-    /* digit */
-    test_digit : () ==> ()
-    test_digit() == (
-        test(digit("a"), lambda p:PARSED & is_ERROR(p.parsed));
-        test(digit("1"), lambda p:PARSED & p.parsed.contents = "1");
-        test(digit(""), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Convert lower case letter to upper case.
+  toUpper: Lower +> Upper
+  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
+  --post toLower(RESULT) = c;
 
-    /* natnum */
-    test_natnum : () ==> ()
-    test_natnum() == (
-        test(natnum("0"), lambda p:PARSED & p.parsed.contents = "0");
-        test(natnum("123"), lambda p:PARSED & p.parsed.contents = "123");
-        test(natnum("123.45"), lambda p:PARSED & p.parsed.contents = "123");
-        test(natnum("-1"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Is a character a decimal digit?
+  isDigit: char +> bool
+  isDigit(c) == c in set DIGIT;
 
-    /* integer */
-    test_integer : () ==> ()
-    test_integer() == (
-        test(integer("0"), lambda p:PARSED & p.parsed.contents = "0");
-        test(integer("123"), lambda p:PARSED & p.parsed.contents = "123");
-        test(integer("-123"), lambda p:PARSED & p.parsed.contents = "-123");
-        test(integer("123.45"), lambda p:PARSED & p.parsed.contents = "123");
-        test(integer("-x"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Are all characters in a sequence decimal digits?
+  isDigits: seq of char +> bool
+  isDigits(sc) == forall c in set elems sc & isDigit(c);
 
-    /* takeChar */
-    test_takeChar : () ==> ()
-    test_takeChar() == (
-        test(takeChar('a')("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(takeChar('a')("bca"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Is a character white space?
+  isWhiteSpace: char +> bool
+  isWhiteSpace(c) == c in set WHITE_SPACE;
 
-    /* takeString */
-    test_takeString : () ==> ()
-    test_takeString() == (
-        test(takeString("abc")("abcd"), lambda p:PARSED & p.parsed.contents = "abc");
-        test(takeString("abc")("abx"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Are all characters in a sequence white space?
+  isWhiteSpaces: seq of char +> bool
+  isWhiteSpaces(sc) == forall c in set elems sc & isWhiteSpace(c);
 
-    /* star */
-    test_star : () ==> ()
-    test_star() == (
-        test(star(a)("aabc"), lambda p:PARSED & len p.parsed.contents = 2);
-        test(star(a)("abc"), lambda p:PARSED & len p.parsed.contents = 1);
-        test(star(a)("bc"), lambda p:PARSED & len p.parsed.contents = 0));
+  -- Trim white space from the front and back of a string.
+  trimWhite: seq of char +> seq of char
+  trimWhite(s) == Seq`dropWhile[char](isWhiteSpace, reverse(Seq`dropWhile[char](isWhiteSpace, reverse(s))));
 
-    /* plus */
-    test_plus : () ==> ()
-    test_plus() == (
-        test(plus(a)("aabc"), lambda p:PARSED & len p.parsed.contents = 2);
-        test(plus(a)("abc"), lambda p:PARSED & len p.parsed.contents = 1);
-        test(plus(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Filter white space from a string.
+  filterWhite: seq of char +> seq of char
+  filterWhite(s) == [ c | c in seq s & not isWhiteSpace(c) ];
 
-    /* option */
-    test_option : () ==> ()
-    test_option() == (
-        test(option(a)("aabc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(option(a)("aabc"), lambda p:PARSED & p.remaining = "abc");
-        test(option(a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(option(a)("abc"), lambda p:PARSED & p.remaining = "bc");
-        test(option(a)("bc"), lambda p:PARSED & p.parsed.contents = "");
-        test(option(a)("bc"), lambda p:PARSED & p.remaining = "bc");
-    );
-
-    /* concat */
-    test_concat : () ==> ()
-    test_concat() == (
-        test(concat(plus(a))("aaabc"), lambda p:PARSED & p.parsed.contents = "aaa");
-        test(concat(plus(a))("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-    /* trimBlanks */
-    test_trimBlanks : () ==> ()
-    test_trimBlanks() == (
-        test(trimBlanks(a)(" a bc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(trimBlanks(a)(" a bc"), lambda p:PARSED & p.remaining = "bc");
-        test(trimBlanks(a)("a bc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(trimBlanks(a)("a bc"), lambda p:PARSED & p.remaining = "bc");
-        test(trimBlanks(a)(" abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(trimBlanks(a)(" abc"), lambda p:PARSED & p.remaining = "bc");
-        test(trimBlanks(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-    /* fail */
-    test_fail : () ==> ()
-    test_fail() == (
-        test(fail(a)("abc"), lambda p:PARSED & is_ERROR(p.parsed));
-        test(fail(a)("bc"), lambda p:PARSED & p.parsed.contents = "");
-        test(fail(a)("bc"), lambda p:PARSED & p.remaining = "bc"));
-
-    /* pass */
-    test_pass : () ==> ()
-    test_pass() == (
-        test(pass(a)("abc"), lambda p:PARSED & p.parsed.contents = "");
-        test(pass(a)("abc"), lambda p:PARSED & p.remaining = "bc");
-        test(pass(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-    /* label */
-    test_label : () ==> ()
-    test_label() == (
-        test(label("A", a)("abc"), lambda p:PARSED & p.parsed.nodelabel = "A");
-        test(label("A", a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(label("A", a)("abc"), lambda p:PARSED & p.remaining = "bc");
-        test(label("A", a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
-        
-    /* trans */
-    test_trans : () ==> ()
-    test_trans() == (
-        let parsed = mk_PARSED(mk_TREE(nil, []), []) in (
-            test(trans(lambda -:PARSED&parsed, a)("abc"), lambda p:PARSED & p = parsed);
-            test(trans(lambda -:PARSED&parsed, a)("bc"), lambda p:PARSED & p = parsed)));
-
-    /* transtree */
-    test_transtree : () ==> ()
-    test_transtree() == (
-        let tree = mk_TREE(nil, []) in (
-            test(transtree(lambda -:TREE&tree, a)("abc"), lambda p:PARSED & p.parsed = tree);
-            test(transtree(lambda -:TREE&tree, a)("bc"), lambda p:PARSED & is_ERROR(p.parsed))));
-
-    /* iferror */
-    test_iferror : () ==> ()
-    test_iferror() == (
-        test(iferror("A", a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(iferror("A", a)("bc"), lambda p:PARSED & is_ERROR(p.parsed));
-        test(iferror("A", a)("bc"), lambda p:PARSED & p.parsed.message = "A"));
-
-    /* series */
-    test_series : () ==> ()
-    test_series() == (
-        test(series([a, b])("abc"), lambda p:PARSED & len p.parsed.contents = 2);
-        test(series([a, b])("bca"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-    /* either */
-    test_either : () ==> ()
-    test_either() == (
-        test(either([a, b])("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(either([a, b])("bca"), lambda p:PARSED & p.parsed.contents = "b");
-        test(either([a, b])("cab"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-traces
-
-unit:
-    test_any();
-    test_digit();
-    test_natnum();
-    test_integer();
-    test_takeChar();
-    test_takeString();
-    test_star();
-    test_plus();
-    test_option();
-    test_concat();
-    test_trimBlanks();
-    test_fail();
-    test_pass();
-    test_trans();
-    test_transtree();
-    test_iferror();
-    test_series();
-    test_either();
-
-combinators:
-    let c1, c2 in set {star, plus, option, trimBlanks, fail, pass} in
-        id(c1(c2(a))("abc"));
-    let n1, n2 in set {series, either} in
-        id(n1([n2([a, b]), c])("abc"));
-    let c1, c2 in set {star, plus, option, trimBlanks, fail, pass} in
-        let n1 in set {series, either} in
-            id(c1(n1([c2(a), b]))("abc"));
-end VCParserTest
-~~~
-{% endraw %}
-
-### MMParserTest.vdmsl
-
-{% raw %}
-~~~
-module MMParserTest
-/***
-Combinatorial Testing Module for MMParser.
-requires vdm10 turned on.
-***/
-imports
-    from MMParser functions eval renamed eval;
-exports all
-definitions
-traces
-integer:
-    let s in set {"", "-"} in
-        let d1 in set {"1", "2", "3", "4", "5", "6", "7", "8", "9"} in
-            let d2 in set {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"} in
-                eval(s^d1^d2);
-
-two_terms:
-    let s1, s2 in set {"", "-"} in
-        let n1, n2 in set {"39", "441", "0"} in
-            let op1 in set {"*", "/", "+", "-"} in
-                eval(s1 ^ n1 ^ op1 ^ s2 ^ n2);
-
-three_terms:
-    let s1, s2, s3 in set {"", "-"} in
-        let n1, n2, n3 in set {"39", "441", "0"} in
-            let op1, op2 in set {"*", "/", "+", "-"} in
-                eval(s1 ^ n1 ^ op1 ^ s2 ^ n2 ^ op2 ^ s3 ^ n3);
-
-four_terms:
-    let i1, i2, i3, i4 in set {"-39", "441", "0"} in
-        let op1, op2, op3 in set {"*", "/", "+", "-"} in
-            eval(i1 ^ op1 ^ i2 ^ op2 ^ i3 ^ op3 ^ i4);
-
-end MMParserTest
+end Char
 ~~~
 {% endraw %}
 
@@ -801,6 +540,47 @@ functions
             end;
 
 end MMParser
+~~~
+{% endraw %}
+
+### MMParserTest.vdmsl
+
+{% raw %}
+~~~
+module MMParserTest
+/***
+Combinatorial Testing Module for MMParser.
+requires vdm10 turned on.
+***/
+imports
+    from MMParser functions eval renamed eval;
+exports all
+definitions
+traces
+integer:
+    let s in set {"", "-"} in
+        let d1 in set {"1", "2", "3", "4", "5", "6", "7", "8", "9"} in
+            let d2 in set {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"} in
+                eval(s^d1^d2);
+
+two_terms:
+    let s1, s2 in set {"", "-"} in
+        let n1, n2 in set {"39", "441", "0"} in
+            let op1 in set {"*", "/", "+", "-"} in
+                eval(s1 ^ n1 ^ op1 ^ s2 ^ n2);
+
+three_terms:
+    let s1, s2, s3 in set {"", "-"} in
+        let n1, n2, n3 in set {"39", "441", "0"} in
+            let op1, op2 in set {"*", "/", "+", "-"} in
+                eval(s1 ^ n1 ^ op1 ^ s2 ^ n2 ^ op2 ^ s3 ^ n3);
+
+four_terms:
+    let i1, i2, i3, i4 in set {"-39", "441", "0"} in
+        let op1, op2, op3 in set {"*", "/", "+", "-"} in
+            eval(i1 ^ op1 ^ i2 ^ op2 ^ i3 ^ op3 ^ i4);
+
+end MMParserTest
 ~~~
 {% endraw %}
 
@@ -1088,6 +868,313 @@ functions
     indent(n) == [' ' | i in set {1, ..., n}];
 
 end VCParserSupp
+~~~
+{% endraw %}
+
+### Numeric.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over numerics.
+
+   All definitions are explicit and executable.
+*/
+module Numeric
+imports from Char all,
+        from Seq all
+exports functions min: real * real +> real
+                  max: real * real +> real
+                  formatNat: nat +> seq of Char`Digit
+                  decodeNat: seq1 of Char`Digit +> nat
+                  fromChar: Char`Digit +> nat
+                  toChar: nat +> Char`Digit
+                  zeroPad: nat * nat1 +> seq of Char`Digit
+                  add: real * real +> real
+                  mult: real * real +> real
+
+definitions
+
+functions
+
+  -- The minimum of two numerics.
+  min: real * real +> real
+  min(x,y) == if x<y then x else y;
+
+  -- The maximum of two numerics.
+  max: real * real +> real
+  max(x,y) == if x>y then x else y;
+
+  -- Format a natural number as a string of digits.
+  formatNat: nat +> seq of Char`Digit
+  formatNat(n) == if n < 10
+                  then [toChar(n)]
+                  else formatNat(n div 10) ^ [toChar(n mod 10)]
+  measure size1;
+
+  -- Create a natural number from a sequence of digit characters.
+  decodeNat: seq1 of Char`Digit +> nat
+  decodeNat(s) == cases s:
+                    [c] -> fromChar(c),
+                    u^[c] -> 10*decodeNat(u)+fromChar(c)
+                  end
+  measure size2;
+
+  -- Convert a character digit to the corresponding natural number.
+  fromChar: Char`Digit +> nat
+  fromChar(c) == Seq`indexOf[Char`Digit](c,Char`DIGITS)-1
+  post toChar(RESULT) = c;
+
+  -- Convert a numeric digit to the corresponding character.
+  toChar: nat +> Char`Digit
+  toChar(n) == Char`DIGITS(n+1)
+  pre 0 <= n and n <= 9;
+  --post fromChar(RESULT) = n
+
+  -- Format a natural number as a string with leading zeros up to a specified length.
+  zeroPad: nat * nat1 +> seq of Char`Digit
+  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
+
+  -- The following functions wrap primitives for convenience, to allow them for example to
+  -- serve as function arguments.
+
+  -- Sum of two numbers.
+  add: real * real +> real
+  add(m,n) == m+n;
+
+  -- Product of two numbers.
+  mult: real * real +> real
+  mult(m,n) == m*n;
+
+  -- Measure functions.
+
+  size1: nat +> nat
+  size1(n) == n;
+
+  size2: seq1 of Char`Digit +> nat
+  size2(s) == len s;
+
+end Numeric
+~~~
+{% endraw %}
+
+### VCParserTest.vdmsl
+
+{% raw %}
+~~~
+module VCParserTest
+imports from VCParser
+    types
+        ERROR renamed ERROR;
+        PARSED renamed PARSED;
+        TREE renamed TREE;
+    functions
+        takeChar renamed takeChar;
+        takeString renamed takeString;
+        series renamed series;
+        either renamed either;
+        star renamed star;
+        plus renamed plus;
+        option renamed option;
+        trimBlanks renamed trimBlanks;
+        fail renamed fail;
+        concat renamed concat;
+        pass renamed pass;
+        label renamed label;
+        trans renamed trans;
+        transtree renamed transtree;
+        iferror renamed iferror;
+    values
+        any renamed any;
+        digit renamed digit;
+        natnum renamed natnum;
+        integer renamed integer;
+exports all
+definitions
+values
+    a = takeChar('a');
+    b = takeChar('b');
+    c = takeChar('c');
+functions
+    id : PARSED -> PARSED
+    id(parsed) == parsed;
+operations
+    test : PARSED * (PARSED->bool) ==> ()
+    test(parsed, result) == skip
+    pre result(parsed);
+
+    /* any */
+    test_any : () ==> ()
+    test_any() == (
+        test(any("a"), lambda p:PARSED & p.parsed.contents = "a");
+        test(any("1"), lambda p:PARSED & p.parsed.contents = "1");
+        test(any(""), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* digit */
+    test_digit : () ==> ()
+    test_digit() == (
+        test(digit("a"), lambda p:PARSED & is_ERROR(p.parsed));
+        test(digit("1"), lambda p:PARSED & p.parsed.contents = "1");
+        test(digit(""), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* natnum */
+    test_natnum : () ==> ()
+    test_natnum() == (
+        test(natnum("0"), lambda p:PARSED & p.parsed.contents = "0");
+        test(natnum("123"), lambda p:PARSED & p.parsed.contents = "123");
+        test(natnum("123.45"), lambda p:PARSED & p.parsed.contents = "123");
+        test(natnum("-1"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* integer */
+    test_integer : () ==> ()
+    test_integer() == (
+        test(integer("0"), lambda p:PARSED & p.parsed.contents = "0");
+        test(integer("123"), lambda p:PARSED & p.parsed.contents = "123");
+        test(integer("-123"), lambda p:PARSED & p.parsed.contents = "-123");
+        test(integer("123.45"), lambda p:PARSED & p.parsed.contents = "123");
+        test(integer("-x"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* takeChar */
+    test_takeChar : () ==> ()
+    test_takeChar() == (
+        test(takeChar('a')("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(takeChar('a')("bca"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* takeString */
+    test_takeString : () ==> ()
+    test_takeString() == (
+        test(takeString("abc")("abcd"), lambda p:PARSED & p.parsed.contents = "abc");
+        test(takeString("abc")("abx"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* star */
+    test_star : () ==> ()
+    test_star() == (
+        test(star(a)("aabc"), lambda p:PARSED & len p.parsed.contents = 2);
+        test(star(a)("abc"), lambda p:PARSED & len p.parsed.contents = 1);
+        test(star(a)("bc"), lambda p:PARSED & len p.parsed.contents = 0));
+
+    /* plus */
+    test_plus : () ==> ()
+    test_plus() == (
+        test(plus(a)("aabc"), lambda p:PARSED & len p.parsed.contents = 2);
+        test(plus(a)("abc"), lambda p:PARSED & len p.parsed.contents = 1);
+        test(plus(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* option */
+    test_option : () ==> ()
+    test_option() == (
+        test(option(a)("aabc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(option(a)("aabc"), lambda p:PARSED & p.remaining = "abc");
+        test(option(a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(option(a)("abc"), lambda p:PARSED & p.remaining = "bc");
+        test(option(a)("bc"), lambda p:PARSED & p.parsed.contents = "");
+        test(option(a)("bc"), lambda p:PARSED & p.remaining = "bc");
+    );
+
+    /* concat */
+    test_concat : () ==> ()
+    test_concat() == (
+        test(concat(plus(a))("aaabc"), lambda p:PARSED & p.parsed.contents = "aaa");
+        test(concat(plus(a))("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* trimBlanks */
+    test_trimBlanks : () ==> ()
+    test_trimBlanks() == (
+        test(trimBlanks(a)(" a bc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(trimBlanks(a)(" a bc"), lambda p:PARSED & p.remaining = "bc");
+        test(trimBlanks(a)("a bc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(trimBlanks(a)("a bc"), lambda p:PARSED & p.remaining = "bc");
+        test(trimBlanks(a)(" abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(trimBlanks(a)(" abc"), lambda p:PARSED & p.remaining = "bc");
+        test(trimBlanks(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* fail */
+    test_fail : () ==> ()
+    test_fail() == (
+        test(fail(a)("abc"), lambda p:PARSED & is_ERROR(p.parsed));
+        test(fail(a)("bc"), lambda p:PARSED & p.parsed.contents = "");
+        test(fail(a)("bc"), lambda p:PARSED & p.remaining = "bc"));
+
+    /* pass */
+    test_pass : () ==> ()
+    test_pass() == (
+        test(pass(a)("abc"), lambda p:PARSED & p.parsed.contents = "");
+        test(pass(a)("abc"), lambda p:PARSED & p.remaining = "bc");
+        test(pass(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* label */
+    test_label : () ==> ()
+    test_label() == (
+        test(label("A", a)("abc"), lambda p:PARSED & p.parsed.nodelabel = "A");
+        test(label("A", a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(label("A", a)("abc"), lambda p:PARSED & p.remaining = "bc");
+        test(label("A", a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+        
+    /* trans */
+    test_trans : () ==> ()
+    test_trans() == (
+        let parsed = mk_PARSED(mk_TREE(nil, []), []) in (
+            test(trans(lambda -:PARSED&parsed, a)("abc"), lambda p:PARSED & p = parsed);
+            test(trans(lambda -:PARSED&parsed, a)("bc"), lambda p:PARSED & p = parsed)));
+
+    /* transtree */
+    test_transtree : () ==> ()
+    test_transtree() == (
+        let tree = mk_TREE(nil, []) in (
+            test(transtree(lambda -:TREE&tree, a)("abc"), lambda p:PARSED & p.parsed = tree);
+            test(transtree(lambda -:TREE&tree, a)("bc"), lambda p:PARSED & is_ERROR(p.parsed))));
+
+    /* iferror */
+    test_iferror : () ==> ()
+    test_iferror() == (
+        test(iferror("A", a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(iferror("A", a)("bc"), lambda p:PARSED & is_ERROR(p.parsed));
+        test(iferror("A", a)("bc"), lambda p:PARSED & p.parsed.message = "A"));
+
+    /* series */
+    test_series : () ==> ()
+    test_series() == (
+        test(series([a, b])("abc"), lambda p:PARSED & len p.parsed.contents = 2);
+        test(series([a, b])("bca"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* either */
+    test_either : () ==> ()
+    test_either() == (
+        test(either([a, b])("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(either([a, b])("bca"), lambda p:PARSED & p.parsed.contents = "b");
+        test(either([a, b])("cab"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+traces
+
+unit:
+    test_any();
+    test_digit();
+    test_natnum();
+    test_integer();
+    test_takeChar();
+    test_takeString();
+    test_star();
+    test_plus();
+    test_option();
+    test_concat();
+    test_trimBlanks();
+    test_fail();
+    test_pass();
+    test_trans();
+    test_transtree();
+    test_iferror();
+    test_series();
+    test_either();
+
+combinators:
+    let c1, c2 in set {star, plus, option, trimBlanks, fail, pass} in
+        id(c1(c2(a))("abc"));
+    let n1, n2 in set {series, either} in
+        id(n1([n2([a, b]), c])("abc"));
+    let c1, c2 in set {star, plus, option, trimBlanks, fail, pass} in
+        let n1 in set {series, either} in
+            id(c1(n1([c2(a), b]))("abc"));
+end VCParserTest
 ~~~
 {% endraw %}
 
@@ -1481,93 +1568,6 @@ functions
             parser);
 
 end VCParser
-~~~
-{% endraw %}
-
-### Numeric.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over numerics.
-
-   All definitions are explicit and executable.
-*/
-module Numeric
-imports from Char all,
-        from Seq all
-exports functions min: real * real +> real
-                  max: real * real +> real
-                  formatNat: nat +> seq of Char`Digit
-                  decodeNat: seq1 of Char`Digit +> nat
-                  fromChar: Char`Digit +> nat
-                  toChar: nat +> Char`Digit
-                  zeroPad: nat * nat1 +> seq of Char`Digit
-                  add: real * real +> real
-                  mult: real * real +> real
-
-definitions
-
-functions
-
-  -- The minimum of two numerics.
-  min: real * real +> real
-  min(x,y) == if x<y then x else y;
-
-  -- The maximum of two numerics.
-  max: real * real +> real
-  max(x,y) == if x>y then x else y;
-
-  -- Format a natural number as a string of digits.
-  formatNat: nat +> seq of Char`Digit
-  formatNat(n) == if n < 10
-                  then [toChar(n)]
-                  else formatNat(n div 10) ^ [toChar(n mod 10)]
-  measure size1;
-
-  -- Create a natural number from a sequence of digit characters.
-  decodeNat: seq1 of Char`Digit +> nat
-  decodeNat(s) == cases s:
-                    [c] -> fromChar(c),
-                    u^[c] -> 10*decodeNat(u)+fromChar(c)
-                  end
-  measure size2;
-
-  -- Convert a character digit to the corresponding natural number.
-  fromChar: Char`Digit +> nat
-  fromChar(c) == Seq`indexOf[Char`Digit](c,Char`DIGITS)-1
-  post toChar(RESULT) = c;
-
-  -- Convert a numeric digit to the corresponding character.
-  toChar: nat +> Char`Digit
-  toChar(n) == Char`DIGITS(n+1)
-  pre 0 <= n and n <= 9;
-  --post fromChar(RESULT) = n
-
-  -- Format a natural number as a string with leading zeros up to a specified length.
-  zeroPad: nat * nat1 +> seq of Char`Digit
-  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
-
-  -- The following functions wrap primitives for convenience, to allow them for example to
-  -- serve as function arguments.
-
-  -- Sum of two numbers.
-  add: real * real +> real
-  add(m,n) == m+n;
-
-  -- Product of two numbers.
-  mult: real * real +> real
-  mult(m,n) == m*n;
-
-  -- Measure functions.
-
-  size1: nat +> nat
-  size1(n) == n;
-
-  size2: seq1 of Char`Digit +> nat
-  size2(s) == len s;
-
-end Numeric
 ~~~
 {% endraw %}
 

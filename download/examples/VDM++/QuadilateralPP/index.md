@@ -19,6 +19,89 @@ code automatically generated using VDMTools.
 |Language Version:| vdm10|
 
 
+### rectangle.vdmpp
+
+{% raw %}
+~~~
+class Rectangle is subclass of Parallelogram
+ 
+  instance variables
+  inv inproduct (v1 , v2) = 0 
+ 
+end Rectangle
+~~~
+{% endraw %}
+
+### quadrilateral.vdmpp
+
+{% raw %}
+~~~
+class Quadrilateral is subclass of Vector
+ 
+  instance variables
+    position: vector := NullVector;
+    protected v1 : vector := NullVector;
+    protected v2 : vector := NullVector;
+    protected v3 : vector := NullVector;
+    protected v4 : vector := NullVector;
+    inv add (add (v1, v2), add (v3, v4)) = NullVector;
+ 
+  operations
+    public
+    Move: Position * Position ==> ()
+    Move(p1, p2) ==
+      position := add(position, mk_vector(p1, p2));
+
+    public
+    SetShape: Position * Position * Position * Position ==> ()
+    SetShape(p1, p2, p3, p4) ==
+    ( atomic (
+      v1 := mk_vector(p1, p2);
+      v2 := mk_vector(p2, p3);
+      v3 := mk_vector(p3, p4);
+      v4 := mk_vector(p4, p1) ));
+
+    public
+    Display: () ==> ()
+    Display() == is not yet specified
+ 
+end Quadrilateral
+
+~~~
+{% endraw %}
+
+### parallelogram.vdmpp
+
+{% raw %}
+~~~
+class Parallelogram is subclass of Quadrilateral
+ 
+   instance variables
+      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
+ 
+   operations
+      public
+      GetAngle: () ==> real
+      GetAngle() ==
+        let math = new MATH() 
+        in
+        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
+ 
+end Parallelogram
+
+~~~
+{% endraw %}
+
+### square.vdmpp
+
+{% raw %}
+~~~
+class Square is subclass of Rhombus, Rectangle
+ 
+end Square
+~~~
+{% endraw %}
+
 ### workspace.vdmpp
 
 {% raw %}
@@ -70,65 +153,6 @@ end WorkSpace
 ~~~
 {% endraw %}
 
-### parallelogram.vdmpp
-
-{% raw %}
-~~~
-class Parallelogram is subclass of Quadrilateral
- 
-   instance variables
-      inv (length (v1) = length (v3)) and (length (v2) = length (v4))
- 
-   operations
-      public
-      GetAngle: () ==> real
-      GetAngle() ==
-        let math = new MATH() 
-        in
-        return math.acos (inproduct (v1, v2) / (length (v1) * length (v2)))
- 
-end Parallelogram
-
-~~~
-{% endraw %}
-
-### rhombus.vdmpp
-
-{% raw %}
-~~~
-class Rhombus is subclass of Parallelogram
- 
-  instance variables
-  inv length (v1) = length (v2)
- 
-end Rhombus
-~~~
-{% endraw %}
-
-### mathematics.vdmpp
-
-{% raw %}
-~~~
-class Mathematics
- 
-  values
-    pi: real = 3.14
- 
-  types
-    Angle = real
-    inv a == a >= 0 and a <= 2*pi
- 
-  functions
-    acos (x: real) res: Angle
-    post inv_Angle (res);
- 
-    sqrt (r: real) res: real
-    post res**2 = r
-
-end Mathematics
-~~~
-{% endraw %}
-
 ### vector.vdmpp
 
 {% raw %}
@@ -171,67 +195,6 @@ class Vector
         mk_vector(hd1, mk_(tl1x + (tl2x - hd2x), tl1y + (tl2y - hd2y)))
  
 end Vector
-
-~~~
-{% endraw %}
-
-### rectangle.vdmpp
-
-{% raw %}
-~~~
-class Rectangle is subclass of Parallelogram
- 
-  instance variables
-  inv inproduct (v1 , v2) = 0 
- 
-end Rectangle
-~~~
-{% endraw %}
-
-### square.vdmpp
-
-{% raw %}
-~~~
-class Square is subclass of Rhombus, Rectangle
- 
-end Square
-~~~
-{% endraw %}
-
-### quadrilateral.vdmpp
-
-{% raw %}
-~~~
-class Quadrilateral is subclass of Vector
- 
-  instance variables
-    position: vector := NullVector;
-    protected v1 : vector := NullVector;
-    protected v2 : vector := NullVector;
-    protected v3 : vector := NullVector;
-    protected v4 : vector := NullVector;
-    inv add (add (v1, v2), add (v3, v4)) = NullVector;
- 
-  operations
-    public
-    Move: Position * Position ==> ()
-    Move(p1, p2) ==
-      position := add(position, mk_vector(p1, p2));
-
-    public
-    SetShape: Position * Position * Position * Position ==> ()
-    SetShape(p1, p2, p3, p4) ==
-    ( atomic (
-      v1 := mk_vector(p1, p2);
-      v2 := mk_vector(p2, p3);
-      v3 := mk_vector(p3, p4);
-      v4 := mk_vector(p4, p1) ));
-
-    public
-    Display: () ==> ()
-    Display() == is not yet specified
- 
-end Quadrilateral
 
 ~~~
 {% endraw %}
@@ -356,6 +319,43 @@ public
 
  
 end MATH
+~~~
+{% endraw %}
+
+### rhombus.vdmpp
+
+{% raw %}
+~~~
+class Rhombus is subclass of Parallelogram
+ 
+  instance variables
+  inv length (v1) = length (v2)
+ 
+end Rhombus
+~~~
+{% endraw %}
+
+### mathematics.vdmpp
+
+{% raw %}
+~~~
+class Mathematics
+ 
+  values
+    pi: real = 3.14
+ 
+  types
+    Angle = real
+    inv a == a >= 0 and a <= 2*pi
+ 
+  functions
+    acos (x: real) res: Angle
+    post inv_Angle (res);
+ 
+    sqrt (r: real) res: real
+    post res**2 = r
+
+end Mathematics
 ~~~
 {% endraw %}
 

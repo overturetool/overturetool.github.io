@@ -26,6 +26,75 @@ Springer Verlag, October 1994.
 |Entry point     :| DEFAULT`LooseEvalExpr(expr)|
 
 
+### auxil.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                    
+
+operations
+
+SeqOfSetOf2SetOfSeqOf : seq of set of (VAL | BlkEnv) ==> 
+                        set of seq of (VAL | BlkEnv)
+SeqOfSetOf2SetOfSeqOf(seq_ls) ==
+( dcl res_s : set of seq of (VAL | BlkEnv) := { [] } ,
+      tmpres_s : set of seq of (VAL | BlkEnv) ;
+  for tmp_s in seq_ls do 
+  ( tmpres_s := {} ;
+    for all tmp_l in set res_s do
+      for all e in set tmp_s do
+        tmpres_s := tmpres_s union { tmp_l ^ [ e ] } ;
+    res_s := tmpres_s 
+  );
+  return res_s
+)
+                                                                                                         
+functions
+
+  Consistent: LVAL * Model -> LVAL
+  Consistent(lval,bind) ==
+    {mk_(val,b munion bind)
+    | mk_(val,b) in set lval &
+      forall id in set (dom b inter dom bind) &
+             b(id) = bind(id)};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  SetToSeq: set of VAL +> seq of VAL
+  SetToSeq(s) ==
+    if s = {}
+    then []
+    else let e in set s
+         in
+           [e] ^ SetToSeq(s\{e})
+ post s = elems RESULT;
+                                                                                                                    
+
+  Permute: seq of VAL -> set of seq of VAL
+  Permute(l) ==
+    cases l:
+      [],
+      [-]    -> { l },
+      others -> dunion { { [ l(i) ] ^ j | j in set Permute(RestSeq(l, i))} | 
+                           i in set inds l }
+    end;
+    
+  RestSeq: seq of VAL * nat1 -> seq of VAL
+  RestSeq(l,i) ==
+    [ l(j) | j in set (inds l \ { i }) ];
+                                                                                                                                        
+  PatternIds: Pattern +> set of UniqueId
+  PatternIds(pat) ==
+    cases pat:
+      mk_PatternName(mk_(nm,pos)) -> {mk_(nm,pos,FnInfo())},
+      mk_MatchVal(-)              -> {},
+      mk_SetEnumPattern(els)      -> dunion {PatternIds(elem)
+                                            |elem in set elems els},
+      mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union
+                                     PatternIds(rp)
+    end
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+~~~
+{% endraw %}
+
 ### env.vdmsl
 
 {% raw %}
@@ -208,212 +277,6 @@ functions
 		     else upd_m(id)
 	     | id in set dom upd_m}
     
-             
-~~~
-{% endraw %}
-
-### auxil.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                    
-
-operations
-
-SeqOfSetOf2SetOfSeqOf : seq of set of (VAL | BlkEnv) ==> 
-                        set of seq of (VAL | BlkEnv)
-SeqOfSetOf2SetOfSeqOf(seq_ls) ==
-( dcl res_s : set of seq of (VAL | BlkEnv) := { [] } ,
-      tmpres_s : set of seq of (VAL | BlkEnv) ;
-  for tmp_s in seq_ls do 
-  ( tmpres_s := {} ;
-    for all tmp_l in set res_s do
-      for all e in set tmp_s do
-        tmpres_s := tmpres_s union { tmp_l ^ [ e ] } ;
-    res_s := tmpres_s 
-  );
-  return res_s
-)
-                                                                                                         
-functions
-
-  Consistent: LVAL * Model -> LVAL
-  Consistent(lval,bind) ==
-    {mk_(val,b munion bind)
-    | mk_(val,b) in set lval &
-      forall id in set (dom b inter dom bind) &
-             b(id) = bind(id)};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-  SetToSeq: set of VAL +> seq of VAL
-  SetToSeq(s) ==
-    if s = {}
-    then []
-    else let e in set s
-         in
-           [e] ^ SetToSeq(s\{e})
- post s = elems RESULT;
-                                                                                                                    
-
-  Permute: seq of VAL -> set of seq of VAL
-  Permute(l) ==
-    cases l:
-      [],
-      [-]    -> { l },
-      others -> dunion { { [ l(i) ] ^ j | j in set Permute(RestSeq(l, i))} | 
-                           i in set inds l }
-    end;
-    
-  RestSeq: seq of VAL * nat1 -> seq of VAL
-  RestSeq(l,i) ==
-    [ l(j) | j in set (inds l \ { i }) ];
-                                                                                                                                        
-  PatternIds: Pattern +> set of UniqueId
-  PatternIds(pat) ==
-    cases pat:
-      mk_PatternName(mk_(nm,pos)) -> {mk_(nm,pos,FnInfo())},
-      mk_MatchVal(-)              -> {},
-      mk_SetEnumPattern(els)      -> dunion {PatternIds(elem)
-                                            |elem in set elems els},
-      mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union
-                                     PatternIds(rp)
-    end
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-~~~
-{% endraw %}
-
-### as.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                               
-
-
------------------------------------------------------------------------
-------------------- Abstract Syntax Definitions -----------------------
------------------------------------------------------------------------
-
-types
-
-
------------------------------------------------------------------------
--------------------------- Definitions --------------------------------
------------------------------------------------------------------------
-
-Definitions :: valuem : seq of ValueDef
-               fnm : map Name to ExplFnDef;
-
-                                                                                                                                                                
-
------------------------------------------------------------------------
--------------------------- Value Definitions --------------------------
------------------------------------------------------------------------
-
-ValueDef :: pat : Pattern                                     
-            val : Expr;
-                                                                                                                                                                                                                                                                                                                            
------------------------------------------------------------------------
--------------------------- Functions Definitions ----------------------
------------------------------------------------------------------------
-
-ExplFnDef :: nm      : Name
-             pat     : Pattern
-             body    : Expr;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
------------------------------------------------------------------------
--------------------------- Expressions --------------------------------
------------------------------------------------------------------------
-
-Expr = LetExpr | LetBeSTExpr| IfExpr | CasesExpr |
-       UnaryExpr | BinaryExpr | SetEnumerationExpr |
-       ApplyExpr | Literal | Name | BracketedExpr ;            
-
-
-BracketedExpr :: expr : Expr;
-
-LetExpr :: lhs   : Pattern
-           rhs   : Expr
-           body  : Expr;
-
-LetBeSTExpr :: lhs : Bind                                     
-               St  : Expr
-               In  : Expr;
-
-IfExpr :: test   : Expr                                          
-          cons   : Expr
-          altn   : Expr;
-
-CasesExpr :: sel    : Expr
-             altns  : seq of CaseAltn 
-             Others : [Expr];
-
-CaseAltn :: match : Pattern
-            body  : Expr;
-
-UnaryExpr  :: opr : UnaryOp
-              arg : Expr;
-
-UnaryOp = <NUMMINUS>;
-
-BinaryExpr :: left  : Expr
-              opr   : BinaryOp
-              right : Expr;
-
-BinaryOp = <EQ> | <NUMPLUS> | <NUMMINUS> | <NUMMULT> | <SETMINUS> ;
-
-SetEnumerationExpr :: els : seq of Expr;
-
-ApplyExpr :: fct : Name
-             arg : Expr;
-
-Name :: ids : seq of Id;
-
-Id = seq of char;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
------------------------------------------------------------------------
--------------------- Patterns and Bindings ----------------------------
------------------------------------------------------------------------
-
-Pattern = PatternName | MatchVal | SetPattern;
-
-PatternName :: nm : [(Name * Position)];
-
-MatchVal :: val : Expr;
-
-SetPattern = SetEnumPattern | SetUnionPattern;
-
-SetEnumPattern :: Elems : seq of Pattern;
-
-SetUnionPattern :: lp : Pattern
-                   rp : Pattern;
-
-Position = nat * nat;
-
-Bind = SetBind;
-
-SetBind :: pat : Pattern
-           Set : Expr;
-                                                                                                                                                                 
------------------------------------------------------------------------
--------------------- Literals -----------------------------------------
------------------------------------------------------------------------
-
-Literal = BoolLit | NumLit;
-
-BoolLit:: val : bool;
-
-NumLit :: val : int
-
-values
-
- pat : Pattern = mk_PatternName(mk_(mk_Name(["x"]),mk_(1,1)));
- 
- sexpr : Expr = mk_SetEnumerationExpr([mk_NumLit(1),mk_NumLit(2)]);
- expr : Expr = mk_LetBeSTExpr(mk_SetBind(pat,sexpr), 
-                              mk_BoolLit(true), 
-                              mk_Name(["x"]));
-                              
- expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
-
              
 ~~~
 {% endraw %}
@@ -726,6 +589,143 @@ operations
 
   
                                                                                                                                                                            
+~~~
+{% endraw %}
+
+### as.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                               
+
+
+-----------------------------------------------------------------------
+------------------- Abstract Syntax Definitions -----------------------
+-----------------------------------------------------------------------
+
+types
+
+
+-----------------------------------------------------------------------
+-------------------------- Definitions --------------------------------
+-----------------------------------------------------------------------
+
+Definitions :: valuem : seq of ValueDef
+               fnm : map Name to ExplFnDef;
+
+                                                                                                                                                                
+
+-----------------------------------------------------------------------
+-------------------------- Value Definitions --------------------------
+-----------------------------------------------------------------------
+
+ValueDef :: pat : Pattern                                     
+            val : Expr;
+                                                                                                                                                                                                                                                                                                                            
+-----------------------------------------------------------------------
+-------------------------- Functions Definitions ----------------------
+-----------------------------------------------------------------------
+
+ExplFnDef :: nm      : Name
+             pat     : Pattern
+             body    : Expr;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+-----------------------------------------------------------------------
+-------------------------- Expressions --------------------------------
+-----------------------------------------------------------------------
+
+Expr = LetExpr | LetBeSTExpr| IfExpr | CasesExpr |
+       UnaryExpr | BinaryExpr | SetEnumerationExpr |
+       ApplyExpr | Literal | Name | BracketedExpr ;            
+
+
+BracketedExpr :: expr : Expr;
+
+LetExpr :: lhs   : Pattern
+           rhs   : Expr
+           body  : Expr;
+
+LetBeSTExpr :: lhs : Bind                                     
+               St  : Expr
+               In  : Expr;
+
+IfExpr :: test   : Expr                                          
+          cons   : Expr
+          altn   : Expr;
+
+CasesExpr :: sel    : Expr
+             altns  : seq of CaseAltn 
+             Others : [Expr];
+
+CaseAltn :: match : Pattern
+            body  : Expr;
+
+UnaryExpr  :: opr : UnaryOp
+              arg : Expr;
+
+UnaryOp = <NUMMINUS>;
+
+BinaryExpr :: left  : Expr
+              opr   : BinaryOp
+              right : Expr;
+
+BinaryOp = <EQ> | <NUMPLUS> | <NUMMINUS> | <NUMMULT> | <SETMINUS> ;
+
+SetEnumerationExpr :: els : seq of Expr;
+
+ApplyExpr :: fct : Name
+             arg : Expr;
+
+Name :: ids : seq of Id;
+
+Id = seq of char;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+-----------------------------------------------------------------------
+-------------------- Patterns and Bindings ----------------------------
+-----------------------------------------------------------------------
+
+Pattern = PatternName | MatchVal | SetPattern;
+
+PatternName :: nm : [(Name * Position)];
+
+MatchVal :: val : Expr;
+
+SetPattern = SetEnumPattern | SetUnionPattern;
+
+SetEnumPattern :: Elems : seq of Pattern;
+
+SetUnionPattern :: lp : Pattern
+                   rp : Pattern;
+
+Position = nat * nat;
+
+Bind = SetBind;
+
+SetBind :: pat : Pattern
+           Set : Expr;
+                                                                                                                                                                 
+-----------------------------------------------------------------------
+-------------------- Literals -----------------------------------------
+-----------------------------------------------------------------------
+
+Literal = BoolLit | NumLit;
+
+BoolLit:: val : bool;
+
+NumLit :: val : int
+
+values
+
+ pat : Pattern = mk_PatternName(mk_(mk_Name(["x"]),mk_(1,1)));
+ 
+ sexpr : Expr = mk_SetEnumerationExpr([mk_NumLit(1),mk_NumLit(2)]);
+ expr : Expr = mk_LetBeSTExpr(mk_SetBind(pat,sexpr), 
+                              mk_BoolLit(true), 
+                              mk_Name(["x"]));
+                              
+ expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
+
+             
 ~~~
 {% endraw %}
 

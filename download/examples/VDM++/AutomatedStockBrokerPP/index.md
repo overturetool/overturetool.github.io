@@ -27,6 +27,46 @@ the ProjectReport.pdf file included in the zip file with the source files.
 |Entry point     :| new World().Run()|
 
 
+### StockMarket.vdmpp
+
+{% raw %}
+~~~
+class StockMarket is subclass of GLOBAL
+
+ instance variables
+  stocks : map StockIdentifier to Stock := {|->};
+
+ operations
+  public UpdateStocks:() ==> ()
+  UpdateStocks() == 
+   for all stock in set rng stocks do
+    stock.UpdateStock();
+
+  public AddStock:(Stock )==> ()
+  AddStock(stock) == 
+   stocks := {stock.GetName() |-> stock} munion stocks
+  pre stock.GetName() not in set dom stocks
+  post stock.GetName() in set dom stocks; 
+
+  public RemoveStock:(Stock )==> ()
+  RemoveStock(stock) == 
+   stocks := {stock.GetName()} <-: stocks
+  pre stock.GetName() in set dom stocks
+  post stock.GetName() not in set dom stocks;
+
+  pure public GetStock:(StockIdentifier)==> Stock 
+  GetStock(name) == 
+   return stocks(name)
+  pre name in set dom stocks;
+
+  pure public GetStockNames: () ==> set of StockIdentifier 
+  GetStockNames() ==
+   return dom stocks;
+  
+end StockMarket
+~~~
+{% endraw %}
+
 ### GLOBAL.vdmpp
 
 {% raw %}
@@ -101,120 +141,6 @@ mk_Event(<EntersNoActionRegion>,0,10)
 ]};
 
 end GLOBAL
-~~~
-{% endraw %}
-
-### StockMarket.vdmpp
-
-{% raw %}
-~~~
-class StockMarket is subclass of GLOBAL
-
- instance variables
-  stocks : map StockIdentifier to Stock := {|->};
-
- operations
-  public UpdateStocks:() ==> ()
-  UpdateStocks() == 
-   for all stock in set rng stocks do
-    stock.UpdateStock();
-
-  public AddStock:(Stock )==> ()
-  AddStock(stock) == 
-   stocks := {stock.GetName() |-> stock} munion stocks
-  pre stock.GetName() not in set dom stocks
-  post stock.GetName() in set dom stocks; 
-
-  public RemoveStock:(Stock )==> ()
-  RemoveStock(stock) == 
-   stocks := {stock.GetName()} <-: stocks
-  pre stock.GetName() in set dom stocks
-  post stock.GetName() not in set dom stocks;
-
-  pure public GetStock:(StockIdentifier)==> Stock 
-  GetStock(name) == 
-   return stocks(name)
-  pre name in set dom stocks;
-
-  pure public GetStockNames: () ==> set of StockIdentifier 
-  GetStockNames() ==
-   return dom stocks;
-  
-end StockMarket
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
-class World is subclass of GLOBAL
- 
-values
- simTime : nat = 100; 
- actionsLimit : nat = 4;
- startCash : nat = 100;
- public static simulate : bool = false;
- 
-instance variables  
-
- public static timerRef : Timer := new Timer();
-
- public static stockMarket : StockMarket := new StockMarket();
- asb : AutomatedStockBroker := new AutomatedStockBroker(startCash);  
-   
-operations
-
-public isFinished : () ==> bool
- isFinished() == 
-    return (not len asb.GetActionLog() < actionsLimit) or 
-           (not timerRef.GetTime() <= simTime);
-
- public Run : () ==> ()
- Run() ==
- ( 
-  stockMarket.AddStock(new Stock(mk_token("test"),10));
-  stockMarket.AddStock(new Stock(mk_token("test12"),10));
-  stockMarket.AddStock(new Stock(mk_token("test2"),10));
-
-  (dcl r1 : StockRecord := mk_StockRecord(mk_token("test"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),10,<Bought>),
-    r2 : StockRecord := mk_StockRecord(mk_token("test12"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),10,<Bought>),
-
-   r3 : StockRecord := mk_StockRecord(mk_token("test2"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),0,<PotentialBuy>);
-
-   asb.AddStock(r1,1);
-   asb.AddStock(r2,2);
-   asb.AddStock(r3,3);
-   
-   while not isFinished()
-   do 
-   (
-    IO`print("step : ");
-    IO`print(timerRef.GetTime());
-    IO`print("\n");
- 
-    stockMarket.UpdateStocks();
- 
-    asb.Step(timerRef.GetTime());
-       timerRef.StepTime();
-   );
-  )
- );
-functions
- public FindSmallestSeqLen: map String to seq of Event -> nat
- FindSmallestSeqLen(m) == 
- let x,y in set {len m(x) | x in set dom m} be st x <> y => x <= y in x; 
-
-end World
 ~~~
 {% endraw %}
 
@@ -404,35 +330,6 @@ end AutomatedStockBroker
 ~~~
 {% endraw %}
 
-### timer.vdmpp
-
-{% raw %}
-~~~
-class Timer 
-
-instance variables
-
-  currentTime : nat := 1;
-
-values 
-
-  stepLength : nat = 1;
-
-operations
-
-public 
-  StepTime: () ==> ()
-  StepTime() == 
-    currentTime := currentTime + stepLength;
-
-public
-  GetTime: () ==> nat 
-  GetTime() == return currentTime;
-
-end Timer
-~~~
-{% endraw %}
-
 ### Stock.vdmpp
 
 {% raw %}
@@ -530,6 +427,109 @@ class Stock is subclass of GLOBAL
    else []
 
 end Stock
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+class World is subclass of GLOBAL
+ 
+values
+ simTime : nat = 100; 
+ actionsLimit : nat = 4;
+ startCash : nat = 100;
+ public static simulate : bool = false;
+ 
+instance variables  
+
+ public static timerRef : Timer := new Timer();
+
+ public static stockMarket : StockMarket := new StockMarket();
+ asb : AutomatedStockBroker := new AutomatedStockBroker(startCash);  
+   
+operations
+
+public isFinished : () ==> bool
+ isFinished() == 
+    return (not len asb.GetActionLog() < actionsLimit) or 
+           (not timerRef.GetTime() <= simTime);
+
+ public Run : () ==> ()
+ Run() ==
+ ( 
+  stockMarket.AddStock(new Stock(mk_token("test"),10));
+  stockMarket.AddStock(new Stock(mk_token("test12"),10));
+  stockMarket.AddStock(new Stock(mk_token("test2"),10));
+
+  (dcl r1 : StockRecord := mk_StockRecord(mk_token("test"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),10,<Bought>),
+    r2 : StockRecord := mk_StockRecord(mk_token("test12"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),10,<Bought>),
+
+   r3 : StockRecord := mk_StockRecord(mk_token("test2"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),0,<PotentialBuy>);
+
+   asb.AddStock(r1,1);
+   asb.AddStock(r2,2);
+   asb.AddStock(r3,3);
+   
+   while not isFinished()
+   do 
+   (
+    IO`print("step : ");
+    IO`print(timerRef.GetTime());
+    IO`print("\n");
+ 
+    stockMarket.UpdateStocks();
+ 
+    asb.Step(timerRef.GetTime());
+       timerRef.StepTime();
+   );
+  )
+ );
+functions
+ public FindSmallestSeqLen: map String to seq of Event -> nat
+ FindSmallestSeqLen(m) == 
+ let x,y in set {len m(x) | x in set dom m} be st x <> y => x <= y in x; 
+
+end World
+~~~
+{% endraw %}
+
+### timer.vdmpp
+
+{% raw %}
+~~~
+class Timer 
+
+instance variables
+
+  currentTime : nat := 1;
+
+values 
+
+  stepLength : nat = 1;
+
+operations
+
+public 
+  StepTime: () ==> ()
+  StepTime() == 
+    currentTime := currentTime + stepLength;
+
+public
+  GetTime: () ==> nat 
+  GetTime() == return currentTime;
+
+end Timer
 ~~~
 {% endraw %}
 

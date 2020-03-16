@@ -86,6 +86,76 @@ end POP3Message
 ~~~
 {% endraw %}
 
+### pop3types.vdmpp
+
+{% raw %}
+~~~
+                                              
+class POP3Types
+types
+                            
+types
+
+public ClientCommand = StandardClientCommand | 
+                       OptionalClientCommand;
+public StandardClientCommand = QUIT | STAT | LIST | RETR | 
+                               DELE | NOOP | RSET;
+public OptionalClientCommand = TOP | UIDL | USER | PASS | 
+                               APOP;
+
+                            
+public QUIT :: ;
+
+                            
+public STAT :: ;
+
+                            
+public LIST :: messageNumber : [nat];
+
+                            
+public RETR :: messageNumber : nat;
+                            
+public DELE :: messageNumber : nat;
+
+                            
+public NOOP :: ;
+
+                            
+public RSET :: ;
+
+                            
+public TOP :: messageNumber : nat
+              numLines      : nat;
+
+                            
+public UIDL :: messageNumber : [nat];
+
+                            
+public USER :: name : UserName;
+
+                            
+public PASS :: string : seq of char;
+
+                            
+public APOP :: name   : seq of char
+               digest : seq of char;
+
+                            
+public UserName = seq of char;
+public Password = seq of char;
+
+                            
+public ServerResponse = OkResponse | ErrResponse;
+public OkResponse ::  data : seq of char;
+public ErrResponse :: data : seq of char;
+                            
+functions
+
+end POP3Types
+                 
+~~~
+{% endraw %}
+
 ### messagechannel.vdmpp
 
 {% raw %}
@@ -184,49 +254,6 @@ sync
                     #fin(ServerSend) = #fin(ClientSend) ;
 
 end MessageChannel
-             
-~~~
-{% endraw %}
-
-### connectionchannel.vdmpp
-
-{% raw %}
-~~~
-                                                      
-class MessageChannelBuffer
-
-instance variables
-                            
-instance variables
-
-data : [MessageChannel] := nil;
-                            
-operations
-
-public Put: MessageChannel ==> ()
-Put(msg) ==
-  data := msg;
-                            
-operations
-
-public Get: () ==> MessageChannel
-Get() ==
-let d = data in
-  ( data := nil;
-    return d
-  )
-                            
-sync
-
-per Get => data <> nil;
-per Put   => data = nil;
-                            
-sync
-  mutex(Put, Get);
-  mutex(Put);
-  mutex(Get);
-
-end MessageChannelBuffer
              
 ~~~
 {% endraw %}
@@ -505,73 +532,276 @@ end POP3Server
 ~~~
 {% endraw %}
 
-### pop3types.vdmpp
+### pop3test.vdmpp
 
 {% raw %}
 ~~~
-                                              
-class POP3Types
-types
-                            
-types
+class POP3Test
 
-public ClientCommand = StandardClientCommand | 
-                       OptionalClientCommand;
-public StandardClientCommand = QUIT | STAT | LIST | RETR | 
-                               DELE | NOOP | RSET;
-public OptionalClientCommand = TOP | UIDL | USER | PASS | 
-                               APOP;
+values
 
-                            
-public QUIT :: ;
+users : seq of POP3Types`UserName = 
+  [ "paul",
+    "peter",
+    "nico",
+    "john",
+    "marcel"];
 
-                            
-public STAT :: ;
+passwords : seq of POP3Types`Password = 
+  [ "laup",
+    "retep",
+    "ocin",
+    "nhoj",
+    "lecram"];
 
-                            
-public LIST :: messageNumber : [nat];
+headers : seq of seq of char = 
+  ["From paul@mail.domain\n" ^
+   "Subject Subject 1 \n"^
+   "Date Fri, 19 Oct 2001 10:52:58 -0500",
+   "From peter@mail.domain\n" ^
+   "Subject Subject 2 \n"^
+   "Date Sat, 20 Oct 2001 10:52:58 -0500",
+   "From nico@mail.domain\n" ^
+   "Subject Subject 3 \n"^
+   "Date Sun, 21 Oct 2001 10:52:58 -0500",
+   "From john@mail.domain\n" ^
+   "Subject Subject 4 \n"^
+   "Date Mon, 22 Oct 2001 10:52:58 -0500",
+   "From marcel@mail.domain\n" ^
+   "Subject Subject 5 \n"^
+   "Date Tues, 23 Oct 2001 10:52:58 -0500"];
 
-                            
-public RETR :: messageNumber : nat;
-                            
-public DELE :: messageNumber : nat;
+bodies : seq of seq of char = 
+  ["Greetings from Paul",
+   "Greetings from Peter",
+   "Greetings from Nico",
+   "Greetings from John",
+   "Greetings from Marcel"];
 
-                            
-public NOOP :: ;
-
-                            
-public RSET :: ;
-
-                            
-public TOP :: messageNumber : nat
-              numLines      : nat;
-
-                            
-public UIDL :: messageNumber : [nat];
-
-                            
-public USER :: name : UserName;
-
-                            
-public PASS :: string : seq of char;
-
-                            
-public APOP :: name   : seq of char
-               digest : seq of char;
-
-                            
-public UserName = seq of char;
-public Password = seq of char;
-
-                            
-public ServerResponse = OkResponse | ErrResponse;
-public OkResponse ::  data : seq of char;
-public ErrResponse :: data : seq of char;
-                            
 functions
 
-end POP3Types
-                 
+public MakePasswordMap: () -> map POP3Types`UserName to POP3Types`Password
+MakePasswordMap() ==
+  { users(i) |-> passwords(i) | i in set inds users };
+
+operations
+
+public MakeMailDrop: () ==> POP3Server`MailDrop
+MakeMailDrop() ==
+  return
+  { users(i) |-> mk_POP3Server`MailBox(MakeMessages(users(i)),
+                                       false) 
+  | i in set inds users};
+
+public MakeMessages: POP3Types`UserName ==> seq of POP3Message
+MakeMessages (user) ==
+  return
+  [ new POP3Message(headers(i), 
+                    bodies(i) ^ " to " ^ user,
+                    user ^ POP3ClientHandler`int2string(i))
+  | i in set inds headers ];
+
+functions
+
+TestRun1: () -> seq of POP3Types`ClientCommand
+TestRun1() ==
+  [ mk_POP3Types`USER(users(1)),
+    mk_POP3Types`PASS(passwords(1)),
+    mk_POP3Types`STAT(),
+    mk_POP3Types`LIST(nil),
+    mk_POP3Types`RETR(1),
+    mk_POP3Types`DELE(1),
+    mk_POP3Types`RETR(1),
+    mk_POP3Types`RSET(),
+    mk_POP3Types`NOOP(),
+    mk_POP3Types`LIST(3),
+    mk_POP3Types`LIST(8),
+    mk_POP3Types`TOP(2, 5),
+    mk_POP3Types`UIDL(nil),
+    mk_POP3Types`UIDL(3),
+    mk_POP3Types`DELE(1),
+    mk_POP3Types`DELE(1),
+    mk_POP3Types`UIDL(1),
+    mk_POP3Types`QUIT()
+  ]
+
+instance variables
+
+   server : POP3Server;
+   ch : MessageChannelBuffer;
+   mc1 : MessageChannel;
+   mc2 : MessageChannel;
+   mc3 : MessageChannel;
+   send1 : POP3TestSender;
+   send2 : POP3TestSender;
+   listen1 : POP3TestListener;
+   listen2 : POP3TestListener;
+
+operations
+
+public StartServer: POP3Server ==> ()
+StartServer(myserver) ==
+(  start(myserver);
+--   server.WaitForServerStart()
+);
+
+
+
+public Test1: () ==> ()
+Test1() ==
+  let ch = new MessageChannelBuffer(),
+      server = new POP3Server(MakeMailDrop(), ch, MakePasswordMap())
+  in 
+    ( dcl mc : MessageChannel := new MessageChannel();
+      start(server);
+      ch.Put(mc);
+      let run = TestRun1(),
+          send = new POP3TestSender("c", run, mc),
+          listen = new POP3TestListener("l", mc)
+      in
+      ( start(send);
+        start(listen);
+        listen.IsFinished()
+      )
+    );
+
+public Test2: () ==> ()
+Test2() ==
+  let ch = new MessageChannelBuffer(),
+      server = new POP3Server(MakeMailDrop(), ch, MakePasswordMap())
+  in 
+    ( dcl mc1 : MessageChannel := new MessageChannel(),
+          mc2 : MessageChannel := new MessageChannel();
+      start(server);
+      ch.Put(mc1);
+      ch.Put(mc2);
+      let run = TestRun1(),
+          send1 = new POP3TestSender("c1", run, mc1),
+          send2 = new POP3TestSender("c2", run, mc2),
+          listen1 = new POP3TestListener("l1", mc1),
+          listen2 = new POP3TestListener("l2", mc2)
+      in
+      ( start(send1);
+        start(send2);
+        start(listen1);
+        start(listen2);
+        listen1.IsFinished();
+        listen2.IsFinished();
+      )
+    );
+
+Start: POP3TestSender | POP3TestListener ==> ()
+Start(obj) ==
+  start(obj);
+  
+public POP3Test:() ==> POP3Test
+POP3Test() ==
+  (ch := new MessageChannelBuffer();
+   server := new POP3Server(MakeMailDrop(), ch, MakePasswordMap());
+   mc1 := new MessageChannel();
+   mc2 := new MessageChannel();
+   mc3 := new MessageChannel();
+   send1 := new POP3TestSender("c1", TestRun1(), mc1);
+   send2 := new POP3TestSender("c2", TestRun1(), mc2);
+   listen1 := new POP3TestListener("l1", mc1);
+   listen2 := new POP3TestListener("l2", mc2)
+  );
+
+traces
+
+  Two: StartServer(server);
+       --let mc in set {mc1,mc2,mc3} in
+       (ch.Put(mc1) | ch.Put(mc2) | ch.Put(mc3)){3};
+       Start(send1); Start(send2);
+       Start(listen1); Start(listen2);
+       listen1.IsFinished();
+       listen2.IsFinished();
+       
+end POP3Test
+
+class POP3TestSender
+
+instance variables
+
+id   : seq of char;
+cmds : seq of POP3Types`ClientCommand;
+mc   : MessageChannel
+
+operations
+
+public POP3TestSender: seq of char * seq of POP3Types`ClientCommand * 
+                       MessageChannel ==> POP3TestSender
+POP3TestSender(idarg, cmdsarg, mcarg) ==
+( id := idarg;
+  cmds := cmdsarg;
+  mc := mcarg
+);
+
+LogClient: POP3Types`ClientCommand ==> ()
+LogClient(cmd) ==
+  let io = new IO() ,
+      - = io.echo("Client " ^ id ^ " says -> "),
+      - = io.writeval[POP3Types`ClientCommand](cmd)
+  in
+    skip;
+
+SendCmd: MessageChannel * POP3Types`ClientCommand ==> ()
+SendCmd(mcarg, cmd) ==
+( mcarg.ClientSend(cmd);
+  LogClient(cmd);
+);
+
+thread
+  for cmd in cmds do
+    SendCmd(mc, cmd);
+
+
+end POP3TestSender
+
+class POP3TestListener
+
+instance variables
+
+id : seq of char;
+mc : MessageChannel;
+finished : bool
+
+operations
+
+public POP3TestListener: seq of char * MessageChannel ==> POP3TestListener
+POP3TestListener(idarg, mcarg) ==
+( id := idarg;
+  mc := mcarg;
+  finished := false;
+);
+
+LogServer: POP3Types`ServerResponse ==> ()
+LogServer(resp) ==
+  let io = new IO() ,
+      - = io.echo("Server " ^ id ^ " responds -> "),
+      - = io.writeval[POP3Types`ServerResponse](resp)
+  in
+    skip;
+
+public IsFinished: () ==> ()
+IsFinished() ==
+  skip;
+
+sync 
+  per IsFinished => finished
+
+thread
+( dcl response : POP3Types`ServerResponse := mc.ClientListen();
+  while response <> mk_POP3Types`OkResponse( "Quitting POP3 Server" )
+  do
+  ( LogServer(response);
+    response := mc.ClientListen()
+  );
+  LogServer(response);
+  finished := true
+)
+
+end POP3TestListener
 ~~~
 {% endraw %}
 
@@ -946,276 +1176,46 @@ end POP3ClientHandler
 ~~~
 {% endraw %}
 
-### pop3test.vdmpp
+### connectionchannel.vdmpp
 
 {% raw %}
 ~~~
-class POP3Test
-
-values
-
-users : seq of POP3Types`UserName = 
-  [ "paul",
-    "peter",
-    "nico",
-    "john",
-    "marcel"];
-
-passwords : seq of POP3Types`Password = 
-  [ "laup",
-    "retep",
-    "ocin",
-    "nhoj",
-    "lecram"];
-
-headers : seq of seq of char = 
-  ["From paul@mail.domain\n" ^
-   "Subject Subject 1 \n"^
-   "Date Fri, 19 Oct 2001 10:52:58 -0500",
-   "From peter@mail.domain\n" ^
-   "Subject Subject 2 \n"^
-   "Date Sat, 20 Oct 2001 10:52:58 -0500",
-   "From nico@mail.domain\n" ^
-   "Subject Subject 3 \n"^
-   "Date Sun, 21 Oct 2001 10:52:58 -0500",
-   "From john@mail.domain\n" ^
-   "Subject Subject 4 \n"^
-   "Date Mon, 22 Oct 2001 10:52:58 -0500",
-   "From marcel@mail.domain\n" ^
-   "Subject Subject 5 \n"^
-   "Date Tues, 23 Oct 2001 10:52:58 -0500"];
-
-bodies : seq of seq of char = 
-  ["Greetings from Paul",
-   "Greetings from Peter",
-   "Greetings from Nico",
-   "Greetings from John",
-   "Greetings from Marcel"];
-
-functions
-
-public MakePasswordMap: () -> map POP3Types`UserName to POP3Types`Password
-MakePasswordMap() ==
-  { users(i) |-> passwords(i) | i in set inds users };
-
-operations
-
-public MakeMailDrop: () ==> POP3Server`MailDrop
-MakeMailDrop() ==
-  return
-  { users(i) |-> mk_POP3Server`MailBox(MakeMessages(users(i)),
-                                       false) 
-  | i in set inds users};
-
-public MakeMessages: POP3Types`UserName ==> seq of POP3Message
-MakeMessages (user) ==
-  return
-  [ new POP3Message(headers(i), 
-                    bodies(i) ^ " to " ^ user,
-                    user ^ POP3ClientHandler`int2string(i))
-  | i in set inds headers ];
-
-functions
-
-TestRun1: () -> seq of POP3Types`ClientCommand
-TestRun1() ==
-  [ mk_POP3Types`USER(users(1)),
-    mk_POP3Types`PASS(passwords(1)),
-    mk_POP3Types`STAT(),
-    mk_POP3Types`LIST(nil),
-    mk_POP3Types`RETR(1),
-    mk_POP3Types`DELE(1),
-    mk_POP3Types`RETR(1),
-    mk_POP3Types`RSET(),
-    mk_POP3Types`NOOP(),
-    mk_POP3Types`LIST(3),
-    mk_POP3Types`LIST(8),
-    mk_POP3Types`TOP(2, 5),
-    mk_POP3Types`UIDL(nil),
-    mk_POP3Types`UIDL(3),
-    mk_POP3Types`DELE(1),
-    mk_POP3Types`DELE(1),
-    mk_POP3Types`UIDL(1),
-    mk_POP3Types`QUIT()
-  ]
+                                                      
+class MessageChannelBuffer
 
 instance variables
-
-   server : POP3Server;
-   ch : MessageChannelBuffer;
-   mc1 : MessageChannel;
-   mc2 : MessageChannel;
-   mc3 : MessageChannel;
-   send1 : POP3TestSender;
-   send2 : POP3TestSender;
-   listen1 : POP3TestListener;
-   listen2 : POP3TestListener;
-
-operations
-
-public StartServer: POP3Server ==> ()
-StartServer(myserver) ==
-(  start(myserver);
---   server.WaitForServerStart()
-);
-
-
-
-public Test1: () ==> ()
-Test1() ==
-  let ch = new MessageChannelBuffer(),
-      server = new POP3Server(MakeMailDrop(), ch, MakePasswordMap())
-  in 
-    ( dcl mc : MessageChannel := new MessageChannel();
-      start(server);
-      ch.Put(mc);
-      let run = TestRun1(),
-          send = new POP3TestSender("c", run, mc),
-          listen = new POP3TestListener("l", mc)
-      in
-      ( start(send);
-        start(listen);
-        listen.IsFinished()
-      )
-    );
-
-public Test2: () ==> ()
-Test2() ==
-  let ch = new MessageChannelBuffer(),
-      server = new POP3Server(MakeMailDrop(), ch, MakePasswordMap())
-  in 
-    ( dcl mc1 : MessageChannel := new MessageChannel(),
-          mc2 : MessageChannel := new MessageChannel();
-      start(server);
-      ch.Put(mc1);
-      ch.Put(mc2);
-      let run = TestRun1(),
-          send1 = new POP3TestSender("c1", run, mc1),
-          send2 = new POP3TestSender("c2", run, mc2),
-          listen1 = new POP3TestListener("l1", mc1),
-          listen2 = new POP3TestListener("l2", mc2)
-      in
-      ( start(send1);
-        start(send2);
-        start(listen1);
-        start(listen2);
-        listen1.IsFinished();
-        listen2.IsFinished();
-      )
-    );
-
-Start: POP3TestSender | POP3TestListener ==> ()
-Start(obj) ==
-  start(obj);
-  
-public POP3Test:() ==> POP3Test
-POP3Test() ==
-  (ch := new MessageChannelBuffer();
-   server := new POP3Server(MakeMailDrop(), ch, MakePasswordMap());
-   mc1 := new MessageChannel();
-   mc2 := new MessageChannel();
-   mc3 := new MessageChannel();
-   send1 := new POP3TestSender("c1", TestRun1(), mc1);
-   send2 := new POP3TestSender("c2", TestRun1(), mc2);
-   listen1 := new POP3TestListener("l1", mc1);
-   listen2 := new POP3TestListener("l2", mc2)
-  );
-
-traces
-
-  Two: StartServer(server);
-       --let mc in set {mc1,mc2,mc3} in
-       (ch.Put(mc1) | ch.Put(mc2) | ch.Put(mc3)){3};
-       Start(send1); Start(send2);
-       Start(listen1); Start(listen2);
-       listen1.IsFinished();
-       listen2.IsFinished();
-       
-end POP3Test
-
-class POP3TestSender
-
+                            
 instance variables
 
-id   : seq of char;
-cmds : seq of POP3Types`ClientCommand;
-mc   : MessageChannel
-
+data : [MessageChannel] := nil;
+                            
 operations
 
-public POP3TestSender: seq of char * seq of POP3Types`ClientCommand * 
-                       MessageChannel ==> POP3TestSender
-POP3TestSender(idarg, cmdsarg, mcarg) ==
-( id := idarg;
-  cmds := cmdsarg;
-  mc := mcarg
-);
-
-LogClient: POP3Types`ClientCommand ==> ()
-LogClient(cmd) ==
-  let io = new IO() ,
-      - = io.echo("Client " ^ id ^ " says -> "),
-      - = io.writeval[POP3Types`ClientCommand](cmd)
-  in
-    skip;
-
-SendCmd: MessageChannel * POP3Types`ClientCommand ==> ()
-SendCmd(mcarg, cmd) ==
-( mcarg.ClientSend(cmd);
-  LogClient(cmd);
-);
-
-thread
-  for cmd in cmds do
-    SendCmd(mc, cmd);
-
-
-end POP3TestSender
-
-class POP3TestListener
-
-instance variables
-
-id : seq of char;
-mc : MessageChannel;
-finished : bool
-
+public Put: MessageChannel ==> ()
+Put(msg) ==
+  data := msg;
+                            
 operations
 
-public POP3TestListener: seq of char * MessageChannel ==> POP3TestListener
-POP3TestListener(idarg, mcarg) ==
-( id := idarg;
-  mc := mcarg;
-  finished := false;
-);
+public Get: () ==> MessageChannel
+Get() ==
+let d = data in
+  ( data := nil;
+    return d
+  )
+                            
+sync
 
-LogServer: POP3Types`ServerResponse ==> ()
-LogServer(resp) ==
-  let io = new IO() ,
-      - = io.echo("Server " ^ id ^ " responds -> "),
-      - = io.writeval[POP3Types`ServerResponse](resp)
-  in
-    skip;
+per Get => data <> nil;
+per Put   => data = nil;
+                            
+sync
+  mutex(Put, Get);
+  mutex(Put);
+  mutex(Get);
 
-public IsFinished: () ==> ()
-IsFinished() ==
-  skip;
-
-sync 
-  per IsFinished => finished
-
-thread
-( dcl response : POP3Types`ServerResponse := mc.ClientListen();
-  while response <> mk_POP3Types`OkResponse( "Quitting POP3 Server" )
-  do
-  ( LogServer(response);
-    response := mc.ClientListen()
-  );
-  LogServer(response);
-  finished := true
-)
-
-end POP3TestListener
+end MessageChannelBuffer
+             
 ~~~
 {% endraw %}
 

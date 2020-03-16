@@ -24,57 +24,6 @@ where the VDMUnit testing approach was introduced.
 |Entry point     :| new EnigmaTest().Execute()|
 
 
-### Test.vdmpp
-
-{% raw %}
-~~~
-class Test
-
-operations
-  public Run: TestResult ==> ()
-  Run (-) == is subclass responsibility
-
-end Test
-
-~~~
-{% endraw %}
-
-### AlphabetTest.vdmpp
-
-{% raw %}
-~~~
-              
-class AlphabetTest
-  is subclass of TestCase
-
-values
-  str : seq of char = "ABCD"
-
-operations
-  public AlphabetTest: seq of char ==> AlphabetTest
-  AlphabetTest(nm) == name := nm;
-
-  protected SetUp: () ==> ()
-  SetUp () == skip;
-
-  protected RunTest: () ==> ()
-  RunTest () ==
-    ( dcl tc : Alphabet := new Alphabet(str);
-      for all i in set inds str do
-        ( AssertTrue(tc.GetChar(i) = str(i));
-          AssertTrue(tc.GetIndex(str(i)) = i);
-          AssertTrue(tc.Shift(1,i) = tc.Shift(i)) );
-      AssertTrue(tc.GetSize() = 4);
-      AssertTrue(tc.GetIndices() = {1,...,4}) );
-      
-  protected TearDown: () ==> ()
-  TearDown () == skip;
-
-end AlphabetTest
-             
-~~~
-{% endraw %}
-
 ### Component.vdmpp
 
 {% raw %}
@@ -107,27 +56,6 @@ operations
   Rotate (-) == skip
 
 end Component
-~~~
-{% endraw %}
-
-### EnigmaTest.vdmpp
-
-{% raw %}
-~~~
-class EnigmaTest
-operations
-  public Execute: () ==> ()
-  Execute () ==
-    (dcl ts : TestSuite := new TestSuite();
-     ts.AddTest(new AlphabetTest("Alphabet"));
-     ts.AddTest(new ConfigurationTest("Configuration"));
-     ts.AddTest(new ReflectorTest("Reflector"));
-     ts.AddTest(new RotorTest("Rotor"));
-     ts.AddTest(new PlugboardTest("Plugboard"));
-     ts.AddTest(new SimpleEnigmaTest("SimpleEnigma"));
-     ts.Run())
-     
-end EnigmaTest
 ~~~
 {% endraw %}
 
@@ -167,145 +95,6 @@ operations
     else Decode(pidx)
 
 end Reflector
-~~~
-{% endraw %}
-
-### ReflectorTest.vdmpp
-
-{% raw %}
-~~~
-              
-class ReflectorTest
-  is subclass of TestCase
-
-values
-  cfg : inmap nat to nat =
-    { 1 |-> 2, 3 |-> 4 }
-    
-instance variables
-  alph : Alphabet;
-
-operations
-  public ReflectorTest: seq of char ==> ReflectorTest
-  ReflectorTest(nm) == name := nm;
-
-  protected SetUp: () ==> ()
-  SetUp () == alph := new Alphabet("ABCD");
-
-  SimpleTest: () ==> ()
-  SimpleTest () ==
-    ( dcl tc1 : Reflector := new Reflector(1, alph, cfg),
-          tc2 : Reflector := new Reflector(2, alph, cfg);
-      AssertTrue (tc1.Substitute(1) = 2);
-      AssertTrue (tc1.Substitute(2) = 1);
-      AssertTrue (tc1.Substitute(3) = 4);
-      AssertTrue (tc1.Substitute(4) = 3);
-      AssertTrue (tc2.Substitute(1) = 4);
-      AssertTrue (tc2.Substitute(2) = 3);
-      AssertTrue (tc2.Substitute(3) = 2);
-      AssertTrue (tc2.Substitute(4) = 1) );
-
-
-  ComplexTest: () ==> ()
-  ComplexTest () ==
-    for all x in set alph.GetIndices() do
-      ( dcl tc : Reflector := new Reflector(x, alph, cfg);
-        for all y in set alph.GetIndices() do
-          AssertTrue(tc.Substitute(tc.Substitute(y)) = y) );
-
-  protected RunTest: () ==> ()
-  RunTest () == ( SimpleTest(); ComplexTest() );
-
-  protected TearDown: () ==> ()
-  TearDown () == skip
-
-end ReflectorTest
-             
-~~~
-{% endraw %}
-
-### Plugboard.vdmpp
-
-{% raw %}
-~~~
-class Plugboard
-  is subclass of Configuration
-
-instance variables
-  inv PlugboardInv(config, alph)
-
-functions
-  PlugboardInv: inmap nat to nat * Alphabet -> bool
-  PlugboardInv (pconfig, palph) ==
-    dom pconfig subset palph.GetIndices()
-
-operations
-  public Plugboard:
-    Alphabet * inmap nat to nat ==> Plugboard
-  Plugboard (pa, pcfg) ==
-    atomic (alph := pa;
-      config := pcfg munion inverse pcfg)
-  pre dom pcfg inter rng pcfg = {} and
-      PlugboardInv(pcfg, pa);
-
-  public Substitute: nat ==> nat
-  Substitute (pidx) ==
-    (next.Rotate();
-     Configuration`Substitute(pidx))
-  pre pidx in set alph.GetIndices() and
-      (isofclass(Rotor,next) or
-       isofclass(Reflector,next))
-
-end Plugboard
-~~~
-{% endraw %}
-
-### SimpleEnigma.vdmpp
-
-{% raw %}
-~~~
-class SimpleEnigma
-  is subclass of Component
-
-values
-   refcfg : inmap nat to nat =
-     {1 |-> 3, 2 |-> 4};
-   rotcfg : inmap nat to nat =
-     {1 |-> 2, 2 |-> 4, 3 |-> 3, 4 |-> 1};
-   pbcfg : inmap nat to nat =
-     {2 |-> 3}
-
-operations
-  public SimpleEnigma: () ==> SimpleEnigma
-  SimpleEnigma () ==
-    (dcl cp : Component ;
-     alph := new Alphabet("ABCD");
-     next := new Reflector(4,alph,refcfg);
-     cp := new Rotor(3,3,alph,rotcfg);
-     cp.SetNext(next);
-     next := cp;
-     cp := new Rotor(2,2,alph,rotcfg);
-     cp.SetNext(next);
-     next := cp;
-     cp := new Rotor(1,1,alph,rotcfg);
-     cp.SetNext(next);
-     next := cp;
-     cp := new Plugboard(alph,pbcfg);
-     cp.SetNext(next);
-     next := cp);
-
-  public Keystroke : char ==> char
-  Keystroke (pch) ==
-    let pidx = alph.GetIndex(pch) in
-      return alph.GetChar(next.Substitute(pidx))
-  pre isofclass(Plugboard,next);
-
-  -- this is needed to make this a non-abstract class
-  public Substitute: nat ==> nat
-  Substitute (-) == return 1;
-  
-
-end SimpleEnigma
 ~~~
 {% endraw %}
 
@@ -377,200 +166,6 @@ end Rotor
 ~~~
 {% endraw %}
 
-### TestResult.vdmpp
-
-{% raw %}
-~~~
-class TestResult
-
-instance variables
-  failures : seq of TestCase := []
-  
-operations
-  public AddFailure: TestCase ==> ()
-  AddFailure (ptst) == failures := failures ^ [ptst];
-
-  public Print: seq of char ==> ()
-  Print (pstr) ==
-    def - = new IO().echo(pstr ^ "\n") in skip;
-    
-  public Show: () ==> ()
-  Show () ==
-    if failures = [] then
-      Print ("No failures detected")
-    else
-      for failure in failures do
-        Print (failure.GetName() ^ " failed")
-  
-end TestResult
-~~~
-{% endraw %}
-
-### TestCase.vdmpp
-
-{% raw %}
-~~~
-class TestCase
-  is subclass of Test
-
-instance variables
-  protected name : seq of char
-
-operations
-  public TestCase: seq of char ==> TestCase
-  TestCase(nm) == name := nm;
-
-  public GetName: () ==> seq of char
-  GetName () == return name;
-
-  protected AssertTrue: bool ==> ()
-  AssertTrue (pb) == if not pb then exit <FAILURE>;
-
-  protected AssertFalse: bool ==> ()
-  AssertFalse (pb) == if pb then exit <FAILURE>;
-
-  public Run: TestResult ==> ()
-  Run (ptr) ==
-    trap <FAILURE>
-      with 
-        ptr.AddFailure(self)
-      in
-        (SetUp();
-	 RunTest();
-	 TearDown());
-
-  protected SetUp: () ==> ()
-  SetUp () == is subclass responsibility;
-
-  protected RunTest: () ==> ()
-  RunTest () == is subclass responsibility;
-
-  protected TearDown: () ==> ()
-  TearDown () == is subclass responsibility
-
-end TestCase
-~~~
-{% endraw %}
-
-### SimpleEnigmaTest.vdmpp
-
-{% raw %}
-~~~
-class SimpleEnigmaTest is subclass of TestCase
-
-operations
-  public SimpleEnigmaTest: seq of char ==> SimpleEnigmaTest
-  SimpleEnigmaTest(nm) == name := nm;
-
-  protected SetUp: () ==> ()
-  SetUp () == skip;
-
-  protected RunTest: () ==> ()
-  RunTest () == 
-    (dcl se1 : SimpleEnigma := new SimpleEnigma(),
-         se2 : SimpleEnigma := new SimpleEnigma();
-     for ch in "ABCDDCBAABCDDCBAAABBCCDD" do
-       AssertTrue(
-         se1.Keystroke(se2.Keystroke(ch)) = ch));
-
-  protected TearDown: () ==> ()
-  TearDown () == skip
-
-end SimpleEnigmaTest
-~~~
-{% endraw %}
-
-### ConfigurationTest.vdmpp
-
-{% raw %}
-~~~
-              
-class ConfigurationTest
-  is subclass of Configuration, TestCase
-
-values
-  cfg : inmap nat to nat =
-    { 1 |-> 2, 3 |-> 4 }
-    
-operations
-  public ConfigurationTest: seq of char ==> ConfigurationTest
-  ConfigurationTest(nm) == name := nm;
-
-  protected SetUp: () ==> ()
-  SetUp () == config := cfg;
-
-  protected RunTest: () ==> ()
-  RunTest () == 
-    ( AssertTrue(Encode(1) = 2);
-      AssertTrue(Encode(2) = 2);
-      AssertTrue(Encode(3) = 4);
-      AssertTrue(Encode(4) = 4);
-      AssertTrue(Decode(1) = 1);
-      AssertTrue(Decode(2) = 1);
-      AssertTrue(Decode(3) = 3);
-      AssertTrue(Decode(4) = 3) );
-
-  protected TearDown: () ==> ()
-  TearDown () == skip;
-
-end ConfigurationTest
-             
-~~~
-{% endraw %}
-
-### Alphabet.vdmpp
-
-{% raw %}
-~~~
-class Alphabet
-
-instance variables
-  alph : seq of char := [];
-
-inv AlphabetInv(alph)
-
-functions
-  AlphabetInv: seq of char -> bool
-  AlphabetInv (palph) ==
-    len palph mod 2 = 0 and
-    card elems palph = len palph
-
-operations
-  public Alphabet: seq of char ==> Alphabet
-  Alphabet (pa) == alph := pa
-  pre AlphabetInv(pa);
-
-  public GetChar: nat ==> char
-  GetChar (pidx) == return alph(pidx)
-  pre pidx in set inds alph;
-
-  public GetIndex: char ==> nat
-  GetIndex (pch) ==
-    let pidx in set {i | i in set inds alph
-                       & alph(i) = pch} in
-      return pidx
-  pre pch in set elems alph;
-
-  pure public GetIndices: () ==> set of nat
-  GetIndices () == return inds alph;
-
-  public GetSize: () ==> nat
-  GetSize () == return len alph;
-
-  public Shift: nat * nat ==> nat
-  Shift (pidx, poffset) ==
-    if pidx + poffset > len alph
-    then return pidx + poffset - len alph
-    else return pidx + poffset
-  pre pidx in set inds alph and
-      poffset <= len alph;
-
-  public Shift: nat ==> nat
-  Shift (pidx) == Shift(pidx, 1)
-end Alphabet
-~~~
-{% endraw %}
-
 ### Configuration.vdmpp
 
 {% raw %}
@@ -601,6 +196,55 @@ operations
   pre next <> nil
 
 end Configuration
+~~~
+{% endraw %}
+
+### SimpleEnigma.vdmpp
+
+{% raw %}
+~~~
+class SimpleEnigma
+  is subclass of Component
+
+values
+   refcfg : inmap nat to nat =
+     {1 |-> 3, 2 |-> 4};
+   rotcfg : inmap nat to nat =
+     {1 |-> 2, 2 |-> 4, 3 |-> 3, 4 |-> 1};
+   pbcfg : inmap nat to nat =
+     {2 |-> 3}
+
+operations
+  public SimpleEnigma: () ==> SimpleEnigma
+  SimpleEnigma () ==
+    (dcl cp : Component ;
+     alph := new Alphabet("ABCD");
+     next := new Reflector(4,alph,refcfg);
+     cp := new Rotor(3,3,alph,rotcfg);
+     cp.SetNext(next);
+     next := cp;
+     cp := new Rotor(2,2,alph,rotcfg);
+     cp.SetNext(next);
+     next := cp;
+     cp := new Rotor(1,1,alph,rotcfg);
+     cp.SetNext(next);
+     next := cp;
+     cp := new Plugboard(alph,pbcfg);
+     cp.SetNext(next);
+     next := cp);
+
+  public Keystroke : char ==> char
+  Keystroke (pch) ==
+    let pidx = alph.GetIndex(pch) in
+      return alph.GetChar(next.Substitute(pidx))
+  pre isofclass(Plugboard,next);
+
+  -- this is needed to make this a non-abstract class
+  public Substitute: nat ==> nat
+  Substitute (-) == return 1;
+  
+
+end SimpleEnigma
 ~~~
 {% endraw %}
 
@@ -710,6 +354,51 @@ end RotorTest
 ~~~
 {% endraw %}
 
+### TestSuite.vdmpp
+
+{% raw %}
+~~~
+class TestSuite
+  is subclass of Test
+
+instance variables
+  tests : seq of Test := [];
+
+operations
+  public Run: () ==> ()
+  Run () ==
+    (dcl ntr : TestResult := new TestResult();
+     Run(ntr);
+     ntr.Show());
+
+  public Run: TestResult ==> ()
+  Run (result) ==
+    for test in tests do
+      test.Run(result);
+
+  public AddTest: Test ==> ()
+  AddTest(test) ==
+    tests := tests ^ [test];
+
+end TestSuite
+~~~
+{% endraw %}
+
+### Test.vdmpp
+
+{% raw %}
+~~~
+class Test
+
+operations
+  public Run: TestResult ==> ()
+  Run (-) == is subclass responsibility
+
+end Test
+
+~~~
+{% endraw %}
+
 ### PlugboardTest.vdmpp
 
 {% raw %}
@@ -767,33 +456,344 @@ end PlugboardTest
 ~~~
 {% endraw %}
 
-### TestSuite.vdmpp
+### EnigmaTest.vdmpp
 
 {% raw %}
 ~~~
-class TestSuite
+class EnigmaTest
+operations
+  public Execute: () ==> ()
+  Execute () ==
+    (dcl ts : TestSuite := new TestSuite();
+     ts.AddTest(new AlphabetTest("Alphabet"));
+     ts.AddTest(new ConfigurationTest("Configuration"));
+     ts.AddTest(new ReflectorTest("Reflector"));
+     ts.AddTest(new RotorTest("Rotor"));
+     ts.AddTest(new PlugboardTest("Plugboard"));
+     ts.AddTest(new SimpleEnigmaTest("SimpleEnigma"));
+     ts.Run())
+     
+end EnigmaTest
+~~~
+{% endraw %}
+
+### AlphabetTest.vdmpp
+
+{% raw %}
+~~~
+              
+class AlphabetTest
+  is subclass of TestCase
+
+values
+  str : seq of char = "ABCD"
+
+operations
+  public AlphabetTest: seq of char ==> AlphabetTest
+  AlphabetTest(nm) == name := nm;
+
+  protected SetUp: () ==> ()
+  SetUp () == skip;
+
+  protected RunTest: () ==> ()
+  RunTest () ==
+    ( dcl tc : Alphabet := new Alphabet(str);
+      for all i in set inds str do
+        ( AssertTrue(tc.GetChar(i) = str(i));
+          AssertTrue(tc.GetIndex(str(i)) = i);
+          AssertTrue(tc.Shift(1,i) = tc.Shift(i)) );
+      AssertTrue(tc.GetSize() = 4);
+      AssertTrue(tc.GetIndices() = {1,...,4}) );
+      
+  protected TearDown: () ==> ()
+  TearDown () == skip;
+
+end AlphabetTest
+             
+~~~
+{% endraw %}
+
+### TestResult.vdmpp
+
+{% raw %}
+~~~
+class TestResult
+
+instance variables
+  failures : seq of TestCase := []
+  
+operations
+  public AddFailure: TestCase ==> ()
+  AddFailure (ptst) == failures := failures ^ [ptst];
+
+  public Print: seq of char ==> ()
+  Print (pstr) ==
+    def - = new IO().echo(pstr ^ "\n") in skip;
+    
+  public Show: () ==> ()
+  Show () ==
+    if failures = [] then
+      Print ("No failures detected")
+    else
+      for failure in failures do
+        Print (failure.GetName() ^ " failed")
+  
+end TestResult
+~~~
+{% endraw %}
+
+### SimpleEnigmaTest.vdmpp
+
+{% raw %}
+~~~
+class SimpleEnigmaTest is subclass of TestCase
+
+operations
+  public SimpleEnigmaTest: seq of char ==> SimpleEnigmaTest
+  SimpleEnigmaTest(nm) == name := nm;
+
+  protected SetUp: () ==> ()
+  SetUp () == skip;
+
+  protected RunTest: () ==> ()
+  RunTest () == 
+    (dcl se1 : SimpleEnigma := new SimpleEnigma(),
+         se2 : SimpleEnigma := new SimpleEnigma();
+     for ch in "ABCDDCBAABCDDCBAAABBCCDD" do
+       AssertTrue(
+         se1.Keystroke(se2.Keystroke(ch)) = ch));
+
+  protected TearDown: () ==> ()
+  TearDown () == skip
+
+end SimpleEnigmaTest
+~~~
+{% endraw %}
+
+### Plugboard.vdmpp
+
+{% raw %}
+~~~
+class Plugboard
+  is subclass of Configuration
+
+instance variables
+  inv PlugboardInv(config, alph)
+
+functions
+  PlugboardInv: inmap nat to nat * Alphabet -> bool
+  PlugboardInv (pconfig, palph) ==
+    dom pconfig subset palph.GetIndices()
+
+operations
+  public Plugboard:
+    Alphabet * inmap nat to nat ==> Plugboard
+  Plugboard (pa, pcfg) ==
+    atomic (alph := pa;
+      config := pcfg munion inverse pcfg)
+  pre dom pcfg inter rng pcfg = {} and
+      PlugboardInv(pcfg, pa);
+
+  public Substitute: nat ==> nat
+  Substitute (pidx) ==
+    (next.Rotate();
+     Configuration`Substitute(pidx))
+  pre pidx in set alph.GetIndices() and
+      (isofclass(Rotor,next) or
+       isofclass(Reflector,next))
+
+end Plugboard
+~~~
+{% endraw %}
+
+### TestCase.vdmpp
+
+{% raw %}
+~~~
+class TestCase
   is subclass of Test
 
 instance variables
-  tests : seq of Test := [];
+  protected name : seq of char
 
 operations
-  public Run: () ==> ()
-  Run () ==
-    (dcl ntr : TestResult := new TestResult();
-     Run(ntr);
-     ntr.Show());
+  public TestCase: seq of char ==> TestCase
+  TestCase(nm) == name := nm;
+
+  public GetName: () ==> seq of char
+  GetName () == return name;
+
+  protected AssertTrue: bool ==> ()
+  AssertTrue (pb) == if not pb then exit <FAILURE>;
+
+  protected AssertFalse: bool ==> ()
+  AssertFalse (pb) == if pb then exit <FAILURE>;
 
   public Run: TestResult ==> ()
-  Run (result) ==
-    for test in tests do
-      test.Run(result);
+  Run (ptr) ==
+    trap <FAILURE>
+      with 
+        ptr.AddFailure(self)
+      in
+        (SetUp();
+	 RunTest();
+	 TearDown());
 
-  public AddTest: Test ==> ()
-  AddTest(test) ==
-    tests := tests ^ [test];
+  protected SetUp: () ==> ()
+  SetUp () == is subclass responsibility;
 
-end TestSuite
+  protected RunTest: () ==> ()
+  RunTest () == is subclass responsibility;
+
+  protected TearDown: () ==> ()
+  TearDown () == is subclass responsibility
+
+end TestCase
+~~~
+{% endraw %}
+
+### ReflectorTest.vdmpp
+
+{% raw %}
+~~~
+              
+class ReflectorTest
+  is subclass of TestCase
+
+values
+  cfg : inmap nat to nat =
+    { 1 |-> 2, 3 |-> 4 }
+    
+instance variables
+  alph : Alphabet;
+
+operations
+  public ReflectorTest: seq of char ==> ReflectorTest
+  ReflectorTest(nm) == name := nm;
+
+  protected SetUp: () ==> ()
+  SetUp () == alph := new Alphabet("ABCD");
+
+  SimpleTest: () ==> ()
+  SimpleTest () ==
+    ( dcl tc1 : Reflector := new Reflector(1, alph, cfg),
+          tc2 : Reflector := new Reflector(2, alph, cfg);
+      AssertTrue (tc1.Substitute(1) = 2);
+      AssertTrue (tc1.Substitute(2) = 1);
+      AssertTrue (tc1.Substitute(3) = 4);
+      AssertTrue (tc1.Substitute(4) = 3);
+      AssertTrue (tc2.Substitute(1) = 4);
+      AssertTrue (tc2.Substitute(2) = 3);
+      AssertTrue (tc2.Substitute(3) = 2);
+      AssertTrue (tc2.Substitute(4) = 1) );
+
+
+  ComplexTest: () ==> ()
+  ComplexTest () ==
+    for all x in set alph.GetIndices() do
+      ( dcl tc : Reflector := new Reflector(x, alph, cfg);
+        for all y in set alph.GetIndices() do
+          AssertTrue(tc.Substitute(tc.Substitute(y)) = y) );
+
+  protected RunTest: () ==> ()
+  RunTest () == ( SimpleTest(); ComplexTest() );
+
+  protected TearDown: () ==> ()
+  TearDown () == skip
+
+end ReflectorTest
+             
+~~~
+{% endraw %}
+
+### Alphabet.vdmpp
+
+{% raw %}
+~~~
+class Alphabet
+
+instance variables
+  alph : seq of char := [];
+
+inv AlphabetInv(alph)
+
+functions
+  AlphabetInv: seq of char -> bool
+  AlphabetInv (palph) ==
+    len palph mod 2 = 0 and
+    card elems palph = len palph
+
+operations
+  public Alphabet: seq of char ==> Alphabet
+  Alphabet (pa) == alph := pa
+  pre AlphabetInv(pa);
+
+  public GetChar: nat ==> char
+  GetChar (pidx) == return alph(pidx)
+  pre pidx in set inds alph;
+
+  public GetIndex: char ==> nat
+  GetIndex (pch) ==
+    let pidx in set {i | i in set inds alph
+                       & alph(i) = pch} in
+      return pidx
+  pre pch in set elems alph;
+
+  pure public GetIndices: () ==> set of nat
+  GetIndices () == return inds alph;
+
+  public GetSize: () ==> nat
+  GetSize () == return len alph;
+
+  public Shift: nat * nat ==> nat
+  Shift (pidx, poffset) ==
+    if pidx + poffset > len alph
+    then return pidx + poffset - len alph
+    else return pidx + poffset
+  pre pidx in set inds alph and
+      poffset <= len alph;
+
+  public Shift: nat ==> nat
+  Shift (pidx) == Shift(pidx, 1)
+end Alphabet
+~~~
+{% endraw %}
+
+### ConfigurationTest.vdmpp
+
+{% raw %}
+~~~
+              
+class ConfigurationTest
+  is subclass of Configuration, TestCase
+
+values
+  cfg : inmap nat to nat =
+    { 1 |-> 2, 3 |-> 4 }
+    
+operations
+  public ConfigurationTest: seq of char ==> ConfigurationTest
+  ConfigurationTest(nm) == name := nm;
+
+  protected SetUp: () ==> ()
+  SetUp () == config := cfg;
+
+  protected RunTest: () ==> ()
+  RunTest () == 
+    ( AssertTrue(Encode(1) = 2);
+      AssertTrue(Encode(2) = 2);
+      AssertTrue(Encode(3) = 4);
+      AssertTrue(Encode(4) = 4);
+      AssertTrue(Decode(1) = 1);
+      AssertTrue(Decode(2) = 1);
+      AssertTrue(Decode(3) = 3);
+      AssertTrue(Decode(4) = 3) );
+
+  protected TearDown: () ==> ()
+  TearDown () == skip;
+
+end ConfigurationTest
+             
 ~~~
 {% endraw %}
 

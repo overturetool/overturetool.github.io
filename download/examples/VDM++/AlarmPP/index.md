@@ -23,6 +23,40 @@ with alarms. A comparable model of this example also exists in VDM-SL.
 |Entry point     :| new Test1().Run()|
 
 
+### alarm.vdmpp
+
+{% raw %}
+~~~
+              
+class Alarm
+types
+                            
+types
+
+public String = seq of char;
+
+instance variables 
+
+descr    : String;
+reqQuali : Expert`Qualification;
+                            
+operations
+
+public Alarm: Expert`Qualification * String ==> Alarm
+Alarm(quali,str) ==
+( descr := str;
+  reqQuali := quali
+);
+                               
+pure public GetReqQuali: () ==> Expert`Qualification
+GetReqQuali() ==
+  return reqQuali;
+  
+end Alarm
+             
+~~~
+{% endraw %}
+
 ### test1.vdmpp
 
 {% raw %}
@@ -58,40 +92,6 @@ Run() ==
     return mk_(periods,expert);
 
 end Test1
-             
-~~~
-{% endraw %}
-
-### alarm.vdmpp
-
-{% raw %}
-~~~
-              
-class Alarm
-types
-                            
-types
-
-public String = seq of char;
-
-instance variables 
-
-descr    : String;
-reqQuali : Expert`Qualification;
-                            
-operations
-
-public Alarm: Expert`Qualification * String ==> Alarm
-Alarm(quali,str) ==
-( descr := str;
-  reqQuali := quali
-);
-                               
-pure public GetReqQuali: () ==> Expert`Qualification
-GetReqQuali() ==
-  return reqQuali;
-  
-end Alarm
              
 ~~~
 {% endraw %}

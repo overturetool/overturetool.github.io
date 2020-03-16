@@ -26,6 +26,851 @@ adds value, it is included as a comment.
 |Entry point     :| Set`sum({1,2,3,4,5,6,7,8,9})|
 
 
+### Seq.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over sequences.
+
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
+*/
+module Seq
+imports from Numeric all,
+        from Ord all
+exports functions sum: seq of real +> real;
+                  prod: seq of real +> real;
+                  min[@a]: seq1 of @a +> @a;
+                  minWith[@a]: (@a * @a +> bool) +> seq1 of @a +> @a;
+                  max[@a]: seq1 of @a +> @a;
+                  maxWith[@a]: (@a * @a +> bool) +> seq1 of @a +> @a;
+                  inSeq[@a]: @a * seq of @a +> bool;
+                  indexOf[@a]: @a * seq1 of @a +> nat1;
+                  indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1;
+                  indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1];
+                  numOccurs[@a]: @a * seq of @a +> nat;
+                  permutation[@a]: seq of @a * seq of @a +> bool;
+                  ascending[@a]: seq of @a +> bool;
+                  ascendingWith[@a]: (@a * @a +> bool) +> seq of @a +> bool;
+                  descending[@a]: seq of @a +> bool;
+                  descendingWith[@a]: (@a * @a +> bool) +> seq of @a +> bool;
+                  insert[@a]: @a * seq of @a +> seq of @a;
+                  insertWith[@a]: (@a * @a +> bool) +> @a * seq of @a +> seq of @a;
+                  sort[@a]: seq of @a +> seq of @a;
+                  sortWith[@a]: (@a * @a +> bool) +> seq of @a +> seq of @a;
+                  lexicographic[@a]: seq of @a * seq of @a +> bool;
+                  lexicographicWith[@a]: (@a * @a +> bool) +> seq of @a * seq of @a +> bool;
+                  preSeq[@a]: seq of @a * seq of @a +> bool;
+                  postSeq[@a]: seq of @a * seq of @a +> bool;
+                  subSeq[@a]: seq of @a * seq of @a +> bool;
+                  replicate[@a]: nat * @a +> seq of @a;
+                  padLeft[@a]: seq of @a * @a * nat +> seq of @a;
+                  padRight[@a]: seq of @a * @a * nat +> seq of @a;
+                  padCentre[@a]: seq of @a * @a * nat +> seq of @a;
+                  dropWhile[@a]: (@a +> bool) * seq of @a +> seq of @a;
+                  xform[@a,@b]: (@a +> @b) * seq of @a +> seq of @b;
+                  fold[@a]: (@a * @a +> @a) * @a * seq of @a +> @a;
+                  fold1[@a]: (@a * @a +> @a) * seq1 of @a +> @a;
+                  zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b);
+                  unzip[@a,@b]: seq of (@a * @b) +> seq of @a * seq of @b;
+                  isDistinct[@a]: seq of @a +> bool;
+                  pairwise[@a]: (@a * @a +> bool) +> seq of @a +> bool;
+                  app[@a]: seq of @a * seq of @a +> seq of @a;
+                  setOf[@a]: seq of @a +> set of @a;
+                  format[@a]: (@a +> seq of char) * seq of char * seq of @a +> seq of char
+
+definitions
+
+functions
+
+  -- The sum of a set of numerics.
+  sum: seq of real +> real
+  sum(s) == fold[real](Numeric`add,0,s);
+
+  -- The product of a set of numerics.
+  prod: seq of real +> real
+  prod(s) == fold[real](Numeric`mult,1,s);
+
+  -- The minimum of a sequence.
+  min[@a]: seq1 of @a +> @a
+  min(s) == fold1[@a](Ord`min[@a], s)
+  post RESULT in set elems s and forall e in set elems s & RESULT <= e;
+
+  -- The minimum of a sequence with respect to a relation.
+  minWith[@a]: (@a * @a +> bool) +> seq1 of @a +> @a
+  minWith(o)(s) == fold1[@a](Ord`minWith[@a](o), s)
+  post RESULT in set elems s and forall e in set elems s & RESULT = e or o(RESULT,e);
+
+  -- The maximum of a sequence.
+  max[@a]: seq1 of @a +> @a
+  max(s) == fold1[@a](Ord`max[@a], s)
+  post RESULT in set elems s and forall e in set elems s & RESULT >= e;
+
+  -- The maximum of a sequence with respect to a relation.
+  maxWith[@a]: (@a * @a +> bool) +> seq1 of @a +> @a
+  maxWith(o)(s) == fold1[@a](Ord`maxWith[@a](o), s)
+  post RESULT in set elems s and forall e in set elems s & RESULT = e or o(e,RESULT);
+
+  -- Does an element appear in a sequence?
+  inSeq[@a]: @a * seq of @a +> bool
+  inSeq(e,s) == e in set elems s;
+
+  -- The position an item appears in a sequence?
+  indexOf[@a]: @a * seq1 of @a +> nat1
+  indexOf(e,s) == cases s:
+                    [-]    -> 1,
+                    [f]^ss -> if e=f then 1 else 1 + indexOf[@a](e,ss)
+                  end
+  pre inSeq[@a](e,s)
+  measure size0;
+
+  -- The position a subsequence appears in a sequence.
+  indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1
+  indexOfSeq(r,s) == if preSeq[@a](r,s)
+                     then 1
+                     else 1 + indexOfSeq[@a](r, tl s)
+  pre subSeq[@a](r,s)
+  measure size3;
+
+  -- The position a subsequence appears in a sequence?
+  indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1]
+  indexOfSeqOpt(r,s) == if subSeq[@a](r,s) then indexOfSeq[@a](r, s) else nil;
+
+  -- The number of times an element appears in a sequence.
+  numOccurs[@a]: @a * seq of @a +> nat
+  numOccurs(e,sq) == len [ 0 | i in seq sq & i = e ];
+
+  -- Is one sequence a permutation of another?
+  permutation[@a]: seq of @a * seq of @a +> bool
+  permutation(sq1,sq2) ==
+    len sq1 = len sq2 and
+    forall x in seq sq1 & numOccurs[@a](x,sq1) = numOccurs[@a](x,sq2);
+
+  -- Is a sequence presented in ascending order?
+  ascending[@a]: seq of @a +> bool
+  ascending(s) == forall i in set {1,...,len s - 1} & s(i) <= s(i+1)
+  post RESULT <=> descending[@a](reverse(s));
+
+  -- Is a sequence presented in ascending order with respect to a relation?
+  ascendingWith[@a]: (@a * @a +> bool) +> seq of @a +> bool
+  ascendingWith(o)(s) == forall i in set {1,...,len s - 1} & s(i) = s(i+1) or o(s(i), s(i+1))
+  post RESULT <=> descendingWith[@a](o)(reverse(s));
+
+  -- Is a sequence presented in descending order?
+  descending[@a]: seq of @a +> bool
+  descending(s) == forall i in set {1,...,len s - 1} & s(i) >= s(i+1);
+  --post RESULT <=> ascending[@a](reverse(s));
+
+  -- Is a sequence presented in descending order with respect to a relation?
+  descendingWith[@a]: (@a * @a +> bool) +> seq of @a +> bool
+  descendingWith(o)(s) == forall i in set {1,...,len s - 1} & s(i) = s(i+1) or o(s(i+1), s(i));
+  --post RESULT <=> ascendingWith[@a](o)(reverse(s));
+
+  -- Insert a value into an ascending sequence preserving order.
+  insert[@a]: @a * seq of @a +> seq of @a
+  insert(x, s) == cases s:
+                    []    -> [x],
+                    [y]   -> if x <= y then [x,y] else [y,x],
+                    [y]^t -> if x <= y then [x]^s else [y]^insert[@a](x, t)
+                  end
+  pre ascending[@a](s)
+  post ascending[@a](RESULT) and permutation[@a]([x]^s, RESULT)
+  measure size9;
+
+  -- Insert a value into an ascending sequence of values preserving order.
+  insertWith[@a]: (@a * @a +> bool) +> @a * seq of @a +> seq of @a
+  insertWith(o)(x, s) ==
+    cases s:
+      []    -> [x],
+      [y]   -> if o(x,y) then [x,y] else [y,x],
+      [y]^t -> if o(x,y) then [x]^s else [y]^insertWith[@a](o)(x, t)
+    end
+  pre ascendingWith[@a](o)(s)
+  post ascendingWith[@a](o)(RESULT) and permutation[@a]([x]^s, RESULT)
+  measure size6;
+
+  -- Sort a sequence of items.
+  sort[@a]: seq of @a +> seq of @a
+  sort(s) == cases s:
+               []      -> [],
+               [x]     -> [x],
+               [x] ^ t -> insert[@a](x, sort[@a](t))
+             end
+  post elems RESULT = elems s and ascending[@a](RESULT)
+  measure size10;
+
+  -- Sort a sequence of items by the provided order relation.
+  sortWith[@a]: (@a * @a +> bool) +> seq of @a +> seq of @a
+  sortWith(o)(s) == cases s:
+                      [] -> [],
+                      [x] -> [x],
+                      [x] ^ t -> insertWith[@a](o)(x, sortWith[@a](o)(t))
+                    end
+  post elems RESULT = elems s and ascendingWith[@a](o)(RESULT)
+  measure size7;
+
+  -- Lexicographic ordering on sequences.
+  lexicographic[@a]: seq of @a * seq of @a +> bool
+  lexicographic(s, t) ==
+    cases mk_(s, t):
+      mk_([], [-])        -> true,
+      mk_([], -^-)        -> true,
+      mk_([x], [y])       -> x < y,
+      mk_([x], [y]^-)     -> x <= y,
+      mk_([x]^-, [y])     -> x < y,
+      mk_([x]^s1, [y]^t1) -> x < y or x = y and lexicographic[@a](s1, t1),
+      mk_(-,-)            -> false
+    end
+    post RESULT <=> exists i in set {0,...,Numeric`min(len s, len t)}
+                         & (forall j in set {1,...,i} & s(j) = t(j)) and
+                           let s1 = s(i+1,...,len s),
+                               t1 = t(i+1,...,len t)
+                           in s1 = [] and t1 <> [] or
+                              s1 <> [] and t1 <> [] and hd s1 < hd t1
+  measure size11;
+
+  -- Lexicographic ordering on sequences by the provided order relation.
+  lexicographicWith[@a]: (@a * @a +> bool) +> seq of @a * seq of @a +> bool
+  lexicographicWith(o)(s, t) ==
+    cases mk_(s, t):
+      mk_([], [-])        -> true,
+      mk_([], -^-)        -> true,
+      mk_([x], [y])       -> o(x, y),
+      mk_([x], [y]^-)     -> o(x, y) or x = y,
+      mk_([x]^-, [y])     -> o(x, y),
+      mk_([x]^s1, [y]^t1) -> o(x, y) or x = y and lexicographicWith[@a](o)(s1, t1),
+      mk_(-,-)            -> false
+    end
+    post RESULT <=> exists i in set {0,...,Numeric`min(len s, len t)}
+                         & (forall j in set {1,...,i} & s(j) = t(j)) and
+                           let s1 = s(i+1,...,len s),
+                               t1 = t(i+1,...,len t)
+                           in s1 = [] and t1 <> [] or
+                              s1 <> [] and t1 <> [] and o(hd s1, hd t1)
+  measure size8;
+
+  -- Is one sequence a prefix of another?
+  preSeq[@a]: seq of @a * seq of @a +> bool
+  preSeq(pres,full) == pres = full(1,...,len pres);
+
+  -- Is one sequence a suffix of another?
+  postSeq[@a]: seq of @a * seq of @a +> bool
+  postSeq(posts,full) == preSeq[@a](reverse posts, reverse full);
+
+  -- Is one sequence a subsequence of another sequence?
+  subSeq[@a]: seq of @a * seq of @a +> bool
+  subSeq(sub,full) == sub = [] or (exists i,j in set inds full & sub = full(i,...,j));
+
+  -- Create a sequence of identical elements.
+  replicate[@a]: nat * @a +> seq of @a
+  replicate(n,x) == [ x | i in set {1,...,n} ]
+  post len RESULT = n and forall y in seq RESULT & y = x;
+
+  -- Pad a sequence on the left with a given item up to a specified length.
+  padLeft[@a]: seq of @a * @a * nat +> seq of @a
+  padLeft(sq,x,n) == replicate[@a](n-len sq, x) ^ sq
+  pre n >= len sq
+  post len RESULT = n and postSeq[@a](sq, RESULT);
+
+  -- Pad a sequence on the right with a given item up to a specified length.
+  padRight[@a]: seq of @a * @a * nat +> seq of @a
+  padRight(sq,x,n) == sq ^ replicate[@a](n-len sq, x)
+  pre n >= len sq
+  post len RESULT = n and preSeq[@a](sq, RESULT);
+
+  -- Pad a sequence with a given item such that it is centred in a specified length.
+  -- If padded by an odd number, add the extra item on the right.
+  padCentre[@a]: seq of @a * @a * nat +> seq of @a
+  padCentre(sq,x,n) == let space = if n <= len sq then 0 else n - len sq
+                       in padRight[@a](padLeft[@a](sq,x,len sq + (space div 2)),x,n);
+
+  -- Drop items from a sequence while a predicate is true.
+  dropWhile[@a]: (@a +> bool) * seq of @a +> seq of @a
+  dropWhile(p, s) == cases s:
+                       []      -> [],
+                       [x] ^ t -> if p(x) then dropWhile[@a](p, t) else s
+                     end
+  post postSeq[@a](RESULT, s) and
+       (RESULT = [] or not p(RESULT(1))) and
+       forall i in set {1,...,(len s - len RESULT)} & p(s(i))
+  measure size5;
+
+  -- Apply a function to all elements of a sequence.
+  xform[@a,@b]: (@a+>@b) * seq of @a +> seq of @b
+  xform(f,s) == [ f(x) | x in seq s ]
+  post len RESULT = len s and
+       (forall i in set inds s & RESULT(i) = f(s(i)));
+
+  -- Fold (iterate, accumulate, reduce) a binary function over a sequence.
+  -- The function is assumed to be associative and have an identity element.
+  fold[@a]: (@a * @a +> @a) * @a * seq of @a +> @a
+  fold(f, e, s) == cases s:
+                     []    -> e,
+                     [x]   -> x,
+                     s1^s2 -> f(fold[@a](f,e,s1), fold[@a](f,e,s2))
+                   end
+  --pre (forall x:@a & f(x,e) = x and f(e,x) = x)
+  --and forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
+  measure size2;
+
+  -- Fold (iterate, accumulate, reduce) a binary function over a non-empty sequence.
+  -- The function is assumed to be associative.
+  fold1[@a]: (@a * @a +> @a) * seq1 of @a +> @a
+  fold1(f, s) == cases s:
+                   [e]   -> e,
+                   s1^s2 -> f(fold1[@a](f,s1), fold1[@a](f,s2))
+                 end
+  --pre forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
+  measure size1;
+
+  -- Pair the corresponding elements of two lists of equal length.
+  zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b)
+  zip(s,t) == [ mk_(s(i),t(i)) | i in set inds s ]
+  pre len s = len t
+  post len RESULT = len s and mk_(s,t) = unzip[@a,@b](RESULT);
+
+  -- Split a list of pairs into a list of firsts and a list of seconds.
+  unzip[@a,@b]: seq of (@a * @b) +> seq of @a * seq of @b
+  unzip(s) == mk_([ x.#1 | x in seq s], [ x.#2 | x in seq s])
+  post let mk_(t,u) = RESULT in len t = len s and len u = len s;
+  -- and s = zip[@a,@b](RESULT.#1,RESULT.#2);
+
+  -- Are the elements of a list distinct (no duplicates).
+  isDistinct[@a]: seq of @a +> bool
+  isDistinct(s) == len s = card elems s;
+
+  -- Are the elements of a sequence pairwise related?
+  pairwise[@a]: (@a * @a +> bool) +> seq of @a +> bool
+  pairwise(f)(s) == forall i in set {1,...,len s-1} & f(s(i), s(i+1));
+
+  -- Create a string presentation of a set.
+  format[@a]: (@a +> seq of char) * seq of char * seq of @a +> seq of char
+  format(f,sep,s) == cases s:
+                       []    -> "",
+                       [x]   -> f(x),
+                       t ^ u -> format[@a](f,sep,t) ^ sep ^ format[@a](f,sep,u)
+                     end
+  measure size4;
+
+  -- The following functions wrap primitives for convenience, to allow them for example to
+  -- serve as function arguments.
+
+  -- Concatenation of two sequences.
+  app[@a]: seq of @a * seq of @a +> seq of @a
+  app(m,n) == m^n;
+
+  -- Set of sequence elements.
+  setOf[@a]: seq of @a +> set of @a
+  setOf(s) == elems(s);
+
+  -- Measure functions.
+
+  size0[@a]: @a * seq1 of @a +> nat
+  size0(-, s) == len s;
+
+  size1[@a]: (@a * @a +> @a) * seq1 of @a +> nat
+  size1(-, s) == len s;
+
+  size2[@a]: (@a * @a +> @a) * @a * seq of @a +> nat
+  size2(-, -, s) == len s;
+
+  size3[@a]: seq1 of @a * seq1 of @a +> nat
+  size3(-, s) == len s;
+
+  size4[@a]: (@a +> seq of char) * seq of char * seq of @a +> nat
+  size4(-, -, s) == len s;
+
+  size5[@a]: (@a +> bool) * seq of @a +> nat
+  size5(-, s) == len s;
+
+  size6[@a]: (@a * @a +> bool) * @a * seq of @a +> nat
+  size6(-,-,s) == len s;
+
+  size7[@a]: (@a * @a +> bool) * seq of @a +> nat
+  size7(-,s) == len s;
+
+  size8[@a]: (@a * @a +> bool) * seq of @a * seq of @a +> nat
+  size8(-,s,t) == len s + len t;
+
+  size9[@a]: @a * seq of @a +> nat
+  size9(-,s) == len s;
+
+  size10[@a]: seq of @a +> nat
+  size10(s) == len s;
+
+  size11[@a]: seq of @a * seq of @a +> nat
+  size11(-, s) == len s;
+
+end Seq
+~~~
+{% endraw %}
+
+### Char.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose types, constants and functions over
+   characters and strings (sequences characters).
+
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
+*/
+module Char
+imports from Seq all
+exports types Upper
+              Lower
+              Letter
+              Digit
+              Octal
+              Hex
+              AlphaNum
+              AlphaNumUpper
+              AlphaNumLower
+              Space
+              WhiteSpace
+              Phrase
+              PhraseUpper
+              PhraseLower
+              Text
+              TextUpper
+              TextLower
+        values SP, TB, CR, LF : char
+               WHITE_SPACE, UPPER, LOWER, DIGIT, OCTAL, HEX : set of char
+               UPPERS, LOWERS, DIGITS, OCTALS, HEXS: seq of char
+        functions toLower: Upper +> Lower
+                  toUpper: Lower +> Upper
+
+definitions
+
+types
+
+  Upper = char
+  inv c == c in set UPPER;
+
+  Lower = char
+  inv c == c in set LOWER;
+
+  Letter = Upper | Lower;
+
+  Digit = char
+  inv c == c in set DIGIT;
+  
+  Octal = char
+  inv c == c in set OCTAL;
+
+  Hex = char
+  inv c == c in set HEX;
+
+  AlphaNum = Letter | Digit;
+
+  AlphaNumUpper = Upper | Digit;
+
+  AlphaNumLower = Lower | Digit;
+
+  Space = char
+  inv sp == sp = ' ';
+
+  WhiteSpace = char
+  inv ws == ws in set WHITE_SPACE;
+
+  Phrase = seq1 of (AlphaNum|Space);
+
+  PhraseUpper = seq1 of (AlphaNumUpper|Space);
+
+  PhraseLower = seq1 of (AlphaNumLower|Space);
+
+  Text = seq1 of (AlphaNum|WhiteSpace);
+
+  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace);
+
+  TextLower = seq1 of (AlphaNumLower|WhiteSpace);
+
+values
+
+  SP:char = ' ';
+  TB:char = '\t';
+  CR:char = '\r';
+  LF:char = '\n';
+  WHITE_SPACE:set of char = {SP,TB,CR,LF};
+  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                       'R','S','T','U','V','W','X','Y','Z'};
+  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+                       'r','s','t','u','v','w','x','y','z'};
+  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
+  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
+  DIGITS:seq of Digit = "0123456789";
+  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
+  OCTALS:seq of Octal = "01234567";
+  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+  HEXS:seq of Hex = "0123456789ABCDEF";
+
+functions
+
+  -- Convert upper case letter to lower case.
+  toLower: Upper +> Lower
+  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
+  post toUpper(RESULT) = c;
+
+  -- Convert lower case letter to upper case.
+  toUpper: Lower +> Upper
+  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
+  --post toLower(RESULT) = c;
+
+end Char
+~~~
+{% endraw %}
+
+### Numeric.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over numerics.
+
+   All definitions are explicit and executable.
+*/
+module Numeric
+imports from Seq all
+exports functions differBy: real * real * real +> bool;
+                  formatNat: nat +> seq1 of char;
+                  decodeNat: seq1 of char +> nat;
+                  fromChar: char +> nat;
+                  toChar: nat +> char;
+                  zeroPad: nat * nat1 +> seq1 of char;
+                  min: real * real +> real;
+                  max: real * real +> real;
+                  less: real * real +> bool;
+                  leq: real * real +> bool;
+                  grtr: real * real +> bool;
+                  geq: real * real +> bool;
+                  add: real * real +> real;
+                  mult: real * real +> real
+
+definitions
+
+values
+
+  DIGITS:seq of char = "0123456789";
+
+functions
+
+  -- Do two numerics differ by at least a specified value.
+  differBy: real * real * real +> bool
+  differBy(x, y, delta) == abs (x-y) >= delta
+  pre delta > 0;
+
+  -- Format a natural number as a string of digits.
+  formatNat: nat +> seq1 of char
+  formatNat(n) == if n < 10
+                  then [toChar(n)]
+                  else formatNat(n div 10) ^ formatNat(n mod 10)
+  measure size1;
+
+  -- Create a natural number from a sequence of digit characters.
+  decodeNat: seq1 of char +> nat
+  decodeNat(s) == cases s:
+                    [c] -> fromChar(c),
+                    u^[c] -> 10*decodeNat(u)+fromChar(c)
+                  end
+  measure size2;
+
+  -- Convert a character digit to the corresponding natural number.
+  fromChar: char +> nat
+  fromChar(c) == Seq`indexOf[char](c,DIGITS)-1
+  pre c in set elems DIGITS
+  post toChar(RESULT) = c;
+
+  -- Convert a numeric digit to the corresponding character.
+  toChar: nat +> char
+  toChar(n) == DIGITS(n+1)
+  pre n <= 9;
+  --post fromChar(RESULT) = n
+
+  -- Format a natural number as a string with leading zeros up to a specified length.
+  zeroPad: nat * nat1 +> seq1 of char
+  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
+
+  /*
+    The following are simple functions that are of limited value in their own right.
+    The are provided to allow them for example to serve as function arguments.
+  */
+
+  -- Sum of two numbers.
+  add: real * real +> real
+  add(m,n) == m+n;
+
+  -- Product of two numbers.
+  mult: real * real +> real
+  mult(m,n) == m*n;
+
+  -- The minimum of two numerics.
+  min: real * real +> real
+  min(x,y) == if x < y then x else y
+  post RESULT in set {x,y} and RESULT <= x and RESULT <= y;
+
+  -- The maximum of two numerics.
+  max: real * real +> real
+  max(x,y) == if x > y then x else y
+  post RESULT in set {x,y} and RESULT >= x and RESULT >= y;
+
+  -- Numeric less than.
+  -- Useful for passing as a function argument.
+  less: real * real +> bool
+  less(x,y) == x < y;
+
+  -- Numeric less than or equal.
+  -- Useful for passing as a function argument.
+  leq: real * real +> bool
+  leq(x,y) == x <= y;
+
+  -- Numeric greater than.
+  -- Useful for passing as a function argument.
+  grtr: real * real +> bool
+  grtr(x,y) == x > y;
+
+  -- Numeric greater than or equal.
+  -- Useful for passing as a function argument.
+  geq: real * real +> bool
+  geq(x,y) == x >= y;
+
+  -- Measure functions.
+
+  size1: nat +> nat
+  size1(n) == n;
+
+  size2: seq1 of char +> nat
+  size2(s) == len s;
+
+end Numeric
+~~~
+{% endraw %}
+
+### Ord.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over orders.
+
+   All definitions are explicit and executable.
+*/
+module Ord
+exports functions min[@a]: @a * @a +> @a
+                  minWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
+                  max[@a]: @a * @a +> @a
+                  maxWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
+
+definitions
+
+values
+
+functions
+
+  /*
+    The function defined below a simple in nature, and of limited value in their own right.
+    They can be used in other modules where it is necessary to pass min/max functions as
+    arguments to other functions without the need to define auxiliary functions.
+  */
+
+  -- The minimum of two values.
+  min[@a]: @a * @a +> @a
+  min(x,y) == if x < y then x else y;
+  -- pre The type parameter admits an order relation.
+
+  -- The minimum of two values with respect to a relation.
+  minWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
+  minWith(o)(x,y) == if o(x,y) then x else y;
+  -- pre 'o' is a partial order relation.
+
+  -- The maximum of two values.
+  max[@a]: @a * @a +> @a
+  max(x,y) == if y < x then x else y;
+  -- pre The type parameter admits an order relation.
+
+  -- The maximum of two values with respect to a relation.
+  maxWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
+  maxWith(o)(x,y) == if o(y,x) then x else y;
+  -- pre 'o' is a partial order relation.
+
+end Ord
+~~~
+{% endraw %}
+
+### Set.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over sets.
+
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
+*/
+module Set
+imports from Numeric all,
+        from Seq all,
+        from Ord all
+exports functions sum: set of real +> real;
+                  prod: set of real +> real;
+                  min[@a]: set1 of @a +> @a;
+                  minWith[@a]: (@a * @a +> bool) +> set1 of @a +> @a;
+                  max[@a]: set1 of @a +> @a;
+                  maxWith[@a]: (@a * @a +> bool) +> set1 of @a +> @a;
+                  toSeq[@a]: set of @a +> seq of @a;
+                  xform[@a,@b]: (@a +> @b) * set of @a +> set of @b;
+                  filter[@a]: (@a +> bool) +> set of @a +> set of @a;
+                  fold[@a]: (@a * @a +> @a) * @a * set of @a +> @a;
+                  fold1[@a]: (@a * @a +> @a) * set1 of @a +> @a;
+                  pairwiseDisjoint[@a]: set of set of @a +> bool;
+                  isPartition[@a]: set of set of @a * set of @a +> bool;
+                  permutations[@a]: set1 of @a +> set1 of seq1 of @a;
+                  xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b);
+                  format[@a]: (@a +> seq of char) * seq of char * set of @a +> seq of char
+
+definitions
+
+functions
+
+  -- The sum of a set of numerics.
+  sum: set of real +> real
+  sum(s) == fold[real](Numeric`add,0,s);
+
+  -- The product of a set of numerics.
+  prod: set of real +> real
+  prod(s) == fold[real](Numeric`mult,1,s);
+
+  -- The minimum of a set.
+  min[@a]: set1 of @a +> @a
+  min(s) == fold1[@a](Ord`min[@a], s)
+  -- pre Type argument @a admits an order relation.
+  post RESULT in set s and forall e in set s & RESULT <= e;
+
+  -- The minimum of a set with respect to a relation.
+  minWith[@a]: (@a * @a +> bool) +> set1 of @a +> @a
+  minWith(o)(s) == fold1[@a](Ord`minWith[@a](o), s)
+  post RESULT in set s and forall e in set s & RESULT <= e;
+
+  -- The maximum of a set.
+  max[@a]: set1 of @a +> @a
+  max(s) == fold1[@a](Ord`max[@a], s)
+  -- pre Type argument @a admits an order relation.
+  post RESULT in set s and forall e in set s & RESULT >= e;
+
+  -- The maximum of a set with respect to a relation.
+  maxWith[@a]: (@a * @a +> bool) +> set1 of @a +> @a
+  maxWith(o)(s) == fold1[@a](Ord`maxWith[@a](o), s)
+  post RESULT in set s and forall e in set s & RESULT >= e;
+
+  -- The sequence whose elements are those of a specified set, with no duplicates.
+  -- No order is guaranteed in the resulting sequence.
+  toSeq[@a]: set of @a +> seq of @a
+  toSeq(s) == cases s:
+                {} ->        [],
+                {x} ->       [x],
+                t union u -> toSeq[@a](t) ^ toSeq[@a](u)
+              end
+  post len RESULT = card s and elems RESULT = s
+  measure size;
+  /*
+    A simpler definition would be
+      toSeq(s) == [ x | x in set s ]
+    This would however assume an order relation on the argument type @a.
+  */
+
+  -- Apply a function to all elements of a set. The result set may be smaller than the
+  -- argument set if the function argument is not injective.
+  xform[@a,@b]: (@a+>@b) * set of @a +> set of @b
+  xform(f,s) == { f(e) | e in set s }
+  post (forall e in set s & f(e) in set RESULT) and
+       (forall r in set RESULT & exists e in set s & f(e) = r);
+
+  -- Filter those elements of a set that satisfy a predicate.
+  filter[@a]: (@a +> bool) +> set of @a +> set of @a
+  filter(p)(s) == { x | x in set s & p(x) }
+  post (forall x in set RESULT & p(x)) and (forall x in set s \ RESULT & not p(x));
+
+  -- Fold (iterate, accumulate, reduce) a binary function over a set.
+  -- The function is assumed to be commutative and associative, and have an identity element.
+  fold[@a]: (@a * @a +> @a) * @a * set of @a +> @a
+  fold(f, e, s) == cases s:
+                     {}        -> e,
+                     {x}       -> x,
+                     t union u -> f(fold[@a](f,e,t), fold[@a](f,e,u))
+                   end
+  --pre (forall x:@a & f(x,e) = x and f(e,x) = x)
+  --and (forall x,y:@a & f(x, y) = f(y, x))
+  --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
+  measure size2;
+
+  -- Fold (iterate, accumulate, reduce) a binary function over a non-empty set.
+  -- The function is assumed to be commutative and associative.
+  fold1[@a]: (@a * @a +> @a) * set1 of @a +> @a
+  fold1(f, s) == cases s:
+                   {e}       -> e,
+                   t union u -> f(fold1[@a](f,t), fold1[@a](f,u))
+                 end
+  --pre (forall x,y:@a & f(x,y) = f(y,x))
+  --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
+  measure size1;
+
+  -- Are the members of a set of sets pairwise disjoint.
+  pairwiseDisjoint[@a]: set of set of @a +> bool
+  pairwiseDisjoint(ss) == forall x,y in set ss & x<>y => x inter y = {};
+
+  -- Is a set of sets a partition of a set?
+  isPartition[@a]: set of set of @a * set of @a +> bool
+  isPartition(ss,s) == pairwiseDisjoint[@a](ss) and dunion ss = s;
+
+  -- All (sequence) permutations of a set.
+  permutations[@a]: set1 of @a +> set1 of seq1 of @a
+  permutations(s) ==
+    cases s:
+      {e} -> {[e]},
+      -   -> dunion { { [e]^tail | tail in set permutations[@a](s\{e}) } | e in set s }
+    end
+  post -- for a set of size n, there are n! permutations
+       card RESULT = prod({1,...,card s}) and
+       forall sq in set RESULT & len sq = card s and elems sq = s
+  measure size0;
+
+  -- The cross product of two sets.
+  xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b)
+  xProduct(s,t) == { mk_(x,y) | x in set s, y in set t }
+  post card RESULT = card s * card t;
+
+  -- Create a string presentation of a set.
+  format[@a]: (@a +> seq of char) * seq of char * set of @a +> seq of char
+  format(f,sep,s) == cases s:
+                       {}        -> "",
+                       {x}       -> f(x),
+                       t union u -> format[@a](f,sep,t) ^ sep ^ format[@a](f,sep,u)
+                     end
+  measure size3;
+
+  -- Measure functions.
+
+  size[@a]: set of @a +> nat
+  size(s) == card s;
+
+  size0[@a]: set1 of @a +> nat
+  size0(s) == card s;
+
+  size1[@a]: (@a * @a +> @a) * set1 of @a +> nat
+  size1(-, s) == card s;
+
+  size2[@a]: (@a * @a +> @a) * @a * set of @a +> nat
+  size2(-, -, s) == card s;
+
+  size3[@a]: (@a +> seq of char) * seq of char * set of @a +> nat
+  size3(-, -, s) == card s;
+
+end Set
+~~~
+{% endraw %}
+
 ### ISO8601.vdmsl
 
 {% raw %}
@@ -733,851 +1578,6 @@ functions
        else "P" ^ date ^ (if time="" then "" else "T" ^ time);
 
 end ISO8601
-~~~
-{% endraw %}
-
-### Char.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose types, constants and functions over
-   characters and strings (sequences characters).
-
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
-*/
-module Char
-imports from Seq all
-exports types Upper
-              Lower
-              Letter
-              Digit
-              Octal
-              Hex
-              AlphaNum
-              AlphaNumUpper
-              AlphaNumLower
-              Space
-              WhiteSpace
-              Phrase
-              PhraseUpper
-              PhraseLower
-              Text
-              TextUpper
-              TextLower
-        values SP, TB, CR, LF : char
-               WHITE_SPACE, UPPER, LOWER, DIGIT, OCTAL, HEX : set of char
-               UPPERS, LOWERS, DIGITS, OCTALS, HEXS: seq of char
-        functions toLower: Upper +> Lower
-                  toUpper: Lower +> Upper
-
-definitions
-
-types
-
-  Upper = char
-  inv c == c in set UPPER;
-
-  Lower = char
-  inv c == c in set LOWER;
-
-  Letter = Upper | Lower;
-
-  Digit = char
-  inv c == c in set DIGIT;
-  
-  Octal = char
-  inv c == c in set OCTAL;
-
-  Hex = char
-  inv c == c in set HEX;
-
-  AlphaNum = Letter | Digit;
-
-  AlphaNumUpper = Upper | Digit;
-
-  AlphaNumLower = Lower | Digit;
-
-  Space = char
-  inv sp == sp = ' ';
-
-  WhiteSpace = char
-  inv ws == ws in set WHITE_SPACE;
-
-  Phrase = seq1 of (AlphaNum|Space);
-
-  PhraseUpper = seq1 of (AlphaNumUpper|Space);
-
-  PhraseLower = seq1 of (AlphaNumLower|Space);
-
-  Text = seq1 of (AlphaNum|WhiteSpace);
-
-  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace);
-
-  TextLower = seq1 of (AlphaNumLower|WhiteSpace);
-
-values
-
-  SP:char = ' ';
-  TB:char = '\t';
-  CR:char = '\r';
-  LF:char = '\n';
-  WHITE_SPACE:set of char = {SP,TB,CR,LF};
-  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
-                       'R','S','T','U','V','W','X','Y','Z'};
-  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
-                       'r','s','t','u','v','w','x','y','z'};
-  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
-  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
-  DIGITS:seq of Digit = "0123456789";
-  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
-  OCTALS:seq of Octal = "01234567";
-  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-  HEXS:seq of Hex = "0123456789ABCDEF";
-
-functions
-
-  -- Convert upper case letter to lower case.
-  toLower: Upper +> Lower
-  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
-  post toUpper(RESULT) = c;
-
-  -- Convert lower case letter to upper case.
-  toUpper: Lower +> Upper
-  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
-  --post toLower(RESULT) = c;
-
-end Char
-~~~
-{% endraw %}
-
-### Seq.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over sequences.
-
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
-*/
-module Seq
-imports from Numeric all,
-        from Ord all
-exports functions sum: seq of real +> real;
-                  prod: seq of real +> real;
-                  min[@a]: seq1 of @a +> @a;
-                  minWith[@a]: (@a * @a +> bool) +> seq1 of @a +> @a;
-                  max[@a]: seq1 of @a +> @a;
-                  maxWith[@a]: (@a * @a +> bool) +> seq1 of @a +> @a;
-                  inSeq[@a]: @a * seq of @a +> bool;
-                  indexOf[@a]: @a * seq1 of @a +> nat1;
-                  indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1;
-                  indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1];
-                  numOccurs[@a]: @a * seq of @a +> nat;
-                  permutation[@a]: seq of @a * seq of @a +> bool;
-                  ascending[@a]: seq of @a +> bool;
-                  ascendingWith[@a]: (@a * @a +> bool) +> seq of @a +> bool;
-                  descending[@a]: seq of @a +> bool;
-                  descendingWith[@a]: (@a * @a +> bool) +> seq of @a +> bool;
-                  insert[@a]: @a * seq of @a +> seq of @a;
-                  insertWith[@a]: (@a * @a +> bool) +> @a * seq of @a +> seq of @a;
-                  sort[@a]: seq of @a +> seq of @a;
-                  sortWith[@a]: (@a * @a +> bool) +> seq of @a +> seq of @a;
-                  lexicographic[@a]: seq of @a * seq of @a +> bool;
-                  lexicographicWith[@a]: (@a * @a +> bool) +> seq of @a * seq of @a +> bool;
-                  preSeq[@a]: seq of @a * seq of @a +> bool;
-                  postSeq[@a]: seq of @a * seq of @a +> bool;
-                  subSeq[@a]: seq of @a * seq of @a +> bool;
-                  replicate[@a]: nat * @a +> seq of @a;
-                  padLeft[@a]: seq of @a * @a * nat +> seq of @a;
-                  padRight[@a]: seq of @a * @a * nat +> seq of @a;
-                  padCentre[@a]: seq of @a * @a * nat +> seq of @a;
-                  dropWhile[@a]: (@a +> bool) * seq of @a +> seq of @a;
-                  xform[@a,@b]: (@a +> @b) * seq of @a +> seq of @b;
-                  fold[@a]: (@a * @a +> @a) * @a * seq of @a +> @a;
-                  fold1[@a]: (@a * @a +> @a) * seq1 of @a +> @a;
-                  zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b);
-                  unzip[@a,@b]: seq of (@a * @b) +> seq of @a * seq of @b;
-                  isDistinct[@a]: seq of @a +> bool;
-                  pairwise[@a]: (@a * @a +> bool) +> seq of @a +> bool;
-                  app[@a]: seq of @a * seq of @a +> seq of @a;
-                  setOf[@a]: seq of @a +> set of @a;
-                  format[@a]: (@a +> seq of char) * seq of char * seq of @a +> seq of char
-
-definitions
-
-functions
-
-  -- The sum of a set of numerics.
-  sum: seq of real +> real
-  sum(s) == fold[real](Numeric`add,0,s);
-
-  -- The product of a set of numerics.
-  prod: seq of real +> real
-  prod(s) == fold[real](Numeric`mult,1,s);
-
-  -- The minimum of a sequence.
-  min[@a]: seq1 of @a +> @a
-  min(s) == fold1[@a](Ord`min[@a], s)
-  post RESULT in set elems s and forall e in set elems s & RESULT <= e;
-
-  -- The minimum of a sequence with respect to a relation.
-  minWith[@a]: (@a * @a +> bool) +> seq1 of @a +> @a
-  minWith(o)(s) == fold1[@a](Ord`minWith[@a](o), s)
-  post RESULT in set elems s and forall e in set elems s & RESULT = e or o(RESULT,e);
-
-  -- The maximum of a sequence.
-  max[@a]: seq1 of @a +> @a
-  max(s) == fold1[@a](Ord`max[@a], s)
-  post RESULT in set elems s and forall e in set elems s & RESULT >= e;
-
-  -- The maximum of a sequence with respect to a relation.
-  maxWith[@a]: (@a * @a +> bool) +> seq1 of @a +> @a
-  maxWith(o)(s) == fold1[@a](Ord`maxWith[@a](o), s)
-  post RESULT in set elems s and forall e in set elems s & RESULT = e or o(e,RESULT);
-
-  -- Does an element appear in a sequence?
-  inSeq[@a]: @a * seq of @a +> bool
-  inSeq(e,s) == e in set elems s;
-
-  -- The position an item appears in a sequence?
-  indexOf[@a]: @a * seq1 of @a +> nat1
-  indexOf(e,s) == cases s:
-                    [-]    -> 1,
-                    [f]^ss -> if e=f then 1 else 1 + indexOf[@a](e,ss)
-                  end
-  pre inSeq[@a](e,s)
-  measure size0;
-
-  -- The position a subsequence appears in a sequence.
-  indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1
-  indexOfSeq(r,s) == if preSeq[@a](r,s)
-                     then 1
-                     else 1 + indexOfSeq[@a](r, tl s)
-  pre subSeq[@a](r,s)
-  measure size3;
-
-  -- The position a subsequence appears in a sequence?
-  indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1]
-  indexOfSeqOpt(r,s) == if subSeq[@a](r,s) then indexOfSeq[@a](r, s) else nil;
-
-  -- The number of times an element appears in a sequence.
-  numOccurs[@a]: @a * seq of @a +> nat
-  numOccurs(e,sq) == len [ 0 | i in seq sq & i = e ];
-
-  -- Is one sequence a permutation of another?
-  permutation[@a]: seq of @a * seq of @a +> bool
-  permutation(sq1,sq2) ==
-    len sq1 = len sq2 and
-    forall x in seq sq1 & numOccurs[@a](x,sq1) = numOccurs[@a](x,sq2);
-
-  -- Is a sequence presented in ascending order?
-  ascending[@a]: seq of @a +> bool
-  ascending(s) == forall i in set {1,...,len s - 1} & s(i) <= s(i+1)
-  post RESULT <=> descending[@a](reverse(s));
-
-  -- Is a sequence presented in ascending order with respect to a relation?
-  ascendingWith[@a]: (@a * @a +> bool) +> seq of @a +> bool
-  ascendingWith(o)(s) == forall i in set {1,...,len s - 1} & s(i) = s(i+1) or o(s(i), s(i+1))
-  post RESULT <=> descendingWith[@a](o)(reverse(s));
-
-  -- Is a sequence presented in descending order?
-  descending[@a]: seq of @a +> bool
-  descending(s) == forall i in set {1,...,len s - 1} & s(i) >= s(i+1);
-  --post RESULT <=> ascending[@a](reverse(s));
-
-  -- Is a sequence presented in descending order with respect to a relation?
-  descendingWith[@a]: (@a * @a +> bool) +> seq of @a +> bool
-  descendingWith(o)(s) == forall i in set {1,...,len s - 1} & s(i) = s(i+1) or o(s(i+1), s(i));
-  --post RESULT <=> ascendingWith[@a](o)(reverse(s));
-
-  -- Insert a value into an ascending sequence preserving order.
-  insert[@a]: @a * seq of @a +> seq of @a
-  insert(x, s) == cases s:
-                    []    -> [x],
-                    [y]   -> if x <= y then [x,y] else [y,x],
-                    [y]^t -> if x <= y then [x]^s else [y]^insert[@a](x, t)
-                  end
-  pre ascending[@a](s)
-  post ascending[@a](RESULT) and permutation[@a]([x]^s, RESULT)
-  measure size9;
-
-  -- Insert a value into an ascending sequence of values preserving order.
-  insertWith[@a]: (@a * @a +> bool) +> @a * seq of @a +> seq of @a
-  insertWith(o)(x, s) ==
-    cases s:
-      []    -> [x],
-      [y]   -> if o(x,y) then [x,y] else [y,x],
-      [y]^t -> if o(x,y) then [x]^s else [y]^insertWith[@a](o)(x, t)
-    end
-  pre ascendingWith[@a](o)(s)
-  post ascendingWith[@a](o)(RESULT) and permutation[@a]([x]^s, RESULT)
-  measure size6;
-
-  -- Sort a sequence of items.
-  sort[@a]: seq of @a +> seq of @a
-  sort(s) == cases s:
-               []      -> [],
-               [x]     -> [x],
-               [x] ^ t -> insert[@a](x, sort[@a](t))
-             end
-  post elems RESULT = elems s and ascending[@a](RESULT)
-  measure size10;
-
-  -- Sort a sequence of items by the provided order relation.
-  sortWith[@a]: (@a * @a +> bool) +> seq of @a +> seq of @a
-  sortWith(o)(s) == cases s:
-                      [] -> [],
-                      [x] -> [x],
-                      [x] ^ t -> insertWith[@a](o)(x, sortWith[@a](o)(t))
-                    end
-  post elems RESULT = elems s and ascendingWith[@a](o)(RESULT)
-  measure size7;
-
-  -- Lexicographic ordering on sequences.
-  lexicographic[@a]: seq of @a * seq of @a +> bool
-  lexicographic(s, t) ==
-    cases mk_(s, t):
-      mk_([], [-])        -> true,
-      mk_([], -^-)        -> true,
-      mk_([x], [y])       -> x < y,
-      mk_([x], [y]^-)     -> x <= y,
-      mk_([x]^-, [y])     -> x < y,
-      mk_([x]^s1, [y]^t1) -> x < y or x = y and lexicographic[@a](s1, t1),
-      mk_(-,-)            -> false
-    end
-    post RESULT <=> exists i in set {0,...,Numeric`min(len s, len t)}
-                         & (forall j in set {1,...,i} & s(j) = t(j)) and
-                           let s1 = s(i+1,...,len s),
-                               t1 = t(i+1,...,len t)
-                           in s1 = [] and t1 <> [] or
-                              s1 <> [] and t1 <> [] and hd s1 < hd t1
-  measure size11;
-
-  -- Lexicographic ordering on sequences by the provided order relation.
-  lexicographicWith[@a]: (@a * @a +> bool) +> seq of @a * seq of @a +> bool
-  lexicographicWith(o)(s, t) ==
-    cases mk_(s, t):
-      mk_([], [-])        -> true,
-      mk_([], -^-)        -> true,
-      mk_([x], [y])       -> o(x, y),
-      mk_([x], [y]^-)     -> o(x, y) or x = y,
-      mk_([x]^-, [y])     -> o(x, y),
-      mk_([x]^s1, [y]^t1) -> o(x, y) or x = y and lexicographicWith[@a](o)(s1, t1),
-      mk_(-,-)            -> false
-    end
-    post RESULT <=> exists i in set {0,...,Numeric`min(len s, len t)}
-                         & (forall j in set {1,...,i} & s(j) = t(j)) and
-                           let s1 = s(i+1,...,len s),
-                               t1 = t(i+1,...,len t)
-                           in s1 = [] and t1 <> [] or
-                              s1 <> [] and t1 <> [] and o(hd s1, hd t1)
-  measure size8;
-
-  -- Is one sequence a prefix of another?
-  preSeq[@a]: seq of @a * seq of @a +> bool
-  preSeq(pres,full) == pres = full(1,...,len pres);
-
-  -- Is one sequence a suffix of another?
-  postSeq[@a]: seq of @a * seq of @a +> bool
-  postSeq(posts,full) == preSeq[@a](reverse posts, reverse full);
-
-  -- Is one sequence a subsequence of another sequence?
-  subSeq[@a]: seq of @a * seq of @a +> bool
-  subSeq(sub,full) == sub = [] or (exists i,j in set inds full & sub = full(i,...,j));
-
-  -- Create a sequence of identical elements.
-  replicate[@a]: nat * @a +> seq of @a
-  replicate(n,x) == [ x | i in set {1,...,n} ]
-  post len RESULT = n and forall y in seq RESULT & y = x;
-
-  -- Pad a sequence on the left with a given item up to a specified length.
-  padLeft[@a]: seq of @a * @a * nat +> seq of @a
-  padLeft(sq,x,n) == replicate[@a](n-len sq, x) ^ sq
-  pre n >= len sq
-  post len RESULT = n and postSeq[@a](sq, RESULT);
-
-  -- Pad a sequence on the right with a given item up to a specified length.
-  padRight[@a]: seq of @a * @a * nat +> seq of @a
-  padRight(sq,x,n) == sq ^ replicate[@a](n-len sq, x)
-  pre n >= len sq
-  post len RESULT = n and preSeq[@a](sq, RESULT);
-
-  -- Pad a sequence with a given item such that it is centred in a specified length.
-  -- If padded by an odd number, add the extra item on the right.
-  padCentre[@a]: seq of @a * @a * nat +> seq of @a
-  padCentre(sq,x,n) == let space = if n <= len sq then 0 else n - len sq
-                       in padRight[@a](padLeft[@a](sq,x,len sq + (space div 2)),x,n);
-
-  -- Drop items from a sequence while a predicate is true.
-  dropWhile[@a]: (@a +> bool) * seq of @a +> seq of @a
-  dropWhile(p, s) == cases s:
-                       []      -> [],
-                       [x] ^ t -> if p(x) then dropWhile[@a](p, t) else s
-                     end
-  post postSeq[@a](RESULT, s) and
-       (RESULT = [] or not p(RESULT(1))) and
-       forall i in set {1,...,(len s - len RESULT)} & p(s(i))
-  measure size5;
-
-  -- Apply a function to all elements of a sequence.
-  xform[@a,@b]: (@a+>@b) * seq of @a +> seq of @b
-  xform(f,s) == [ f(x) | x in seq s ]
-  post len RESULT = len s and
-       (forall i in set inds s & RESULT(i) = f(s(i)));
-
-  -- Fold (iterate, accumulate, reduce) a binary function over a sequence.
-  -- The function is assumed to be associative and have an identity element.
-  fold[@a]: (@a * @a +> @a) * @a * seq of @a +> @a
-  fold(f, e, s) == cases s:
-                     []    -> e,
-                     [x]   -> x,
-                     s1^s2 -> f(fold[@a](f,e,s1), fold[@a](f,e,s2))
-                   end
-  --pre (forall x:@a & f(x,e) = x and f(e,x) = x)
-  --and forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
-  measure size2;
-
-  -- Fold (iterate, accumulate, reduce) a binary function over a non-empty sequence.
-  -- The function is assumed to be associative.
-  fold1[@a]: (@a * @a +> @a) * seq1 of @a +> @a
-  fold1(f, s) == cases s:
-                   [e]   -> e,
-                   s1^s2 -> f(fold1[@a](f,s1), fold1[@a](f,s2))
-                 end
-  --pre forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
-  measure size1;
-
-  -- Pair the corresponding elements of two lists of equal length.
-  zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b)
-  zip(s,t) == [ mk_(s(i),t(i)) | i in set inds s ]
-  pre len s = len t
-  post len RESULT = len s and mk_(s,t) = unzip[@a,@b](RESULT);
-
-  -- Split a list of pairs into a list of firsts and a list of seconds.
-  unzip[@a,@b]: seq of (@a * @b) +> seq of @a * seq of @b
-  unzip(s) == mk_([ x.#1 | x in seq s], [ x.#2 | x in seq s])
-  post let mk_(t,u) = RESULT in len t = len s and len u = len s;
-  -- and s = zip[@a,@b](RESULT.#1,RESULT.#2);
-
-  -- Are the elements of a list distinct (no duplicates).
-  isDistinct[@a]: seq of @a +> bool
-  isDistinct(s) == len s = card elems s;
-
-  -- Are the elements of a sequence pairwise related?
-  pairwise[@a]: (@a * @a +> bool) +> seq of @a +> bool
-  pairwise(f)(s) == forall i in set {1,...,len s-1} & f(s(i), s(i+1));
-
-  -- Create a string presentation of a set.
-  format[@a]: (@a +> seq of char) * seq of char * seq of @a +> seq of char
-  format(f,sep,s) == cases s:
-                       []    -> "",
-                       [x]   -> f(x),
-                       t ^ u -> format[@a](f,sep,t) ^ sep ^ format[@a](f,sep,u)
-                     end
-  measure size4;
-
-  -- The following functions wrap primitives for convenience, to allow them for example to
-  -- serve as function arguments.
-
-  -- Concatenation of two sequences.
-  app[@a]: seq of @a * seq of @a +> seq of @a
-  app(m,n) == m^n;
-
-  -- Set of sequence elements.
-  setOf[@a]: seq of @a +> set of @a
-  setOf(s) == elems(s);
-
-  -- Measure functions.
-
-  size0[@a]: @a * seq1 of @a +> nat
-  size0(-, s) == len s;
-
-  size1[@a]: (@a * @a +> @a) * seq1 of @a +> nat
-  size1(-, s) == len s;
-
-  size2[@a]: (@a * @a +> @a) * @a * seq of @a +> nat
-  size2(-, -, s) == len s;
-
-  size3[@a]: seq1 of @a * seq1 of @a +> nat
-  size3(-, s) == len s;
-
-  size4[@a]: (@a +> seq of char) * seq of char * seq of @a +> nat
-  size4(-, -, s) == len s;
-
-  size5[@a]: (@a +> bool) * seq of @a +> nat
-  size5(-, s) == len s;
-
-  size6[@a]: (@a * @a +> bool) * @a * seq of @a +> nat
-  size6(-,-,s) == len s;
-
-  size7[@a]: (@a * @a +> bool) * seq of @a +> nat
-  size7(-,s) == len s;
-
-  size8[@a]: (@a * @a +> bool) * seq of @a * seq of @a +> nat
-  size8(-,s,t) == len s + len t;
-
-  size9[@a]: @a * seq of @a +> nat
-  size9(-,s) == len s;
-
-  size10[@a]: seq of @a +> nat
-  size10(s) == len s;
-
-  size11[@a]: seq of @a * seq of @a +> nat
-  size11(-, s) == len s;
-
-end Seq
-~~~
-{% endraw %}
-
-### Set.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over sets.
-
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
-*/
-module Set
-imports from Numeric all,
-        from Seq all,
-        from Ord all
-exports functions sum: set of real +> real;
-                  prod: set of real +> real;
-                  min[@a]: set1 of @a +> @a;
-                  minWith[@a]: (@a * @a +> bool) +> set1 of @a +> @a;
-                  max[@a]: set1 of @a +> @a;
-                  maxWith[@a]: (@a * @a +> bool) +> set1 of @a +> @a;
-                  toSeq[@a]: set of @a +> seq of @a;
-                  xform[@a,@b]: (@a +> @b) * set of @a +> set of @b;
-                  filter[@a]: (@a +> bool) +> set of @a +> set of @a;
-                  fold[@a]: (@a * @a +> @a) * @a * set of @a +> @a;
-                  fold1[@a]: (@a * @a +> @a) * set1 of @a +> @a;
-                  pairwiseDisjoint[@a]: set of set of @a +> bool;
-                  isPartition[@a]: set of set of @a * set of @a +> bool;
-                  permutations[@a]: set1 of @a +> set1 of seq1 of @a;
-                  xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b);
-                  format[@a]: (@a +> seq of char) * seq of char * set of @a +> seq of char
-
-definitions
-
-functions
-
-  -- The sum of a set of numerics.
-  sum: set of real +> real
-  sum(s) == fold[real](Numeric`add,0,s);
-
-  -- The product of a set of numerics.
-  prod: set of real +> real
-  prod(s) == fold[real](Numeric`mult,1,s);
-
-  -- The minimum of a set.
-  min[@a]: set1 of @a +> @a
-  min(s) == fold1[@a](Ord`min[@a], s)
-  -- pre Type argument @a admits an order relation.
-  post RESULT in set s and forall e in set s & RESULT <= e;
-
-  -- The minimum of a set with respect to a relation.
-  minWith[@a]: (@a * @a +> bool) +> set1 of @a +> @a
-  minWith(o)(s) == fold1[@a](Ord`minWith[@a](o), s)
-  post RESULT in set s and forall e in set s & RESULT <= e;
-
-  -- The maximum of a set.
-  max[@a]: set1 of @a +> @a
-  max(s) == fold1[@a](Ord`max[@a], s)
-  -- pre Type argument @a admits an order relation.
-  post RESULT in set s and forall e in set s & RESULT >= e;
-
-  -- The maximum of a set with respect to a relation.
-  maxWith[@a]: (@a * @a +> bool) +> set1 of @a +> @a
-  maxWith(o)(s) == fold1[@a](Ord`maxWith[@a](o), s)
-  post RESULT in set s and forall e in set s & RESULT >= e;
-
-  -- The sequence whose elements are those of a specified set, with no duplicates.
-  -- No order is guaranteed in the resulting sequence.
-  toSeq[@a]: set of @a +> seq of @a
-  toSeq(s) == cases s:
-                {} ->        [],
-                {x} ->       [x],
-                t union u -> toSeq[@a](t) ^ toSeq[@a](u)
-              end
-  post len RESULT = card s and elems RESULT = s
-  measure size;
-  /*
-    A simpler definition would be
-      toSeq(s) == [ x | x in set s ]
-    This would however assume an order relation on the argument type @a.
-  */
-
-  -- Apply a function to all elements of a set. The result set may be smaller than the
-  -- argument set if the function argument is not injective.
-  xform[@a,@b]: (@a+>@b) * set of @a +> set of @b
-  xform(f,s) == { f(e) | e in set s }
-  post (forall e in set s & f(e) in set RESULT) and
-       (forall r in set RESULT & exists e in set s & f(e) = r);
-
-  -- Filter those elements of a set that satisfy a predicate.
-  filter[@a]: (@a +> bool) +> set of @a +> set of @a
-  filter(p)(s) == { x | x in set s & p(x) }
-  post (forall x in set RESULT & p(x)) and (forall x in set s \ RESULT & not p(x));
-
-  -- Fold (iterate, accumulate, reduce) a binary function over a set.
-  -- The function is assumed to be commutative and associative, and have an identity element.
-  fold[@a]: (@a * @a +> @a) * @a * set of @a +> @a
-  fold(f, e, s) == cases s:
-                     {}        -> e,
-                     {x}       -> x,
-                     t union u -> f(fold[@a](f,e,t), fold[@a](f,e,u))
-                   end
-  --pre (forall x:@a & f(x,e) = x and f(e,x) = x)
-  --and (forall x,y:@a & f(x, y) = f(y, x))
-  --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
-  measure size2;
-
-  -- Fold (iterate, accumulate, reduce) a binary function over a non-empty set.
-  -- The function is assumed to be commutative and associative.
-  fold1[@a]: (@a * @a +> @a) * set1 of @a +> @a
-  fold1(f, s) == cases s:
-                   {e}       -> e,
-                   t union u -> f(fold1[@a](f,t), fold1[@a](f,u))
-                 end
-  --pre (forall x,y:@a & f(x,y) = f(y,x))
-  --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
-  measure size1;
-
-  -- Are the members of a set of sets pairwise disjoint.
-  pairwiseDisjoint[@a]: set of set of @a +> bool
-  pairwiseDisjoint(ss) == forall x,y in set ss & x<>y => x inter y = {};
-
-  -- Is a set of sets a partition of a set?
-  isPartition[@a]: set of set of @a * set of @a +> bool
-  isPartition(ss,s) == pairwiseDisjoint[@a](ss) and dunion ss = s;
-
-  -- All (sequence) permutations of a set.
-  permutations[@a]: set1 of @a +> set1 of seq1 of @a
-  permutations(s) ==
-    cases s:
-      {e} -> {[e]},
-      -   -> dunion { { [e]^tail | tail in set permutations[@a](s\{e}) } | e in set s }
-    end
-  post -- for a set of size n, there are n! permutations
-       card RESULT = prod({1,...,card s}) and
-       forall sq in set RESULT & len sq = card s and elems sq = s
-  measure size0;
-
-  -- The cross product of two sets.
-  xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b)
-  xProduct(s,t) == { mk_(x,y) | x in set s, y in set t }
-  post card RESULT = card s * card t;
-
-  -- Create a string presentation of a set.
-  format[@a]: (@a +> seq of char) * seq of char * set of @a +> seq of char
-  format(f,sep,s) == cases s:
-                       {}        -> "",
-                       {x}       -> f(x),
-                       t union u -> format[@a](f,sep,t) ^ sep ^ format[@a](f,sep,u)
-                     end
-  measure size3;
-
-  -- Measure functions.
-
-  size[@a]: set of @a +> nat
-  size(s) == card s;
-
-  size0[@a]: set1 of @a +> nat
-  size0(s) == card s;
-
-  size1[@a]: (@a * @a +> @a) * set1 of @a +> nat
-  size1(-, s) == card s;
-
-  size2[@a]: (@a * @a +> @a) * @a * set of @a +> nat
-  size2(-, -, s) == card s;
-
-  size3[@a]: (@a +> seq of char) * seq of char * set of @a +> nat
-  size3(-, -, s) == card s;
-
-end Set
-~~~
-{% endraw %}
-
-### Ord.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over orders.
-
-   All definitions are explicit and executable.
-*/
-module Ord
-exports functions min[@a]: @a * @a +> @a
-                  minWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
-                  max[@a]: @a * @a +> @a
-                  maxWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
-
-definitions
-
-values
-
-functions
-
-  /*
-    The function defined below a simple in nature, and of limited value in their own right.
-    They can be used in other modules where it is necessary to pass min/max functions as
-    arguments to other functions without the need to define auxiliary functions.
-  */
-
-  -- The minimum of two values.
-  min[@a]: @a * @a +> @a
-  min(x,y) == if x < y then x else y;
-  -- pre The type parameter admits an order relation.
-
-  -- The minimum of two values with respect to a relation.
-  minWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
-  minWith(o)(x,y) == if o(x,y) then x else y;
-  -- pre 'o' is a partial order relation.
-
-  -- The maximum of two values.
-  max[@a]: @a * @a +> @a
-  max(x,y) == if y < x then x else y;
-  -- pre The type parameter admits an order relation.
-
-  -- The maximum of two values with respect to a relation.
-  maxWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
-  maxWith(o)(x,y) == if o(y,x) then x else y;
-  -- pre 'o' is a partial order relation.
-
-end Ord
-~~~
-{% endraw %}
-
-### Numeric.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over numerics.
-
-   All definitions are explicit and executable.
-*/
-module Numeric
-imports from Seq all
-exports functions differBy: real * real * real +> bool;
-                  formatNat: nat +> seq1 of char;
-                  decodeNat: seq1 of char +> nat;
-                  fromChar: char +> nat;
-                  toChar: nat +> char;
-                  zeroPad: nat * nat1 +> seq1 of char;
-                  min: real * real +> real;
-                  max: real * real +> real;
-                  less: real * real +> bool;
-                  leq: real * real +> bool;
-                  grtr: real * real +> bool;
-                  geq: real * real +> bool;
-                  add: real * real +> real;
-                  mult: real * real +> real
-
-definitions
-
-values
-
-  DIGITS:seq of char = "0123456789";
-
-functions
-
-  -- Do two numerics differ by at least a specified value.
-  differBy: real * real * real +> bool
-  differBy(x, y, delta) == abs (x-y) >= delta
-  pre delta > 0;
-
-  -- Format a natural number as a string of digits.
-  formatNat: nat +> seq1 of char
-  formatNat(n) == if n < 10
-                  then [toChar(n)]
-                  else formatNat(n div 10) ^ formatNat(n mod 10)
-  measure size1;
-
-  -- Create a natural number from a sequence of digit characters.
-  decodeNat: seq1 of char +> nat
-  decodeNat(s) == cases s:
-                    [c] -> fromChar(c),
-                    u^[c] -> 10*decodeNat(u)+fromChar(c)
-                  end
-  measure size2;
-
-  -- Convert a character digit to the corresponding natural number.
-  fromChar: char +> nat
-  fromChar(c) == Seq`indexOf[char](c,DIGITS)-1
-  pre c in set elems DIGITS
-  post toChar(RESULT) = c;
-
-  -- Convert a numeric digit to the corresponding character.
-  toChar: nat +> char
-  toChar(n) == DIGITS(n+1)
-  pre n <= 9;
-  --post fromChar(RESULT) = n
-
-  -- Format a natural number as a string with leading zeros up to a specified length.
-  zeroPad: nat * nat1 +> seq1 of char
-  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
-
-  /*
-    The following are simple functions that are of limited value in their own right.
-    The are provided to allow them for example to serve as function arguments.
-  */
-
-  -- Sum of two numbers.
-  add: real * real +> real
-  add(m,n) == m+n;
-
-  -- Product of two numbers.
-  mult: real * real +> real
-  mult(m,n) == m*n;
-
-  -- The minimum of two numerics.
-  min: real * real +> real
-  min(x,y) == if x < y then x else y
-  post RESULT in set {x,y} and RESULT <= x and RESULT <= y;
-
-  -- The maximum of two numerics.
-  max: real * real +> real
-  max(x,y) == if x > y then x else y
-  post RESULT in set {x,y} and RESULT >= x and RESULT >= y;
-
-  -- Numeric less than.
-  -- Useful for passing as a function argument.
-  less: real * real +> bool
-  less(x,y) == x < y;
-
-  -- Numeric less than or equal.
-  -- Useful for passing as a function argument.
-  leq: real * real +> bool
-  leq(x,y) == x <= y;
-
-  -- Numeric greater than.
-  -- Useful for passing as a function argument.
-  grtr: real * real +> bool
-  grtr(x,y) == x > y;
-
-  -- Numeric greater than or equal.
-  -- Useful for passing as a function argument.
-  geq: real * real +> bool
-  geq(x,y) == x >= y;
-
-  -- Measure functions.
-
-  size1: nat +> nat
-  size1(n) == n;
-
-  size2: seq1 of char +> nat
-  size2(s) == len s;
-
-end Numeric
 ~~~
 {% endraw %}
 

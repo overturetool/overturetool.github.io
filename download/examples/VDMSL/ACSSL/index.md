@@ -329,8 +329,8 @@ shortest_dist(pes,exs) ==
                 p1 in set perimeter(pes) and
                 p2 in set perimeter(exs)});
 
-min_separation:Pot_explosion_site * Exposed_site -> bool
-min_separation(pes,exs) == 
+minseparation:Pot_explosion_site * Exposed_site -> bool
+minseparation(pes,exs) == 
   shortest_dist(pes,exs) >= bsharp((pes.mgzn.hzd))(table_entry(pes,exs));
 
 qd: Pot_explosion_site * Exposed_site -> Kg
@@ -480,7 +480,7 @@ ADD_PES(pex:Pot_explosion_site, label: Site_label,type:Storage_building)
 ext wr pes: inmap Site_label to Pot_explosion_site
     wr exs: inmap Site_label to Exposed_site
     rd xmax, ymax: Metre
-pre forall exp in set rng exs & min_separation(pex,exp) and
+pre forall exp in set rng exs & minseparation(pex,exp) and
     forall v in seq pex.vertices &
         (0 <= v.x and v.x <= xmax and
          0 <= v.y and v.y <= ymax) and

@@ -47,42 +47,6 @@ end World
 ~~~
 {% endraw %}
 
-### Test.vdmrt
-
-{% raw %}
-~~~
-class Testing
-
-operations
-  public Test: () ==> ()
-  Test () ==
-  (
-    new World().RunScenario1();
-		start(self);
-    block();
-  );
-
-
-  private block : () ==> ()
-  block () == skip;
-
-  private op : () ==> ()
-  op () == skip;
-
-sync
-
-per block => time > 5000000
-
-
-thread
-
-  periodic(1000E6,0,0,0)(op)
-
-end Testing
-
-~~~
-{% endraw %}
-
 ### RadNavSys.vdmrt
 
 {% raw %}
@@ -126,6 +90,75 @@ separate(#fin(MMI`UpdateScreen), #fin(MMI`UpdateScreen), 500 ms);
 */
 
 end RadNavSys
+~~~
+{% endraw %}
+
+### mmi.vdmrt
+
+{% raw %}
+~~~
+class MMI
+
+operations
+  async 
+  public HandleKeyPress: nat ==> ()
+  HandleKeyPress (pn) ==
+    ( cycles (1E5) skip;
+      --duration (1E5) skip;
+      cases (pn):
+        1 -> RadNavSys`radio.AdjustVolumeUp(),
+        2 -> RadNavSys`radio.AdjustVolumeDown(),
+        3 -> RadNavSys`navigation.DatabaseLookup()
+      end ); 
+
+  async 
+  public UpdateScreen: nat ==> ()
+  UpdateScreen (pn) ==
+    ( cycles (5E5) skip;
+      --duration (5E5) skip;
+      cases (pn):
+        1 -> IO`println("Screen Update: Volume Knob"),
+        2 -> IO`println("Screen Update: InsertAddress"), --World`envTasks("InsertAddress").HandleEvent(pno),
+        3 -> IO`println("Screen Update: TransmitTMC") -- World`envTasks("TransmitTMC").HandleEvent(pno)
+      end )
+
+end MMI
+~~~
+{% endraw %}
+
+### Test.vdmrt
+
+{% raw %}
+~~~
+class Testing
+
+operations
+  public Test: () ==> ()
+  Test () ==
+  (
+    new World().RunScenario1();
+		start(self);
+    block();
+  );
+
+
+  private block : () ==> ()
+  block () == skip;
+
+  private op : () ==> ()
+  op () == skip;
+
+sync
+
+per block => time > 5000000
+
+
+thread
+
+  periodic(1000E6,0,0,0)(op)
+
+end Testing
+
 ~~~
 {% endraw %}
 
@@ -191,39 +224,6 @@ operations
       RadNavSys`mmi.UpdateScreen(3) )
 
 end Navigation
-~~~
-{% endraw %}
-
-### mmi.vdmrt
-
-{% raw %}
-~~~
-class MMI
-
-operations
-  async 
-  public HandleKeyPress: nat ==> ()
-  HandleKeyPress (pn) ==
-    ( cycles (1E5) skip;
-      --duration (1E5) skip;
-      cases (pn):
-        1 -> RadNavSys`radio.AdjustVolumeUp(),
-        2 -> RadNavSys`radio.AdjustVolumeDown(),
-        3 -> RadNavSys`navigation.DatabaseLookup()
-      end ); 
-
-  async 
-  public UpdateScreen: nat ==> ()
-  UpdateScreen (pn) ==
-    ( cycles (5E5) skip;
-      --duration (5E5) skip;
-      cases (pn):
-        1 -> IO`println("Screen Update: Volume Knob"),
-        2 -> IO`println("Screen Update: InsertAddress"), --World`envTasks("InsertAddress").HandleEvent(pno),
-        3 -> IO`println("Screen Update: TransmitTMC") -- World`envTasks("TransmitTMC").HandleEvent(pno)
-      end )
-
-end MMI
 ~~~
 {% endraw %}
 

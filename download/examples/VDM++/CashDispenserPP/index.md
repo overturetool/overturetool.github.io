@@ -20,6 +20,47 @@ in 1999 in connection with FM'99.
 |Entry point     :| new SimpleTest().Run()|
 
 
+### Card.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                    
+class Card
+
+types
+  public CardId = nat;
+  public Code = nat;
+  public PinCode = nat;
+
+instance variables
+  code : Code;
+  cardId : CardId;
+  accountId : Account`AccountId;
+
+operations
+  public Card : Code * CardId * Account`AccountId ==> Card
+  Card(c,cid,a) ==
+    (code := c;
+     cardId := cid;
+     accountId := a);
+
+  pure public GetCode : () ==> Code
+  GetCode() ==
+    return code;
+
+  pure public GetAccountId : () ==> Account`AccountId
+  GetAccountId() ==
+    return accountId;
+
+  pure public GetCardId : () ==> CardId
+  GetCardId() ==
+    return cardId;
+
+end Card
+                
+~~~
+{% endraw %}
+
 ### Account.vdmpp
 
 {% raw %}
@@ -120,71 +161,6 @@ end Account
 ~~~
 {% endraw %}
 
-### Letter.vdmpp
-
-{% raw %}
-~~~
-                                                                                                      
-class Letter
-
-instance variables
-  public name : Cardholder`Name;
-  public address : Cardholder`Address;
-  public date : Clock`Date;
-  public transactions : seq of Account`Transaction;
-  public balance : nat
-
-operations
-  public Create: Cardholder`Name * Cardholder`Address * Clock`Date *
-          seq of Account`Transaction * nat ==> Letter
-  Create(nm,addr,d,ts,b) ==
-    (name := nm;
-     address := addr;
-     date := d;
-     transactions := ts;
-     balance:= b;
-     return self);
-
-end Letter
-                 
-~~~
-{% endraw %}
-
-### CardHolder.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                            
-class Cardholder
-
-types
-  public Address = seq of char;
-  public Name = seq of char;
-
-instance variables
-  name : Name;
-  address : Address;
-
-operations
-  public Create : Name * Address ==> Cardholder
-  Create(nm,addr) ==
-    (name := nm;
-     address := addr;
-     return self);
-
-  pure public GetName : () ==> Name 
-  GetName () ==
-    return name;
-
-  pure public GetAddress : () ==> Address 
-  GetAddress() ==
-    return address;
-
-end Cardholder
-                 
-~~~
-{% endraw %}
-
 ### Letterbox.vdmpp
 
 {% raw %}
@@ -252,6 +228,64 @@ public Run : () ==> bool
     );
 
 end SimpleTest
+~~~
+{% endraw %}
+
+### Letter.vdmpp
+
+{% raw %}
+~~~
+                                                                                                      
+class Letter
+
+instance variables
+  public name : Cardholder`Name;
+  public address : Cardholder`Address;
+  public date : Clock`Date;
+  public transactions : seq of Account`Transaction;
+  public balance : nat
+
+operations
+  public Create: Cardholder`Name * Cardholder`Address * Clock`Date *
+          seq of Account`Transaction * nat ==> Letter
+  Create(nm,addr,d,ts,b) ==
+    (name := nm;
+     address := addr;
+     date := d;
+     transactions := ts;
+     balance:= b;
+     return self);
+
+end Letter
+                 
+~~~
+{% endraw %}
+
+### Clock.vdmpp
+
+{% raw %}
+~~~
+                                                                                             
+class Clock
+
+types
+  public Date = seq of char;
+
+instance variables
+
+  date : Date := "";
+
+operations
+  public SetDate : Date ==> ()
+  SetDate(d) ==
+    date := d;
+
+  pure public GetDate : () ==> Date
+  GetDate() ==
+    return date;
+
+end Clock
+                
 ~~~
 {% endraw %}
 
@@ -345,169 +379,167 @@ end CentralResource
 ~~~
 {% endraw %}
 
-### Card.vdmpp
+### InsertCard.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                    
-class Card
-
-types
-  public CardId = nat;
-  public Code = nat;
-  public PinCode = nat;
+                                                                                                                                                                
+class InsertCard is subclass of Event
 
 instance variables
-  code : Code;
-  cardId : CardId;
-  accountId : Account`AccountId;
+
+  tillid : System`TillId;
+  mycard : Card;
 
 operations
-  public Card : Code * CardId * Account`AccountId ==> Card
-  Card(c,cid,a) ==
-    (code := c;
-     cardId := cid;
-     accountId := a);
 
-  pure public GetCode : () ==> Code
-  GetCode() ==
-    return code;
+  public Init : System`TillId * Card ==> InsertCard
+  Init(tid, c) ==
+    (tillid := tid;
+     mycard := c;
+     return self);
 
-  pure public GetAccountId : () ==> Account`AccountId
-  GetAccountId() ==
-    return accountId;
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    (sys.GetTill(tillid).InsertCard(mycard);
+     return true);
 
-  pure public GetCardId : () ==> CardId
-  GetCardId() ==
-    return cardId;
-
-end Card
-                
+end InsertCard
+             
 ~~~
 {% endraw %}
 
-### Clock.vdmpp
+### SendStatement.vdmpp
 
 {% raw %}
 ~~~
-                                                                                             
-class Clock
-
-types
-  public Date = seq of char;
+                                                                                                                                                                                                    
+class SendStatement is subclass of Event
 
 instance variables
 
-  date : Date := "";
+  tillid : System`TillId;
 
 operations
-  public SetDate : Date ==> ()
-  SetDate(d) ==
-    date := d;
+  public Init : System`TillId ==> SendStatement
+  Init(tid) ==
+    (tillid := tid;
+     return self);
 
-  pure public GetDate : () ==> Date
-  GetDate() ==
-    return date;
-
-end Clock
-                
-~~~
-{% endraw %}
-
-### Till.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-class Till
-
-instance variables
-  curCard : [Card] := nil;
-  cardOk : bool := false;
-  retainedCards : set of Card := {};
-  resource : CentralResource;
-
-  inv curCard = nil => not cardOk;
-                                                                                                                                                    
-operations
-  public Till: CentralResource ==> Till
-  Till(res) == 
-    resource := res;
-                                                                                                                                                  
-  public InsertCard : Card ==> ()
-  InsertCard(c) ==
-    curCard := c
-  pre not CardInside();
-                                                                                                                                                                                                            
-  public Validate : Card`PinCode ==> <PinOk> | <PinNotOk> | <Retained>
-  Validate(pin) ==
-    let cardId = curCard.GetCardId(),
-        codeOk = curCard.GetCode() = Encode(pin),
-        cardLegal = IsLegalCard()
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    let till = sys.GetTill(tillid)
     in
-      (cardOk := codeOk and cardLegal;
-       if not cardLegal then 
-         (retainedCards := retainedCards union {curCard};
-          curCard := nil;
-          return <Retained>)
-       elseif codeOk then
-         resource.ResetNumberOfTries(cardId)
-       else
-         (resource.IncrNumberOfTries(cardId);
-          if resource.NumberOfTriesExceeded(cardId) then
-            (retainedCards := retainedCards union {curCard};
-             cardOk := false;
-             curCard := nil;
-             return <Retained>));
-       return if cardOk
-              then <PinOk>
-              else <PinNotOk>)
-  pre CardInside() and not cardOk;
-                                                                                                                                                                                                                                                                                           
-  public ReturnCard : () ==> ()
-  ReturnCard() ==
-    (cardOk := false;
-     curCard:= nil)
-  pre CardInside();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-  public GetBalance : () ==> [nat]
-  GetBalance() ==
-    resource.GetBalance(curCard.GetAccountId())
-  pre CardValidated();
-                                                                                                                                                                    
-  public MakeWithdrawal : nat ==> bool
-  MakeWithdrawal(amount) ==
-    resource.Withdrawal
-      (curCard.GetAccountId(),curCard.GetCardId(),amount)
-  pre CardValidated();
+      if till.CardValidated()
+      then till.RequestStatement()
+      else return false;
 
-  public RequestStatement : () ==> bool
-  RequestStatement() ==
-    resource.PostStatement(curCard.GetAccountId(),curCard.GetCardId())
-  pre CardValidated();
-                                                                                                         
-  pure public IsLegalCard : () ==> bool
-  IsLegalCard() ==
-    return 
-      resource.IsLegalCard(curCard.GetAccountId(),curCard.GetCardId())
-  pre CardInside();
+end SendStatement
+             
+~~~
+{% endraw %}
 
-  pure public CardValidated: () ==> bool
-  CardValidated() ==
-    return curCard <> nil and cardOk;
+### Validate.vdmpp
 
-  pure public CardInside: () ==> bool
-  CardInside() ==
-    return curCard <> nil;
+{% raw %}
+~~~
+                                                    
+class Validate is subclass of Event
 
-functions
-                                                                                                                                                                                                                                                  
-  Encode: Card`PinCode +> Card`Code
-  Encode(pin) ==
-    pin; -- NB! The actual encoding procedure has not yet been chosen
+instance variables
 
-end Till
-               
+  tillid : System`TillId;
+  code : Card`PinCode;
+
+operations
+  public Init : System`TillId * Card`PinCode ==> Validate
+  Init(tid, pin) ==
+    (tillid := tid;
+     code := pin;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    sys.GetTill(tillid).Validate(code);
+
+end Validate
+             
+~~~
+{% endraw %}
+
+### IllegalCard.vdmpp
+
+{% raw %}
+~~~
+                                                       
+class IllegalCard is subclass of Event
+
+instance variables
+
+  mycard   : Card`CardId;
+
+operations
+
+  public Init : Card`CardId ==> IllegalCard
+  Init(c) ==
+    (mycard := c;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    (sys.GetResource().AddIllegalCard(mycard);
+     return true);
+
+end IllegalCard
+             
+~~~
+{% endraw %}
+
+### GetBalance.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                             
+class GetBalance is subclass of Event
+
+instance variables
+
+  tillid : System`TillId;
+
+operations
+
+  public Init : System`TillId ==> GetBalance
+  Init(tid) ==
+    (tillid := tid;
+     return self);
+
+  public execute : System ==> Test`TestResult
+  execute(sys) ==
+    let till = sys.GetTill(tillid)
+    in
+      if till.CardValidated()
+      then till.GetBalance()
+      else return false;
+
+end GetBalance
+             
+~~~
+{% endraw %}
+
+### Event.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                        
+class Event
+
+operations 
+  public execute : System ==> Test`TestResult
+  execute(system) ==
+    is subclass responsibility;
+
+end Event
+             
 ~~~
 {% endraw %}
 
@@ -645,22 +677,23 @@ end Test
 ~~~
 {% endraw %}
 
-### GetBalance.vdmpp
+### Withdrawal.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                             
-class GetBalance is subclass of Event
+                                                                                                                                                                     
+class Withdrawal is subclass of Event
 
 instance variables
 
   tillid : System`TillId;
+  amount : nat;
 
 operations
-
-  public Init : System`TillId ==> GetBalance
-  Init(tid) ==
-    (tillid := tid;
+  public Init : System`TillId * nat ==> Withdrawal
+  Init(t, a) ==
+    (tillid := t;
+     amount := a;
      return self);
 
   public execute : System ==> Test`TestResult
@@ -668,85 +701,10 @@ operations
     let till = sys.GetTill(tillid)
     in
       if till.CardValidated()
-      then till.GetBalance()
+      then till.MakeWithdrawal(amount)
       else return false;
 
-end GetBalance
-             
-~~~
-{% endraw %}
-
-### IllegalCard.vdmpp
-
-{% raw %}
-~~~
-                                                       
-class IllegalCard is subclass of Event
-
-instance variables
-
-  mycard   : Card`CardId;
-
-operations
-
-  public Init : Card`CardId ==> IllegalCard
-  Init(c) ==
-    (mycard := c;
-     return self);
-
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    (sys.GetResource().AddIllegalCard(mycard);
-     return true);
-
-end IllegalCard
-             
-~~~
-{% endraw %}
-
-### Event.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                        
-class Event
-
-operations 
-  public execute : System ==> Test`TestResult
-  execute(system) ==
-    is subclass responsibility;
-
-end Event
-             
-~~~
-{% endraw %}
-
-### SendStatement.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                    
-class SendStatement is subclass of Event
-
-instance variables
-
-  tillid : System`TillId;
-
-operations
-  public Init : System`TillId ==> SendStatement
-  Init(tid) ==
-    (tillid := tid;
-     return self);
-
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    let till = sys.GetTill(tillid)
-    in
-      if till.CardValidated()
-      then till.RequestStatement()
-      else return false;
-
-end SendStatement
+end Withdrawal
              
 ~~~
 {% endraw %}
@@ -783,93 +741,135 @@ end ReturnCard
 ~~~
 {% endraw %}
 
-### Withdrawal.vdmpp
+### Till.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                     
-class Withdrawal is subclass of Event
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+class Till
 
 instance variables
+  curCard : [Card] := nil;
+  cardOk : bool := false;
+  retainedCards : set of Card := {};
+  resource : CentralResource;
 
-  tillid : System`TillId;
-  amount : nat;
-
+  inv curCard = nil => not cardOk;
+                                                                                                                                                    
 operations
-  public Init : System`TillId * nat ==> Withdrawal
-  Init(t, a) ==
-    (tillid := t;
-     amount := a;
-     return self);
-
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    let till = sys.GetTill(tillid)
+  public Till: CentralResource ==> Till
+  Till(res) == 
+    resource := res;
+                                                                                                                                                  
+  public InsertCard : Card ==> ()
+  InsertCard(c) ==
+    curCard := c
+  pre not CardInside();
+                                                                                                                                                                                                            
+  public Validate : Card`PinCode ==> <PinOk> | <PinNotOk> | <Retained>
+  Validate(pin) ==
+    let cardId = curCard.GetCardId(),
+        codeOk = curCard.GetCode() = Encode(pin),
+        cardLegal = IsLegalCard()
     in
-      if till.CardValidated()
-      then till.MakeWithdrawal(amount)
-      else return false;
+      (cardOk := codeOk and cardLegal;
+       if not cardLegal then 
+         (retainedCards := retainedCards union {curCard};
+          curCard := nil;
+          return <Retained>)
+       elseif codeOk then
+         resource.ResetNumberOfTries(cardId)
+       else
+         (resource.IncrNumberOfTries(cardId);
+          if resource.NumberOfTriesExceeded(cardId) then
+            (retainedCards := retainedCards union {curCard};
+             cardOk := false;
+             curCard := nil;
+             return <Retained>));
+       return if cardOk
+              then <PinOk>
+              else <PinNotOk>)
+  pre CardInside() and not cardOk;
+                                                                                                                                                                                                                                                                                           
+  public ReturnCard : () ==> ()
+  ReturnCard() ==
+    (cardOk := false;
+     curCard:= nil)
+  pre CardInside();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+  public GetBalance : () ==> [nat]
+  GetBalance() ==
+    resource.GetBalance(curCard.GetAccountId())
+  pre CardValidated();
+                                                                                                                                                                    
+  public MakeWithdrawal : nat ==> bool
+  MakeWithdrawal(amount) ==
+    resource.Withdrawal
+      (curCard.GetAccountId(),curCard.GetCardId(),amount)
+  pre CardValidated();
 
-end Withdrawal
-             
+  public RequestStatement : () ==> bool
+  RequestStatement() ==
+    resource.PostStatement(curCard.GetAccountId(),curCard.GetCardId())
+  pre CardValidated();
+                                                                                                         
+  pure public IsLegalCard : () ==> bool
+  IsLegalCard() ==
+    return 
+      resource.IsLegalCard(curCard.GetAccountId(),curCard.GetCardId())
+  pre CardInside();
+
+  pure public CardValidated: () ==> bool
+  CardValidated() ==
+    return curCard <> nil and cardOk;
+
+  pure public CardInside: () ==> bool
+  CardInside() ==
+    return curCard <> nil;
+
+functions
+                                                                                                                                                                                                                                                  
+  Encode: Card`PinCode +> Card`Code
+  Encode(pin) ==
+    pin; -- NB! The actual encoding procedure has not yet been chosen
+
+end Till
+               
 ~~~
 {% endraw %}
 
-### InsertCard.vdmpp
+### CardHolder.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                
-class InsertCard is subclass of Event
+                                                                                                                                                                                                            
+class Cardholder
+
+types
+  public Address = seq of char;
+  public Name = seq of char;
 
 instance variables
-
-  tillid : System`TillId;
-  mycard : Card;
-
-operations
-
-  public Init : System`TillId * Card ==> InsertCard
-  Init(tid, c) ==
-    (tillid := tid;
-     mycard := c;
-     return self);
-
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    (sys.GetTill(tillid).InsertCard(mycard);
-     return true);
-
-end InsertCard
-             
-~~~
-{% endraw %}
-
-### Validate.vdmpp
-
-{% raw %}
-~~~
-                                                    
-class Validate is subclass of Event
-
-instance variables
-
-  tillid : System`TillId;
-  code : Card`PinCode;
+  name : Name;
+  address : Address;
 
 operations
-  public Init : System`TillId * Card`PinCode ==> Validate
-  Init(tid, pin) ==
-    (tillid := tid;
-     code := pin;
+  public Create : Name * Address ==> Cardholder
+  Create(nm,addr) ==
+    (name := nm;
+     address := addr;
      return self);
 
-  public execute : System ==> Test`TestResult
-  execute(sys) ==
-    sys.GetTill(tillid).Validate(code);
+  pure public GetName : () ==> Name 
+  GetName () ==
+    return name;
 
-end Validate
-             
+  pure public GetAddress : () ==> Address 
+  GetAddress() ==
+    return address;
+
+end Cardholder
+                 
 ~~~
 {% endraw %}
 

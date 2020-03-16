@@ -76,18 +76,52 @@ end UseTree
 ~~~
 {% endraw %}
 
-### avl.vdmpp
+### bst.vdmpp
 
 {% raw %}
 ~~~
-class AVLTree is subclass of Tree
+class BinarySearchTree is subclass of Tree
+
 
   functions
 
-  tree_isAVLTree : tree -> bool
-  tree_isAVLTree(t) == true
+    public
+    isBst : Tree`tree -> bool
+    isBst (t) ==
+      cases t:
+        <Empty> -> true,
+        mk_node(lt,v,rt) -> 
+           (forall n in set lt.nodes() & n.nval <= v) and
+           (forall n in set rt.nodes() & v <= n.nval) and
+           isBst(lt.gettree()) and isBst(rt.gettree())
+      end
+ 
+  operations
 
-end AVLTree
+    BinarySearchTree_inv : () ==> bool
+    BinarySearchTree_inv () ==
+      return(isBst(root));
+
+    public
+    Insert : int ==> ()
+    Insert (x) ==
+      (dcl curr_node : Tree := self;
+
+       while not curr_node.isEmpty() do
+         if curr_node.rootval() < x
+         then curr_node := curr_node.rightBranch()
+         else curr_node := curr_node.leftBranch();
+       curr_node.addRoot(x);
+       )
+
+end BinarySearchTree
+class BalancedBST is subclass of BinarySearchTree
+
+  values
+
+  v = 1
+
+end BalancedBST
 ~~~
 {% endraw %}
 
@@ -200,52 +234,18 @@ end Tree
 ~~~
 {% endraw %}
 
-### bst.vdmpp
+### avl.vdmpp
 
 {% raw %}
 ~~~
-class BinarySearchTree is subclass of Tree
-
+class AVLTree is subclass of Tree
 
   functions
 
-    public
-    isBst : Tree`tree -> bool
-    isBst (t) ==
-      cases t:
-        <Empty> -> true,
-        mk_node(lt,v,rt) -> 
-           (forall n in set lt.nodes() & n.nval <= v) and
-           (forall n in set rt.nodes() & v <= n.nval) and
-           isBst(lt.gettree()) and isBst(rt.gettree())
-      end
- 
-  operations
+  tree_isAVLTree : tree -> bool
+  tree_isAVLTree(t) == true
 
-    BinarySearchTree_inv : () ==> bool
-    BinarySearchTree_inv () ==
-      return(isBst(root));
-
-    public
-    Insert : int ==> ()
-    Insert (x) ==
-      (dcl curr_node : Tree := self;
-
-       while not curr_node.isEmpty() do
-         if curr_node.rootval() < x
-         then curr_node := curr_node.rightBranch()
-         else curr_node := curr_node.leftBranch();
-       curr_node.addRoot(x);
-       )
-
-end BinarySearchTree
-class BalancedBST is subclass of BinarySearchTree
-
-  values
-
-  v = 1
-
-end BalancedBST
+end AVLTree
 ~~~
 {% endraw %}
 

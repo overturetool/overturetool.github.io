@@ -105,108 +105,102 @@ from there the entire simulation can be started up.
 |Entry point     :| new World().runwithoutcollab()|
 
 
-### AWorld.vdmpp
+### SimpleEnvironment.vdmpp
 
 {% raw %}
 ~~~
-class World
+class TestEnvironment is subclass of Environment
+
+instance variables 
+
+simtime : [nat];
+time : nat;
+sit: EdgeSit;
+falling: bool; 
+
+operations 
+
+public TestEnvironment: Network * map World`TMSId to TMS * [nat] ==> TestEnvironment 
+TestEnvironment(net, tms, t) == (
+	let - = Environment(net, tms) in skip;
+	simtime := t;
+	time := 0;
+	sit := mk_(0,120,0,false,false);
+	falling := true
+);
+
+public Run: () ==> ()
+Run() == while not isFinished() do (
+	dcl trafsit: TrafficSituation := {|->};
+	dcl control: TMS`Control := {|->};
+	for all e in set network.GetEdgeIds() do trafsit := trafsit ++ {e |-> sit};
+	for all id in set dom tms_m do (tms_m(id).Step(trafsit));
+  for all id in set dom tms_m do (tms_m(id).MakeOffers());
+  for all id in set dom tms_m do (tms_m(id).EvaluateOffers());
+  for all id in set dom tms_m do let c = tms_m(id).FinaliseOffers() in control := control ++ c;
+	IO`printf("%s\nEdge situation: %s\nControl measures: %s\n", [time, sit, control]);
+	time := time+1;
+	UpdateSit()
+);
+
+private UpdateSit: () ==> ()
+UpdateSit() == (
+	if falling then
+		sit := mk_(sit.#1, sit.#2 - 5, sit.#3, false, false)
+	else
+		sit := mk_(sit.#1, sit.#2 + 5, sit.#3, false, false);
+	if sit.#2 = 0 and falling then falling := false;
+	if sit.#2 = 120 and not falling then falling := true;
+);
+
+protected isFinished: () ==> bool
+isFinished() == return if simtime <> nil then time >= simtime else false;
+
+end TestEnvironment
+~~~
+{% endraw %}
+
+### Environment.vdmpp
+
+{% raw %}
+~~~
+class Environment
 
 types
 
-public TMSId = seq of char;
+public Performance ::            
+  pol : map Network`EdgeId to Polution
+  veh_traveldist : nat;
+
+public EdgeSit = CarDensity * AvgSpeed * Polution * Incident * BridgeOpen;
+public TrafficSituation = map Network`EdgeId to EdgeSit;
+  
+public CarDensity = nat;
+public AvgSpeed = nat;
+public Polution = nat;
+public Incident = bool;
+public BridgeOpen = bool
   
 instance variables
 
-static network : Network := new Network({|->});
-env: Environment;
-static public tms1: TMS := new TMS("Rotterdam", network);
-static public tms2: TMS := new TMS("RWS", network);
-static tms_m : map TMSId to TMS := {"Rotterdam" |-> tms1, "RWS" |-> tms2};
-collaboration : bool := true;
-
+protected network : Network := new Network({|->});
+protected tms_m : map World`TMSId to TMS := {|->};  
+  
 operations
 
-public run: ()  ==> () --Performance
-  run() == (
-  	Run("RotterdamNetwork.csv", "TMSconfiguration.csv", 300)
-	);
-	
-public runwithoutcollab: ()  ==> () --Performance
-  runwithoutcollab() == (
-  	SetCollaboration(false);
-  	Run("RotterdamNetwork.csv", "TMSconfiguration.csv", 300)
-	);
-	
-  public Run: seq of char * seq1 of char * [nat] ==> () --Performance
-  Run(network_file, tms_file, simtime) == (
-  	network := ReadRoadNetwork(network_file);
-  	for all tid in set dom tms_m do
-  	  tms_m(tid).ResetNetwork(network,self);
-  	ReadTMSs(tms_file, network);
-  	env := new SimulatorEnvironment(network, tms_m, simtime);
-  	for all tid in set dom tms_m do
-  	  tms_m(tid).UpdateInternalEdges();
-  	env.Run(collaboration,network_file,tms_file)
-	);
-	  
-  public ReadRoadNetwork: seq1 of char ==> Network
-  ReadRoadNetwork(file_n) ==
-    let mk_(ok,lines) = CSV`flinecount(file_n)
-    in
-      if ok 
-      then (dcl net : map Network`EdgeId to Edge := {|->};
-            for i = 1 to lines do
-            -- each line in the network configuration file contains
-            -- - The identifier of the edge
-            -- - the starting node for the edge
-            -- - the ending node for the edge
-            -- - the length of the edge
-            -- - the number of lanes for the edge
-            -- - the maximum speed for the edge
-            -- - flow of cars into the edge
-             let mk_(ok,[edgeid,startid,endid,l,lane,max,inflow]) = 
-                  CSV`freadval[seq of (nat | seq of char)](file_n,i)
-             in net(edgeid) := new Edge(max,lane,l,mk_token(startid),mk_token(endid));
-             return new Network(net)
-           )
-      else error;
-      
-  public ReadTMSs: seq of char * Network ==> ()
-  ReadTMSs(file_n, n) ==
-    let mk_(ok,lines) = CSV`flinecount(file_n)
-    in
-      if ok 
-      then (for i = 1 to lines do
-            -- each line in the TMS configuration file contains:
-            -- - the identification of the TMS
-            -- - an identification of the edge included
-            -- - a traffic control measure if available (alternatively nil is included)
-            -- - a priority if available (alternatively nil is included)
-            -- - possible suggested routes to make diversions avoiding the edge
-             let mk_(ok,[tmsid,edgeid,tcm,prio,diversions]) = 
-                  CSV`freadval[seq of ([nat] | seq of char |set of seq of seq of char)](file_n,i),
-                  tid = tmsid
-             in (  --{["A202","S109","S102","A153"],["A42","A43","A152","A153"],["A42","S114","S102","A153"]}
-               if not tid in set dom tms_m 
-               then tms_m(tid) := new TMS("Invalid TMS", n);-- this should never happen
-               tms_m(tid).AddEdge({edgeid});
-               if tcm <> nil and tcm <> "Bridge" then tms_m(tid).AddTCM(edgeid,TMS`ConvertTCM(tcm));
-               if tcm <> nil and tcm = "Bridge" then tms_m(tid).AddBridge(edgeid,TMS`ConvertBridge(tcm));
-               if prio <> nil then tms_m(tid).AddPriority(edgeid,prio);
---               if diversions <> nil
---               then network.AddDiversionRoutes(edgeid, 
---                                               {[r(j) | j in set inds r]
---                                               | r in set diversions})
-             );
-						 for all tid in set dom tms_m do tms_m(tid).CalculateInterest(n);-- sort out interested edges	
-           )
-      else error;
-      
- public SetCollaboration: bool ==> ()
- SetCollaboration(b) ==
-   collaboration := b;
+public Environment: Network * map World`TMSId to TMS ==> Environment 
+Environment(net, tms) == (
+	network := net;
+	tms_m := tms
+);
 
-end World
+public Run: bool * seq of char * seq1 of char ==> ()
+Run(-,-,-) == skip;
+
+protected isFinished: () ==> bool
+isFinished() == return false;
+
+end Environment
 ~~~
 {% endraw %}
 
@@ -425,6 +419,86 @@ operations
 			is not yet specified;
 
 end tempo_vdm_SimulatorIO
+~~~
+{% endraw %}
+
+### SimulatorEnvironment.vdmpp
+
+{% raw %}
+~~~
+class SimulatorEnvironment is subclass of Environment
+
+instance variables 
+
+simtime : [nat];
+time : nat;
+
+operations 
+
+public SimulatorEnvironment: Network * map World`TMSId to TMS * [nat] ==> SimulatorEnvironment 
+SimulatorEnvironment(net, tms, t) == (
+	let - = Environment(net, tms) in skip;
+	simtime := t;
+	time := 0;
+);
+
+public Run: bool * seq of char * seq1 of char ==> ()
+Run(colab,network_file,tms_file) == (
+	dcl path: seq of char := tempo_vdm_SimulatorIO`initialize(network_file,tms_file);
+	tempo_vdm_SimulatorIO`fastForwardSimulator(20 * 60);
+	while not isFinished() do (
+		dcl trafsit: TrafficSituation;
+		dcl control: TMS`Control := {|->};
+		tempo_vdm_SimulatorIO`runSimulator(10);
+		trafsit := UpdateSit();
+		for all id in set dom tms_m do tms_m(id).Step(trafsit);
+	  if colab 
+	  then for all id in set dom tms_m do tms_m(id).MakeOffers();
+		for all id in set dom tms_m do tms_m(id).EvaluateOffers();
+	  for all id in set dom tms_m do 
+	    let c = tms_m(id).FinaliseOffers() 
+		  in 
+		    (control := control ++ c;
+		     network.ResetNotproblematic(id));
+		IO`printf("%s\nEdge situation: %s\nControl measures: %s\n", [time, trafsit, control]);
+		for all e in set dom control do
+			for all m in set control(e) do
+				if is_TMS`HardShoulder(m) then
+					tempo_vdm_SimulatorIO`applyHardShoulder(e, m.open)
+				elseif is_TMS`MaxSpeed(m) then
+					if m.speed <> nil
+					then tempo_vdm_SimulatorIO`applyMaxSpeed(e, m.speed)
+					else tempo_vdm_SimulatorIO`applyMaxSpeed(e, 0)
+				elseif is_TMS`TrafficLight(m) then
+					tempo_vdm_SimulatorIO`applyTrafficLight(e, m.greentime)
+				elseif is_TMS`RampMeter(m) then
+				  tempo_vdm_SimulatorIO`applyRampMeter(e, m.redtime)
+				elseif is_TMS`Diversion(m) then
+					if m.route <> nil
+					then tempo_vdm_SimulatorIO`applyDiversion(e, m.route)
+					else tempo_vdm_SimulatorIO`applyDiversion(e, "")
+				elseif is_TMS`LaneClosure(m) then
+				  tempo_vdm_SimulatorIO`applyLaneClosure(e, m.closed);
+		network.ResetOffers();
+		time := time+1;
+	);
+);
+
+private UpdateSit: () ==> TrafficSituation
+UpdateSit() == (
+	dcl sit: EdgeSit;
+	dcl trafsit: TrafficSituation := {|->};
+	for all e in set network.GetEdgeIds() do (
+		sit := tempo_vdm_SimulatorIO`getSituation(e);
+		trafsit(e) := sit;
+	);
+	return trafsit
+);
+
+protected isFinished: () ==> bool
+isFinished() == return if simtime <> nil then time >= simtime else false;
+
+end SimulatorEnvironment
 ~~~
 {% endraw %}
 
@@ -1146,182 +1220,108 @@ end EdgeCommand
 ~~~
 {% endraw %}
 
-### SimulatorEnvironment.vdmpp
+### AWorld.vdmpp
 
 {% raw %}
 ~~~
-class SimulatorEnvironment is subclass of Environment
-
-instance variables 
-
-simtime : [nat];
-time : nat;
-
-operations 
-
-public SimulatorEnvironment: Network * map World`TMSId to TMS * [nat] ==> SimulatorEnvironment 
-SimulatorEnvironment(net, tms, t) == (
-	let - = Environment(net, tms) in skip;
-	simtime := t;
-	time := 0;
-);
-
-public Run: bool * seq of char * seq1 of char ==> ()
-Run(colab,network_file,tms_file) == (
-	dcl path: seq of char := tempo_vdm_SimulatorIO`initialize(network_file,tms_file);
-	tempo_vdm_SimulatorIO`fastForwardSimulator(20 * 60);
-	while not isFinished() do (
-		dcl trafsit: TrafficSituation;
-		dcl control: TMS`Control := {|->};
-		tempo_vdm_SimulatorIO`runSimulator(10);
-		trafsit := UpdateSit();
-		for all id in set dom tms_m do tms_m(id).Step(trafsit);
-	  if colab 
-	  then for all id in set dom tms_m do tms_m(id).MakeOffers();
-		for all id in set dom tms_m do tms_m(id).EvaluateOffers();
-	  for all id in set dom tms_m do 
-	    let c = tms_m(id).FinaliseOffers() 
-		  in 
-		    (control := control ++ c;
-		     network.ResetNotproblematic(id));
-		IO`printf("%s\nEdge situation: %s\nControl measures: %s\n", [time, trafsit, control]);
-		for all e in set dom control do
-			for all m in set control(e) do
-				if is_TMS`HardShoulder(m) then
-					tempo_vdm_SimulatorIO`applyHardShoulder(e, m.open)
-				elseif is_TMS`MaxSpeed(m) then
-					if m.speed <> nil
-					then tempo_vdm_SimulatorIO`applyMaxSpeed(e, m.speed)
-					else tempo_vdm_SimulatorIO`applyMaxSpeed(e, 0)
-				elseif is_TMS`TrafficLight(m) then
-					tempo_vdm_SimulatorIO`applyTrafficLight(e, m.greentime)
-				elseif is_TMS`RampMeter(m) then
-				  tempo_vdm_SimulatorIO`applyRampMeter(e, m.redtime)
-				elseif is_TMS`Diversion(m) then
-					if m.route <> nil
-					then tempo_vdm_SimulatorIO`applyDiversion(e, m.route)
-					else tempo_vdm_SimulatorIO`applyDiversion(e, "")
-				elseif is_TMS`LaneClosure(m) then
-				  tempo_vdm_SimulatorIO`applyLaneClosure(e, m.closed);
-		network.ResetOffers();
-		time := time+1;
-	);
-);
-
-private UpdateSit: () ==> TrafficSituation
-UpdateSit() == (
-	dcl sit: EdgeSit;
-	dcl trafsit: TrafficSituation := {|->};
-	for all e in set network.GetEdgeIds() do (
-		sit := tempo_vdm_SimulatorIO`getSituation(e);
-		trafsit(e) := sit;
-	);
-	return trafsit
-);
-
-protected isFinished: () ==> bool
-isFinished() == return if simtime <> nil then time >= simtime else false;
-
-end SimulatorEnvironment
-~~~
-{% endraw %}
-
-### Environment.vdmpp
-
-{% raw %}
-~~~
-class Environment
+class World
 
 types
 
-public Performance ::            
-  pol : map Network`EdgeId to Polution
-  veh_traveldist : nat;
-
-public EdgeSit = CarDensity * AvgSpeed * Polution * Incident * BridgeOpen;
-public TrafficSituation = map Network`EdgeId to EdgeSit;
-  
-public CarDensity = nat;
-public AvgSpeed = nat;
-public Polution = nat;
-public Incident = bool;
-public BridgeOpen = bool
+public TMSId = seq of char;
   
 instance variables
 
-protected network : Network := new Network({|->});
-protected tms_m : map World`TMSId to TMS := {|->};  
-  
+static network : Network := new Network({|->});
+env: Environment;
+static public tms1: TMS := new TMS("Rotterdam", network);
+static public tms2: TMS := new TMS("RWS", network);
+static tms_m : map TMSId to TMS := {"Rotterdam" |-> tms1, "RWS" |-> tms2};
+collaboration : bool := true;
+
 operations
 
-public Environment: Network * map World`TMSId to TMS ==> Environment 
-Environment(net, tms) == (
-	network := net;
-	tms_m := tms
-);
+public run: ()  ==> () --Performance
+  run() == (
+  	Run("RotterdamNetwork.csv", "TMSconfiguration.csv", 300)
+	);
+	
+public runwithoutcollab: ()  ==> () --Performance
+  runwithoutcollab() == (
+  	SetCollaboration(false);
+  	Run("RotterdamNetwork.csv", "TMSconfiguration.csv", 300)
+	);
+	
+  public Run: seq of char * seq1 of char * [nat] ==> () --Performance
+  Run(network_file, tms_file, simtime) == (
+  	network := ReadRoadNetwork(network_file);
+  	for all tid in set dom tms_m do
+  	  tms_m(tid).ResetNetwork(network,self);
+  	ReadTMSs(tms_file, network);
+  	env := new SimulatorEnvironment(network, tms_m, simtime);
+  	for all tid in set dom tms_m do
+  	  tms_m(tid).UpdateInternalEdges();
+  	env.Run(collaboration,network_file,tms_file)
+	);
+	  
+  public ReadRoadNetwork: seq1 of char ==> Network
+  ReadRoadNetwork(file_n) ==
+    let mk_(ok,lines) = CSV`flinecount(file_n)
+    in
+      if ok 
+      then (dcl net : map Network`EdgeId to Edge := {|->};
+            for i = 1 to lines do
+            -- each line in the network configuration file contains
+            -- - The identifier of the edge
+            -- - the starting node for the edge
+            -- - the ending node for the edge
+            -- - the length of the edge
+            -- - the number of lanes for the edge
+            -- - the maximum speed for the edge
+            -- - flow of cars into the edge
+             let mk_(ok,[edgeid,startid,endid,l,lane,max,inflow]) = 
+                  CSV`freadval[seq of (nat | seq of char)](file_n,i)
+             in net(edgeid) := new Edge(max,lane,l,mk_token(startid),mk_token(endid));
+             return new Network(net)
+           )
+      else error;
+      
+  public ReadTMSs: seq of char * Network ==> ()
+  ReadTMSs(file_n, n) ==
+    let mk_(ok,lines) = CSV`flinecount(file_n)
+    in
+      if ok 
+      then (for i = 1 to lines do
+            -- each line in the TMS configuration file contains:
+            -- - the identification of the TMS
+            -- - an identification of the edge included
+            -- - a traffic control measure if available (alternatively nil is included)
+            -- - a priority if available (alternatively nil is included)
+            -- - possible suggested routes to make diversions avoiding the edge
+             let mk_(ok,[tmsid,edgeid,tcm,prio,diversions]) = 
+                  CSV`freadval[seq of ([nat] | seq of char |set of seq of seq of char)](file_n,i),
+                  tid = tmsid
+             in (  --{["A202","S109","S102","A153"],["A42","A43","A152","A153"],["A42","S114","S102","A153"]}
+               if not tid in set dom tms_m 
+               then tms_m(tid) := new TMS("Invalid TMS", n);-- this should never happen
+               tms_m(tid).AddEdge({edgeid});
+               if tcm <> nil and tcm <> "Bridge" then tms_m(tid).AddTCM(edgeid,TMS`ConvertTCM(tcm));
+               if tcm <> nil and tcm = "Bridge" then tms_m(tid).AddBridge(edgeid,TMS`ConvertBridge(tcm));
+               if prio <> nil then tms_m(tid).AddPriority(edgeid,prio);
+--               if diversions <> nil
+--               then network.AddDiversionRoutes(edgeid, 
+--                                               {[r(j) | j in set inds r]
+--                                               | r in set diversions})
+             );
+						 for all tid in set dom tms_m do tms_m(tid).CalculateInterest(n);-- sort out interested edges	
+           )
+      else error;
+      
+ public SetCollaboration: bool ==> ()
+ SetCollaboration(b) ==
+   collaboration := b;
 
-public Run: bool * seq of char * seq1 of char ==> ()
-Run(-,-,-) == skip;
-
-protected isFinished: () ==> bool
-isFinished() == return false;
-
-end Environment
-~~~
-{% endraw %}
-
-### SimpleEnvironment.vdmpp
-
-{% raw %}
-~~~
-class TestEnvironment is subclass of Environment
-
-instance variables 
-
-simtime : [nat];
-time : nat;
-sit: EdgeSit;
-falling: bool; 
-
-operations 
-
-public TestEnvironment: Network * map World`TMSId to TMS * [nat] ==> TestEnvironment 
-TestEnvironment(net, tms, t) == (
-	let - = Environment(net, tms) in skip;
-	simtime := t;
-	time := 0;
-	sit := mk_(0,120,0,false,false);
-	falling := true
-);
-
-public Run: () ==> ()
-Run() == while not isFinished() do (
-	dcl trafsit: TrafficSituation := {|->};
-	dcl control: TMS`Control := {|->};
-	for all e in set network.GetEdgeIds() do trafsit := trafsit ++ {e |-> sit};
-	for all id in set dom tms_m do (tms_m(id).Step(trafsit));
-  for all id in set dom tms_m do (tms_m(id).MakeOffers());
-  for all id in set dom tms_m do (tms_m(id).EvaluateOffers());
-  for all id in set dom tms_m do let c = tms_m(id).FinaliseOffers() in control := control ++ c;
-	IO`printf("%s\nEdge situation: %s\nControl measures: %s\n", [time, sit, control]);
-	time := time+1;
-	UpdateSit()
-);
-
-private UpdateSit: () ==> ()
-UpdateSit() == (
-	if falling then
-		sit := mk_(sit.#1, sit.#2 - 5, sit.#3, false, false)
-	else
-		sit := mk_(sit.#1, sit.#2 + 5, sit.#3, false, false);
-	if sit.#2 = 0 and falling then falling := false;
-	if sit.#2 = 120 and not falling then falling := true;
-);
-
-protected isFinished: () ==> bool
-isFinished() == return if simtime <> nil then time >= simtime else false;
-
-end TestEnvironment
+end World
 ~~~
 {% endraw %}
 

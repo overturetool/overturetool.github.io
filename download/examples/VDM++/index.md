@@ -659,6 +659,18 @@ https://services.brics.dk/java/courseadmin/TOMoMi/pages/Modelling+of+Mission+Cri
 |Details...|[model (zip)](SortingParcelsPP/SortingParcels.zip)  / [show specification](SortingParcelsPP/index.html)|
 
 
+### Sorting
+This example is a simple Sorting library with tests that are partly formed from combinatorial traces,
+and partly from VDMUnit tests.
+
+
+| | |
+|------|-------|
+|Author:|Nick Battle|
+|Version:|VDM_PP - vdm10|
+|Details...|[model (zip)](SortingPP/Sorting.zip)  / [show specification](SortingPP/index.html)|
+
+
 ### SortPP
 This VDM++ model is made by Peter Gorm Larsen in 2010 based on the original 
 VDM++ model created many years ago at IFAD.
