@@ -49,6 +49,8 @@ A new subproject of VDMJ has been created, called LSP. This implements a Languag
 
 No progress on Overture licensing as such. But the LSP project looks promising, and provides a way forward where we can link VDMJ and its LSP server in an independent "product" (VS Code extension) without Eclipse license restrictions (I think!)
 
+See the VS Code [licensing FAQ](https://code.visualstudio.com/docs/supporting/FAQ#_licensing).
+
 ##  Publications Status and Plans
 
 See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
