@@ -39,7 +39,12 @@ A couple of bugs were fixed in Overture 2.7.4 and VDMJ regarding mutually recurs
 
 A new subproject of VDMJ has been created, called LSP. This implements a Language Server Protocol and Debug Access Protocol server, which provides language services to an LSP/DAP capable IDE, such as VS Code. This enables us to use VDMJ from a fully featured IDE. This includes annotations, which we are currently not able to use in the Overture IDE. The feature is currently [available](https://github.com/nickbattle/vdmj/tree/master/LSP) for test.
 
+Jonas and Fredrik are doing good progress towards the creation of an LSP client. We have met with Futa Hirakoba and Tomohiro Oda right after the last Overture net meeting and since then much developments have been made to prepare the MSc project which goal is to make the VSCode client for the VDMJ server a full fledged IDE.
+
+A Java 11/13 release of the Overture tool is available for tests at https://overture.au.dk/overture/development/latest/. We expect to release it officially ASAP.
+
 ##  Release Planning
+
 
 
 ##  Community Development
