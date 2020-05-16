@@ -47,7 +47,7 @@ Bug #721 is fixed and equal file names in different folders are now allowed. The
 
 ##  Release Planning
 
-In case no issues are found until the 22 of May, we will release the 2.7.5 candiate as version 3.0.0 to mark the major leap in JVM dependency.
+In case no issues are found until the 22 of May, we will release the 2.7.5 candiate as version 3.0.0 to mark the major leap in JVM/Eclipse dependency.
 
 
 
