@@ -41,9 +41,13 @@ A new subproject of VDMJ has been created, called LSP. This implements a Languag
 
 Jonas and Fredrik are doing good progress towards the creation of an LSP client. We have met with Futa Hirakoba and Tomohiro Oda right after the last Overture net meeting and since then much developments have been made to prepare the MSc project which goal is to make the VSCode client for the VDMJ server a full fledged IDE.
 
-A Java 11/13 release of the Overture tool is available for tests at https://overture.au.dk/overture/development/latest/. We expect to release it officially ASAP.
+Regarding the Overture Tool, a new release candidate is available for tests at https://overture.au.dk/overture/development/latest/. It contains a major bump in Eclpise versions. It allows JAVA 11, and should not be dependent of Java 8 anymore. 
+Bug #721 is fixed and equal file names in different folders are now allowed. The last two changes require systematic testing, as they may have broken functionality. 
+
 
 ##  Release Planning
+
+In case no issues are fund until the 22 of May, we will release the 2.7.5 candiate as version 3.0.0.
 
 
 
