@@ -14,16 +14,15 @@ date: 9 February 2020, 1200 CET
 |||
 |---|---|
 | Date | 9 February 2020 |
-| Participants  |   Minutes by  |
+| Participants PGL, NB, TO, HM | Minutes by KP |
 
 ## Review Status of the Action List
 
 A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22).
 
-
-
 ## Overture Language Board Status
 
+No meeting was held.
 
 ## Status of VDMTools/ViennaTalk
 
@@ -32,6 +31,10 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ### VDMTools
 Dr. K keeps maintaining the code.
+
+### VDM++ for VSCode
+
+A student of Prof. Katayama at Miyazaki Univ developed VDM++ for VSCode.
 
 ##  Status of the Overture Components
 
