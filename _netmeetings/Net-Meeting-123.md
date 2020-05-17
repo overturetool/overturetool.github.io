@@ -28,8 +28,14 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 ## Status of VDMTools/ViennaTalk
 
 ### Viennatalk
+A history management module named VDMPad-EpiLog for VDMPad has been added.
+(See "Review the session" section in https://viennatalk.org/ViennaTalk/VDMPad.html for details)
 
 ### VDMTools
+No major updates.
+
+### VDM++ for VSCode
+No major updates.
 
 ##  Status of the Overture Components
 
