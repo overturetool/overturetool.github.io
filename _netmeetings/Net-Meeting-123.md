@@ -27,7 +27,7 @@ A list of actions can here found [here](https://github.com/overturetool/overture
  
 ## Overture Language Board Status
 
-The Language Board met. Ken remains Convener and Tomo takes over from Peter J as secretary. We thank Peter J for his efforts. Minutes are here: https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM%2C-17th-March-2020.
+The Language Board met. Ken remains Convener and Tomo takes over from Peter J as secretary. We thank Peter J for his efforts. Minutes are here: https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM%2C-17th-May-2020.
 
 There are a couple of fixes to the LRM. The main issues open are updating Overture. Help is needed on getting annotations working, and also total functions. Both are in VDMJ but the Overture integration is tricky / needs some effort.
 
