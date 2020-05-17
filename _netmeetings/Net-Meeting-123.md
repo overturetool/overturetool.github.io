@@ -14,7 +14,7 @@ date: 17 May 2020, 1200 CEST
 |||
 |---|---|
 | Date | 17 May 2020 |
-| Participants  |   Minutes by  |
+| Participants PGL, NB, KP, TO, LF, HM, FH |   Minutes by KP  |
 
 ## Review Status of the Action List
 
