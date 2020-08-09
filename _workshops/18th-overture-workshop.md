@@ -49,7 +49,7 @@ Submission of abstracts and papers is through EasyChair: <https://easychair.org/
 
 ### Important Dates
 
-* Full Papers: ~~Friday 9th October~~ Friday, October 9
+* Full Papers: Friday, October 9
 * Notifications: Friday 6th November
 * Camera ready version of papers: Friday 27th November
 * Workshop: Monday, 7th December
