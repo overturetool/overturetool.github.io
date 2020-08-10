@@ -45,7 +45,7 @@ TBA
 
 ## Submission
 
-TBA
+Submission of papers is through EasyChair: <https://easychair.org/conferences/?conf=ovt18>.
 
 ### Important Dates
 
