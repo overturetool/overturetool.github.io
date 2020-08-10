@@ -69,6 +69,7 @@ Position papers on VDM and its promotion in industry practice.
 
 ### Organiser
 
+* John Fitzgerald, Newcastle University, United Kingdom (john.fitzgerald@newcastle.ac.uk)
 * Tomohiro Oda, Software Research Associates, Inc., Japan (<tomohiro@sra.co.jp>)
 
 ### Program Committee
