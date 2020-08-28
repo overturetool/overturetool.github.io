@@ -27,57 +27,171 @@ display.
 |Entry point     :| new World().Run()|
 
 
-### AirSpace.vdmpp
+### timer.vdmpp
 
 {% raw %}
 ~~~
-class AirSpace is subclass of GLOBAL
+class Timer 
 
 instance variables
 
---airspace : set of FO := {};
---inv forall x,y in set airspace & x <> y => x.getId() <> y.getId();
+  currentTime : nat := 0;
 
-airspace : map FOId to FO := {|->};
-  
+values 
+
+  stepLength : nat = 100;
+
 operations
 
-public addFO : FO ==> ()
-addFO(fo) ==
-  airspace := airspace ++ {fo.getId() |-> fo};
+public 
+  StepTime: () ==> ()
+  StepTime() == 
+    currentTime := currentTime + stepLength;
 
-public removeFO : FOId ==> ()
-removeFO(id) ==
-  airspace := {id} <-: airspace;
-    
-public getFO : FOId ==> FO
-getFO(id) ==
-  return airspace(id)
-pre id in set dom airspace;
+public
+  GetTime: () ==> nat 
+  GetTime() == return currentTime;
 
-public getAirspace : () ==> set of FO
-getAirspace() ==
-  return rng airspace;
+end Timer
+~~~
+{% endraw %}
 
-public updateFO : FOId * Coordinates * Altitude ==> ()
-updateFO(id,coord,alt) ==
-  if (id in set dom airspace)
-  then 
-   (let fo = airspace(id)
-    in 
-     (fo.setCoordinates(coord);
-      fo.setAltitude(alt);
-     -- fo.registerPosition())
-     )
-   )
-  else
-    (let newfo = new FO(id,coord,alt)
-     in airspace := airspace munion {id |-> newfo}
-    );
-    
+### GLOBAL.vdmpp
 
+{% raw %}
+~~~
+class GLOBAL
 
-end AirSpace
+types
+
+public Altitude = real
+inv a == a >= 0;
+
+public FOId = token;
+public RadarId = token;
+
+public
+Coordinates :: 
+  X : real
+  Y : real;
+
+public Time = nat;
+
+public String = seq of char;
+
+public ObstacleType = <Natural> | <Artificial> | <Airport>  | <Military_Area>;
+  
+public FOWarning = ObstacleType | <EstimationWarning>;   
+
+public RadarWarning = <Saturated>;
+
+public MinimumSafetyAltitude = nat | <NotAllowed>;
+
+public Position ::
+  coord    : Coordinates
+  altitude : Altitude; 
+
+public History = seq of Position;
+
+public Vector ::
+  X : real
+  Y : real;
+
+functions
+
+protected isPointInRange : Coordinates * nat1 * Coordinates -> bool
+isPointInRange(center,range,point) ==
+  (center.X - point.X)**2 + (center.Y - point.Y)**2 <= range**2;
+  
+protected vectorSum : Vector * Vector -> Vector
+vectorSum(v1,v2) ==
+  mk_Vector(v1.X + v2.X,v1.Y + v2.Y);
+  
+protected vectorDiv : Vector * int -> Vector 
+vectorDiv(v,n) ==
+  mk_Vector(v.X/n,v.Y/n)
+pre n <> 0;
+
+protected addVectorToPoint : Vector * Position -> Coordinates
+addVectorToPoint(v,p) ==
+  mk_Coordinates(p.coord.X + v.X, p.coord.Y + v.Y);
+
+protected vectorLength : Vector -> real 
+vectorLength(v) ==
+  MATH`sqrt(v.X**2 + v.Y**2);
+
+protected unitVector : Vector -> Vector
+unitVector(v) ==
+  let l = vectorLength(v)
+  in 
+    mk_Vector(v.X/l,v.Y/l); 
+
+protected dotProduct : Vector * Vector -> real
+dotProduct(v1,v2) ==
+  v1.X * v2.X + v1.Y * v2.Y;
+  
+protected angleBetweenVectors : Vector * Vector -> real
+angleBetweenVectors(v1,v2) ==
+  let uv1 = unitVector(v1),
+      uv2 = unitVector(v2),
+      dvs = dotProduct(uv1,uv2),
+      angle = MATH`acos(dvs)  
+  in
+    radians2degree(angle);
+
+protected radians2degree : real -> real
+radians2degree(r) ==
+  r * (180/MATH`pi);
+
+protected atan2 : real * real -> real
+atan2(y,x) == 
+  2 * MATH`atan(y/(MATH`sqrt(x**2+y**2)+x))
+pre not (x = 0 and y = 0);
+
+protected signedVectorAngle : Vector * Vector -> real
+signedVectorAngle(v1,v2) ==
+  atan2(v2.Y,v2.X) - atan2(v1.Y,v1.X);
+
+protected vectorAngle : Vector -> real * real
+vectorAngle(v) ==
+   mk_( radians2degree (MATH`acos(v.X / MATH`sqrt(v.X**2 + v.Y**2))), 
+        radians2degree( MATH`asin(v.Y / MATH`sqrt(v.X**2 + v.Y**2))));
+
+protected vectorRotate : Vector * real -> Vector
+vectorRotate(v,a) ==
+  let x' = MATH`cos(a)*v.X - MATH`sin(a)*v.Y,
+      y' = MATH`cos(a)*v.Y + MATH`sin(a)*v.X
+  in
+    mk_Vector(round(x'),round(y'));
+
+protected round : real -> real
+round(r) == 
+  let fr  = floor(r),
+      dif = abs(r - fr)
+  in 
+    if(dif < 10**-10)
+    then fr
+    else r;
+
+operations
+
+public test : real * real * real * real ==> Vector * Vector * 
+              real * real * Vector * real * real
+test(x1,y1,x2,y2) == 
+  let v1 = mk_Vector(x1,y1),
+      v2 = mk_Vector(x2,y2)
+  in 
+    return mk_(unitVector(v1),
+               unitVector(v2),
+               dotProduct(unitVector(v1),unitVector(v2)),
+               atan2(0.000001,0.0000000),
+               vectorRotate(v2,signedVectorAngle(v1,v2)),
+               radians2degree(signedVectorAngle(v1,v2)),
+               angleBetweenVectors(v1,v2)
+              );
+
+end GLOBAL
+
 ~~~
 {% endraw %}
 
@@ -204,6 +318,99 @@ getMSA() ==
 
 
 end Obstacle 
+~~~
+{% endraw %}
+
+### environment.vdmpp
+
+{% raw %}
+~~~
+class Environment is subclass of GLOBAL
+
+types 
+
+inline  = FOId * int * int * Altitude * Time;
+  
+protected FOOut = FOId * Coordinates * Altitude * FOWarning * 
+        MinimumSafetyAltitude * Time;
+protected RadarOut = Coordinates * nat1 * RadarWarning * nat *  Time;
+  
+  
+protected outline = FOOut | RadarOut; 
+
+instance variables 
+
+  io : IO := new IO();
+  inlines  : seq of inline  := [];
+  outlines : seq of outline := [];
+
+  airspace : [AirSpace] := nil;
+  busy : bool := true;
+  
+operations
+  
+public Environment : String ==> Environment
+Environment(fname) == 
+  def mk_(-,input) = io.freadval[seq of inline](fname) 
+  in
+    inlines := input;
+    
+      
+public setAirSpace : AirSpace ==> ()
+setAirSpace(as) ==
+  airspace := as;
+      
+public handleFOWarningEvent : FOId * Coordinates * Altitude * FOWarning * 
+                              MinimumSafetyAltitude * Time ==> ()
+handleFOWarningEvent(id,coord,alt,warn,msa,time) ==
+  outlines := outlines ^ [mk_(id,coord,alt,warn,msa,time)];
+ 
+public handleRadarWarningEvent : Coordinates * nat1 * 
+                                 RadarWarning * nat *  Time ==> ()
+handleRadarWarningEvent(coord,range,radWarn,num,pt) ==
+  outlines := outlines ^ [mk_(coord,range,radWarn,num,pt)];
+ 
+
+public showResult : () ==> ()
+showResult() ==
+  def - = io.writeval[seq of outline](outlines) in skip;
+ 
+
+
+public Run : () ==> ()
+Run() ==
+ (while not isFinished()
+  do 
+   (updateFOs();
+    MSAW`atc.Step();
+    World`timerRef.StepTime();
+   );  
+  showResult()
+ );
+  
+private updateFOs : () ==> ()
+updateFOs() ==
+ (if len inlines > 0 
+  then (dcl curtime : Time := World`timerRef.GetTime(),
+        done : bool := false;
+        while not done do
+          def mk_(id,x,y, altitude,pt) = hd inlines
+          in 
+            if pt <= curtime 
+            then (airspace.updateFO(id,mk_Coordinates(x,y),altitude);
+                  inlines := tl inlines; 
+                  done := len inlines = 0 )
+            else done := true
+       )
+  else busy := false
+ );
+     
+
+public isFinished : () ==> bool 
+isFinished() == 
+  return inlines = [];
+
+end Environment
 ~~~
 {% endraw %}
 
@@ -471,224 +678,6 @@ end World
 ~~~
 {% endraw %}
 
-### GLOBAL.vdmpp
-
-{% raw %}
-~~~
-class GLOBAL
-
-types
-
-public Altitude = real
-inv a == a >= 0;
-
-public FOId = token;
-public RadarId = token;
-
-public
-Coordinates :: 
-  X : real
-  Y : real;
-
-public Time = nat;
-
-public String = seq of char;
-
-public ObstacleType = <Natural> | <Artificial> | <Airport>  | <Military_Area>;
-  
-public FOWarning = ObstacleType | <EstimationWarning>;   
-
-public RadarWarning = <Saturated>;
-
-public MinimumSafetyAltitude = nat | <NotAllowed>;
-
-public Position ::
-  coord    : Coordinates
-  altitude : Altitude; 
-
-public History = seq of Position;
-
-public Vector ::
-  X : real
-  Y : real;
-
-functions
-
-protected isPointInRange : Coordinates * nat1 * Coordinates -> bool
-isPointInRange(center,range,point) ==
-  (center.X - point.X)**2 + (center.Y - point.Y)**2 <= range**2;
-  
-protected vectorSum : Vector * Vector -> Vector
-vectorSum(v1,v2) ==
-  mk_Vector(v1.X + v2.X,v1.Y + v2.Y);
-  
-protected vectorDiv : Vector * int -> Vector 
-vectorDiv(v,n) ==
-  mk_Vector(v.X/n,v.Y/n)
-pre n <> 0;
-
-protected addVectorToPoint : Vector * Position -> Coordinates
-addVectorToPoint(v,p) ==
-  mk_Coordinates(p.coord.X + v.X, p.coord.Y + v.Y);
-
-protected vectorLength : Vector -> real 
-vectorLength(v) ==
-  MATH`sqrt(v.X**2 + v.Y**2);
-
-protected unitVector : Vector -> Vector
-unitVector(v) ==
-  let l = vectorLength(v)
-  in 
-    mk_Vector(v.X/l,v.Y/l); 
-
-protected dotProduct : Vector * Vector -> real
-dotProduct(v1,v2) ==
-  v1.X * v2.X + v1.Y * v2.Y;
-  
-protected angleBetweenVectors : Vector * Vector -> real
-angleBetweenVectors(v1,v2) ==
-  let uv1 = unitVector(v1),
-      uv2 = unitVector(v2),
-      dvs = dotProduct(uv1,uv2),
-      angle = MATH`acos(dvs)  
-  in
-    radians2degree(angle);
-
-protected radians2degree : real -> real
-radians2degree(r) ==
-  r * (180/MATH`pi);
-
-protected atan2 : real * real -> real
-atan2(y,x) == 
-  2 * MATH`atan(y/(MATH`sqrt(x**2+y**2)+x))
-pre not (x = 0 and y = 0);
-
-protected signedVectorAngle : Vector * Vector -> real
-signedVectorAngle(v1,v2) ==
-  atan2(v2.Y,v2.X) - atan2(v1.Y,v1.X);
-
-protected vectorAngle : Vector -> real * real
-vectorAngle(v) ==
-   mk_( radians2degree (MATH`acos(v.X / MATH`sqrt(v.X**2 + v.Y**2))), 
-        radians2degree( MATH`asin(v.Y / MATH`sqrt(v.X**2 + v.Y**2))));
-
-protected vectorRotate : Vector * real -> Vector
-vectorRotate(v,a) ==
-  let x' = MATH`cos(a)*v.X - MATH`sin(a)*v.Y,
-      y' = MATH`cos(a)*v.Y + MATH`sin(a)*v.X
-  in
-    mk_Vector(round(x'),round(y'));
-
-protected round : real -> real
-round(r) == 
-  let fr  = floor(r),
-      dif = abs(r - fr)
-  in 
-    if(dif < 10**-10)
-    then fr
-    else r;
-
-operations
-
-public test : real * real * real * real ==> Vector * Vector * 
-              real * real * Vector * real * real
-test(x1,y1,x2,y2) == 
-  let v1 = mk_Vector(x1,y1),
-      v2 = mk_Vector(x2,y2)
-  in 
-    return mk_(unitVector(v1),
-               unitVector(v2),
-               dotProduct(unitVector(v1),unitVector(v2)),
-               atan2(0.000001,0.0000000),
-               vectorRotate(v2,signedVectorAngle(v1,v2)),
-               radians2degree(signedVectorAngle(v1,v2)),
-               angleBetweenVectors(v1,v2)
-              );
-
-end GLOBAL
-
-~~~
-{% endraw %}
-
-### FO.vdmpp
-
-{% raw %}
-~~~
-class FO is subclass of GLOBAL
-
-instance variables 
-  id    : FOId;
-  coord : Coordinates;
-  alt   : Altitude;  
-  
- 
-operations
-
-public FO : FOId * Coordinates * Altitude ==> FO
-FO(i,c,a) == 
- (id := i;
-  coord := c;
-  alt := a;
- );
-    
-pure public getId : () ==> FOId
-getId() ==
-  return id;
-
-public getCoordinates : () ==> Coordinates
-getCoordinates() == 
-  return coord;
-
-public setCoordinates : Coordinates ==> ()
-setCoordinates(c) ==
-  coord := c;
-  
-public getAltitude : () ==> Altitude
-getAltitude() ==
-  return alt;
-    
-public setAltitude : Altitude ==> ()
-setAltitude(a) ==
-  alt := a;
- 
-public getPosition : () ==> Position
-getPosition() == 
-  return mk_Position(coord,alt); 
-  
-
-end FO
-~~~
-{% endraw %}
-
-### timer.vdmpp
-
-{% raw %}
-~~~
-class Timer 
-
-instance variables
-
-  currentTime : nat := 0;
-
-values 
-
-  stepLength : nat = 100;
-
-operations
-
-public 
-  StepTime: () ==> ()
-  StepTime() == 
-    currentTime := currentTime + stepLength;
-
-public
-  GetTime: () ==> nat 
-  GetTime() == return currentTime;
-
-end Timer
-~~~
-{% endraw %}
-
 ### UseATC.vdmpp
 
 {% raw %}
@@ -720,125 +709,6 @@ TestATC: let r = new Radar(-8,-9,42)
            atc.getDirectionVectors(id))
 
 end UseATC
-~~~
-{% endraw %}
-
-### MSAW.vdmpp
-
-{% raw %}
-~~~
-class MSAW is subclass of GLOBAL
-
-instance variables 
-
-public static atc : AirTrafficController := new AirTrafficController();
-  
-
-public static radar1 : Radar := new Radar(6,11,20);
-  
-
-public static radar2 : Radar := new Radar (30,30,5);  
-
-public static airspace : AirSpace := new AirSpace();
-
-public static militaryZone : Obstacle := 
-  new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
-
-
-end MSAW
-~~~
-{% endraw %}
-
-### environment.vdmpp
-
-{% raw %}
-~~~
-class Environment is subclass of GLOBAL
-
-types 
-
-inline  = FOId * int * int * Altitude * Time;
-  
-protected FOOut = FOId * Coordinates * Altitude * FOWarning * 
-        MinimumSafetyAltitude * Time;
-protected RadarOut = Coordinates * nat1 * RadarWarning * nat *  Time;
-  
-  
-protected outline = FOOut | RadarOut; 
-
-instance variables 
-
-  io : IO := new IO();
-  inlines  : seq of inline  := [];
-  outlines : seq of outline := [];
-
-  airspace : [AirSpace] := nil;
-  busy : bool := true;
-  
-operations
-  
-public Environment : String ==> Environment
-Environment(fname) == 
-  def mk_(-,input) = io.freadval[seq of inline](fname) 
-  in
-    inlines := input;
-    
-      
-public setAirSpace : AirSpace ==> ()
-setAirSpace(as) ==
-  airspace := as;
-      
-public handleFOWarningEvent : FOId * Coordinates * Altitude * FOWarning * 
-                              MinimumSafetyAltitude * Time ==> ()
-handleFOWarningEvent(id,coord,alt,warn,msa,time) ==
-  outlines := outlines ^ [mk_(id,coord,alt,warn,msa,time)];
- 
-public handleRadarWarningEvent : Coordinates * nat1 * 
-                                 RadarWarning * nat *  Time ==> ()
-handleRadarWarningEvent(coord,range,radWarn,num,pt) ==
-  outlines := outlines ^ [mk_(coord,range,radWarn,num,pt)];
- 
-
-public showResult : () ==> ()
-showResult() ==
-  def - = io.writeval[seq of outline](outlines) in skip;
- 
-
-
-public Run : () ==> ()
-Run() ==
- (while not isFinished()
-  do 
-   (updateFOs();
-    MSAW`atc.Step();
-    World`timerRef.StepTime();
-   );  
-  showResult()
- );
-  
-private updateFOs : () ==> ()
-updateFOs() ==
- (if len inlines > 0 
-  then (dcl curtime : Time := World`timerRef.GetTime(),
-        done : bool := false;
-        while not done do
-          def mk_(id,x,y, altitude,pt) = hd inlines
-          in 
-            if pt <= curtime 
-            then (airspace.updateFO(id,mk_Coordinates(x,y),altitude);
-                  inlines := tl inlines; 
-                  done := len inlines = 0 )
-            else done := true
-       )
-  else busy := false
- );
-     
-
-public isFinished : () ==> bool 
-isFinished() == 
-  return inlines = [];
-
-end Environment
 ~~~
 {% endraw %}
 
@@ -970,6 +840,136 @@ set2seqFOm(fos) == card fos;
 
 
 end Radar
+~~~
+{% endraw %}
+
+### FO.vdmpp
+
+{% raw %}
+~~~
+class FO is subclass of GLOBAL
+
+instance variables 
+  id    : FOId;
+  coord : Coordinates;
+  alt   : Altitude;  
+  
+ 
+operations
+
+public FO : FOId * Coordinates * Altitude ==> FO
+FO(i,c,a) == 
+ (id := i;
+  coord := c;
+  alt := a;
+ );
+    
+pure public getId : () ==> FOId
+getId() ==
+  return id;
+
+public getCoordinates : () ==> Coordinates
+getCoordinates() == 
+  return coord;
+
+public setCoordinates : Coordinates ==> ()
+setCoordinates(c) ==
+  coord := c;
+  
+public getAltitude : () ==> Altitude
+getAltitude() ==
+  return alt;
+    
+public setAltitude : Altitude ==> ()
+setAltitude(a) ==
+  alt := a;
+ 
+public getPosition : () ==> Position
+getPosition() == 
+  return mk_Position(coord,alt); 
+  
+
+end FO
+~~~
+{% endraw %}
+
+### AirSpace.vdmpp
+
+{% raw %}
+~~~
+class AirSpace is subclass of GLOBAL
+
+instance variables
+
+--airspace : set of FO := {};
+--inv forall x,y in set airspace & x <> y => x.getId() <> y.getId();
+
+airspace : map FOId to FO := {|->};
+  
+operations
+
+public addFO : FO ==> ()
+addFO(fo) ==
+  airspace := airspace ++ {fo.getId() |-> fo};
+
+public removeFO : FOId ==> ()
+removeFO(id) ==
+  airspace := {id} <-: airspace;
+    
+public getFO : FOId ==> FO
+getFO(id) ==
+  return airspace(id)
+pre id in set dom airspace;
+
+public getAirspace : () ==> set of FO
+getAirspace() ==
+  return rng airspace;
+
+public updateFO : FOId * Coordinates * Altitude ==> ()
+updateFO(id,coord,alt) ==
+  if (id in set dom airspace)
+  then 
+   (let fo = airspace(id)
+    in 
+     (fo.setCoordinates(coord);
+      fo.setAltitude(alt);
+     -- fo.registerPosition())
+     )
+   )
+  else
+    (let newfo = new FO(id,coord,alt)
+     in airspace := airspace munion {id |-> newfo}
+    );
+    
+
+
+end AirSpace
+~~~
+{% endraw %}
+
+### MSAW.vdmpp
+
+{% raw %}
+~~~
+class MSAW is subclass of GLOBAL
+
+instance variables 
+
+public static atc : AirTrafficController := new AirTrafficController();
+  
+
+public static radar1 : Radar := new Radar(6,11,20);
+  
+
+public static radar2 : Radar := new Radar (30,30,5);  
+
+public static airspace : AirSpace := new AirSpace();
+
+public static militaryZone : Obstacle := 
+  new Obstacle(<NotAllowed>,mk_Coordinates(25,0),5,5,<Military_Area>);
+
+
+end MSAW
 ~~~
 {% endraw %}
 

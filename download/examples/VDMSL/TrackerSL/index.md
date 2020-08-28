@@ -28,53 +28,6 @@ FACIT Series, 1998.
 |Entry point     :| DEFAULT`Permission(tracker_inital,cid1,mk_token("Unpacking"))|
 
 
-### testtracker.vdmsl
-
-{% raw %}
-~~~
-values
-
-glass = mk_token("Glass");
-
-liquid = mk_token("liquid");
-
-metal = mk_token("metal");
-
-plastic = mk_token("plastic");
-
-all_material = {glass,liquid,metal,plastic};
-
-unpacking_inital = mk_Phase({},all_material,5);
-
-sorting_inital = mk_Phase({},all_material,6);
-
-assay_inital = mk_Phase({},all_material,5);
-
-compaction_inital = mk_Phase({},{glass,metal,plastic},3);
-
-storage_inital = mk_Phase({},{glass,metal,plastic},50);
-
-coninfo_inital = {|->};
-
-cid1 : ContainerId = mk_token(42);
-
-phases_inital = {mk_token("Unpacking") |-> unpacking_inital,
-                 mk_token("Sorting")   |-> sorting_inital,
-                 mk_token("Assay")     |-> assay_inital,
-                 mk_token("Compaction")|-> compaction_inital,
-                 mk_token("Storage")   |-> storage_inital};
-
-tracker_inital = mk_Tracker(coninfo_inital,phases_inital)
-
-functions
-
-SetUp: () -> Tracker
-SetUp() ==
-  tracker_inital
-     
-~~~
-{% endraw %}
-
 ### tracker.vdmsl
 
 {% raw %}
@@ -182,6 +135,53 @@ pre pre_Remove(tkr,cid,source);
 	   cid in set dom containers and
            containers(cid).material in set ph.expected_materials
 
+~~~
+{% endraw %}
+
+### testtracker.vdmsl
+
+{% raw %}
+~~~
+values
+
+glass = mk_token("Glass");
+
+liquid = mk_token("liquid");
+
+metal = mk_token("metal");
+
+plastic = mk_token("plastic");
+
+all_material = {glass,liquid,metal,plastic};
+
+unpacking_inital = mk_Phase({},all_material,5);
+
+sorting_inital = mk_Phase({},all_material,6);
+
+assay_inital = mk_Phase({},all_material,5);
+
+compaction_inital = mk_Phase({},{glass,metal,plastic},3);
+
+storage_inital = mk_Phase({},{glass,metal,plastic},50);
+
+coninfo_inital = {|->};
+
+cid1 : ContainerId = mk_token(42);
+
+phases_inital = {mk_token("Unpacking") |-> unpacking_inital,
+                 mk_token("Sorting")   |-> sorting_inital,
+                 mk_token("Assay")     |-> assay_inital,
+                 mk_token("Compaction")|-> compaction_inital,
+                 mk_token("Storage")   |-> storage_inital};
+
+tracker_inital = mk_Tracker(coninfo_inital,phases_inital)
+
+functions
+
+SetUp: () -> Tracker
+SetUp() ==
+  tracker_inital
+     
 ~~~
 {% endraw %}
 

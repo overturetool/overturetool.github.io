@@ -26,6 +26,104 @@ Kaisa Sere, May 2008.
 |Language Version:| vdm10|
 
 
+### PacemakerAOOR.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+module PacemakerAOOR
+
+definitions 
+
+types 
+
+Time = nat;
+
+SenseTimeline = seq of (Sense * [AccelerometerData] * Time)
+inv stl == let l = [i.#2 | i in seq stl & i.#2 <> nil]
+           in l(1) = HIGH and forall i in set inds l & l(i) < MED => l(i-1) > MED;
+
+AccelerometerData = nat
+inv n == n < 3;
+
+Sense = <NONE> | <PULSE>;
+
+                                                                                                                            
+
+ReactionTimeline = seq of (Reaction * Time); 
+
+Reaction = <NONE> | <PULSE>;
+                            
+state Sigma of
+   LRL                : nat
+   LRLs               : nat
+   LRLf               : nat
+   MSR                : nat
+   ActivityThreshold  : AccelerometerData
+   ReactionTime       : nat
+   RecoveryTime       : nat
+   rateChangePlan     : map nat to (<INC> | <DEC>)
+init s == s = mk_Sigma(60,0,2,120,MED,10,2,{|->})
+end   
+   
+
+operations
+
+Pacemaker : SenseTimeline ==> ReactionTimeline
+Pacemaker(inp) == 
+   return if inp = [] 
+          then []
+          else [HeartController(hd inp)] ^ Pacemaker(tl inp);
+                         
+HeartController : (Sense * [AccelerometerData] * Time) ==> (Reaction * Time)
+HeartController (mk_(-,acc,time)) == 
+  (
+   if acc <> nil then AdjustRate(acc,time);        
+   if time in set dom rateChangePlan then applyChange(rateChangePlan(time));
+   if LRLf <= LRLs 
+   then (
+          LRLs := 1; 
+          return mk_(<PULSE>,time)
+        )
+   else (
+          LRLs := LRLs + 1; 
+          return mk_(<NONE>,time)
+        ); 
+
+   );   
+
+ applyChange : <INC> | <DEC> ==> ()
+ applyChange (a) == if a = <INC> then LRLf := 1
+                                 else LRLf := 2;
+ 
+ AdjustRate : AccelerometerData * Time ==> ()
+ AdjustRate(act,time) == 
+    if act > ActivityThreshold
+    then rateChangePlan := {time + 10*2 |-> <INC>}
+    else rateChangePlan := {time + 120*2 |-> <DEC>}
+
+
+ 
+
+                             
+values 
+
+LOW  : AccelerometerData = 0;
+MED  : AccelerometerData = 1;
+HIGH : AccelerometerData = 2;
+
+sensedData : seq of (Sense * [AccelerometerData] * Time) = 
+[mk_(<NONE>,nil,i) | i in set {1,...,120}]^
+[mk_(<NONE>,HIGH,121)]^
+[mk_(<NONE>,nil,i) | i in set {121,...,190}]^
+[mk_(<NONE>,LOW,191)]^
+[mk_(<NONE>,nil,i) | i in set {192,...,436}];	
+
+end PacemakerAOOR
+             
+~~~
+{% endraw %}
+
 ### RateController.vdmsl
 
 {% raw %}
@@ -169,46 +267,6 @@ end PacemakerDDD
 ~~~
 {% endraw %}
 
-### PacemakerAOO.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-module PacemakerAOO
-
-definitions 
-
-values 
-LRL     : nat = 60;
-                                                                                                                                                 
-types 
-SenseTimeline = map Time to Sense;
-
-Sense = <NONE> | <PULSE>;
-
-Time = nat1;
-                                                                                                                                                          
-ReactionTimeline = map Time to Reaction; 
-
-Reaction = <NONE> | <PULSE>;
-   
-functions
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-Pacemaker (inp : SenseTimeline) r : ReactionTimeline
-post let m = {i | i in set dom r & r(i) = <PULSE>}
-     in card dom r = card dom inp 
-        and
-        card dom inp > 1 => r(1) = <PULSE> 
-        and
-        forall x in set m & (
-           (exists y in set m & y > x) => 
-                 (exists y in set m & abs(x - y) <= 60000/LRL and x <> y));
-
-end PacemakerAOO
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-~~~
-{% endraw %}
-
 ### PacemakerDOO.vdmsl
 
 {% raw %}
@@ -250,6 +308,46 @@ end PacemakerDOO
 ~~~
 {% endraw %}
 
+### PacemakerAOO.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+module PacemakerAOO
+
+definitions 
+
+values 
+LRL     : nat = 60;
+                                                                                                                                                 
+types 
+SenseTimeline = map Time to Sense;
+
+Sense = <NONE> | <PULSE>;
+
+Time = nat1;
+                                                                                                                                                          
+ReactionTimeline = map Time to Reaction; 
+
+Reaction = <NONE> | <PULSE>;
+   
+functions
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+Pacemaker (inp : SenseTimeline) r : ReactionTimeline
+post let m = {i | i in set dom r & r(i) = <PULSE>}
+     in card dom r = card dom inp 
+        and
+        card dom inp > 1 => r(1) = <PULSE> 
+        and
+        forall x in set m & (
+           (exists y in set m & y > x) => 
+                 (exists y in set m & abs(x - y) <= 60000/LRL and x <> y));
+
+end PacemakerAOO
+                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+~~~
+{% endraw %}
+
 ### PacemakerAAT.vdmsl
 
 {% raw %}
@@ -288,104 +386,6 @@ post let m = {i | i in set inds r & r(i) = <PULSE>}
 
 end PacemakerAAT
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-~~~
-{% endraw %}
-
-### PacemakerAOOR.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-module PacemakerAOOR
-
-definitions 
-
-types 
-
-Time = nat;
-
-SenseTimeline = seq of (Sense * [AccelerometerData] * Time)
-inv stl == let l = [i.#2 | i in seq stl & i.#2 <> nil]
-           in l(1) = HIGH and forall i in set inds l & l(i) < MED => l(i-1) > MED;
-
-AccelerometerData = nat
-inv n == n < 3;
-
-Sense = <NONE> | <PULSE>;
-
-                                                                                                                            
-
-ReactionTimeline = seq of (Reaction * Time); 
-
-Reaction = <NONE> | <PULSE>;
-                            
-state Sigma of
-   LRL                : nat
-   LRLs               : nat
-   LRLf               : nat
-   MSR                : nat
-   ActivityThreshold  : AccelerometerData
-   ReactionTime       : nat
-   RecoveryTime       : nat
-   rateChangePlan     : map nat to (<INC> | <DEC>)
-init s == s = mk_Sigma(60,0,2,120,MED,10,2,{|->})
-end   
-   
-
-operations
-
-Pacemaker : SenseTimeline ==> ReactionTimeline
-Pacemaker(inp) == 
-   return if inp = [] 
-          then []
-          else [HeartController(hd inp)] ^ Pacemaker(tl inp);
-                         
-HeartController : (Sense * [AccelerometerData] * Time) ==> (Reaction * Time)
-HeartController (mk_(-,acc,time)) == 
-  (
-   if acc <> nil then AdjustRate(acc,time);        
-   if time in set dom rateChangePlan then applyChange(rateChangePlan(time));
-   if LRLf <= LRLs 
-   then (
-          LRLs := 1; 
-          return mk_(<PULSE>,time)
-        )
-   else (
-          LRLs := LRLs + 1; 
-          return mk_(<NONE>,time)
-        ); 
-
-   );   
-
- applyChange : <INC> | <DEC> ==> ()
- applyChange (a) == if a = <INC> then LRLf := 1
-                                 else LRLf := 2;
- 
- AdjustRate : AccelerometerData * Time ==> ()
- AdjustRate(act,time) == 
-    if act > ActivityThreshold
-    then rateChangePlan := {time + 10*2 |-> <INC>}
-    else rateChangePlan := {time + 120*2 |-> <DEC>}
-
-
- 
-
-                             
-values 
-
-LOW  : AccelerometerData = 0;
-MED  : AccelerometerData = 1;
-HIGH : AccelerometerData = 2;
-
-sensedData : seq of (Sense * [AccelerometerData] * Time) = 
-[mk_(<NONE>,nil,i) | i in set {1,...,120}]^
-[mk_(<NONE>,HIGH,121)]^
-[mk_(<NONE>,nil,i) | i in set {121,...,190}]^
-[mk_(<NONE>,LOW,191)]^
-[mk_(<NONE>,nil,i) | i in set {192,...,436}];	
-
-end PacemakerAOOR
-             
 ~~~
 {% endraw %}
 

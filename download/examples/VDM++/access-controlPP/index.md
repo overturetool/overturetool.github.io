@@ -27,103 +27,146 @@ Systems and Networks, pp 352-353, Supplemental Volume. June 25-28, 2007. Edinbur
 |Entry point     :| new Test().Run()|
 
 
-### Request.vdmpp
+### Evaluater.vdmpp
 
 {% raw %}
 ~~~
-class Request
+class Evaluator
+
+-- Evaluator is the "top level" class.  It receives an access control
+-- request and returns a response.
 
 instance variables
-  
--- Request targets must have a single subject AND a single resource.   
 
-subject  : PDP`Subject;
-resource : PDP`Resource;
-actions  : set of PDP`Action;
+pdp : PDP;       -- an object of class PDP --- Policy Decision Point
+env : Env;       -- an object of class Env
+req : Request;   -- a request 
+inst: Inst;
 
-types
+types 
 
-Inst :: map token to FExp`Id;
+Inst :: map FExp`UnId to FExp`Id
 
- operations
+values
 
-public Request: PDP`Subject * PDP`Resource * set of PDP`Action ==> Request
-Request(s,r,aset) ==
- (subject  := s;
-  resource := r;
-  actions  := aset;
-); 
-
-pure public GetSubject: () ==> PDP`Subject
-GetSubject() == 
-  return subject;
-
-pure public GetResource: () ==> PDP`Resource
-GetResource() == 
-  return resource;
-
-pure public GetActions: () ==> set of PDP`Action
-GetActions() == 
-  return actions;
-
-end Request
-~~~
-{% endraw %}
-
-### Env.vdmpp
-
-{% raw %}
-~~~
-class Env
-
-instance variables 
- 
-senv : map FExp`Id to FExp`SType;
-denv : map FExp`Id to FExp`Val;
+requester : FExp`UnId = mk_FExp`UnId(<requester>);
+resource  : FExp`UnId = mk_FExp`UnId(<resource>);
+-- action    : FExp`UnVar = mk_FExp`UnVar(<action>);
 
 operations
 
-public Env: map FExp`Id to FExp`SType * map FExp`Id to FExp`Val ==> Env
-Env(s,d) ==
-  (senv := s;
-   denv := d;
-  );
+public Evaluator: Request * PDP * Env ==> Evaluator
+Evaluator(r,p,e) ==
+ ( req := r;
+   pdp := p;
+   env := e;
+   inst := mk_Inst({requester |-> req.GetSubject(), 
+     resource |-> req.GetResource()})
+ );
 
-public GetSenv: () ==> map FExp`Id to FExp`SType
-GetSenv() ==
-  return senv;
+-- evaluate operates on the request that is part of Evaluator state. 
 
-public GetDenv: () ==> map FExp`Id to FExp`Val
-GetDenv() ==
-  return denv;
+public evaluate: () ==> PDP`Effect
+evaluate() ==
+  if (pdp.GetpolicyCombAlg() = <denyOverrides>) then  
+    return(evaluatePDPDenyOverrides())
+  elseif (pdp.GetpolicyCombAlg() = <permitOverrides>) then  
+    return(evaluatePDPPermitOverrides())
+  else
+    return(<NotApplicable>);
 
-pure public GetVal: FExp`Id ==> FExp`Val
-GetVal(id) ==
-  return denv(id)
-pre id in set dom denv;
+evaluatePDPDenyOverrides : () ==> PDP`Effect 
+evaluatePDPDenyOverrides() ==
+  if exists p in set pdp.Getpolicies() & 
+    (evaluatePol(p) = <Deny> or evaluatePol(p) = <Indeterminate> )
+  then return(<Deny>)
+  elseif exists p in set pdp.Getpolicies() & 
+    evaluatePol(p) = <Permit>
+  then return(<Permit>)
+  else return(<NotApplicable>);
 
-public GetAVal:FExp`Id * FExp`Id ==> FExp`Val
-GetAVal(id,index) ==
-  return denv(id)(index)
-pre id in set dom denv and index in set dom denv(id);
+evaluatePDPPermitOverrides : () ==> PDP`Effect 
+evaluatePDPPermitOverrides() ==
+  if exists p in set pdp.Getpolicies() & 
+    (evaluatePol(p) = <Permit> or evaluatePol(p) = <Indeterminate> )
+  then return(<Permit>)
+  elseif exists p in set pdp.Getpolicies() & 
+    evaluatePol(p) = <Deny>
+  then return(<Deny>)
+  else return(<NotApplicable>);
 
-public GetSType: FExp`Id ==> FExp`SType
-GetSType(id) ==
-  return senv(id)
-pre id in set dom denv;
-
-public GetSAType: FExp`Id ==> FExp`AType
-GetSAType(id) ==
-  return senv(id)
-pre id in set dom denv;
-
-public GetAType:FExp`Id * FExp`Id ==> FExp`SType
-GetAType(id,index) ==
-  return senv(id)(index)
-pre id in set dom denv and index in set dom denv(id);
-
-end Env
+evaluateRule : PDP`Rule ==> PDP`Effect 
+evaluateRule(rule) ==
+  if targetmatch(rule.target) then 
+     if rule.cond = nil 
+     then return(rule.effect)
+     else  if (rule.cond).wfExpr(env) then
+       cases (rule.cond).EvaluateBind(req,env):
+             true   -> return(rule.effect),
+             false  -> return(<NotApplicable>),
+            <Indet> -> return(<Indeterminate>),
+            others -> error
+       end
+           else return <NotApplicable> 
+  else
+    return(<NotApplicable>);
   
+evaluatePol : PDP`Policy ==> PDP`Effect
+evaluatePol(pol) ==
+   if targetmatch(pol.target) then
+     cases pol.ruleCombAlg:
+           <denyOverrides>   -> return(evaluateRulesDenyOverrides(pol.rules)),
+           <permitOverrides> -> return(evaluateRulesPermitOverrides(pol.rules)),
+            others -> return(<NotApplicable>)
+     end
+   else  -- target does not match
+     return(<NotApplicable>);
+
+evaluateRulesDenyOverrides : set of PDP`Rule ==> PDP`Effect
+evaluateRulesDenyOverrides(rs) ==
+  if exists r in set rs &
+    evaluateRule(r) = <Deny>
+  then return(<Deny>)
+  elseif exists r in set rs & 
+    (evaluateRule(r) = <Indeterminate> and pdp.GetEffect(r) = <Deny> )
+  then return(<Indeterminate>)
+  elseif exists r in set rs &
+    evaluateRule(r) = <Permit>
+  then return(<Permit>)
+  elseif exists r in set rs & 
+    (evaluateRule(r) = <Indeterminate> and pdp.GetEffect(r) = <Permit> )
+  then return(<Indeterminate>)
+  else return(<NotApplicable>);
+
+evaluateRulesPermitOverrides : set of PDP`Rule ==> PDP`Effect
+evaluateRulesPermitOverrides(rs) ==
+  if exists r in set rs &
+    evaluateRule(r) = <Permit>
+  then return(<Permit>)
+  elseif exists r in set rs & 
+    (evaluateRule(r) = <Indeterminate> and pdp.GetEffect(r) = <Permit> )
+  then return(<Indeterminate>)
+  elseif exists r in set rs & 
+    evaluateRule(r) = <Deny>
+  then return(<Deny>)
+  elseif exists r in set rs & 
+    (evaluateRule(r) = <Indeterminate> and pdp.GetEffect(r) = <Deny> )
+  then return(<Indeterminate>)
+  else return(<NotApplicable>);
+
+-- targetmatch has been adapted.  If any of the sets in the target of 
+-- the (rule|policy) is empty then they match anything.  
+
+targetmatch : PDP`Target ==> bool
+targetmatch(tgt) ==
+     if ((tgt.subjects  = {}) or (req.GetSubject() in set tgt.subjects)) and
+        ((tgt.resources = {}) or (req.GetResource() in set tgt.resources)) and
+        ((tgt.actions = {})   or (req.GetActions() inter tgt.actions) <> {}) 
+     then return true 
+     else return false;
+
+
+end Evaluator
 ~~~
 {% endraw %}
 
@@ -187,6 +230,63 @@ GetEffect(r) ==
   return r.effect;
 
 end PDP
+~~~
+{% endraw %}
+
+### Env.vdmpp
+
+{% raw %}
+~~~
+class Env
+
+instance variables 
+ 
+senv : map FExp`Id to FExp`SType;
+denv : map FExp`Id to FExp`Val;
+
+operations
+
+public Env: map FExp`Id to FExp`SType * map FExp`Id to FExp`Val ==> Env
+Env(s,d) ==
+  (senv := s;
+   denv := d;
+  );
+
+public GetSenv: () ==> map FExp`Id to FExp`SType
+GetSenv() ==
+  return senv;
+
+public GetDenv: () ==> map FExp`Id to FExp`Val
+GetDenv() ==
+  return denv;
+
+pure public GetVal: FExp`Id ==> FExp`Val
+GetVal(id) ==
+  return denv(id)
+pre id in set dom denv;
+
+public GetAVal:FExp`Id * FExp`Id ==> FExp`Val
+GetAVal(id,index) ==
+  return denv(id)(index)
+pre id in set dom denv and index in set dom denv(id);
+
+public GetSType: FExp`Id ==> FExp`SType
+GetSType(id) ==
+  return senv(id)
+pre id in set dom denv;
+
+public GetSAType: FExp`Id ==> FExp`AType
+GetSAType(id) ==
+  return senv(id)
+pre id in set dom denv;
+
+public GetAType:FExp`Id * FExp`Id ==> FExp`SType
+GetAType(id,index) ==
+  return senv(id)(index)
+pre id in set dom denv and index in set dom denv(id);
+
+end Env
+  
 ~~~
 {% endraw %}
 
@@ -352,149 +452,6 @@ gold_policy_results_scale : PDP =
   );
 
 end Test
-~~~
-{% endraw %}
-
-### Evaluater.vdmpp
-
-{% raw %}
-~~~
-class Evaluator
-
--- Evaluator is the "top level" class.  It receives an access control
--- request and returns a response.
-
-instance variables
-
-pdp : PDP;       -- an object of class PDP --- Policy Decision Point
-env : Env;       -- an object of class Env
-req : Request;   -- a request 
-inst: Inst;
-
-types 
-
-Inst :: map FExp`UnId to FExp`Id
-
-values
-
-requester : FExp`UnId = mk_FExp`UnId(<requester>);
-resource  : FExp`UnId = mk_FExp`UnId(<resource>);
--- action    : FExp`UnVar = mk_FExp`UnVar(<action>);
-
-operations
-
-public Evaluator: Request * PDP * Env ==> Evaluator
-Evaluator(r,p,e) ==
- ( req := r;
-   pdp := p;
-   env := e;
-   inst := mk_Inst({requester |-> req.GetSubject(), 
-     resource |-> req.GetResource()})
- );
-
--- evaluate operates on the request that is part of Evaluator state. 
-
-public evaluate: () ==> PDP`Effect
-evaluate() ==
-  if (pdp.GetpolicyCombAlg() = <denyOverrides>) then  
-    return(evaluatePDPDenyOverrides())
-  elseif (pdp.GetpolicyCombAlg() = <permitOverrides>) then  
-    return(evaluatePDPPermitOverrides())
-  else
-    return(<NotApplicable>);
-
-evaluatePDPDenyOverrides : () ==> PDP`Effect 
-evaluatePDPDenyOverrides() ==
-  if exists p in set pdp.Getpolicies() & 
-    (evaluatePol(p) = <Deny> or evaluatePol(p) = <Indeterminate> )
-  then return(<Deny>)
-  elseif exists p in set pdp.Getpolicies() & 
-    evaluatePol(p) = <Permit>
-  then return(<Permit>)
-  else return(<NotApplicable>);
-
-evaluatePDPPermitOverrides : () ==> PDP`Effect 
-evaluatePDPPermitOverrides() ==
-  if exists p in set pdp.Getpolicies() & 
-    (evaluatePol(p) = <Permit> or evaluatePol(p) = <Indeterminate> )
-  then return(<Permit>)
-  elseif exists p in set pdp.Getpolicies() & 
-    evaluatePol(p) = <Deny>
-  then return(<Deny>)
-  else return(<NotApplicable>);
-
-evaluateRule : PDP`Rule ==> PDP`Effect 
-evaluateRule(rule) ==
-  if targetmatch(rule.target) then 
-     if rule.cond = nil 
-     then return(rule.effect)
-     else  if (rule.cond).wfExpr(env) then
-       cases (rule.cond).EvaluateBind(req,env):
-             true   -> return(rule.effect),
-             false  -> return(<NotApplicable>),
-            <Indet> -> return(<Indeterminate>),
-            others -> error
-       end
-           else return <NotApplicable> 
-  else
-    return(<NotApplicable>);
-  
-evaluatePol : PDP`Policy ==> PDP`Effect
-evaluatePol(pol) ==
-   if targetmatch(pol.target) then
-     cases pol.ruleCombAlg:
-           <denyOverrides>   -> return(evaluateRulesDenyOverrides(pol.rules)),
-           <permitOverrides> -> return(evaluateRulesPermitOverrides(pol.rules)),
-            others -> return(<NotApplicable>)
-     end
-   else  -- target does not match
-     return(<NotApplicable>);
-
-evaluateRulesDenyOverrides : set of PDP`Rule ==> PDP`Effect
-evaluateRulesDenyOverrides(rs) ==
-  if exists r in set rs &
-    evaluateRule(r) = <Deny>
-  then return(<Deny>)
-  elseif exists r in set rs & 
-    (evaluateRule(r) = <Indeterminate> and pdp.GetEffect(r) = <Deny> )
-  then return(<Indeterminate>)
-  elseif exists r in set rs &
-    evaluateRule(r) = <Permit>
-  then return(<Permit>)
-  elseif exists r in set rs & 
-    (evaluateRule(r) = <Indeterminate> and pdp.GetEffect(r) = <Permit> )
-  then return(<Indeterminate>)
-  else return(<NotApplicable>);
-
-evaluateRulesPermitOverrides : set of PDP`Rule ==> PDP`Effect
-evaluateRulesPermitOverrides(rs) ==
-  if exists r in set rs &
-    evaluateRule(r) = <Permit>
-  then return(<Permit>)
-  elseif exists r in set rs & 
-    (evaluateRule(r) = <Indeterminate> and pdp.GetEffect(r) = <Permit> )
-  then return(<Indeterminate>)
-  elseif exists r in set rs & 
-    evaluateRule(r) = <Deny>
-  then return(<Deny>)
-  elseif exists r in set rs & 
-    (evaluateRule(r) = <Indeterminate> and pdp.GetEffect(r) = <Deny> )
-  then return(<Indeterminate>)
-  else return(<NotApplicable>);
-
--- targetmatch has been adapted.  If any of the sets in the target of 
--- the (rule|policy) is empty then they match anything.  
-
-targetmatch : PDP`Target ==> bool
-targetmatch(tgt) ==
-     if ((tgt.subjects  = {}) or (req.GetSubject() in set tgt.subjects)) and
-        ((tgt.resources = {}) or (req.GetResource() in set tgt.resources)) and
-        ((tgt.actions = {})   or (req.GetActions() inter tgt.actions) <> {}) 
-     then return true 
-     else return false;
-
-
-end Evaluator
 ~~~
 {% endraw %}
 
@@ -781,6 +738,49 @@ wfArrayLookup(mk_ArrayLookup(id, index),env) ==
 
 
 end FExp
+~~~
+{% endraw %}
+
+### Request.vdmpp
+
+{% raw %}
+~~~
+class Request
+
+instance variables
+  
+-- Request targets must have a single subject AND a single resource.   
+
+subject  : PDP`Subject;
+resource : PDP`Resource;
+actions  : set of PDP`Action;
+
+types
+
+Inst :: map token to FExp`Id;
+
+ operations
+
+public Request: PDP`Subject * PDP`Resource * set of PDP`Action ==> Request
+Request(s,r,aset) ==
+ (subject  := s;
+  resource := r;
+  actions  := aset;
+); 
+
+pure public GetSubject: () ==> PDP`Subject
+GetSubject() == 
+  return subject;
+
+pure public GetResource: () ==> PDP`Resource
+GetResource() == 
+  return resource;
+
+pure public GetActions: () ==> set of PDP`Action
+GetActions() == 
+  return actions;
+
+end Request
 ~~~
 {% endraw %}
 

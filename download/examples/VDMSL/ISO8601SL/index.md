@@ -406,299 +406,6 @@ end Seq
 ~~~
 {% endraw %}
 
-### Char.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose types, constants and functions over
-   characters and strings (sequences characters).
-
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
-*/
-module Char
-imports from Seq all
-exports types Upper
-              Lower
-              Letter
-              Digit
-              Octal
-              Hex
-              AlphaNum
-              AlphaNumUpper
-              AlphaNumLower
-              Space
-              WhiteSpace
-              Phrase
-              PhraseUpper
-              PhraseLower
-              Text
-              TextUpper
-              TextLower
-        values SP, TB, CR, LF : char
-               WHITE_SPACE, UPPER, LOWER, DIGIT, OCTAL, HEX : set of char
-               UPPERS, LOWERS, DIGITS, OCTALS, HEXS: seq of char
-        functions toLower: Upper +> Lower
-                  toUpper: Lower +> Upper
-
-definitions
-
-types
-
-  Upper = char
-  inv c == c in set UPPER;
-
-  Lower = char
-  inv c == c in set LOWER;
-
-  Letter = Upper | Lower;
-
-  Digit = char
-  inv c == c in set DIGIT;
-  
-  Octal = char
-  inv c == c in set OCTAL;
-
-  Hex = char
-  inv c == c in set HEX;
-
-  AlphaNum = Letter | Digit;
-
-  AlphaNumUpper = Upper | Digit;
-
-  AlphaNumLower = Lower | Digit;
-
-  Space = char
-  inv sp == sp = ' ';
-
-  WhiteSpace = char
-  inv ws == ws in set WHITE_SPACE;
-
-  Phrase = seq1 of (AlphaNum|Space);
-
-  PhraseUpper = seq1 of (AlphaNumUpper|Space);
-
-  PhraseLower = seq1 of (AlphaNumLower|Space);
-
-  Text = seq1 of (AlphaNum|WhiteSpace);
-
-  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace);
-
-  TextLower = seq1 of (AlphaNumLower|WhiteSpace);
-
-values
-
-  SP:char = ' ';
-  TB:char = '\t';
-  CR:char = '\r';
-  LF:char = '\n';
-  WHITE_SPACE:set of char = {SP,TB,CR,LF};
-  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
-                       'R','S','T','U','V','W','X','Y','Z'};
-  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
-                       'r','s','t','u','v','w','x','y','z'};
-  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
-  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
-  DIGITS:seq of Digit = "0123456789";
-  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
-  OCTALS:seq of Octal = "01234567";
-  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-  HEXS:seq of Hex = "0123456789ABCDEF";
-
-functions
-
-  -- Convert upper case letter to lower case.
-  toLower: Upper +> Lower
-  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
-  post toUpper(RESULT) = c;
-
-  -- Convert lower case letter to upper case.
-  toUpper: Lower +> Upper
-  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
-  --post toLower(RESULT) = c;
-
-end Char
-~~~
-{% endraw %}
-
-### Numeric.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over numerics.
-
-   All definitions are explicit and executable.
-*/
-module Numeric
-imports from Seq all
-exports functions differBy: real * real * real +> bool;
-                  formatNat: nat +> seq1 of char;
-                  decodeNat: seq1 of char +> nat;
-                  fromChar: char +> nat;
-                  toChar: nat +> char;
-                  zeroPad: nat * nat1 +> seq1 of char;
-                  min: real * real +> real;
-                  max: real * real +> real;
-                  less: real * real +> bool;
-                  leq: real * real +> bool;
-                  grtr: real * real +> bool;
-                  geq: real * real +> bool;
-                  add: real * real +> real;
-                  mult: real * real +> real
-
-definitions
-
-values
-
-  DIGITS:seq of char = "0123456789";
-
-functions
-
-  -- Do two numerics differ by at least a specified value.
-  differBy: real * real * real +> bool
-  differBy(x, y, delta) == abs (x-y) >= delta
-  pre delta > 0;
-
-  -- Format a natural number as a string of digits.
-  formatNat: nat +> seq1 of char
-  formatNat(n) == if n < 10
-                  then [toChar(n)]
-                  else formatNat(n div 10) ^ formatNat(n mod 10)
-  measure size1;
-
-  -- Create a natural number from a sequence of digit characters.
-  decodeNat: seq1 of char +> nat
-  decodeNat(s) == cases s:
-                    [c] -> fromChar(c),
-                    u^[c] -> 10*decodeNat(u)+fromChar(c)
-                  end
-  measure size2;
-
-  -- Convert a character digit to the corresponding natural number.
-  fromChar: char +> nat
-  fromChar(c) == Seq`indexOf[char](c,DIGITS)-1
-  pre c in set elems DIGITS
-  post toChar(RESULT) = c;
-
-  -- Convert a numeric digit to the corresponding character.
-  toChar: nat +> char
-  toChar(n) == DIGITS(n+1)
-  pre n <= 9;
-  --post fromChar(RESULT) = n
-
-  -- Format a natural number as a string with leading zeros up to a specified length.
-  zeroPad: nat * nat1 +> seq1 of char
-  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
-
-  /*
-    The following are simple functions that are of limited value in their own right.
-    The are provided to allow them for example to serve as function arguments.
-  */
-
-  -- Sum of two numbers.
-  add: real * real +> real
-  add(m,n) == m+n;
-
-  -- Product of two numbers.
-  mult: real * real +> real
-  mult(m,n) == m*n;
-
-  -- The minimum of two numerics.
-  min: real * real +> real
-  min(x,y) == if x < y then x else y
-  post RESULT in set {x,y} and RESULT <= x and RESULT <= y;
-
-  -- The maximum of two numerics.
-  max: real * real +> real
-  max(x,y) == if x > y then x else y
-  post RESULT in set {x,y} and RESULT >= x and RESULT >= y;
-
-  -- Numeric less than.
-  -- Useful for passing as a function argument.
-  less: real * real +> bool
-  less(x,y) == x < y;
-
-  -- Numeric less than or equal.
-  -- Useful for passing as a function argument.
-  leq: real * real +> bool
-  leq(x,y) == x <= y;
-
-  -- Numeric greater than.
-  -- Useful for passing as a function argument.
-  grtr: real * real +> bool
-  grtr(x,y) == x > y;
-
-  -- Numeric greater than or equal.
-  -- Useful for passing as a function argument.
-  geq: real * real +> bool
-  geq(x,y) == x >= y;
-
-  -- Measure functions.
-
-  size1: nat +> nat
-  size1(n) == n;
-
-  size2: seq1 of char +> nat
-  size2(s) == len s;
-
-end Numeric
-~~~
-{% endraw %}
-
-### Ord.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over orders.
-
-   All definitions are explicit and executable.
-*/
-module Ord
-exports functions min[@a]: @a * @a +> @a
-                  minWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
-                  max[@a]: @a * @a +> @a
-                  maxWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
-
-definitions
-
-values
-
-functions
-
-  /*
-    The function defined below a simple in nature, and of limited value in their own right.
-    They can be used in other modules where it is necessary to pass min/max functions as
-    arguments to other functions without the need to define auxiliary functions.
-  */
-
-  -- The minimum of two values.
-  min[@a]: @a * @a +> @a
-  min(x,y) == if x < y then x else y;
-  -- pre The type parameter admits an order relation.
-
-  -- The minimum of two values with respect to a relation.
-  minWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
-  minWith(o)(x,y) == if o(x,y) then x else y;
-  -- pre 'o' is a partial order relation.
-
-  -- The maximum of two values.
-  max[@a]: @a * @a +> @a
-  max(x,y) == if y < x then x else y;
-  -- pre The type parameter admits an order relation.
-
-  -- The maximum of two values with respect to a relation.
-  maxWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
-  maxWith(o)(x,y) == if o(y,x) then x else y;
-  -- pre 'o' is a partial order relation.
-
-end Ord
-~~~
-{% endraw %}
-
 ### Set.vdmsl
 
 {% raw %}
@@ -868,6 +575,123 @@ functions
   size3(-, -, s) == card s;
 
 end Set
+~~~
+{% endraw %}
+
+### Char.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose types, constants and functions over
+   characters and strings (sequences characters).
+
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
+*/
+module Char
+imports from Seq all
+exports types Upper
+              Lower
+              Letter
+              Digit
+              Octal
+              Hex
+              AlphaNum
+              AlphaNumUpper
+              AlphaNumLower
+              Space
+              WhiteSpace
+              Phrase
+              PhraseUpper
+              PhraseLower
+              Text
+              TextUpper
+              TextLower
+        values SP, TB, CR, LF : char
+               WHITE_SPACE, UPPER, LOWER, DIGIT, OCTAL, HEX : set of char
+               UPPERS, LOWERS, DIGITS, OCTALS, HEXS: seq of char
+        functions toLower: Upper +> Lower
+                  toUpper: Lower +> Upper
+
+definitions
+
+types
+
+  Upper = char
+  inv c == c in set UPPER;
+
+  Lower = char
+  inv c == c in set LOWER;
+
+  Letter = Upper | Lower;
+
+  Digit = char
+  inv c == c in set DIGIT;
+  
+  Octal = char
+  inv c == c in set OCTAL;
+
+  Hex = char
+  inv c == c in set HEX;
+
+  AlphaNum = Letter | Digit;
+
+  AlphaNumUpper = Upper | Digit;
+
+  AlphaNumLower = Lower | Digit;
+
+  Space = char
+  inv sp == sp = ' ';
+
+  WhiteSpace = char
+  inv ws == ws in set WHITE_SPACE;
+
+  Phrase = seq1 of (AlphaNum|Space);
+
+  PhraseUpper = seq1 of (AlphaNumUpper|Space);
+
+  PhraseLower = seq1 of (AlphaNumLower|Space);
+
+  Text = seq1 of (AlphaNum|WhiteSpace);
+
+  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace);
+
+  TextLower = seq1 of (AlphaNumLower|WhiteSpace);
+
+values
+
+  SP:char = ' ';
+  TB:char = '\t';
+  CR:char = '\r';
+  LF:char = '\n';
+  WHITE_SPACE:set of char = {SP,TB,CR,LF};
+  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                       'R','S','T','U','V','W','X','Y','Z'};
+  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+                       'r','s','t','u','v','w','x','y','z'};
+  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
+  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
+  DIGITS:seq of Digit = "0123456789";
+  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
+  OCTALS:seq of Octal = "01234567";
+  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+  HEXS:seq of Hex = "0123456789ABCDEF";
+
+functions
+
+  -- Convert upper case letter to lower case.
+  toLower: Upper +> Lower
+  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
+  post toUpper(RESULT) = c;
+
+  -- Convert lower case letter to upper case.
+  toUpper: Lower +> Upper
+  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
+  --post toLower(RESULT) = c;
+
+end Char
 ~~~
 {% endraw %}
 
@@ -1578,6 +1402,182 @@ functions
        else "P" ^ date ^ (if time="" then "" else "T" ^ time);
 
 end ISO8601
+~~~
+{% endraw %}
+
+### Ord.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over orders.
+
+   All definitions are explicit and executable.
+*/
+module Ord
+exports functions min[@a]: @a * @a +> @a
+                  minWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
+                  max[@a]: @a * @a +> @a
+                  maxWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
+
+definitions
+
+values
+
+functions
+
+  /*
+    The function defined below a simple in nature, and of limited value in their own right.
+    They can be used in other modules where it is necessary to pass min/max functions as
+    arguments to other functions without the need to define auxiliary functions.
+  */
+
+  -- The minimum of two values.
+  min[@a]: @a * @a +> @a
+  min(x,y) == if x < y then x else y;
+  -- pre The type parameter admits an order relation.
+
+  -- The minimum of two values with respect to a relation.
+  minWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
+  minWith(o)(x,y) == if o(x,y) then x else y;
+  -- pre 'o' is a partial order relation.
+
+  -- The maximum of two values.
+  max[@a]: @a * @a +> @a
+  max(x,y) == if y < x then x else y;
+  -- pre The type parameter admits an order relation.
+
+  -- The maximum of two values with respect to a relation.
+  maxWith[@a]: (@a * @a +> bool) +> @a * @a +> @a
+  maxWith(o)(x,y) == if o(y,x) then x else y;
+  -- pre 'o' is a partial order relation.
+
+end Ord
+~~~
+{% endraw %}
+
+### Numeric.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over numerics.
+
+   All definitions are explicit and executable.
+*/
+module Numeric
+imports from Seq all
+exports functions differBy: real * real * real +> bool;
+                  formatNat: nat +> seq1 of char;
+                  decodeNat: seq1 of char +> nat;
+                  fromChar: char +> nat;
+                  toChar: nat +> char;
+                  zeroPad: nat * nat1 +> seq1 of char;
+                  min: real * real +> real;
+                  max: real * real +> real;
+                  less: real * real +> bool;
+                  leq: real * real +> bool;
+                  grtr: real * real +> bool;
+                  geq: real * real +> bool;
+                  add: real * real +> real;
+                  mult: real * real +> real
+
+definitions
+
+values
+
+  DIGITS:seq of char = "0123456789";
+
+functions
+
+  -- Do two numerics differ by at least a specified value.
+  differBy: real * real * real +> bool
+  differBy(x, y, delta) == abs (x-y) >= delta
+  pre delta > 0;
+
+  -- Format a natural number as a string of digits.
+  formatNat: nat +> seq1 of char
+  formatNat(n) == if n < 10
+                  then [toChar(n)]
+                  else formatNat(n div 10) ^ formatNat(n mod 10)
+  measure size1;
+
+  -- Create a natural number from a sequence of digit characters.
+  decodeNat: seq1 of char +> nat
+  decodeNat(s) == cases s:
+                    [c] -> fromChar(c),
+                    u^[c] -> 10*decodeNat(u)+fromChar(c)
+                  end
+  measure size2;
+
+  -- Convert a character digit to the corresponding natural number.
+  fromChar: char +> nat
+  fromChar(c) == Seq`indexOf[char](c,DIGITS)-1
+  pre c in set elems DIGITS
+  post toChar(RESULT) = c;
+
+  -- Convert a numeric digit to the corresponding character.
+  toChar: nat +> char
+  toChar(n) == DIGITS(n+1)
+  pre n <= 9;
+  --post fromChar(RESULT) = n
+
+  -- Format a natural number as a string with leading zeros up to a specified length.
+  zeroPad: nat * nat1 +> seq1 of char
+  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
+
+  /*
+    The following are simple functions that are of limited value in their own right.
+    The are provided to allow them for example to serve as function arguments.
+  */
+
+  -- Sum of two numbers.
+  add: real * real +> real
+  add(m,n) == m+n;
+
+  -- Product of two numbers.
+  mult: real * real +> real
+  mult(m,n) == m*n;
+
+  -- The minimum of two numerics.
+  min: real * real +> real
+  min(x,y) == if x < y then x else y
+  post RESULT in set {x,y} and RESULT <= x and RESULT <= y;
+
+  -- The maximum of two numerics.
+  max: real * real +> real
+  max(x,y) == if x > y then x else y
+  post RESULT in set {x,y} and RESULT >= x and RESULT >= y;
+
+  -- Numeric less than.
+  -- Useful for passing as a function argument.
+  less: real * real +> bool
+  less(x,y) == x < y;
+
+  -- Numeric less than or equal.
+  -- Useful for passing as a function argument.
+  leq: real * real +> bool
+  leq(x,y) == x <= y;
+
+  -- Numeric greater than.
+  -- Useful for passing as a function argument.
+  grtr: real * real +> bool
+  grtr(x,y) == x > y;
+
+  -- Numeric greater than or equal.
+  -- Useful for passing as a function argument.
+  geq: real * real +> bool
+  geq(x,y) == x >= y;
+
+  -- Measure functions.
+
+  size1: nat +> nat
+  size1(n) == n;
+
+  size2: seq1 of char +> nat
+  size2(s) == len s;
+
+end Numeric
 ~~~
 {% endraw %}
 

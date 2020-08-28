@@ -23,405 +23,6 @@ VDM AST representation.
 |Entry point     :| MMParser`eval("1+1+4+0")|
 
 
-### Seq.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over sequences.
-
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
-*/
-module Seq
-imports from Numeric all
-exports functions sum: seq of real +> real
-                  prod: seq of real +> real
-                  min: seq1 of real +> real
-                  max: seq1 of real +> real
-                  inSeq[@a]: @a * seq of @a +> bool
-                  indexOf[@a]: @a * seq1 of @a +> nat1
-                  indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1
-                  indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1]
-                  numOccurs[@a]: @a * seq of @a +> nat
-                  permutation[@a]: seq of @a * seq of @a +> bool
-                  preSeq[@a]: seq of @a * seq of @a +> bool
-                  postSeq[@a]: seq of @a * seq of @a +> bool
-                  subSeq[@a]: seq of @a * seq of @a +> bool
-                  replicate[@a]: nat * @a +> seq of @a
-                  padLeft[@a]: seq of @a * @a * nat +> seq of @a
-                  padRight[@a]: seq of @a * @a * nat +> seq of @a
-                  padCentre[@a]: seq of @a * @a * nat +> seq of @a
-                  dropWhile[@a]: (@a +> bool) * seq of @a +> seq of @a
-                  xform[@a,@b]: (@a +> @b) * seq of @a +> seq of @b
-                  fold[@a]: (@a * @a +> @a) * @a * seq of @a +> @a
-                  fold1[@a]: (@a * @a +> @a) * seq1 of @a +> @a
-                  zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b)
-                  unzip[@a,@b]: seq of (@a * @b) +> seq of @a * seq of @b
-                  isDistinct[@a]: seq of @a +> bool
-                  app[@a]: seq of @a * seq of @a +> seq of @a
-                  setOf[@a]: seq of @a +> set of @a
-                  format[@a]: (@a +> seq of char) * seq of char * seq of @a +> seq of char
-
-definitions
-
-functions
-
-  -- The sum of a sequence of numerics.
-  sum: seq of real +> real
-  sum(s) == fold[real](Numeric`add,0,s);
-
-  -- The product of a sequence of numerics.
-  prod: seq of real +> real
-  prod(s) == fold[real](Numeric`mult,1,s);
-
-  -- The minimum of a sequence of numerics.
-  min: seq1 of real +> real
-  min(s) == fold1[real](Numeric`min,s)
-  post RESULT in set elems s and forall e in set elems s & RESULT <= e;
-
-  -- The maximum of a sequence of numerics.
-  max: seq1 of real +> real
-  max(s) == fold1[real](Numeric`max,s)
-  post RESULT in set elems s and forall e in set elems s & RESULT >= e;
-
-  -- Does an element appear in a sequence?
-  inSeq[@a]: @a * seq of @a +> bool
-  inSeq(e,s) == e in set elems s;
-
-  -- The position an item appears in a sequence?
-  indexOf[@a]: @a * seq1 of @a +> nat1
-  indexOf(e,s) == cases s:
-                    [-]    -> 1,
-                    [f]^ss -> if e=f then 1 else 1 + indexOf[@a](e,ss)
-                  end
-  pre inSeq[@a](e,s)
-  measure size0;
-
-  -- The position a subsequence appears in a sequence.
-  indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1
-  indexOfSeq(r,s) == if preSeq[@a](r,s)
-                     then 1
-                     else 1 + indexOfSeq[@a](r, tl s)
-  pre subSeq[@a](r,s)
-  measure size3;
-
-  -- The position a subsequence appears in a sequence?
-  indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1]
-  indexOfSeqOpt(r,s) == if subSeq[@a](r,s) then indexOfSeq[@a](r, s) else nil;
-
-  -- The number of times an element appears in a sequence.
-  numOccurs[@a]: @a * seq of @a +> nat
-  numOccurs(e,sq) == len [ 0 | i in seq sq & i = e ];
-
-  -- Is one sequence a permutation of another?
-  permutation[@a]: seq of @a * seq of @a +> bool
-  permutation(sq1,sq2) ==
-    len sq1 = len sq2 and
-    forall x in seq sq1 & numOccurs[@a](x,sq1) = numOccurs[@a](x,sq2);
-
-  -- Is one sequence a prefix of another?
-  preSeq[@a]: seq of @a * seq of @a +> bool
-  preSeq(pres,full) == pres = full(1,...,len pres);
-
-  -- Is one sequence a suffix of another?
-  postSeq[@a]: seq of @a * seq of @a +> bool
-  postSeq(posts,full) == preSeq[@a](reverse posts, reverse full);
-
-  -- Is one sequence a subsequence of another sequence?
-  subSeq[@a]: seq of @a * seq of @a +> bool
-  subSeq(sub,full) == sub = [] or (exists i,j in set inds full & sub = full(i,...,j));
-
-  -- Create a sequence of identical elements.
-  replicate[@a]: nat * @a +> seq of @a
-  replicate(n,x) == [ x | i in set {1,...,n} ]
-  post len RESULT = n and forall y in seq RESULT & y = x;
-
-  -- Pad a sequence on the left with a given item up to a specified length.
-  padLeft[@a]: seq of @a * @a * nat +> seq of @a
-  padLeft(sq,x,n) == replicate[@a](n-len sq, x) ^ sq
-  pre n >= len sq
-  post len RESULT = n and postSeq[@a](sq, RESULT);
-
-  -- Pad a sequence on the right with a given item up to a specified length.
-  padRight[@a]: seq of @a * @a * nat +> seq of @a
-  padRight(sq,x,n) == sq ^ replicate[@a](n-len sq, x)
-  pre n >= len sq
-  post len RESULT = n and preSeq[@a](sq, RESULT);
-
-  -- Pad a sequence with a given item such that it is centred in a specified length.
-  -- If padded by an odd number, add the extra item on the right.
-  padCentre[@a]: seq of @a * @a * nat +> seq of @a
-  padCentre(sq,x,n) == let space = if n <= len sq then 0 else n - len sq
-                       in padRight[@a](padLeft[@a](sq,x,len sq + (space div 2)),x,n);
-
---  trim[@a]: seq of @a * (@a +> bool) +> seq of @a
---  trim(s, p) == trimpre(reverse(trimpre(reverse s, p)), p);
---  post exists s1,s2: seq of char & s = s1 ^ RESULT ^ s2 and isDigits(s1) and isDigits(s2);
-
-  -- Drop items from a sequence while a predicate is true.
-  dropWhile[@a]: (@a +> bool) * seq of @a +> seq of @a
-  dropWhile(p, s) == cases s:
-                       []      -> [],
-                       [x] ^ t -> if p(x) then dropWhile[@a](p, t) else s
-                     end
-  post postSeq[@a](RESULT, s) and
-       (RESULT = [] or not p(RESULT(1))) and
-       forall i in set {1,...,(len s - len RESULT)} & p(s(i))
-  measure size5;
-
-  -- Apply a function to all elements of a sequence.
-  xform[@a,@b]: (@a+>@b) * seq of @a +> seq of @b
-  xform(f,s) == [ f(x) | x in seq s ]
-  post len RESULT = len s and
-       (forall i in set inds s & RESULT(i) = f(s(i)));
-
-  -- Fold (iterate, accumulate, reduce) a binary function over a sequence.
-  -- The function is assumed to be associative and have an identity element.
-  fold[@a]: (@a * @a +> @a) * @a * seq of @a +> @a
-  fold(f, e, s) == cases s:
-                     []    -> e,
-                     [x]   -> x,
-                     s1^s2 -> f(fold[@a](f,e,s1), fold[@a](f,e,s2))
-                   end
-  --pre (forall x:@a & f(x,e) = x and f(e,x) = x)
-  --and forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
-  measure size2;
-
-  -- Fold (iterate, accumulate, reduce) a binary function over a non-empty sequence.
-  -- The function is assumed to be associative.
-  fold1[@a]: (@a * @a +> @a) * seq1 of @a +> @a
-  fold1(f, s) == cases s:
-                   [e]   -> e,
-                   s1^s2 -> f(fold1[@a](f,s1), fold1[@a](f,s2))
-                 end
-  --pre forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
-  measure size1;
-
-  -- Pair the corresponding elements of two lists of equal length.
-  zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b)
-  zip(s,t) == [ mk_(s(i),t(i)) | i in set inds s ]
-  pre len s = len t
-  post len RESULT = len s and mk_(s,t) = unzip[@a,@b](RESULT);
-
-  -- Split a list of pairs into a list of firsts and a list of seconds.
-  unzip[@a,@b]: seq of (@a * @b) +> seq of @a * seq of @b
-  unzip(s) == mk_([ x.#1 | x in seq s], [ x.#2 | x in seq s])
-  post let mk_(t,u) = RESULT in len t = len s and len u = len s;
-  -- and s = zip[@a,@b](RESULT.#1,RESULT.#2);
-
-  -- Are the elements of a list distinct (no duplicates).
-  isDistinct[@a]: seq of @a +> bool
-  isDistinct(s) == len s = card elems s;
-
-  -- Create a string presentation of a set.
-  format[@a]: (@a +> seq of char) * seq of char * seq of @a +> seq of char
-  format(f,sep,s) == cases s:
-                       []        -> "",
-                       [x]       -> f(x),
-                       t ^ u -> format[@a](f,sep,t) ^ sep ^ format[@a](f,sep,u)
-                     end
-  measure size4;
-
-  -- The following functions wrap primitives for convenience, to allow them for example to
-  -- serve as function arguments.
-
-  -- Concatenation of two sequences.
-  app[@a]: seq of @a * seq of @a +> seq of @a
-  app(m,n) == m^n;
-
-  -- Set of sequence elements.
-  setOf[@a]: seq of @a +> set of @a
-  setOf(s) == elems(s);
-
-  -- Measure functions.
-
-  size0[@a]: @a * seq1 of @a +> nat
-  size0(-, s) == len s;
-
-  size1[@a]: (@a * @a +> @a) * seq1 of @a +> nat
-  size1(-, s) == len s;
-
-  size2[@a]: (@a * @a +> @a) * @a * seq of @a +> nat
-  size2(-, -, s) == len s;
-
-  size3[@a]: seq1 of @a * seq1 of @a +> nat
-  size3(-, s) == len s;
-
-  size4[@a]: (@a +> seq of char) * seq of char * seq of @a +> nat
-  size4(-, -, s) == len s;
-  
-  size5[@a]: (@a +> bool) * seq of @a +> nat
-  size5(-, s) == len s;
-
-end Seq
-~~~
-{% endraw %}
-
-### Char.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose types, constants and functions over
-   characters and strings (sequences of characters).
-
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
-*/
-module Char
-imports from Seq all
-exports types struct Upper
-              struct Lower
-              struct Letter
-              struct Digit
-              struct Octal
-              struct Hex
-              struct AlphaNumUpper
-              struct AlphaNumLower
-              struct AlphaNum
-              struct Space
-              struct WhiteSpace
-              struct Phrase
-              struct PhraseUpper
-              struct PhraseLower
-              struct Text
-              struct TextUpper
-              struct TextLower
-        values SP, TB, CR, LF: char
-               WHITE_SPACE, UPPER, LOWER, LETTER, DIGIT, OCTAL, HEX, ALPHANUMUPPER, ALPHANUMLOWER, ALPHANUM, PUNCTUATION: set of char
-               UPPERS, LOWERS, LETTERS, DIGITS, OCTALS, HEXS, ALPHANUMUPPERS, ALPHANUMLOWERS, ALPHANUMS, PUNCTUATIONS: seq of char
-        functions toLower: Upper +> Lower
-                  toUpper: Lower +> Upper
-                  isDigit: char +> bool
-                  isDigits: seq of char +> bool
-                  isWhiteSpace: char +> bool
-                  isWhiteSpaces: seq of char +> bool
-                  trimWhite: seq of char +> seq of char
-                  filterWhite: seq of char +> seq of char
-
-definitions
-
-types
-
-  Upper = char
-  inv c == c in set UPPER;
-
-  Lower = char
-  inv c == c in set LOWER;
-
-  Letter = char
-  inv c == c in set LETTER;
-
-  Digit = char
-  inv c == c in set DIGIT;
-  
-  Octal = char
-  inv c == c in set OCTAL;
-
-  Hex = char
-  inv c == c in set HEX;
-
-  AlphaNumUpper = char
-  inv c == c in set ALPHANUMUPPER;
-
-  AlphaNumLower = char
-  inv c == c in set ALPHANUMLOWER;
-
-  AlphaNum = char
-  inv c == c in set ALPHANUM;
-
-  Space = char
-  inv c == c = SP;
-
-  WhiteSpace = char
-  inv ws == ws in set WHITE_SPACE;
-
-  Punctuation = char
-  inv c == c in set PUNCTUATION;
-
-  Phrase = seq1 of (AlphaNum|Space);
-
-  PhraseUpper = seq1 of (AlphaNumUpper|Space);
-
-  PhraseLower = seq1 of (AlphaNumLower|Space);
-
-  Text = seq1 of (AlphaNum|WhiteSpace|Punctuation);
-
-  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace|Punctuation);
-
-  TextLower = seq1 of (AlphaNumLower|WhiteSpace|Punctuation);
-
-values
-
-  SP:char = ' ';
-  TB:char = '\t';
-  CR:char = '\r';
-  LF:char = '\n';
-  WHITE_SPACE:set of char = {SP,TB,CR,LF};
-  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
-                       'R','S','T','U','V','W','X','Y','Z'};
-  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
-                       'r','s','t','u','v','w','x','y','z'};
-  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
-  LETTER:set of char = UPPER union LOWER;
-  LETTERS:seq of char = UPPERS ^ LOWERS;
-  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
-  DIGITS:seq of Digit = "0123456789";
-  ALPHANUMUPPER:set of char = UPPER union DIGIT;
-  ALPHANUMUPPERS:seq of char = UPPERS ^ DIGITS;
-  ALPHANUMLOWER:set of char = LOWER union DIGIT;
-  ALPHANUMLOWERS:seq of char = LOWERS ^ DIGITS;
-  ALPHANUM:set of char = LETTER union DIGIT;
-  ALPHANUMS:seq of char = LETTERS ^ DIGITS;
-  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
-  OCTALS:seq of Octal = "01234567";
-  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-  HEXS:seq of Hex = "0123456789ABCDEF";
-  PUNCTUATION:set of char = {',','.',';',':','-','/'};
-  PUNCTUATIONS: seq of Punctuation = ",.;:-/";
-
-functions
-
-  -- Convert upper case letter to lower case.
-  toLower: Upper +> Lower
-  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
-  post toUpper(RESULT) = c;
-
-  -- Convert lower case letter to upper case.
-  toUpper: Lower +> Upper
-  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
-  --post toLower(RESULT) = c;
-
-  -- Is a character a decimal digit?
-  isDigit: char +> bool
-  isDigit(c) == c in set DIGIT;
-
-  -- Are all characters in a sequence decimal digits?
-  isDigits: seq of char +> bool
-  isDigits(sc) == forall c in set elems sc & isDigit(c);
-
-  -- Is a character white space?
-  isWhiteSpace: char +> bool
-  isWhiteSpace(c) == c in set WHITE_SPACE;
-
-  -- Are all characters in a sequence white space?
-  isWhiteSpaces: seq of char +> bool
-  isWhiteSpaces(sc) == forall c in set elems sc & isWhiteSpace(c);
-
-  -- Trim white space from the front and back of a string.
-  trimWhite: seq of char +> seq of char
-  trimWhite(s) == Seq`dropWhile[char](isWhiteSpace, reverse(Seq`dropWhile[char](isWhiteSpace, reverse(s))));
-
-  -- Filter white space from a string.
-  filterWhite: seq of char +> seq of char
-  filterWhite(s) == [ c | c in seq s & not isWhiteSpace(c) ];
-
-end Char
-~~~
-{% endraw %}
-
 ### MMParser.vdmsl
 
 {% raw %}
@@ -871,310 +472,402 @@ end VCParserSupp
 ~~~
 {% endraw %}
 
-### Numeric.vdmsl
+### Seq.vdmsl
 
 {% raw %}
 ~~~
 /*
-   A module that specifies and defines general purpose functions over numerics.
+   A module that specifies and defines general purpose functions over sequences.
 
-   All definitions are explicit and executable.
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
 */
-module Numeric
-imports from Char all,
-        from Seq all
-exports functions min: real * real +> real
-                  max: real * real +> real
-                  formatNat: nat +> seq of Char`Digit
-                  decodeNat: seq1 of Char`Digit +> nat
-                  fromChar: Char`Digit +> nat
-                  toChar: nat +> Char`Digit
-                  zeroPad: nat * nat1 +> seq of Char`Digit
-                  add: real * real +> real
-                  mult: real * real +> real
+module Seq
+imports from Numeric all
+exports functions sum: seq of real +> real
+                  prod: seq of real +> real
+                  min: seq1 of real +> real
+                  max: seq1 of real +> real
+                  inSeq[@a]: @a * seq of @a +> bool
+                  indexOf[@a]: @a * seq1 of @a +> nat1
+                  indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1
+                  indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1]
+                  numOccurs[@a]: @a * seq of @a +> nat
+                  permutation[@a]: seq of @a * seq of @a +> bool
+                  preSeq[@a]: seq of @a * seq of @a +> bool
+                  postSeq[@a]: seq of @a * seq of @a +> bool
+                  subSeq[@a]: seq of @a * seq of @a +> bool
+                  replicate[@a]: nat * @a +> seq of @a
+                  padLeft[@a]: seq of @a * @a * nat +> seq of @a
+                  padRight[@a]: seq of @a * @a * nat +> seq of @a
+                  padCentre[@a]: seq of @a * @a * nat +> seq of @a
+                  dropWhile[@a]: (@a +> bool) * seq of @a +> seq of @a
+                  xform[@a,@b]: (@a +> @b) * seq of @a +> seq of @b
+                  fold[@a]: (@a * @a +> @a) * @a * seq of @a +> @a
+                  fold1[@a]: (@a * @a +> @a) * seq1 of @a +> @a
+                  zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b)
+                  unzip[@a,@b]: seq of (@a * @b) +> seq of @a * seq of @b
+                  isDistinct[@a]: seq of @a +> bool
+                  app[@a]: seq of @a * seq of @a +> seq of @a
+                  setOf[@a]: seq of @a +> set of @a
+                  format[@a]: (@a +> seq of char) * seq of char * seq of @a +> seq of char
 
 definitions
 
 functions
 
-  -- The minimum of two numerics.
-  min: real * real +> real
-  min(x,y) == if x<y then x else y;
+  -- The sum of a sequence of numerics.
+  sum: seq of real +> real
+  sum(s) == fold[real](Numeric`add,0,s);
 
-  -- The maximum of two numerics.
-  max: real * real +> real
-  max(x,y) == if x>y then x else y;
+  -- The product of a sequence of numerics.
+  prod: seq of real +> real
+  prod(s) == fold[real](Numeric`mult,1,s);
 
-  -- Format a natural number as a string of digits.
-  formatNat: nat +> seq of Char`Digit
-  formatNat(n) == if n < 10
-                  then [toChar(n)]
-                  else formatNat(n div 10) ^ [toChar(n mod 10)]
-  measure size1;
+  -- The minimum of a sequence of numerics.
+  min: seq1 of real +> real
+  min(s) == fold1[real](Numeric`min,s)
+  post RESULT in set elems s and forall e in set elems s & RESULT <= e;
 
-  -- Create a natural number from a sequence of digit characters.
-  decodeNat: seq1 of Char`Digit +> nat
-  decodeNat(s) == cases s:
-                    [c] -> fromChar(c),
-                    u^[c] -> 10*decodeNat(u)+fromChar(c)
+  -- The maximum of a sequence of numerics.
+  max: seq1 of real +> real
+  max(s) == fold1[real](Numeric`max,s)
+  post RESULT in set elems s and forall e in set elems s & RESULT >= e;
+
+  -- Does an element appear in a sequence?
+  inSeq[@a]: @a * seq of @a +> bool
+  inSeq(e,s) == e in set elems s;
+
+  -- The position an item appears in a sequence?
+  indexOf[@a]: @a * seq1 of @a +> nat1
+  indexOf(e,s) == cases s:
+                    [-]    -> 1,
+                    [f]^ss -> if e=f then 1 else 1 + indexOf[@a](e,ss)
                   end
+  pre inSeq[@a](e,s)
+  measure size0;
+
+  -- The position a subsequence appears in a sequence.
+  indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1
+  indexOfSeq(r,s) == if preSeq[@a](r,s)
+                     then 1
+                     else 1 + indexOfSeq[@a](r, tl s)
+  pre subSeq[@a](r,s)
+  measure size3;
+
+  -- The position a subsequence appears in a sequence?
+  indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1]
+  indexOfSeqOpt(r,s) == if subSeq[@a](r,s) then indexOfSeq[@a](r, s) else nil;
+
+  -- The number of times an element appears in a sequence.
+  numOccurs[@a]: @a * seq of @a +> nat
+  numOccurs(e,sq) == len [ 0 | i in seq sq & i = e ];
+
+  -- Is one sequence a permutation of another?
+  permutation[@a]: seq of @a * seq of @a +> bool
+  permutation(sq1,sq2) ==
+    len sq1 = len sq2 and
+    forall x in seq sq1 & numOccurs[@a](x,sq1) = numOccurs[@a](x,sq2);
+
+  -- Is one sequence a prefix of another?
+  preSeq[@a]: seq of @a * seq of @a +> bool
+  preSeq(pres,full) == pres = full(1,...,len pres);
+
+  -- Is one sequence a suffix of another?
+  postSeq[@a]: seq of @a * seq of @a +> bool
+  postSeq(posts,full) == preSeq[@a](reverse posts, reverse full);
+
+  -- Is one sequence a subsequence of another sequence?
+  subSeq[@a]: seq of @a * seq of @a +> bool
+  subSeq(sub,full) == sub = [] or (exists i,j in set inds full & sub = full(i,...,j));
+
+  -- Create a sequence of identical elements.
+  replicate[@a]: nat * @a +> seq of @a
+  replicate(n,x) == [ x | i in set {1,...,n} ]
+  post len RESULT = n and forall y in seq RESULT & y = x;
+
+  -- Pad a sequence on the left with a given item up to a specified length.
+  padLeft[@a]: seq of @a * @a * nat +> seq of @a
+  padLeft(sq,x,n) == replicate[@a](n-len sq, x) ^ sq
+  pre n >= len sq
+  post len RESULT = n and postSeq[@a](sq, RESULT);
+
+  -- Pad a sequence on the right with a given item up to a specified length.
+  padRight[@a]: seq of @a * @a * nat +> seq of @a
+  padRight(sq,x,n) == sq ^ replicate[@a](n-len sq, x)
+  pre n >= len sq
+  post len RESULT = n and preSeq[@a](sq, RESULT);
+
+  -- Pad a sequence with a given item such that it is centred in a specified length.
+  -- If padded by an odd number, add the extra item on the right.
+  padCentre[@a]: seq of @a * @a * nat +> seq of @a
+  padCentre(sq,x,n) == let space = if n <= len sq then 0 else n - len sq
+                       in padRight[@a](padLeft[@a](sq,x,len sq + (space div 2)),x,n);
+
+--  trim[@a]: seq of @a * (@a +> bool) +> seq of @a
+--  trim(s, p) == trimpre(reverse(trimpre(reverse s, p)), p);
+--  post exists s1,s2: seq of char & s = s1 ^ RESULT ^ s2 and isDigits(s1) and isDigits(s2);
+
+  -- Drop items from a sequence while a predicate is true.
+  dropWhile[@a]: (@a +> bool) * seq of @a +> seq of @a
+  dropWhile(p, s) == cases s:
+                       []      -> [],
+                       [x] ^ t -> if p(x) then dropWhile[@a](p, t) else s
+                     end
+  post postSeq[@a](RESULT, s) and
+       (RESULT = [] or not p(RESULT(1))) and
+       forall i in set {1,...,(len s - len RESULT)} & p(s(i))
+  measure size5;
+
+  -- Apply a function to all elements of a sequence.
+  xform[@a,@b]: (@a+>@b) * seq of @a +> seq of @b
+  xform(f,s) == [ f(x) | x in seq s ]
+  post len RESULT = len s and
+       (forall i in set inds s & RESULT(i) = f(s(i)));
+
+  -- Fold (iterate, accumulate, reduce) a binary function over a sequence.
+  -- The function is assumed to be associative and have an identity element.
+  fold[@a]: (@a * @a +> @a) * @a * seq of @a +> @a
+  fold(f, e, s) == cases s:
+                     []    -> e,
+                     [x]   -> x,
+                     s1^s2 -> f(fold[@a](f,e,s1), fold[@a](f,e,s2))
+                   end
+  --pre (forall x:@a & f(x,e) = x and f(e,x) = x)
+  --and forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
   measure size2;
 
-  -- Convert a character digit to the corresponding natural number.
-  fromChar: Char`Digit +> nat
-  fromChar(c) == Seq`indexOf[Char`Digit](c,Char`DIGITS)-1
-  post toChar(RESULT) = c;
+  -- Fold (iterate, accumulate, reduce) a binary function over a non-empty sequence.
+  -- The function is assumed to be associative.
+  fold1[@a]: (@a * @a +> @a) * seq1 of @a +> @a
+  fold1(f, s) == cases s:
+                   [e]   -> e,
+                   s1^s2 -> f(fold1[@a](f,s1), fold1[@a](f,s2))
+                 end
+  --pre forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
+  measure size1;
 
-  -- Convert a numeric digit to the corresponding character.
-  toChar: nat +> Char`Digit
-  toChar(n) == Char`DIGITS(n+1)
-  pre 0 <= n and n <= 9;
-  --post fromChar(RESULT) = n
+  -- Pair the corresponding elements of two lists of equal length.
+  zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b)
+  zip(s,t) == [ mk_(s(i),t(i)) | i in set inds s ]
+  pre len s = len t
+  post len RESULT = len s and mk_(s,t) = unzip[@a,@b](RESULT);
 
-  -- Format a natural number as a string with leading zeros up to a specified length.
-  zeroPad: nat * nat1 +> seq of Char`Digit
-  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
+  -- Split a list of pairs into a list of firsts and a list of seconds.
+  unzip[@a,@b]: seq of (@a * @b) +> seq of @a * seq of @b
+  unzip(s) == mk_([ x.#1 | x in seq s], [ x.#2 | x in seq s])
+  post let mk_(t,u) = RESULT in len t = len s and len u = len s;
+  -- and s = zip[@a,@b](RESULT.#1,RESULT.#2);
+
+  -- Are the elements of a list distinct (no duplicates).
+  isDistinct[@a]: seq of @a +> bool
+  isDistinct(s) == len s = card elems s;
+
+  -- Create a string presentation of a set.
+  format[@a]: (@a +> seq of char) * seq of char * seq of @a +> seq of char
+  format(f,sep,s) == cases s:
+                       []        -> "",
+                       [x]       -> f(x),
+                       t ^ u -> format[@a](f,sep,t) ^ sep ^ format[@a](f,sep,u)
+                     end
+  measure size4;
 
   -- The following functions wrap primitives for convenience, to allow them for example to
   -- serve as function arguments.
 
-  -- Sum of two numbers.
-  add: real * real +> real
-  add(m,n) == m+n;
+  -- Concatenation of two sequences.
+  app[@a]: seq of @a * seq of @a +> seq of @a
+  app(m,n) == m^n;
 
-  -- Product of two numbers.
-  mult: real * real +> real
-  mult(m,n) == m*n;
+  -- Set of sequence elements.
+  setOf[@a]: seq of @a +> set of @a
+  setOf(s) == elems(s);
 
   -- Measure functions.
 
-  size1: nat +> nat
-  size1(n) == n;
+  size0[@a]: @a * seq1 of @a +> nat
+  size0(-, s) == len s;
 
-  size2: seq1 of Char`Digit +> nat
-  size2(s) == len s;
+  size1[@a]: (@a * @a +> @a) * seq1 of @a +> nat
+  size1(-, s) == len s;
 
-end Numeric
+  size2[@a]: (@a * @a +> @a) * @a * seq of @a +> nat
+  size2(-, -, s) == len s;
+
+  size3[@a]: seq1 of @a * seq1 of @a +> nat
+  size3(-, s) == len s;
+
+  size4[@a]: (@a +> seq of char) * seq of char * seq of @a +> nat
+  size4(-, -, s) == len s;
+  
+  size5[@a]: (@a +> bool) * seq of @a +> nat
+  size5(-, s) == len s;
+
+end Seq
 ~~~
 {% endraw %}
 
-### VCParserTest.vdmsl
+### Char.vdmsl
 
 {% raw %}
 ~~~
-module VCParserTest
-imports from VCParser
-    types
-        ERROR renamed ERROR;
-        PARSED renamed PARSED;
-        TREE renamed TREE;
-    functions
-        takeChar renamed takeChar;
-        takeString renamed takeString;
-        series renamed series;
-        either renamed either;
-        star renamed star;
-        plus renamed plus;
-        option renamed option;
-        trimBlanks renamed trimBlanks;
-        fail renamed fail;
-        concat renamed concat;
-        pass renamed pass;
-        label renamed label;
-        trans renamed trans;
-        transtree renamed transtree;
-        iferror renamed iferror;
-    values
-        any renamed any;
-        digit renamed digit;
-        natnum renamed natnum;
-        integer renamed integer;
-exports all
+/*
+   A module that specifies and defines general purpose types, constants and functions over
+   characters and strings (sequences of characters).
+
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
+*/
+module Char
+imports from Seq all
+exports types struct Upper
+              struct Lower
+              struct Letter
+              struct Digit
+              struct Octal
+              struct Hex
+              struct AlphaNumUpper
+              struct AlphaNumLower
+              struct AlphaNum
+              struct Space
+              struct WhiteSpace
+              struct Phrase
+              struct PhraseUpper
+              struct PhraseLower
+              struct Text
+              struct TextUpper
+              struct TextLower
+        values SP, TB, CR, LF: char
+               WHITE_SPACE, UPPER, LOWER, LETTER, DIGIT, OCTAL, HEX, ALPHANUMUPPER, ALPHANUMLOWER, ALPHANUM, PUNCTUATION: set of char
+               UPPERS, LOWERS, LETTERS, DIGITS, OCTALS, HEXS, ALPHANUMUPPERS, ALPHANUMLOWERS, ALPHANUMS, PUNCTUATIONS: seq of char
+        functions toLower: Upper +> Lower
+                  toUpper: Lower +> Upper
+                  isDigit: char +> bool
+                  isDigits: seq of char +> bool
+                  isWhiteSpace: char +> bool
+                  isWhiteSpaces: seq of char +> bool
+                  trimWhite: seq of char +> seq of char
+                  filterWhite: seq of char +> seq of char
+
 definitions
+
+types
+
+  Upper = char
+  inv c == c in set UPPER;
+
+  Lower = char
+  inv c == c in set LOWER;
+
+  Letter = char
+  inv c == c in set LETTER;
+
+  Digit = char
+  inv c == c in set DIGIT;
+  
+  Octal = char
+  inv c == c in set OCTAL;
+
+  Hex = char
+  inv c == c in set HEX;
+
+  AlphaNumUpper = char
+  inv c == c in set ALPHANUMUPPER;
+
+  AlphaNumLower = char
+  inv c == c in set ALPHANUMLOWER;
+
+  AlphaNum = char
+  inv c == c in set ALPHANUM;
+
+  Space = char
+  inv c == c = SP;
+
+  WhiteSpace = char
+  inv ws == ws in set WHITE_SPACE;
+
+  Punctuation = char
+  inv c == c in set PUNCTUATION;
+
+  Phrase = seq1 of (AlphaNum|Space);
+
+  PhraseUpper = seq1 of (AlphaNumUpper|Space);
+
+  PhraseLower = seq1 of (AlphaNumLower|Space);
+
+  Text = seq1 of (AlphaNum|WhiteSpace|Punctuation);
+
+  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace|Punctuation);
+
+  TextLower = seq1 of (AlphaNumLower|WhiteSpace|Punctuation);
+
 values
-    a = takeChar('a');
-    b = takeChar('b');
-    c = takeChar('c');
+
+  SP:char = ' ';
+  TB:char = '\t';
+  CR:char = '\r';
+  LF:char = '\n';
+  WHITE_SPACE:set of char = {SP,TB,CR,LF};
+  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                       'R','S','T','U','V','W','X','Y','Z'};
+  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+                       'r','s','t','u','v','w','x','y','z'};
+  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
+  LETTER:set of char = UPPER union LOWER;
+  LETTERS:seq of char = UPPERS ^ LOWERS;
+  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
+  DIGITS:seq of Digit = "0123456789";
+  ALPHANUMUPPER:set of char = UPPER union DIGIT;
+  ALPHANUMUPPERS:seq of char = UPPERS ^ DIGITS;
+  ALPHANUMLOWER:set of char = LOWER union DIGIT;
+  ALPHANUMLOWERS:seq of char = LOWERS ^ DIGITS;
+  ALPHANUM:set of char = LETTER union DIGIT;
+  ALPHANUMS:seq of char = LETTERS ^ DIGITS;
+  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
+  OCTALS:seq of Octal = "01234567";
+  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+  HEXS:seq of Hex = "0123456789ABCDEF";
+  PUNCTUATION:set of char = {',','.',';',':','-','/'};
+  PUNCTUATIONS: seq of Punctuation = ",.;:-/";
+
 functions
-    id : PARSED -> PARSED
-    id(parsed) == parsed;
-operations
-    test : PARSED * (PARSED->bool) ==> ()
-    test(parsed, result) == skip
-    pre result(parsed);
 
-    /* any */
-    test_any : () ==> ()
-    test_any() == (
-        test(any("a"), lambda p:PARSED & p.parsed.contents = "a");
-        test(any("1"), lambda p:PARSED & p.parsed.contents = "1");
-        test(any(""), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Convert upper case letter to lower case.
+  toLower: Upper +> Lower
+  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
+  post toUpper(RESULT) = c;
 
-    /* digit */
-    test_digit : () ==> ()
-    test_digit() == (
-        test(digit("a"), lambda p:PARSED & is_ERROR(p.parsed));
-        test(digit("1"), lambda p:PARSED & p.parsed.contents = "1");
-        test(digit(""), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Convert lower case letter to upper case.
+  toUpper: Lower +> Upper
+  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
+  --post toLower(RESULT) = c;
 
-    /* natnum */
-    test_natnum : () ==> ()
-    test_natnum() == (
-        test(natnum("0"), lambda p:PARSED & p.parsed.contents = "0");
-        test(natnum("123"), lambda p:PARSED & p.parsed.contents = "123");
-        test(natnum("123.45"), lambda p:PARSED & p.parsed.contents = "123");
-        test(natnum("-1"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Is a character a decimal digit?
+  isDigit: char +> bool
+  isDigit(c) == c in set DIGIT;
 
-    /* integer */
-    test_integer : () ==> ()
-    test_integer() == (
-        test(integer("0"), lambda p:PARSED & p.parsed.contents = "0");
-        test(integer("123"), lambda p:PARSED & p.parsed.contents = "123");
-        test(integer("-123"), lambda p:PARSED & p.parsed.contents = "-123");
-        test(integer("123.45"), lambda p:PARSED & p.parsed.contents = "123");
-        test(integer("-x"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Are all characters in a sequence decimal digits?
+  isDigits: seq of char +> bool
+  isDigits(sc) == forall c in set elems sc & isDigit(c);
 
-    /* takeChar */
-    test_takeChar : () ==> ()
-    test_takeChar() == (
-        test(takeChar('a')("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(takeChar('a')("bca"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Is a character white space?
+  isWhiteSpace: char +> bool
+  isWhiteSpace(c) == c in set WHITE_SPACE;
 
-    /* takeString */
-    test_takeString : () ==> ()
-    test_takeString() == (
-        test(takeString("abc")("abcd"), lambda p:PARSED & p.parsed.contents = "abc");
-        test(takeString("abc")("abx"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Are all characters in a sequence white space?
+  isWhiteSpaces: seq of char +> bool
+  isWhiteSpaces(sc) == forall c in set elems sc & isWhiteSpace(c);
 
-    /* star */
-    test_star : () ==> ()
-    test_star() == (
-        test(star(a)("aabc"), lambda p:PARSED & len p.parsed.contents = 2);
-        test(star(a)("abc"), lambda p:PARSED & len p.parsed.contents = 1);
-        test(star(a)("bc"), lambda p:PARSED & len p.parsed.contents = 0));
+  -- Trim white space from the front and back of a string.
+  trimWhite: seq of char +> seq of char
+  trimWhite(s) == Seq`dropWhile[char](isWhiteSpace, reverse(Seq`dropWhile[char](isWhiteSpace, reverse(s))));
 
-    /* plus */
-    test_plus : () ==> ()
-    test_plus() == (
-        test(plus(a)("aabc"), lambda p:PARSED & len p.parsed.contents = 2);
-        test(plus(a)("abc"), lambda p:PARSED & len p.parsed.contents = 1);
-        test(plus(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+  -- Filter white space from a string.
+  filterWhite: seq of char +> seq of char
+  filterWhite(s) == [ c | c in seq s & not isWhiteSpace(c) ];
 
-    /* option */
-    test_option : () ==> ()
-    test_option() == (
-        test(option(a)("aabc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(option(a)("aabc"), lambda p:PARSED & p.remaining = "abc");
-        test(option(a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(option(a)("abc"), lambda p:PARSED & p.remaining = "bc");
-        test(option(a)("bc"), lambda p:PARSED & p.parsed.contents = "");
-        test(option(a)("bc"), lambda p:PARSED & p.remaining = "bc");
-    );
-
-    /* concat */
-    test_concat : () ==> ()
-    test_concat() == (
-        test(concat(plus(a))("aaabc"), lambda p:PARSED & p.parsed.contents = "aaa");
-        test(concat(plus(a))("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-    /* trimBlanks */
-    test_trimBlanks : () ==> ()
-    test_trimBlanks() == (
-        test(trimBlanks(a)(" a bc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(trimBlanks(a)(" a bc"), lambda p:PARSED & p.remaining = "bc");
-        test(trimBlanks(a)("a bc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(trimBlanks(a)("a bc"), lambda p:PARSED & p.remaining = "bc");
-        test(trimBlanks(a)(" abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(trimBlanks(a)(" abc"), lambda p:PARSED & p.remaining = "bc");
-        test(trimBlanks(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-    /* fail */
-    test_fail : () ==> ()
-    test_fail() == (
-        test(fail(a)("abc"), lambda p:PARSED & is_ERROR(p.parsed));
-        test(fail(a)("bc"), lambda p:PARSED & p.parsed.contents = "");
-        test(fail(a)("bc"), lambda p:PARSED & p.remaining = "bc"));
-
-    /* pass */
-    test_pass : () ==> ()
-    test_pass() == (
-        test(pass(a)("abc"), lambda p:PARSED & p.parsed.contents = "");
-        test(pass(a)("abc"), lambda p:PARSED & p.remaining = "bc");
-        test(pass(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-    /* label */
-    test_label : () ==> ()
-    test_label() == (
-        test(label("A", a)("abc"), lambda p:PARSED & p.parsed.nodelabel = "A");
-        test(label("A", a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(label("A", a)("abc"), lambda p:PARSED & p.remaining = "bc");
-        test(label("A", a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
-        
-    /* trans */
-    test_trans : () ==> ()
-    test_trans() == (
-        let parsed = mk_PARSED(mk_TREE(nil, []), []) in (
-            test(trans(lambda -:PARSED&parsed, a)("abc"), lambda p:PARSED & p = parsed);
-            test(trans(lambda -:PARSED&parsed, a)("bc"), lambda p:PARSED & p = parsed)));
-
-    /* transtree */
-    test_transtree : () ==> ()
-    test_transtree() == (
-        let tree = mk_TREE(nil, []) in (
-            test(transtree(lambda -:TREE&tree, a)("abc"), lambda p:PARSED & p.parsed = tree);
-            test(transtree(lambda -:TREE&tree, a)("bc"), lambda p:PARSED & is_ERROR(p.parsed))));
-
-    /* iferror */
-    test_iferror : () ==> ()
-    test_iferror() == (
-        test(iferror("A", a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(iferror("A", a)("bc"), lambda p:PARSED & is_ERROR(p.parsed));
-        test(iferror("A", a)("bc"), lambda p:PARSED & p.parsed.message = "A"));
-
-    /* series */
-    test_series : () ==> ()
-    test_series() == (
-        test(series([a, b])("abc"), lambda p:PARSED & len p.parsed.contents = 2);
-        test(series([a, b])("bca"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-    /* either */
-    test_either : () ==> ()
-    test_either() == (
-        test(either([a, b])("abc"), lambda p:PARSED & p.parsed.contents = "a");
-        test(either([a, b])("bca"), lambda p:PARSED & p.parsed.contents = "b");
-        test(either([a, b])("cab"), lambda p:PARSED & is_ERROR(p.parsed)));
-
-traces
-
-unit:
-    test_any();
-    test_digit();
-    test_natnum();
-    test_integer();
-    test_takeChar();
-    test_takeString();
-    test_star();
-    test_plus();
-    test_option();
-    test_concat();
-    test_trimBlanks();
-    test_fail();
-    test_pass();
-    test_trans();
-    test_transtree();
-    test_iferror();
-    test_series();
-    test_either();
-
-combinators:
-    let c1, c2 in set {star, plus, option, trimBlanks, fail, pass} in
-        id(c1(c2(a))("abc"));
-    let n1, n2 in set {series, either} in
-        id(n1([n2([a, b]), c])("abc"));
-    let c1, c2 in set {star, plus, option, trimBlanks, fail, pass} in
-        let n1 in set {series, either} in
-            id(c1(n1([c2(a), b]))("abc"));
-end VCParserTest
+end Char
 ~~~
 {% endraw %}
 
@@ -1568,6 +1261,313 @@ functions
             parser);
 
 end VCParser
+~~~
+{% endraw %}
+
+### Numeric.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over numerics.
+
+   All definitions are explicit and executable.
+*/
+module Numeric
+imports from Char all,
+        from Seq all
+exports functions min: real * real +> real
+                  max: real * real +> real
+                  formatNat: nat +> seq of Char`Digit
+                  decodeNat: seq1 of Char`Digit +> nat
+                  fromChar: Char`Digit +> nat
+                  toChar: nat +> Char`Digit
+                  zeroPad: nat * nat1 +> seq of Char`Digit
+                  add: real * real +> real
+                  mult: real * real +> real
+
+definitions
+
+functions
+
+  -- The minimum of two numerics.
+  min: real * real +> real
+  min(x,y) == if x<y then x else y;
+
+  -- The maximum of two numerics.
+  max: real * real +> real
+  max(x,y) == if x>y then x else y;
+
+  -- Format a natural number as a string of digits.
+  formatNat: nat +> seq of Char`Digit
+  formatNat(n) == if n < 10
+                  then [toChar(n)]
+                  else formatNat(n div 10) ^ [toChar(n mod 10)]
+  measure size1;
+
+  -- Create a natural number from a sequence of digit characters.
+  decodeNat: seq1 of Char`Digit +> nat
+  decodeNat(s) == cases s:
+                    [c] -> fromChar(c),
+                    u^[c] -> 10*decodeNat(u)+fromChar(c)
+                  end
+  measure size2;
+
+  -- Convert a character digit to the corresponding natural number.
+  fromChar: Char`Digit +> nat
+  fromChar(c) == Seq`indexOf[Char`Digit](c,Char`DIGITS)-1
+  post toChar(RESULT) = c;
+
+  -- Convert a numeric digit to the corresponding character.
+  toChar: nat +> Char`Digit
+  toChar(n) == Char`DIGITS(n+1)
+  pre 0 <= n and n <= 9;
+  --post fromChar(RESULT) = n
+
+  -- Format a natural number as a string with leading zeros up to a specified length.
+  zeroPad: nat * nat1 +> seq of Char`Digit
+  zeroPad(n,w) == Seq`padLeft[char](formatNat(n),'0',w);
+
+  -- The following functions wrap primitives for convenience, to allow them for example to
+  -- serve as function arguments.
+
+  -- Sum of two numbers.
+  add: real * real +> real
+  add(m,n) == m+n;
+
+  -- Product of two numbers.
+  mult: real * real +> real
+  mult(m,n) == m*n;
+
+  -- Measure functions.
+
+  size1: nat +> nat
+  size1(n) == n;
+
+  size2: seq1 of Char`Digit +> nat
+  size2(s) == len s;
+
+end Numeric
+~~~
+{% endraw %}
+
+### VCParserTest.vdmsl
+
+{% raw %}
+~~~
+module VCParserTest
+imports from VCParser
+    types
+        ERROR renamed ERROR;
+        PARSED renamed PARSED;
+        TREE renamed TREE;
+    functions
+        takeChar renamed takeChar;
+        takeString renamed takeString;
+        series renamed series;
+        either renamed either;
+        star renamed star;
+        plus renamed plus;
+        option renamed option;
+        trimBlanks renamed trimBlanks;
+        fail renamed fail;
+        concat renamed concat;
+        pass renamed pass;
+        label renamed label;
+        trans renamed trans;
+        transtree renamed transtree;
+        iferror renamed iferror;
+    values
+        any renamed any;
+        digit renamed digit;
+        natnum renamed natnum;
+        integer renamed integer;
+exports all
+definitions
+values
+    a = takeChar('a');
+    b = takeChar('b');
+    c = takeChar('c');
+functions
+    id : PARSED -> PARSED
+    id(parsed) == parsed;
+operations
+    test : PARSED * (PARSED->bool) ==> ()
+    test(parsed, result) == skip
+    pre result(parsed);
+
+    /* any */
+    test_any : () ==> ()
+    test_any() == (
+        test(any("a"), lambda p:PARSED & p.parsed.contents = "a");
+        test(any("1"), lambda p:PARSED & p.parsed.contents = "1");
+        test(any(""), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* digit */
+    test_digit : () ==> ()
+    test_digit() == (
+        test(digit("a"), lambda p:PARSED & is_ERROR(p.parsed));
+        test(digit("1"), lambda p:PARSED & p.parsed.contents = "1");
+        test(digit(""), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* natnum */
+    test_natnum : () ==> ()
+    test_natnum() == (
+        test(natnum("0"), lambda p:PARSED & p.parsed.contents = "0");
+        test(natnum("123"), lambda p:PARSED & p.parsed.contents = "123");
+        test(natnum("123.45"), lambda p:PARSED & p.parsed.contents = "123");
+        test(natnum("-1"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* integer */
+    test_integer : () ==> ()
+    test_integer() == (
+        test(integer("0"), lambda p:PARSED & p.parsed.contents = "0");
+        test(integer("123"), lambda p:PARSED & p.parsed.contents = "123");
+        test(integer("-123"), lambda p:PARSED & p.parsed.contents = "-123");
+        test(integer("123.45"), lambda p:PARSED & p.parsed.contents = "123");
+        test(integer("-x"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* takeChar */
+    test_takeChar : () ==> ()
+    test_takeChar() == (
+        test(takeChar('a')("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(takeChar('a')("bca"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* takeString */
+    test_takeString : () ==> ()
+    test_takeString() == (
+        test(takeString("abc")("abcd"), lambda p:PARSED & p.parsed.contents = "abc");
+        test(takeString("abc")("abx"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* star */
+    test_star : () ==> ()
+    test_star() == (
+        test(star(a)("aabc"), lambda p:PARSED & len p.parsed.contents = 2);
+        test(star(a)("abc"), lambda p:PARSED & len p.parsed.contents = 1);
+        test(star(a)("bc"), lambda p:PARSED & len p.parsed.contents = 0));
+
+    /* plus */
+    test_plus : () ==> ()
+    test_plus() == (
+        test(plus(a)("aabc"), lambda p:PARSED & len p.parsed.contents = 2);
+        test(plus(a)("abc"), lambda p:PARSED & len p.parsed.contents = 1);
+        test(plus(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* option */
+    test_option : () ==> ()
+    test_option() == (
+        test(option(a)("aabc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(option(a)("aabc"), lambda p:PARSED & p.remaining = "abc");
+        test(option(a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(option(a)("abc"), lambda p:PARSED & p.remaining = "bc");
+        test(option(a)("bc"), lambda p:PARSED & p.parsed.contents = "");
+        test(option(a)("bc"), lambda p:PARSED & p.remaining = "bc");
+    );
+
+    /* concat */
+    test_concat : () ==> ()
+    test_concat() == (
+        test(concat(plus(a))("aaabc"), lambda p:PARSED & p.parsed.contents = "aaa");
+        test(concat(plus(a))("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* trimBlanks */
+    test_trimBlanks : () ==> ()
+    test_trimBlanks() == (
+        test(trimBlanks(a)(" a bc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(trimBlanks(a)(" a bc"), lambda p:PARSED & p.remaining = "bc");
+        test(trimBlanks(a)("a bc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(trimBlanks(a)("a bc"), lambda p:PARSED & p.remaining = "bc");
+        test(trimBlanks(a)(" abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(trimBlanks(a)(" abc"), lambda p:PARSED & p.remaining = "bc");
+        test(trimBlanks(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* fail */
+    test_fail : () ==> ()
+    test_fail() == (
+        test(fail(a)("abc"), lambda p:PARSED & is_ERROR(p.parsed));
+        test(fail(a)("bc"), lambda p:PARSED & p.parsed.contents = "");
+        test(fail(a)("bc"), lambda p:PARSED & p.remaining = "bc"));
+
+    /* pass */
+    test_pass : () ==> ()
+    test_pass() == (
+        test(pass(a)("abc"), lambda p:PARSED & p.parsed.contents = "");
+        test(pass(a)("abc"), lambda p:PARSED & p.remaining = "bc");
+        test(pass(a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* label */
+    test_label : () ==> ()
+    test_label() == (
+        test(label("A", a)("abc"), lambda p:PARSED & p.parsed.nodelabel = "A");
+        test(label("A", a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(label("A", a)("abc"), lambda p:PARSED & p.remaining = "bc");
+        test(label("A", a)("bc"), lambda p:PARSED & is_ERROR(p.parsed)));
+        
+    /* trans */
+    test_trans : () ==> ()
+    test_trans() == (
+        let parsed = mk_PARSED(mk_TREE(nil, []), []) in (
+            test(trans(lambda -:PARSED&parsed, a)("abc"), lambda p:PARSED & p = parsed);
+            test(trans(lambda -:PARSED&parsed, a)("bc"), lambda p:PARSED & p = parsed)));
+
+    /* transtree */
+    test_transtree : () ==> ()
+    test_transtree() == (
+        let tree = mk_TREE(nil, []) in (
+            test(transtree(lambda -:TREE&tree, a)("abc"), lambda p:PARSED & p.parsed = tree);
+            test(transtree(lambda -:TREE&tree, a)("bc"), lambda p:PARSED & is_ERROR(p.parsed))));
+
+    /* iferror */
+    test_iferror : () ==> ()
+    test_iferror() == (
+        test(iferror("A", a)("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(iferror("A", a)("bc"), lambda p:PARSED & is_ERROR(p.parsed));
+        test(iferror("A", a)("bc"), lambda p:PARSED & p.parsed.message = "A"));
+
+    /* series */
+    test_series : () ==> ()
+    test_series() == (
+        test(series([a, b])("abc"), lambda p:PARSED & len p.parsed.contents = 2);
+        test(series([a, b])("bca"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+    /* either */
+    test_either : () ==> ()
+    test_either() == (
+        test(either([a, b])("abc"), lambda p:PARSED & p.parsed.contents = "a");
+        test(either([a, b])("bca"), lambda p:PARSED & p.parsed.contents = "b");
+        test(either([a, b])("cab"), lambda p:PARSED & is_ERROR(p.parsed)));
+
+traces
+
+unit:
+    test_any();
+    test_digit();
+    test_natnum();
+    test_integer();
+    test_takeChar();
+    test_takeString();
+    test_star();
+    test_plus();
+    test_option();
+    test_concat();
+    test_trimBlanks();
+    test_fail();
+    test_pass();
+    test_trans();
+    test_transtree();
+    test_iferror();
+    test_series();
+    test_either();
+
+combinators:
+    let c1, c2 in set {star, plus, option, trimBlanks, fail, pass} in
+        id(c1(c2(a))("abc"));
+    let n1, n2 in set {series, either} in
+        id(n1([n2([a, b]), c])("abc"));
+    let c1, c2 in set {star, plus, option, trimBlanks, fail, pass} in
+        let n1 in set {series, either} in
+            id(c1(n1([c2(a), b]))("abc"));
+end VCParserTest
 ~~~
 {% endraw %}
 

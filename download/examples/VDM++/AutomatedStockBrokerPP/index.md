@@ -27,43 +27,106 @@ the ProjectReport.pdf file included in the zip file with the source files.
 |Entry point     :| new World().Run()|
 
 
-### StockMarket.vdmpp
+### timer.vdmpp
 
 {% raw %}
 ~~~
-class StockMarket is subclass of GLOBAL
+class Timer 
 
- instance variables
-  stocks : map StockIdentifier to Stock := {|->};
+instance variables
 
- operations
-  public UpdateStocks:() ==> ()
-  UpdateStocks() == 
-   for all stock in set rng stocks do
-    stock.UpdateStock();
+  currentTime : nat := 1;
 
-  public AddStock:(Stock )==> ()
-  AddStock(stock) == 
-   stocks := {stock.GetName() |-> stock} munion stocks
-  pre stock.GetName() not in set dom stocks
-  post stock.GetName() in set dom stocks; 
+values 
 
-  public RemoveStock:(Stock )==> ()
-  RemoveStock(stock) == 
-   stocks := {stock.GetName()} <-: stocks
-  pre stock.GetName() in set dom stocks
-  post stock.GetName() not in set dom stocks;
+  stepLength : nat = 1;
 
-  pure public GetStock:(StockIdentifier)==> Stock 
-  GetStock(name) == 
-   return stocks(name)
-  pre name in set dom stocks;
+operations
 
-  pure public GetStockNames: () ==> set of StockIdentifier 
-  GetStockNames() ==
-   return dom stocks;
-  
-end StockMarket
+public 
+  StepTime: () ==> ()
+  StepTime() == 
+    currentTime := currentTime + stepLength;
+
+public
+  GetTime: () ==> nat 
+  GetTime() == return currentTime;
+
+end Timer
+~~~
+{% endraw %}
+
+### World.vdmpp
+
+{% raw %}
+~~~
+class World is subclass of GLOBAL
+ 
+values
+ simTime : nat = 100; 
+ actionsLimit : nat = 4;
+ startCash : nat = 100;
+ public static simulate : bool = false;
+ 
+instance variables  
+
+ public static timerRef : Timer := new Timer();
+
+ public static stockMarket : StockMarket := new StockMarket();
+ asb : AutomatedStockBroker := new AutomatedStockBroker(startCash);  
+   
+operations
+
+public isFinished : () ==> bool
+ isFinished() == 
+    return (not len asb.GetActionLog() < actionsLimit) or 
+           (not timerRef.GetTime() <= simTime);
+
+ public Run : () ==> ()
+ Run() ==
+ ( 
+  stockMarket.AddStock(new Stock(mk_token("test"),10));
+  stockMarket.AddStock(new Stock(mk_token("test12"),10));
+  stockMarket.AddStock(new Stock(mk_token("test2"),10));
+
+  (dcl r1 : StockRecord := mk_StockRecord(mk_token("test"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),10,<Bought>),
+    r2 : StockRecord := mk_StockRecord(mk_token("test12"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),10,<Bought>),
+
+   r3 : StockRecord := mk_StockRecord(mk_token("test2"),
+     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
+       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
+        mk_Region(12,8),0,<PotentialBuy>);
+
+   asb.AddStock(r1,1);
+   asb.AddStock(r2,2);
+   asb.AddStock(r3,3);
+   
+   while not isFinished()
+   do 
+   (
+    IO`print("step : ");
+    IO`print(timerRef.GetTime());
+    IO`print("\n");
+ 
+    stockMarket.UpdateStocks();
+ 
+    asb.Step(timerRef.GetTime());
+       timerRef.StepTime();
+   );
+  )
+ );
+functions
+ public FindSmallestSeqLen: map String to seq of Event -> nat
+ FindSmallestSeqLen(m) == 
+ let x,y in set {len m(x) | x in set dom m} be st x <> y => x <= y in x; 
+
+end World
 ~~~
 {% endraw %}
 
@@ -141,6 +204,185 @@ mk_Event(<EntersNoActionRegion>,0,10)
 ]};
 
 end GLOBAL
+~~~
+{% endraw %}
+
+### StockWatcher.vdmpp
+
+{% raw %}
+~~~
+class StockWatcher is subclass of GLOBAL
+ 
+ instance variables
+  eventHistory : seq of Event;
+  stockRecord : StockRecord;
+  sm : [StockMarket];
+  currentlyTriggeredAction : [ActionType];
+  
+  inv  eventHistory(len eventHistory).Type = <EntersNoActionRegion> 
+    and 
+   forall e in set inds eventHistory & e <> len eventHistory => 
+      (eventHistory(e).Type = <LeavesNoActionRegion> => eventHistory(e + 1).Type = <LowerLimit>
+                or eventHistory(e + 1).Type = <UpperLimit>)
+      and
+      (eventHistory(e).Type = <EntersNoActionRegion> => eventHistory(e + 1).Type = <LeavesNoActionRegion>
+                  or eventHistory(e + 1).Type = <Valley>
+                  or eventHistory(e + 1).Type = <Peak>);
+
+ operations
+  public StockWatcher: StockRecord * seq1 of Event ==> StockWatcher
+  StockWatcher(sr, predefinedEvents) == (
+   eventHistory := predefinedEvents;
+   sm := nil;
+   stockRecord := sr;
+   currentlyTriggeredAction := nil;   
+  )
+  pre let val = predefinedEvents(len predefinedEvents).Value 
+      in 
+        IsInRegion(val,sr.NoActionReg);
+
+  public StockWatcher: StockRecord ==> StockWatcher
+  StockWatcher(sr) == (
+   sm := World`stockMarket;
+   stockRecord := sr;
+   eventHistory := [mk_Event(<EntersNoActionRegion>,0,
+     sm.GetStock(stockRecord.Name).GetCurrentValue())];
+   currentlyTriggeredAction := nil;   
+  )
+  pre (sr.Name in set World`stockMarket.GetStockNames()) 
+   and
+    let val = World`stockMarket.GetStock(sr.Name).GetCurrentValue() 
+    in 
+     IsInRegion(val,sr.NoActionReg);
+
+  UpdateEvents : nat ==> ()
+  UpdateEvents(time) == 
+   let stock = sm.GetStock(stockRecord.Name)
+    in
+     let stockHistory = stock.GetValueHistory(), reg = stockRecord.NoActionReg, 
+         l = reg.LowerValue, u = reg.UpperValue, cv = stock.GetCurrentValue() 
+      in
+      (if IsInRegion(hd stockHistory, reg) and
+          not IsInRegion(stockHistory(2), reg)
+       then eventHistory := [mk_Event(<EntersNoActionRegion>,time,cv)] ^ eventHistory
+       elseif not IsInRegion(hd stockHistory, reg) and
+              IsInRegion(stockHistory(2), reg)
+       then eventHistory := [mk_Event(<LeavesNoActionRegion>,time,cv)] ^ eventHistory;
+       
+       if hd stockHistory = u and stockHistory(2)  <> u
+       then eventHistory := [mk_Event(<UpperLimit>,time,cv)] ^ eventHistory
+       elseif hd stockHistory = l
+              and stockHistory(2) <> l
+       then eventHistory := [mk_Event(<LowerLimit>,time,cv)] ^ eventHistory
+       elseif not IsInRegion(hd stockHistory, reg) and IsPeak(stockHistory)
+       then eventHistory := [mk_Event(<Peak>,time,cv)] ^ eventHistory
+       elseif (not IsInRegion(hd stockHistory, reg)
+              and IsValley(stockHistory) )
+       then eventHistory := [mk_Event(<Valley>,time,cv)] ^ eventHistory;
+            
+       IO`print(eventHistory)
+      ) 
+  pre let stockHistory = sm.GetStock(stockRecord.Name).GetValueHistory() 
+      in len stockHistory >= 2
+  post eventHistory(len eventHistory).Type = <EntersNoActionRegion> 
+    and 
+   forall e in set inds eventHistory & e <> len eventHistory => 
+      (eventHistory(e).Type = <LeavesNoActionRegion> => eventHistory(e + 1).Type = <LowerLimit>
+                or eventHistory(e + 1).Type = <UpperLimit>)
+      and
+      (eventHistory(e).Type = <EntersNoActionRegion> => eventHistory(e + 1).Type = <LeavesNoActionRegion>
+                  or eventHistory(e + 1).Type = <Valley>
+                  or eventHistory(e + 1).Type = <Peak>);
+
+  UpdateAction : nat ==> ()
+  UpdateAction(tim) == 
+   let actionTrigger = stockRecord.Triggers(stockRecord.State)
+    in 
+     currentlyTriggeredAction :=
+        if IsActionTriggeredAtTime(tim,actionTrigger,eventHistory) and 
+           not IsInRegion(GetStockValue(tim), stockRecord.NoActionReg) 
+        then actionTrigger.Action
+        else nil;
+
+  public ObserveStock : nat ==> ()
+  ObserveStock(time) == (
+   if (World`simulate)
+   then UpdateEvents(time);
+ 
+   UpdateAction(time);
+  )
+  post NoActiveTriggerInNoActionRegion(GetStockValue(time),stockRecord.NoActionReg,currentlyTriggeredAction);
+
+  public updateStockRecord : StockRecord ==> ()
+  updateStockRecord(sr) == 
+   stockRecord := sr;
+
+  pure public GetStockValue : nat ==> StockValue
+  GetStockValue(time) == 
+   if World`simulate
+   then return eventHistory(1).Value
+   else return eventHistory(len eventHistory - time).Value
+  pre len eventHistory > 0;
+       
+  pure public GetTriggeredAction : () ==> [ActionType]
+  GetTriggeredAction() ==
+   return currentlyTriggeredAction; 
+
+ functions
+  
+  NoActiveTriggerInNoActionRegion: StockValue * Region * [ActionType]  -> bool
+  NoActiveTriggerInNoActionRegion(sv,reg,at) == 
+   IsInRegion(sv,reg) => at = nil;
+
+  IsInRegion: StockValue * Region -> bool
+  IsInRegion(sv,reg) == 
+   let u = reg.UpperValue , l = reg.LowerValue
+    in 
+     sv >= l and sv <= u;
+    
+  IsPeak: seq of StockValue -> bool
+  IsPeak(svs) == 
+   let current = hd svs 
+    in 
+     let indicesOneAbove = {i | i in set inds svs 
+                              & current+1 = svs(i) and i <> len svs} 
+      in
+       exists i in set indicesOneAbove & 
+        forall v in set {2,...,i} & current+1 = svs(v)
+        and 
+        svs(i+1) = current;
+
+  IsValley: seq of StockValue -> bool
+  IsValley(svs) == 
+   let current = hd svs 
+    in 
+     let indicesOneBelow = {i | i in set inds svs & current-1 = svs(i) and i <> len svs} 
+      in
+       exists i in set indicesOneBelow & 
+        forall v in set {2,...,i} & current-1 = svs(v)
+        and 
+        svs(i+1) = current;
+
+  FindLowestIndexFromTime: nat * seq of Event  -> nat1
+  FindLowestIndexFromTime(time,events) == 
+   let pastEvents = { x | x in set inds events & events(x).TimeStamp <= time  }
+    in
+     let i,j in set pastEvents be st (i <> j) => (events(i).TimeStamp <= events(j).TimeStamp)  
+     in 
+       i;
+
+  public IsActionTriggeredAtTime: nat * ActionTrigger * seq of Event  -> bool
+  IsActionTriggeredAtTime(time,action,eventHistory) == 
+   let tgr = action.Trigger
+    in
+     let index = FindLowestIndexFromTime(time,eventHistory),
+         s = eventHistory(index,...,index + len tgr - 1)
+      in
+      ((forall i in set inds s & s(i).Type = tgr(i))
+      and (s(1).TimeStamp = time)
+      and len s = len tgr)
+   
+end StockWatcher
 ~~~
 {% endraw %}
 
@@ -330,6 +572,46 @@ end AutomatedStockBroker
 ~~~
 {% endraw %}
 
+### StockMarket.vdmpp
+
+{% raw %}
+~~~
+class StockMarket is subclass of GLOBAL
+
+ instance variables
+  stocks : map StockIdentifier to Stock := {|->};
+
+ operations
+  public UpdateStocks:() ==> ()
+  UpdateStocks() == 
+   for all stock in set rng stocks do
+    stock.UpdateStock();
+
+  public AddStock:(Stock )==> ()
+  AddStock(stock) == 
+   stocks := {stock.GetName() |-> stock} munion stocks
+  pre stock.GetName() not in set dom stocks
+  post stock.GetName() in set dom stocks; 
+
+  public RemoveStock:(Stock )==> ()
+  RemoveStock(stock) == 
+   stocks := {stock.GetName()} <-: stocks
+  pre stock.GetName() in set dom stocks
+  post stock.GetName() not in set dom stocks;
+
+  pure public GetStock:(StockIdentifier)==> Stock 
+  GetStock(name) == 
+   return stocks(name)
+  pre name in set dom stocks;
+
+  pure public GetStockNames: () ==> set of StockIdentifier 
+  GetStockNames() ==
+   return dom stocks;
+  
+end StockMarket
+~~~
+{% endraw %}
+
 ### Stock.vdmpp
 
 {% raw %}
@@ -427,288 +709,6 @@ class Stock is subclass of GLOBAL
    else []
 
 end Stock
-~~~
-{% endraw %}
-
-### World.vdmpp
-
-{% raw %}
-~~~
-class World is subclass of GLOBAL
- 
-values
- simTime : nat = 100; 
- actionsLimit : nat = 4;
- startCash : nat = 100;
- public static simulate : bool = false;
- 
-instance variables  
-
- public static timerRef : Timer := new Timer();
-
- public static stockMarket : StockMarket := new StockMarket();
- asb : AutomatedStockBroker := new AutomatedStockBroker(startCash);  
-   
-operations
-
-public isFinished : () ==> bool
- isFinished() == 
-    return (not len asb.GetActionLog() < actionsLimit) or 
-           (not timerRef.GetTime() <= simTime);
-
- public Run : () ==> ()
- Run() ==
- ( 
-  stockMarket.AddStock(new Stock(mk_token("test"),10));
-  stockMarket.AddStock(new Stock(mk_token("test12"),10));
-  stockMarket.AddStock(new Stock(mk_token("test2"),10));
-
-  (dcl r1 : StockRecord := mk_StockRecord(mk_token("test"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),10,<Bought>),
-    r2 : StockRecord := mk_StockRecord(mk_token("test12"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),10,<Bought>),
-
-   r3 : StockRecord := mk_StockRecord(mk_token("test2"),
-     { <PotentialBuy> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<LowerLimit>],<Buy>),
-       <Bought> |-> mk_ActionTrigger([<LeavesNoActionRegion>,<UpperLimit>],<Sell>)},
-        mk_Region(12,8),0,<PotentialBuy>);
-
-   asb.AddStock(r1,1);
-   asb.AddStock(r2,2);
-   asb.AddStock(r3,3);
-   
-   while not isFinished()
-   do 
-   (
-    IO`print("step : ");
-    IO`print(timerRef.GetTime());
-    IO`print("\n");
- 
-    stockMarket.UpdateStocks();
- 
-    asb.Step(timerRef.GetTime());
-       timerRef.StepTime();
-   );
-  )
- );
-functions
- public FindSmallestSeqLen: map String to seq of Event -> nat
- FindSmallestSeqLen(m) == 
- let x,y in set {len m(x) | x in set dom m} be st x <> y => x <= y in x; 
-
-end World
-~~~
-{% endraw %}
-
-### timer.vdmpp
-
-{% raw %}
-~~~
-class Timer 
-
-instance variables
-
-  currentTime : nat := 1;
-
-values 
-
-  stepLength : nat = 1;
-
-operations
-
-public 
-  StepTime: () ==> ()
-  StepTime() == 
-    currentTime := currentTime + stepLength;
-
-public
-  GetTime: () ==> nat 
-  GetTime() == return currentTime;
-
-end Timer
-~~~
-{% endraw %}
-
-### StockWatcher.vdmpp
-
-{% raw %}
-~~~
-class StockWatcher is subclass of GLOBAL
- 
- instance variables
-  eventHistory : seq of Event;
-  stockRecord : StockRecord;
-  sm : [StockMarket];
-  currentlyTriggeredAction : [ActionType];
-  
-  inv  eventHistory(len eventHistory).Type = <EntersNoActionRegion> 
-    and 
-   forall e in set inds eventHistory & e <> len eventHistory => 
-      (eventHistory(e).Type = <LeavesNoActionRegion> => eventHistory(e + 1).Type = <LowerLimit>
-                or eventHistory(e + 1).Type = <UpperLimit>)
-      and
-      (eventHistory(e).Type = <EntersNoActionRegion> => eventHistory(e + 1).Type = <LeavesNoActionRegion>
-                  or eventHistory(e + 1).Type = <Valley>
-                  or eventHistory(e + 1).Type = <Peak>);
-
- operations
-  public StockWatcher: StockRecord * seq1 of Event ==> StockWatcher
-  StockWatcher(sr, predefinedEvents) == (
-   eventHistory := predefinedEvents;
-   sm := nil;
-   stockRecord := sr;
-   currentlyTriggeredAction := nil;   
-  )
-  pre let val = predefinedEvents(len predefinedEvents).Value 
-      in 
-        IsInRegion(val,sr.NoActionReg);
-
-  public StockWatcher: StockRecord ==> StockWatcher
-  StockWatcher(sr) == (
-   sm := World`stockMarket;
-   stockRecord := sr;
-   eventHistory := [mk_Event(<EntersNoActionRegion>,0,
-     sm.GetStock(stockRecord.Name).GetCurrentValue())];
-   currentlyTriggeredAction := nil;   
-  )
-  pre (sr.Name in set World`stockMarket.GetStockNames()) 
-   and
-    let val = World`stockMarket.GetStock(sr.Name).GetCurrentValue() 
-    in 
-     IsInRegion(val,sr.NoActionReg);
-
-  UpdateEvents : nat ==> ()
-  UpdateEvents(time) == 
-   let stock = sm.GetStock(stockRecord.Name)
-    in
-     let stockHistory = stock.GetValueHistory(), reg = stockRecord.NoActionReg, 
-         l = reg.LowerValue, u = reg.UpperValue, cv = stock.GetCurrentValue() 
-      in
-      (if IsInRegion(hd stockHistory, reg) and
-          not IsInRegion(stockHistory(2), reg)
-       then eventHistory := [mk_Event(<EntersNoActionRegion>,time,cv)] ^ eventHistory
-       elseif not IsInRegion(hd stockHistory, reg) and
-              IsInRegion(stockHistory(2), reg)
-       then eventHistory := [mk_Event(<LeavesNoActionRegion>,time,cv)] ^ eventHistory;
-       
-       if hd stockHistory = u and stockHistory(2)  <> u
-       then eventHistory := [mk_Event(<UpperLimit>,time,cv)] ^ eventHistory
-       elseif hd stockHistory = l
-              and stockHistory(2) <> l
-       then eventHistory := [mk_Event(<LowerLimit>,time,cv)] ^ eventHistory
-       elseif not IsInRegion(hd stockHistory, reg) and IsPeak(stockHistory)
-       then eventHistory := [mk_Event(<Peak>,time,cv)] ^ eventHistory
-       elseif (not IsInRegion(hd stockHistory, reg)
-              and IsValley(stockHistory) )
-       then eventHistory := [mk_Event(<Valley>,time,cv)] ^ eventHistory;
-            
-       IO`print(eventHistory)
-      ) 
-  pre let stockHistory = sm.GetStock(stockRecord.Name).GetValueHistory() 
-      in len stockHistory >= 2
-  post eventHistory(len eventHistory).Type = <EntersNoActionRegion> 
-    and 
-   forall e in set inds eventHistory & e <> len eventHistory => 
-      (eventHistory(e).Type = <LeavesNoActionRegion> => eventHistory(e + 1).Type = <LowerLimit>
-                or eventHistory(e + 1).Type = <UpperLimit>)
-      and
-      (eventHistory(e).Type = <EntersNoActionRegion> => eventHistory(e + 1).Type = <LeavesNoActionRegion>
-                  or eventHistory(e + 1).Type = <Valley>
-                  or eventHistory(e + 1).Type = <Peak>);
-
-  UpdateAction : nat ==> ()
-  UpdateAction(tim) == 
-   let actionTrigger = stockRecord.Triggers(stockRecord.State)
-    in 
-     currentlyTriggeredAction :=
-        if IsActionTriggeredAtTime(tim,actionTrigger,eventHistory) and 
-           not IsInRegion(GetStockValue(tim), stockRecord.NoActionReg) 
-        then actionTrigger.Action
-        else nil;
-
-  public ObserveStock : nat ==> ()
-  ObserveStock(time) == (
-   if (World`simulate)
-   then UpdateEvents(time);
- 
-   UpdateAction(time);
-  )
-  post NoActiveTriggerInNoActionRegion(GetStockValue(time),stockRecord.NoActionReg,currentlyTriggeredAction);
-
-  public updateStockRecord : StockRecord ==> ()
-  updateStockRecord(sr) == 
-   stockRecord := sr;
-
-  pure public GetStockValue : nat ==> StockValue
-  GetStockValue(time) == 
-   if World`simulate
-   then return eventHistory(1).Value
-   else return eventHistory(len eventHistory - time).Value
-  pre len eventHistory > 0;
-       
-  pure public GetTriggeredAction : () ==> [ActionType]
-  GetTriggeredAction() ==
-   return currentlyTriggeredAction; 
-
- functions
-  
-  NoActiveTriggerInNoActionRegion: StockValue * Region * [ActionType]  -> bool
-  NoActiveTriggerInNoActionRegion(sv,reg,at) == 
-   IsInRegion(sv,reg) => at = nil;
-
-  IsInRegion: StockValue * Region -> bool
-  IsInRegion(sv,reg) == 
-   let u = reg.UpperValue , l = reg.LowerValue
-    in 
-     sv >= l and sv <= u;
-    
-  IsPeak: seq of StockValue -> bool
-  IsPeak(svs) == 
-   let current = hd svs 
-    in 
-     let indicesOneAbove = {i | i in set inds svs 
-                              & current+1 = svs(i) and i <> len svs} 
-      in
-       exists i in set indicesOneAbove & 
-        forall v in set {2,...,i} & current+1 = svs(v)
-        and 
-        svs(i+1) = current;
-
-  IsValley: seq of StockValue -> bool
-  IsValley(svs) == 
-   let current = hd svs 
-    in 
-     let indicesOneBelow = {i | i in set inds svs & current-1 = svs(i) and i <> len svs} 
-      in
-       exists i in set indicesOneBelow & 
-        forall v in set {2,...,i} & current-1 = svs(v)
-        and 
-        svs(i+1) = current;
-
-  FindLowestIndexFromTime: nat * seq of Event  -> nat1
-  FindLowestIndexFromTime(time,events) == 
-   let pastEvents = { x | x in set inds events & events(x).TimeStamp <= time  }
-    in
-     let i,j in set pastEvents be st (i <> j) => (events(i).TimeStamp <= events(j).TimeStamp)  
-     in 
-       i;
-
-  public IsActionTriggeredAtTime: nat * ActionTrigger * seq of Event  -> bool
-  IsActionTriggeredAtTime(time,action,eventHistory) == 
-   let tgr = action.Trigger
-    in
-     let index = FindLowestIndexFromTime(time,eventHistory),
-         s = eventHistory(index,...,index + len tgr - 1)
-      in
-      ((forall i in set inds s & s(i).Type = tgr(i))
-      and (s(1).TimeStamp = time)
-      and len s = len tgr)
-   
-end StockWatcher
 ~~~
 {% endraw %}
 

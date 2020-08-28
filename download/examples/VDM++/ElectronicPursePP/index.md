@@ -19,50 +19,6 @@ community for formal verification.
 |Language Version:| vdm10|
 
 
-### Purse.vdmpp
-
-{% raw %}
-~~~
-class Purse
-
-types
-public CardId = token
-
-instance variables
-
-private balance: nat;
-private cardNo: CardId;
-
-operations
-
-public IncreaseBal: nat ==> ()
-IncreaseBal(sum)==
-  balance := balance + sum;
-
-public DecreaseBal: nat ==> ()
-DecreaseBal(sum)==
-  balance := balance - sum
-pre sum <= balance;
-
-pure public GetBalance:() ==> nat
-GetBalance() == 
-  return balance;
-
-pure public GetCardNo: () ==> CardId
-GetCardNo() == 
-  return cardNo;
-
-public Purse: CardId * nat ==> Purse
-Purse(newId, startbal) ==
-( cardNo := newId;
-  balance := startbal ) ;
-
-functions
--- no functions currently defined
-end Purse
-~~~
-{% endraw %}
-
 ### System.vdmpp
 
 {% raw %}
@@ -118,6 +74,50 @@ Len(l) ==
   len l;
 
 end System
+~~~
+{% endraw %}
+
+### Purse.vdmpp
+
+{% raw %}
+~~~
+class Purse
+
+types
+public CardId = token
+
+instance variables
+
+private balance: nat;
+private cardNo: CardId;
+
+operations
+
+public IncreaseBal: nat ==> ()
+IncreaseBal(sum)==
+  balance := balance + sum;
+
+public DecreaseBal: nat ==> ()
+DecreaseBal(sum)==
+  balance := balance - sum
+pre sum <= balance;
+
+pure public GetBalance:() ==> nat
+GetBalance() == 
+  return balance;
+
+pure public GetCardNo: () ==> CardId
+GetCardNo() == 
+  return cardNo;
+
+public Purse: CardId * nat ==> Purse
+Purse(newId, startbal) ==
+( cardNo := newId;
+  balance := startbal ) ;
+
+functions
+-- no functions currently defined
+end Purse
 ~~~
 {% endraw %}
 

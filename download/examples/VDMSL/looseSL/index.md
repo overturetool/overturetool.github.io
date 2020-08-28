@@ -26,75 +26,6 @@ Springer Verlag, October 1994.
 |Entry point     :| DEFAULT`LooseEvalExpr(expr)|
 
 
-### auxil.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                    
-
-operations
-
-SeqOfSetOf2SetOfSeqOf : seq of set of (VAL | BlkEnv) ==> 
-                        set of seq of (VAL | BlkEnv)
-SeqOfSetOf2SetOfSeqOf(seq_ls) ==
-( dcl res_s : set of seq of (VAL | BlkEnv) := { [] } ,
-      tmpres_s : set of seq of (VAL | BlkEnv) ;
-  for tmp_s in seq_ls do 
-  ( tmpres_s := {} ;
-    for all tmp_l in set res_s do
-      for all e in set tmp_s do
-        tmpres_s := tmpres_s union { tmp_l ^ [ e ] } ;
-    res_s := tmpres_s 
-  );
-  return res_s
-)
-                                                                                                         
-functions
-
-  Consistent: LVAL * Model -> LVAL
-  Consistent(lval,bind) ==
-    {mk_(val,b munion bind)
-    | mk_(val,b) in set lval &
-      forall id in set (dom b inter dom bind) &
-             b(id) = bind(id)};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-  SetToSeq: set of VAL +> seq of VAL
-  SetToSeq(s) ==
-    if s = {}
-    then []
-    else let e in set s
-         in
-           [e] ^ SetToSeq(s\{e})
- post s = elems RESULT;
-                                                                                                                    
-
-  Permute: seq of VAL -> set of seq of VAL
-  Permute(l) ==
-    cases l:
-      [],
-      [-]    -> { l },
-      others -> dunion { { [ l(i) ] ^ j | j in set Permute(RestSeq(l, i))} | 
-                           i in set inds l }
-    end;
-    
-  RestSeq: seq of VAL * nat1 -> seq of VAL
-  RestSeq(l,i) ==
-    [ l(j) | j in set (inds l \ { i }) ];
-                                                                                                                                        
-  PatternIds: Pattern +> set of UniqueId
-  PatternIds(pat) ==
-    cases pat:
-      mk_PatternName(mk_(nm,pos)) -> {mk_(nm,pos,FnInfo())},
-      mk_MatchVal(-)              -> {},
-      mk_SetEnumPattern(els)      -> dunion {PatternIds(elem)
-                                            |elem in set elems els},
-      mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union
-                                     PatternIds(rp)
-    end
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-~~~
-{% endraw %}
-
 ### env.vdmsl
 
 {% raw %}
@@ -278,115 +209,6 @@ functions
 	     | id in set dom upd_m}
     
              
-~~~
-{% endraw %}
-
-### pat.vdmsl
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                       
-operations
-
-  PatternMatch : Pattern * VAL ==> set of BlkEnv
-  PatternMatch (pat_p, val_v) ==
-    cases true:
-     (is_PatternName(pat_p))     -> let mk_PatternName(id) = pat_p in
-                                       return { MkBlkEnv(id, val_v) },
-     (is_MatchVal(pat_p))        -> let lval = LooseEvalExpr(pat_p.val)
-                                    in
-				      (for all mk_(v,m) in set lval do
-				        if v = val_v
-					then return { MkEmptyBlkEnv()};
-			               return {}),
-     (is_SetEnumPattern(pat_p))  -> MatchSetEnumPattern(pat_p, val_v),
-     (is_SetUnionPattern(pat_p)) -> MatchSetUnionPattern(pat_p, val_v),
-     others -> error
-    end;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-
-MatchSetEnumPattern : SetEnumPattern * VAL ==> set of BlkEnv
-MatchSetEnumPattern ( mk_SetEnumPattern(elems_lp), val_v) ==
-if is_SET(val_v)
-then let mk_SET(val_sv) = val_v in
-       if card val_sv = card elems elems_lp
-       then let perm_slv = Permute(SetToSeq(val_sv)) in
-              return dunion { MatchLists(elems_lp, tmp_lv) | 
-                              tmp_lv in set perm_slv }
-       else return {}
-else return {};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-MatchSetUnionPattern : SetUnionPattern * VAL ==> set of BlkEnv
-MatchSetUnionPattern ( mk_SetUnionPattern(lp_p, rp_p), val_v) ==
-( dcl envres_sl : set of BlkEnv := {};
-  if is_SET(val_v)
-  then let mk_SET(val_sv) = val_v in
-       ( for all mk_(setl_sv, setr_sv) in set 
-               { mk_(setl_sv,setr_sv) |
-                 setl_sv ,setr_sv in set power val_sv &
-                   (setl_sv union setr_sv = val_sv ) and 
-                   (setl_sv inter setr_sv = {}) } do 
-           let envl_s = PatternMatch(lp_p, mk_SET(setl_sv)),
-               envr_s = PatternMatch(rp_p, mk_SET(setr_sv)) in
-             if envl_s <> {} and envr_s <> {}
-             then let tmpenv = { CombineBlkEnv(tmp1, tmp2) |
-                                 tmp1 in set envl_s, tmp2 in set envr_s } 
-                  in
-                    envres_sl := envres_sl union UnionMatch(tmpenv);
-         return envres_sl
-       )
-  else return {}
-);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-MatchLists : seq of Pattern * seq of VAL ==> set of BlkEnv
-MatchLists (els_lp, val_lv) ==
- let tmp_ls = [ PatternMatch(els_lp(i), val_lv(i)) |
-                i in set inds els_lp ] in
-   if {} not in set elems tmp_ls
-   then let perm_s = SeqOfSetOf2SetOfSeqOf(tmp_ls) in
-          UnionMatch({ conc l | l in set perm_s })
-   else return {};
-                                                                                                                                                                                                                                                                                                                                          
-UnionMatch : set of BlkEnv ==> set of BlkEnv
-UnionMatch (blk_sl) ==
-return { StripDoubles(blk_l) |
-         blk_l in set blk_sl &
-           forall mk_(id1,v1_v) in seq blk_l,
-                  mk_(id2,v2_v) in seq blk_l & 
-                  SelName(id1) = SelName(id2) => (v1_v = v2_v)};
-                                                                                          
-StripDoubles : BlkEnv ==> BlkEnv
-StripDoubles (blk_l) ==
-( dcl tmpblk_l : BlkEnv := blk_l,
-      res_l : BlkEnv := [];
-  while tmpblk_l <> [] do 
-    let mk_(id,val_v) = hd tmpblk_l in
-    ( if not exists mk_(id1 ,-) in seq tl tmpblk_l & id1 = id
-      then res_l := CombineBlkEnv(res_l, MkBlkEnv(SelNameAndPos(id), val_v));
-      tmpblk_l := tl tmpblk_l
-    );
-  return res_l
-);
-                                                                                                                            
-EvalBind : Bind ==> set of (BlkEnv * Model)
-EvalBind (bind) ==
-EvalSetBind(bind);
-                                                                           
-EvalSetBind : SetBind ==> set of (BlkEnv * Model)
-EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
-( dcl env_s : set of (BlkEnv * Model) := {};
-  let set_lv = LooseEvalExpr(set_e) in
-   (for all mk_(set_v,m) in set set_lv do
-     (if is_SET(set_v)
-      then let mk_SET(set_sv) = set_v in
-           ( for all elm_v in set set_sv do 
-               (let new_envs = PatternMatch(pat_p, elm_v) in
-                env_s := env_s union {mk_(env,m) | env in set new_envs})
-           )
-      else error);
-    return env_s)
-)
-                                                                                                                                 
 ~~~
 {% endraw %}
 
@@ -592,6 +414,75 @@ operations
 ~~~
 {% endraw %}
 
+### auxil.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                    
+
+operations
+
+SeqOfSetOf2SetOfSeqOf : seq of set of (VAL | BlkEnv) ==> 
+                        set of seq of (VAL | BlkEnv)
+SeqOfSetOf2SetOfSeqOf(seq_ls) ==
+( dcl res_s : set of seq of (VAL | BlkEnv) := { [] } ,
+      tmpres_s : set of seq of (VAL | BlkEnv) ;
+  for tmp_s in seq_ls do 
+  ( tmpres_s := {} ;
+    for all tmp_l in set res_s do
+      for all e in set tmp_s do
+        tmpres_s := tmpres_s union { tmp_l ^ [ e ] } ;
+    res_s := tmpres_s 
+  );
+  return res_s
+)
+                                                                                                         
+functions
+
+  Consistent: LVAL * Model -> LVAL
+  Consistent(lval,bind) ==
+    {mk_(val,b munion bind)
+    | mk_(val,b) in set lval &
+      forall id in set (dom b inter dom bind) &
+             b(id) = bind(id)};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  SetToSeq: set of VAL +> seq of VAL
+  SetToSeq(s) ==
+    if s = {}
+    then []
+    else let e in set s
+         in
+           [e] ^ SetToSeq(s\{e})
+ post s = elems RESULT;
+                                                                                                                    
+
+  Permute: seq of VAL -> set of seq of VAL
+  Permute(l) ==
+    cases l:
+      [],
+      [-]    -> { l },
+      others -> dunion { { [ l(i) ] ^ j | j in set Permute(RestSeq(l, i))} | 
+                           i in set inds l }
+    end;
+    
+  RestSeq: seq of VAL * nat1 -> seq of VAL
+  RestSeq(l,i) ==
+    [ l(j) | j in set (inds l \ { i }) ];
+                                                                                                                                        
+  PatternIds: Pattern +> set of UniqueId
+  PatternIds(pat) ==
+    cases pat:
+      mk_PatternName(mk_(nm,pos)) -> {mk_(nm,pos,FnInfo())},
+      mk_MatchVal(-)              -> {},
+      mk_SetEnumPattern(els)      -> dunion {PatternIds(elem)
+                                            |elem in set elems els},
+      mk_SetUnionPattern(lp,rp)   -> PatternIds(lp) union
+                                     PatternIds(rp)
+    end
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+~~~
+{% endraw %}
+
 ### as.vdmsl
 
 {% raw %}
@@ -726,6 +617,115 @@ values
  expr2 : Expr = mk_BinaryExpr(expr, <NUMPLUS>, expr);
 
              
+~~~
+{% endraw %}
+
+### pat.vdmsl
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                       
+operations
+
+  PatternMatch : Pattern * VAL ==> set of BlkEnv
+  PatternMatch (pat_p, val_v) ==
+    cases true:
+     (is_PatternName(pat_p))     -> let mk_PatternName(id) = pat_p in
+                                       return { MkBlkEnv(id, val_v) },
+     (is_MatchVal(pat_p))        -> let lval = LooseEvalExpr(pat_p.val)
+                                    in
+				      (for all mk_(v,m) in set lval do
+				        if v = val_v
+					then return { MkEmptyBlkEnv()};
+			               return {}),
+     (is_SetEnumPattern(pat_p))  -> MatchSetEnumPattern(pat_p, val_v),
+     (is_SetUnionPattern(pat_p)) -> MatchSetUnionPattern(pat_p, val_v),
+     others -> error
+    end;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+MatchSetEnumPattern : SetEnumPattern * VAL ==> set of BlkEnv
+MatchSetEnumPattern ( mk_SetEnumPattern(elems_lp), val_v) ==
+if is_SET(val_v)
+then let mk_SET(val_sv) = val_v in
+       if card val_sv = card elems elems_lp
+       then let perm_slv = Permute(SetToSeq(val_sv)) in
+              return dunion { MatchLists(elems_lp, tmp_lv) | 
+                              tmp_lv in set perm_slv }
+       else return {}
+else return {};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+MatchSetUnionPattern : SetUnionPattern * VAL ==> set of BlkEnv
+MatchSetUnionPattern ( mk_SetUnionPattern(lp_p, rp_p), val_v) ==
+( dcl envres_sl : set of BlkEnv := {};
+  if is_SET(val_v)
+  then let mk_SET(val_sv) = val_v in
+       ( for all mk_(setl_sv, setr_sv) in set 
+               { mk_(setl_sv,setr_sv) |
+                 setl_sv ,setr_sv in set power val_sv &
+                   (setl_sv union setr_sv = val_sv ) and 
+                   (setl_sv inter setr_sv = {}) } do 
+           let envl_s = PatternMatch(lp_p, mk_SET(setl_sv)),
+               envr_s = PatternMatch(rp_p, mk_SET(setr_sv)) in
+             if envl_s <> {} and envr_s <> {}
+             then let tmpenv = { CombineBlkEnv(tmp1, tmp2) |
+                                 tmp1 in set envl_s, tmp2 in set envr_s } 
+                  in
+                    envres_sl := envres_sl union UnionMatch(tmpenv);
+         return envres_sl
+       )
+  else return {}
+);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+MatchLists : seq of Pattern * seq of VAL ==> set of BlkEnv
+MatchLists (els_lp, val_lv) ==
+ let tmp_ls = [ PatternMatch(els_lp(i), val_lv(i)) |
+                i in set inds els_lp ] in
+   if {} not in set elems tmp_ls
+   then let perm_s = SeqOfSetOf2SetOfSeqOf(tmp_ls) in
+          UnionMatch({ conc l | l in set perm_s })
+   else return {};
+                                                                                                                                                                                                                                                                                                                                          
+UnionMatch : set of BlkEnv ==> set of BlkEnv
+UnionMatch (blk_sl) ==
+return { StripDoubles(blk_l) |
+         blk_l in set blk_sl &
+           forall mk_(id1,v1_v) in seq blk_l,
+                  mk_(id2,v2_v) in seq blk_l & 
+                  SelName(id1) = SelName(id2) => (v1_v = v2_v)};
+                                                                                          
+StripDoubles : BlkEnv ==> BlkEnv
+StripDoubles (blk_l) ==
+( dcl tmpblk_l : BlkEnv := blk_l,
+      res_l : BlkEnv := [];
+  while tmpblk_l <> [] do 
+    let mk_(id,val_v) = hd tmpblk_l in
+    ( if not exists mk_(id1 ,-) in seq tl tmpblk_l & id1 = id
+      then res_l := CombineBlkEnv(res_l, MkBlkEnv(SelNameAndPos(id), val_v));
+      tmpblk_l := tl tmpblk_l
+    );
+  return res_l
+);
+                                                                                                                            
+EvalBind : Bind ==> set of (BlkEnv * Model)
+EvalBind (bind) ==
+EvalSetBind(bind);
+                                                                           
+EvalSetBind : SetBind ==> set of (BlkEnv * Model)
+EvalSetBind ( mk_SetBind(pat_p ,set_e )) ==
+( dcl env_s : set of (BlkEnv * Model) := {};
+  let set_lv = LooseEvalExpr(set_e) in
+   (for all mk_(set_v,m) in set set_lv do
+     (if is_SET(set_v)
+      then let mk_SET(set_sv) = set_v in
+           ( for all elm_v in set set_sv do 
+               (let new_envs = PatternMatch(pat_p, elm_v) in
+                env_s := env_s union {mk_(env,m) | env in set new_envs})
+           )
+      else error);
+    return env_s)
+)
+                                                                                                                                 
 ~~~
 {% endraw %}
 

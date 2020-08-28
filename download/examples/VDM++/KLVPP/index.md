@@ -29,6 +29,109 @@ to extend the model with.
 |Language Version:| vdm10|
 
 
+### Event.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                        
+class Event
+
+operations
+
+  public
+  execute : KLV ==> Test`TestResult
+  execute (-) ==
+    is subclass responsibility;
+
+end Event
+             
+~~~
+{% endraw %}
+
+### FLTV.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                          
+class FLTV is subclass of Beacon
+
+end FLTV
+             
+~~~
+{% endraw %}
+
+### TIV_D.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+class TIV_D is subclass of Beacon
+
+instance variables
+  targetspeed : real;
+
+operations
+
+  public
+  TIV_D: real ==> TIV_D
+  TIV_D (ts) ==
+    targetspeed := ts;
+
+  public
+  getTargetSpeed : () ==> real
+  getTargetSpeed () ==
+    return targetspeed;
+
+end TIV_D
+              
+~~~
+{% endraw %}
+
+### TIV_A.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                               
+class TIV_A is subclass of Beacon
+ 
+end TIV_A
+             
+~~~
+{% endraw %}
+
+### EmergencyBreak.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                           
+class EmergencyBreak
+
+instance variables
+
+  emergencybreak : bool := false;
+
+operations
+
+  public
+  setEmergencyBreak : () ==> ()
+  setEmergencyBreak () ==
+    emergencybreak := true;
+ 
+  public
+  unsetEmergencyBreak : () ==> ()
+  unsetEmergencyBreak () ==
+    emergencybreak := false;
+
+  pure public
+  getEmergencyBreak : () ==> bool
+  getEmergencyBreak () ==
+    return emergencybreak;
+
+end EmergencyBreak
+              
+~~~
+{% endraw %}
+
 ### useKLV.vdmpp
 
 {% raw %}
@@ -77,234 +180,23 @@ end UseKLV
 ~~~
 {% endraw %}
 
-### TailMeetBeaconEvent.vdmpp
+### MaxSpeedEvent.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                               
-class TailMeetBeaconEvent is subclass of Event
+                                                                                                                                                                                                           
+class MaxSpeedEvent is subclass of Event
 
-instance variables
-  
-  beacon : Beacon;
-
-operations
-
-  public
-  TailMeetBeaconEvent: Beacon ==> TailMeetBeaconEvent
-  TailMeetBeaconEvent (b) ==
-    beacon := b;
+operations 
 
   public
   execute : KLV ==> Test`TestResult
   execute (klv) ==
-    ( klv.tailMeetsBeacon(beacon); 
-      let anns = klv.getAnnouncements(),
-          restr = klv.getSpeedRestrictions() in
-        return mk_Test`BeaconsMet(
-            [ mk_Test`TIVD(anns(i).getTargetSpeed())  |
-              i in set inds anns ],
-            [ mk_Test`TIVE(restr(i).getSpeedRestriction()) |
-              i in set inds restr ]) )
-pre isofclass(TIV_E, beacon) => (klv.getFirstSpeedRestriction() or 
-                                 klv.getSpeedRestrictions() <> []);
+    ( let ms = klv.getMaxSpeed() in
+      return mk_Test`MaxSpeed(ms) );
 
-pure public getBeacon: () ==> Beacon
-getBeacon() ==
-  return beacon;
- 
-end TailMeetBeaconEvent
+end MaxSpeedEvent
             
-~~~
-{% endraw %}
-
-### EmergencyBreak.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                           
-class EmergencyBreak
-
-instance variables
-
-  emergencybreak : bool := false;
-
-operations
-
-  public
-  setEmergencyBreak : () ==> ()
-  setEmergencyBreak () ==
-    emergencybreak := true;
- 
-  public
-  unsetEmergencyBreak : () ==> ()
-  unsetEmergencyBreak () ==
-    emergencybreak := false;
-
-  pure public
-  getEmergencyBreak : () ==> bool
-  getEmergencyBreak () ==
-    return emergencybreak;
-
-end EmergencyBreak
-              
-~~~
-{% endraw %}
-
-### CheckSpeedEvent.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                
-class CheckSpeedEvent is subclass of Event
-
-instance variables
-
-  speed : real;
-
-operations 
-
-  public
-  CheckSpeedEvent: real ==> CheckSpeedEvent
-  CheckSpeedEvent (s) ==
-    speed := s;
-
-  public
-  execute : KLV ==> Test`TestResult
-  execute (klv) ==
-    ( klv.checkSpeed(speed);
-      let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),
-          e' =  klv.getEmergencyBreak().getEmergencyBreak() in
-      return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g), 
-                              mk_Test`EmerBreak(e')) );
-
-end CheckSpeedEvent
-             
-~~~
-{% endraw %}
-
-### Beacon.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-class Beacon
- 
-end Beacon
-             
-~~~
-{% endraw %}
-
-### KLVStateEvent.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                            
-class KLVStateEvent is subclass of Event
-
-operations 
-
-  public
-  execute : KLV ==> Test`TestResult
-  execute (klv) ==
-    (let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),
-         e' =  klv.getEmergencyBreak().getEmergencyBreak() in
-     return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g), 
-                             mk_Test`EmerBreak(e')) );
-
-end KLVStateEvent
-             
-~~~
-{% endraw %}
-
-### NoBeaconMetEvent.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                      
-class NoBeaconMetEvent is subclass of Event
-
-operations 
-
-  public
-  execute : KLV ==> Test`TestResult
-  execute (klv) ==
-    ( klv.noBeaconMet();
-      let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),
-          e' =  klv.getEmergencyBreak().getEmergencyBreak() in
-       return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g), 
-                               mk_Test`EmerBreak(e')) );
-
-end NoBeaconMetEvent
-            
-~~~
-{% endraw %}
-
-### FLTV.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                          
-class FLTV is subclass of Beacon
-
-end FLTV
-             
-~~~
-{% endraw %}
-
-### HeadMeetBeaconEvent.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                               
-class HeadMeetBeaconEvent is subclass of Event
-
-instance variables
-
-  beacon : Beacon;
-
-operations
-
-  public
-  HeadMeetBeaconEvent: Beacon ==> HeadMeetBeaconEvent 
-  HeadMeetBeaconEvent(b) ==
-    beacon := b;
-
-  public
-  execute : KLV ==> Test`TestResult
-  execute (klv) ==
-    ( klv.headMeetsBeacon(beacon); 
-      let anns = klv.getAnnouncements(),
-          restr = klv.getSpeedRestrictions() in
-      return mk_Test`BeaconsMet(
-            [ mk_Test`TIVD(a.getTargetSpeed()) | a in seq anns ],
-            [ mk_Test`TIVE(r.getSpeedRestriction()) | r in seq restr ]) );
-
-pure public getBeacon: () ==> Beacon
-getBeacon() ==
-  return beacon;
-  
-end HeadMeetBeaconEvent
-             
-~~~
-{% endraw %}
-
-### Event.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                        
-class Event
-
-operations
-
-  public
-  execute : KLV ==> Test`TestResult
-  execute (-) ==
-    is subclass responsibility;
-
-end Event
-             
 ~~~
 {% endraw %}
 
@@ -373,52 +265,58 @@ end Test
 ~~~
 {% endraw %}
 
-### MaxSpeedEvent.vdmpp
+### CheckSpeedEvent.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                           
-class MaxSpeedEvent is subclass of Event
+                                                                                                                                                                                                                                                                                                                
+class CheckSpeedEvent is subclass of Event
+
+instance variables
+
+  speed : real;
+
+operations 
+
+  public
+  CheckSpeedEvent: real ==> CheckSpeedEvent
+  CheckSpeedEvent (s) ==
+    speed := s;
+
+  public
+  execute : KLV ==> Test`TestResult
+  execute (klv) ==
+    ( klv.checkSpeed(speed);
+      let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),
+          e' =  klv.getEmergencyBreak().getEmergencyBreak() in
+      return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g), 
+                              mk_Test`EmerBreak(e')) );
+
+end CheckSpeedEvent
+             
+~~~
+{% endraw %}
+
+### NoBeaconMetEvent.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                      
+class NoBeaconMetEvent is subclass of Event
 
 operations 
 
   public
   execute : KLV ==> Test`TestResult
   execute (klv) ==
-    ( let ms = klv.getMaxSpeed() in
-      return mk_Test`MaxSpeed(ms) );
+    ( klv.noBeaconMet();
+      let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),
+          e' =  klv.getEmergencyBreak().getEmergencyBreak() in
+       return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g), 
+                               mk_Test`EmerBreak(e')) );
 
-end MaxSpeedEvent
+end NoBeaconMetEvent
             
-~~~
-{% endraw %}
-
-### TIV_E.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                                                                                                                                                  
-class TIV_E is subclass of Beacon
-
-instance variables
-
-  speed : [real] := nil;
-
-operations
-
-  public
-  setSpeedRestriction : real ==> ()
-  setSpeedRestriction (s) ==
-    speed := s;
-
-  pure public
-  getSpeedRestriction : () ==> real
-  getSpeedRestriction () ==
-    return speed
-  pre speed <> nil;
-
-end TIV_E
-              
 ~~~
 {% endraw %}
 
@@ -478,18 +376,6 @@ operations
 
 end CabDisplay
               
-~~~
-{% endraw %}
-
-### TIV_A.vdmpp
-
-{% raw %}
-~~~
-                                                                                                                                                                                                                                                               
-class TIV_A is subclass of Beacon
- 
-end TIV_A
-             
 ~~~
 {% endraw %}
 
@@ -661,6 +547,135 @@ end KLV
 ~~~
 {% endraw %}
 
+### HeadMeetBeaconEvent.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                               
+class HeadMeetBeaconEvent is subclass of Event
+
+instance variables
+
+  beacon : Beacon;
+
+operations
+
+  public
+  HeadMeetBeaconEvent: Beacon ==> HeadMeetBeaconEvent 
+  HeadMeetBeaconEvent(b) ==
+    beacon := b;
+
+  public
+  execute : KLV ==> Test`TestResult
+  execute (klv) ==
+    ( klv.headMeetsBeacon(beacon); 
+      let anns = klv.getAnnouncements(),
+          restr = klv.getSpeedRestrictions() in
+      return mk_Test`BeaconsMet(
+            [ mk_Test`TIVD(a.getTargetSpeed()) | a in seq anns ],
+            [ mk_Test`TIVE(r.getSpeedRestriction()) | r in seq restr ]) );
+
+pure public getBeacon: () ==> Beacon
+getBeacon() ==
+  return beacon;
+  
+end HeadMeetBeaconEvent
+             
+~~~
+{% endraw %}
+
+### TailMeetBeaconEvent.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                               
+class TailMeetBeaconEvent is subclass of Event
+
+instance variables
+  
+  beacon : Beacon;
+
+operations
+
+  public
+  TailMeetBeaconEvent: Beacon ==> TailMeetBeaconEvent
+  TailMeetBeaconEvent (b) ==
+    beacon := b;
+
+  public
+  execute : KLV ==> Test`TestResult
+  execute (klv) ==
+    ( klv.tailMeetsBeacon(beacon); 
+      let anns = klv.getAnnouncements(),
+          restr = klv.getSpeedRestrictions() in
+        return mk_Test`BeaconsMet(
+            [ mk_Test`TIVD(anns(i).getTargetSpeed())  |
+              i in set inds anns ],
+            [ mk_Test`TIVE(restr(i).getSpeedRestriction()) |
+              i in set inds restr ]) )
+pre isofclass(TIV_E, beacon) => (klv.getFirstSpeedRestriction() or 
+                                 klv.getSpeedRestrictions() <> []);
+
+pure public getBeacon: () ==> Beacon
+getBeacon() ==
+  return beacon;
+ 
+end TailMeetBeaconEvent
+            
+~~~
+{% endraw %}
+
+### TIV_E.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                                                                                                                                                                                                  
+class TIV_E is subclass of Beacon
+
+instance variables
+
+  speed : [real] := nil;
+
+operations
+
+  public
+  setSpeedRestriction : real ==> ()
+  setSpeedRestriction (s) ==
+    speed := s;
+
+  pure public
+  getSpeedRestriction : () ==> real
+  getSpeedRestriction () ==
+    return speed
+  pre speed <> nil;
+
+end TIV_E
+              
+~~~
+{% endraw %}
+
+### KLVStateEvent.vdmpp
+
+{% raw %}
+~~~
+                                                                                                                                                                                                            
+class KLVStateEvent is subclass of Event
+
+operations 
+
+  public
+  execute : KLV ==> Test`TestResult
+  execute (klv) ==
+    (let mk_(a,e,g) = klv.getCabDisplay().getDisplay(),
+         e' =  klv.getEmergencyBreak().getEmergencyBreak() in
+     return mk_Test`KLVstate(mk_Test`CabDisp(a,e,g), 
+                             mk_Test`EmerBreak(e')) );
+
+end KLVStateEvent
+             
+~~~
+{% endraw %}
+
 ### OnBoardComp.vdmpp
 
 {% raw %}
@@ -694,30 +709,15 @@ end OnBoardComp
 ~~~
 {% endraw %}
 
-### TIV_D.vdmpp
+### Beacon.vdmpp
 
 {% raw %}
 ~~~
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-class TIV_D is subclass of Beacon
-
-instance variables
-  targetspeed : real;
-
-operations
-
-  public
-  TIV_D: real ==> TIV_D
-  TIV_D (ts) ==
-    targetspeed := ts;
-
-  public
-  getTargetSpeed : () ==> real
-  getTargetSpeed () ==
-    return targetspeed;
-
-end TIV_D
-              
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+class Beacon
+ 
+end Beacon
+             
 ~~~
 {% endraw %}
 

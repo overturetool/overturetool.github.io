@@ -17,31 +17,6 @@ server.
 |Language Version:| vdm10|
 
 
-### filename.vdmpp
-
-{% raw %}
-~~~
-
-class Filename
-
-  operations
-
-   -- get_file models OS operation of taking a location and returning
-   -- content of file at that location
-   public
-   get_file : () ==> File
-   get_file () == is not yet specified; 
-
-   -- put_file models OS operation of storing given file at a given
-   -- location
-   public
-   put_file : File ==> ()
-   put_file (f) == is not yet specified; 
-
-end Filename
-~~~
-{% endraw %}
-
 ### url.vdmpp
 
 {% raw %}
@@ -120,6 +95,31 @@ class Webserver
 end Webserver
 
   
+~~~
+{% endraw %}
+
+### filename.vdmpp
+
+{% raw %}
+~~~
+
+class Filename
+
+  operations
+
+   -- get_file models OS operation of taking a location and returning
+   -- content of file at that location
+   public
+   get_file : () ==> File
+   get_file () == is not yet specified; 
+
+   -- put_file models OS operation of storing given file at a given
+   -- location
+   public
+   put_file : File ==> ()
+   put_file (f) == is not yet specified; 
+
+end Filename
 ~~~
 {% endraw %}
 

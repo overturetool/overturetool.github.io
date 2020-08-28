@@ -17,135 +17,6 @@ and partly from VDMUnit tests.
 |Entry point     :| new TestAll().Run()|
 
 
-### StableTests.vdmpp
-
-{% raw %}
-~~~
-/**
- * Test that the Sort class is a stable sort (the order of "equal" items is preserved).
- */
-class StableTests is subclass of TestCase
-types
-	R ::
-		ordered	: nat
-		ignored	: nat;
-
-values
-	S1 = [mk_R(1,1), mk_R(2,2), mk_R(1,3), mk_R(2,4), mk_R(1,5), mk_R(2,6)]
-
-functions
-	lessR: R * R -> bool
-	lessR(a, b) ==
-		a.ordered < b.ordered;	-- Only depends on one field, to check for stable sorting
-
-	test1: seq of R -> seq of R
-	test1(s) == Sort`sort[R](s, lessR)
-
-	pre forall i, j in set inds s &
-		(i < j) => (s(i).ignored < s(j).ignored)
-
-	post forall i, j in set inds RESULT &
-		(RESULT(i).ordered = RESULT(j).ordered and i < j) => (RESULT(i).ignored < RESULT(j).ignored);
-
-operations
-	protected runTest : () ==> ()
-	runTest() ==
-		Assert`assertTrue("StableTests failed",
-			test1(S1) = [mk_R(1,1), mk_R(1,3), mk_R(1,5), mk_R(2,2), mk_R(2,4), mk_R(2,6)]);
-
-traces
-	StabilityTest :
-		let S = {1, ..., 5} in
-		let a, b, c, d, e in set S in
-		let A = [ mk_R(a, 1), mk_R(b, 2), mk_R(c, 3), mk_R(d, 4), mk_R(e, 5) ] in
-			test1(A);
-
-end StableTests
-~~~
-{% endraw %}
-
-### Sort.vdmpp
-
-{% raw %}
-~~~
-/**
- * Implements a polymorphic quicksort for arbitrary types with a less function.
- */
-class Sort
-functions
-	equals[@T]: @T * @T * (@T * @T -> bool) -> bool
-	equals(a, b, less) ==
-		not less(a, b) and not less(b, a);
-
-	public sort[@T]: seq of @T * (@T * @T -> bool) -> seq of @T
-	sort(l, less) ==
-		cases l:
-			[] -> [],
-
-			[x] -> [x],
-
-			[x, y] -> if less(y, x)
-					  then [y, x]
-					  else [x, y],	-- NB, stable for equality
-
-			-^[x]^- ->  sort[@T]([y | y in seq l & less(y, x)], less) ^
-						         [y | y in seq l & equals[@T](y, x, less) ] ^
-						sort[@T]([y | y in seq l & less(x, y)], less)
-		end
-
-	post bagOf[@T](l) = bagOf[@T](RESULT) and	-- Permutation
-		forall i in set {1, ..., len RESULT - 1} &
-			not less(RESULT(i+1), RESULT(i))	-- Sorted!
-
-	measure len l;	-- Strictly decreasing
-
-	bagOf[@T]: seq of @T -> map @T to nat
-	bagOf(s) ==
-		{ i |-> occurs[@T](i, s) | i in set elems s }
-	post dom RESULT = elems s and sizeOfBag[@T](RESULT) = len s;
-
-	sizeOfBag[@T]: map @T to nat -> nat
-	sizeOfBag(b) ==
-		if b = {|->}
-		then 0
-		else let e in set dom b in b(e) + sizeOfBag[@T]({e} <-: b)
-	measure card dom b;	-- Strictly decreasing
-
-	occurs[@T]: @T * seq of @T -> nat
-	occurs(e, s) ==
-		if s = [] then 0
-		else (if e = hd s then 1 else 0) + occurs[@T](e, tl s)
-	measure len s;	-- Strictly decreasing
-
-end Sort
-~~~
-{% endraw %}
-
-### TestAll.vdmpp
-
-{% raw %}
-~~~
-/**
- * Execute all of the VDMUnit tests.
- */
-class TestAll
-operations
-	public Run: () ==> ()
-	Run() ==
-		let ts : TestSuite = new TestSuite(),
-			result = new TestResult() 
-		in
-		(
-			ts.addTest(new TypeTests());
-			ts.addTest(new StableTests());
-			ts.run(result);
-			IO`println(result.toString());
-		);
-
-end TestAll
-~~~
-{% endraw %}
-
 ### TypeTests.vdmpp
 
 {% raw %}
@@ -271,6 +142,135 @@ traces
 			test5([v1, v2, v3, v4, v5]);
 
 end TypeTests
+~~~
+{% endraw %}
+
+### TestAll.vdmpp
+
+{% raw %}
+~~~
+/**
+ * Execute all of the VDMUnit tests.
+ */
+class TestAll
+operations
+	public Run: () ==> ()
+	Run() ==
+		let ts : TestSuite = new TestSuite(),
+			result = new TestResult() 
+		in
+		(
+			ts.addTest(new TypeTests());
+			ts.addTest(new StableTests());
+			ts.run(result);
+			IO`println(result.toString());
+		);
+
+end TestAll
+~~~
+{% endraw %}
+
+### Sort.vdmpp
+
+{% raw %}
+~~~
+/**
+ * Implements a polymorphic quicksort for arbitrary types with a less function.
+ */
+class Sort
+functions
+	equals[@T]: @T * @T * (@T * @T -> bool) -> bool
+	equals(a, b, less) ==
+		not less(a, b) and not less(b, a);
+
+	public sort[@T]: seq of @T * (@T * @T -> bool) -> seq of @T
+	sort(l, less) ==
+		cases l:
+			[] -> [],
+
+			[x] -> [x],
+
+			[x, y] -> if less(y, x)
+					  then [y, x]
+					  else [x, y],	-- NB, stable for equality
+
+			-^[x]^- ->  sort[@T]([y | y in seq l & less(y, x)], less) ^
+						         [y | y in seq l & equals[@T](y, x, less) ] ^
+						sort[@T]([y | y in seq l & less(x, y)], less)
+		end
+
+	post bagOf[@T](l) = bagOf[@T](RESULT) and	-- Permutation
+		forall i in set {1, ..., len RESULT - 1} &
+			not less(RESULT(i+1), RESULT(i))	-- Sorted!
+
+	measure len l;	-- Strictly decreasing
+
+	bagOf[@T]: seq of @T -> map @T to nat
+	bagOf(s) ==
+		{ i |-> occurs[@T](i, s) | i in set elems s }
+	post dom RESULT = elems s and sizeOfBag[@T](RESULT) = len s;
+
+	sizeOfBag[@T]: map @T to nat -> nat
+	sizeOfBag(b) ==
+		if b = {|->}
+		then 0
+		else let e in set dom b in b(e) + sizeOfBag[@T]({e} <-: b)
+	measure card dom b;	-- Strictly decreasing
+
+	occurs[@T]: @T * seq of @T -> nat
+	occurs(e, s) ==
+		if s = [] then 0
+		else (if e = hd s then 1 else 0) + occurs[@T](e, tl s)
+	measure len s;	-- Strictly decreasing
+
+end Sort
+~~~
+{% endraw %}
+
+### StableTests.vdmpp
+
+{% raw %}
+~~~
+/**
+ * Test that the Sort class is a stable sort (the order of "equal" items is preserved).
+ */
+class StableTests is subclass of TestCase
+types
+	R ::
+		ordered	: nat
+		ignored	: nat;
+
+values
+	S1 = [mk_R(1,1), mk_R(2,2), mk_R(1,3), mk_R(2,4), mk_R(1,5), mk_R(2,6)]
+
+functions
+	lessR: R * R -> bool
+	lessR(a, b) ==
+		a.ordered < b.ordered;	-- Only depends on one field, to check for stable sorting
+
+	test1: seq of R -> seq of R
+	test1(s) == Sort`sort[R](s, lessR)
+
+	pre forall i, j in set inds s &
+		(i < j) => (s(i).ignored < s(j).ignored)
+
+	post forall i, j in set inds RESULT &
+		(RESULT(i).ordered = RESULT(j).ordered and i < j) => (RESULT(i).ignored < RESULT(j).ignored);
+
+operations
+	protected runTest : () ==> ()
+	runTest() ==
+		Assert`assertTrue("StableTests failed",
+			test1(S1) = [mk_R(1,1), mk_R(1,3), mk_R(1,5), mk_R(2,2), mk_R(2,4), mk_R(2,6)]);
+
+traces
+	StabilityTest :
+		let S = {1, ..., 5} in
+		let a, b, c, d, e in set S in
+		let A = [ mk_R(a, 1), mk_R(b, 2), mk_R(c, 3), mk_R(d, 4), mk_R(e, 5) ] in
+			test1(A);
+
+end StableTests
 ~~~
 {% endraw %}
 

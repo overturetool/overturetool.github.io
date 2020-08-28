@@ -27,6 +27,150 @@ in an optimal manner. This model is making use of some of the newer language fea
 |Entry point     :| Set`sum({1,2,3,4,5,6,7,8,9})|
 
 
+### DepartureTMI.vdmsl
+
+{% raw %}
+~~~
+/*
+  A model of an Air Traffic Flow Management (ATFM) departure Traffic Management Initiative
+  (TMI) with the constraints:
+  - a set of flights wish to depart an airport;
+  - each flight may only take off from certain runways;
+  - each flight has a preferred take off time;
+  - each flight has an acceptable take off window;
+  - only certain runways are available;
+  - runways have a maximum rate at which departures can take place;
+  - the TMI runs for a specific time interval.
+
+  Within these constraints, the goal is to allocate a take off time and runway to flights
+  in an optimal manner.
+
+  This module depends on modules Set, Seq and ISO8601 contained in the ISO8601 example located at
+
+    http://overturetool.org/download/examples/VDMSL/
+*/
+module DepartureTMI
+imports from ISO8601 all,
+        from Seq all,
+        from Set all
+exports types AirportDesig
+              FlightId
+              RunwayDesig
+              struct FlightInfo
+              struct RunwayRates
+              Rate
+              struct TMIConfig
+              struct Allocation
+              DepartureTMI
+        functions departureTMI: TMIConfig +> DepartureTMI * set of FlightId
+
+definitions
+
+types
+
+  -- An airport designator.
+  AirportDesig = token;
+
+  -- A flight identifier.
+  FlightId = token;
+
+  -- A runway designator.
+  RunwayDesig = token;
+
+  -- Information on when a flight can take off and what runways it can use.
+  FlightInfo :: canUse   : set1 of RunwayDesig -- The runways the flight can use
+                preferred: ISO8601`DTG         -- The preferred take off time
+                window   : ISO8601`Interval    -- The acceptable take off window
+  inv flight == -- The preferred time falls in the take off window
+                ISO8601`inInterval(flight.preferred, flight.window);
+
+  -- The rate for each available runway.
+  -- The domain of the map is the set of available runways.
+  RunwayRates = map RunwayDesig to Rate
+  inv rr == -- At least one runway is available.
+            dom rr <> {};
+
+  -- The minimum duration between consecutive departures.
+  Rate = ISO8601`Duration;
+
+  -- A TMI configuration for departures at an airport.
+  TMIConfig :: airport: AirportDesig                -- The airport location designator
+               period : ISO8601`Interval            -- The period over which the TMI runs
+               flight :-map FlightId to FlightInfo  -- The flights that wish to depart
+               rates  :-RunwayRates                 -- The runway rates
+  inv tmiCfg == -- Every flight window overlaps the TMI period
+                (forall f in set rng tmiCfg.flight & ISO8601`overlap(f.window, tmiCfg.period)) and
+                -- Every flight can use at least one of the available runways
+                (forall f in set rng tmiCfg.flight & f.canUse inter dom tmiCfg.rates <> {});
+
+  -- An allocated runway and take off time.
+  Allocation :: rwy : RunwayDesig   -- The allocated runway
+                ttot: ISO8601`DTG;  -- The target take off time
+
+  -- A departure TMI is a mapping from flights to their allocated runways and departure times.
+  DepartureTMI = inmap FlightId to Allocation;
+
+functions
+
+  -- Run the TMI: determine a runway and take off time for each flight.
+  -- Highlight those flights that could not be accommodated.
+  departureTMI(config:TMIConfig) res:DepartureTMI * set of FlightId
+  post -- The result is a solution.
+       satisfies(config, res.#1) and
+       -- Of all solutions, the result is one with the least cost.
+       (forall tmi:DepartureTMI
+             & satisfies(config, tmi) => cost(config, res.#1) <= cost(config, tmi)) and
+       -- Those flights that could not be accommodated in the TMI are returned.
+       res.#2 = dom config.flight \ dom res.#1;
+
+  -- Does a TMI satisfy the constraints with respect to a configuration?
+  satisfies: TMIConfig * DepartureTMI +> bool
+  satisfies(config,tmi) ==
+    -- Only candidate flights are allocated.
+    dom tmi subset dom config.flight and
+    -- The flight can use the allocated runway.
+    (forall f in set dom tmi & tmi(f).rwy in set config.flight(f).canUse) and
+    -- An allocated runway is in the set of available runways.
+    (forall f in set dom tmi & tmi(f).rwy in set dom config.rates) and
+    -- The allocated take off time falls within the acceptable take off window.
+    (forall f in set dom tmi & ISO8601`inInterval(tmi(f).ttot, config.flight(f).window)) and
+    -- The allocated take off time falls within the period of the TMI.
+    (forall f in set dom tmi & ISO8601`inInterval(tmi(f).ttot, config.period)) and
+    -- Two flights allocated the same runway depart at least the required duration apart.
+    (forall f,g in set dom tmi
+          & f <> g and tmi(f).rwy = tmi(g).rwy
+            => ISO8601`durGeq(ISO8601`diff(tmi(f).ttot, tmi(g).ttot), config.rates(tmi(f).rwy)));
+
+  -- The cost of a TMI as a function of the deviations of the individual flights.
+  -- The ideal solution is where every flight is allocated its preferred time.
+  cost: TMIConfig * DepartureTMI -> nat
+  cost(config,tmi) == ISO8601`durToSeconds(ISO8601`sumDuration(deviations(config, tmi)));
+
+  -- The deviation of each flight expressed as a duration of time.
+  -- Flights that could not be accommodated are also assigned a deviation.
+  deviations: TMIConfig * DepartureTMI -> seq of ISO8601`Duration
+  deviations(config,tmi) ==
+    let allFlights = Set`toSeq[FlightId](dom config.flight)
+    in [ if f in set dom tmi
+         then allocatedDeviation(config.flight(f), tmi(f))
+         else omittedDeviation(config.period, config.flight(f).window)
+       | f in seq allFlights
+       ];
+
+  -- The deviation of a flight from an allocated time.
+  allocatedDeviation: FlightInfo * Allocation +> ISO8601`Duration
+  allocatedDeviation(flight,alloc) == ISO8601`diff(flight.preferred, alloc.ttot);
+
+  -- The deviation of a flight that is omitted from a TMI.
+  omittedDeviation: ISO8601`Interval * ISO8601`Interval +> ISO8601`Duration
+  omittedDeviation(period, flightWindow) ==
+    let dur = ISO8601`durFromInterval(flightWindow)
+    in if ISO8601`within(flightWindow, period) then dur else ISO8601`durDivide(dur, 2);
+
+end DepartureTMI
+~~~
+{% endraw %}
+
 ### Seq.vdmsl
 
 {% raw %}
@@ -217,340 +361,6 @@ end Seq
 ~~~
 {% endraw %}
 
-### Char.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose types, constants and functions over
-   characters and strings (sequences characters).
-
-   All functions are explicit and executable. Where a non-executable condition adds value, it
-   is included as a comment.
-*/
-module Char
-imports from Seq all
-exports types Upper
-              Lower
-              Letter
-              struct Digit 
-              Octal
-              Hex
-              AlphaNum
-              AlphaNumUpper
-              AlphaNumLower
-              Space
-              WhiteSpace
-              Phrase
-              PhraseUpper
-              PhraseLower
-              Text
-              TextUpper
-              TextLower
-        values SP, TB, CR, LF : char
-               WHITE_SPACE, UPPER, LOWER, DIGIT, OCTAL, HEX : set of char
-               UPPERS, LOWERS, OCTALS, HEXS: seq of char
-               DIGITS : seq of Digit
-        functions toLower: Upper +> Lower
-                  toUpper: Lower +> Upper
-
-definitions
-
-types
-
-  Upper = char
-  inv c == c in set UPPER;
-
-  Lower = char
-  inv c == c in set LOWER;
-
-  Letter = Upper | Lower;
-
-  Digit = char
-  inv c == c in set DIGIT;
-  
-  Octal = char
-  inv c == c in set OCTAL;
-
-  Hex = char
-  inv c == c in set HEX;
-
-  AlphaNum = Letter | Digit;
-
-  AlphaNumUpper = Upper | Digit;
-
-  AlphaNumLower = Lower | Digit;
-
-  Space = char
-  inv sp == sp = ' ';
-
-  WhiteSpace = char
-  inv ws == ws in set WHITE_SPACE;
-
-  Phrase = seq1 of (AlphaNum|Space);
-
-  PhraseUpper = seq1 of (AlphaNumUpper|Space);
-
-  PhraseLower = seq1 of (AlphaNumLower|Space);
-
-  Text = seq1 of (AlphaNum|WhiteSpace);
-
-  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace);
-
-  TextLower = seq1 of (AlphaNumLower|WhiteSpace);
-
-values
-
-  SP:char = ' ';
-  TB:char = '\t';
-  CR:char = '\r';
-  LF:char = '\n';
-  WHITE_SPACE:set of char = {SP,TB,CR,LF};
-  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
-                       'R','S','T','U','V','W','X','Y','Z'};
-  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
-                       'r','s','t','u','v','w','x','y','z'};
-  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
-  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
-  DIGITS:seq of Digit = "0123456789";
-  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
-  OCTALS:seq of Octal = "01234567";
-  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-  HEXS:seq of Hex = "0123456789ABCDEF";
-
-functions
-
-  -- Convert upper case letter to lower case.
-  toLower: Upper +> Lower
-  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
-  post toUpper(RESULT) = c;
-
-  -- Convert lower case letter to upper case.
-  toUpper: Lower +> Upper
-  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
-  --post toLower(RESULT) = c;
-
-end Char
-~~~
-{% endraw %}
-
-### DepartureTMI.vdmsl
-
-{% raw %}
-~~~
-/*
-  A model of an Air Traffic Flow Management (ATFM) departure Traffic Management Initiative
-  (TMI) with the constraints:
-  - a set of flights wish to depart an airport;
-  - each flight may only take off from certain runways;
-  - each flight has a preferred take off time;
-  - each flight has an acceptable take off window;
-  - only certain runways are available;
-  - runways have a maximum rate at which departures can take place;
-  - the TMI runs for a specific time interval.
-
-  Within these constraints, the goal is to allocate a take off time and runway to flights
-  in an optimal manner.
-
-  This module depends on modules Set, Seq and ISO8601 contained in the ISO8601 example located at
-
-    http://overturetool.org/download/examples/VDMSL/
-*/
-module DepartureTMI
-imports from ISO8601 all,
-        from Seq all,
-        from Set all
-exports types AirportDesig
-              FlightId
-              RunwayDesig
-              struct FlightInfo
-              struct RunwayRates
-              Rate
-              struct TMIConfig
-              struct Allocation
-              DepartureTMI
-        functions departureTMI: TMIConfig +> DepartureTMI * set of FlightId
-
-definitions
-
-types
-
-  -- An airport designator.
-  AirportDesig = token;
-
-  -- A flight identifier.
-  FlightId = token;
-
-  -- A runway designator.
-  RunwayDesig = token;
-
-  -- Information on when a flight can take off and what runways it can use.
-  FlightInfo :: canUse   : set1 of RunwayDesig -- The runways the flight can use
-                preferred: ISO8601`DTG         -- The preferred take off time
-                window   : ISO8601`Interval    -- The acceptable take off window
-  inv flight == -- The preferred time falls in the take off window
-                ISO8601`inInterval(flight.preferred, flight.window);
-
-  -- The rate for each available runway.
-  -- The domain of the map is the set of available runways.
-  RunwayRates = map RunwayDesig to Rate
-  inv rr == -- At least one runway is available.
-            dom rr <> {};
-
-  -- The minimum duration between consecutive departures.
-  Rate = ISO8601`Duration;
-
-  -- A TMI configuration for departures at an airport.
-  TMIConfig :: airport: AirportDesig                -- The airport location designator
-               period : ISO8601`Interval            -- The period over which the TMI runs
-               flight :-map FlightId to FlightInfo  -- The flights that wish to depart
-               rates  :-RunwayRates                 -- The runway rates
-  inv tmiCfg == -- Every flight window overlaps the TMI period
-                (forall f in set rng tmiCfg.flight & ISO8601`overlap(f.window, tmiCfg.period)) and
-                -- Every flight can use at least one of the available runways
-                (forall f in set rng tmiCfg.flight & f.canUse inter dom tmiCfg.rates <> {});
-
-  -- An allocated runway and take off time.
-  Allocation :: rwy : RunwayDesig   -- The allocated runway
-                ttot: ISO8601`DTG;  -- The target take off time
-
-  -- A departure TMI is a mapping from flights to their allocated runways and departure times.
-  DepartureTMI = inmap FlightId to Allocation;
-
-functions
-
-  -- Run the TMI: determine a runway and take off time for each flight.
-  -- Highlight those flights that could not be accommodated.
-  departureTMI(config:TMIConfig) res:DepartureTMI * set of FlightId
-  post -- The result is a solution.
-       satisfies(config, res.#1) and
-       -- Of all solutions, the result is one with the least cost.
-       (forall tmi:DepartureTMI
-             & satisfies(config, tmi) => cost(config, res.#1) <= cost(config, tmi)) and
-       -- Those flights that could not be accommodated in the TMI are returned.
-       res.#2 = dom config.flight \ dom res.#1;
-
-  -- Does a TMI satisfy the constraints with respect to a configuration?
-  satisfies: TMIConfig * DepartureTMI +> bool
-  satisfies(config,tmi) ==
-    -- Only candidate flights are allocated.
-    dom tmi subset dom config.flight and
-    -- The flight can use the allocated runway.
-    (forall f in set dom tmi & tmi(f).rwy in set config.flight(f).canUse) and
-    -- An allocated runway is in the set of available runways.
-    (forall f in set dom tmi & tmi(f).rwy in set dom config.rates) and
-    -- The allocated take off time falls within the acceptable take off window.
-    (forall f in set dom tmi & ISO8601`inInterval(tmi(f).ttot, config.flight(f).window)) and
-    -- The allocated take off time falls within the period of the TMI.
-    (forall f in set dom tmi & ISO8601`inInterval(tmi(f).ttot, config.period)) and
-    -- Two flights allocated the same runway depart at least the required duration apart.
-    (forall f,g in set dom tmi
-          & f <> g and tmi(f).rwy = tmi(g).rwy
-            => ISO8601`durGeq(ISO8601`diff(tmi(f).ttot, tmi(g).ttot), config.rates(tmi(f).rwy)));
-
-  -- The cost of a TMI as a function of the deviations of the individual flights.
-  -- The ideal solution is where every flight is allocated its preferred time.
-  cost: TMIConfig * DepartureTMI -> nat
-  cost(config,tmi) == ISO8601`durToSeconds(ISO8601`sumDuration(deviations(config, tmi)));
-
-  -- The deviation of each flight expressed as a duration of time.
-  -- Flights that could not be accommodated are also assigned a deviation.
-  deviations: TMIConfig * DepartureTMI -> seq of ISO8601`Duration
-  deviations(config,tmi) ==
-    let allFlights = Set`toSeq[FlightId](dom config.flight)
-    in [ if f in set dom tmi
-         then allocatedDeviation(config.flight(f), tmi(f))
-         else omittedDeviation(config.period, config.flight(f).window)
-       | f in seq allFlights
-       ];
-
-  -- The deviation of a flight from an allocated time.
-  allocatedDeviation: FlightInfo * Allocation +> ISO8601`Duration
-  allocatedDeviation(flight,alloc) == ISO8601`diff(flight.preferred, alloc.ttot);
-
-  -- The deviation of a flight that is omitted from a TMI.
-  omittedDeviation: ISO8601`Interval * ISO8601`Interval +> ISO8601`Duration
-  omittedDeviation(period, flightWindow) ==
-    let dur = ISO8601`durFromInterval(flightWindow)
-    in if ISO8601`within(flightWindow, period) then dur else ISO8601`durDivide(dur, 2);
-
-end DepartureTMI
-~~~
-{% endraw %}
-
-### Numeric.vdmsl
-
-{% raw %}
-~~~
-/*
-   A module that specifies and defines general purpose functions over numerics.
-
-   All definitions are explicit and executable.
-*/
-module Numeric
-imports from Char all,
-        from Seq all
-exports functions min: real * real +> real
-                  max: real * real +> real
-                  formatNat: nat +> seq of Char`Digit
-                  zeroPad: nat * nat1 +> seq of Char`Digit
-                  formatNat: nat +> seq of Char`Digit
-                  fromChar: Char`Digit +> nat
-                  toChar: nat +> Char`Digit
-                  add: real * real +> real
-                  mult: real * real +> real
-
-definitions
-
-functions
-
-  -- The minimum of two numerics.
-  min: real * real +> real
-  min(x,y) == if x<y then x else y;
-
-  -- The maximum of two numerics.
-  max: real * real +> real
-  max(x,y) == if x>y then x else y;
-
-  -- Format a natural number as a string of digits.
-  formatNat: nat +> seq of Char`Digit
-  formatNat(n) == if n < 10
-                  then [toChar(n)]
-                  else formatNat(n div 10) ^ [toChar(n mod 10)]
-  measure n;
-
-  -- Convert a character digit to the corresponding natural number.
-  fromChar: Char`Digit +> nat
-  fromChar(c) == Seq`indexOf[Char`Digit](c,Char`DIGITS)-1
-  post toChar(RESULT) = c;
-
-  -- Convert a numeric digit to the corresponding character.
-  toChar: nat +> Char`Digit
-  toChar(n) == Char`DIGITS(n+1)
-  pre 0 <= n and n <= 9;
-  --post fromChar(RESULT) = n
-
-  -- Format a natural number as a string with leading zeros up to a specified length.
-  zeroPad: nat * nat1 +> seq of Char`Digit
-  zeroPad(n,w) == Seq`padLeft[Char`Digit](formatNat(n),'0',w);
-
-  -- The following functions wrap primitives for convenience, to allow them for example to
-  -- serve as function arguments.
-
-  -- Sum of two numbers.
-  add: real * real +> real
-  add(m,n) == m+n;
-
-  -- Product of two numbers.
-  mult: real * real +> real
-  mult(m,n) == m*n;
-
-
-end Numeric
-~~~
-{% endraw %}
-
 ### Set.vdmsl
 
 {% raw %}
@@ -682,6 +492,124 @@ functions
   size2(-, -, s) == card s;
 
 end Set
+~~~
+{% endraw %}
+
+### Char.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose types, constants and functions over
+   characters and strings (sequences characters).
+
+   All functions are explicit and executable. Where a non-executable condition adds value, it
+   is included as a comment.
+*/
+module Char
+imports from Seq all
+exports types Upper
+              Lower
+              Letter
+              struct Digit 
+              Octal
+              Hex
+              AlphaNum
+              AlphaNumUpper
+              AlphaNumLower
+              Space
+              WhiteSpace
+              Phrase
+              PhraseUpper
+              PhraseLower
+              Text
+              TextUpper
+              TextLower
+        values SP, TB, CR, LF : char
+               WHITE_SPACE, UPPER, LOWER, DIGIT, OCTAL, HEX : set of char
+               UPPERS, LOWERS, OCTALS, HEXS: seq of char
+               DIGITS : seq of Digit
+        functions toLower: Upper +> Lower
+                  toUpper: Lower +> Upper
+
+definitions
+
+types
+
+  Upper = char
+  inv c == c in set UPPER;
+
+  Lower = char
+  inv c == c in set LOWER;
+
+  Letter = Upper | Lower;
+
+  Digit = char
+  inv c == c in set DIGIT;
+  
+  Octal = char
+  inv c == c in set OCTAL;
+
+  Hex = char
+  inv c == c in set HEX;
+
+  AlphaNum = Letter | Digit;
+
+  AlphaNumUpper = Upper | Digit;
+
+  AlphaNumLower = Lower | Digit;
+
+  Space = char
+  inv sp == sp = ' ';
+
+  WhiteSpace = char
+  inv ws == ws in set WHITE_SPACE;
+
+  Phrase = seq1 of (AlphaNum|Space);
+
+  PhraseUpper = seq1 of (AlphaNumUpper|Space);
+
+  PhraseLower = seq1 of (AlphaNumLower|Space);
+
+  Text = seq1 of (AlphaNum|WhiteSpace);
+
+  TextUpper = seq1 of (AlphaNumUpper|WhiteSpace);
+
+  TextLower = seq1 of (AlphaNumLower|WhiteSpace);
+
+values
+
+  SP:char = ' ';
+  TB:char = '\t';
+  CR:char = '\r';
+  LF:char = '\n';
+  WHITE_SPACE:set of char = {SP,TB,CR,LF};
+  UPPER:set of char = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
+                       'R','S','T','U','V','W','X','Y','Z'};
+  UPPERS: seq of Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  LOWER:set of char = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+                       'r','s','t','u','v','w','x','y','z'};
+  LOWERS: seq of Lower = "abcdefghijklmnopqrstuvwxyz";
+  DIGIT:set of char = {'0','1','2','3','4','5','6','7','8','9'};
+  DIGITS:seq of Digit = "0123456789";
+  OCTAL:set of char = {'0','1','2','3','4','5','6','7'};
+  OCTALS:seq of Octal = "01234567";
+  HEX:set of char = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+  HEXS:seq of Hex = "0123456789ABCDEF";
+
+functions
+
+  -- Convert upper case letter to lower case.
+  toLower: Upper +> Lower
+  toLower(c) == LOWERS(Seq`indexOf[Upper](c,UPPERS))
+  post toUpper(RESULT) = c;
+
+  -- Convert lower case letter to upper case.
+  toUpper: Lower +> Upper
+  toUpper(c) == UPPERS(Seq`indexOf[Lower](c,LOWERS));
+  --post toLower(RESULT) = c;
+
+end Char
 ~~~
 {% endraw %}
 
@@ -1399,6 +1327,78 @@ functions
        end;
 
 end ISO8601
+~~~
+{% endraw %}
+
+### Numeric.vdmsl
+
+{% raw %}
+~~~
+/*
+   A module that specifies and defines general purpose functions over numerics.
+
+   All definitions are explicit and executable.
+*/
+module Numeric
+imports from Char all,
+        from Seq all
+exports functions min: real * real +> real
+                  max: real * real +> real
+                  formatNat: nat +> seq of Char`Digit
+                  zeroPad: nat * nat1 +> seq of Char`Digit
+                  formatNat: nat +> seq of Char`Digit
+                  fromChar: Char`Digit +> nat
+                  toChar: nat +> Char`Digit
+                  add: real * real +> real
+                  mult: real * real +> real
+
+definitions
+
+functions
+
+  -- The minimum of two numerics.
+  min: real * real +> real
+  min(x,y) == if x<y then x else y;
+
+  -- The maximum of two numerics.
+  max: real * real +> real
+  max(x,y) == if x>y then x else y;
+
+  -- Format a natural number as a string of digits.
+  formatNat: nat +> seq of Char`Digit
+  formatNat(n) == if n < 10
+                  then [toChar(n)]
+                  else formatNat(n div 10) ^ [toChar(n mod 10)]
+  measure n;
+
+  -- Convert a character digit to the corresponding natural number.
+  fromChar: Char`Digit +> nat
+  fromChar(c) == Seq`indexOf[Char`Digit](c,Char`DIGITS)-1
+  post toChar(RESULT) = c;
+
+  -- Convert a numeric digit to the corresponding character.
+  toChar: nat +> Char`Digit
+  toChar(n) == Char`DIGITS(n+1)
+  pre 0 <= n and n <= 9;
+  --post fromChar(RESULT) = n
+
+  -- Format a natural number as a string with leading zeros up to a specified length.
+  zeroPad: nat * nat1 +> seq of Char`Digit
+  zeroPad(n,w) == Seq`padLeft[Char`Digit](formatNat(n),'0',w);
+
+  -- The following functions wrap primitives for convenience, to allow them for example to
+  -- serve as function arguments.
+
+  -- Sum of two numbers.
+  add: real * real +> real
+  add(m,n) == m+n;
+
+  -- Product of two numbers.
+  mult: real * real +> real
+  mult(m,n) == m*n;
+
+
+end Numeric
 ~~~
 {% endraw %}
 

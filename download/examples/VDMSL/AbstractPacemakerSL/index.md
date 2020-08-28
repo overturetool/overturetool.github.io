@@ -17,7 +17,7 @@ in 1999 in connection with FM'99.
 | Properties | Values          |
 | :------------ | :---------- |
 |Language Version:| vdm10|
-|Entry point     :| DEFAULT`TestCash()|
+|Entry point     :| DEFAULT`IdealHeart()|
 
 
 ### AbstractPacemaker.vdmsl
