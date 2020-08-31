@@ -40,6 +40,10 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ### Overture and VDMJ
 
+**VDMJ** New LSP feature now available which provides VDMJ language services to an LSP/DAP client, such as VSCode.
+See README and screen-shots at https://github.com/nickbattle/vdmj/tree/master/LSP. Note that there are no awkward licence restrictions by taking this route (unlike the Eclipse licence in Overture).
+
+Some nasty (but obscure) VDMJ bugs fixed over the summer - corresponding fixes made to Overture too.
 
 ##  Release Planning
 
@@ -51,6 +55,7 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ##  Licensing of Overture source code
 
+See comments above regarding licensing and the LSP feature.
 
 ##  Publications Status and Plans
 
