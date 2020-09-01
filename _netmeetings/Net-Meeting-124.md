@@ -43,11 +43,14 @@ A new LSP feature now available which provides VDMJ language services (all diale
 
 **VDMJ** Some nasty (but obscure) VDMJ bugs fixed over the summer - corresponding fixes made to Overture too.
 
+Overture 3.0.0 has finally been released. This release contains several additions and improvements, and Overture now runs on top of Java 8, 9, 10, and 13. It is also possible to run on top of Java 14 with the development version Overture 3.0.1. We are currently testing the most recent Eclipse platform 2020-09, which will be officially released on the 16th of September. 
+
+
 ##  Release Planning
 
+We expect to release Overture 3.0.2 very soon after the official release of Eclipse 2020-09.  
 
 ##  Community Development
-
 
 ##  Licensing of Overture source code
 
