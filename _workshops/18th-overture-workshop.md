@@ -74,6 +74,13 @@ Position papers on VDM and its promotion in industry practice.
 
 ### Program Committee
 
-TBA
+* Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
+* Nick Battle, Newcastle University, UK
+* Luis D. Couto, UTRC, Ireland
+* Fuyuki Ishikawa, National Institute of Informatics, Japan
+* Hugo Daniel Macedo, Aarhus University, Denmark
+* Paolo Masci, National Institute of Aerospace (NIA), USA
+* Ken Pierce, Newcastle University, UK
+* Marcel Verhoef, European Space Agency, The Netherlands
  
 For latest  information and announcements, visit <http://overturetool.org/workshops/18th-overture-workshop.html>
