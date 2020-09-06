@@ -76,7 +76,7 @@ Position papers on VDM and its promotion in industry practice.
 
 * Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
 * Nick Battle, Newcastle University, UK
-* Luis D. Couto, UTRC, Ireland
+* Luis D. Couto, Forcepoint, Ireland
 * Fuyuki Ishikawa, National Institute of Informatics, Japan
 * Hugo Daniel Macedo, Aarhus University, Denmark
 * Paolo Masci, National Institute of Aerospace (NIA), USA
