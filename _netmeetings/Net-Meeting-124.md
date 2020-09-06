@@ -14,7 +14,7 @@ date: 6 Sepotember 2020, 1200 CEST
 |||
 |---|---|
 | Date | 17 May 2020 |
-| Participants  |   Minutes by   |
+| Participants HDM, LF, NB, PGL, SS, TO  |   Minutes by HDM   |
 
 ## Review Status of the Action List
 
