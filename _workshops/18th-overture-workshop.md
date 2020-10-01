@@ -49,10 +49,11 @@ Submission of papers is through EasyChair: <https://easychair.org/conferences/?c
 
 ### Important Dates
 
-* Full Papers: Friday, October 9
-* Notifications: Friday 6th November
-* Camera ready version of papers: Friday 27th November
-* Workshop: Monday, 7th December
+* ~~Full Papers~~Abstract: Friday, October 9
+* Full Papers: ~~Friday, October 9~~ Friday, October 16
+* Notifications: ~~Friday 6th November~~ Friday, November 6
+* Camera ready version of papers: Friday, November 27
+* Workshop: Monday, December 7
 
 ## Call
 
