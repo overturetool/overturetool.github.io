@@ -75,7 +75,7 @@ See the VS Code [licensing FAQ](https://code.visualstudio.com/docs/supporting/FA
 
 ##  Publications Status and Plans
 
-See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business

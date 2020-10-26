@@ -68,7 +68,7 @@ No release plans yet.
 
 #### Overture Traffic
 
-See download stats on [the downloads page](https://overturetool.org/download/)
+See download stats on [the downloads page](https://www.overturetool.org/download/)
 
 We're up to 739 downloads, which makes Overture 2.3.0 the most downloaded version of Overture!
 
@@ -77,11 +77,11 @@ We're up to 739 downloads, which makes Overture 2.3.0 the most downloaded versio
 
 A draft application for this is attached to the email announcing this Overture Core NM
 
-The workshop page is available at https://overturetool.org/workshops/14th-Overture-Workshop.html 
+The workshop page is available at https://www.overturetool.org/workshops/14th-Overture-Workshop.html 
 
 ##  Publications Status and Plans
 
-See see https://overturetool.org/publications/PlannedPublications.html 
+See see https://www.overturetool.org/publications/PlannedPublications.html 
 
 
 ##  Any Other Business

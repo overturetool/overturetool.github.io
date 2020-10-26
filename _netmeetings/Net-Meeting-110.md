@@ -55,17 +55,17 @@ Next Overture release is due by September 11.
 
 ##  Community Development / Overture workshop status
 
-Check out the [Overture 15 workshop page](https://overturetool.org/workshops/15th-Overture-Workshop.html), for the latest information about the upcoming workshop in Newcastle.
+Check out the [Overture 15 workshop page](https://www.overturetool.org/workshops/15th-Overture-Workshop.html), for the latest information about the upcoming workshop in Newcastle.
 
 #### Overture Traffic
 
-See download stats on [the downloads page](https://overturetool.org/download/)
+See download stats on [the downloads page](https://www.overturetool.org/download/)
 
 ##  Publications Status and Plans
 
 TO will make updates.
 
-Also see [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+Also see [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

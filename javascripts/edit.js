@@ -2,7 +2,7 @@ function setEditButonNm() {
  $(document).ready(function () {
 
  var style = document.createElement("link");
- style.href="https://overturetool.org/css/releases.css";
+ style.href="https://www.overturetool.org/css/releases.css";
  style.rel="stylesheet";
  	document.head.appendChild(style);
 

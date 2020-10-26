@@ -11,7 +11,7 @@ collections:
   workshops:
     output: true
 
-url: https://overturetool.org
+url: https://www.overturetool.org
 future: true
 
 defaults:

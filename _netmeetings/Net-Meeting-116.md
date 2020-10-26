@@ -57,7 +57,7 @@ Next release of Overture, [version 2.6.4](https://github.com/overturetool/overtu
 
 #### Overture Traffic
 
-See download stats on [the downloads page](https://overturetool.org/download/)
+See download stats on [the downloads page](https://www.overturetool.org/download/)
 
 ##  Licensing of Overture source code
 
@@ -86,7 +86,7 @@ Based on the discussion, people seem to lean towards a more permissive license. 
 
 ##  Publications Status and Plans
 
-See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

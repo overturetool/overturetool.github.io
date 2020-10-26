@@ -74,7 +74,7 @@ Next Overture release is due by December 5, 2016.
 
 #### Overture Traffic
 
-See download stats on [the downloads page](https://overturetool.org/download/)
+See download stats on [the downloads page](https://www.overturetool.org/download/)
 
 
 ##  Follow up on the Business Canvas session from the Overture Workshop
@@ -91,7 +91,7 @@ NP has prepared a document that contains a number of "How can we?" questions. He
 
 ##  Publications Status and Plans
 
-See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 
 ## New Actions

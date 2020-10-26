@@ -32,9 +32,9 @@ PhD), we can provide practical and theoretical projects!
 The Overture community at large (shown above at the 8th Overture
 workshop on language semantics, held at BCS, London in september 2010)
 meets together at occasional
-[Workshops](https://overturetool.org/workshops/) (about
+[Workshops](https://www.overturetool.org/workshops/) (about
 once per year) and monthly via on-line
-[Netmeetings](https://overturetool.org/netmeetings/)
+[Netmeetings](https://www.overturetool.org/netmeetings/)
 using Skype.  If you want to join the project please do not hesitate
 to [send us an e-mail](mailto:info@overturetool.org).
 

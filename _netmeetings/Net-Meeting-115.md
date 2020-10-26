@@ -59,13 +59,13 @@ No release plans.
 
 #### Core NM Dates
 
-Upcoming core meetings are listed [here](https://overturetool.org/netmeetings/).
+Upcoming core meetings are listed [here](https://www.overturetool.org/netmeetings/).
 
 ## The Overture workshop
 
 All of the papers have been reviewed, and the Discussion phase has ended. Announcements will be send out tonight. A preliminary  workshop programme is ready and will be announced later today. To enable discussion, the proceedings will be available before the workshop.
 
-Please see the [workshop page](https://overturetool.org/workshops/16th-Overture-Workshop.html) for additional details.
+Please see the [workshop page](https://www.overturetool.org/workshops/16th-Overture-Workshop.html) for additional details.
 
 ## Reviving the Overture Strategic Research Agenda
 
@@ -79,7 +79,7 @@ The workshop organisers will prepare ahead of time, by email and other means so 
 
 ##  Publications Status and Plans
 
-See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

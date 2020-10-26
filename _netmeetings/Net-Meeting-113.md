@@ -75,11 +75,11 @@ Four meetings are proposed for 2018 to encourage more people to attend. Meeting 
 
 #### Overture Traffic
 
-See download stats on [the downloads page](https://overturetool.org/download/). Note that many of these downloads are thought to be due to bots which download and re-distribute free software.
+See download stats on [the downloads page](https://www.overturetool.org/download/). Note that many of these downloads are thought to be due to bots which download and re-distribute free software.
 
 ##  Publications Status and Plans
 
-See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 NP drew attention to the next FORMALiSE meeting on 2nd June 2018, Gothenburg, Sweden: http://www.formalise.org/
 

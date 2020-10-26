@@ -82,7 +82,7 @@ The release will consist of bugfixes and some usability improvements as well as 
 
 #### Overture Traffic
 
-See download stats on [the downloads page](https://overturetool.org/download/)
+See download stats on [the downloads page](https://www.overturetool.org/download/)
 
 #### @overturetool
 The Overture twitter handle (https://twitter.com/overturetool) is now under direct administration of the Overture project. We have a tool in place to do group tweeting so multiple people can tweet from the handle without sharing a password. It would be really nice if we could make the acount more lively. Interested parties should contact ldc/kl. Also, we are considering embedding the timeline on the main overturetool.org website. Input is welcome on this.
@@ -90,7 +90,7 @@ The Overture twitter handle (https://twitter.com/overturetool) is now under dire
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+Also see [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business

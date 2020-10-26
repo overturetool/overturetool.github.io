@@ -109,7 +109,7 @@ Position papers on VDM and its promotion in industry practice.
 * Ken Pierce, Newcastle University, UK
 * P.W.V. Tran-Jørgensen, Aarhus University, Denmark
  
-For latest  information and announcements, visit <https://overturetool.org/workshops/17th-overture-workshop.html>
+For latest  information and announcements, visit <https://www.overturetool.org/workshops/17th-overture-workshop.html>
 
 ![](17/lncs.png)
 

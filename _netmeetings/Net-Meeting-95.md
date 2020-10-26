@@ -86,11 +86,11 @@ It is expected that there will be a new release of Overture within the near futu
 
 #### Overture Traffic
 
-See download stats on [the downloads page](https://overturetool.org/download/)
+See download stats on [the downloads page](https://www.overturetool.org/download/)
 
 #### Website Issues
 
-The https://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub is updating Jekyll and the current rendering engine is being discontinued (May 1) so we need to migrate. The new version looks mostly fine but we need someone to test it before start using it.
+The https://www.overturetool.org/ website is built with GitHub Pages Jekyll. GitHub is updating Jekyll and the current rendering engine is being discontinued (May 1) so we need to migrate. The new version looks mostly fine but we need someone to test it before start using it.
 
 #### The old Overture Wiki
 
@@ -98,12 +98,12 @@ The https://overturetool.org/ website is built with GitHub Pages Jekyll. GitHub 
 
 ##  Publications Status and Plans
 
-See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 
 TO made ViennaTalk videos - see https://www.youtube.com/watch?v=ZIR3fFPeTz0 and https://www.youtube.com/watch?v=anZoWeA5vd0 . Feedback on these videos are very welcome.
 
-There's now a "Related tools" section on the overturetool website: https://overturetool.org/community/related-tools.html 
+There's now a "Related tools" section on the overturetool website: https://www.overturetool.org/community/related-tools.html 
 
 <div id="edit_page_div"></div>

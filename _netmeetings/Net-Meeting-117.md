@@ -59,7 +59,7 @@ Release dates for 2019 can be found [here](https://github.com/overturetool/overt
 
 #### Overture Traffic
 
-See download stats on [the downloads page](https://overturetool.org/download/)
+See download stats on [the downloads page](https://www.overturetool.org/download/)
 
 #### The next Overture workshop
 
@@ -71,7 +71,7 @@ We're awaiting MV's input on this.
 
 ##  Publications Status and Plans
 
-See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

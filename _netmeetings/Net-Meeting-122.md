@@ -67,7 +67,7 @@ One possible way forward - perhaps some way away - is the work that Hugo is doin
 
 ##  Publications Status and Plans
 
-See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
