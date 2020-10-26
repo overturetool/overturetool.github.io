@@ -55,7 +55,7 @@ We (VB, PJ and MH) are happy to announce the first major release of the VDM to C
 
 #### Overture
 
-We (KL and PJ) have added a [Frequently Asked Questions (FAQ) section](http://overturetool.org/faq/) to the overturetool.org website. Currently it addresses the issues that MacOS Sierra users may experience when they try to open a freshly downloaded version of Overture.
+We (KL and PJ) have added a [Frequently Asked Questions (FAQ) section](https://overturetool.org/faq/) to the overturetool.org website. Currently it addresses the issues that MacOS Sierra users may experience when they try to open a freshly downloaded version of Overture.
 
 ##  Release Planning
 
@@ -67,7 +67,7 @@ Next release of Overture, version 2.4.8, is due by June 5, 2017.
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 #### Business Model
 
@@ -79,7 +79,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

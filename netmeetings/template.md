@@ -82,7 +82,7 @@ some description
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 #### topic 1
 ...
@@ -95,7 +95,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+Also see [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 #### In preparation:
 

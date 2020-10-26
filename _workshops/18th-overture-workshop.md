@@ -84,4 +84,4 @@ Position papers on VDM and its promotion in industry practice.
 * Ken Pierce, Newcastle University, UK
 * Marcel Verhoef, European Space Agency, The Netherlands
  
-For latest  information and announcements, visit <http://overturetool.org/workshops/18th-overture-workshop.html>
+For latest  information and announcements, visit <https://overturetool.org/workshops/18th-overture-workshop.html>

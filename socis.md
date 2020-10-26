@@ -1,6 +1,6 @@
 # Summer of Code in Space Proposal
 
-The Summer of Code in Space (SOCIS, see sophia.estec.esa.int/socis/) opportunity for 2016 is focused on exploring the integration of the Overture toolset with the TASTE toolset (for more information see http://taste.tuxfamily.org). It is in line with the analysis presented in the paper presented at the 13th Overture workshop, which can be downloaded here: http://overturetool.org/workshops/13/MarcelVerhoef.pdf
+The Summer of Code in Space (SOCIS, see sophia.estec.esa.int/socis/) opportunity for 2016 is focused on exploring the integration of the Overture toolset with the TASTE toolset (for more information see http://taste.tuxfamily.org). It is in line with the analysis presented in the paper presented at the 13th Overture workshop, which can be downloaded here: https://overturetool.org/workshops/13/MarcelVerhoef.pdf
 
 We provide three possible opportunities for SOCIS students to work on. We encourage in particular students that wish to perform these activities as part of (or as precursor to) their thesis or diploma work.
 

@@ -54,11 +54,11 @@ Limited progress. Not yet integrated with Overture; effort requried to do this.
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+Also see [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 Workshop papers have been removed to the workshop wiki. It was noted that the page is out of date. 
 VB: C code generator paper to be revisited. 

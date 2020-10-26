@@ -64,7 +64,7 @@ See [issues closed since last release](https://github.com/overturetool/overture/
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 #### The C code generator
 
@@ -82,7 +82,7 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business

@@ -71,7 +71,7 @@ The next release, which is due June 03, includes several new features and bug fi
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 #### The next Overture workshop
 
@@ -83,7 +83,7 @@ No progress. See new action.
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

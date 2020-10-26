@@ -57,7 +57,7 @@ No updates.
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 Heavy downloads from Porto. PGL will contact to see if we can help (new action: https://github.com/overturetool/overturetool.github.io/issues/24).
 
@@ -68,7 +68,7 @@ Paperwork prepared and awaits signing. It is expected that VDMTools will be made
 
 #### 2016 NMs
 
-Dates for the 2016 NMs have been posted at http://overturetool.org/netmeetings/
+Dates for the 2016 NMs have been posted at https://overturetool.org/netmeetings/
 
 
 #### Research Projects
@@ -84,11 +84,11 @@ contracts for C++.
 
 ##  Publications Status and Plans
 
-* Minor updates to [Planned Publications](http://overturetool.org/publications/PlannedPublications.html) by PGL.
+* Minor updates to [Planned Publications](https://overturetool.org/publications/PlannedPublications.html) by PGL.
 * MV got a paper accepted to ERTS. Will add to list. 
 * New venues need to be found for TO's 2 papers
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business

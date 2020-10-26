@@ -58,7 +58,7 @@ This is on track and should contain the RM39 eq/ord language changes, as well as
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 #### Business Development
 
@@ -72,7 +72,7 @@ The Strategic Research Agenda was not reviewed.
 
 Luis and PJ are planning to submit a paper to SAC 2018 about the AGCO project (harvesting). There have not yet been any EasyChair submissions for Workshop 15, and we were reminded of the deadlines - abstracts by 14th July, papers by 24th July.
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+Also see [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

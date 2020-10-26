@@ -48,7 +48,7 @@ Next release of Overture, version 2.7.2, is due [October 1](https://github.com/o
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 #### The next Overture workshop
 
@@ -61,7 +61,7 @@ The pre-proceedings will be a UNEW TR.
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

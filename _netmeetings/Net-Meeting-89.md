@@ -69,11 +69,11 @@ Anders Telkelsen has been hired as release manager by AU for the INTO-CPS projec
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+Also see [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 ## Removal of old stuff from SourceForge?
 

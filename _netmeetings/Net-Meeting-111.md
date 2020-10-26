@@ -48,11 +48,11 @@ Next release of Overture, version 2.5.4, is due by November 11, 2017.
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 #### 16th Overture Workshop
 
-Please check the [call for papers](http://overturetool.org/workshops/16th-Overture-Workshop.html)
+Please check the [call for papers](https://overturetool.org/workshops/16th-Overture-Workshop.html)
 
 ##  Strategic Research Agenda
 
@@ -61,7 +61,7 @@ No discussion this meeting.
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

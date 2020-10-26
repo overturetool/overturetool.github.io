@@ -82,7 +82,7 @@ Overture Traffic
 
 See download stats on
 [Sourceforge](http://sourceforge.net/projects/overture/files/Overture_IDE/stats/timeline)
-or [GitHub](http://overturetool.org/download/).
+or [GitHub](https://overturetool.org/download/).
 
 The SF download stats seem to be out of date. The downloads from the
 main overturetool.org page were at: 256.

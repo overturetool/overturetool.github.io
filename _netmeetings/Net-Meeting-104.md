@@ -57,7 +57,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 * Around 400 downloads for Overture 2.4.4
 
@@ -69,9 +69,9 @@ The business model for Overture see https://github.com/overturetool/overture/wik
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
-* PGL updated the bib file with all papers from the last workshop. Available at: http://overturetool.org/publications/ 
+* PGL updated the bib file with all papers from the last workshop. Available at: https://overturetool.org/publications/ 
 
 ## New Actions
 

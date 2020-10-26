@@ -87,16 +87,16 @@ Serious bug discovered in the latest release, CT only works with trivial example
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+Also see [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 From now on, this agenda point will be PM. Participants should update the list prior to the NM.
 
 ##  The next Overture workshop
 
-The next [Overture workshop](http://overturetool.org/workshops/13th-Overture-Workshop) is planned to take place in connection with the [FM'15 conference](http://fm2015.ifi.uio.no/). Number of submission is still low at the moment, we need to encourage everyone to submit work in progress.
+The next [Overture workshop](https://overturetool.org/workshops/13th-Overture-Workshop) is planned to take place in connection with the [FM'15 conference](http://fm2015.ifi.uio.no/). Number of submission is still low at the moment, we need to encourage everyone to submit work in progress.
 
 ##  Any Other Business
 

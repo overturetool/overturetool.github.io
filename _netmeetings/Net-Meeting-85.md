@@ -89,7 +89,7 @@ Community Development
 
 Overture Traffic
 
-See download stats on [GitHub](http://overturetool.org/download/)
+See download stats on [GitHub](https://overturetool.org/download/)
 
 Analytics
 

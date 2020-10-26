@@ -63,7 +63,7 @@ Furthermore, in response to the request for future release dates, the following 
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 #### Overture workshop
 
@@ -75,7 +75,7 @@ This has been published, and action 80-1 closed. The agenda is currently availab
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

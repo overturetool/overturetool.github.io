@@ -92,11 +92,11 @@ Steve Riddle from Newcastle has made a MOOC (Massive Open Online Course) on cybe
 
 #### Core NM Dates
 
-Upcoming core meetings are listed [here](http://overturetool.org/netmeetings/).
+Upcoming core meetings are listed [here](https://overturetool.org/netmeetings/).
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 ##  Any Other Business
 

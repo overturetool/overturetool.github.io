@@ -71,7 +71,7 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ##  Publications Status and Plans
 
-See [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+See [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 * Most published papers have been moved over. Some minor cleanup is still needed.
 

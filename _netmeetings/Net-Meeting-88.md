@@ -67,7 +67,7 @@ Nothing to report.
 
 #### Overture Traffic
 
-See download stats on [the downloads page](http://overturetool.org/download/)
+See download stats on [the downloads page](https://overturetool.org/download/)
 
 Google Analytics - see [google analytics](https://www.google.com/analytics/web/?hl=en#report/content-pages/a52650880w85189256p88323676/)
 
@@ -89,7 +89,7 @@ The Strategic [[Research]] Agenda is reviewed every other NetMeeting.
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](http://overturetool.org/publications/PlannedPublications.html).
+Also see [Planned Publications](https://overturetool.org/publications/PlannedPublications.html).
 
 
 ##  Any Other Business
