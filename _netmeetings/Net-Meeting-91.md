@@ -4,7 +4,7 @@ title: Net Meeting 91
 date: 20 September 2015, 1300 CEST
 ---
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>

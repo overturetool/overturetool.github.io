@@ -4,7 +4,7 @@ title: Net Meeting 92
 date: 25 October 2015, 1300 CEST
 ---
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>

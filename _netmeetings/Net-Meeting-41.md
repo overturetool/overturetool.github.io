@@ -4,7 +4,7 @@ title: Net Meeting 41
 date: 6 February 2010, 1500 CET
 ---
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>

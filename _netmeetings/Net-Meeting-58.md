@@ -4,7 +4,7 @@ title: Net Meeting 58
 date: 18 December 2011, 13h00 CET.
 ---
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>

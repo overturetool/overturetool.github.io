@@ -4,7 +4,7 @@ title: Net Meeting 71
 date: 26 May 2013, 13:00 CEST
 ---
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>
