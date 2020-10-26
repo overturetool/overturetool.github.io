@@ -55,7 +55,7 @@ We invite contributions to the 15th Overture Workshop on the Vienna Development 
 Current projects on model-based design for cyber-physical systems (INTO-CPS and the CPSE Labs experiments TEMPO, CPSBuDi and IPP4CPPS) are generating real results. There are also important developments in Japan with the release of VDMTools under an
 open source licence. It is thus timely to focus on the future of the methods and toolchain, improvements in capabilities, and potential applications. We also propose to hold a structured discussion on possible commercial futures. 
 
-Previous workshops have been invaluable in encouraging both new and established members of the community in their work, and helping to determine priorities and future directions. Proceedings of former workshops are available at http://www.overturetool.org/.
+Previous workshops have been invaluable in encouraging both new and established members of the community in their work, and helping to determine priorities and future directions. Proceedings of former workshops are available at https://www.overturetool.org/.
 
 **Location: Newcastle University, United Kingdom.**
 

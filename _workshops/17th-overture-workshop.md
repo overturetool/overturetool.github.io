@@ -55,7 +55,7 @@ and dynamic analysis, test generation, execution support, and model checking.
 Previous workshops have been invaluable in encouraging both new and
 established members of the community in their work, and helping to determine
 priorities and future directions. Proceedings of former workshops are
-available at <http://www.overturetool.org/>.
+available at <https://www.overturetool.org/>.
 
 **Location: Alfandega Porto Congress Centre, Portugal** See <http://formalmethods2019.inesctec.pt/?page_id=140>
 

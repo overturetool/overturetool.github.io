@@ -45,7 +45,7 @@ Report at the workshop, so camera ready copies will be required two
 weeks before the workshop.
 
 Papers and presentations will also be published on-line on the Overture
-project web-site (http://www.overturetool.org), which currently includes
+project web-site (https://www.overturetool.org), which currently includes
 on-line proceedings of the first three Overture workshops. Camera-ready
 copy of your paper and a PDF of your presentation is to be delivered at
 the workshop. At least one of the authors of each accepted paper is

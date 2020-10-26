@@ -98,7 +98,7 @@ Peter started updating the text on the wiki, and will continue this.
 Workshop
 
 Program of the
-<http://www.overturetool.org/twiki/bin/view/Main/Workshop7>?
+<https://www.overturetool.org/twiki/bin/view/Main/Workshop7>?
 
 Publication plans
 -----------------

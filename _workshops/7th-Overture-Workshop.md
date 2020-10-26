@@ -68,7 +68,7 @@ model-oriented specification. New insights in tool support, the use of
 new technologies promoting interoperability and the potential benefits
 of open source approaches all provide strong incentives for developing
 next generation tools based on a more open architecture. These issues
-are being explored in the Overture Group (http://www.overturetool.org).
+are being explored in the Overture Group (https://www.overturetool.org).
 
 After six successful workshops in Canada, the UK, Finland and Portugal
 in 2005-2008, we plan to organize the sixth Overture Workshop at FM'09

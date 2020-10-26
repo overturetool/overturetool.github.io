@@ -16,7 +16,7 @@ The 11th Overture Workshop was held in Aarhus, Denmark on Wed/Thu
 28-29th August 2013. This workshop was the 11th in the current series
 focusing on the Vienna Development Method (VDM) and particularly its
 community-based tools development project, Overture
-(http://www.overturetool.org/), and related projects such as COMPASS
+(https://www.overturetool.org/), and related projects such as COMPASS
 (http://www.compass-research.eu/) and DESTECS (http://www.destecs.org).
 Invited talks were given by [Yves
 Ledru](http://membres-lig.imag.fr/ledru/YLVersionE.html) and [Joe
