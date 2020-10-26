@@ -4,7 +4,7 @@ title: Downloads
 ---
 
 <link rel="stylesheet" href="/css/releases.css">
-<script src="http://code.jquery.com/jquery-1.11.1.min.js">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js">
 </script>
 <script src="/javascripts/moment-with-langs.js"></script>
 <script src="/javascripts/github-releases.js"></script>
@@ -28,7 +28,7 @@ You will need a Java runtime environment (JRE) to use Overture (Java SE 8 is req
 
 It is possible to get access to development builds of the Overture Tool on:
 
- * [the Overture Buildserver](http://overture.au.dk) hosted at Aarhus University. 
+ * [the Overture Buildserver](https://overture.au.dk) hosted at Aarhus University. 
 
 **Warning:** the development builds may not work correctly (or at all!), so use at your own risk.
 
