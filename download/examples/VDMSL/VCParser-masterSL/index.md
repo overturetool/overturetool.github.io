@@ -223,7 +223,7 @@ This module supplements the VCParser module with additional convenience function
 
 Note this module depends on modules Char, Numeric and Seq that are in the ISO8601 example located at
 
-    https://www.overturetool.org/download/examples/VDMSL/
+    http://overturetool.org/download/examples/VDMSL/
 
 ***/
 imports from VCParser values

@@ -47,7 +47,7 @@ in an optimal manner. This model is making use of some of the newer language fea
 
   This module depends on modules Set, Seq and ISO8601 contained in the ISO8601 example located at
 
-    https://www.overturetool.org/download/examples/VDMSL/
+    http://overturetool.org/download/examples/VDMSL/
 */
 module DepartureTMI
 imports from ISO8601 all,

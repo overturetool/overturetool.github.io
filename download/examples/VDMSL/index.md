@@ -982,3 +982,16 @@ VDM AST representation.
 |Version:|VDM_SL - vdm10|
 |Details...|[model (zip)](VCParser-masterSL/VCParser-master.zip)  / [show specification](VCParser-masterSL/index.html)|
 
+
+### Xml
+This example is a simple AST for XML and utilities to manipulate it.
+This model is originally intended to construct SVG models
+to specify GUIs for interactive systems.
+
+
+| | |
+|------|-------|
+|Author:|Tomohiro Oda|
+|Version:|VDM_SL - vdm10|
+|Details...|[model (zip)](xmlSL/Xml.zip)  / [show specification](xmlSL/index.html)|
+
