@@ -33,16 +33,15 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 ### VDMTools
 
 
-### VDM++ for VSCode
-
-
 ##  Status of the Overture Components
 
 ### Overture and VDMJ
 
+VDMJ has been bumped to version 4.4.0-SNAPSHOT to allow a release of 4.3.0 to the Maven repository at Aarhus (to support Maestro). A small number of bug fixes have been added.
 
 ### VDM for VSCode
 
+The LSP project within VDMJ now supports protocol extensions that allow Proof Obligation Generation and Combinatorial Testing to be used from VS Code, via extensions developed at Aarhus.
 
 ##  Release Planning
 
