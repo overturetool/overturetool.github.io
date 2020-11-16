@@ -39,6 +39,8 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 VDMJ has been bumped to version 4.4.0-SNAPSHOT to allow a release of 4.3.0 to the Maven repository at Aarhus (to support Maestro). A small number of bug fixes have been added.
 
+Overture has been bumped to version 3.0.2. The development version is now tracking Eclipse 2020-12 and should support Java 15 by default. Work in progress to upgrade the maven project shows the pain point is in the codegen/ subprojects...  We are still required to use java 8 to do releases, becasue javadoc generation requires mvn dependencies updates that break codegen. Nevertheless, development maven compilations succeed with Java 11.
+
 ### VDM for VSCode
 
 The LSP project within VDMJ now supports protocol extensions that allow Proof Obligation Generation and Combinatorial Testing to be used from VS Code, via extensions developed at Aarhus.
