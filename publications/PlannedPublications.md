@@ -7,13 +7,11 @@ title: Overture Publications
 
 ## Planned
 
-### Overture worskop December 2020
-* A Co-Simulation Based Approach for Developing Safety-Critical Systems, Daniella Tola and Peter Gorm Larsen
-* Specifying Abstract User Interface in VDM-SL, Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Han-Myung Chang and Peter Larsen
 
 ## In preparation
 
-
+* A series of papers related to digital twins where the INTO-CPS technology is a part of the equation
+* Paper about MaestroV2
 
 ## In review
 
