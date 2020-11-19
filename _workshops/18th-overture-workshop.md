@@ -6,19 +6,38 @@ location: Online
 ---
 # THE 18TH OVERTURE WORKSHOP
 
-The 18th Overture Workshop will be held on **07 December 2020** online.
+The 18th Overture Workshop will be held on **07 December 2020** online using Microsoft Teams.
 
 ## Registration
 
-TBA
+To register for this workshop, please email Tomohiro Oda (<tomohiro@sra.co.jp>) to request the link to participate. 
 
 ## Presentations
 
-TBA
+Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
 
+Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. 
+ 
 ## Programme
 
-TBA
+All timings are in UTC (same as UK/Ireland/Portugal time) 
+
+0800-0810 Welcome 
+
+0810-0850 Specifying Abstract User Interface in VDM-SL (Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Han-Myung Chang and Peter Larsen) 
+
+0850-0930 Modelling the HUBCAP Sandbox Architecture In VDM - a Study In Security (Tomas Kulik, Hugo Daniel Macedo, Prasad Talasila and Peter Gorm Larsen)
+
+0930-1010 Visual Studio Code VDM Support (Jonas Kjær Rask, Frederik Palludan Madsen, Nick Battle, Hugo Daniel Macedo and Peter Gorm Larsen)
+
+1010-1030 Break
+
+1030-1110 A Co-Simulation Based Approach for Developing Safety-Critical Systems (Daniella Tola and Peter Gorm Larsen)
+
+1110-1150 Tuning Robotti: the Machine-assisted Exploration of Parameter Spaces in Multi-Models of a Cyber-Physical System (Sergiy Bogomolov, John Fitzgerald, Frederik Foldager, Peter Gorm Larsen, Ken Pierce, Paulius Stankaitis and Ben Wooding)
+
+1150-1230 Final discussions and closing.
+
 
 # CALL FOR PAPERS
 
