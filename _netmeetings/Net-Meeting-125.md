@@ -29,9 +29,11 @@ A list of actions can here found [here](https://github.com/overturetool/overture
 
 ### Viennatalk
 
+No major change.
 
 ### VDMTools
 
+No major change.
 
 ##  Status of the Overture Components
 
