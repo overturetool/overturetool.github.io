@@ -14,16 +14,21 @@ date: 22 November 2020, 1200 CET
 |||
 |---|---|
 | Date | 22 November 2020 |
-| Participants   |   Minutes by    |
+| Participants  PGL, HDM, KP, TO |   Minutes by TO   |
 
 ## Review Status of the Action List
 
 A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22).
 
+* [Overture annotations] closed. Kenneth replied. The implementation seems somewhere between very difficult and impossible.
+* [Meet with legal contact] closed.
 
+PGL will take an action to plan 2021 core net meeting dates.
 
 ## Overture Language Board Status
 
+The LB had a small number of participants, and will try to hold another meeting before end of year.
+Two RMs are stuck needing Overture work (total functions and annotations as we just discussed).
 
 ## Status of VDMTools/ViennaTalk
 
@@ -47,10 +52,15 @@ Overture has been bumped to version 3.0.2. The development version is now tracki
 
 The LSP project within VDMJ now supports protocol extensions that allow Proof Obligation Generation and Combinatorial Testing to be used from VS Code, via extensions developed at Aarhus.
 
+Futa Hirakoba will work on syntax highlighting.
+
 ##  Release Planning
 
+HDM takes an action for suggesting the 2021 planned release dates.
 
 ##  Community Development
+
+The workshop programme of Overture 18 is available at https://www.overturetool.org/workshops/18th-overture-workshop.html.
 
 ##  Licensing of Overture source code
 
@@ -60,9 +70,9 @@ See comments above regarding licensing and the LSP feature.
 
 See [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
-
 ##  Any Other Business
 
+None
 
 <div id="edit_page_div"></div>
 
