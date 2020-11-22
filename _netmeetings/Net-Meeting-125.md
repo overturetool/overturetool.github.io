@@ -14,7 +14,7 @@ date: 22 November 2020, 1200 CET
 |||
 |---|---|
 | Date | 22 November 2020 |
-| Participants  PGL, HDM, KP, TO |   Minutes by TO   |
+| Participants  PGL, HDM, KP, TO, JR, SS |   Minutes by TO   |
 
 ## Review Status of the Action List
 
