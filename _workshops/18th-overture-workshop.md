@@ -10,7 +10,7 @@ The 18th Overture Workshop will be held on **07 December 2020** online using Mic
 
 ## Registration
 
-To register for this workshop, please email Tomohiro Oda (<tomohiro@sra.co.jp>) to request the link to participate. 
+To register for this workshop, please email <overture18request@gmail.com> to request the link to participate. 
 
 ## Presentations
 
