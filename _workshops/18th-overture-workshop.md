@@ -104,3 +104,8 @@ Position papers on VDM and its promotion in industry practice.
 * Marcel Verhoef, European Space Agency, The Netherlands
  
 For latest  information and announcements, visit <https://www.overturetool.org/workshops/18th-overture-workshop.html>
+
+### Sponsor
+The online conference facility is provided by Software Research Associates, Inc.
+
+[![sra logo](/images/sra-logo.png)](https://www2.sra.co.jp/en/)
