@@ -58,10 +58,6 @@ established members of the community in their work, and helping to determine
 priorities and future directions. Proceedings of former workshops are
 available at <https://www.overturetool.org/>.
 
-## Registration
-
-TBA
-
 ## Submission
 
 Submission of papers is through EasyChair: <https://easychair.org/conferences/?conf=ovt18>.
