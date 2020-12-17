@@ -38,6 +38,8 @@ All timings are in UTC (same as UK/Ireland/Portugal time)
 
 1150-1230 Final discussions and closing.
 
+A zip archive of presented papers is available [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/Overture18-Papers.zip).
+
 
 # CALL FOR PAPERS
 
