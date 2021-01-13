@@ -26,15 +26,15 @@ All timings are in UTC (same as UK/Ireland/Portugal time)
 
 0810-0850 [Specifying Abstract User Interface in VDM-SL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/1-Oda.pdf) (Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Han-Myung Chang and Peter Larsen) 
 
-0850-0930 Modelling the HUBCAP Sandbox Architecture In VDM - a Study In Security (Tomas Kulik, Hugo Daniel Macedo, Prasad Talasila and Peter Gorm Larsen)
+0850-0930 [Modelling the HUBCAP Sandbox Architecture In VDM - a Study In Security](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/2-Kulik.pdf) (Tomas Kulik, Hugo Daniel Macedo, Prasad Talasila and Peter Gorm Larsen)
 
-0930-1010 Visual Studio Code VDM Support (Jonas Kjær Rask, Frederik Palludan Madsen, Nick Battle, Hugo Daniel Macedo and Peter Gorm Larsen)
+0930-1010 [Visual Studio Code VDM Support](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/3-Rask.pdf) (Jonas Kjær Rask, Frederik Palludan Madsen, Nick Battle, Hugo Daniel Macedo and Peter Gorm Larsen)
 
 1010-1030 Break
 
-1030-1110 Tuning Robotti: the Machine-assisted Exploration of Parameter Spaces in Multi-Models of a Cyber-Physical System (Sergiy Bogomolov, John Fitzgerald, Frederik Foldager, Peter Gorm Larsen, Ken Pierce, Paulius Stankaitis and Ben Wooding)
+1030-1110 [Tuning Robotti: the Machine-assisted Exploration of Parameter Spaces in Multi-Models of a Cyber-Physical System](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/4-Bogomolov.pdf) (Sergiy Bogomolov, John Fitzgerald, Frederik Foldager, Peter Gorm Larsen, Ken Pierce, Paulius Stankaitis and Ben Wooding)
 
-1110-1150 A Co-Simulation Based Approach for Developing Safety-Critical Systems (Daniella Tola and Peter Gorm Larsen)
+1110-1150 [A Co-Simulation Based Approach for Developing Safety-Critical Systems](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/5-Tola.pdf) (Daniella Tola and Peter Gorm Larsen)
 
 1150-1230 Final discussions and closing.
 
