@@ -24,7 +24,7 @@ All timings are in UTC (same as UK/Ireland/Portugal time)
 
 0800-0810 Welcome 
 
-0810-0850 Specifying Abstract User Interface in VDM-SL (Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Han-Myung Chang and Peter Larsen) 
+0810-0850 [Specifying Abstract User Interface in VDM-SL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/1-Oda.pdf) (Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Han-Myung Chang and Peter Larsen) 
 
 0850-0930 Modelling the HUBCAP Sandbox Architecture In VDM - a Study In Security (Tomas Kulik, Hugo Daniel Macedo, Prasad Talasila and Peter Gorm Larsen)
 
