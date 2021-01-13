@@ -8,12 +8,13 @@ title: Overture Manuals
 Once you have acquainted yourselves with the basic working of the
 Overture tool using the tutorials, it is time to check out the
 available manuals, which consist of a language manual (TR-001) and a
-user guide (TR-002).  Additionally, there is a technical report describing
+user guide (TR-002). There are guidelines for using combinatorial testing (TR-005). Additionally, there is a technical report describing
 how the Overture tools can be used as part of an industrial
 development process (TR-006). Finally, Overture contains facilities for generating C-code and Functional Mock-up Units according to the Functional Mock-up Interface 2.0 for Co-simulation.
 
 - [**TR-001**](http://raw.github.com/overturetool/documentation/master/documentation/VDM10LangMan/VDM10_lang_man.pdf): VDM-10 Language Manual
 - [**TR-002**](http://raw.github.com/overturetool/documentation/master/documentation/UserGuideOvertureIDE/OvertureIDEUserGuide.pdf): Overture VDM-10 Tool Support: User Guide
+- [**TR-005**](http://raw.github.com/overturetool/documentation/master/documentation/CombinatorialTesting/CombinatorialTesting.pdf): VDM Combinatorial Testing Guidelines
 - [**TR-006**](http://raw.github.com/overturetool/documentation/master/documentation/VDMRTProcess/VDMRTProcess.pdf): Development Process for Distributed Embedded Systems using VDM
 - [**Generating C Code**]({{site.url}}/documentation/generating-c-code.html)
 - [**FMI Support**]({{site.url}}/documentation/fmi/fmi-support.html)
