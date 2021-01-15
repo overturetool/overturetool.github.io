@@ -26,7 +26,7 @@ All timings are in UTC (same as UK/Ireland/Portugal time)
 
 0810-0850 [Specifying Abstract User Interface in VDM-SL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/1-Oda.pdf) (Tomohiro Oda, Keijiro Araki, Yasuhiro Yamamoto, Kumiyo Nakakoji, Han-Myung Chang and Peter Larsen) 
 
-0850-0930 [Modelling the HUBCAP Sandbox Architecture In VDM - a Study In Security](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/2-Kulik.pdf) (Tomas Kulik, Hugo Daniel Macedo, Prasad Talasila and Peter Gorm Larsen) [Presentation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/2-Kulik-presentation.pdf)
+0850-0930 [Modelling the HUBCAP Sandbox Architecture In VDM: a Study In Security](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/2-Kulik.pdf) (Tomas Kulik, Hugo Daniel Macedo, Prasad Talasila and Peter Gorm Larsen) [Presentation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/2-Kulik-presentation.pdf)
 
 0930-1010 [Visual Studio Code VDM Support](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/3-Rask.pdf) (Jonas Kjær Rask, Frederik Palludan Madsen, Nick Battle, Hugo Daniel Macedo and Peter Gorm Larsen)
 
