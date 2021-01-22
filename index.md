@@ -11,6 +11,7 @@ title: Overview
 <script>updateFrontPage();</script>
 
 
+
 # Overview
 
 <!--The Overture project is a community-based project aimed at developing open-source tools to support the modelling and analysis of the design and development of computer-based systems.
@@ -29,6 +30,15 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 | The current stable version is <strong id="current-release-version">2.3.0</strong> <i id="current-release-data"> (May 2014) </i> which you can [download here]({{ site.url }}/download/).|
 
 <div id="current-release"></div>
+
+#### Are you a Visual Studio Code user? Try out the new VDM VSCode extension
+
+
+<p style="text-align:center;">
+	<a href="https://github.com/jonaskrask/vdm-vscode">
+		<img src="https://github.com/jonaskrask/vdm-vscode/raw/master/screenshots/smart_navigation.gif" width="400" alt="VDM VSCode extension">
+	</a>
+</p>
 
 #### Overture Tool Extensions:
 <table>
