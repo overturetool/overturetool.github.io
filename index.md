@@ -31,11 +31,11 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 
 <div id="current-release"></div>
 
-#### Are you a Visual Studio Code user? Try out the new VDM VSCode extension <a href="https://github.com/jonaskrask/vdm-vscode">(here)</a>
+#### Are you a Visual Studio Code user? Try out the new VDM VSCode extension <a href="https://marketplace.visualstudio.com/items?itemName=jonaskrask.vdm-vscode">(here)</a>
 
 
 <p style="text-align:center;">
-	<a href="https://github.com/jonaskrask/vdm-vscode">
+	<a href="https://marketplace.visualstudio.com/items?itemName=jonaskrask.vdm-vscode">
 		<img src="https://github.com/jonaskrask/vdm-vscode/raw/master/screenshots/smart_navigation.gif" height="281" alt="VDM VSCode extension">
 	</a>
 </p>
