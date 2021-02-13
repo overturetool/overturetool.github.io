@@ -25,10 +25,10 @@ date: 14 February 2021, 1200 CET
 ## Status of VDMTools/ViennaTalk
 
 ### Viennatalk
-
+No major change.
 
 ### VDMTools
-
+No major change.
 
 ##  Status of the Overture Components
 
