@@ -49,6 +49,7 @@ There are some installation and user instructions in the READMEs [here](https://
 
 ##  Community Development
 
+The plan is to have the next Overture workshop on the 22nd of October 2021 physically in AArhus (but also accessible on-line) with Casper Thule and Ken Pierce as the programme committee chairs and Hugo Macedo as the organising chair.
 
 ##  Licensing of Overture source code
 
