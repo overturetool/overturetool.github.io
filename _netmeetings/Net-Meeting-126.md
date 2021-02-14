@@ -14,13 +14,17 @@ date: 14 February 2021, 1200 CET
 |||
 |---|---|
 | Date | 14 February 2021 |
-| Participants   |   Minutes by    |
+| Participants PGL, MV, HDM, NB, KP   |   Minutes by KP   |
 
 ## Review Status of the Action List
+A list of actions can here found [here](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aissue+is%3Aopen+label%3A%22action+net-meeting%22).
 
+* PGL has made a list of dates for NMs in 2021.
+* [List which Overture Eclipse plugins rely on VDMJ code](https://github.com/overturetool/overturetool.github.io/issues/34) closes. See [Moving Overture from GPL to BSD/CC](https://github.com/overturetool/overture/issues/705).
 
 ## Overture Language Board Status
 
+Ken will continue as Convener, Tomo as Secretary. Four people nominated themselves so far, we at least one more for a quorum, so Hugo kindly volunteered.
 
 ## Status of VDMTools/ViennaTalk
 
@@ -46,13 +50,15 @@ There are some installation and user instructions in the READMEs [here](https://
 
 ##  Release Planning
 
+VSC 1.1.0 to be released soon. New Overture release in the next two weeks.
 
 ##  Community Development
 
-The plan is to have the next Overture workshop on the 22nd of October 2021 physically in AArhus (but also accessible on-line) with Casper Thule and Ken Pierce as the programme committee chairs and Hugo Macedo as the organising chair.
+The plan is to have the next Overture workshop on the 22nd of October 2021 physically in AArhus (but also accessible on-line) with Casper Thule and Ken Pierce as the programme committee chairs and Hugo Macedo as the organising chair. CfP will be out in a few weeks.
 
 ##  Licensing of Overture source code
 
+Regarding VSC the extensions will all move to GPLv3 to align with VDMJ, using [SPFX strings](https://spdx.dev/ids/) to ensure machine-readability of the license. The medium- to long-term plan will be to move over to VSC once the features are all there. 
 
 ##  Publications Status and Plans
 
