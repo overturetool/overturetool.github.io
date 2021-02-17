@@ -6,20 +6,20 @@ location: Online and hopefully at Aarhus University
 ---
 # THE 19TH OVERTURE WORKSHOP
 
-The 19th Overture Workshop will be held on **22 October 2020** online and in person at Aarhus University, if possible.
+The 19th Overture Workshop will be held on **22 October 2021** online and in person at Aarhus University, if possible.
 
 ## Registration
 TBD
-<!-- To register for this workshop, please email <overture18request@gmail.com> to request the link to participate. -->
+<!--- To register for this workshop, please email <overture18request@gmail.com> to request the link to participate. --->
 
 ## Presentations
-TBD
+<!--- TBD
 Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
 
-Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. 
+Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. --->
 ## Programme
 TBD
-<!--
+<!---
 All timings are in UTC (same as UK/Ireland/Portugal time) 
 
 0800-0810 Welcome 
@@ -40,32 +40,28 @@ All timings are in UTC (same as UK/Ireland/Portugal time)
 
 A zip archive of presented papers is available [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/Overture18-Papers.zip) and the single PDF of proceedings is [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/full-proceedings.pdf) 
 
--->
+--->
 # CALL FOR PAPERS
-TBD
-<!--
-The 18th Overture Workshop will be held on **07 December 2020** online.
+The 19th Overture Workshop will be held on **22 October 2021** online and in person at Aarhus University if possible.
 
-The 18th Overture Workshop is the latest in a series of workshops around the
+The 19th Overture Workshop is the latest in a series of workshops around the
 Vienna Development Method (VDM), the open-source project Overture, and
 related tools and formalisms. VDM is one of the best established formal
 methods for systems development. A lively community of researchers and
 practitioners in academia and industry has grown around the modelling
-languages (VDM-SL, VDM++, VDM-RT, CML) and tools (VDMTools, Overture,
-Crescendo, Symphony, the INTO-CPS chain, and ViennaTalk). Together, these provide a
-platform for work on modelling and analysis technology that includes static
+languages (VDM-SL, VDM++, VDM-RT) and tools (including VDMTools, Overture,
+INTO-CPS, ViennaTalk, VDMJ and VDM VSCode). Together, these provide a
+platform for work on modelling and analysis technology that includes IDEs, static
 and dynamic analysis, test generation, execution support, and model checking.
 
 Previous workshops have been invaluable in encouraging both new and
 established members of the community in their work, and helping to determine
 priorities and future directions. Proceedings of former workshops are
 available at <https://www.overturetool.org/>.
--->
+
 ## Submission
-TBD
-<!--
-Submission of papers is through EasyChair: <https://easychair.org/conferences/?conf=ovt18>.
--->
+Submission of papers is through EasyChair: <https://easychair.org/conferences/?conf=ovt19>.
+
 ### Important Dates
 TBD
 * Abstracts: Monday, June 21, 2021
@@ -76,28 +72,27 @@ TBD
 * Workshop: Friday, October 22, 2021
 
 ## Call
-TBD
-<!--
 Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. 
 
 The scope of the workshop includes, but is not restricted to:
 * Reports of applications of VDM technology, especially reports of industrial use.
-* Papers describing requirements, designs, implementations and case studies of support tools for VDM, whether or not implemented on the Overture platform.
-* Papers on the foundations and methodology associated with VDM and its extensions, including the description of real-time, cyber-physical systems and systems-of-systems.
+* Papers describing requirements, designs, implementations and case studies of support tools for VDM, whether or not implemented in the VDM-related tools.
+* Papers on the foundations and methodology associated with VDM and its extensions, including the description of real-time, cyber-physical systems, digital twins and systems-of-systems.
 * Papers combining VDM with other notations and tools.
-Position papers on VDM and its promotion in industry practice.
-* Papers on extensions of Overture, including INTO-CPS and ViennaTalk.
+* Position papers on VDM and its promotion in industry practice.
+* Papers on extensions of VDM-related tools including Overture, INTO-CPS and ViennaTalk.
 
--->
-### Organiser
-TBD
-<!--
-* John Fitzgerald, Newcastle University, United Kingdom (<john.fitzgerald@newcastle.ac.uk>)
-* Tomohiro Oda, Software Research Associates, Inc., Japan (<tomohiro@sra.co.jp>)
--->
+## Organising
+### Program Chairs
+* Ken Pierce, Newcastle University, United Kingdom (<ken.pierce@newcastle.ac.uk>)
+* Casper Thule, Aarhus University, Denmark, (<casper.thule@ece.au.dk>)
+
+### Organising Chair
+* Hugo Daniel Macedo, Aarhus University, Denmark <hdm@ece.au.dk>
+
 ### Program Committee
 TBD
-<!--
+<!---
 * Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
 * Nick Battle, Newcastle University, UK
 * Luis D. Couto, Forcepoint, Ireland
@@ -108,11 +103,13 @@ TBD
 * Marcel Verhoef, European Space Agency, The Netherlands
  
 For latest  information and announcements, visit <https://www.overturetool.org/workshops/18th-overture-workshop.html>
--->
+--->
+
+
+<!---
 ### Sponsor
 TBD
-<!--
 The online conference facility is provided by Software Research Associates, Inc.
 
 [![sra logo](/images/sra-logo.png)](https://www2.sra.co.jp/en/)
--->
+--->
