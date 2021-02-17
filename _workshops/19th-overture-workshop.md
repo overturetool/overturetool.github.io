@@ -4,7 +4,7 @@ title: The 19th Overture Workshop
 date: 2021-10-22
 location: Online and hopefully at Aarhus University
 ---
-# THE 18TH OVERTURE WORKSHOP
+# THE 19TH OVERTURE WORKSHOP
 
 The 19th Overture Workshop will be held on **22 October 2020** online and in person at Aarhus University, if possible.
 
@@ -14,11 +14,9 @@ TBD
 
 ## Presentations
 TBD
-<!--
 Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
 
 Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. 
---> 
 ## Programme
 TBD
 <!--
@@ -70,13 +68,13 @@ Submission of papers is through EasyChair: <https://easychair.org/conferences/?c
 -->
 ### Important Dates
 TBD
-<!--
-* ~~Full Papers~~Abstract: Friday, October 9
-* Full Papers: ~~Friday, October 9~~ Friday, October 16
-* Notifications: ~~Friday 6th November~~ Friday, November 13
-* Camera ready version of papers: Friday, November 27
-* Workshop: Monday, December 7
--->
+* Abstracts: Monday, June 21, 2021
+* Full Papers: Monday, June 28, 2021
+* Notifications: Monday, August 23, 2021
+* Camera ready version of papers: Monday, September 14th, 2021
+* Pre-proceedings: Monday, September 27th, 2021
+* Workshop: Friday, October 22, 2021
+
 ## Call
 TBD
 <!--
