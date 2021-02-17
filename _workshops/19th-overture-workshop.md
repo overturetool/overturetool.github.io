@@ -10,15 +10,22 @@ The 19th Overture Workshop will be held on **22 October 2021** online and in per
 
 ## Registration
 TBD
-<!--- To register for this workshop, please email <overture18request@gmail.com> to request the link to participate. --->
+
+<!--- 
+To register for this workshop, please email <overture18request@gmail.com> to request the link to participate. 
+--->
 
 ## Presentations
+
 <!--- TBD
 Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
 
-Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. --->
+Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. 
+--->
+
 ## Programme
 TBD
+
 <!---
 All timings are in UTC (same as UK/Ireland/Portugal time) 
 
@@ -41,6 +48,7 @@ All timings are in UTC (same as UK/Ireland/Portugal time)
 A zip archive of presented papers is available [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/Overture18-Papers.zip) and the single PDF of proceedings is [here](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/full-proceedings.pdf) 
 
 --->
+
 # CALL FOR PAPERS
 The 19th Overture Workshop will be held on **22 October 2021** online and in person at Aarhus University if possible.
 
@@ -92,6 +100,7 @@ The scope of the workshop includes, but is not restricted to:
 
 ### Program Committee
 TBD
+
 <!---
 * Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
 * Nick Battle, Newcastle University, UK
