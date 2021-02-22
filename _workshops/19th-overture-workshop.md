@@ -8,23 +8,27 @@ location: Online and hopefully at Aarhus University
 
 The 19th Overture Workshop will be held on **22 October 2021** online and in person at Aarhus University, if possible.
 
+<!--- 
 ## Registration
 TBD
+--->
 
 <!--- 
 To register for this workshop, please email <overture18request@gmail.com> to request the link to participate. 
 --->
 
+<!--- TBD
 ## Presentations
 
-<!--- TBD
 Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
 
 Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. 
 --->
 
+<!--- TBD
 ## Programme
 TBD
+--->
 
 <!---
 All timings are in UTC (same as UK/Ireland/Portugal time) 
