@@ -9,14 +9,10 @@ location: Online and hopefully at Aarhus University
 The 19th Overture Workshop will be held on **22 October 2021** online and in person at Aarhus University, if possible.
 
 ## Registration
-TBD
-
-<!--- 
-To register for this workshop, please email <overture18request@gmail.com> to request the link to participate. 
---->
+To register for this workshop, please email <overture19request@gmail.com> to request the link to participate. 
 
 ## Presentations
-
+The description of presentations will be described once publications have been submitted.
 <!--- TBD
 Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
 
@@ -24,7 +20,7 @@ Authors are invited to record their presentations as video if desired. If you wo
 --->
 
 ## Programme
-TBD
+The programme description will be settled once publications have been submitted.
 
 <!---
 All timings are in UTC (same as UK/Ireland/Portugal time) 
@@ -71,12 +67,11 @@ available at <https://www.overturetool.org/>.
 Submission of papers is through EasyChair: <https://easychair.org/conferences/?conf=ovt19>.
 
 ### Important Dates
-TBD
-* Abstracts: Monday, June 21, 2021
-* Full Papers: Monday, June 28, 2021
-* Notifications: Monday, August 23, 2021
-* Camera ready version of papers: Monday, September 14th, 2021
-* Pre-proceedings: Monday, September 27th, 2021
+* Abstracts: Monday, July 5, 2021
+* Full Papers: Monday, July 12, 2021
+* Notifications: Monday, August 30, 2021
+* Camera ready version of papers: Monday, September 27, 2021
+* Pre-proceedings: Monday, October 11, 2021
 * Workshop: Friday, October 22, 2021
 
 ## Call
@@ -99,26 +94,19 @@ The scope of the workshop includes, but is not restricted to:
 * Hugo Daniel Macedo, Aarhus University, Denmark <hdm@ece.au.dk>
 
 ### Program Committee
-TBD
-
-<!---
-* Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
-* Nick Battle, Newcastle University, UK
-* Luis D. Couto, Forcepoint, Ireland
-* Fuyuki Ishikawa, National Institute of Informatics, Japan
-* Hugo Daniel Macedo, Aarhus University, Denmark
-* Paolo Masci, National Institute of Aerospace (NIA), USA
-* Ken Pierce, Newcastle University, UK
+* Kenneth Guldbrandt Lausdahl AGRO Corp and Aarhus University, Denmark
+* Tomo Oda, Software Research Associate Incorporated, Japan
 * Marcel Verhoef, European Space Agency, The Netherlands
- 
-For latest  information and announcements, visit <https://www.overturetool.org/workshops/18th-overture-workshop.html>
---->
+* Paolo Masci, National Institute of Aerospace (NIA), USA
+* Peter Gorm Larsen, Aarhus University, Denmark
+* Nick Battle, Independant and Aarhus University, UK
+* Fuyuki Ishikawa, National Institute of Informatics, Japan
+* Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
+
+For latest  information and announcements, visit <https://www.overturetool.org/workshops/19th-overture-workshop.html>
 
 
-<!---
 ### Sponsor
-TBD
-The online conference facility is provided by Software Research Associates, Inc.
+The online conference facility is provided by the Faculty of Technical Sciences at Aarhus University
 
-[![sra logo](/images/sra-logo.png)](https://www2.sra.co.jp/en/)
---->
+[![AU Technical Sciences Logo](/images/au-tech.png)](https://tech.au.dk/en/)
