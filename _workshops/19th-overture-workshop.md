@@ -13,6 +13,7 @@ To register for this workshop, please email <overture19request@gmail.com> to req
 
 ## Presentations
 The description of presentations will be described once publications have been submitted.
+
 <!--- TBD
 Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
 
@@ -94,7 +95,7 @@ The scope of the workshop includes, but is not restricted to:
 * Hugo Daniel Macedo, Aarhus University, Denmark <hdm@ece.au.dk>
 
 ### Program Committee
-* Kenneth Guldbrandt Lausdahl AGRO Corp and Aarhus University, Denmark
+* Kenneth Guldbrandt Lausdahl, AGROCorp International and Aarhus University, Denmark
 * Tomo Oda, Software Research Associate Incorporated, Japan
 * Marcel Verhoef, European Space Agency, The Netherlands
 * Paolo Masci, National Institute of Aerospace (NIA), USA

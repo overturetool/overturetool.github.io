@@ -32,7 +32,7 @@ All timings are in UTC (same as UK/Ireland/Portugal time)
 
 1010-1030 Break
 
-1030-1110 [Tuning Robotti: the Machine-assisted Exploration of Parameter Spaces in Multi-Models of a Cyber-Physical System](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/4-Bogomolov.pdf) (Sergiy Bogomolov, John Fitzgerald, Frederik Foldager, Peter Gorm Larsen, Ken Pierce, Paulius Stankaitis and Ben Wooding) [Slides](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/4-Bogomolov-presentation.pdf)
+1030-1110 [Tuning Robotti: the Machine-assisted Exploration of Parameter Spaces in Multi-Models of a Cyber-Physical System](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/4-Bogomolov.pdf) (Sergiy Bogomolov, John Fitzgerald, Frederik Foldager, Peter Gorm Larsen, Ken Pierce, Paulius Stankaitis and Ben Wooding) [Presentation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/4-Bogomolov-presentation.pdf)
 
 1110-1150 [A Co-Simulation Based Approach for Developing Safety-Critical Systems](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/5-Tola.pdf) (Daniella Tola and Peter Gorm Larsen) [Presentation Video](https://youtu.be/8lIP8X3o7qg) [Slides](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/18/5-Tola-presentation.pdf)
 
