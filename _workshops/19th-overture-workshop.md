@@ -100,7 +100,7 @@ The scope of the workshop includes, but is not restricted to:
 * Marcel Verhoef, European Space Agency, The Netherlands
 * Paolo Masci, National Institute of Aerospace (NIA), USA
 * Peter Gorm Larsen, Aarhus University, Denmark
-* Nick Battle, Independant and Aarhus University, UK
+* Nick Battle, Independent and Aarhus University, UK
 * Fuyuki Ishikawa, National Institute of Informatics, Japan
 * Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
 
