@@ -92,7 +92,7 @@ The scope of the workshop includes, but is not restricted to:
 * Casper Thule, Aarhus University, Denmark, (<casper.thule@ece.au.dk>)
 
 ### Organising Chair
-* Hugo Daniel Macedo, Aarhus University, Denmark <hdm@ece.au.dk>
+* Hugo Daniel Macedo, Aarhus University, Denmark (<hdm@ece.au.dk>)
 
 ### Program Committee
 * Kenneth Guldbrandt Lausdahl, AGROCorp International and Aarhus University, Denmark
@@ -106,6 +106,9 @@ The scope of the workshop includes, but is not restricted to:
 
 For latest  information and announcements, visit <https://www.overturetool.org/workshops/19th-overture-workshop.html>
 
+
+### Contact
+All questions about submissions should be emailed to overture19request@gmail.com
 
 ### Sponsor
 The online conference facility is provided by the Faculty of Technical Sciences at Aarhus University
