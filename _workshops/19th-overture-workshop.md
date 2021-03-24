@@ -103,6 +103,7 @@ The scope of the workshop includes, but is not restricted to:
 * Nick Battle, Independent and Aarhus University, UK
 * Fuyuki Ishikawa, National Institute of Informatics, Japan
 * Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
+* Sam Hall, Newcastle University, UK
 
 For latest  information and announcements, visit <https://www.overturetool.org/workshops/19th-overture-workshop.html>
 
