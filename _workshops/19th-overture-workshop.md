@@ -89,7 +89,7 @@ The scope of the workshop includes, but is not restricted to:
 ## Organising
 ### Program Chairs
 * Ken Pierce, Newcastle University, United Kingdom (<ken.pierce@newcastle.ac.uk>)
-* Casper Thule, Aarhus University, Denmark, (<casper.thule@ece.au.dk>)
+* Casper Thule, Aarhus University, Denmark (<casper.thule@ece.au.dk>)
 
 ### Organising Chair
 * Hugo Daniel Macedo, Aarhus University, Denmark (<hdm@ece.au.dk>)
@@ -100,7 +100,7 @@ The scope of the workshop includes, but is not restricted to:
 * Marcel Verhoef, European Space Agency, The Netherlands
 * Paolo Masci, National Institute of Aerospace (NIA), USA
 * Peter Gorm Larsen, Aarhus University, Denmark
-* Nick Battle, Independent and Aarhus University, UK
+* Nick Battle, Aarhus University, Denmark
 * Fuyuki Ishikawa, National Institute of Informatics, Japan
 * Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
 * Sam Hall, Newcastle University, UK
