@@ -50,7 +50,7 @@ details about it
 
 * Add Library feature is ready for testing and merging. Right-clicking on the Files explorer in a folder that has a VDM client on or vdm files in the top folder, an Add VDM Library button appears. Changed the activation to catch workspaces that contain vdm files on the top folder. Added a dialect field in the SLSP class so when client is on we just use the dialect in it. In case that is not found we try to match a .vdmsl/.vdmpp/.vdmrt file. 
 
-Working towards coverage and later FMU generation.
+* Working towards coverage and later FMU generation. Added Server-side support for coverage data generation by an extension of the SLSP "translate" request.
 
 
 
@@ -63,6 +63,8 @@ Do we have a release plan to VSCode?
 #### Overture Traffic
 
 See download stats on [the downloads page](https://www.overturetool.org/download/)
+
+For VSCode see status on [the extension page](https://marketplace.visualstudio.com/items?itemName=jonaskrask.vdm-vscode)
 
 #### topic 1
 ...
