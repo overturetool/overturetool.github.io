@@ -48,13 +48,14 @@ details about it
 
 ### VDM for VSCode
 
+* Add Library feature is ready for testing and merging. Right-clicking on the Files explorer in a folder that has a VDM client on or vdm files in the top folder, an Add VDM Library button appears. Changed the activation to catch workspaces that contain vdm files on the top folder. Added a dialect field in the SLSP class so when client is on we just use the dialect in it. In case that is not found we try to match a .vdmsl/.vdmpp/.vdmrt file. 
+
+Working towards coverage and later FMU generation.
+
 
 
 ##  Release Planning
-
-#### topic 1
-
-some description
+Do we have a release plan to VSCode?
 
 
 ##  Community Development
