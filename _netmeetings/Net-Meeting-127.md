@@ -34,10 +34,15 @@ some description
 
 ## Status of VDMTools/ViennaTalk
 
-#### topic 1
+#### VDMTools
 
-some description
+no major updates
 
+#### ViennaTalk
+
+* [VDM-SL cheatsheet](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-types.html) in English and Japanese
+  - shows major constructs of VDM-SL in [Types](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-types.html), [Expressions](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-expressions.html), [Definitions](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-definitions.html) and [Statements](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-statements.html)
+  - Example expressions are animated on the browser with "run" buttons.
 
 ##  Status of the Overture Components
 
