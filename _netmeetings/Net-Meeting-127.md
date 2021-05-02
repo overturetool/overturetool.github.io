@@ -9,34 +9,35 @@ date: 2 May 2021, 1200 CEST
 <script src="/javascripts/edit.js"></script>
 <script>setEditButonNm();</script>
 
-# NetMeeting Default Template
+# Overture NetMeeting 127
 
 |||
 |---|---|
 | Date | 02 May 2021, 12:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Participants | PGL, NB, HM, JR, KP, TO.  Minutes by NB. |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* PGL has made a list of dates for NMs in 2021.
-* [List which Overture Eclipse plugins rely on VDMJ code](https://github.com/overturetool/overturetool.github.io/issues/34) closes. See [Moving Overture from GPL to BSD/CC](https://github.com/overturetool/overture/issues/705).
+* [Licensing of Fujitsu's VDMJ](https://github.com/overturetool/overturetool.github.io/issues/32) can be closed, pending the move of everything to VSCode under GPL.
 
 
 ## Overture Language Board Status
 
-#### topic 1
+#### Open Requests
 
-some description
+KP gave a summary of the current open Requests for Clarification and Modification with the Language Board.
+
+The full list of open issues is [here](https://github.com/overturetool/language/issues).
 
 
 ## Status of VDMTools/ViennaTalk
 
 #### VDMTools
 
-no major updates
+No major updates
 
 #### ViennaTalk
 
@@ -46,10 +47,9 @@ no major updates
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### ViennaTalk
 
-details about it
-
+A new "cheat sheet" feature has been added, for those of us who cannot remember fiddly language details.
 
 ### VDM for VSCode
 
@@ -57,11 +57,13 @@ details about it
 
 * Working towards coverage and later FMU generation. Added Server-side support for coverage data generation by an extension of the SLSP "translate" request.
 
-
+* PGL will look into using VSCode for students in the summer.
 
 ##  Release Planning
-Do we have a release plan to VSCode?
 
+Now that a new VSCode feature has been added, it was decided to schedule a new release of the extension, and in future to follow a "rolling release" style, where releases are made on a frequent basis, with small functional enhancements.
+
+It was suggested that the VSCode extension is moved from a JR private Github account to either INTO-CPS or (more likely) OvertureTool. HM/JR to progress.
 
 ##  Community Development
 
@@ -71,22 +73,21 @@ See download stats on [the downloads page](https://www.overturetool.org/download
 
 For VSCode see status on [the extension page](https://marketplace.visualstudio.com/items?itemName=jonaskrask.vdm-vscode)
 
-#### topic 1
-...
+#### Overture Workshop
 
+The CFP is out and everyone is encouraged to submit paper proposals.
 
 ##  Strategic Research Agenda
 
-The Strategic Research Agenda is reviewed every other NetMeeting.
+The Strategic Research Agenda is reviewed every other NetMeeting. No progress this time.
 
 
 ##  Publications Status and Plans
 
-Also see [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
+[Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html) will be updated by HM.
 
 
 ##  Any Other Business
 
-<div id="edit_page_div"></div>
+PGL stated his intention to stand down as the Convener of these Overture net meetings, handing the batton over to HM. We thank Peter for his efforts over the years and look forward to working with Hugo in the chair in future. Peter will, of course, still be involved with Overture as far as possible.
 
-Hosted on GitHub Pages — Original theme by orderedlist
