@@ -18,5 +18,5 @@ title: Overture Publications
 
 
 ## In press
-
+* Jonas Kjær Rask, Frederik Palludan Madsen, Nick Battle, Hugo Daniel Macedo and Peter Gorm Larsen, The Specification Language Server Protocol: A Proposal for Standardised  LSP Extensions (To appear F-IDE proceedings)
 
