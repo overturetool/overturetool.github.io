@@ -47,10 +47,6 @@ No major updates
 
 ##  Status of the Overture Components
 
-#### ViennaTalk
-
-A new "cheat sheet" feature has been added, for those of us who cannot remember fiddly language details.
-
 ### VDM for VSCode
 
 * Add Library feature is ready for testing and merging. Right-clicking on the Files explorer in a folder that has a VDM client on or vdm files in the top folder, an Add VDM Library button appears. Changed the activation to catch workspaces that contain vdm files on the top folder. Added a dialect field in the SLSP class so when client is on we just use the dialect in it. In case that is not found we try to match a .vdmsl/.vdmpp/.vdmrt file. 
