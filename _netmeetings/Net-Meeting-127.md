@@ -40,7 +40,7 @@ no major updates
 
 #### ViennaTalk
 
-* [VDM-SL cheatsheet](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-types.html) in English and Japanese
+* [VDM-SL cheatsheet](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-types.html) in [English](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-types.html) and [Japanese](https://viennatalk.org/ViennaDoc/cheatsheet-ja/cheatsheet-types-ja.html).
   - shows major constructs of VDM-SL in [Types](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-types.html), [Expressions](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-expressions.html), [Definitions](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-definitions.html) and [Statements](https://viennatalk.org/ViennaDoc/cheatsheet-en/cheatsheet-statements.html)
   - Example expressions are animated on the browser with "run" buttons.
 
