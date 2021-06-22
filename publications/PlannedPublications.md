@@ -6,11 +6,12 @@ title: Overture Publications
 # Planned Publications
 
 ## Planned
-
+* Updates to the VDM VSCode extension
 
 ## In preparation
 
-* A series of papers related to digital twins where the INTO-CPS technology is a part of the equation
+* Modelling an Injection Molding Machine using theVienna Development Method
+* A formal security analysis of HUBCAP sandbox model
 * Paper about MaestroV2
 
 ## In review
