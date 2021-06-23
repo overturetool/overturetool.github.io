@@ -45,7 +45,8 @@ Summer intern at AU will contribute to Overture VSCode migration.
 
 ### VDM for VSCode
 
-* Added coverage. Need to move from private repository to Overture and establish a rolling release process (this can be done by the new intern as well)
+* Added coverage. Need to move from private repository to Overture and establish a rolling release process (this can be done by the new intern as well).
+* Some small fixes added as a result of using the tool to work on the FMI static/dynamic models.
 
 ##  Release Planning
 
