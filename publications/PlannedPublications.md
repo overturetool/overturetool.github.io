@@ -13,6 +13,7 @@ title: Overture Publications
 * Modelling an Injection Molding Machine using theVienna Development Method
 * A formal security analysis of HUBCAP sandbox model
 * Paper about MaestroV2
+* Refactoring support for exploratory VDM spec
 
 ## In review
 
