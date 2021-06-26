@@ -35,9 +35,11 @@ The full list of open issues is [here](https://github.com/overturetool/language/
 
 #### VDMTools
 
+No changes
 
 #### ViennaTalk
 
+Working on refactoring support on VDM Browser.
 
 ##  Status of the Overture Components
 
