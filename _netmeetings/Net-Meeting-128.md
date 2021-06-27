@@ -14,7 +14,7 @@ date: 27 June 2021, 1200 CEST
 |||
 |---|---|
 | Date | 27 June 2021, 12:00 CET |
-| Participants |  |
+| Participants | HDM, NB, TO, Minutes by HDM  |
 
 
 ## Review Status of the Action List
@@ -77,5 +77,4 @@ The Strategic Research Agenda is reviewed every other NetMeeting. No progress th
 
 ##  Any Other Business
 
-PGL stated his intention to stand down as the Convener of these Overture net meetings, handing the batton over to HM. We thank Peter for his efforts over the years and look forward to working with Hugo in the chair in future. Peter will, of course, still be involved with Overture as far as possible.
 
