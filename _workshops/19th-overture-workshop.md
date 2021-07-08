@@ -2,11 +2,13 @@
 layout: default
 title: The 19th Overture Workshop
 date: 2021-10-22
-location: Online and hopefully at Aarhus University
+location: Online and expecting at Aarhus University
 ---
 # THE 19TH OVERTURE WORKSHOP WITH EXTENDED DATES
 
 The 19th Overture Workshop will be held on **22 October 2021** online and in person at Aarhus University, if possible.
+
+**NOTE: We expect this to be a hybrid event in the sense that you can participate in person or online.**
 
 ## Registration
 To register for this workshop, please email <overture19request@gmail.com> to request the link to participate. 
