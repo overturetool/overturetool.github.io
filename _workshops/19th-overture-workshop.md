@@ -4,7 +4,7 @@ title: The 19th Overture Workshop
 date: 2021-10-22
 location: Online and hopefully at Aarhus University
 ---
-# THE 19TH OVERTURE WORKSHOP
+# THE 19TH OVERTURE WORKSHOP WITH EXTENDED DATES
 
 The 19th Overture Workshop will be held on **22 October 2021** online and in person at Aarhus University, if possible.
 
@@ -67,10 +67,10 @@ available at <https://www.overturetool.org/>.
 ## Submission
 Submission of papers is through EasyChair: <https://easychair.org/conferences/?conf=ovt19>.
 
-### Important Dates
-* Abstracts: Monday, July 5, 2021
-* Full Papers: Monday, July 12, 2021
-* Notifications: Monday, August 30, 2021
+### Important Dates (NOTE, DATES HAVE BEEN EXTENDED!)
+* Abstracts: ~~Monday, July 5, 2021~~ Monday, July 12, 2021
+* Full Papers: ~~Monday, July 12, 2021~~, Wednesday, August 4, 2021
+* Notifications: ~~Monday, August 30,~~ Monday, September 6, 2021
 * Camera ready version of papers: Monday, September 27, 2021
 * Pre-proceedings: Monday, October 11, 2021
 * Workshop: Friday, October 22, 2021
