@@ -72,7 +72,7 @@ Submission of papers is through EasyChair: <https://easychair.org/conferences/?c
 ### Important Dates (NOTE, DATES HAVE BEEN EXTENDED!)
 * Abstracts: ~~Monday, July 5, 2021~~ Monday, July 12, 2021
 * Full Papers: ~~Monday, July 12, 2021~~, Wednesday, August 4, 2021
-* Notifications: ~~Monday, August 30,~~ Monday, September 6, 2021
+* Notifications: ~~Monday, August 30,~~ ~~Monday, September 6,~~, Friday, September 10, 2021
 * Camera ready version of papers: Monday, September 27, 2021
 * Pre-proceedings: Monday, October 11, 2021
 * Workshop: Friday, October 22, 2021
