@@ -48,6 +48,8 @@ Summer intern at AU will contribute to Overture VSCode migration.
 ### VDM for VSCode
 
 * Added Java Code Generation reusing OVT jars. Added Import Library. Added Import Example Project. 
+* Added structured outlining, which allows better navigation, including proper use of the breadcrumbs bar.
+* Working on CSV and VDMUnit library native code (porting from Overture)
 
 ##  Release Planning
 
