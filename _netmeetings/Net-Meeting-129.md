@@ -14,14 +14,14 @@ date: 29 August 2021, 1200 CEST
 |||
 |---|---|
 | Date | 29 August 2021, 12:00 CEST |
-| Participants | TBA, Minutes by TBA  |
+| Participants | HDM,JR,NB,LF,TO,MV,PGL Minutes by TO  |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
-* [Licensing of Fujitsu's VDMJ](https://github.com/overturetool/overturetool.github.io/issues/32) can be closed, pending the move of everything to VSCode under GPL.
+* [Licensing of Fujitsu's VDMJ](https://github.com/overturetool/overturetool.github.io/issues/32) is closed.
 
 
 ## Overture Language Board Status
@@ -64,6 +64,7 @@ For VSCode see status on [the extension page](https://marketplace.visualstudio.c
 
 #### Overture Workshop
 
+Overture 19 will be held at Aarhus.
 Reviews started and should be under way.
 
 ##  Strategic Research Agenda
