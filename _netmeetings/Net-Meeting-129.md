@@ -13,7 +13,7 @@ date: 29 August 2021, 1200 CEST
 
 |||
 |---|---|
-| Date | 29 June 2021, 12:00 CET |
+| Date | 29 August 2021, 12:00 CEST |
 | Participants | TBA, Minutes by TBA  |
 
 
@@ -39,7 +39,7 @@ No changes
 
 #### ViennaTalk
 
-Working on refactoring support on VDM Browser.
+* Added refactoring support
 
 ##  Status of the Overture Components
 
