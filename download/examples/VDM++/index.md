@@ -372,13 +372,19 @@ Software and Informatics, Vol 3., No 2-3, June/September 2009, pp. 305-341.
 
 
 ### IMM
+This example models a controller for an Injection Moulding Machine.
+This model was mainly developed by Till Böttjer, a part of his PhD 
+work. More information can be found in:
 
+Till Böttjer, Michael Sandberg, Peter Gorm Larsen, and Hugo Daniel Macedo,
+Modelling an Injection Moulding Machine using the Vienna Development Method
+Incremental, In OVT-19: 19th Overture Workshop, 2021.
 
 
 | | |
 |------|-------|
-|Author:||
-|Version:|VDM_PP - classic|
+|Author:|Till Böttjer|
+|Version:|VDM_PP - vdm10|
 |Details...|[model (zip)](IMMPP/IMM.zip)  / [show specification](IMMPP/index.html)|
 
 

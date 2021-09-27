@@ -4,14 +4,22 @@ title: IMMPP
 ---
 
 ## IMMPP
-Author: 
+Author: Till Böttjer
 
 
+This example models a controller for an Injection Moulding Machine.
+This model was mainly developed by Till Böttjer, a part of his PhD 
+work. More information can be found in:
+
+Till Böttjer, Michael Sandberg, Peter Gorm Larsen, and Hugo Daniel Macedo,
+Modelling an Injection Moulding Machine using the Vienna Development Method
+Incremental, In OVT-19: 19th Overture Workshop, 2021. 
 
 
 | Properties | Values          |
 | :------------ | :---------- |
-|Language Version:| classic|
+|Language Version:| vdm10|
+|Entry point     :| new World().ScenarioCSV("scenario_A.csv")|
 
 
 ### InjectionMachine.vdmpp
