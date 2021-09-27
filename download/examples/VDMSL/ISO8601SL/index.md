@@ -123,7 +123,7 @@ functions
                     [f]^ss -> if e=f then 1 else 1 + indexOf[@a](e,ss)
                   end
   pre inSeq[@a](e,s)
-  measure size0;
+  measure len s;
 
   -- The position a subsequence appears in a sequence.
   indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1
@@ -131,7 +131,7 @@ functions
                      then 1
                      else 1 + indexOfSeq[@a](r, tl s)
   pre subSeq[@a](r,s)
-  measure size3;
+  measure len s;
 
   -- The position a subsequence appears in a sequence?
   indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1]
@@ -176,7 +176,7 @@ functions
                   end
   pre ascending[@a](s)
   post ascending[@a](RESULT) and permutation[@a]([x]^s, RESULT)
-  measure size9;
+  measure len s;
 
   -- Insert a value into an ascending sequence of values preserving order.
   insertWith[@a]: (@a * @a +> bool) +> @a * seq of @a +> seq of @a
@@ -188,7 +188,7 @@ functions
     end
   pre ascendingWith[@a](o)(s)
   post ascendingWith[@a](o)(RESULT) and permutation[@a]([x]^s, RESULT)
-  measure size6;
+  measure len s;
 
   -- Sort a sequence of items.
   sort[@a]: seq of @a +> seq of @a
@@ -198,7 +198,7 @@ functions
                [x] ^ t -> insert[@a](x, sort[@a](t))
              end
   post elems RESULT = elems s and ascending[@a](RESULT)
-  measure size10;
+  measure len s;
 
   -- Sort a sequence of items by the provided order relation.
   sortWith[@a]: (@a * @a +> bool) +> seq of @a +> seq of @a
@@ -208,7 +208,7 @@ functions
                       [x] ^ t -> insertWith[@a](o)(x, sortWith[@a](o)(t))
                     end
   post elems RESULT = elems s and ascendingWith[@a](o)(RESULT)
-  measure size7;
+  measure len s;
 
   -- Lexicographic ordering on sequences.
   lexicographic[@a]: seq of @a * seq of @a +> bool
@@ -228,7 +228,7 @@ functions
                                t1 = t(i+1,...,len t)
                            in s1 = [] and t1 <> [] or
                               s1 <> [] and t1 <> [] and hd s1 < hd t1
-  measure size11;
+  measure len s;
 
   -- Lexicographic ordering on sequences by the provided order relation.
   lexicographicWith[@a]: (@a * @a +> bool) +> seq of @a * seq of @a +> bool
@@ -294,7 +294,7 @@ functions
   post postSeq[@a](RESULT, s) and
        (RESULT = [] or not p(RESULT(1))) and
        forall i in set {1,...,(len s - len RESULT)} & p(s(i))
-  measure size5;
+  measure len s;
 
   -- Apply a function to all elements of a sequence.
   xform[@a,@b]: (@a+>@b) * seq of @a +> seq of @b
@@ -312,7 +312,7 @@ functions
                    end
   --pre (forall x:@a & f(x,e) = x and f(e,x) = x)
   --and forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
-  measure size2;
+  measure len s;
 
   -- Fold (iterate, accumulate, reduce) a binary function over a non-empty sequence.
   -- The function is assumed to be associative.
@@ -322,7 +322,7 @@ functions
                    s1^s2 -> f(fold1[@a](f,s1), fold1[@a](f,s2))
                  end
   --pre forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
-  measure size1;
+  measure len s;
 
   -- Pair the corresponding elements of two lists of equal length.
   zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b)
@@ -351,7 +351,7 @@ functions
                        [x]   -> f(x),
                        t ^ u -> format[@a](f,sep,t) ^ sep ^ format[@a](f,sep,u)
                      end
-  measure size4;
+  measure len s;
 
   -- The following functions wrap primitives for convenience, to allow them for example to
   -- serve as function arguments.
@@ -1118,11 +1118,7 @@ functions
     then 0
     else 1 + durToYear(durDiff(dur, durFromYear(year)), year+1)
   --post RESULT = Set`max({ y | y : Year & durUptoYear(year+y) <= dur })
-  measure m_durToYear;
-
-  -- The measure function for durToYear
-  m_durToYear : Duration * Year +> nat
-  m_durToYear(d,-) == d.dur;
+  measure dur.dur;
 
   -- The duration of a year.
   durFromYear: Year +> Duration
@@ -1276,11 +1272,7 @@ functions
   pre dd <= daysInMonth(yy, mm)
   --post RESULT = minDate({ date | date:Date & date > mk_Date(yy, mm, dd) and
   --                                           date.day = day })
-  measure m_nextYMDForDay;
-
-  -- The measure function for nextYMDForDay
-  m_nextYMDForDay: Year * Month * Day * Day +> nat
-  m_nextYMDForDay(y,m,-,-) == ((LAST_YEAR+1)*MONTHS_PER_YEAR) - (y*MONTHS_PER_YEAR + m);
+  measure ((LAST_YEAR+1)*MONTHS_PER_YEAR) - (yy*MONTHS_PER_YEAR + mm);
 
   -- Given a date, find the previous date on which the day of month is the same.
   previousDateForYM: Date +> Date
@@ -1307,11 +1299,7 @@ functions
   pre dd <= daysInMonth(yy, mm)
   --post RESULT = maxDate({ date | date:Date & date < mk_Date(yy, mm, dd) and
   --                                           date.day = day })
-  measure m_previousYMDForDay;
-
-  -- The measure function for previousYMDForDay
-  m_previousYMDForDay: Year * Month * Day * Day +> nat
-  m_previousYMDForDay(y,m,-,-) == y*MONTHS_PER_YEAR + m;
+  measure yy*MONTHS_PER_YEAR + mm;
 
   -- Normalise a DTG value such that it is expressed without time zone offset.
   -- Applying the offset may result in a change of date.

@@ -241,7 +241,7 @@ functions
                     [f]^ss -> if e=f then 1 else 1 + indexOf[@a](e,ss)
                   end
   pre inSeq[@a](e,s)
-  measure size0;
+  measure len s;
 
   -- The position a subsequence appears in a sequence.
   indexOfSeq[@a]: seq1 of @a * seq1 of @a +> nat1
@@ -249,7 +249,7 @@ functions
                      then 1
                      else 1 + indexOfSeq[@a](r, tl s)
   pre subSeq[@a](r,s)
-  measure size3;
+  measure len s;
 
   -- The position a subsequence appears in a sequence?
   indexOfSeqOpt[@a]: seq1 of @a * seq1 of @a +> [nat1]
@@ -305,7 +305,7 @@ functions
                    end
   --pre (exists x:@a & forall y:@a & f(x,y) = y and f(y,x) = y)
   --and forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
-  measure size2;
+  measure len s;
 
   -- Fold (iterate, accumulate, reduce) a binary function over a non-empty sequence.
   -- The function is assumed to be associative.
@@ -315,7 +315,7 @@ functions
                    s1^s2 -> f(fold1[@a](f,s1), fold1[@a](f,s2))
                  end
   --pre forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z)
-  measure size1;
+  measure len s;
 
   -- Pair the corresponding elements of two lists of equal length.
   zip[@a,@b]: seq of @a * seq of @b +> seq of (@a * @b)
@@ -342,20 +342,6 @@ functions
   -- Set of sequence elements.
   setOf[@a]: seq of @a +> set of @a
   setOf(s) == elems(s);
-
-  -- Measure functions.
-
-  size0[@a]: @a * seq1 of @a +> nat
-  size0(-, s) == len s;
-
-  size1[@a]: (@a * @a +> @a) * seq1 of @a +> nat
-  size1(-, s) == len s;
-
-  size2[@a]: (@a * @a +> @a) * @a * seq of @a +> nat
-  size2(-, -, s) == len s;
-
-  size3[@a]: seq1 of @a * seq1 of @a +> nat
-  size3(-, s) == len s;
 
 end Seq
 ~~~
@@ -440,7 +426,7 @@ functions
   --pre (exists x:@a & forall y:@a & f(x,y) = y and f(y,x) = y)
   --and (forall x,y:@a & f(x, y) = f(y, x))
   --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
-  measure size2;
+  measure card s;
 
   -- Fold (iterate, accumulate, reduce) a binary function over a non-empty set.
   -- The function is assumed to be commutative and associative.
@@ -452,7 +438,7 @@ functions
   pre s <> {}
   --and (forall x,y:@a & f(x,y) = f(y,x))
   --and (forall x,y,z:@a & f(x,f(y,z)) = f(f(x,y),z))
-  measure size1;
+  measure card s;
 
   -- Are the members of a set of sets pairwise disjoint.
   pairwiseDisjoint[@a]: set of set of @a +> bool
@@ -473,23 +459,12 @@ functions
   post -- for a set of size n, there are n! permutations
        card RESULT = prod({1,...,card s}) and
        forall sq in set RESULT & len sq = card s and elems sq = s
-  measure size;
+  measure card s;
 
   -- The cross product of two sets.
   xProduct[@a,@b]: set of @a * set of @b +> set of (@a * @b)
   xProduct(s,t) == { mk_(x,y) | x in set s, y in set t }
   post card RESULT = card s * card t;
-
-  -- Measure functions.
-
-  size[@a]: set of @a +> nat
-  size(s) == card s;
-
-  size1[@a]: (@a * @a +> @a) * set of @a +> nat
-  size1(-, s) == card s;
-
-  size2[@a]: (@a * @a +> @a) * @a * set of @a +> nat
-  size2(-, -, s) == card s;
 
 end Set
 ~~~
@@ -1119,11 +1094,7 @@ functions
     then 0
     else 1 + durToYear(durDiff(dur, durFromYear(year)), year+1)
   --post RESULT = Set`max({ y | y : Year & durLeq(durUptoYear(year+y), dur) })
-  measure durToYear_measure;
-
-  -- The measure function for durToYear
-  durToYear_measure : Duration * Year +> nat
-  durToYear_measure(d,-) == d.dur;
+  measure dur.dur;
 
   -- The duration of a year.
   durFromYear: Year +> Duration

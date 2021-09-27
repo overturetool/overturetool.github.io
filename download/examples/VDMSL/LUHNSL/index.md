@@ -68,12 +68,8 @@ functions
           if product < 10
           then product
           else (product mod 10) + 1
-  measure slen;
-  
-  slen: seq of Digit -> nat
-  slen(data) ==
-    len data;  -- Length is strictly decreasing.
-    
+  measure len data;
+      
   strToSeq: seq1 of char -> seq1 of Digit
   strToSeq(s) ==
     [ cases i :
@@ -86,10 +82,7 @@ functions
     if n < 10
     then [n]
     else natToSeq(n div 10) ^ [n rem 10]
-  measure id;
-  
-  id: nat -> nat
-  id(n) == n;
+  measure n;
 
 traces
   /**

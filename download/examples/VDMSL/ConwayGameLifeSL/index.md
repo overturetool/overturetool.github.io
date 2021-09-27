@@ -69,12 +69,9 @@ functions
 			  let - = newRound() 
 			   in
 	 		    animate_step(tl pop) 
-	measure measure_animate_step;
+	measure len pop;
 	
-	measure_animate_step: seq of Conway`Population -> nat
-	measure_animate_step(list) == len list;
-
-	initialise: nat1 * nat1 -> int
+  initialise: nat1 * nat1 -> int
   initialise(gridSideCount, sleepTime)== is not yet specified;
     
   newLivingCell:  int * int -> int
@@ -193,11 +190,8 @@ functions
 			if n = 1
 			then [new_p] 
 			else [new_p] ^ generations(n-1,new_p)
-	measure measureGenerations;
-     
-	measureGenerations: nat1 * Population -> nat
-	measureGenerations(n,-) == n;
-	
+	measure n;
+    
     -- Generate an offset of a Population (for testing gliders)
 	offset: Population * int * int -> Population
 	offset(pop, dx, dy) ==

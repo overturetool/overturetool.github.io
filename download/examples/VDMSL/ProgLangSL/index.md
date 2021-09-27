@@ -210,11 +210,7 @@ functions
       others -> EvalStmts(tl stmts, EvalStmt(hd stmts, denv))
     end
   pre stmts <> [] => pre_EvalStmt(hd stmts, denv)
-  measure LenStmt;
-  
-  LenStmt: seq of AST`Stmt * DynEnv -> nat
-  LenStmt(l,-) ==
-    len l;
+  measure len stmts;
 
   EvalAssignStmt : AST`AssignStmt * DynEnv -> DynEnv
   EvalAssignStmt(mk_AST`AssignStmt(lhs, rhs), denv) ==

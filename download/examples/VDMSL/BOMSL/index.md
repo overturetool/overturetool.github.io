@@ -56,11 +56,7 @@ TransClos(bom, ps) ==
        in
          TransClos(bom, ps union newps)            
 pre ps subset dom bom
-measure IncrAcc;
-
-IncrAcc: (map Pn to set of Pn) * set of Pn -> nat
-IncrAcc(bom,pns) ==
-  card dom bom - card pns;
+measure card dom bom - card ps;
   
 Explode: Pn * BOM -> set of Pn
 Explode(p, bom) ==
