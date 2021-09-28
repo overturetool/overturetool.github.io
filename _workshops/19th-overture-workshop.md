@@ -11,7 +11,7 @@ The 19th Overture Workshop will be held on **22 October 2021** online and in per
 **NOTE: We expect this to be a hybrid event in the sense that you can participate in person or online.**
 
 ## Registration
-To register for this workshop, please email <overture19request@gmail.com> to request the link to participate. 
+To register for this workshop, please fill https://forms.gle/mdUWR1yoRubDJe5X7 . 
 
 ## Presentations
 The description of presentations will be described once publications have been submitted.
