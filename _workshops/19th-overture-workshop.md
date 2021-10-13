@@ -2,7 +2,7 @@
 layout: default
 title: The 19th Overture Workshop
 date: 2021-10-22
-location: Online and expecting at Aarhus University
+location: Online and at Aarhus University
 ---
 # THE 19TH OVERTURE WORKSHOP WITH EXTENDED DATES
 
@@ -26,6 +26,7 @@ Authors are invited to record their presentations as video if desired. If you wo
 
 
 09.00 - 09.15 Welcome and Coffee
+
 09.15 - 09.30 Introduction
 
 Session 1 Chair: Ken Pierce
@@ -34,7 +35,7 @@ Session 1 Chair: Ken Pierce
 
 10.10 - 10.30 Behaviour driven specification (Simon Fraser, Alessandro Pezzoni)
 
-10.30 - 11.00 30 minute break
+10.30 - 11.00 Break
 
 Session 2 Chair: Hugo Daniel Macedo
 
@@ -47,7 +48,7 @@ Macedo)
 
 11.40 - 12.00 Modelling an Injection Moulding Machine using the Vienna Development Method (Till Böttjer, Michael Sandberg, Peter Gorm Larsen, and Hugo Daniel Macedo) 
 
-12.00 - 13.00 LUNCH BREAK
+12.00 - 13.00 Lunch
 
 Session 3: Casper Thule Hansen
 
@@ -58,11 +59,11 @@ an Implementation in INTO-CPS (Maximilian Rose and John Fitzgerald)
 
 13.40 - 14.00 Multi-Objective Optimisation Support for Co-Simulation (Aiden Stanley and Ken Pierce)
 
-14.00 - 30 minute break
+14.00 - 14:30 Break
 
 14.30 - 15.30 Panel discussion
 
-18:00 Dinner 
+18:00 - ... Dinner 
 
 
 
