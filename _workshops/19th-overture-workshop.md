@@ -13,14 +13,11 @@ The 19th Overture Workshop will be held on **22 October 2021** online and in per
 ## Registration
 To register for this workshop, please fill the [registration form](https://forms.gle/mdUWR1yoRubDJe5X7). 
 
-## Presentations
-The description of presentations will be described once publications have been submitted.
+## Presentations and Proceedings
 
-<!--- TBD
-Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
+Each presentation slot lasts 20 minutes. In order to allow time for discussion, no presentation should exceed 15 minutes. 
 
-Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. 
---->
+The proceedings are now available at [arXiv:2110.09371](https://arxiv.org/abs/2110.09371)
 
 ## Programme
 
