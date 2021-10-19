@@ -114,10 +114,7 @@ CM( missileInputs, outputSoFar, lastMissile, curTime) ==
                     curTime + stepLength)
          else CM(tl missileInputs, outputSoFar, 
                  lastMissile,curTime + stepLength)
-measure CMLen;
-
-CMLen: MissileInputs * Output * map MagId to [MissileType] * nat -> nat
-CMLen(list,-,-,-) == len list;
+measure len missileInputs;
     
 InterruptPlan: nat * Output * Plan * MagId -> Output
 InterruptPlan(curTime,expOutput,plan,magid) ==
@@ -160,11 +157,7 @@ RelativeToAbsoluteTimes(ts) ==
            ns = RelativeToAbsoluteTimes(tl ts) in
          [mk_(f,t)] ^
          [ let mk_(nf, nt) = n in mk_(nf, nt + t) | n in seq ns]
-measure RespLen;
-
-RespLen: seq of Response -> nat
-RespLen(l) ==
-  len l;
+measure len ts;
 
 Angle2MagId: Angle -> MagId
 Angle2MagId(angle) ==

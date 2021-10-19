@@ -71,10 +71,7 @@ MaxOfSet(s) ==
       let mr = MaxOfSet(s\{e}) in
          if e > mr then e else mr
  post RESULT in set s and forall e in set s & e <= RESULT
- measure CardInt;
-
-CardInt: set of int -> nat
-CardInt(s) == card s;
+ measure card s;
 
 lupsltok : array * nat1 -> nat
 lupsltok(a,k) ==

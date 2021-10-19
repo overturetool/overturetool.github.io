@@ -2,7 +2,7 @@
 layout: default
 title: The 19th Overture Workshop
 date: 2021-10-22
-location: Online and expecting at Aarhus University
+location: Online and at Aarhus University
 ---
 # THE 19TH OVERTURE WORKSHOP WITH EXTENDED DATES
 
@@ -11,19 +11,58 @@ The 19th Overture Workshop will be held on **22 October 2021** online and in per
 **NOTE: We expect this to be a hybrid event in the sense that you can participate in person or online.**
 
 ## Registration
-To register for this workshop, please email <overture19request@gmail.com> to request the link to participate. 
+To register for this workshop, please fill the [registration form](https://forms.gle/mdUWR1yoRubDJe5X7). 
 
-## Presentations
-The description of presentations will be described once publications have been submitted.
+## Presentations and Proceedings
 
-<!--- TBD
-Each presentation slot lasts 40 minutes. In order to allow time for discussion, no presentation should exceed 30 minutes. 
+Each presentation slot lasts 20 minutes. In order to allow time for discussion, no presentation should exceed 15 minutes. 
 
-Authors are invited to record their presentations as video if desired. If you would like to do this, we will arrange for it to be uploaded and played during your slot. We would also welcome presentations that we can subsequently make available online. If you wish to prepare a pre-recording, please contact Tomohiro Oda (<tomohiro@sra.co.jp>) for instructions on how to upload. 
---->
+The proceedings are now available at [arXiv:2110.09371](https://arxiv.org/abs/2110.09371)
 
 ## Programme
-The programme description will be settled once publications have been submitted.
+
+
+09.00 - 09.15 Welcome and Coffee
+
+09.15 - 09.30 Introduction
+
+Session 1 Chair: Ken Pierce
+
+09.30 - 10.10 Keynote: Applications of Formal Methods to Medical Devices (Leo Freitas)
+
+10.10 - 10.30 Behaviour driven specification (Simon Fraser, Alessandro Pezzoni)
+
+10.30 - 11.00 Break
+
+Session 2 Chair: Hugo Daniel Macedo
+
+11.00 - 11.20 Refactoring for Exploratory Specification in VDM-SL (Tomohiro Oda, Keijiro Araki, Shin Sahara, Han-Myung Chang, and Peter
+Gorm Larsen)
+
+11.20 - 11.40 Extending the Formal Security Analysis of the HUBCAP sandbox (Tomas Kulik, Prasad Talasila, Pietro Greco, Giuseppe Veneziano, Angelo
+Marguglio, Lorenzo Franco Sutton, Peter Gorm Larsen, and Hugo Daniel
+Macedo)
+
+11.40 - 12.00 Modelling an Injection Moulding Machine using the Vienna Development Method (Till Böttjer, Michael Sandberg, Peter Gorm Larsen, and Hugo Daniel Macedo) 
+
+12.00 - 13.00 Lunch
+
+Session 3: Casper Thule Hansen
+
+13.00 - 13.20 RMQFMU: Bridging the Real World with Co-simulation For Practitioners (Mirgita Frasheri, Henrik Ejersbo, Casper Thule, and Lukas Esterle)
+
+13.20 - 13.40 Genetic Algorithms for Design Space Exploration of Cyber-Physical Systems:
+an Implementation in INTO-CPS (Maximilian Rose and John Fitzgerald)
+
+13.40 - 14.00 Multi-Objective Optimisation Support for Co-Simulation (Aiden Stanley and Ken Pierce)
+
+14.00 - 14:30 Break
+
+14.30 - 15.30 Panel discussion
+
+18:00 - ... Dinner 
+
+
 
 <!---
 All timings are in UTC (same as UK/Ireland/Portugal time) 

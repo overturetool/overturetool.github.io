@@ -247,7 +247,7 @@ TransformRmEdge (rme_id) ==
            []
          else
            [mk_EntityInstanceName(lut(hd ins))] ^ MapInToOut(tl ins, lut)
-      measure LenPar1;
+      measure len ins;
       
       LenPar1: seq of nat * map nat to nat -> nat
       LenPar1(list,-) ==
@@ -259,7 +259,7 @@ TransformRmEdge (rme_id) ==
           {} -> {},
           others -> let e in set theSet in elems e union Collect(theSet\{e})
         end
-      measure SetCard;
+      measure card theSet;
       
       SetCard: set of seq of nat -> nat
       SetCard(s) ==

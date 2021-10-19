@@ -16,6 +16,7 @@ development process (TR-006). Finally, Overture contains facilities for generati
 - [**TR-002**](https://raw.github.com/overturetool/documentation/master/documentation/UserGuideOvertureIDE/OvertureIDEUserGuide.pdf): Overture VDM-10 Tool Support: User Guide
 - [**TR-005**](https://raw.github.com/overturetool/documentation/master/documentation/CombinatorialTesting/CombinatorialTesting.pdf): VDM Combinatorial Testing Guidelines
 - [**TR-006**](https://raw.github.com/overturetool/documentation/master/documentation/VDMRTProcess/VDMRTProcess.pdf): Development Process for Distributed Embedded Systems using VDM
+- [**TR-007**](https://github.com/overturetool/documentation/raw/editing/documentation/UserGuideVDMVSCode/VDMVSCodeUserGuide.pdf): Overture VDM VSCode Extension: User Guide
 - [**Generating C Code**]({{site.url}}/documentation/generating-c-code.html)
 - [**FMI Support**]({{site.url}}/documentation/fmi/fmi-support.html)
 
