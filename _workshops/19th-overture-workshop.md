@@ -36,25 +36,25 @@ Session 1 Chair: Ken Pierce
 
 Session 2 Chair: Hugo Daniel Macedo
 
-11.00 - 11.20 Refactoring for Exploratory Specification in VDM-SL (**Tomohiro Oda**, Keijiro Araki, Shin Sahara, Han-Myung Chang, and Peter
+11.00 - 11.20 [Refactoring for Exploratory Specification in VDM-SL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/19/Tomo.pdf) (**Tomohiro Oda**, Keijiro Araki, Shin Sahara, Han-Myung Chang, and Peter
 Gorm Larsen)
 
-11.20 - 11.40 Extending the Formal Security Analysis of the HUBCAP sandbox (**Tomas Kulik**, Prasad Talasila, Pietro Greco, Giuseppe Veneziano, Angelo
+11.20 - 11.40 [Extending the Formal Security Analysis of the HUBCAP sandbox](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/19/Tomas.pdf)  (**Tomas Kulik**, Prasad Talasila, Pietro Greco, Giuseppe Veneziano, Angelo
 Marguglio, Lorenzo Franco Sutton, Peter Gorm Larsen, and Hugo Daniel
 Macedo)
 
-11.40 - 12.00 Modelling an Injection Moulding Machine using the Vienna Development Method (**Till Böttjer**, Michael Sandberg, Peter Gorm Larsen, and Hugo Daniel Macedo) 
+11.40 - 12.00 [Modelling an Injection Moulding Machine using the Vienna Development Method](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/19/Till.pdf)  (**Till Böttjer**, Michael Sandberg, Peter Gorm Larsen, and Hugo Daniel Macedo) 
 
 12.00 - 13.00 Lunch
 
 Session 3: Casper Thule Hansen
 
-13.00 - 13.20 RMQFMU: Bridging the Real World with Co-simulation For Practitioners (**Mirgita Frasheri**, Henrik Ejersbo, Casper Thule, and Lukas Esterle)
+13.00 - 13.20 [RMQFMU: Bridging the Real World with Co-simulation For Practitioners](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/19/Gitta.pdf)  (**Mirgita Frasheri**, Henrik Ejersbo, Casper Thule, and Lukas Esterle)
 
-13.20 - 13.40 Genetic Algorithms for Design Space Exploration of Cyber-Physical Systems:
-an Implementation in INTO-CPS (**Maximilian Rose** and John Fitzgerald)
+13.20 - 13.40 [Genetic Algorithms for Design Space Exploration of Cyber-Physical Systems:
+an Implementation in INTO-CPS](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/19/Max.pdf)  (**Maximilian Rose** and John Fitzgerald)
 
-13.40 - 14.00 Multi-Objective Optimisation Support for Co-Simulation (Aiden Stanley and **Ken Pierce**)
+13.40 - 14.00 [Multi-Objective Optimisation Support for Co-Simulation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/19/Ken.pdf)  (Aiden Stanley and **Ken Pierce**)
 
 14.00 - 14:30 Break
 
