@@ -33,9 +33,12 @@ The full list of open issues is [here](https://github.com/overturetool/language/
 
 #### VDMTools
 
+no major change.
 
 #### ViennaTalk
 
+There will be a major release this year to adopt the new debugger architecture of the updated major version of Pharo Smalltalk.
+The refactoring browser will also be available in the planned major release.
 
 ##  Status of the Overture Components
 
@@ -43,6 +46,8 @@ The full list of open issues is [here](https://github.com/overturetool/language/
 ### VDM for VSCode
 
 New release for the [TR-007: Overture VDM VSCode Extension: User Guide](https://github.com/overturetool/documentation/raw/editing/documentation/UserGuideVDMVSCode/VDMVSCodeUserGuide.pdf) made last month.
+
+There is a new VSCode 1.2.2 in preparation. This includes "exception breakpoints" (the ability to stop on particular VDM "exit" statements), and a new LSP HLD to describe the basic design of the language server. There will also be support for "code lenses" that appear above functions or operations, which allow them to be launched or debugged without the tedious process of setting up a launch configuration. It will also support remote control operation of a VDM specification. And lastly, it supports the simple inclusion of plugins to handle extended (ie. unknown!) LSP requests - this is how Leo has managed to incorporate the Isabelle translation. You simply add the plugin jar to the classpath.
 
 ##  Release Planning
 
