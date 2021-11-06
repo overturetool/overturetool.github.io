@@ -33,9 +33,12 @@ The full list of open issues is [here](https://github.com/overturetool/language/
 
 #### VDMTools
 
+no major change.
 
 #### ViennaTalk
 
+There will be a major release this year to adopt the new debugger architecture of the updated major version of Pharo Smalltalk.
+The refactoring browser will also be available in the planned major release.
 
 ##  Status of the Overture Components
 
