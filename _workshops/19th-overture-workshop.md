@@ -156,3 +156,23 @@ All questions about submissions should be emailed to overture19request@gmail.com
 The online conference facility is provided by the Faculty of Technical Sciences at Aarhus University
 
 [![AU Technical Sciences Logo](/images/au-tech.png)](https://tech.au.dk/en/)
+
+### Participants
+
+The participants of the 19th Overture workshop.
+
+![](19/photo1.jpg)
+![](19/photo2.jpg)
+![](19/teams0.jpg)
+![](19/teams1.jpg)
+![](19/teams2.jpg)
+![](19/teams3.jpg)
+![](19/teams4.jpg)
+![](19/teams5.jpg)
+![](19/teams6.jpg)
+![](19/teams7.jpg)
+![](19/teams8.jpg)
+![](19/teams9.jpg)
+![](19/teams10.jpg)
+![](19/teams11.jpg)
+
