@@ -14,7 +14,7 @@ date: 7 November 2021, 1200 CEST
 |||
 |---|---|
 | Date | 07 November 2021, 12:00 CEST |
-| Participants | X,Y,Z Minutes by XX  |
+| Participants | PGL, KP, NB, TO, MV Minutes by HDM  |
 
 
 ## Review Status of the Action List
@@ -28,12 +28,14 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 The full list of open issues is [here](https://github.com/overturetool/language/issues).
 
+Progress was made on clarifying/unifying the let/def behaviours among different tools. 
+
 
 ## Status of VDMTools/ViennaTalk
 
 #### VDMTools
 
-no major change.
+No major change.
 
 #### ViennaTalk
 
@@ -62,7 +64,7 @@ For VSCode see status on [the extension page](https://marketplace.visualstudio.c
 
 #### Overture Workshop
 
- We had 16 participants with us at Aarhus University and 38 attendees in the online session. The slides are now available in the [workshop page](https://www.overturetool.org/workshops/19th-overture-workshop.html). The most important outcome was the idea of a hackaton to be held next year! 20th workshop should also be memorable and maybe organized on 2023.
+ We had 16 participants with us at Aarhus University and 38 attendees in the online session. The slides are now available in the [workshop page](https://www.overturetool.org/workshops/19th-overture-workshop.html). The most important outcome was the idea of a hackathon to be held next year! 20th workshop should also be memorable and maybe organized on 2023.
 
 ##  Strategic Research Agenda
 
@@ -75,4 +77,9 @@ The Strategic Research Agenda is reviewed every other NetMeeting. No progress th
 
 ##  Any Other Business
 
-
+* Moving away from GPLv3 licensing. The problem remains. It was decided to close the overture issue, but further discussion is needed.
+* New dates for meetings (post-meeting suggestion):
+    * 27 Feb
+    * 22 May
+    * 28 Aug
+    * 27 Nov
