@@ -28,7 +28,7 @@ The proceedings are now available at [arXiv:2110.09371](https://arxiv.org/abs/21
 
 Session 1 Chair: Ken Pierce
 
-09.30 - 10.10 Keynote: Applications of Formal Methods to Medical Devices (**Leo Freitas**)
+09.30 - 10.10 [Keynote: Applications of Formal Methods to Medical Devices](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/19/Leo.pptx)  (**Leo Freitas**)
 
 10.10 - 10.30 [Behaviour driven specification](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/19/Alessandro.pdf) (Simon Fraser, **Alessandro Pezzoni**)
 
