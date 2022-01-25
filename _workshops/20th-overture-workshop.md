@@ -1,7 +1,7 @@
 ---
 layout: default
 title: The 20th Overture Workshop
-date: 2022-01-24
+date: 2022-07-05
 location: Aarhus University
 ---
 # THE 20TH OVERTURE WORKSHOP
