@@ -40,7 +40,11 @@ available at <https://www.overturetool.org/>.
 TBA
 
 ### Important Dates 
-TBA
+18 April 2022: Submission of abstracts of papers
+25 April 2022: Submission deadline for papers
+06 June  2022: Notification to authors
+20 June  2022: Final version of papers due
+05 July  2022: Workshop
 
 ## Call
 Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. 
