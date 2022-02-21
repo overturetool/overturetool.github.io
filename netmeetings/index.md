@@ -9,11 +9,10 @@ The Overture core group net meetings.
 
 ## Upcoming meetings:
 
-* Net Meeting 130: November 7, 2021
-* Net Meeting 129: August 29, 2021
-* Net Meeting 128: June 27, 2021
-* Net Meeting 127: May 2, 2021
-* Net Meeting 126: February 14, 2021
+* Net Meeting 131: February 27, 2022
+* Net Meeting 132: May      22, 2022
+* Net Meeting 133: August   28, 2022
+* Net Meeting 134: November 27, 2022
 
 And we have a [meeting template](template.html)
 
