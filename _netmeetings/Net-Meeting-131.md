@@ -14,7 +14,7 @@ date: 27 February 2022, 1200 CEST
 |||
 |---|---|
 | Date | 27 February 2022, 12:00 CEST |
-| Participants |...,...,... Minutes by ...  |
+| Participants |HDM,PGL,TO,KP,LF,NB Minutes by TO  |
 
 
 ## Review Status of the Action List
@@ -23,6 +23,8 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 
 ## Overture Language Board Status
+
+Nick Battle, Anne Haxthausen, Ken Pierce, Hugo Daniel Macedo, Leo Freitas and Tomohiro Oda are elected as language board memers.
 
 #### Open Requests
 
