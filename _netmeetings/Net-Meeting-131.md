@@ -35,9 +35,15 @@ Progress was made on clarifying/unifying the let/def behaviours among different 
 
 #### VDMTools
 
+No major progress
 
 #### ViennaTalk
 
+The second revision of ViennaTalk Boulder has been released. (Feb 25, 2022)
+* experimental support for UTF-8 file pathnames.
+* new PharoVM for Apple Silicon processors.
+* IM (Input Method for typing multi-byte characters, e.g. for Chinese, Japanese, Korean and Vietnamese languages) support with inline input buffers.
+* minor fixes
 
 ##  Status of the Overture Components
 
