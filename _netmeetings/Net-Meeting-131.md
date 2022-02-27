@@ -47,10 +47,13 @@ The second revision of ViennaTalk Boulder has been released. (Feb 25, 2022)
 
 ##  Status of the Overture Components
 
+There has been a request to publish overture with annotations as an artifact. We will look into this.
 
 ### VDM for VSCode
 
-N
+Jonas has been refactoring and extending the features of VSCode. Leo visited AU and progress was made in terms
+of supporting the isabelle translation and other related proof support.
+
 ##  Release Planning
 
 
