@@ -19,6 +19,16 @@ TBA
 ## Programme
 
 
+Session 1: Technical papers
+
+Lunch
+
+Workshop: Hands on introduction to VDMJ
+
+Session 2: 
+
+Workshop dinner
+
 # CALL FOR PAPERS
 
 The 20th Overture Workshop is the latest in a series of workshops around the
@@ -40,10 +50,15 @@ available at <https://www.overturetool.org/>.
 TBA
 
 ### Important Dates 
-18 April 2022: Submission of abstracts of papers
-25 April 2022: Submission deadline for papers
+
+25 April 2022: Submission of abstracts of papers
+
+02 May   2022: Submission deadline for papers
+
 06 June  2022: Notification to authors
+
 20 June  2022: Final version of papers due
+
 05 July  2022: Workshop
 
 ## Call
@@ -75,8 +90,8 @@ The scope of the workshop includes, but is not restricted to:
 * Fuyuki Ishikawa, National Institute of Informatics, Japan
 * Keijiro Araki, National Institute of Technology, Kumamoto College, Japan
 * Sam Hall, Newcastle University, UK
+* Victor Bandur, McMaster University, CA
 
-For latest  information and announcements, visit <https://www.overturetool.org/workshops/20th-overture-workshop.html>
 
 
 ### Contact
@@ -87,4 +102,3 @@ The online conference facility is provided by the Faculty of Technical Sciences 
 
 [![AU Technical Sciences Logo](/images/au-tech.png)](https://tech.au.dk/en/)
 
-### Participants
