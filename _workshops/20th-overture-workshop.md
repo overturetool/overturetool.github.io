@@ -81,6 +81,8 @@ The scope of the workshop includes, but is not restricted to:
 * Hugo Daniel Macedo, Aarhus University, Denmark (<hdm@ece.au.dk>)
 
 ### Program Committee
+* Alessandro Pezzoni, Anaplan, UK
+* Ken Pierce, Newcastle University, UK
 * Kenneth Guldbrandt Lausdahl, AGROCorp International and Aarhus University, Denmark
 * Tomo Oda, Software Research Associate Incorporated, Japan
 * Marcel Verhoef, European Space Agency, The Netherlands
