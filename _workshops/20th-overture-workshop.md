@@ -46,8 +46,7 @@ established members of the community in their work, and helping to determine
 priorities and future directions. Proceedings of former workshops are
 available at <https://www.overturetool.org/>.
 
-## Submission
-TBA
+
 
 ### Important Dates 
 
@@ -61,6 +60,7 @@ TBA
 
 05 July  2022: Workshop
 
+
 ## Call
 Our workshop provides a forum for discussing and advancing the state of the art in formal modelling and analysis using VDM and its family of associated formalisms including extensions for distributed VDM and real-time systems. We strongly welcome contributions on the development of tools for, as well as developments in, foundations and reports of practical experience. Each paper will be peer-reviewed by at least three members of the PC, must use the Springer LNCS format, and should not exceed 15 pages in length. 
 
@@ -71,6 +71,10 @@ The scope of the workshop includes, but is not restricted to:
 * Papers combining VDM with other notations and tools.
 * Position papers on VDM and its promotion in industry practice.
 * Papers on extensions of VDM-related tools including Overture, INTO-CPS and ViennaTalk.
+
+## Submission
+
+<https://easychair.org/conferences/?conf=ovt20>
 
 ## Organising
 ### Program Chairs
