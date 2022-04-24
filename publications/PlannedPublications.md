@@ -12,7 +12,7 @@ title: Overture Publications
 
 
 * Paper about MaestroV2
-* Refactoring support for exploratory VDM spec
+* VDM-SL and FRAM
 
 ## In review
 
