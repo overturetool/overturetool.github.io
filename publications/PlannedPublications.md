@@ -6,17 +6,17 @@ title: Overture Publications
 # Planned Publications
 
 ## Planned
-* Updates to the VDM VSCode extension
 
 ## In preparation
 
-
+* Updates to the VDM VSCode extension
+* VDM++ UML connection in VSC
 * Paper about MaestroV2
-* VDM-SL and FRAM
 
 ## In review
 
-
+* VDM-SL and FRAM
+* Bridging the Requirements-Specification Gap using Behaviour-Driven Development
 
 ## In press
 * Modelling an Injection Molding Machine using theVienna Development Method
