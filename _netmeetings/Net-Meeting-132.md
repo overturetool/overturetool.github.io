@@ -31,12 +31,12 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 some description
 
 
-## Status of VDMTools Development
+## Status of ViennaTalk Development
 
-#### topic 1
+#### Major release **Graz**
 
-some description
-
+FRAM (Functional Resonance Analysis Method) collaboration support is added. 
+FRAM models collaborations as functions/activities in an organization mutually coupled through 6 aspects (input, output, time, precondition, control and resource). Functions/activities in a model can be imported into a VDM source as skeltons of operation definitions, and also operations in a VDM source can be merged into a FRAM model. Traceability between VDM and FRAM is maintained through annotations in VDM and comments in FRAM.
 
 ##  Status of the Overture Components
 
