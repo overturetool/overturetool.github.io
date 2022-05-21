@@ -26,10 +26,14 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-#### topic 1
+#### RC50 Inconsistency with eq_T and ord_T signatures
 
-some description
+The language board needs input from the community with regard to RC #50.
+https://github.com/overturetool/language/issues/50
 
+The question is about the signature of functions implicitly derived
+from eq/ord clauses of record types. The language board has been
+working on this issue, and the discussion needs inputs from language users.
 
 ## Status of ViennaTalk Development
 
