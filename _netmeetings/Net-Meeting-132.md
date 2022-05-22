@@ -30,7 +30,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 The language board needs input from the community with regard to RC #49 and RC #50.
 * [RC #49 Expression and Statement Clarifications](https://github.com/overturetool/language/issues/49)
-* [RC #50 Inconsistency with eq_T and ord_T signatures](https://github.com/overturetool/language/issues/50
+* [RC #50 Inconsistency with eq_T and ord_T signatures](https://github.com/overturetool/language/issues/50)
 
 The language board has been working on these issues, and the discussion needs inputs from language users.
 
