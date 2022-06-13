@@ -21,16 +21,27 @@ TBA
 
 
 08:30 - 09:00 Welcome and Registration
+
 09:00 - 09:30 Paper 1
+
 09:30 - 10:00 Paper 2
+
 10:00 - 10:30 Coffee Break
+
 10:30 - 11:00 Paper 3
+
 11:00 - 11:30 Paper 4
+
 11:30 - 12:00 Paper 5
+
 12:00 - 13:00 Lunch
+
 13:00 - 14:00 Invited session: VDMJ: Extension and Evolution
+
 14:00 - 15:00 Panel discussion on VDM
+
 15:00 - 18:00 Break 
+
 18:00 - 20:00 Workshop dinner
 
 # CALL FOR PAPERS
