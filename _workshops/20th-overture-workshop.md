@@ -22,21 +22,22 @@ TBA
 
 08:30 - 09:00 Welcome and Registration
 
-09:00 - 09:30 Paper 1
+09:00 - 09:30 VDM-SL in action: A FRAM-based approach to contextualize formal specifications
 
-09:30 - 10:00 Paper 2
+09:30 - 10:00 Bridging the Requirements-Specification Gap using Behaviour-Driven Development
 
 10:00 - 10:30 Coffee Break
 
-10:30 - 11:00 Paper 3
+10:30 - 11:00 Advanced VDM Support in Visual Studio Code
 
-11:00 - 11:30 Paper 4
+11:00 - 11:30 Towards UML and VDM support in the VS Code environment
 
-11:30 - 12:00 Paper 5
+11:30 - 12:00 Speeding Up Design Space Exploration through Compiled Master Algorithms
+
 
 12:00 - 13:00 Lunch
 
-13:00 - 14:00 Invited session: VDMJ: Extension and Evolution
+13:00 - 14:00 Invited session: VDMJ Past, Present and Future
 
 14:00 - 15:00 Panel discussion on VDM
 
