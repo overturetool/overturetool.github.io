@@ -27,7 +27,7 @@ Please fill in [this](https://forms.gle/67bvJCTAKU9vY5Pd9) form by the 20th of J
 
 10:00 - 10:30 Coffee Break
 
-10:30 - 11:00 [Advanced VDM Support in Visual Studio Code](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/20/OVT-20_paper_5640.pdf) (Jonas Kjær Rask, Frederik Palludan Madsen, Nick Battle, **Hugo Daniel Macedo** and Peter Gorm Larsen)
+10:30 - 11:00 [Advanced VDM Support in Visual Studio Code](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/20/OVT-20_paper_5640.pdf) (Jonas Kjær Rask, Frederik Palludan Madsen, Nick Battle, Leo Freitas, **Hugo Daniel Macedo** and Peter Gorm Larsen)
 
 11:00 - 11:30 [Towards UML and VDM support in the VS Code environment](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/20/OVT-20_paper_4491.pdf) (**Jonas Lund**, **Lucas Bjarke Jensen**, Hugo Daniel Macedo and Peter Gorm Larsen)
 
