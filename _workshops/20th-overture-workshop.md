@@ -8,42 +8,41 @@ location: Aarhus University
 
 The 20th Overture Workshop will be held on **05 July 2022** in person at Aarhus University.
 
+## Meeting link
+
+<https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZDM3Mzc2YzItZTQwYy00ODVhLWExNWUtMDAxNzU3MGU3ZWY5%40thread.v2/0?context=%7b%22Tid%22%3a%2261fd1d36-fecb-47ca-b7d7-d0df0370a198%22%2c%22Oid%22%3a%2297c3d77b-6713-4bf9-b8a7-2c1630174cf8%22%7d>
 
 ## Registration
 
 Please fill in [this](https://forms.gle/67bvJCTAKU9vY5Pd9) form by the 20th of June!
-
-## Presentations and Proceedings
-
-TBA
 
 ## Programme
 
 
 08:30 - 09:00 Welcome and Registration
 
-09:00 - 09:30 VDM-SL in action: A FRAM-based approach to contextualize formal specifications
+09:00 - 09:30 [VDM-SL in action: A FRAM-based approach to contextualize formal specifications](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/20/OVT-20_paper_0235.pdf) (**Tomohiro Oda**, Shigeru Kusakabe, Han-Myung Chang and Peter Gorm Larsen)
 
-09:30 - 10:00 Bridging the Requirements-Specification Gap using Behaviour-Driven Development
+09:30 - 10:00 [Bridging the Requirements-Specification Gap using Behaviour-Driven Development](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/20/OVT-20_paper_7378.pdf) (**Kristoffer Villadsen**, Malthe Dalgaard Jensen, Peter Gorm Larsen and Hugo Daniel Macedo )
 
 10:00 - 10:30 Coffee Break
 
-10:30 - 11:00 Advanced VDM Support in Visual Studio Code
+10:30 - 11:00 [Advanced VDM Support in Visual Studio Code](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/20/OVT-20_paper_5640.pdf) (Jonas Kjær Rask, Frederik Palludan Madsen, Nick Battle, **Hugo Daniel Macedo** and Peter Gorm Larsen)
 
-11:00 - 11:30 Towards UML and VDM support in the VS Code environment
+11:00 - 11:30 [Towards UML and VDM support in the VS Code environment](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/20/OVT-20_paper_4491.pdf) (** Jonas Lund, Lucas Bjarke Jensen**, Hugo Daniel Macedo and Peter Gorm Larsen)
 
-11:30 - 12:00 Speeding Up Design Space Exploration through Compiled Master Algorithms
+11:30 - 12:00 [Speeding Up Design Space Exploration through Compiled Master Algorithms](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/20/OVT-20_paper_7191.pdf) (**Ken Pierce**, Kenneth Lausdahl and Mirgita Frasheri )
 
 
 12:00 - 13:00 Lunch
 
-13:00 - 14:00 Invited session: VDMJ Past, Present and Future
+13:00 - 14:00 Invited session: Nick Battle, VDMJ Extension and Evolution
 
-14:00 - 15:00 Panel discussion on VDM
+14:00 - 15:00 Round table discussion on VDM
 
-15:00 - 18:00 Break 
+15:00 - 19:45 Break 
 
-18:00 - 20:00 Workshop dinner
+19:45 - 20:00 Workshop dinner
 
 # CALL FOR PAPERS
 
