@@ -8,13 +8,6 @@ location: Aarhus University
 
 The 20th Overture Workshop will be held on **05 July 2022** in person at Aarhus University.
 
-## Meeting link
-
-<https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZDM3Mzc2YzItZTQwYy00ODVhLWExNWUtMDAxNzU3MGU3ZWY5%40thread.v2/0?context=%7b%22Tid%22%3a%2261fd1d36-fecb-47ca-b7d7-d0df0370a198%22%2c%22Oid%22%3a%2297c3d77b-6713-4bf9-b8a7-2c1630174cf8%22%7d>
-
-## Registration
-
-Please fill in [this](https://forms.gle/67bvJCTAKU9vY5Pd9) form by the 20th of June!
 
 ## Programme
 
@@ -123,3 +116,9 @@ The online conference facility is provided by the Faculty of Technical Sciences 
 
 [![AU Technical Sciences Logo](/images/au-tech.png)](https://tech.au.dk/en/)
 
+
+### Participants
+
+The participants of the 19th Overture workshop.
+
+![](20/GroupPhoto.jpg)
