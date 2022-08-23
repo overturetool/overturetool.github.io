@@ -33,9 +33,9 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ
 
-
+VDMJ is now released to the Maven Central repository under the groupId "dk.au.ece.vdmj". The latest release is 4.4.6. There is also a snapshot release of 4.5.0-SNAPSHOT which adds an even driven method for VSCode plugins to be informed of various actions - this is not yet complete.
 
 
 ##  Release Planning
