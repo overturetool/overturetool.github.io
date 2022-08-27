@@ -35,7 +35,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ
 
-VDMJ is now released to the Maven Central repository under the groupId "dk.au.ece.vdmj". The latest release is 4.4.6. There is also a snapshot release of 4.5.0-SNAPSHOT which adds an event driven method for VSCode plugins to be informed of various user actions - this is not yet complete.
+VDMJ is now released to the Maven Central repository under the groupId "dk.au.ece.vdmj". The latest release is 4.4.6. There is also a snapshot release of 4.5.0-SNAPSHOT which adds an event driven method for VSCode plugins to be informed of various events, like saving files or typechecking.
 
 
 ##  Release Planning
