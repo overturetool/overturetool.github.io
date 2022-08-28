@@ -13,8 +13,8 @@ date: 28 August 2022, 1200 CEST
 
 |||
 |---|---|
-| Date | 28 August 2022, 12:00 CET |
-| Participants | AA, BB, ..., CC.  Minutes by DD. |
+| Date | 28 August 2022, 12:00 CEST |
+| Participants | HDM, NB, TO, PGL, LF.  Minutes by TO. |
 
 
 ## Review Status of the Action List
@@ -25,7 +25,10 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 
 ## Overture Language Board Status
+The LB would like to hear from VDM users about [RC#50 "Inconsistency with eq_T and ord_T signatures"](https://github.com/overturetool/language/issues/50).
 
+
+LB minutes: https://github.com/overturetool/language/wiki/Minutes-of-the-LB-NM,-28th-Aug-2022
 
 ## Status of ViennaTalk Development
 
@@ -68,21 +71,8 @@ The Strategic Research Agenda is reviewed every other NetMeeting.
 
 Also see [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
-#### In preparation:
-
-* Item 1
-* Item 2
-
-#### In review:
-
-* Item 1
-
-#### In press:
-
-* Item 1
-
-
 ##  Any Other Business
 
+None
 <div id="edit_page_div"></div>
 
