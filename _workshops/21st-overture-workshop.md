@@ -6,7 +6,7 @@ location: Lübeck, Germany
 ---
 # THE 21ST OVERTURE WORKSHOP
 
-The 21st Overture Workshop will be held on **06 March 2023 (tentative)** co-located with [FM 2023](https://fm2023.isp.uni-luebeck.de/).
+The 21st Overture Workshop will be held on **Friday 10 March 2023** co-located with [FM 2023](https://fm2023.isp.uni-luebeck.de/), hosted by [University of Lübeck](https://fm2023.isp.uni-luebeck.de/), Germany.
 
 
 # CALL FOR PAPERS
@@ -30,13 +30,13 @@ available at <https://www.overturetool.org/>.
 
 ### Important Dates 
 
-21 September 2022: Submission of papers
+Sunday 15 January 2023: Submission of papers
 
-15 November  2022: Notification to authors
+Sunday 26 February 2023: Notification to authors
 
-21 December  2022: Final version of papers due
+Sunday 5 March 2023: Final version of papers due
 
-06 March     2023: Workshop
+Friday 10 March 2023: Workshop
 
 
 ## Call
