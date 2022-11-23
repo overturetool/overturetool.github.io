@@ -46,7 +46,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VSCode Extension
 
-* The VSCode wiki has been updated considerably, especially for new users.
+* The [VSCode wiki](https://github.com/overturetool/vdm-vscode/wiki) has been updated considerably, especially for new users (Getting Started).
 * A new [Plugin Writer's Guide](https://github.com/nickbattle/vdmj/blob/master/lsp/documentation/PluginWritersGuide.pdf) is available to explain how to write a new plugin for the extension.
 * A new "generate" command is available to allow CT expansion to debugged.
 
