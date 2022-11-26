@@ -43,6 +43,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 * Bug fixed to allow VDMJ to work with Java 19.
 * A new [Library Writers Guide](https://github.com/nickbattle/vdmj/blob/master/vdmj/documentation/LibraryGuide.pdf) is availabe to help people create new libraries.
 * Looked at some issues reported to the LB about VDM++ object construction (needs clarification in the LRM).
+* There's a new experimental feature to allow VDMJ command line execution to be "p" paused or "q" interrupted, dropping into the debugger.
 
 #### VSCode Extension
 
