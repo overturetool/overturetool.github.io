@@ -9,7 +9,7 @@ title: Overture Publications
 
 ## In preparation
 
-* A case report of defining formal semantics of a multi-agent simulation language in VDM-SL
+* A case report of defining formal semantics of a multi-agent simulation language in VDM-SL (Tomohiro Oda et al.)
 * Updates to the VDM VSCode extension
 * VDM++ UML connection in VSC
 * Paper about MaestroV2
