@@ -73,7 +73,7 @@ See download stats on [the downloads page](https://www.overturetool.org/download
 
 The old Eclipse download page will be updated to deprecate Overture Eclipse in favour of VDM VSCode.
 
-#### OVT-20 amd OVT-21
+#### OVT-20 and OVT-21
 
 OVT-21 is already under way. PC invitations were made, and mostly accepted. The CFP is awaiting approval by Easychair.
 
