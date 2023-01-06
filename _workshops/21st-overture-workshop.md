@@ -52,7 +52,7 @@ The scope of the workshop includes, but is not restricted to:
 
 ## Submission
 
-TBA
+<https://easychair.org/conferences/?conf=ovt21>
 
 ## Organising
 
