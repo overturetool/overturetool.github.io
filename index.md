@@ -27,16 +27,16 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 
 ||
 |----|
-| The current stable version is <strong id="current-release-version">2.3.0</strong> <i id="current-release-data"> (May 2014) </i> which you can [download here]({{ site.url }}/download/).|
+| [Download it here!]({{ site.url }}/download/) |
 
 <div id="current-release"></div>
 
-#### Are you a Visual Studio Code user? Try out the new VDM VSCode extension <a href="https://marketplace.visualstudio.com/items?itemName=jonaskrask.vdm-vscode">(here)</a>
+#### Are you a Visual Studio Code user? Try out the new VDM VSCode extension <a href="https://marketplace.visualstudio.com/items?itemName=overturetool.vdm-vscode">(here)</a>
 
 
 <p style="text-align:center;">
-	<a href="https://marketplace.visualstudio.com/items?itemName=jonaskrask.vdm-vscode">
-		<img src="https://github.com/jonaskrask/vdm-vscode/raw/master/screenshots/smart_navigation.gif" height="281" alt="VDM VSCode extension">
+	<a href="https://marketplace.visualstudio.com/items?itemName=overturetool.vdm-vscode">
+		<img src="https://github.com/overturetool/vdm-vscode/blob/03024b45b6f027906d7e8b9e17d2220e79d07196/documentation/screenshots/GUI.png" height="281" alt="VDM VSCode extension">
 	</a>
 </p>
 

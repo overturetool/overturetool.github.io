@@ -11,24 +11,7 @@ title: Downloads
 <script>updateDownloadPage();</script>
 
 
-# Downloads
+# Download
 
-<div id="div-current-release"></div>
-
-<small>
-**Hint:**
-You will need a Java runtime environment (JRE) to use Overture (Java SE 8 is required). All downloads are provided under the terms and conditions of the Eclipse Foundation Software User Agreement unless otherwise specified.
-</small>
-
-### Release History
-
-<div id="div-release-history"></div>
-
-### Development Builds
-
-It is possible to get access to development builds of the Overture Tool on:
-
- * [the Overture Buildserver](https://overture.au.dk) hosted at Aarhus University. 
-
-**Warning:** the development builds may not work correctly (or at all!), so use at your own risk.
+[Follow the instructions from the GitHub Readme](https://github.com/overturetool/vdm-vscode)
 
