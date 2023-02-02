@@ -25,11 +25,7 @@ The *Overture Tool* is an open-source integrated development environment (IDE) f
 
 ![Tool preview]({{ site.url }}/images/tool-preview.png)
 
-<div align="center">
-||
-|----|
-|  [Download it here!]({{ site.url }}/download/) |
- </div>
+<div align="center"> [Download it here!]({{ site.url }}/download/) </div>
 
 
 #### Overture Tool Extensions:
