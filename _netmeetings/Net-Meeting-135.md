@@ -37,7 +37,31 @@ Added a [wiki](https://github.com/nickbattle/vdmj/wiki) to the GitHub site. Rath
 
 Converted VDMJ internals to use the same  plugin architecture as the LSP Server. So you can add new functionality (analyses and commands) by including a jar on the classpath.
 
-Added a "QuickCheck" plugin (see above) example project for VDMJ that attempts to use value ranges to make explicit tests of proof obligations that include type binds (ie. most of them). This is also available as an LSP plugin. It should be regarded as experimental for now!
+Added a "QuickCheck" plugin (see above) example project for VDMJ that attempts to use value ranges to make explicit tests of proof obligations that include type binds (ie. most of them). This is also available as an LSP plugin. It should be regarded as experimental for now! Here's how you use it:
+```
+functions
+	f: real -> nat
+	f(a) == a + 1;
+
+Interpreter started
+> p f(1)
+= 2
+Executed in 0.161 secs. 
+
+> qc -c
+Created 1 default ranges in ranges.qc. Check them! Then run 'qc'
+
+> qc
+Ranges expanded in 0.081s
+PO# 1, FAILED in 0.003s: Counterexample: a = 0.1
+f: subtype obligation in 'DEFAULT' (test.vdm) at line 2:5
+(forall a:real &
+  is_nat((a + 1)))
+
+> qc -?
+Usage: quickcheck [-c <file>]|[-f <file>] [<PO numbers>]
+> 
+```
 
 #### VSCode Extension
 
