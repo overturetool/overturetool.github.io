@@ -33,7 +33,11 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ
 
-Added a [wiki](https://github.com/nickbattle/vdmj/wiki) to the GitHub site. Rather than being a separate version of the PDF documentation, it's presented as a conversation _about_ the PDF documentations, with links to them.
+Added a [wiki](https://github.com/nickbattle/vdmj/wiki) to the GitHub site. Rather than being a separate version of the PDF documentation, it's presented as a conversation _about_ the PDF documents, with links to them.
+
+Converted VDMJ internals to use the same  plugin architecture as the LSP Server. So you can add new functionality (analyses and commands) by including a jar on the classpath.
+
+Added a "QuickCheck" plugin (see above) example project for VDMJ that attempts to use value ranges to make explicit tests of proof obligations that include type binds (ie. most of them). This is also available as an LSP plugin. It should be regarded as experimental for now!
 
 #### VSCode Extension
 
@@ -41,6 +45,7 @@ We have two MSc students looking at a new release pipeline and how to use DevOps
 
 #### LSP Server
 
+Tested the LSP Server with the Kate editor, and added a [wiki page](https://github.com/nickbattle/vdmj/wiki/Using-the-Kate-Editor) for its configuration.
 
 ##  Release Planning
 
