@@ -33,10 +33,14 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ
 
+Added a [wiki](https://github.com/nickbattle/vdmj/wiki) to the GitHub site. Rather than being a separate version of the PDF documentation, it's presented as a conversation _about_ the PDF documentations, with links to them.
 
 #### VSCode Extension
 
 We have two MSc students looking at a new release pipeline and how to use DevOps to improve the integration of different components into the extension.
+
+#### LSP Server
+
 
 ##  Release Planning
 
