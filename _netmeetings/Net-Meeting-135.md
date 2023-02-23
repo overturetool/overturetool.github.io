@@ -28,6 +28,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Status of ViennaTalk Development
 
+No major changes.
 
 ##  Status of the Overture Components
 
