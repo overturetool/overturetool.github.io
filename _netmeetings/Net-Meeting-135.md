@@ -14,7 +14,7 @@ date: 26 February 2023, 1200 CEST
 |||
 |---|---|
 | Date | 26 February 2023, 12:00 CEST |
-| Participants | X,Y,Z.  Minutes by W. |
+| Participants | PGL, TO, KP, LF Minutes by TO. |
 
 
 ## Review Status of the Action List
@@ -25,6 +25,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
+Anne, Hugo, Ken, Leo, Nick, Tomo.
 
 ## Status of ViennaTalk Development
 
