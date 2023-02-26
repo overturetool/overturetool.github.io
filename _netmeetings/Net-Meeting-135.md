@@ -25,7 +25,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-Anne, Hugo, Ken, Leo, Nick, Tomo.
+Anne, Hugo, Ken, Leo, Nick, and Tomo are elected as language board memers.
 
 ## Status of ViennaTalk Development
 
