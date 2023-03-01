@@ -16,23 +16,23 @@ The 21st Overture Workshop will be held on **Friday 10 March 2023** co-located w
 
 09:30 - 10:00 [International System of Quantities library in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_1.pdf) (**Leo Freitas**)
 
-10:00 - 10:30 [Implementation-First Approach of Developing Formal Semantics of a Simulat ion Language in VDM-SL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-20_2.pdf) (**Tomohiro Oda**, Gael Dur, Stephane Ducasse and Hugo Macedo)
+10:00 - 10:30 [Implementation-First Approach of Developing Formal Semantics of a Simulat ion Language in VDM-SL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_2.pdf) (**Tomohiro Oda**, Gael Dur, Stephane Ducasse and Hugo Macedo)
 
 10:30 - 11:00 Coffee Break
 
-11:00 - 11:30 [Specification-based CSV support in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-20_3.pdf) (Leo Freitas and **Aaron John Buhagiar**)
+11:00 - 11:30 [Specification-based CSV support in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_3.pdf) (Leo Freitas and **Aaron John Buhagiar**)
 
-11:30 - 12:00 [VDM recursive functions in Isabelle/HOL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-20_4.pdf) (**Leo Freitas** and Peter Gorm Larsen)
+11:30 - 12:00 [VDM recursive functions in Isabelle/HOL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_4.pdf) (**Leo Freitas** and Peter Gorm Larsen)
 
-12:00 - 12:30 [Topologically sorting VDM-SL definitions for Isabelle/HOL translation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-20_4.pdf) (Leo Freitas and **Nick Battle**.)
+12:00 - 12:30 [Topologically sorting VDM-SL definitions for Isabelle/HOL translation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_4.pdf) (Leo Freitas and **Nick Battle**.)
 
 12:30 - 13:00 Lunch
 
-13:00 - 13:30 [Bidirectional UML Visualisation of VDM Models](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-20_5.pdf) (**Jonas Lund**, Lucas Bjarke Jensen, Peter Gorm Larsen and Hugo Daniel Macedo)
+13:00 - 13:30 [Bidirectional UML Visualisation of VDM Models](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_5.pdf) (**Jonas Lund**, Lucas Bjarke Jensen, Peter Gorm Larsen and Hugo Daniel Macedo)
 
-13:30 - 14:00 [Modelling Chess in VDM++](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-20_6.pdf) (**Morten Haahr Kristensen** and Peter Gorm Larsen. )
+13:30 - 14:00 [Modelling Chess in VDM++](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_6.pdf) (**Morten Haahr Kristensen** and Peter Gorm Larsen. )
 
-14:00 - 14:30 [Modelling Maritime SAR Sweep Widths for Helicopters in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-20_7.pdf) (**Alexander Sulaiman** and Ken Pierce)
+14:00 - 14:30 [Modelling Maritime SAR Sweep Widths for Helicopters in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_7.pdf) (**Alexander Sulaiman** and Ken Pierce)
 
 14:30 - 15:30 Community status and open table discussion
 
