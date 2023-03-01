@@ -22,7 +22,7 @@ The 21st Overture Workshop will be held on **Friday 10 March 2023** co-located w
 
 11:00 - 11:30 [Specification-based CSV support in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_3.pdf) (Leo Freitas and **Aaron John Buhagiar**)
 
-11:30 - 12:00 [VDM recursive functions in Isabelle/HOL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_4.pdf) (**Leo Freitas** and Peter Gorm Larsen)
+11:30 - 12:00 [VDM recursive functions in Isabelle/HOL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_3.pdf) (**Leo Freitas** and Peter Gorm Larsen)
 
 12:00 - 12:30 [Topologically sorting VDM-SL definitions for Isabelle/HOL translation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_4.pdf) (Leo Freitas and **Nick Battle**.)
 
