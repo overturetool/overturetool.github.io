@@ -8,6 +8,7 @@ location: Lübeck, Germany
 
 The 21st Overture Workshop will be held on **Friday 10 March 2023** co-located with [FM 2023](https://fm2023.isp.uni-luebeck.de/), hosted by [University of Lübeck](https://fm2023.isp.uni-luebeck.de/), Germany.
 
+Location: **Room AM S2**
 
 ## Programme
 
@@ -24,13 +25,13 @@ The 21st Overture Workshop will be held on **Friday 10 March 2023** co-located w
 
 11:30 - 12:00 [VDM recursive functions in Isabelle/HOL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_3.pdf) (**Leo Freitas** and Peter Gorm Larsen)
 
-12:00 - 12:30 [Topologically sorting VDM-SL definitions for Isabelle/HOL translation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_4.pdf) (Leo Freitas and **Nick Battle**.)
+12:00 - 12:30 [Topologically sorting VDM-SL definitions for Isabelle/HOL translation](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_4.pdf) (**Leo Freitas** and Nick Battle)
 
 12:30 - 13:00 Lunch
 
-13:00 - 13:30 [Bidirectional UML Visualisation of VDM Models](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_5.pdf) (**Jonas Lund**, Lucas Bjarke Jensen, Peter Gorm Larsen and Hugo Daniel Macedo)
+13:00 - 13:30 [Bidirectional UML Visualisation of VDM Models](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_5.pdf) (**Jonas Lund, Lucas Bjarke Jensen**, Peter Gorm Larsen and Hugo Daniel Macedo)
 
-13:30 - 14:00 [Modelling Chess in VDM++](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_6.pdf) (**Morten Haahr Kristensen** and Peter Gorm Larsen. )
+13:30 - 14:00 [Modelling Chess in VDM++](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_6.pdf) (**Morten Haahr Kristensen** and Peter Gorm Larsen )
 
 14:00 - 14:30 [Modelling Maritime SAR Sweep Widths for Helicopters in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_7.pdf) (**Alexander Sulaiman** and Ken Pierce)
 
