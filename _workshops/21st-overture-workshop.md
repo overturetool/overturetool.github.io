@@ -21,7 +21,7 @@ Location: **Room AM S2**
 
 10:30 - 11:00 Coffee Break
 
-11:00 - 11:30 [Specification-based CSV support in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_3.pdf) (Leo Freitas and **Aaron John Buhagiar**)
+11:00 - 11:30 [Specification-based CSV support in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_3.pdf) (Leo Freitas and **Aaron John Buhagiar**) [[Slides]](https://github.com/overturetool/overturetool.github.io/blob/master/workshops/21/Specification-based%20CSV%20Support.pdf)
 
 11:30 - 12:00 [VDM recursive functions in Isabelle/HOL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_8.pdf) (**Leo Freitas** and Peter Gorm Larsen)
 
