@@ -121,6 +121,6 @@ The online conference facility is provided by the Faculty of Technical Sciences 
 
 ### Participants
 
-The participants of the 20th Overture workshop.
+The participants of the 21st Overture workshop.
 
 ![](21/GroupPhoto.jpg)
