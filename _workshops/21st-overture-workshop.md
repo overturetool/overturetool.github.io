@@ -119,3 +119,8 @@ The online conference facility is provided by the Faculty of Technical Sciences 
 
 [![AU Technical Sciences Logo](/images/au-tech.png)](https://tech.au.dk/en/)
 
+### Participants
+
+The participants of the 20th Overture workshop.
+
+![](21/GroupPhoto.jpg)
