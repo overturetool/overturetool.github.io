@@ -33,7 +33,7 @@ Location: **Room AM S2**
 
 13:30 - 14:00 [Modelling Chess in VDM++](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_6.pdf) (**Morten Haahr Kristensen** and Peter Gorm Larsen)[[Slides]](21/CHESSVDM.pdf)
 
-14:00 - 14:30 [Modelling Maritime SAR Sweep Widths for Helicopters in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_7.pdf) (**Alexander Sulaiman** and Ken Pierce)[[Slides]](21/Modelling%20Maritime%20SAR%20Effective%20Sweep%20Widths%20for%20Helicopters%20in%20VDM.pdf)
+14:00 - 14:30 [Modelling Maritime SAR Sweep Widths for Helicopters in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_7.pdf) (**Alexander Sulaiman** and Ken Pierce)[Slides coming soon]
 
 14:30 - 15:30 Community status and open table discussion
 
