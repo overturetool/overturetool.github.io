@@ -31,7 +31,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 ##  Status of the Overture Components
 
 #### VDMJ
-VDMJ has an experimental plugin (development branch) that attempts to disprove proof obligations by direct evaluation, giving a counterexample if it can. For example here checking 7 POs from a small spec, failing on the last one:
+VDMJ has an experimental "QuickCheck" plugin (development branch) that attempts to disprove proof obligations by direct evaluation, giving a counterexample if it can. For example here checking 7 POs from a small spec, failing on the last one (because 4 does not meet the invariant of T):
 ```
 > qc
 Expanding 2 ranges: ..
@@ -44,13 +44,14 @@ PO# 5, PASSED in 0.002s
 PO# 6, PASSED in 0.003s
 PO# 7, FAILED in 0.008s: Counterexample: a = 4
 f: subtype obligation in 'DEFAULT' (test.vdm) at line 9:5
-(forall a:T &inv_T((if (a = 0) then 1 else (a * f((a - 1))))) and
-(is_nat((if (a = 0) then 1 else (a * f((a - 1)))))))
+(forall a:T &
+    inv_T((if (a = 0) then 1 else (a * f((a - 1))))) and
+    (is_nat((if (a = 0) then 1 else (a * f((a - 1)))))))
 >
 ```
 
 #### VSCode Extension
-
+The QuickCheck plugin is available for VSCode too, but is only a command line tool. Once this feature is stable or useful, it should be integrated with the VSCode client and POG "view", with updates to the SLSP protocol to support it.
 
 #### LSP Server
 
