@@ -31,7 +31,23 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 ##  Status of the Overture Components
 
 #### VDMJ
-
+VDMJ has an experimental plugin (development branch) that attempts to disprove proof obligations by direct evaluation, giving a counterexample if it can. For example here checking 7 POs from a small spec, failing on the last one:
+```
+> qc
+Expanding 2 ranges: ..
+Ranges expanded in 0.049s
+PO# 1, PASSED in 0.018s
+PO# 2, PASSED in 0.001s
+PO# 3, PASSED in 0.001s
+PO# 4, PASSED in 0.0s
+PO# 5, PASSED in 0.002s
+PO# 6, PASSED in 0.003s
+PO# 7, FAILED in 0.008s: Counterexample: a = 4
+f: subtype obligation in 'DEFAULT' (test.vdm) at line 9:5
+(forall a:T &inv_T((if (a = 0) then 1 else (a * f((a - 1))))) and
+(is_nat((if (a = 0) then 1 else (a * f((a - 1)))))))
+>
+```
 
 #### VSCode Extension
 
