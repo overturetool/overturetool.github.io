@@ -26,7 +26,9 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 
 ## Status of ViennaTalk Development
+Released a new major version [Firenze](https://github.com/tomooda/ViennaTalk/releases/tag/firenze) based on the new release of Pharo 11.
 
+Currently the implementation of AST is being refactored so that AST-level analysis will be easily implemented later.
 
 ##  Status of the Overture Components
 
