@@ -14,7 +14,7 @@ date: 21 May 2023, 1200 CEST
 |||
 |---|---|
 | Date | 21 May 2023, 12:00 CEST |
-| Participants | ... Minutes by ... . |
+| Participants | TO, KP, HDM Minutes by HDM |
 
 
 ## Review Status of the Action List
@@ -24,9 +24,9 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-We are close to address the long-standing issue on [Inconsistency with eq_T and ord_T signatures (RC50)](https://github.com/overturetool/language/issues/50).
-Nick has implemneted the maximal types in the [maximal branch](https://github.com/nickbattle/vdmj/tree/maximal).
-We need further experiments with this solution.
+Closed #49 and #50.
+
+We need some experts to check the added RM50 Tord modifications. The changes are available for experimentation in the "maximal" branch of VDMJ. Please follow Nick guidance here.
 
 ## Status of ViennaTalk Development
 Released a new major version [Firenze](https://github.com/tomooda/ViennaTalk/releases/tag/firenze) based on the new release of Pharo 11.
@@ -72,6 +72,9 @@ The QuickCheck plugin is available for VSCode too, but is only a command line to
 * Outdated manuals (how to replace Eclipse)
 * Agree on how to update.
 
+We agreed on a community effort, where members should open issues and make corrections by making pull requests that should later be considered in the next core meeting. [Issues](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
+Please make a note on the issue/pull request in case a simple deletion of outdated content is not enough. We will consider those in the core meeting to evaluate whether we should make a new version of the material.
+
 #### Overture Traffic
 
 See download stats on [number of installs](https://marketplace.visualstudio.com/items?itemName=overturetool.vdm-vscode).
@@ -80,6 +83,7 @@ See download stats on [number of installs](https://marketplace.visualstudio.com/
 #### OVT-22 
 
 Planning to have a rolling deadline to have journal first submissions...
+Hugo to make a call for papers for OVT-22.
 
 ##  Publications Status and Plans
 
