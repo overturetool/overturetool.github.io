@@ -15,9 +15,9 @@ Location: **Room AM S2**
 
 09:00 - 09:30 Welcome from the chairs 
 
-09:30 - 10:00 [International System of Quantities library in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_1.pdf) (**Leo Freitas**) [[Slides]](21/Implementation-First%20Approach%20of%20Developing%20Formal%20Semantics%20of%20a%20Simulation%20Language%20in%20VDM-SL.pdf)
+09:30 - 10:00 [International System of Quantities library in VDM](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_1.pdf) (**Leo Freitas**) [[Slides]](21/International%20System%20of%20Quantities%20library%20in%20VDM%20(Overture%202023).pdf)
 
-10:00 - 10:30 [Implementation-First Approach of Developing Formal Semantics of a Simulat ion Language in VDM-SL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_2.pdf) (**Tomohiro Oda**, Gael Dur, Stephane Ducasse and Hugo Macedo) [[Slides]](21/International%20System%20of%20Quantities%20library%20in%20VDM%20(Overture%202023).pdf)
+10:00 - 10:30 [Implementation-First Approach of Developing Formal Semantics of a Simulat ion Language in VDM-SL](https://github.com/overturetool/overturetool.github.io/raw/master/workshops/21/OVT-21_2.pdf) (**Tomohiro Oda**, Gael Dur, Stephane Ducasse and Hugo Macedo) [[Slides]](21/Implementation-First%20Approach%20of%20Developing%20Formal%20Semantics%20of%20a%20Simulation%20Language%20in%20VDM-SL.pdf)
 
 10:30 - 11:00 Coffee Break
 
