@@ -24,6 +24,9 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
+We are close to address the long-standing issue on [Inconsistency with eq_T and ord_T signatures (RC50)](https://github.com/overturetool/language/issues/50).
+Nick has implemneted the maximal types in the [maximal branch](https://github.com/nickbattle/vdmj/tree/maximal).
+We need further experiments with this solution.
 
 ## Status of ViennaTalk Development
 Released a new major version [Firenze](https://github.com/tomooda/ViennaTalk/releases/tag/firenze) based on the new release of Pharo 11.
