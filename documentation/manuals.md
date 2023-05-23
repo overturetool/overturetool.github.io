@@ -12,10 +12,10 @@ user guide (TR-002). There are guidelines for using combinatorial testing (TR-00
 how the Overture tools can be used as part of an industrial
 development process (TR-006). Finally, Overture contains facilities for generating C-code and Functional Mock-up Units according to the Functional Mock-up Interface 2.0 for Co-simulation.
 
-- [**TR-001**](https://raw.github.com/overturetool/documentation/master/documentation/VDM10LangMan/VDM10_lang_man.pdf): VDM-10 Language Manual
-- [**TR-002**](https://raw.github.com/overturetool/documentation/master/documentation/UserGuideOvertureIDE/OvertureIDEUserGuide.pdf): Overture VDM-10 Tool Support: User Guide
-- [**TR-005**](https://raw.github.com/overturetool/documentation/master/documentation/CombinatorialTesting/CombinatorialTesting.pdf): VDM Combinatorial Testing Guidelines
-- [**TR-006**](https://raw.github.com/overturetool/documentation/master/documentation/VDMRTProcess/VDMRTProcess.pdf): Development Process for Distributed Embedded Systems using VDM
+- [**TR-001**](https://raw.github.com/overturetool/documentation/editing/documentation/VDM10LangMan/VDM10_lang_man.pdf): VDM-10 Language Manual
+- [**TR-002**](https://raw.github.com/overturetool/documentation/editing/documentation/UserGuideOvertureIDE/OvertureIDEUserGuide.pdf): Overture VDM-10 Tool Support: User Guide
+- [**TR-005**](https://raw.github.com/overturetool/documentation/editing/documentation/CombinatorialTesting/CombinatorialTesting.pdf): VDM Combinatorial Testing Guidelines
+- [**TR-006**](https://raw.github.com/overturetool/documentation/editing/documentation/VDMRTProcess/VDMRTProcess.pdf): Development Process for Distributed Embedded Systems using VDM
 - [**TR-007**](https://github.com/overturetool/documentation/raw/editing/documentation/UserGuideVDMVSCode/VDMVSCodeUserGuide.pdf): Overture VDM VSCode Extension: User Guide
 - [**Generating C Code**]({{site.url}}/documentation/generating-c-code.html)
 - [**FMI Support**]({{site.url}}/documentation/fmi/fmi-support.html)
