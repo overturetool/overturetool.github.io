@@ -17,15 +17,15 @@ the appropriate link shown below.
 - **TR-003**: _Tutorial for Overture/VDM-SL_, P. G. Larsen,
   J. S. Fitzgerald, S. Wolff, N. Battle, K. G. Lausdahl, A. Ribeiro,
   K. G. Pierce, S. Riddle,
-  [current version](http://raw.github.com/overturetool/documentation/master/documentation/tutorials/VDMSLOvertureTutorial/VDMSLGuideToOverture.pdf)
+  [current version](https://raw.github.com/overturetool/documentation/editing/documentation/tutorials/VDMSLOvertureTutorial/VDMSLGuideToOverture.pdf)
 - **TR-004**: _Tutorial for Overture/VDM++_, P. G. Larsen,
   J. S. Fitzgerald, S. Wolff, N. Battle, K. G. Lausdahl, A. Ribeiro,
   K. G. Pierce, and S. Riddle,
-  [current version](http://raw.github.com/overturetool/documentation/master/documentation/tutorials/VDM++OvertureTutorial/VDMPPGuideToOverture.pdf)
+  [current version](https://raw.github.com/overturetool/documentation/editing/documentation/tutorials/VDM++OvertureTutorial/VDMPPGuideToOverture.pdf)
 - **TR-005**: _Tutorial for Overture/VDM-RT_, P. G. Larsen,
   J. S. Fitzgerald, S. Wolff, N. Battle, K. G. Lausdahl, A. Ribeiro,
   K. G. Pierce, and S. Riddle,
-  [current version](http://raw.github.com/overturetool/documentation/master/documentation/tutorials/VDMRTOvertureTutorial/VDMRTGuideToOverture.pdf)
+  [current version](https://raw.github.com/overturetool/documentation/editing/documentation/tutorials/VDMRTOvertureTutorial/VDMRTGuideToOverture.pdf)
 
 If you have questions on the tutorials, please do not hesitate to
 contact us, either by posting a message on
