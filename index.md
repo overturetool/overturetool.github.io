@@ -21,7 +21,7 @@ The Overture community supports the modelling method *The Vienna Development Met
 
 <!-- It does so by providing documentation, teaching material, and at the heart of the project is the development of the Overture Tool. --> 
 
-The *Overture Tool* is an open-source integrated development environment (IDE) for developing and analysing VDM models. The tool suite is written entirely in Java and built on top of the Eclipse platform.
+The *Overture Tool* is an open-source integrated development environment (IDE) for developing and analysing VDM models. The tool suite is conveniently packaged as a VSCode extension.
 
 ![Tool preview]({{ site.url }}/images/tool-preview.png)
 
