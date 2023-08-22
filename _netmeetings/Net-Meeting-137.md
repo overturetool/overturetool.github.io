@@ -35,7 +35,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 Many improvements made to the QuickCheck plugin for VDMJ (and VSCode console), allowing more efficient value expansions, a "random" value strategy and a "search" strategy that looks for specific expression patterns in each PO that can be turned into counterexamples. Strategies are "pluggable", so groups can develop their own and add them to a collection.
 
-Looked at several SMT solvers, with the intention of using them to find counterexamples for POs (or _prove_ there are none) via a QC strategy - in particular, alt-ergo, cvc4 and cvc5 (via SMTLIB), Z3, Choco-solver, Mini-zinc and Prolog. All of them are capable of finding counterexamples for simple cases, but the "theories" supported them are not easily capable of expressing something as rich a a VDM-SL PO, in general. It's possible that simple cases might work though (like specs that just involve ints and linear arthmetic; useful in teaching, if not for serious use?).
+Looked at several SMT solvers, with the intention of using them to find counterexamples for POs (or _prove_ there are none) via a QC strategy - in particular, alt-ergo, cvc4 and cvc5 (via SMTLIB), Z3, Choco-solver, Mini-zinc and Prolog. All of them are capable of finding counterexamples for simple cases, but the "theories" supported by them are not easily capable of expressing something as rich as a VDM-SL PO, in general. It's possible that simple cases might work though (like specs that just involve ints and linear arthmetic; useful in teaching, if not for serious use?).
 
 #### VSCode Extension
 
