@@ -28,6 +28,12 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Status of ViennaTalk Development
 
+Specification slicing based on the static program slicing technique is under development.
+A slice *Slice[S, op, (v1,...,vn)]* is a pruned AST of the specification *S* that produces the same state with regard to the state variables $v1,...,vn$ by the operation $op$.
+Slicing is expected to be used in the impact analysis of modification on a specification, debugging, and reading support.
+A major version will be released after the implementation of specification slicing is finished.
+
+No change in VDMTools.
 
 ##  Status of the Overture Components
 
