@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Net Meeting 136
-date: 27 Aug 2023, 1200 CEST
+title: Net Meeting 137
+date: 03 SepSound 2023, 1200 CEST
 ---
 
 <script src="https://code.jquery.com/jquery-1.11.1.min.js">
@@ -13,8 +13,8 @@ date: 27 Aug 2023, 1200 CEST
 
 |||
 |---|---|
-| Date | 27 Aug 2023, 12:00 CEST |
-| Participants | XX, YY, ZZ Minutes by XX |
+| Date | 03 Sep 2023, 12:00 CEST |
+| Participants | HDM, PGL, NB, TO, KP Minutes by HDM |
 
 
 ## Review Status of the Action List
@@ -24,7 +24,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-
+See associated minutes.
 
 ## Status of ViennaTalk Development
 
@@ -57,7 +57,7 @@ The QuickCheck extension mentioned above works for VSCode too, but only via the 
 
 #### The web appearance of VDM 
 
-Status...
+Status. We keep with the previous plan. All members are requested to open issues on improving opportunities and we as a community should also improve the pages.
 
 #### Overture Traffic
 
