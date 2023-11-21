@@ -65,6 +65,10 @@ Also see [Planned Publications](https://www.overturetool.org/publications/Planne
 
 It was agreed that people should review and update this page with their planned papers.
 
+The OVT 21 proceedings is out in arXiv. https://arxiv.org/abs/2311.07120
+
+
+
 ##  Any Other Business
 
 ### Next year meetings suggestions:
