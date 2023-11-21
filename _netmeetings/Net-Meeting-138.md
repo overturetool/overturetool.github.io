@@ -35,9 +35,11 @@ No change in VDMTools.
 
 #### VDMJ
 
+Most work on VDMJ has been in support of the QuickCheck tool, testing it with ever larger sets of specifications and improving the LSP protocol support in anticipation of GUI changes to display/interact with counterexamples. Currently, if you run QC on the command line in VSCode, any counterexamples will be highlighted in the spec as warnings; in future, we hope to be able to automatically launch execution of these counterexamples, to let the user explore why they violate a proof obligation.
 
 #### VSCode Extension
 
+No change, but Jonas Lund will joint the effort here to improve the GUI interface for proof obligations (see above).
 
 #### LSP Server
 
