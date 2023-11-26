@@ -28,8 +28,7 @@ See associated minutes.
 
 ## Status of ViennaTalk Development
 
-
-No change in VDMTools.
+Specification slicing has been implemented on Refactoring Browser, and we are preparing for the next major release.
 
 ##  Status of the Overture Components
 
