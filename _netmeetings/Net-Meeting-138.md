@@ -14,17 +14,22 @@ date: 26 Nov 2023, 1200 CET
 |||
 |---|---|
 | Date | 26 Nov 2023, 12:00 CEST |
-| Participants | XX, YY, ZZ Minutes by ZZ |
+| Participants | PGL, LF, KP, TO, NB Minutes by NB |
 
 
 ## Review Status of the Action List
 
 See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io/issues?q=is%3Aopen+is%3Aissue+label%3A%22action+net-meeting%22)
 
+No progress on issue #38 (Links to documentation repo). Carried forward.
 
 ## Overture Language Board Status
 
-See associated minutes.
+RM #50 is now complete, awaiting updates to the LRM.
+
+Currying in VDMJ will be aligned with VDMTools per previous discussions, which needs a small LRM change.
+
+There is a new ongoing discussion about recursive measures.
 
 ## Status of ViennaTalk Development
 
@@ -36,12 +41,15 @@ Specification slicing has been implemented on Refactoring Browser, and we are pr
 
 Most work on VDMJ has been in support of the QuickCheck tool, testing it with ever larger sets of specifications and improving the LSP protocol support in anticipation of GUI changes to display/interact with counterexamples. Currently, if you run QC on the command line in VSCode, any counterexamples will be highlighted in the spec as warnings; in future, we hope to be able to automatically launch execution of these counterexamples, to let the user explore why they violate a proof obligation.
 
+A new `qcrun` command has been added, which allows a failed QuickCheck run to easily make a "debug" function call, using the arguments discovered in a counterexample.
+
 #### VSCode Extension
 
-No change, but Jonas Lund will joint the effort here to improve the GUI interface for proof obligations (see above).
+No change, but Jonas Lund has joined the effort here to improve the GUI interface for proof obligations (see above).
 
 #### LSP Server
 
+See above.
 
 ##  Release Planning
 
@@ -55,10 +63,9 @@ Status. We keep with the previous plan. All members are requested to open issues
 
 See download stats on [number of installs](https://marketplace.visualstudio.com/items?itemName=overturetool.vdm-vscode).
 
-
 #### OVT-22 
 
-Workshop submission to be sent to FM Organization by mid December
+Workshop submission to be sent to FM Organization by mid December. LF agreed to prepare a the proposal.
 
 ##  Publications Status and Plans
 
@@ -68,9 +75,9 @@ It was agreed that people should review and update this page with their planned 
 
 The OVT 21 proceedings is out in arXiv. https://arxiv.org/abs/2311.07120
 
-
-
 ##  Any Other Business
+
+None.
 
 ### Next year meetings suggestions:
 
@@ -78,7 +85,6 @@ The OVT 21 proceedings is out in arXiv. https://arxiv.org/abs/2311.07120
 * 26 May
 * 25 Aug
 * 24 Nov
-
 
 ### Convener role 
 
