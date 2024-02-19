@@ -1,14 +1,14 @@
 ---
 layout: default
 title: The 22nd Overture Workshop
-date: 2024-09-09
+date: 2024-09-10
 location: Milan, Italy
 ---
 # THE 22ND OVERTURE WORKSHOP
 
-The 22nd Overture Workshop will be held on **September 2024** co-located with [FM 2024](http://www.wikicfp.com/cfp/program?id=1050&s=FM&f=Formal%20Methods), hosted by TBA.
+The 22nd Overture Workshop will be held on the **10th September 2024** co-located with [FM 2024](http://www.wikicfp.com/cfp/program?id=1050&s=FM&f=Formal%20Methods), hosted by Politecnico di Milano.
 
-Location: TBA
+Location: Milano, Italy
 
 
 
@@ -33,17 +33,13 @@ available at <https://www.overturetool.org/>.
 
 ### Important Dates 
 
-1st July 2023: Submission of journal first papers (Rolling deadline)
+15th July 2024: Submission of papers
 
-1st January 2024: Submission of journal first papers (Rolling deadline)
+19th August 2024: Notification to authors
 
-TBA 2024: Submission of papers
+2nd September 2024: Final version of papers due
 
-TBA 2024: Notification to authors
-
-TBA 2024: Final version of papers due
-
-TBA September 2024: Workshop
+10th September 2024: Workshop
 
 
 ## Call
@@ -75,7 +71,7 @@ TBA
 
 
 ### Contact
-All questions about submissions should be emailed to (<hdm@ece.au.dk>)
+All questions about submissions should be emailed to (<kenneth.pierce@newcastle.ac.uk>)
 
 ### Sponsor
 TBA
