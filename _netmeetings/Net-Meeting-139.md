@@ -32,7 +32,12 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ
 
+* Mostly work on QuickCheck
+* Added @DocLink annotation for FMI model support, and added @DocLinks to @OnFail.
+
 #### VSCode Extension
+
+* Started to sketch DAP protocol changes to improve VSCode POG UI.
 
 #### LSP Server
 
