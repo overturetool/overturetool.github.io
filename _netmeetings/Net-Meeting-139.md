@@ -14,7 +14,7 @@ date: 25 Feb 2024, 1200 CET
 |||
 |---|---|
 | Date | 25 Feb 2024, 12:00 CEST |
-| Participants | X,Y,Z Minutes by X |
+| Participants | HDM, KGP, TO Minutes by HDM |
 
 
 ## Review Status of the Action List
@@ -23,6 +23,8 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 
 ## Overture Language Board Status
+
+Traditionally LB is formed at first meeting. Issues found in using slack with blurred history for non-paying members and missing quorum. LB to be elected in a meeting to hold between this and next NM.
 
 
 ## Status of ViennaTalk Development
