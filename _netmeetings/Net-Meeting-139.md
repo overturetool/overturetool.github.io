@@ -30,7 +30,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 * The `ViennaTranspilingEngine` has been implemented, and can be used as the default animation engine.
 * A type checker has been implemented, and will be integrated into the Refactoring Browser at the next major release.
 
-ViennaTalk currently uses an old version of VDMJ (3.2.0), which does not run on the latest JRE. I'm updating the VDMJ wrapper to adopt the latest version of VDMJ, we decided to use the transpiler as an replacement interpretor.
+ViennaTalk currently uses an old version of VDMJ (3.2.0), which does not run on the latest JRE. While I'm updating the VDMJ wrapper to adopt the latest version of VDMJ, the transpiler, which runs without the VDMJ wrapper, can be used as an alternative.
 
 ##  Status of the Overture Components
 
