@@ -35,11 +35,15 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ
 
-
+* Fixed Java 20+ bug, caused by the deprecation of the ThreadDeath exception
+* Updated documentation and wiki for recent enhancements
+* Allow various operators (like `duration` and starting threads) to be prohibited during spec initialization.
 
 #### VSCode Extension
 
-
+* Enhanced the POG GUI to include QuickCheck features, allowing counterexamples to be executed/debugged directly from the GUI.
+* Simplify and unify the VSCode classpath handling for libraries, plugins and annotations, allowing them all to be configured via the UI.
+* A beta release VSIX is available for trying :-)
 
 #### LSP Server
 
