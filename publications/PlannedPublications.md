@@ -9,15 +9,13 @@ title: Overture Publications
 
 ## In preparation
 
-* Updates to the VDM VSCode extension
-* VDM++ UML connection in VSC
-* Paper about MaestroV2
+* Cilium security analysis
+* QuickCheck in VSC
 
 ## In review
 
 * Bridging the Requirements-Specification Gap using Behaviour-Driven Development
 
 ## In press
-* Modelling an Injection Molding Machine using theVienna Development Method
-* A formal security analysis of HUBCAP sandbox model
+
 
