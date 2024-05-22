@@ -24,12 +24,19 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Overture Language Board Status
 
-
-
+* The LB will be elected at the core meeting, and the first LB meeting will be held after the core meeting.
 
 ## Status of ViennaTalk Development
 
-
+* ViennaTalk Lyon has been released
+  - Refactoring Browser is renewed with new features and new UIs.
+    - Specification slicing to highlight fragments of specification that may affect the execution of the given expression/statement.
+    - Playground with state variables table to evaluate an expression or to execute a statement/trace.
+    - EpiLog to automatically journals modifications and executions, and to manage versions of the source and values of state variables 
+  - Typechecker is built in.
+  - Transpiler can be used as an alternative interpreter.
+  - Transpiler generates traces
+  - the base platform is migrated to Pharo 12
 
 ##  Status of the Overture Components
 
