@@ -14,7 +14,7 @@ date: 26 May 2024, 1200 CET
 |||
 |---|---|
 | Date | 26 May 2024, 12:00 CEST |
-| Participants | XX, YY, ZZ Minutes by ZZ |
+| Participants | HM, NB, PGL, TO Minutes by NB |
 
 
 ## Review Status of the Action List
@@ -53,6 +53,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 * A beta release VSIX is available for trying :-)
 
 #### LSP Server
+* Small changes for the features above.
 
 ##  Release Planning
 
@@ -68,17 +69,16 @@ See download stats on [number of installs](https://marketplace.visualstudio.com/
 
 15th  of July is the deadline for paper submissions...
 Need to check easychair is up and all the fine details.
-
+The possible paper submissions were briefly discussed.
 
 ##  Publications Status and Plans
 
 Also see [Planned Publications](https://www.overturetool.org/publications/PlannedPublications.html).
 
-
-
 ##  Any Other Business
 
-TBA
+None.
+
 
 
 <div id="edit_page_div"></div>
