@@ -59,12 +59,12 @@ The scope of the workshop includes, but is not restricted to:
 
 ## Organising
 
-### Program Chairs
 * Ken Pierce, Newcastle University, United Kingdom (<ken.pierce@newcastle.ac.uk>)
 * Hugo Daniel Macedo, Aarhus University, Denmark (<hdm@ece.au.dk>)
+* Leo Freitas, Newcastle University, United Kingdom(<leo.freitas@newcastle.ac.uk>)
 
-### General Chair
-* Hugo Daniel Macedo, Aarhus University, Denmark (<hdm@ece.au.dk>)
+
+
 
 ### (Draft) Program Committee
 TBA
