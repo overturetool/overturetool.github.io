@@ -33,11 +33,11 @@ available at <https://www.overturetool.org/>.
 
 ### Important Dates 
 
-~15th July 2024~ 29th July 2024: Submission of papers
+~~15th July 2024~~ 29th July 2024: Submission of papers
 
-~19th August 2024~ 26th August 2024: Notification to authors
+~~19th August 2024~~ 26th August 2024: Notification to authors
 
-~2nd September 2024~ 9th September 2024: Final version of papers due
+~~2nd September 2024~~ 9th September 2024: Final version of papers due
 
 10th September 2024: Workshop
 
