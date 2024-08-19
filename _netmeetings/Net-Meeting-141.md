@@ -34,19 +34,17 @@ some description
 
 some description
 
-
 ##  Status of the Overture Components
 
-#### Component 1
+#### VDMJ and VDM-VSCode
 
-details about it
-
+Some small updates for QuickCheck related issues and the integration with the VDM-VSCode UI. The 1.4.0 release of VDM-VSCode, based on VDMJ 4.6.0, is being prepared now.
 
 ##  Release Planning
 
-#### topic 1
+#### VDM-VSCode
 
-some description
+Release 1.4.0 is being produced and tested. A release candidate should be available for testing.
 
 
 ##  Community Development
