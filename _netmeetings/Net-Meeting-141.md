@@ -30,9 +30,15 @@ some description
 
 ## Status of ViennaTalk Development
 
-#### topic 1
+#### Slicing VDM specs when debugging auto-generated Smalltalk code
 
-some description
+ViennaTalk displays VDM source when debugging auto-generated Smalltalk code.
+VDM slicing operations are added to the Smalltalk debugger so that which parts of the VDM spec contributed to the point of failure. 
+
+#### Support for combinatorial testing and debugging failed tests
+
+ViennaTalk auto-generates Smalltalk code for traces so that failures and errors in combinatorial testing can be debugged on Smalltalk debugger with VDM source.
+VDM slicing operation on the Smalltalk debugger highlights possible causes of failures/errors in the VDM source.
 
 ##  Status of the Overture Components
 
