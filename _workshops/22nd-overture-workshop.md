@@ -8,8 +8,44 @@ location: Milan, Italy
 
 The 22nd Overture Workshop will be held on the **10th September 2024** co-located with [FM 2024](http://www.wikicfp.com/cfp/program?id=1050&s=FM&f=Formal%20Methods), hosted by Politecnico di Milano.
 
-Location: Milano, Italy
+Location: Room TBC, Politechnico Milano, Milan Italy
 
+Online: TBC* 
+
+\* For online participation, please register here: https://www.fm24.polimi.it/?page_id=559. A discount code is available to reduce the price to ~€50. Please request from kenneth.pierce@ncl.ac.uk.
+
+## Programme
+
+Note: **Overture proper starts at 11:00 CEST**
+
+09:00-10:20 Session 7D: Plenary keynote, invited by LOPSTR/PPDP. 
+[Safe and Easy Compile-Time Generative Programming](https://xnning.github.io/) (**Ningning Xie**)
+_ABSTRACT. Program generation is a powerful and expressive approach to eliminating abstraction overhead and improving program performance, which has been studied and implemented in a variety of languages with different forms. In this talk we overview MacoCaml, a new design and implementation of compile-time computation for OCaml. MacoCaml features a unifying and novel combination of phase separation and quotation-based staging. We review MacoCaml’s recent developments, including a comprehensive formalism of a feature- rich macro calculus with key meta-theoretic properties, and an extension to module functors that leads to explicit phase distinction. We describe how the meta-theoretical results offer practical benefits for programmers, and conclude the talk with a few directions for future exploration._
+
+10:30-11:00 Coffee
+
+11:00-11:10 Welcome to the Overture Workshop
+
+11:10-11:40 [vdmweb: a web-based VDM animation tool](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (Harry Hughes and **Leo Freitas**)
+
+11:40-12:10 [QuickCheck for VDM](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (**Nick Battle** and Markus Ellyton)
+
+12:10-12:40 [vdm2dafny: An Automated Translation Tool for VDMSL](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (Adam Winstanley and **Leo Freitas**)
+
+12:40-14:00 Lunch
+
+14:00-14:30 [Specification Slicing for VDM-SL](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (**Tomohiro Oda** and Han-Myung Chang))
+
+14:30-15:00 [Using Rely/Guarantee to Pinpoint Assumptions underlying Security Protocols](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (Nisansala Yatapanage and **Cliff Jones**)
+
+15:00-15:30 [Cilium and VDM - Towards Formal Analysis of Cilium Policies](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (**Tomas Kulik** and Jalil Boudjadar)
+
+15:30-16:00 Coffee
+
+16:00-17:00 Community Discussion 
+* Proposal for asynchronous collaboration for Core and Language Board
+* AOB
+* Closing
 
 
 # CALL FOR PAPERS
