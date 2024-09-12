@@ -8,9 +8,9 @@ location: Milan, Italy
 
 The 22nd Overture Workshop will be held on the **10th September 2024** co-located with [FM 2024](http://www.wikicfp.com/cfp/program?id=1050&s=FM&f=Formal%20Methods), hosted by Politecnico di Milano.
 
-Location: Room TBC, Politechnico Milano, Milan Italy
+Location: Room 3.1.12, Edifico 3, Politechnico Milano, Milan Italy
 
-Online: TBC* 
+Online: Webex* 
 
 \* For online participation, please register here: https://www.fm24.polimi.it/?page_id=559. A discount code is available to reduce the price to ~€50. Please request from kenneth.pierce@ncl.ac.uk.
 
