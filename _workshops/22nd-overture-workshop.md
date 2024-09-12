@@ -26,19 +26,19 @@ _ABSTRACT. Program generation is a powerful and expressive approach to eliminati
 
 11:00-11:10 Welcome to the Overture Workshop
 
-11:10-11:40 [vdmweb: a web-based VDM animation tool](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (Harry Hughes and **Leo Freitas**)
+11:10-11:40 vdmweb: a web-based VDM animation tool [paper | [slides](https://www.overturetool.org/workshops/22/vdmj-remote-presentation.pdf)] (Harry Hughes and **Leo Freitas**)
 
-11:40-12:10 [QuickCheck for VDM](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (**Nick Battle** and Markus Ellyton)
+11:40-12:10 QuickCheck for VDM [[paper](https://www.overturetool.org/workshops/22/OVT-22_paper_4.pdf) | [slides](<https://www.overturetool.org/workshops/QuickCheck for VDM.pdf>)] (**Nick Battle** and Markus Ellyton)
 
-12:10-12:40 [vdm2dafny: An Automated Translation Tool for VDMSL](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (Adam Winstanley and **Leo Freitas**)
+12:10-12:40 vdm2dafny: An Automated Translation Tool for VDMSL [[paper](https://www.overturetool.org/workshops/22/OVT-22_paper_5.pdf) | [slides](<https://www.overturetool.org/workshops/VDM2Dafny.pdf>)] (Adam Winstanley and **Leo Freitas**)
 
 12:40-14:00 Lunch
 
-14:00-14:30 [Specification Slicing for VDM-SL](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (**Tomohiro Oda** and Han-Myung Chang))
+14:00-14:30 Specification Slicing for VDM-SL [[paper](https://www.overturetool.org/workshops/22/OVT-22_paper_1.pdf) | slides] (**Tomohiro Oda** and Han-Myung Chang))
 
-14:30-15:00 [Using Rely/Guarantee to Pinpoint Assumptions underlying Security Protocols](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (Nisansala Yatapanage and **Cliff Jones**)
+14:30-15:00 Using Rely/Guarantee to Pinpoint Assumptions underlying Security Protocols [paper | slides] (Nisansala Yatapanage and **Cliff Jones**)
 
-15:00-15:30 [Cilium and VDM - Towards Formal Analysis of Cilium Policies](https://www.overturetool.org/workshops/22nd-overture-workshop.html#) (**Tomas Kulik** and Jalil Boudjadar)
+15:00-15:30 Cilium and VDM - Towards Formal Analysis of Cilium Policies [[paper](https://www.overturetool.org/workshops/22/OVT-22_paper_2.pdf) | slides] (**Tomas Kulik** and Jalil Boudjadar)
 
 15:30-16:00 Coffee
 
