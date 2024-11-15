@@ -37,6 +37,8 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 * Leo has been using the above to check some very large models - including the VDM_Toolkit and some confidential models from Newcastle. Feedback here has led to many bug fixes(!) and improvements.
 * Markus is working on updates to the GUI front end. If anyone wants to try the new POG/GUI, let me know - we produce patch VSIX files for people to try, but development is ongoing.
 
+![image](https://github.com/user-attachments/assets/c63c51b2-d635-400c-b2de-a7c96c06306e)
+
 ##  Release Planning
 
 #### VDM-VSCode
