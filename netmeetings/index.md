@@ -9,10 +9,7 @@ The Overture core group net meetings.
 
 ## Upcoming meetings:
 
-* Net Meeting 135: Feb 26, 2023
-* Net Meeting 136: May 21, 2023
-* Net Meeting 137: Aug 27, 2023
-* Net Meeting 138: Nov 26, 2023
+See AOB of last meeting of last year.
 
 And we have a [meeting template](template.html)
 
