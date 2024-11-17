@@ -26,6 +26,16 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Status of ViennaTalk Development
 
+Improvements on on-the-fly testing
+* On-the-fly testing triggers both unit tests and traces at every modification to the source specification.
+* Failed/error tests can be debuged on Smalltalk debugger.
+
+Improvements on slicing
+* VDM sources on Smalltalk debugger can be sliced with expressions.
+* The refactoring browser can display slices across multiple modules/sections.
+
+Improvements on EpiLogue
+* re-designed UI
 
 ##  Status of the Overture Components
 
