@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Net Meeting 142
+title: Net Meeting 141
 date: 24 August 2024, 1200 CEST
 ---
 
@@ -14,7 +14,7 @@ date: 24 August 2024, 1200 CEST
 |||
 |---|---|
 | Deadline | 24 November 2024, 12:00 CEST |
-| Participants | See git history |
+| Participants | Cancelled |
 
 
 ## Review Status of the Action List
@@ -59,5 +59,7 @@ Also see [Planned Publications](https://www.overturetool.org/publications/Planne
 
 
 ##  Any Other Business
+
+Cancelled.
 
 <div id="edit_page_div"></div>
