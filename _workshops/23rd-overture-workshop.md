@@ -1,7 +1,7 @@
 ---
 layout: default
 title: THE 2024 INTO-CPS OVERTURE SUMMIT
-date: 2024-06-11
+date: 2025-06-11
 location: Aarhus University, Denmark
 ---
 # THE 2024 INTO-CPS OVERTURE SUMMIT
