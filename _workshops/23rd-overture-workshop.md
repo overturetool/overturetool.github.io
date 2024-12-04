@@ -8,7 +8,7 @@ location: Aarhus University, Denmark
 
 incorporating the 
 
-## 23rd Overture Workshop and 3rd INTO-CPS Association Brainstorm
+## 23rd Overture Workshop and<br/> 3rd INTO-CPS Association Brainstorm
 
 *11-12th June 2025* hosted by *Aarhus University, Denmark*
 
