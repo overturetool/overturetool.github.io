@@ -1,10 +1,10 @@
 ---
 layout: default
-title: THE 2024 INTO-CPS OVERTURE SUMMIT
+title: THE 2025 INTO-CPS OVERTURE SUMMIT
 date: 2025-06-11
 location: Aarhus University, Denmark
 ---
-# THE 2024 INTO-CPS OVERTURE SUMMIT
+# THE 2025 INTO-CPS OVERTURE SUMMIT
 
 incorporating the 
 
@@ -29,7 +29,7 @@ The *INTO-CPS Association Brainstorm* is a newer informal event that focuses on 
 
 8th June 2025: Final version of papers due
 
-10th September 2024: Workshop
+12th June 2025: Workshop
 
 ## Call
 Our workshop provides a forum for discussing and advancing the state of the art in Digital twins, formal modelling and analysis using VDM/Overture or INTO-CPS and their associated formalisms and extensions. We warmly welcome contributions on the development of foundations, methods, tools, and reports of practical experience. 
