@@ -56,7 +56,7 @@ EasyChair: https://easychair.org/conferences/?conf=ovt23
 
 *	Ken Pierce, Newcastle University, United Kingdom (ken.pierce@newcastle.ac.uk)
 *	Peter Gorm Larsen, Aarhus University, Denmark (pgl@ece.au.dk) 
-*	Leo Freitas, Newcastle University, United Kingdom(leo.freitas@newcastle.ac.uk)
+*	Leo Freitas, Newcastle University, United Kingdom (leo.freitas@newcastle.ac.uk)
 
 ## Program Committee (Draft) 
 
@@ -74,5 +74,5 @@ All questions about submissions should be emailed to Ken Pierce (kenneth.pierce@
 
 ## Sponsor
 
-The INTO-CPS Association
+[The INTO-CPS Association](https://into-cps.org/)
 
