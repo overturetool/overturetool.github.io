@@ -29,7 +29,7 @@ The *INTO-CPS Association Brainstorm* is a newer informal event that focuses on 
 
 8th June 2025: Final version of papers due
 
-12th June 2025: Workshop
+11-12th June 2025: Workshop
 
 ## Call
 Our workshop provides a forum for discussing and advancing the state of the art in Digital twins, formal modelling and analysis using VDM/Overture or INTO-CPS and their associated formalisms and extensions. We warmly welcome contributions on the development of foundations, methods, tools, and reports of practical experience. 
@@ -50,7 +50,7 @@ Each tool report or full paper will be peer-reviewed by at least three members o
 *	Papers on extensions of VDM-related tools including Visual Studio Code, INTO-CPS assets and ViennaTalk.
 
 ## Submission
-EasyChair: _link coming soon_
+EasyChair: https://easychair.org/conferences/?conf=ovt23
 
 ## Organising Committee
 
