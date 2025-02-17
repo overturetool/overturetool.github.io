@@ -34,6 +34,19 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDM-VSCode
 
+Progress with 4.7.0-SNAPSHOT is mainly focussed on operation POs and VDM-VSCode support for their discharge, via QuickCheck. Operation POs now track the value of state variable updates using "let" definitions to hide previous values, and state that is amended on multiple paths is tracked as an "ambiguous" state, leading to "Unchecked" POs.
+
+The updated POG and QuickCheck was used by PGL to re-visit the VDM Examples suite that is distributed with the tool.
+
+A new heuristic feature was added to QuickCheck to allow more analysis of MAYBE cases. A new "reasons" strategy uses this to check whether the obligation reasons about all of the variables in the obligation root. For example, if the obligation is `k is set dom m`, then the PO ought to (at least) reason about k and m. If this is not the case, the MAYBE result is qualified with an observation like, "Note: does not reason about k?".
+
+A new "constant" QuickCheck strategy uses constants in an obligation to bias the generation of counterexamples. For example, if a PO uses a constant MAX_WIDGETS, the strategy will try a few values "around" that constant for parameters that match the type of the symbol. The thinking is that constants are "sensitive points" around which errors will cluster.
+
+A `@TypeParam` annotation was added, to allow polymorphic type parameters to be qualified a little, which makes caller type checking better. For example, `@TypeParam @T = seq of ?` is like `<T extends List<?>>` inn Java, saying that the type parameter is some sort of sequence, rather than any old type.
+
+A High Level Design document for QuickCheck was created, in the same style as other VDMJ documents.
+
+A rolling 1.5.1 SNAPSHOT for VDM-VSCode is available at https://github.com/nickbattle/vdmj/releases/download/4.7.0-1/vdm-vscode-1.5.1-patch.vsix.
 
 ##  Community Development
 
