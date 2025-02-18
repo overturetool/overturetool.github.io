@@ -55,7 +55,7 @@ A rolling 1.5.1 SNAPSHOT for VDM-VSCode is available at https://github.com/nickb
 See download stats on [number of installs](https://marketplace.visualstudio.com/items?itemName=overturetool.vdm-vscode).
 
 #### OVT-23
-
+This is organised in Aarhus as a part of the INTO-CPS Summit. I have discussed with different stakeholders planning to submit contributions here. I hope that we will have a great event (PGL).
 
 ##  Publications Status and Plans
 
