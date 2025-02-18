@@ -30,7 +30,7 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ and VDM-VSCode
 
-Progress with VDMJ 4.7.0-SNAPSHOT is mainly focussed on operation POs and VDM-VSCode support for their discharge, via QuickCheck. Operation POs now track the value of state variable updates using "let" definitions to hide previous values, and state that is amended on multiple paths is tracked as an "ambiguous" state, leading to "Unchecked" POs.
+Progress with VDMJ 4.7.0-SNAPSHOT was mainly focussed on operation POs and VDM-VSCode support for their discharge, via QuickCheck. Operation POs now track the value of state variable updates using "let" definitions to hide previous values, and state that is amended on multiple paths is tracked as an "ambiguous" state, leading to "Unchecked" POs.
 
 The updated POG and QuickCheck was used by PGL to re-visit the VDM Examples suite that is distributed with the tool.
 
@@ -42,7 +42,7 @@ A `@TypeParam` annotation was added, to allow polymorphic type parameters to be 
 
 A High Level Design document for QuickCheck was created, in the same style as other VDMJ documents.
 
-A rolling 1.5.1 SNAPSHOT for VDM-VSCode is available at https://github.com/nickbattle/vdmj/releases/download/4.7.0-1/vdm-vscode-1.5.1-patch.vsix. We should consider a release soon.
+A rolling 1.5.1 VSIX for VDM-VSCode is [available](https://github.com/nickbattle/vdmj/releases/download/4.7.0-1/vdm-vscode-1.5.1-patch.vsix). We should consider a release soon.
 
 ##  Release Planning
 
