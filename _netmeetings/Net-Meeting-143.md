@@ -26,6 +26,24 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Status of ViennaTalk Development
 
+* ViennaTalk *Waikiki* has been released on Jan 7, 2025
+
+   - EpiLog/HiDeHo for exploration support
+     -  Dynamic and contextual extraction of a series of versions
+   - Refactoring browser as the default editor for VDM-SL
+   -  Unit tests and traces are run integrated in the test runner on the Refactoring browser.
+   -  The execution contexts of failed tests are saved and directly debuggable
+   -  Adopted the new Pharo debugger architecture in Pharo 12
+
+
+* Hi-De-Ho integration
+
+Hi-De-Ho (HInts for Directing the Exploration from History of Operations) is a micro-versioning framework for Pharo, currently used in ViennaTalk, gOLAP (Sales analysis tool), and re:mobidyc (multi-agent modeling environment).
+In deign tasks, we often need to choose a design decision that we are not sure if the choice is appropriate or not.
+Version control systems are tools to support the users to explore such design choices by trying an uncertain design choice, reverting if not successful, and cherry picking some fragments from the past partially-successful versions.
+However, today's main-stream version control systems, such as Git, rather put more emphasis to long-term distributed team collaboration than short-term personal tasks.
+Hi-De-Ho is a simple version control system to be embedded in design environments to provide versioning, tagging, commenting, reverting and fine-grained cherry picking.
+
 ##  Status of the Overture Components
 
 #### VDMJ and VDM-VSCode
