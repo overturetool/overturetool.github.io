@@ -23,7 +23,7 @@ The *INTO-CPS Association Brainstorm* is a newer informal event that focuses on 
 
 ## Important Dates 
 
-25th April 2025: Submission of papers and outlines of presentations
+**09th of May 2025 Extended** ~25th April 2025~: Submission of papers and outlines of presentations 
 
 19th May 2025: Notification to authors
 
