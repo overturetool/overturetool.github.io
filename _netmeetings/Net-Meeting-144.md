@@ -31,10 +31,13 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ and VDM-VSCode
 
+There continues to be progress in the POG of VDMJ, specifically for operation POs. This is the subject of a paper submitted to OVT-23.
 
 ##  Release Planning
 
 #### VDM-VSCode
+
+VDMJ's 4.7.0-SNAPSHOT has quite a lot of new POG functionality now (see above), and a release of 1.5.x is probably overdue. There is a patched VSIX available on the VDMJ release site, with just the VDMJ jars updated.
 
 ##  Community Development
 
