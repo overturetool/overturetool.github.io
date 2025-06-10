@@ -12,6 +12,38 @@ incorporating the
 
 *11-12th June 2025* hosted by *Aarhus University, Denmark*
 
+## Programme
+
+9:00-09:30 **Tomohiro Oda**: Support for Hypothetical Initiation and Dynamic Exploration using History of Operation in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_3.pdf); [slides]]
+
+9:30-10:00 **Tomohiro Oda**: Implementing Mutation Testing for VDM-SL in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_4.pdf); [slides]]
+
+10:00-10:30 **Nick Battle* and Peter Gorm Larsen: Towards Operation Proof Obligation Generation for VDM [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_1.pdf); [slides]]
+
+10:30-11:00 Coffee
+
+11:00-11:30 Leo Freitas, Alastair Pollitt and Patrick Degenaar Modelling the CANDO3 Optrode Command Interface [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_5.pdf); [slides]]
+
+11:30-12:00 Leo Freitas, Ben Wooding, Bill Scott, Alastair Pollitt, and Patrick Degenaar: Proving the Correctness of CANDO3 Optrode Command Interface VDM model in Isabelle/HOL  [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_6.pdf); [slides]]
+
+12:00-12:30 **Joe Hare**, Leo Freitas, and Ken Pierce: Translating a VDM Model of a Medical Device into Kapture [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_8.pdf); [slides]]
+
+12:30-13:30 Lunch
+
+13:30-14:00 **Mennatullah Khedr** and John Fitzgerald The Composition of Digital Twins for Systems-of-Systems: a Systematic Literature Review [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_2.pdf); [slides]]
+
+14:00-14:30 **John Fitzgerald**, Peter Gorm Larsen, and Claudio Gomes Introductory Courses on Digital Twins: an Experience Report: (https://www.overturetool.org/workshops/23/ovt-23_paper_7.pdf); [slides]]
+
+14:30-15:00 Anders Jensen and Giuseppe Abbiati: A flexible finite element tool for digital twin services [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_6.pdf); [slides]]
+
+15:00-15:30 Coffee
+
+15:30-17:00 Brainstorming on future of the Overture community
+
+17:00 Close
+
+18:30 Dinner at Food Club, Åboulevarden 30, 8000 Aarhus C, Danmark
+
 ## Call for Contributions
 We are excited to announce that 11-12th June 2025 will see a joint gathering of two groups active in well-founded model-based methods for Systems Engineering at Aarhus University.  We encourage both papers and presentations presenting work from initial "brainstorm" ideas to publishable maturity in any of the areas covered.   
 
