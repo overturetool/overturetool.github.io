@@ -14,27 +14,27 @@ incorporating the
 
 ## Programme
 
-9:00-09:30 **Tomohiro Oda**: Support for Hypothetical Initiation and Dynamic Exploration using History of Operation in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_3.pdf); [slides]]
+9:00-09:30 **Tomohiro Oda**: Support for Hypothetical Initiation and Dynamic Exploration using History of Operation in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_3.pdf); slides]
 
-9:30-10:00 **Tomohiro Oda**: Implementing Mutation Testing for VDM-SL in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_4.pdf); [slides]]
+9:30-10:00 **Tomohiro Oda**: Implementing Mutation Testing for VDM-SL in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_4.pdf); slides]
 
-10:00-10:30 **Nick Battle* and Peter Gorm Larsen: Towards Operation Proof Obligation Generation for VDM [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_1.pdf); [slides]]
+10:00-10:30 **Nick Battle* and Peter Gorm Larsen: Towards Operation Proof Obligation Generation for VDM [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_1.pdf); slides]
 
 10:30-11:00 Coffee
 
-11:00-11:30 Leo Freitas, Alastair Pollitt and Patrick Degenaar Modelling the CANDO3 Optrode Command Interface [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_5.pdf); [slides]]
+11:00-11:30 **Leo Freitas**, Alastair Pollitt and Patrick Degenaar Modelling the CANDO3 Optrode Command Interface [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_5.pdf); slides]
 
-11:30-12:00 Leo Freitas, Ben Wooding, Bill Scott, Alastair Pollitt, and Patrick Degenaar: Proving the Correctness of CANDO3 Optrode Command Interface VDM model in Isabelle/HOL  [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_6.pdf); [slides]]
+11:30-12:00 **Leo Freitas**, Ben Wooding, Bill Scott, Alastair Pollitt, and Patrick Degenaar: Proving the Correctness of CANDO3 Optrode Command Interface VDM model in Isabelle/HOL  [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_6.pdf); slides]
 
-12:00-12:30 **Joe Hare**, Leo Freitas, and Ken Pierce: Translating a VDM Model of a Medical Device into Kapture [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_8.pdf); [slides]]
+12:00-12:30 **Joe Hare**, Leo Freitas, and Ken Pierce: Translating a VDM Model of a Medical Device into Kapture [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_8.pdf); slides]
 
 12:30-13:30 Lunch
 
-13:30-14:00 **Mennatullah Khedr** and John Fitzgerald The Composition of Digital Twins for Systems-of-Systems: a Systematic Literature Review [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_2.pdf); [slides]]
+13:30-14:00 **Mennatullah Khedr** and John Fitzgerald The Composition of Digital Twins for Systems-of-Systems: a Systematic Literature Review [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_2.pdf); slides]
 
-14:00-14:30 **John Fitzgerald**, Peter Gorm Larsen, and Claudio Gomes Introductory Courses on Digital Twins: an Experience Report: [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_7.pdf); [slides]]
+14:00-14:30 **John Fitzgerald**, Peter Gorm Larsen, and Claudio Gomes Introductory Courses on Digital Twins: an Experience Report: [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_7.pdf); slides]
 
-14:30-15:00 Anders Jensen and Giuseppe Abbiati: A flexible finite element tool for digital twin services [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_6.pdf); [slides]]
+14:30-15:00 **Anders Jensen** and Giuseppe Abbiati: A flexible finite element tool for digital twin services [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_9.pdf); slides]
 
 15:00-15:30 Coffee
 
