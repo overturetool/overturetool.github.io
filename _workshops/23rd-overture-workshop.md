@@ -22,15 +22,15 @@ incorporating the
 
 10:30-11:00 Coffee
 
-11:00-11:30 **Leo Freitas**, Alastair Pollitt and Patrick Degenaar Modelling the CANDO3 Optrode Command Interface [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_5.pdf); slides]
+11:00-11:30 **Leo Freitas**, Alastair Pollitt and Patrick Degenaar Modelling the CANDO3 Optrode Command Interface [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_5.pdf); [slides](<https://www.overturetool.org/workshops/23/Modelling CANDO.pdf>)]
 
-11:30-12:00 **Leo Freitas**, Ben Wooding, Bill Scott, Alastair Pollitt, and Patrick Degenaar: Proving the Correctness of CANDO3 Optrode Command Interface VDM model in Isabelle/HOL  [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_6.pdf); slides]
+11:30-12:00 **Leo Freitas**, Ben Wooding, Bill Scott, Alastair Pollitt, and Patrick Degenaar: Proving the Correctness of CANDO3 Optrode Command Interface VDM model in Isabelle/HOL  [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_6.pdf); [slides](<https://www.overturetool.org/workshops/23/Proving CANDO.pdf>)]
 
-12:00-12:30 **Joe Hare**, Leo Freitas, and Ken Pierce: Translating a VDM Model of a Medical Device into Kapture [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_8.pdf); slides]
+12:00-12:30 **Joe Hare**, Leo Freitas, and Ken Pierce: Translating a VDM Model of a Medical Device into Kapture [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_8.pdf); [slides](<https://www.overturetool.org/workshops/23/Translating-a-VDM-Model-to-Kapture 1.pdf>)]
 
 12:30-13:30 Lunch
 
-13:30-14:00 **Mennatullah Khedr** and John Fitzgerald The Composition of Digital Twins for Systems-of-Systems: a Systematic Literature Review [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_2.pdf); slides]
+13:30-14:00 **Mennatullah Khedr** and John Fitzgerald The Composition of Digital Twins for Systems-of-Systems: a Systematic Literature Review [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_2.pdf); [slides](<https://www.overturetool.org/workshops/23/Presentation - The Composition of Digital Twins for Systems-of-Systems - SLR.pdf>)]
 
 14:00-14:30 **John Fitzgerald**, Peter Gorm Larsen, and Claudio Gomes Introductory Courses on Digital Twins: an Experience Report: [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_7.pdf); [slides](<https://www.overturetool.org/workshops/23/2025.06.11 Introductory Courses on Digital Twins.pdf>)]
 
