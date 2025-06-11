@@ -64,6 +64,7 @@ The *INTO-CPS Association Brainstorm* is a newer informal event that focuses on 
 11-12th June 2025: Workshop
 
 ## Call
+
 Our workshop provides a forum for discussing and advancing the state of the art in Digital twins, formal modelling and analysis using VDM/Overture or INTO-CPS and their associated formalisms and extensions. We warmly welcome contributions on the development of foundations, methods, tools, and reports of practical experience. 
 
 We welcome submissions in the following formats:
@@ -82,24 +83,27 @@ Each tool report or full paper will be peer-reviewed by at least three members o
 *	Papers on extensions of VDM-related tools including Visual Studio Code, INTO-CPS assets and ViennaTalk.
 
 ## Submission
+
 EasyChair: https://easychair.org/conferences/?conf=ovt23
 
 ## Organising Committee
 
 *	Ken Pierce, Newcastle University, United Kingdom (ken.pierce@newcastle.ac.uk)
 *	Peter Gorm Larsen, Aarhus University, Denmark (pgl@ece.au.dk) 
-*	Leo Freitas, Newcastle University, United Kingdom (leo.freitas@newcastle.ac.uk)
+*	Hugo Daniel Macedo, Aarhus University, Denmark (hdm@ece.ac.dk)
 
-## Program Committee (Draft) 
+## Program Committee
 
 * Shaukat Ali
-*	Stylianos Basagiannis
-*	Nick Battle
-*	John Fitzgerald
-*	Fuyuki Ishikawa
-*	Hugo Daniel Macedo
-*	Paolo Masci
-*	Tomohiro Oda
+* Victo Bandur
+* Stylianos Basagiannis
+* Nick Battle
+* Aaron John Buhagiar
+* John Fitzgerald
+* Leo	Freitas
+* Fuyuki Ishikawa
+* Tomohiro Oda
+* Paolo Masci
 
 ## Contact
 All questions about submissions should be emailed to Ken Pierce (kenneth.pierce@newcastle.ac.uk)
@@ -107,4 +111,10 @@ All questions about submissions should be emailed to Ken Pierce (kenneth.pierce@
 ## Sponsor
 
 [The INTO-CPS Association](https://into-cps.org/)
+
+### Participants
+
+The participants of the 21st Overture workshop.
+
+![](23/GroupPhoto.jpg)
 
