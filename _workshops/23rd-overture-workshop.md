@@ -18,7 +18,7 @@ incorporating the
 
 9:30-10:00 **Tomohiro Oda**: Implementing Mutation Testing for VDM-SL in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_4.pdf); slides]
 
-10:00-10:30 **Nick Battle** and Peter Gorm Larsen: Towards Operation Proof Obligation Generation for VDM [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_1.pdf); slides]
+10:00-10:30 **Nick Battle** and Peter Gorm Larsen: Towards Operation Proof Obligation Generation for VDM [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_1.pdf); [slides](<https://www.overturetool.org/workshops/23/Operation POG.pdf>)]
 
 10:30-11:00 Coffee
 
