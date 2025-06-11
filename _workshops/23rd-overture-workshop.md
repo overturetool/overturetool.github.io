@@ -116,5 +116,5 @@ All questions about submissions should be emailed to Ken Pierce (kenneth.pierce@
 
 The participants of the 23rd Overture workshop.
 
-![](23/GroupPhoto.jpg)
+![](23/IMG_3403.jpg)
 
