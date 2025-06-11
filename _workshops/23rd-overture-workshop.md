@@ -14,9 +14,9 @@ incorporating the
 
 ## Programme
 
-9:00-09:30 **Tomohiro Oda**: Support for Hypothetical Initiation and Dynamic Exploration using History of Operation in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_3.pdf); slides]
+9:00-09:30 **Tomohiro Oda**: Support for Hypothetical Initiation and Dynamic Exploration using History of Operation in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_3.pdf); [slides](https://www.overturetool.org/workshops/23/Overture23-HiDeHo.pdf)]
 
-9:30-10:00 **Tomohiro Oda**: Implementing Mutation Testing for VDM-SL in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_4.pdf); slides]
+9:30-10:00 **Tomohiro Oda**: Implementing Mutation Testing for VDM-SL in ViennaTalk [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_4.pdf); [slides](https://www.overturetool.org/workshops/23/Overture23-MutationTesting.pdf)]
 
 10:00-10:30 **Nick Battle** and Peter Gorm Larsen: Towards Operation Proof Obligation Generation for VDM [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_1.pdf); [slides](<https://www.overturetool.org/workshops/23/Operation POG.pdf>)]
 
