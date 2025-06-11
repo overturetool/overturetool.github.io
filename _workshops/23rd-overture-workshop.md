@@ -32,9 +32,9 @@ incorporating the
 
 13:30-14:00 **Mennatullah Khedr** and John Fitzgerald The Composition of Digital Twins for Systems-of-Systems: a Systematic Literature Review [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_2.pdf); slides]
 
-14:00-14:30 **John Fitzgerald**, Peter Gorm Larsen, and Claudio Gomes Introductory Courses on Digital Twins: an Experience Report: [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_7.pdf); slides]
+14:00-14:30 **John Fitzgerald**, Peter Gorm Larsen, and Claudio Gomes Introductory Courses on Digital Twins: an Experience Report: [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_7.pdf); [slides](<https://www.overturetool.org/workshops/23/2025.06.11 Introductory Courses on Digital Twins.pdf>)]
 
-14:30-15:00 **Anders Jensen** and Giuseppe Abbiati: A flexible finite element tool for digital twin services [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_9.pdf); slides]
+14:30-15:00 **Anders Jensen** and Giuseppe Abbiati: A flexible finite element tool for digital twin services [[paper](https://www.overturetool.org/workshops/23/ovt-23_paper_9.pdf); [slides](<https://www.overturetool.org/workshops/23/A flexible finite element tool for digital twin.pdf>)]
 
 15:00-15:30 Coffee
 
