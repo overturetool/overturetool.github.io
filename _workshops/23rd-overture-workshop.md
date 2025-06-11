@@ -42,7 +42,7 @@ incorporating the
 
 17:00 Close
 
-18:30 Dinner at Food Club, Åboulevarden 30, 8000 Aarhus C, Danmark
+18:00 Dinner at Food Club, Åboulevarden 30, 8000 Aarhus C, Danmark
 
 ## Call for Contributions
 We are excited to announce that 11-12th June 2025 will see a joint gathering of two groups active in well-founded model-based methods for Systems Engineering at Aarhus University.  We encourage both papers and presentations presenting work from initial "brainstorm" ideas to publishable maturity in any of the areas covered.   
