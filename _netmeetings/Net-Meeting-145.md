@@ -33,15 +33,15 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 #### VDMJ and VDM-VSCode
 
-*
-*
+The 4.7.0-SNAPSHOT of VDMJ continues to be refined to handle operation POs, both in their generation and analysis via QuickCheck. The tools have been run over the example suite that is released with VDM-VSCode and numerous problems have been identified and are being fixed with those models.
+
+A "patch" VDM-VSCode VSIX is occasionally released with the latest jars, to allow people to more easily try the latest functionality. The GUI has not been advanced for a year, and has fallen behind the language server slightly. This ought to be resolved before the next release.
 
 ##  Release Planning
 
 #### VDM-VSCode
 
-*
-*
+A release of VDM-VSCode that includes a released VDMJ 4.7.0 is long overdue. We need to do a little work on the POG GUI to display the latest information from the language server, but once that is done I think the release is ready to build and test.
 
 ##  Community Development
 
