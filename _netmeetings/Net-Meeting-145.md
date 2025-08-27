@@ -26,9 +26,101 @@ See [Net Meeting Actions](https://github.com/overturetool/overturetool.github.io
 
 ## Status of ViennaTalk Development
 
-* 
-* 
+In the dev branch of ViennaTalk, execution trace records the following events during animation.
 
+* operation call statements and arguments
+* return statements and return values
+* single/multiple assignment statements and assigned values.
+
+And generates the following diagrams from execution traces.
+
+* Sequence Diagrams
+* State Diagrams
+
+Those diagrams can be exported as mermaid scripts like
+
+```mermaid
+sequenceDiagram
+caller ->>+ AutomaticDoor`tick : AutomaticDoor`tick()
+AutomaticDoor`tick ->>+ Motor`tick : Motor`tick()
+Motor`tick -->>- AutomaticDoor`tick : ()
+AutomaticDoor`tick ->>+ Sensor`detect : Sensor`detect()
+Sensor`detect -->>- AutomaticDoor`tick : true
+AutomaticDoor`tick ->>+ Motor`open : Motor`open()
+Motor`open -->>- AutomaticDoor`tick : ()
+AutomaticDoor`tick -->>- caller : ()
+```
+```mermaid
+stateDiagram
+  state "timeToClose=0,
+command=<close>,
+doorIsOpen=false,
+doorIsClosed=false,
+sensor=false" as s9
+  state "timeToClose=0,
+command=<close>,
+doorIsOpen=false,
+doorIsClosed=true,
+sensor=false" as s10
+  state "timeToClose=2,
+command=<halt>,
+doorIsOpen=true,
+doorIsClosed=false,
+sensor=false" as s6
+  state "timeToClose=1,
+command=<halt>,
+doorIsOpen=true,
+doorIsClosed=false,
+sensor=false" as s7
+  state "timeToClose=0,
+command=<halt>,
+doorIsOpen=true,
+doorIsClosed=false,
+sensor=false" as s1
+  state "timeToClose=0,
+command=<close>,
+doorIsOpen=true,
+doorIsClosed=false,
+sensor=false" as s8
+  state "timeToClose=2,
+command=<open>,
+doorIsOpen=true,
+doorIsClosed=false,
+sensor=false" as s5
+  state "timeToClose=0,
+command=<halt>,
+doorIsOpen=false,
+doorIsClosed=true,
+sensor=false" as s11
+  state "timeToClose=2,
+command=<halt>,
+doorIsOpen=true,
+doorIsClosed=false,
+sensor=true" as s3
+  state "timeToClose=2,
+command=<open>,
+doorIsOpen=true,
+doorIsClosed=false,
+sensor=true" as s4
+  state "timeToClose=0,
+command=<halt>,
+doorIsOpen=true,
+doorIsClosed=false,
+sensor=true" as s2
+  [*] --> s1
+  s1 --> s2
+  s2 --> s3
+  s3 --> s4
+  s4 --> s5
+  s5 --> s6
+  s6 --> s7
+  s7 --> s1
+  s1 --> s8
+  s8 --> s9
+  s9 --> s10
+  s10 --> s11
+  s11 --> [*]
+```
 ##  Status of the Overture Components
 
 #### VDMJ and VDM-VSCode
