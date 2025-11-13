@@ -16,11 +16,11 @@ Online: Details TBC
 
 Note: ** Workshop planned for 14:00-19:00 JST / 07:00-12:00 CET / 06:00-11:00 GMT ** to balance time zone differences between Japan and Europe.
 
-* Monday 23rd March 2026: Submission of papers
+* Monday 2nd March 2026: Submission of papers
 
-* Monday Monday 11th May 2026: Notification to authors
+* Monday 6th April 2026: Notification to authors
 
-* Monday 11th May 2026: Final version of papers due
+* Monday 4th May 2026: Final version of papers due
 
 * 18th or 19th May 2026: Workshop
 
