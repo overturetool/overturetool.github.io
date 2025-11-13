@@ -63,10 +63,12 @@ Submission link: TBC
 
 ## Organising
 
+### Chairs
+
 * Tomohiro ODA, Softare Research Associates, Inc., Japan (tomohiro.tomo.oda@gmail.com>)
 * Ken PIERCE, Newcastle University, United Kingdom (<ken.pierce@newcastle.ac.uk>)
 
-### (Draft) Program Committee
+### Program Committee (Draft)
 
 * Shaukat ALI, Simula Research Laboratory, Norway
 * Victor BANDUR, McMaster University, Canada
