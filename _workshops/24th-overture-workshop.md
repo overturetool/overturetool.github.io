@@ -1,30 +1,28 @@
 ---
 layout: default
-title: The 24nd Overture Workshop
+title: The 24th Overture Workshop
 date: 2026-05-18 or 2026-05-19
 location: Tokyo, Japan
 ---
 # THE 24TH OVERTURE WORKSHOP ON VDM, FORMAL METHODS, & AI
 
-The 24th Overture Workshop will be held on the **10th September 2024** co-located with [FM 2026](https://conf.researchr.org/home/fm-2026), hosted by National Institute of Informatics (NII).
+The 24th Overture Workshop will be held on the **18th or 19th May 2026** co-located with [FM 2026](https://conf.researchr.org/home/fm-2026), hosted by National Institute of Informatics (NII).
 
 Location: NII, Tokyo, Japan and online
 
 Online: Details TBC
 
-## Timing
+## Timing and Important Dates 
 
-Note: **Workshop planned for 14:00-19:00 JST / 07:00-12:00 CET / 06:00-11:00 GMT **
+Note: ** Workshop planned for 14:00-19:00 JST / 07:00-12:00 CET / 06:00-11:00 GMT ** to balance time zone differences between Japan and Europe.
 
-### Important Dates 
+* Monday 23rd March 2026: Submission of papers
 
-~~15th July 2024~~ 29th July 2024: Submission of papers
+* Monday Monday 11th May 2026: Notification to authors
 
-~~19th August 2024~~ 26th August 2024: Notification to authors
+* Monday 11th May 2026: Final version of papers due
 
-~~2nd September 2024~~ 9th September 2024: Final version of papers due
-
-18th or 19th May 2026: Workshop
+* 18th or 19th May 2026: Workshop
 
 # CALL FOR PAPERS
 
@@ -61,7 +59,7 @@ For submitted papers, we welcome submissions in the following formats:
 
 Members of the programme committee will anonymously referee submissions, with a view to providing constructive feedback to allow for inclusive submissions. Proceedings will be published as a Technical Report and will be available online, along with presentations at the Overture website. If the venue permits it, we also aim to record and uploads parts of the sessions for those unable to attend. 
 
-<https://easychair.org/conferences/?conf=ovt22>
+Submission link: TBC
 
 ## Organising
 
@@ -82,7 +80,7 @@ Members of the programme committee will anonymously referee submissions, with a 
 * Nico PLAT, Thanos, The Netherlands 
 
 ### Contact
-All questions about submissions should be emailed to (<kenneth.pierce@newcastle.ac.uk>) and (tomohiro.tomo.oda@gmail.com>)
+All questions about submissions should be emailed to Ken (<kenneth.pierce@newcastle.ac.uk>) and Tomo (<tomohiro.tomo.oda@gmail.com>)
 
 ### Sponsor
 TBA
