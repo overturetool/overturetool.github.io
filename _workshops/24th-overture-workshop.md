@@ -65,7 +65,7 @@ Submission link: TBC
 
 ### Chairs
 
-* Tomohiro ODA, Softare Research Associates, Inc., Japan (tomohiro.tomo.oda@gmail.com>)
+* Tomohiro ODA, Softare Research Associates, Inc., Japan (<tomohiro@sra.co.jp>)
 * Ken PIERCE, Newcastle University, United Kingdom (<ken.pierce@newcastle.ac.uk>)
 
 ### Program Committee (Draft)
@@ -82,7 +82,7 @@ Submission link: TBC
 * Nico PLAT, Thanos, The Netherlands 
 
 ### Contact
-All questions about submissions should be emailed to Ken (<kenneth.pierce@newcastle.ac.uk>) and Tomo (<tomohiro.tomo.oda@gmail.com>)
+All questions about submissions should be emailed to Ken (<kenneth.pierce@newcastle.ac.uk>) and Tomo (<tomohiro@sra.co.jp>)
 
 ### Sponsor
 TBA
