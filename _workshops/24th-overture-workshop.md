@@ -59,7 +59,7 @@ For submitted papers, we welcome submissions in the following formats:
 
 Members of the programme committee will anonymously referee submissions, with a view to providing constructive feedback to allow for inclusive submissions. Proceedings will be published as a Technical Report and will be available online, along with presentations at the Overture website. If the venue permits it, we also aim to record and uploads parts of the sessions for those unable to attend. 
 
-Submission link: https://easychair.org/conferences/submission_new?a=35639985
+Submission link: [EasyChair](https://easychair.org/conferences/submission_new?a=35639985).
 
 ## Organising
 
