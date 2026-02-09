@@ -68,7 +68,7 @@ Submission link: [EasyChair](https://easychair.org/conferences/submission_new?a=
 * Tomohiro ODA, Softare Research Associates, Inc., Japan (<tomohiro@sra.co.jp>)
 * Ken PIERCE, Newcastle University, United Kingdom (<ken.pierce@newcastle.ac.uk>)
 
-### Program Committee (Draft)
+### Program Committee
 
 * Shaukat ALI, Simula Research Laboratory, Norway
 * Victor BANDUR, McMaster University, Canada
@@ -77,9 +77,7 @@ Submission link: [EasyChair](https://easychair.org/conferences/submission_new?a=
 * John FITZGERALD, Newcastle University, UK    
 * Leo FREITAS, Newcastle University, UK
 * Peter Gorm LARSEN, Aarhus University, Denmark 
-* Paolo MASCI, Universidade do Minho, Portugal
 * José Nuno OLIVEIRA, Minho University, Portugal   
-* Nico PLAT, Thanos, The Netherlands 
 
 ### Contact
 All questions about submissions should be emailed to Ken (<kenneth.pierce@newcastle.ac.uk>) and Tomo (<tomohiro@sra.co.jp>)
