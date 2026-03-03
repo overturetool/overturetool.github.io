@@ -65,7 +65,7 @@ Submission link: [EasyChair](https://easychair.org/conferences/submission_new?a=
 
 ### Chairs
 
-* Tomohiro ODA, Softare Research Associates, Inc., Japan (<tomohiro@sra.co.jp>)
+* Tomohiro ODA, Software Research Associates, Inc., Japan (<tomohiro@sra.co.jp>)
 * Ken PIERCE, Newcastle University, United Kingdom (<ken.pierce@newcastle.ac.uk>)
 
 ### Program Committee
