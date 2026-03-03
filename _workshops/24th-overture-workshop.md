@@ -1,12 +1,12 @@
 ---
 layout: default
 title: The 24th Overture Workshop
-date: 2026-05-18 or 2026-05-19
+date: 2026-05-18
 location: Tokyo, Japan
 ---
 # THE 24TH OVERTURE WORKSHOP ON VDM, FORMAL METHODS, & AI
 
-The 24th Overture Workshop will be held on the **18th or 19th May 2026** co-located with [FM 2026](https://conf.researchr.org/home/fm-2026), hosted by National Institute of Informatics (NII).
+The 24th Overture Workshop will be held on the **18th May 2026** co-located with [FM 2026](https://conf.researchr.org/home/fm-2026), hosted by National Institute of Informatics (NII).
 
 Location: NII, Tokyo, Japan and online
 
@@ -22,7 +22,7 @@ Note: ** Workshop planned for 14:00-19:00 JST / 07:00-12:00 CET / 06:00-11:00 GM
 
 * Monday 4th May 2026: Final version of papers due
 
-* 18th or 19th May 2026: Workshop
+* 18th May 2026: Workshop
 
 # CALL FOR PAPERS
 
