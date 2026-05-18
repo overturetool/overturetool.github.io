@@ -19,11 +19,11 @@ Online: Details TBC
 | 15ː00-15ː20 | 07:00-07:20 | 08:00-08:20 | Overture tool overview | Peter Gorm Larsen |
 | 15ː20-15ː40 | 07:20-07:40 | 08:20-08:40 | ViennaTalk overview    | Tomohiro Oda |
 |             |             |             | (60 min break)         | |
-| 16ː40-17ː10 | 08:40-09:10 | 09:40-10:10 | Trace-Based Execution-Level Observability of VDM-SL Specifications | Tomohiro Oda |
-| 17ː10-17ː40 | 09:10-09:40 | 10:10-10:40 | Executing Kapture's Templates in VDM | Ken Pierce |
+| 16ː00-16ː30 | 08:00-08:30 | 09:00-09:30 | Trace-Based Execution-Level Observability of VDM-SL Specifications | Tomohiro Oda |
+| 16ː30-17ː00 | 08:30-09:00 | 09:30-10:00 | Executing Kapture's Templates in VDM | Ken Pierce |
 |             |             |             | (20 min break) | |
-| 18ː00~18ː30 | 10:00-10:30 | 11:00-11:30 | Further Progress Towards Operation Proof Obligation Generation for VDM | Nick Battle | 
-| 18ː30~19ː00 | 10:30-11:00 | 11:30-12:00 | A System-of-Systems Case Study for the Verification of Composed Digital Twins | Mennatullah Khedr |
+| 17ː20~17ː50 | 09:20-09:50 | 10:20-10:50 | Further Progress Towards Operation Proof Obligation Generation for VDM | Nick Battle | 
+| 17ː50~18ː20 | 09:50-10:20 | 10:50-11:20 | A System-of-Systems Case Study for the Verification of Composed Digital Twins | Mennatullah Khedr |
 
 ## Important Dates 
 
