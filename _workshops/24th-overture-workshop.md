@@ -18,7 +18,7 @@ Online: Details TBC
 |             |             |             | (30 min break) | |
 | 15ː00-15ː20 | 07:00-07:20 | 08:00-08:20 | Overture tool overview | Peter Gorm Larsen |
 | 15ː20-15ː40 | 07:20-07:40 | 08:20-08:40 | ViennaTalk overview    | Tomohiro Oda |
-|             |             |             | (60 min break)         | |
+|             |             |             | (20 min break)         | |
 | 16ː00-16ː30 | 08:00-08:30 | 09:00-09:30 | Trace-Based Execution-Level Observability of VDM-SL Specifications | Tomohiro Oda |
 | 16ː30-17ː00 | 08:30-09:00 | 09:30-10:00 | Executing Kapture's Templates in VDM | Ken Pierce |
 |             |             |             | (20 min break) | |
